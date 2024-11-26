@@ -6,17 +6,33 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.11" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.11" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.11" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.11" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.11">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.7" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.11" />
+		<PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.11" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.11" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.11" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.11" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.11">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.7" />
+	</ItemGroup>
 
+	<ItemGroup>
+	  <ProjectReference Include="..\RepositoryPatternWithUOW.EF\RepositoryPatternWithUOW.EF.csproj" />
+	  <ProjectReference Include="..\Utility\Utility.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Areas\Identities\Controllers\" />
+	  <Folder Include="Areas\Identities\Views\" />
+	  <Folder Include="Areas\ResturantAdmin\Controllers\" />
+	  <Folder Include="Areas\ResturantAdmin\Views\" />
+	  <Folder Include="Areas\SuperAdmin\Controllers\" />
+	  <Folder Include="Areas\SuperAdmin\Data\" />
+	  <Folder Include="Areas\SuperAdmin\Models\" />
+	  <Folder Include="Areas\SuperAdmin\Views\" />
+	</ItemGroup>
+	
 </Project>
