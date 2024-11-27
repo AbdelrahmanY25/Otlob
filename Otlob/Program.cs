@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using RepositoryPatternWithUOW.EF;
+using Otlob.Core.Models;
 using Microsoft.AspNetCore.Identity;
-using RepositoryPatternWithUOW.Core.Models;
+using Otlob.EF;
 
 namespace Otlob
 {

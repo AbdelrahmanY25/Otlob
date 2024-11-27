@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
-using RepositoryPatternWithUOW.Core.Models;
-using RepositoryPatternWithUOW.Core.ViewModel;
+using Otlob.Core.Models;
+using Otlob.Core.ViewModel;
 using System.ComponentModel.DataAnnotations;
 using Utility;
 
@@ -121,21 +121,23 @@ namespace Otlob.Areas.Customer.Controllers
             if (ModelState.IsValid)
             {
                 var user = await userManager.GetUserAsync(User);
+
                 if (user != null)
                 {
-                    user.FirstName = profileVM.FirstName;
-                    user.LastName = profileVM.LastName;
-                    user.BirthDate = profileVM.BirthDate;
-                    user.Gender = profileVM.Gender;
-                    user.PhoneNumber = profileVM.PhoneNumber;
-                
-                    var result = await userManager.UpdateAsync(user);
-
-                    if (result.Succeeded)
+                    if (user.FirstName != profileVM.FirstName || user.LastName != profileVM.LastName || user.PhoneNumber != profileVM.PhoneNumber || user.Gender != profileVM.Gender || user.BirthDate != profileVM.BirthDate)
                     {
-                        TempData["Success"] = "Profile updated successfully.";
-                        return RedirectToAction("Profile");
-                    }
+                        user.FirstName = profileVM.FirstName;
+                        user.LastName = profileVM.LastName;
+                        user.BirthDate = profileVM.BirthDate;
+                        user.Gender = profileVM.Gender;
+                        user.PhoneNumber = profileVM.PhoneNumber;
+                        var result = await userManager.UpdateAsync(user);
+                        if (result.Succeeded)
+                        {
+                            TempData["Success"] = "Profile updated successfully.";
+                            return RedirectToAction("Profile");
+                        }
+                    }                    
                 }                
             }
 

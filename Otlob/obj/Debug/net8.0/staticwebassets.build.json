@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "mXUyCyc5gBkidjqQt8TJUqNpfjxJU8t6ocApeP2Q6oA=",
+  "Hash": "dLWODheqhiHtoKeZ0BiIkhlZWYc6JRjmU/Ucgk10RQY=",
   "Source": "Otlob",
   "BasePath": "_content/Otlob",
   "Mode": "Default",
@@ -1333,8 +1333,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "was5ljbjru",
-      "Integrity": "eBDgJHzMN3LSaFEUp8QZ6OCJi0VBEGrPAPdLOgL6Dh4=",
+      "Fingerprint": "zu925kzoen",
+      "Integrity": "lTw66tabLcO/qTMyjXl182HrVslXsgawGrbokjHqVQo=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\css\\profile.css"
@@ -1354,8 +1354,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "48e64akrpl",
-      "Integrity": "hHlwjOIJDllbgTm/xGqoqDgdyXRnBXgSvOKfBpthOcg=",
+      "Fingerprint": "yhjhxcqu78",
+      "Integrity": "9g0k/0dqvAESMyoVcCzGsdVnMZoSk9bSVTa19VGH28M=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\css\\register.css"
@@ -2633,7 +2633,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "2835"
+          "Value": "2977"
         },
         {
           "Name": "Content-Type",
@@ -2641,11 +2641,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"eBDgJHzMN3LSaFEUp8QZ6OCJi0VBEGrPAPdLOgL6Dh4=\""
+          "Value": "\"lTw66tabLcO/qTMyjXl182HrVslXsgawGrbokjHqVQo=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 26 Nov 2024 19:16:36 GMT"
+          "Value": "Tue, 26 Nov 2024 23:55:16 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2655,12 +2655,12 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-eBDgJHzMN3LSaFEUp8QZ6OCJi0VBEGrPAPdLOgL6Dh4="
+          "Value": "sha256-lTw66tabLcO/qTMyjXl182HrVslXsgawGrbokjHqVQo="
         }
       ]
     },
     {
-      "Route": "css/profile.was5ljbjru.css",
+      "Route": "css/profile.zu925kzoen.css",
       "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\css\\profile.css",
       "Selectors": [],
       "ResponseHeaders": [
@@ -2670,7 +2670,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "2835"
+          "Value": "2977"
         },
         {
           "Name": "Content-Type",
@@ -2678,11 +2678,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"eBDgJHzMN3LSaFEUp8QZ6OCJi0VBEGrPAPdLOgL6Dh4=\""
+          "Value": "\"lTw66tabLcO/qTMyjXl182HrVslXsgawGrbokjHqVQo=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 26 Nov 2024 19:16:36 GMT"
+          "Value": "Tue, 26 Nov 2024 23:55:16 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2692,7 +2692,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "was5ljbjru"
+          "Value": "zu925kzoen"
         },
         {
           "Name": "label",
@@ -2700,52 +2700,7 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-eBDgJHzMN3LSaFEUp8QZ6OCJi0VBEGrPAPdLOgL6Dh4="
-        }
-      ]
-    },
-    {
-      "Route": "css/register.48e64akrpl.css",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\css\\register.css",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "1632"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"hHlwjOIJDllbgTm/xGqoqDgdyXRnBXgSvOKfBpthOcg=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Tue, 26 Nov 2024 19:25:00 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "48e64akrpl"
-        },
-        {
-          "Name": "label",
-          "Value": "css/register.css"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-hHlwjOIJDllbgTm/xGqoqDgdyXRnBXgSvOKfBpthOcg="
+          "Value": "sha256-lTw66tabLcO/qTMyjXl182HrVslXsgawGrbokjHqVQo="
         }
       ]
     },
@@ -2760,7 +2715,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "1632"
+          "Value": "1712"
         },
         {
           "Name": "Content-Type",
@@ -2768,11 +2723,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"hHlwjOIJDllbgTm/xGqoqDgdyXRnBXgSvOKfBpthOcg=\""
+          "Value": "\"9g0k/0dqvAESMyoVcCzGsdVnMZoSk9bSVTa19VGH28M=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 26 Nov 2024 19:25:00 GMT"
+          "Value": "Tue, 26 Nov 2024 19:29:09 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2782,7 +2737,52 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-hHlwjOIJDllbgTm/xGqoqDgdyXRnBXgSvOKfBpthOcg="
+          "Value": "sha256-9g0k/0dqvAESMyoVcCzGsdVnMZoSk9bSVTa19VGH28M="
+        }
+      ]
+    },
+    {
+      "Route": "css/register.yhjhxcqu78.css",
+      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\css\\register.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1712"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"9g0k/0dqvAESMyoVcCzGsdVnMZoSk9bSVTa19VGH28M=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 26 Nov 2024 19:29:09 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "yhjhxcqu78"
+        },
+        {
+          "Name": "label",
+          "Value": "css/register.css"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-9g0k/0dqvAESMyoVcCzGsdVnMZoSk9bSVTa19VGH28M="
         }
       ]
     },

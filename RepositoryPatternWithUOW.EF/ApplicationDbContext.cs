@@ -1,15 +1,15 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using RepositoryPatternWithUOW.Core.Models;
-using RepositoryPatternWithUOW.Core.ViewModel;
+using Otlob.Core.Models;
+using Otlob.Core.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RepositoryPatternWithUOW.EF
+namespace Otlob.EF
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {

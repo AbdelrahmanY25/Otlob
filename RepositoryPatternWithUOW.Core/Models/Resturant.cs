@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RepositoryPatternWithUOW.Core.Models
+namespace Otlob.Core.Models
 {
     public class Resturant
     {

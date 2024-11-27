@@ -49,7 +49,7 @@ a {
 }
 
 .profile .info h2 {
-    color: var(--second-color);
+    color: var(--main-color);
     text-align: start;
     margin: 30px 0;
     width: fit-content;
@@ -108,7 +108,8 @@ form .field label {
     width: 3%;
 }
 
-form .field input {
+form .field input,
+form .field select {
     margin-left: 50%;
     transform: translateX(-65%);
     width: 40%;
@@ -120,18 +121,19 @@ form .field input {
     transition: var(--main-transition);
 }
 
-form .field span {
+form .field div {
+    display: inline;    
     position: absolute;
     right: 150px;
     display: flex;  
     gap: 25px;
 }
 
-form .field span a {
+form .field div a {
     font-size: 12px;
 }
 
-form .field span a:hover {
+form .field div a:hover {
     color: var(--seccuss-color);
 }
 
@@ -150,6 +152,12 @@ form button {
     border-radius: 8px;
     cursor: pointer;
     transition: 0.5s;
+}
+
+form .field .message {
+    position: absolute;
+    left: 75%;
+    max-width: 200px;
 }
 
 form button:hover {

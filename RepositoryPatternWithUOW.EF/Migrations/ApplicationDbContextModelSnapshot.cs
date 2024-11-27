@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using RepositoryPatternWithUOW.EF;
+using Otlob.EF;
 
 #nullable disable
 
-namespace RepositoryPatternWithUOW.EF.Migrations
+namespace Otlob.EF.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
@@ -155,7 +155,7 @@ namespace RepositoryPatternWithUOW.EF.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("RepositoryPatternWithUOW.Core.Models.ApplicationUser", b =>
+            modelBuilder.Entity("Otlob.Core.Models.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -245,7 +245,7 @@ namespace RepositoryPatternWithUOW.EF.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("RepositoryPatternWithUOW.Core.ViewModel.ApplicationUserlVM", b =>
+            modelBuilder.Entity("Otlob.Core.ViewModel.ApplicationUserlVM", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -286,7 +286,7 @@ namespace RepositoryPatternWithUOW.EF.Migrations
                     b.ToTable("ApplicationModelVM");
                 });
 
-            modelBuilder.Entity("RepositoryPatternWithUOW.Core.ViewModel.LoginVM", b =>
+            modelBuilder.Entity("Otlob.Core.ViewModel.LoginVM", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -310,7 +310,7 @@ namespace RepositoryPatternWithUOW.EF.Migrations
                     b.ToTable("LoginVM");
                 });
 
-            modelBuilder.Entity("RepositoryPatternWithUOW.Core.ViewModel.ProfileVM", b =>
+            modelBuilder.Entity("Otlob.Core.ViewModel.ProfileVM", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -363,7 +363,7 @@ namespace RepositoryPatternWithUOW.EF.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("RepositoryPatternWithUOW.Core.Models.ApplicationUser", null)
+                    b.HasOne("Otlob.Core.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -372,7 +372,7 @@ namespace RepositoryPatternWithUOW.EF.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("RepositoryPatternWithUOW.Core.Models.ApplicationUser", null)
+                    b.HasOne("Otlob.Core.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -387,7 +387,7 @@ namespace RepositoryPatternWithUOW.EF.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("RepositoryPatternWithUOW.Core.Models.ApplicationUser", null)
+                    b.HasOne("Otlob.Core.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -396,7 +396,7 @@ namespace RepositoryPatternWithUOW.EF.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("RepositoryPatternWithUOW.Core.Models.ApplicationUser", null)
+                    b.HasOne("Otlob.Core.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)

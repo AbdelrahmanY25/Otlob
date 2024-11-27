@@ -5,9 +5,9 @@ VisualStudioVersion = 17.12.35514.174
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Otlob", "Otlob\Otlob.csproj", "{D640FB36-1719-48B8-B41E-BE4D95F57950}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RepositoryPatternWithUOW.Core", "RepositoryPatternWithUOW.Core\RepositoryPatternWithUOW.Core.csproj", "{F015EB82-DF67-4074-920E-222E131A6250}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Otlob.Core", "RepositoryPatternWithUOW.Core\Otlob.Core.csproj", "{F015EB82-DF67-4074-920E-222E131A6250}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RepositoryPatternWithUOW.EF", "RepositoryPatternWithUOW.EF\RepositoryPatternWithUOW.EF.csproj", "{19A7C118-36E0-4ADC-AD5B-FB8B6CFB1BB9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Otlob.EF", "RepositoryPatternWithUOW.EF\Otlob.EF.csproj", "{19A7C118-36E0-4ADC-AD5B-FB8B6CFB1BB9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utility", "Utility\Utility.csproj", "{A5426A10-5FD2-418D-BBA4-44F934ED60FB}"
 EndProject

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RepositoryPatternWithUOW.Core.ViewModel
+namespace Otlob.Core.ViewModel
 {
     public class LoginVM
     {

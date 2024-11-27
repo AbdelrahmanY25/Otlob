@@ -32,8 +32,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "D:\\My_Projects\\Talabat Project\\Otlob\\RepositoryPatternWithUOW.EF\\RepositoryPatternWithUOW.EF.csproj": {
-                "projectPath": "D:\\My_Projects\\Talabat Project\\Otlob\\RepositoryPatternWithUOW.EF\\RepositoryPatternWithUOW.EF.csproj"
+              "D:\\My_Projects\\Talabat Project\\Otlob\\RepositoryPatternWithUOW.EF\\Otlob.EF.csproj": {
+                "projectPath": "D:\\My_Projects\\Talabat Project\\Otlob\\RepositoryPatternWithUOW.EF\\Otlob.EF.csproj"
               },
               "D:\\My_Projects\\Talabat Project\\Otlob\\Utility\\Utility.csproj": {
                 "projectPath": "D:\\My_Projects\\Talabat Project\\Otlob\\Utility\\Utility.csproj"
@@ -111,12 +111,12 @@
         }
       }
     },
-    "D:\\My_Projects\\Talabat Project\\Otlob\\RepositoryPatternWithUOW.Core\\RepositoryPatternWithUOW.Core.csproj": {
+    "D:\\My_Projects\\Talabat Project\\Otlob\\RepositoryPatternWithUOW.Core\\Otlob.Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\My_Projects\\Talabat Project\\Otlob\\RepositoryPatternWithUOW.Core\\RepositoryPatternWithUOW.Core.csproj",
-        "projectName": "RepositoryPatternWithUOW.Core",
-        "projectPath": "D:\\My_Projects\\Talabat Project\\Otlob\\RepositoryPatternWithUOW.Core\\RepositoryPatternWithUOW.Core.csproj",
+        "projectUniqueName": "D:\\My_Projects\\Talabat Project\\Otlob\\RepositoryPatternWithUOW.Core\\Otlob.Core.csproj",
+        "projectName": "Otlob.Core",
+        "projectPath": "D:\\My_Projects\\Talabat Project\\Otlob\\RepositoryPatternWithUOW.Core\\Otlob.Core.csproj",
         "packagesPath": "C:\\Users\\ASUS\\.nuget\\packages\\",
         "outputPath": "D:\\My_Projects\\Talabat Project\\Otlob\\RepositoryPatternWithUOW.Core\\obj\\",
         "projectStyle": "PackageReference",
@@ -190,12 +190,12 @@
         }
       }
     },
-    "D:\\My_Projects\\Talabat Project\\Otlob\\RepositoryPatternWithUOW.EF\\RepositoryPatternWithUOW.EF.csproj": {
+    "D:\\My_Projects\\Talabat Project\\Otlob\\RepositoryPatternWithUOW.EF\\Otlob.EF.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\My_Projects\\Talabat Project\\Otlob\\RepositoryPatternWithUOW.EF\\RepositoryPatternWithUOW.EF.csproj",
-        "projectName": "RepositoryPatternWithUOW.EF",
-        "projectPath": "D:\\My_Projects\\Talabat Project\\Otlob\\RepositoryPatternWithUOW.EF\\RepositoryPatternWithUOW.EF.csproj",
+        "projectUniqueName": "D:\\My_Projects\\Talabat Project\\Otlob\\RepositoryPatternWithUOW.EF\\Otlob.EF.csproj",
+        "projectName": "Otlob.EF",
+        "projectPath": "D:\\My_Projects\\Talabat Project\\Otlob\\RepositoryPatternWithUOW.EF\\Otlob.EF.csproj",
         "packagesPath": "C:\\Users\\ASUS\\.nuget\\packages\\",
         "outputPath": "D:\\My_Projects\\Talabat Project\\Otlob\\RepositoryPatternWithUOW.EF\\obj\\",
         "projectStyle": "PackageReference",
@@ -218,8 +218,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "D:\\My_Projects\\Talabat Project\\Otlob\\RepositoryPatternWithUOW.Core\\RepositoryPatternWithUOW.Core.csproj": {
-                "projectPath": "D:\\My_Projects\\Talabat Project\\Otlob\\RepositoryPatternWithUOW.Core\\RepositoryPatternWithUOW.Core.csproj"
+              "D:\\My_Projects\\Talabat Project\\Otlob\\RepositoryPatternWithUOW.Core\\Otlob.Core.csproj": {
+                "projectPath": "D:\\My_Projects\\Talabat Project\\Otlob\\RepositoryPatternWithUOW.Core\\Otlob.Core.csproj"
               }
             }
           }

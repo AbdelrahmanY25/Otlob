@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Utility;
 
-namespace RepositoryPatternWithUOW.Core.Models
+namespace Otlob.Core.Models
 {
     public class ApplicationUser : IdentityUser
     {

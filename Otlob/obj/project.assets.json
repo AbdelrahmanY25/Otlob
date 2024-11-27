@@ -3043,7 +3043,7 @@
           }
         }
       },
-      "RepositoryPatternWithUOW.Core/1.0.0": {
+      "Otlob.Core/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v8.0",
         "dependencies": {
@@ -3052,13 +3052,13 @@
           "Utility": "1.0.0"
         },
         "compile": {
-          "bin/placeholder/RepositoryPatternWithUOW.Core.dll": {}
+          "bin/placeholder/Otlob.Core.dll": {}
         },
         "runtime": {
-          "bin/placeholder/RepositoryPatternWithUOW.Core.dll": {}
+          "bin/placeholder/Otlob.Core.dll": {}
         }
       },
-      "RepositoryPatternWithUOW.EF/1.0.0": {
+      "Otlob.EF/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v8.0",
         "dependencies": {
@@ -3068,13 +3068,13 @@
           "Microsoft.EntityFrameworkCore.SqlServer": "8.0.11",
           "Microsoft.EntityFrameworkCore.Sqlite": "8.0.11",
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": "8.0.7",
-          "RepositoryPatternWithUOW.Core": "1.0.0"
+          "Otlob.Core": "1.0.0"
         },
         "compile": {
-          "bin/placeholder/RepositoryPatternWithUOW.EF.dll": {}
+          "bin/placeholder/Otlob.EF.dll": {}
         },
         "runtime": {
-          "bin/placeholder/RepositoryPatternWithUOW.EF.dll": {}
+          "bin/placeholder/Otlob.EF.dll": {}
         }
       },
       "Utility/1.0.0": {
@@ -8355,15 +8355,15 @@
         "useSharedDesignerContext.txt"
       ]
     },
-    "RepositoryPatternWithUOW.Core/1.0.0": {
+    "Otlob.Core/1.0.0": {
       "type": "project",
-      "path": "../RepositoryPatternWithUOW.Core/RepositoryPatternWithUOW.Core.csproj",
-      "msbuildProject": "../RepositoryPatternWithUOW.Core/RepositoryPatternWithUOW.Core.csproj"
+      "path": "../RepositoryPatternWithUOW.Core/Otlob.Core.csproj",
+      "msbuildProject": "../RepositoryPatternWithUOW.Core/Otlob.Core.csproj"
     },
-    "RepositoryPatternWithUOW.EF/1.0.0": {
+    "Otlob.EF/1.0.0": {
       "type": "project",
-      "path": "../RepositoryPatternWithUOW.EF/RepositoryPatternWithUOW.EF.csproj",
-      "msbuildProject": "../RepositoryPatternWithUOW.EF/RepositoryPatternWithUOW.EF.csproj"
+      "path": "../RepositoryPatternWithUOW.EF/Otlob.EF.csproj",
+      "msbuildProject": "../RepositoryPatternWithUOW.EF/Otlob.EF.csproj"
     },
     "Utility/1.0.0": {
       "type": "project",
@@ -8380,7 +8380,7 @@
       "Microsoft.EntityFrameworkCore.Sqlite >= 8.0.11",
       "Microsoft.EntityFrameworkCore.Tools >= 8.0.11",
       "Microsoft.VisualStudio.Web.CodeGeneration.Design >= 8.0.7",
-      "RepositoryPatternWithUOW.EF >= 1.0.0",
+      "Otlob.EF >= 1.0.0",
       "Utility >= 1.0.0"
     ]
   },
@@ -8416,8 +8416,8 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "D:\\My_Projects\\Talabat Project\\Otlob\\RepositoryPatternWithUOW.EF\\RepositoryPatternWithUOW.EF.csproj": {
-              "projectPath": "D:\\My_Projects\\Talabat Project\\Otlob\\RepositoryPatternWithUOW.EF\\RepositoryPatternWithUOW.EF.csproj"
+            "D:\\My_Projects\\Talabat Project\\Otlob\\RepositoryPatternWithUOW.EF\\Otlob.EF.csproj": {
+              "projectPath": "D:\\My_Projects\\Talabat Project\\Otlob\\RepositoryPatternWithUOW.EF\\Otlob.EF.csproj"
             },
             "D:\\My_Projects\\Talabat Project\\Otlob\\Utility\\Utility.csproj": {
               "projectPath": "D:\\My_Projects\\Talabat Project\\Otlob\\Utility\\Utility.csproj"
@@ -8494,5 +8494,17 @@
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.100/PortableRuntimeIdentifierGraph.json"
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "NU1903",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'System.Text.Json' 7.0.3 has a known high severity vulnerability, https://github.com/advisories/GHSA-hh2w-p6rv-4g7w",
+      "libraryId": "System.Text.Json",
+      "targetGraphs": [
+        "net8.0"
+      ]
+    }
+  ]
 }

@@ -1,4 +1,5 @@
-﻿@model RepositoryPatternWithUOW.Core.ViewModel.ProfileVM
+﻿@using Utility
+@model Otlob.Core.ViewModel.ProfileVM
 
 @section Profile {
     <partial name="_ProfilePartial"></partial>
@@ -27,36 +28,45 @@
         <div class="field">
             <label asp-for="Email"></label>
             <input asp-for="Email" value="@Model.Email" disabled/>
-            <span>
+            <div>
                 <a href="#">CHANGE EMAIL</a>
                 <a href="#">CHANGE PASSWORD</a>
-            </span>
-            <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <span asp-validation-for="Email" class="text-danger message"></span>
         </div>
 
         <div class="field">
             <label asp-for="FirstName"></label>
             <input asp-for="FirstName" value="@Model.FirstName"/>
-            <span asp-validation-for="FirstName" class="text-danger"></span>
+            <span asp-validation-for="FirstName" class="text-danger message"></span>
         </div>
 
         <div class="field">
             <label asp-for="LastName"></label>
             <input asp-for="LastName" value="@Model.LastName"/>
-            <span asp-validation-for="LastName" class="text-danger"></span>
+            <span asp-validation-for="LastName" class="text-danger message"></span>
         </div>   
 
         <div class="field">
             <label asp-for="PhoneNumber"></label>
             <input asp-for="PhoneNumber" value="@Model.PhoneNumber" />
-            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+            <span asp-validation-for="PhoneNumber" class="text-danger message"></span>
         </div>   
         
         <div  class="field">
             <label asp-for="BirthDate"></label>
             <input type="date" asp-for="BirthDate" value="@Model.BirthDate.Value.ToString("yyyy-MM-dd")" />
-            <span asp-validation-for="BirthDate" class="text-danger"></span>
+            <span asp-validation-for="BirthDate" class="text-danger message"></span>
         </div> 
+
+        <div class="field">
+            <label asp-for="Gender"></label>
+            <select asp-for="Gender">
+                <option >@Gender.Male</option>
+                <option >@Gender.Female</option>
+            </select>
+            <span asp-validation-for="Gender" class="text-danger message"></span>
+        </div>
 
         <button type="submit">Update</button>
     </form>

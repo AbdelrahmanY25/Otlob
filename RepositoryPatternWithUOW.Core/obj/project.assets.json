@@ -1075,9 +1075,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\My_Projects\\Talabat Project\\Otlob\\RepositoryPatternWithUOW.Core\\RepositoryPatternWithUOW.Core.csproj",
-      "projectName": "RepositoryPatternWithUOW.Core",
-      "projectPath": "D:\\My_Projects\\Talabat Project\\Otlob\\RepositoryPatternWithUOW.Core\\RepositoryPatternWithUOW.Core.csproj",
+      "projectUniqueName": "D:\\My_Projects\\Talabat Project\\Otlob\\RepositoryPatternWithUOW.Core\\Otlob.Core.csproj",
+      "projectName": "Otlob.Core",
+      "projectPath": "D:\\My_Projects\\Talabat Project\\Otlob\\RepositoryPatternWithUOW.Core\\Otlob.Core.csproj",
       "packagesPath": "C:\\Users\\ASUS\\.nuget\\packages\\",
       "outputPath": "D:\\My_Projects\\Talabat Project\\Otlob\\RepositoryPatternWithUOW.Core\\obj\\",
       "projectStyle": "PackageReference",

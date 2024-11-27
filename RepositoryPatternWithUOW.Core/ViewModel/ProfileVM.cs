@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Utility;
 
-namespace RepositoryPatternWithUOW.Core.ViewModel
+namespace Otlob.Core.ViewModel
 {
     public class ProfileVM
     {
@@ -32,7 +32,7 @@ namespace RepositoryPatternWithUOW.Core.ViewModel
         [Display(Prompt = "Date of Birth")]
         public DateOnly? BirthDate { get; set; }
 
-        [Display(Prompt = "PhoneNumber")]
+        [Display(Prompt = "PhoneNumber"), MinLength(11, ErrorMessage = "The Phone number must be 11 number")]
         [DataType(DataType.PhoneNumber)]
         [RegularExpression(@"^\d{1,11}$", ErrorMessage = "The phone number must contain only numbers and be up to 11 digits long.")]
         public string PhoneNumber { get; set; }
