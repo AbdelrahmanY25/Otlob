@@ -299,3 +299,4 @@ D:\My_Projects\Talabat Project\Otlob\Otlob\bin\Debug\net8.0\Otlob.Core.dll
 D:\My_Projects\Talabat Project\Otlob\Otlob\bin\Debug\net8.0\Otlob.EF.dll
 D:\My_Projects\Talabat Project\Otlob\Otlob\bin\Debug\net8.0\Otlob.EF.pdb
 D:\My_Projects\Talabat Project\Otlob\Otlob\bin\Debug\net8.0\Otlob.Core.pdb
+D:\My_Projects\Talabat Project\Otlob\Otlob\obj\Debug\net8.0\Otlob.MvcApplicationPartsAssemblyInfo.cs

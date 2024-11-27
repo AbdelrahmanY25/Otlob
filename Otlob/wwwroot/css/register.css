@@ -90,3 +90,27 @@ form .rememberme {
               cursor: pointer;
           }
 }
+
+.profile .info {
+    width: 100%;
+    color: var(--main-color);
+}
+
+.profile .info .home {
+    font-size: 14px;
+    text-align: start;
+    a
+    {
+        transition: var(--main-transition);
+        margin: 0 15px;
+    }    
+}
+
+.profile .info .home a:hover {
+    color: var(--second-color);
+}
+
+.profile .info .home span:last-child {
+    color: var(--second-color);
+        margin: 0 15px;
+}

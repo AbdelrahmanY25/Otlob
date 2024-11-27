@@ -30,16 +30,7 @@
                             <a style=" color: #eee;" class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
                     </ul>
-                    @if (User.Identity.IsAuthenticated)
-                    {
-                        <a style=" color: #eee;" class="nav-link" style="margin: auto 10px 0 auto;" class="nav-link text-dark" asp-area="Customer" asp-controller="Account" asp-action="Logout">Logout</a>
-                        <a class="btn" style="margin: auto 10px 0 0; color: #eee; background-color: #004739" asp-area="Customer" asp-controller="Account" asp-action="Profile">Welcome @User.Identity.Name</a>
-                    }
-                    else
-                    {
-                        <a style=" color: #eee;" class="nav-link" style="margin: auto 10px 0 auto" class="nav-link text-dark" asp-area="Customer" asp-controller="Account" asp-action="Register">Register</a>
-                        <a style=" color: #eee;" class="nav-link" style="margin: auto 10px 0 0" class="nav-link text-dark" asp-area="Customer" asp-controller="Account" asp-action="Login">Login</a>
-                    }
+                    <partial name="_LoginPartial"></partial>
                 </div>
             </div>
         </nav>

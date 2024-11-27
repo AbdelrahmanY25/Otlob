@@ -20,5 +20,6 @@ namespace Otlob.EF
         public DbSet<ApplicationUserlVM> ApplicationModelVM { get; set; } = default!;
         public DbSet<LoginVM> LoginVM { get; set; } = default!;
         public DbSet<ProfileVM> ProfileVM { get; set; } = default!;
+        public DbSet<ChangePasswordVM> ChangePasswordVM { get; set; } = default!;
     }
 }

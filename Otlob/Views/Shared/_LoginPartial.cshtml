@@ -7,22 +7,18 @@
 <ul class="navbar-nav">
 @if (SignInManager.IsSignedIn(User))
 {
-    <li class="nav-item">
-        <a style=" color: #e9b226;" id="manage" class="nav-link" asp-area="" asp-page="/Account/Manage/Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
-    </li>
-    <li class="nav-item">
-        <form id="logoutForm" class="form-inline" asp-area="" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-            <button style=" color: #e9b226;" id="logout" type="submit" class="nav-link btn btn-link border-0">Logout</button>
-        </form>
-    </li>
+   if (UserManager.GetUserAsync(User).Result.ProfilePicture != null) 
+   {
+       <li class="nav-item">
+                <img class="avatar rounded-circle" alt="Profile Picture" src="data:image/*;base64,@(Convert.ToBase64String(UserManager.GetUserAsync(User).Result.ProfilePicture))" />
+       </li>
+   }
+    <a class="btn" style="margin: auto 10px 0 0; color: #eee; background-color: #004739" asp-area="Customer" asp-controller="Account" asp-action="Profile">Welcome @User.Identity.Name</a>
+    <a style="color: #eee; margin: auto 10px 0 auto;" class="nav-link" asp-area="Customer" asp-controller="Account" asp-action="Logout">Logout</a>
 }
 else
 {
-    <li class="nav-item">
-        <a style=" color: #e9b226;" class="nav-link" id="register" asp-area="" asp-page="/Account/Register">Register</a>
-    </li>
-    <li class="nav-item">
-         <a style=" color: #e9b226;" class="nav-link" id="login" asp-area="" asp-page="/Account/Login">Login</a>
-    </li>
+    <a style="color: #eee; margin: auto 10px 0 auto" class="nav-link" asp-area="Customer" asp-controller="Account" asp-action="Register">Register</a>
+    <a style="color: #eee; margin: auto 10px 0 0" class="nav-link" asp-area="Customer" asp-controller="Account" asp-action="Login">Login</a>
 }
 </ul>

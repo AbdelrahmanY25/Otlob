@@ -21,6 +21,10 @@
       "PackagePath": "staticwebassets\\favicon.ico"
     },
     {
+      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\Default.jpg",
+      "PackagePath": "staticwebassets\\images\\Default.jpg"
+    },
+    {
       "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\js\\site.js",
       "PackagePath": "staticwebassets\\js\\site.js"
     },

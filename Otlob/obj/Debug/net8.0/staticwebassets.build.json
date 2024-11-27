@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "dLWODheqhiHtoKeZ0BiIkhlZWYc6JRjmU/Ucgk10RQY=",
+  "Hash": "ENeDbM0Nl7GdHYVU0adXfDEOH7AobWgtuHRX2zqvRP4=",
   "Source": "Otlob",
   "BasePath": "_content/Otlob",
   "Mode": "Default",
@@ -1333,8 +1333,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "zu925kzoen",
-      "Integrity": "lTw66tabLcO/qTMyjXl182HrVslXsgawGrbokjHqVQo=",
+      "Fingerprint": "pi4k5nyi4w",
+      "Integrity": "4dRnsUsFiiB1KKKS9/WsQ6xL4jF844U/5hzV2qvPUZE=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\css\\profile.css"
@@ -1354,8 +1354,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "yhjhxcqu78",
-      "Integrity": "9g0k/0dqvAESMyoVcCzGsdVnMZoSk9bSVTa19VGH28M=",
+      "Fingerprint": "ku0n8sbjoa",
+      "Integrity": "DMy77YAONKE568tnJtuObUett9P3hw72hH0XbzAAqjk=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\css\\register.css"
@@ -1375,8 +1375,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "c2tiyv64ts",
-      "Integrity": "pAGv4ietcJNk/EwsQZ5BN9+K4MuNYS2a9wl4Jw+q9D0=",
+      "Fingerprint": "d2298u77p1",
+      "Integrity": "Sx0DOza5v7Cq65ou4OyrH10b1mUfq+AU8nRcuxhPAGo=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\css\\site.css"
@@ -1401,6 +1401,27 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\favicon.ico"
+    },
+    {
+      "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\Default.jpg",
+      "SourceId": "Otlob",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\",
+      "BasePath": "_content/Otlob",
+      "RelativePath": "images/Default#[.{fingerprint}]?.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "e95pl0smkm",
+      "Integrity": "4lsXIlwS4wNfoAl+ilpwQgy8KIUY+AdqvMxxD4w3D2I=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\Default.jpg"
     },
     {
       "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\js\\site.js",
@@ -2633,7 +2654,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "2977"
+          "Value": "3667"
         },
         {
           "Name": "Content-Type",
@@ -2641,11 +2662,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"lTw66tabLcO/qTMyjXl182HrVslXsgawGrbokjHqVQo=\""
+          "Value": "\"4dRnsUsFiiB1KKKS9/WsQ6xL4jF844U/5hzV2qvPUZE=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 26 Nov 2024 23:55:16 GMT"
+          "Value": "Wed, 27 Nov 2024 14:18:08 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2655,12 +2676,12 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-lTw66tabLcO/qTMyjXl182HrVslXsgawGrbokjHqVQo="
+          "Value": "sha256-4dRnsUsFiiB1KKKS9/WsQ6xL4jF844U/5hzV2qvPUZE="
         }
       ]
     },
     {
-      "Route": "css/profile.zu925kzoen.css",
+      "Route": "css/profile.pi4k5nyi4w.css",
       "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\css\\profile.css",
       "Selectors": [],
       "ResponseHeaders": [
@@ -2670,7 +2691,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "2977"
+          "Value": "3667"
         },
         {
           "Name": "Content-Type",
@@ -2678,11 +2699,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"lTw66tabLcO/qTMyjXl182HrVslXsgawGrbokjHqVQo=\""
+          "Value": "\"4dRnsUsFiiB1KKKS9/WsQ6xL4jF844U/5hzV2qvPUZE=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 26 Nov 2024 23:55:16 GMT"
+          "Value": "Wed, 27 Nov 2024 14:18:08 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2692,7 +2713,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "zu925kzoen"
+          "Value": "pi4k5nyi4w"
         },
         {
           "Name": "label",
@@ -2700,7 +2721,7 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-lTw66tabLcO/qTMyjXl182HrVslXsgawGrbokjHqVQo="
+          "Value": "sha256-4dRnsUsFiiB1KKKS9/WsQ6xL4jF844U/5hzV2qvPUZE="
         }
       ]
     },
@@ -2715,7 +2736,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "1712"
+          "Value": "2125"
         },
         {
           "Name": "Content-Type",
@@ -2723,11 +2744,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"9g0k/0dqvAESMyoVcCzGsdVnMZoSk9bSVTa19VGH28M=\""
+          "Value": "\"DMy77YAONKE568tnJtuObUett9P3hw72hH0XbzAAqjk=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 26 Nov 2024 19:29:09 GMT"
+          "Value": "Wed, 27 Nov 2024 14:32:38 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2737,12 +2758,12 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-9g0k/0dqvAESMyoVcCzGsdVnMZoSk9bSVTa19VGH28M="
+          "Value": "sha256-DMy77YAONKE568tnJtuObUett9P3hw72hH0XbzAAqjk="
         }
       ]
     },
     {
-      "Route": "css/register.yhjhxcqu78.css",
+      "Route": "css/register.ku0n8sbjoa.css",
       "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\css\\register.css",
       "Selectors": [],
       "ResponseHeaders": [
@@ -2752,7 +2773,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "1712"
+          "Value": "2125"
         },
         {
           "Name": "Content-Type",
@@ -2760,11 +2781,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"9g0k/0dqvAESMyoVcCzGsdVnMZoSk9bSVTa19VGH28M=\""
+          "Value": "\"DMy77YAONKE568tnJtuObUett9P3hw72hH0XbzAAqjk=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 26 Nov 2024 19:29:09 GMT"
+          "Value": "Wed, 27 Nov 2024 14:32:38 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2774,7 +2795,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "yhjhxcqu78"
+          "Value": "ku0n8sbjoa"
         },
         {
           "Name": "label",
@@ -2782,52 +2803,7 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-9g0k/0dqvAESMyoVcCzGsdVnMZoSk9bSVTa19VGH28M="
-        }
-      ]
-    },
-    {
-      "Route": "css/site.c2tiyv64ts.css",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\css\\site.css",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "362"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"pAGv4ietcJNk/EwsQZ5BN9+K4MuNYS2a9wl4Jw+q9D0=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Mon, 25 Nov 2024 04:38:07 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "c2tiyv64ts"
-        },
-        {
-          "Name": "label",
-          "Value": "css/site.css"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-pAGv4ietcJNk/EwsQZ5BN9+K4MuNYS2a9wl4Jw+q9D0="
+          "Value": "sha256-DMy77YAONKE568tnJtuObUett9P3hw72hH0XbzAAqjk="
         }
       ]
     },
@@ -2842,7 +2818,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "362"
+          "Value": "464"
         },
         {
           "Name": "Content-Type",
@@ -2850,11 +2826,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"pAGv4ietcJNk/EwsQZ5BN9+K4MuNYS2a9wl4Jw+q9D0=\""
+          "Value": "\"Sx0DOza5v7Cq65ou4OyrH10b1mUfq+AU8nRcuxhPAGo=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 25 Nov 2024 04:38:07 GMT"
+          "Value": "Wed, 27 Nov 2024 12:41:43 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2864,7 +2840,52 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-pAGv4ietcJNk/EwsQZ5BN9+K4MuNYS2a9wl4Jw+q9D0="
+          "Value": "sha256-Sx0DOza5v7Cq65ou4OyrH10b1mUfq+AU8nRcuxhPAGo="
+        }
+      ]
+    },
+    {
+      "Route": "css/site.d2298u77p1.css",
+      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\css\\site.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "464"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"Sx0DOza5v7Cq65ou4OyrH10b1mUfq+AU8nRcuxhPAGo=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 27 Nov 2024 12:41:43 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "d2298u77p1"
+        },
+        {
+          "Name": "label",
+          "Value": "css/site.css"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-Sx0DOza5v7Cq65ou4OyrH10b1mUfq+AU8nRcuxhPAGo="
         }
       ]
     },
@@ -5167,6 +5188,88 @@
         {
           "Name": "integrity",
           "Value": "sha256-16aFlqtpsG9RyieKZUUUjkJpqTgcJtWXwT312I4Iz1s="
+        }
+      ]
+    },
+    {
+      "Route": "images/Default.e95pl0smkm.jpg",
+      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\Default.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "9457"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"4lsXIlwS4wNfoAl+ilpwQgy8KIUY+AdqvMxxD4w3D2I=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 27 Nov 2024 11:01:16 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "e95pl0smkm"
+        },
+        {
+          "Name": "label",
+          "Value": "images/Default.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-4lsXIlwS4wNfoAl+ilpwQgy8KIUY+AdqvMxxD4w3D2I="
+        }
+      ]
+    },
+    {
+      "Route": "images/Default.jpg",
+      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\Default.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "9457"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"4lsXIlwS4wNfoAl+ilpwQgy8KIUY+AdqvMxxD4w3D2I=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 27 Nov 2024 11:01:16 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-4lsXIlwS4wNfoAl+ilpwQgy8KIUY+AdqvMxxD4w3D2I="
         }
       ]
     },

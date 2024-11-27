@@ -36,6 +36,7 @@ a {
     text-align: start;
     a {
           transition: var(--main-transition);
+          margin: 0 15px;
     }    
 }
 
@@ -43,7 +44,7 @@ a {
     color: var(--second-color);
 }
 
-.profile .info .home span:not(:last-child) {
+.profile .info .home span:last-child {
     color: var(--second-color);
     margin: 0 15px;
 }
@@ -78,7 +79,6 @@ a {
     height: calc(100% / 3);
     transition: var(--main-transition);
     font-size: 14px;
-    font-weight: bold;
 }
 
 .profile .links a.active {
@@ -124,9 +124,8 @@ form .field select {
 form .field div {
     display: inline;    
     position: absolute;
-    right: 150px;
+    right: 300px;
     display: flex;  
-    gap: 25px;
 }
 
 form .field div a {
@@ -134,7 +133,7 @@ form .field div a {
 }
 
 form .field div a:hover {
-    color: var(--seccuss-color);
+    color: var(--second-color);
 }
 
 form button {
@@ -163,4 +162,41 @@ form .field .message {
 form button:hover {
     color: var(--main-color);
     background-color: var(--second-color);
+}
+
+form div.pic {
+        max-width: fit-content;
+        max-height: fit-content;
+    position: absolute;
+    top: 350px;
+    right: 200px;   
+}
+form .pic img {
+    max-width: 200px;
+    max-height: 200px;
+    object-fit: cover;  
+}
+
+form div.pic .hidden-file-input {
+    display: none;
+}
+
+.edit-icon {    
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+    opacity: 1;
+    font-size: 24px;
+    color: var(--main-color);
+    cursor: pointer;
+    transition: color 0.3s ease;
+    position: absolute;
+    right: -15px;
+    bottom: -10px;
+    transform: translateX(50%);
+    border-radius: 0 0 50% 50%;
+}
+
+.edit-icon:hover {
+    color: var(--second-color);
 }
