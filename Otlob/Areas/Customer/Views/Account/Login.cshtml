@@ -1,0 +1,33 @@
+﻿@model Otlob.Core.ViewModel.LoginVM
+
+@section Register {
+    <partial name="_RegisterPagePartial"></partial>
+}
+@section ExternalLogin {
+    <partial name="_ExternalLoginPartial"></partial>
+}
+@section Notify {
+    <partial name="_NotificationPartial"></partial>
+}
+
+<form asp-action="Login" class="loginform">
+    <h2>Login</h2>
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div>
+        <input asp-for="UserName"/>
+        <span asp-validation-for="UserName" class="text-danger"></span>
+    </div>
+    <div>
+        <input asp-for="Password" />
+        <span asp-validation-for="Password" class="text-danger"></span>
+    </div>
+    <div class="rememberme">
+        <input asp-for="RememberMe" />
+        <label asp-for="RememberMe"></label>
+    </div>
+    <button type="submit">Login</button>
+</form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

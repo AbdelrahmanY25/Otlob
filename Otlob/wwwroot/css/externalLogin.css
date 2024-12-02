@@ -1,0 +1,34 @@
+﻿.social-login {
+    position: absolute;
+    bottom: 300px;
+    right: 33%;    
+    display: flex;
+    gap: 25px;
+}
+.social-login form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 250px;
+    height: 100%;
+}
+
+.btn-google,
+.btn-microsoft {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #333;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.btn-google img,
+.btn-microsoft img {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+}

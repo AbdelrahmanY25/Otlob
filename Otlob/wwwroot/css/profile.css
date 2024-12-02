@@ -1,0 +1,203 @@
+﻿* {
+    font-family: Arial, Helvetica, sans-serif;
+    box-sizing: border-box;
+}
+
+:root {
+    --main-color: #004739;
+    --second-color: #bcc30e;
+    --seccuss-color: #05a437;
+    --main-transition: 0.2s;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    text-decoration: none;
+    color: var(--main-color);
+}
+
+.profile {
+    box-shadow: 0 0 5px 0 #aba9ab;
+    padding: 30px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.profile .info {
+    width: 100%;
+}
+
+.profile .info .home {
+    font-size: 14px;
+    text-align: start;
+    a {
+          transition: var(--main-transition);
+          margin: 0 15px;
+    }    
+}
+
+.profile .info .home a:hover {
+    color: var(--second-color);
+}
+
+.profile .info .home span:last-child {
+    color: var(--second-color);
+    margin: 0 15px;
+}
+
+.profile .info h2 {
+    color: var(--main-color);
+    text-align: start;
+    margin: 30px 0;
+    width: fit-content;
+    font-size: 25px;
+    font-weight: 100;
+}
+
+.profile .line {
+    margin: 0 auto 20px;
+    height: 1px;
+    width: 100%;
+}
+
+.profile .links {
+    width: 20%;
+    max-height: 200px;
+    border-right: 1px solid var(--second-color);
+    display: flex;
+    flex-direction: column;
+}
+
+.profile .links a {
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+    height: calc(100% / 3);
+    transition: var(--main-transition);
+    font-size: 14px;
+}
+
+.profile .links a.active {
+    color: var(--main-color);
+    border-left: 3px solid var(--main-color);
+}
+.profile .links a:hover:not(a.active) {
+    color: var(--second-color);
+}
+.profile .links a:not(:last-child) {
+    margin-bottom: 20px;
+}
+
+form {
+    width: 80%;
+    padding: 30px;    
+}
+
+form .field {
+    display: flex;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+form .field label {
+    opacity: 0.5;
+    width: 3%;
+}
+
+form .field input,
+form .field select {
+    margin-left: 50%;
+    transform: translateX(-65%);
+    width: 40%;
+    height: 30px;
+    border-radius: 5px;
+    outline: none;
+    border: 1px solid #d4d4d4;
+    padding: 2px 12px;
+    transition: var(--main-transition);
+    caret-color: var(--second-color);
+}
+
+form .field div {
+    display: inline;    
+    position: absolute;
+    right: 300px;
+    display: flex;  
+}
+
+form .field div a {
+    font-size: 12px;
+}
+
+form .field div a:hover {
+    color: var(--second-color);
+}
+
+form button {
+    background-color: #004739;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    outline: none;
+    border: none;
+    width: 200px;
+    padding: 5px;
+    margin: 0 0 15px;
+    color: #fff;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.5s;
+}
+
+form .field .message {
+    position: absolute;
+    left: 75%;
+    max-width: 200px;
+}
+
+form button:hover {
+    color: var(--main-color);
+    background-color: var(--second-color);
+}
+
+form div.pic {
+        max-width: fit-content;
+        max-height: fit-content;
+    position: absolute;
+    top: 350px;
+    right: 200px;   
+}
+form .pic img {
+    max-width: 200px;
+    max-height: 200px;
+    object-fit: cover;  
+}
+
+form div.pic .hidden-file-input {
+    display: none;
+}
+
+.edit-icon {    
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+    opacity: 1;
+    font-size: 24px;
+    color: var(--main-color);
+    cursor: pointer;
+    transition: color 0.3s ease;
+    position: absolute;
+    right: -15px;
+    bottom: -10px;
+    transform: translateX(50%);
+    border-radius: 0 0 50% 50%;
+}
+
+.edit-icon:hover {
+    color: var(--second-color);
+}

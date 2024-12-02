@@ -1,0 +1,48 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using Otlob.Core.IUnitOfWorkRepository
+@using Otlob.Core.Models
+@using Utility
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@inject IUnitOfWorkRepository _unitOfWorkRepository
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+@section Notify {
+    <partial name="_NotificationPartial"></partial>
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome Resturant @User.Identity.Name</h1>
+</div>
+@{
+    var resturant = _unitOfWorkRepository.Restaurants.GetOne(expression: r => r.Id == UserManager.GetUserAsync(User).Result.Resturant_Id);
+    if (!resturant.Accecpted) 
+    {
+       <div class="text-center">
+            <h3 class="display-6">
+                Your account status is currently pending. The company has reviewed your application,
+                and you will still have five days of work to receive the final response
+                about whether you are accepted. Please stay tuned for further updates.
+            </h3>
+        </div>
+    }
+    else 
+    {
+         <div class="text-center">
+            @{
+                if (resturant.Logo != null)
+                {
+                    <img class="avatar rounded-circle" alt="Resturant Logo" src="~/images/resturantLogo/@resturant.Logo" />
+                }
+                else
+                {
+                    <img class="avatar rounded-circle" alt="Resturant Logo" src="~/images/Default.jpg" />
+                }
+            }
+        </div>
+    }
+}
+

@@ -1,0 +1,87 @@
+﻿@model RepositoryPatternWithUOW.Core.Models.Restaurant
+
+@section Profile {
+    <partial name="_ProfilePartial"></partial>
+}
+@section Notify {
+    <partial name="_NotificationPartial"></partial>
+}
+
+<div class="profile">
+    <div class="info">
+        <div class="home">
+            <a asp-controller="Home" asp-action="Index">Home </a>
+            <span>></span>
+            <span>Account</span>
+        </div>
+        <h2>Resturant Account</h2>
+    </div>
+
+    <hr class="line" />
+
+    <div class="links">
+        <a href="#" class="active">Account Info</a>        
+        <a href="#">My Orders</a>
+    </div>
+
+    <form asp-action="Edit" enctype="multipart/form-data">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="field">
+                <label asp-for="Name"></label>
+                <input asp-for="Name" value="@Model.Name" readonly />
+            </div>
+            <div class="field">
+                <label asp-for="Address"></label>
+                <input asp-for="Address" value="@Model.Address" readonly />
+            </div>
+            <div class="field">
+                <label asp-for="Email"></label>
+                <input asp-for="Email" value="@Model.Email" readonly />
+            </div>
+            <div class="field">
+                <label asp-for="Phone"></label>
+                <input asp-for="Phone" value="@Model.Phone" />
+            </div>
+            <div class="field">
+                <label asp-for="Description"></label>
+                <input asp-for="Description" value="@Model.Description" />
+            </div>
+            <div class="pic">
+                <i class="edit-icon" onclick="triggerFileInput()" title="Edit Profile Picture">&#9998;</i>
+                @if (Model.Logo != null) 
+                {
+                    <img id="profilePicture" src="~/images/resturantLogo/@Model.Logo" alt="Image Preview" style="width: 100px; height: 100px;" />
+                }
+                else 
+                {
+                    <img id="profilePicture" src="~/images/Default.jpg" alt="Image Preview" style="width: 100px; height: 100px;" />
+                }
+                <input class="hidden-file-input"
+                   id="fileInput"
+                   type="file"
+                   accept="image/*"
+                   asp-for="Logo"
+                   onchange="document.getElementById('profilePicture').src = window.URL.createObjectURL(this.files[0]);" />
+            </div>
+            <div class="field">
+                <label asp-for="DeliveryFee"></label>
+                <input asp-for="DeliveryFee" />
+            </div>
+            <div class="field">
+                <label asp-for="DeliveryDuration"></label>
+                <input asp-for="DeliveryDuration" />
+            </div>
+            <button type="submit">Update Your Resturan info</button>
+        </form>
+</div>
+
+<script>
+    function triggerFileInput() {
+        document.getElementById("fileInput").click();
+    }
+</script>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

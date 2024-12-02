@@ -1,0 +1,39 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using Otlob.Core.Models
+@using Utility
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> userManager
+
+<ul class="navbar-nav">
+@if (SignInManager.IsSignedIn(User))
+{
+   if (userManager.GetUserAsync(User).Result.ProfilePicture != null) 
+   {
+       <li class="nav-item">
+            <img class="avatar rounded-circle" alt="Profile Picture" src="data:image/*;base64,@(Convert.ToBase64String(userManager.GetUserAsync(User).Result.ProfilePicture))" />
+       </li>
+   }
+   if (User.IsInRole(SD.restaurantAdmin)) 
+   {
+        <a class="btn" style="margin: auto 10px 0 0; color: #eee; background-color: #004739" asp-area="ResturantAdmin" asp-controller="Restaurant" asp-action="Edit">Your Resturant Profile</a>
+   }
+   else if (User.IsInRole(SD.superAdminRole)) 
+   {
+        <a class="btn" style="margin: auto 10px 0 0; color: #eee; background-color: #004739" asp-controller="Register" asp-action="RegistResturant">Regist A Resturant</a>
+        <a class="btn" style="margin: auto 10px 0 0; color: #eee; background-color: #004739" asp-controller="Register" asp-action="RegistSuperAdmin">Regist A Super Admin</a>
+   }
+    else if (User.IsInRole(SD.customer)) 
+   {
+        <a class="btn" style="margin: auto 10px 0 0; color: #eee; background-color: #004739" asp-controller="Account" asp-action="RegistResturant">Regist A Resturant</a>
+   }
+
+    <a class="btn" style="margin: auto 10px 0 0; color: #eee; background-color: #004739" asp-area="Customer" asp-controller="Account" asp-action="Profile">Welcome @User.Identity.Name</a>
+    <a style="color: #eee; margin: auto 10px 0 auto;" class="nav-link" asp-area="Customer" asp-controller="Account" asp-action="Logout">Logout</a>
+}
+else
+{
+    <a style="color: #eee; margin: auto 10px 0 auto" class="nav-link" asp-area="Customer" asp-controller="Account" asp-action="Register">Register</a>
+    <a style="color: #eee; margin: auto 10px 0 0" class="nav-link" asp-area="Customer" asp-controller="Account" asp-action="Login">Login</a>
+}
+</ul>

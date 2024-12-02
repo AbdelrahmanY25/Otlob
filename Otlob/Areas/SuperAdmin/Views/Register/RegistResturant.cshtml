@@ -1,0 +1,43 @@
+﻿@model Otlob.Core.ViewModel.RegistResturantVM
+
+@section Register {
+    <partial name="_RegisterPagePartial"></partial>
+}
+
+
+<form asp-action="RegistResturant" class="loginform">
+    <h2>Create a resturant account</h2>
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <div>
+        <input asp-for="ResName"/>
+    </div>
+    <div>
+        <input asp-for="ResUserName"/>
+    </div>
+    <div>
+        <input asp-for="ResEmail"/>
+    </div>
+    <div>
+        <input asp-for="ResAddress"/>
+    </div>
+    <div>
+        <input asp-for="ResPhone"/>
+    </div>
+    <div>
+        <input asp-for="Password"/>
+    </div>
+    <div>
+        <input asp-for="ConfirmPassword"/>
+    </div>
+    <div>
+        <textarea asp-for="Description"></textarea>
+    </div>
+
+    <div>
+        <button type="submit">Create your account</button>
+    </div>
+</form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

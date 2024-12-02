@@ -1,0 +1,15 @@
+D:\My_Projects\Talabat Project\Otlob\RepositoryPatternWithUOW.Core\bin\Debug\net8.0\RepositoryPatternWithUOW.Core.deps.json
+D:\My_Projects\Talabat Project\Otlob\RepositoryPatternWithUOW.Core\bin\Debug\net8.0\RepositoryPatternWithUOW.Core.dll
+D:\My_Projects\Talabat Project\Otlob\RepositoryPatternWithUOW.Core\bin\Debug\net8.0\RepositoryPatternWithUOW.Core.pdb
+D:\My_Projects\Talabat Project\Otlob\RepositoryPatternWithUOW.Core\obj\Debug\net8.0\RepositoryPatternWithUOW.Core.csproj.AssemblyReference.cache
+D:\My_Projects\Talabat Project\Otlob\RepositoryPatternWithUOW.Core\obj\Debug\net8.0\RepositoryPatternWithUOW.Core.GeneratedMSBuildEditorConfig.editorconfig
+D:\My_Projects\Talabat Project\Otlob\RepositoryPatternWithUOW.Core\obj\Debug\net8.0\RepositoryPatternWithUOW.Core.AssemblyInfoInputs.cache
+D:\My_Projects\Talabat Project\Otlob\RepositoryPatternWithUOW.Core\obj\Debug\net8.0\RepositoryPatternWithUOW.Core.AssemblyInfo.cs
+D:\My_Projects\Talabat Project\Otlob\RepositoryPatternWithUOW.Core\obj\Debug\net8.0\RepositoryPatternWithUOW.Core.csproj.CoreCompileInputs.cache
+D:\My_Projects\Talabat Project\Otlob\RepositoryPatternWithUOW.Core\obj\Debug\net8.0\RepositoryPatternWithUOW.Core.dll
+D:\My_Projects\Talabat Project\Otlob\RepositoryPatternWithUOW.Core\obj\Debug\net8.0\refint\RepositoryPatternWithUOW.Core.dll
+D:\My_Projects\Talabat Project\Otlob\RepositoryPatternWithUOW.Core\obj\Debug\net8.0\RepositoryPatternWithUOW.Core.pdb
+D:\My_Projects\Talabat Project\Otlob\RepositoryPatternWithUOW.Core\obj\Debug\net8.0\ref\RepositoryPatternWithUOW.Core.dll
+D:\My_Projects\Talabat Project\Otlob\RepositoryPatternWithUOW.Core\bin\Debug\net8.0\Utility.dll
+D:\My_Projects\Talabat Project\Otlob\RepositoryPatternWithUOW.Core\bin\Debug\net8.0\Utility.pdb
+D:\My_Projects\Talabat Project\Otlob\RepositoryPatternWithUOW.Core\obj\Debug\net8.0\Reposito.902E3288.Up2Date

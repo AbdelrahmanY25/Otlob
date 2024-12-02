@@ -1,0 +1,15 @@
+D:\My_Projects\Talabat Project\Otlob\RepositoryPatternWithUOW.Core\bin\Debug\net8.0\Otlob.Core.deps.json
+D:\My_Projects\Talabat Project\Otlob\RepositoryPatternWithUOW.Core\bin\Debug\net8.0\Otlob.Core.dll
+D:\My_Projects\Talabat Project\Otlob\RepositoryPatternWithUOW.Core\bin\Debug\net8.0\Otlob.Core.pdb
+D:\My_Projects\Talabat Project\Otlob\RepositoryPatternWithUOW.Core\bin\Debug\net8.0\Utility.dll
+D:\My_Projects\Talabat Project\Otlob\RepositoryPatternWithUOW.Core\bin\Debug\net8.0\Utility.pdb
+D:\My_Projects\Talabat Project\Otlob\RepositoryPatternWithUOW.Core\obj\Debug\net8.0\Otlob.Core.csproj.AssemblyReference.cache
+D:\My_Projects\Talabat Project\Otlob\RepositoryPatternWithUOW.Core\obj\Debug\net8.0\Otlob.Core.GeneratedMSBuildEditorConfig.editorconfig
+D:\My_Projects\Talabat Project\Otlob\RepositoryPatternWithUOW.Core\obj\Debug\net8.0\Otlob.Core.AssemblyInfoInputs.cache
+D:\My_Projects\Talabat Project\Otlob\RepositoryPatternWithUOW.Core\obj\Debug\net8.0\Otlob.Core.AssemblyInfo.cs
+D:\My_Projects\Talabat Project\Otlob\RepositoryPatternWithUOW.Core\obj\Debug\net8.0\Otlob.Core.csproj.CoreCompileInputs.cache
+D:\My_Projects\Talabat Project\Otlob\RepositoryPatternWithUOW.Core\obj\Debug\net8.0\Otlob.Core.csproj.Up2Date
+D:\My_Projects\Talabat Project\Otlob\RepositoryPatternWithUOW.Core\obj\Debug\net8.0\Otlob.Core.dll
+D:\My_Projects\Talabat Project\Otlob\RepositoryPatternWithUOW.Core\obj\Debug\net8.0\refint\Otlob.Core.dll
+D:\My_Projects\Talabat Project\Otlob\RepositoryPatternWithUOW.Core\obj\Debug\net8.0\Otlob.Core.pdb
+D:\My_Projects\Talabat Project\Otlob\RepositoryPatternWithUOW.Core\obj\Debug\net8.0\ref\Otlob.Core.dll
