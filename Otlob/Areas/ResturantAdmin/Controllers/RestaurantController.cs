@@ -88,7 +88,8 @@ namespace Otlob.Areas.Restaurants.Controllers
                     restaurant.Logo = oldResturantInfo.Logo;
                 }
 
-                _unitOfWorkRepository.Restaurants.Edit(restaurant);
+                restaurant.AcctiveStatus = oldResturantInfo.AcctiveStatus;
+                 _unitOfWorkRepository.Restaurants.Edit(restaurant);
                 _unitOfWorkRepository.SaveChanges();
 
                 TempData["Success"] = "Your resturant info updated Successfully";

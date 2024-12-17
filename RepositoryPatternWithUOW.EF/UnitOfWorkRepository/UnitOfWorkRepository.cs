@@ -16,14 +16,18 @@ namespace Otlob.EF.UnitOfWorkRepository
 {
     public class UnitOfWorkRepository : IUnitOfWorkRepository
     {
-        public IBaseRepository<ContactUs> ContactUs { get; private set; }
-        public IBaseRepository<CustomerConcern> CustomerConcerns { get; private set; }
+        public IBaseRepository<UserComplaint> UserComplaints { get; private set; }
         public IBaseRepository<Delivery> Deliveries { get; private set; }
         public IBaseRepository<Meal> Meals { get; private set; }
         public IBaseRepository<Order> Orders { get; private set; }
         public IBaseRepository<Restaurant> Restaurants { get; private set; }
         public IBaseRepository<Point> Points { get; private set; }
         public IBaseRepository<Address> Addresses { get; private set; }
+        public IBaseRepository<OrderedMeals> OrderedMeals { get; private set; }
+        public IBaseRepository<Cart> Carts { get; private set; }
+        public IBaseRepository<MealsInOrder> MealsInOrder { get; private set; }
+        public IBaseRepository<CartInOrder> CartInOrder { get; private set; }
+        public IBaseRepository<ApplicationUser> Users { get; private set; }
         public void Dispose()
         {
             _applicationDbContext.Dispose();
@@ -48,17 +52,19 @@ namespace Otlob.EF.UnitOfWorkRepository
             Orders = CreateRepository<Order>();
             Meals = CreateRepository<Meal>();
             Deliveries = CreateRepository<Delivery>();
-            CustomerConcerns = CreateRepository<CustomerConcern>();
-            ContactUs = CreateRepository<ContactUs>();
+            UserComplaints = CreateRepository<UserComplaint>();
             Points = CreateRepository<Point>();
             Addresses = CreateRepository<Address>();
+            Carts = CreateRepository<Cart>();
+            OrderedMeals = CreateRepository<OrderedMeals>();
+            CartInOrder = CreateRepository<CartInOrder>();
+            MealsInOrder = CreateRepository<MealsInOrder>();
+            Users = CreateRepository<ApplicationUser>();
         }
 
         private IBaseRepository<T> CreateRepository<T>() where T : class
         {
             return new BaseRepository<T>(_applicationDbContext);
-
-
         }
     }
 }

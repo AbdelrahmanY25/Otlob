@@ -1,0 +1,130 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using Otlob.Core.IUnitOfWorkRepository
+@using Otlob.Core.Models
+@using Otlob.Core.ViewModel
+@inject UserManager<ApplicationUser> userManager
+@inject IUnitOfWorkRepository unitOfWorkRepository
+@model OrderViewModel
+
+
+
+<div class="articles" id="articles">
+
+    <div class="ordersData">
+        <div class="orders">
+            <span>@Model.Orders.Count() : Orders</span>
+        </div>
+
+        <div class="orders price">
+            <span>Top Order : @Model.MostExpensiveOrder L.E</span>
+        </div>
+    </div>
+
+    <div class="container" id="container">
+        @foreach (var item in Model.Orders)
+        {
+            var user = item.ApplicationUser;
+            <div class="card">
+                <div class="text">
+                    @if (user?.ProfilePicture != null)
+                    {
+                        <img class="avatar rounded-circle" alt="Profile Picture" src="data:image/*;base64,@(Convert.ToBase64String(user.ProfilePicture))" />
+                    }
+                    else {
+                        <img class="avatar rounded-circle" src="~/images/Default.jpg" alt="Customer Profile Picture" />
+                    }
+                    @user?.UserName
+                    @if (item.OrderPrice == Model.MostExpensiveOrder)
+                    {
+                        <span class="label">Top Order</span>
+                    }
+                </div>
+                <div class="text">
+                    <h4>Customer Details</h4>
+                    <p>Address: @item.CustomerAddres</p>
+                    <p>Phone Number: @user?.PhoneNumber</p>
+                    <p>Email: @user?.Email</p>
+                    <p>@item.OrderDate</p>
+                </div>
+                <div class="text">
+                    <h6>Order Status: <strong class="text-success">@item.Status</strong></h6>
+                    @if (item.Status == OrderStatus.Pending) {
+                        <a class="btn btn-secondary" asp-action="ChangeOrderStatus" asp-route-id="@item.Id" >Make Order Preparing</a>
+                    }
+                    else if (item.Status == OrderStatus.Preparing) {
+                        <a class="btn btn-warning" asp-action="ChangeOrderStatus" asp-route-id="@item.Id">Make Order Shipped</a>
+                    }
+                    else if (item.Status == OrderStatus.Shipped) {
+                        <a class="btn btn-success" asp-action="ChangeOrderStatus" asp-route-id="@item.Id">Make Order Delivered</a>
+                    }
+                </div>
+                <div class="read">
+                    <a class="btn btn-success" asp-action="OrderDetails" asp-route-id="@item.Id" >Order Details</a>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.0/signalr.min.js"></script>
+    <script>
+
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl("/orderHub")
+            .build();
+
+        const restaurantId = @Model.ResturantId;
+
+        connection.start().then(() => {
+            connection.invoke("JoinGroup", restaurantId.toString())
+            .then(() => {
+                console.log("Joined group for restaurant: " + restaurantId.toString());
+            })
+            .catch(err => console.error(err.toString()));
+        });
+
+        connection.on("ReceiveOrder", function (order) {
+            console.log("New order received: ", order);
+
+        const ordersContainer = document.getElementById("container");
+        const newOrderHTML = `
+            <div class="card">
+                <div class="text">
+                    <img class="avatar rounded-circle" src="/images/Default.jpg" alt="Customer Profile Picture" />
+                    ${order.name}
+                </div>
+                <div class="text">
+                    <h4>Customer Details</h4>
+                    <p>Address: ${order.address}</p>
+                    <p>Phone Number: ${order.phone}</p>
+                    <p>Email: ${order.email}</p>
+                    <p>Email: ${order.date}</p>
+                </div>
+                <div class="text">
+                    <h6>Order Status: <strong class="text-success">${order.status}</strong></h6>
+                    <a class="btn btn-secondary" href="/ResturantAdmin/Orders/ChangeOrderStatus/${order.id}" >Make Order Preparing</a>
+                </div>
+                <div class="read">
+                    <a class="btn btn-success" href="/ResturantAdmin/Orders/OrderDetails/${order.id}" >Order Details</a>
+                </div>
+            </div>`;
+
+            ordersContainer.innerHTML = newOrderHTML + ordersContainer.innerHTML;
+        });
+
+        // Start the connection
+        connection.start().catch(function (err) {
+            console.error(err.toString());
+        });
+
+        window.addEventListener("beforeunload", function () {
+            connection.invoke("LeaveGroup", restaurantId.toString())
+            .then(() => {
+                console.log("Left group for restaurant: " + restaurantId.toString());
+            })
+            .catch(err => console.error(err.toString()));
+        });
+
+    </script>
+}

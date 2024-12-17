@@ -1,0 +1,32 @@
+﻿@using RepositoryPatternWithUOW.Core.Models
+@model IEnumerable<Otlob.Core.Models.ApplicationUser>
+
+<link href="~/lib/datatables/css/datatables.bootstrap4.min.css" rel="stylesheet" />
+<link href="~/lib/datatables/css/datatables.bootstrap4.css" rel="stylesheet" />
+
+<div class="container">
+    <h3 class="text-primary">Users</h3>
+    <hr />
+
+    <table id="customers" class="table table-bordered table-striped dt-responsive nowrap">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>UserName</th>
+                <th>Phone Number</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+    </table>
+</div>
+
+
+
+
+@section Scripts {
+    <script src="~/lib/datatables/js/jquery.datatables.min.js"></script>
+    <script src="~/lib/datatables/js/jquery.datatables.js"></script>
+    <script src="~/lib/datatables/js/datatables.bootstrap4.min.js"></script>
+    <script src="~/lib/datatables/js/datatables.bootstrap4.js"></script>
+    <script src="~/js/customersdatatable.js"></script>
+}

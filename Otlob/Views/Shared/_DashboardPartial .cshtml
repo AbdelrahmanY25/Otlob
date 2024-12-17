@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Static Dashboard</title>
+    <link rel="stylesheet" href="/css/dashboard.css"> 
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo">
+            <span class="logo-text"><strong>Otlob</strong></span>
+        </div>
+        <ul class="menu">
+            <li class="menu-item active">
+                <i class="icon">🏠</i>
+                <a asp-area="SuperAdmin" asp-action="Index" asp-controller="Home">Home</a>
+            </li>
+            <li class="menu-item">
+                <i class="icon">AR</i>
+                <a asp-area="SuperAdmin" asp-action="ActiveResturatns" asp-controller="Home">Active Resturatns</a>
+            </li>
+            <li class="menu-item">
+                <i class="icon">RR</i>
+                <a asp-area="SuperAdmin" asp-action="ResturatnRequist" asp-controller="Home">Requists From Resturants</a>
+            </li>
+            <li class="menu-item">
+                <i class="icon">💬</i>
+                <a asp-action="UserComplaints" asp-controller="Complaint">Complaints</a>
+            </li>
+            <li class="menu-item">
+                <i class="icon">📊</i>
+                Analytics
+            </li>
+            <li class="menu-item">
+                <i class="icon">👥</i>
+                Teams
+            </li>           
+            <li class="menu-item">
+                <i class="icon">⚙️</i>
+                Settings
+            </li>
+        </ul>
+    </div>    
+</body>
+</html>

@@ -1,0 +1,58 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using Otlob.Core.IUnitOfWorkRepository
+@using Otlob.Core.Models
+@using Otlob.Core.ViewModel
+@inject UserManager<ApplicationUser> userManager
+@inject IUnitOfWorkRepository unitOfWorkRepository
+@model OrderViewModel
+
+
+
+<div class="articles" id="articles">
+
+    <div class="ordersData">
+        <div class="orders">
+            <span>@Model.Orders.Count() : Orders</span>
+        </div>
+
+        <div class="orders price">
+            <span>Top Order : @Model.MostExpensiveOrder L.E</span>
+        </div>
+    </div>
+
+    <div class="container">
+        @foreach (var item in Model.Orders)
+        {
+            var user = item.ApplicationUser;
+            <div class="card">
+                <div class="text">
+                    @if (user?.ProfilePicture != null)
+                    {
+                        <img class="avatar rounded-circle" alt="Profile Picture" src="data:image/*;base64,@(Convert.ToBase64String(user.ProfilePicture))" />
+                    }
+                    else
+                    {
+                        <img class="avatar rounded-circle" src="~/images/Default.jpg" alt="Customer Profile Picture" />
+                    }
+                    @user?.UserName
+                    @if (item.OrderPrice == ViewBag.MostExpensiveOrder)
+                    {
+                        <span class="label">Top Order</span>
+                    }
+                </div>
+                <div class="text">
+                    <h4>Customer Details</h4>
+                    <p>Address: @item.CustomerAddres</p>
+                    <p>Phone Number: @user?.PhoneNumber</p>
+                    <p>Email: @user?.Email</p>
+                </div>
+                <div class="text">
+                    <h6>Order Status: <strong class="text-success">@item.Status</strong></h6>                    
+                </div>
+                <div class="read">
+                    <a class="btn btn-success" asp-action="OrderDetails" asp-route-id="@item.Id">Order Details</a>
+                </div>
+            </div>
+        }
+    </div>
+</div>

@@ -1,8 +1,9 @@
-﻿@using Utility
+﻿@using Otlob.Core.Models
+@using Utility
 @model Otlob.Core.ViewModel.ProfileVM
 
 @section Profile {
-    <partial name="_ProfilePartial"></partial>
+    <partial name="_ProfilePartial.cshtml"></partial>
 }
 @section Notify {
     <partial name="_NotificationPartial"></partial>
@@ -29,8 +30,8 @@
     <hr class="line" />
     <div class="links">
         <a href="#" class="active">Account Info</a>
-        <a href="#">Saved Addresses</a>
-        <a href="#">My Orders</a>
+        <a asp-action="SavedAddresses" asp-controller="Address">Saved Addresses</a>
+        <a asp-action="TrackOrders" asp-controller="Order">My Orders</a>
     </div>
     <form asp-action="Profile" enctype="multipart/form-data">        
         <div asp-validation-summary="All" class="text-danger"></div>
@@ -65,8 +66,8 @@
         <div class="field">
             <label asp-for="Gender"></label>
             <select asp-for="Gender">
-                <option >@Gender.Male</option>
-                <option >@Gender.Female</option>
+                <option>@Gender.Male</option>
+                <option>@Gender.Female</option>
             </select>
         </div>
 

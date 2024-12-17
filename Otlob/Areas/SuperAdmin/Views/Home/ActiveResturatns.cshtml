@@ -1,42 +1,22 @@
-﻿@model IEnumerable<RepositoryPatternWithUOW.Core.Models.Restaurant>
+﻿@using RepositoryPatternWithUOW.Core.Models
+@model IEnumerable<RepositoryPatternWithUOW.Core.Models.Restaurant>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
+@section Notify {
+    <partial name="_NotificationPartial"></partial>
+}
+
+<table class="table table-bordered table-striped">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
+            <th class="text-success">
+                Our Resturatns Partners
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Address)
+                Resturant Status
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Phone)
+                Take Action
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Email)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Rate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Logo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DeliveryFee)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DeliveryDuration)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Accecpted)
-            </th>
-            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -44,25 +24,6 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Address)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Phone)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Email)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Rate)
-                </td>
-                <td>
-
                     @{
                         if (item.Logo != null)
                         {
@@ -73,20 +34,37 @@
                             <img class="avatar rounded-circle" alt="Resturant Logo" src="~/images/Default.jpg" />
                         }
                     }
+                    @Html.DisplayFor(modelItem => item.Name)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.DeliveryFee)
+                    @if (item.AcctiveStatus == AcctiveStatus.Acctive) {
+                        <p class="text-success fw-bolder">@item.AcctiveStatus</p>
+                    }
+                    else if (item.AcctiveStatus == AcctiveStatus.Warning) {
+                        <p class="text-warning fw-bolder">@item.AcctiveStatus</p>
+                    }
+                    else if (item.AcctiveStatus == AcctiveStatus.Block)
+                    {
+                        <p class="text-danger fw-bolder">@item.AcctiveStatus</p>
+                    }
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.DeliveryDuration)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Accecpted)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    <a class="btn btn-success" asp-controller="Resturants" asp-action="ResturantDetails" asp-route-id="@item.Id">Resturant Details</a>
+                    @if (item.AcctiveStatus == AcctiveStatus.Warning) 
+                    {
+                        <a class="btn btn-secondary text-light" asp-controller="Resturants" asp-action="AcceptResturant" asp-route-id="@item.Id">UnWarning</a>
+                        <a class="btn btn-danger" asp-controller="Resturants" asp-action="BlockResturant" asp-route-id="@item.Id">Block Resturant</a>
+                    }
+                    else if (item.AcctiveStatus == AcctiveStatus.Block) 
+                    {
+                        <a class="btn btn-warning text-light"  asp-controller="Resturants" asp-action="WarnResturant" asp-route-id="@item.Id">Send Warning To Resturant</a>
+                        <a class="btn btn-secondary text-light" asp-controller="Resturants" asp-action="AcceptResturant" asp-route-id="@item.Id">UnBlock Resturant</a>
+                    }
+                    else 
+                    {
+                        <a class="btn btn-warning text-light"  asp-controller="Resturants" asp-action="WarnResturant" asp-route-id="@item.Id">Send Warning To Resturant</a>
+                        <a class="btn btn-danger" asp-controller="Resturants" asp-action="BlockResturant" asp-route-id="@item.Id">Block Resturant</a>
+                    }
                 </td>
             </tr>
         }

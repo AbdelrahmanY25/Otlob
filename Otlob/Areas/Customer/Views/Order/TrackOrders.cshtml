@@ -1,0 +1,41 @@
+﻿@model IEnumerable<Otlob.Core.Models.Order>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+            </th>
+            <th>
+                Your Orders
+            </th>
+            <th>
+                Your Order Status
+            </th>
+            <th>
+                Your Order Date
+            </th>
+            <th>More Details</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                <img class="avatar rounded-circle" src="~/images/resturantLogo/@item.Restaurant.Logo"/>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Restaurant.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>         
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderDate)
+            </td>   
+            <td>
+                <a class="btn btn-success" asp-action="OrderDetails" asp-route-id="@item.Id">Details</a>
+            </td>            
+        </tr>
+}
+    </tbody>
+</table>

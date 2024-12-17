@@ -1,6 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using Otlob.Core.IUnitOfWorkRepository
 @using Otlob.Core.Models
+@using RepositoryPatternWithUOW.Core.Models
 @using Utility
 
 @inject SignInManager<ApplicationUser> SignInManager
@@ -19,7 +20,7 @@
 </div>
 @{
     var resturant = _unitOfWorkRepository.Restaurants.GetOne(expression: r => r.Id == UserManager.GetUserAsync(User).Result.Resturant_Id);
-    if (!resturant.Accecpted) 
+    if (resturant.AcctiveStatus == AcctiveStatus.Unaccepted)
     {
        <div class="text-center">
             <h3 class="display-6">
@@ -29,8 +30,25 @@
             </h3>
         </div>
     }
+    else if (resturant.AcctiveStatus == AcctiveStatus.Block) 
+    {
+         <div class="text-center">
+            <h3 class="display-6 text-danger">
+                Your account status is blocked please contact us to take a decision about your account .
+            </h3>
+        </div>
+    }
     else 
     {
+        if (resturant.AcctiveStatus == AcctiveStatus.Warning) 
+        {
+            <div class="text-center">
+                <h6 class="display-6 text-warning">
+                    Your account has warning because you has many complaints from many customers 
+                    any another complaint your accoount going to be blocked.
+                </h6>
+            </div>
+        }
          <div class="text-center">
             @{
                 if (resturant.Logo != null)
@@ -42,6 +60,18 @@
                     <img class="avatar rounded-circle" alt="Resturant Logo" src="~/images/Default.jpg" />
                 }
             }
+            
+        </div>
+
+        <div class="text-center mt-5">
+            <a class="btn btn-warning" asp-controller="Meal" asp-action="Index">Our Meals</a>
+            <a class="btn btn-secondary" asp-controller="Delivery" asp-action="Index">Our Delivers</a>
+        </div>
+
+        <div class="text-center mt-5">
+            <a class="btn btn-primary" asp-controller="Orders" asp-action="Index">Orders</a>
+            <a class="btn btn-primary" asp-controller="Orders" asp-action="DeliveredOrders">Delivered Orders</a>
+            <a class="btn btn-danger" asp-controller="Complaint" asp-action="CustomerComplaints">Customer Complaints</a>
         </div>
     }
 }

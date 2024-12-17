@@ -26,5 +26,16 @@ namespace Otlob.Core.Models
 
         [ValidateNever]
         public ICollection<Address> UserAddress { get; set; }
+
+        [ValidateNever]
+        public ICollection<Order> Orders { get; set; }
+
+        [ValidateNever]
+        public ICollection<UserComplaint> UserComplaints { get; set; }
+    }
+    public enum Gender
+    {
+        Male,
+        Female
     }
 }

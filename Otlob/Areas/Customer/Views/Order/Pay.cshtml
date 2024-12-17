@@ -1,0 +1,67 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using Otlob.Core.IUnitOfWorkRepository
+@using Otlob.Core.Models
+@using RepositoryPatternWithUOW.Core.Models
+@inject IUnitOfWorkRepository unitOfWorkRepository
+@inject UserManager<ApplicationUser> userManager
+@model IEnumerable<Cart>
+
+@section Notify {
+    <partial name="_NotificationPartial"></partial>
+}
+
+<h1>Pay Page</h1>
+
+<div class="articles" id="articles">
+    <div class="container">
+
+        @foreach (var item in Model)
+        {            
+            IEnumerable<OrderedMeals>? order = unitOfWorkRepository.OrderedMeals.Get([o => o.Meal], expression: o => o.CartId == item.Id);
+            Restaurant? restaurant = unitOfWorkRepository.Restaurants.GetOne(expression: r => r.Id == item.ResturantId);
+
+            decimal supPrice = 0;
+            foreach(var meal in order) 
+            {
+                supPrice += meal.Meal.Price * meal.Quantity;
+            }
+
+
+            <div class="card">
+                <form asp-action="Order">
+                    <input type="hidden" name="Id" value="0" />
+                    <input type="hidden" name="ApplicationUserId" value="@userManager.GetUserId(User)" />
+                    <input type="hidden" name="RestaurantId" value="@item.ResturantId" />
+                    <input type="hidden" name="CartId" value="@item.Id" />
+                    <div class="image">
+                        <select name="CustomerAddres" class="form-select">
+                            @foreach (var address in ViewBag.Address)
+                            {
+                                <option>@address.CustomerAddres</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="text">
+                        <p>Delivery Time: @restaurant.DeliveryDuration</p>
+                        <select name="Method" class="form-select">
+                            <option>@PaymentMethod.Cash</option>
+                        </select>
+                        <p>
+                            Sub Price: @(supPrice + " L.E");                                    
+                        </p>
+                        <p>
+                            Delivery Fee: @(restaurant.DeliveryFee + " L.E")
+                        </p>
+                        <p class="text-capitalize text-success">
+                            Total Price: @(supPrice + restaurant.DeliveryFee + " L.E")
+                        </p>
+                        <input type="hidden" name="OrderPrice" readonly value="@(supPrice + restaurant.DeliveryFee)" />
+                        <textarea name="Notes"></textarea>
+                    </div>
+                    <input type="submit" value="Place Order" class="btn btn-success" />
+                    <a class="btn btn-warning" asp-action="PayCredit">Pay With Credit</a>
+                </form>
+            </div>
+        }
+    </div>
+</div>

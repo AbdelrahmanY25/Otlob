@@ -21,12 +21,23 @@ namespace RepositoryPatternWithUOW.Core.Models
         public string? Logo { get; set; }
         public decimal DeliveryFee { get; set; }
         public decimal DeliveryDuration { get; set; }
-        public bool Accecpted { get; set; } = false;
+        public AcctiveStatus AcctiveStatus { get; set; } = AcctiveStatus.Unaccepted;
 
         [ValidateNever]
         public ICollection<Meal> Meals { get; set; }
 
         [ValidateNever]
-        public ICollection<Delivery> Deliveries { get; set; }
+        public ICollection<Delivery> Deliveries { get; set; }        
+
+        [ValidateNever]
+        public ICollection<Order> Orders { get; set; }
+    }
+
+    public enum AcctiveStatus
+    {
+        Acctive,
+        Block,
+        Warning,
+        Unaccepted
     }
 }

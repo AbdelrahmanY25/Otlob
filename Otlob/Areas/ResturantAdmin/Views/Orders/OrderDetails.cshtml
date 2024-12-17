@@ -1,0 +1,61 @@
+﻿@using Otlob.Core.IUnitOfWorkRepository
+@using Otlob.Core.Models
+@using Otlob.Core.ViewModel
+@model OrderDetailsViewModel
+@inject IUnitOfWorkRepository unitOfWorkRepository
+
+@if (Model.Order.Status == OrderStatus.Delivered)
+{
+    <div class="btn btn-warning"><a href="/ResturantAdmin/Orders/DeliveredOrders/@Model.Order.RestaurantId">Back to resturant orders</a></div>
+}
+else
+{
+    <div class="btn btn-warning"><a href="/ResturantAdmin/Orders">Back to resturant orders</a></div>
+}
+
+<h3 class="mt-3">Order Summary</h3>
+
+<table class="table table-bordered table-striped dt-responsive nowrap">
+    <thead>
+        <tr>
+            <th>
+                Meal
+            </th>
+            <th>Price</th>
+            <th></th>
+            <th>
+                Additons
+            </th>             
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Meals)
+        {
+            <tr>
+                <td>
+                    <img alt="MealLogo" class="avatar rounded-circle" src="/images/meals/@item.Meal.ImageUrl" />
+                    @Html.DisplayFor(modelItem => item.MealName)
+                </td>
+                <td>
+                    @item.Meal.Price
+                </td>
+                <td class="text-center text-success">
+                    X @Html.DisplayFor(modelItem => item.Quantity)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MealDescription)
+                </td>               
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div class="text-center">
+    PaymentMethod : @Model.Order.Method
+</div>
+
+<div class="text-center">
+    Sub Price : @Model.SubPrice L.E <br />
+    DeliveryFee : @Model.DeliveryFee L.E <br />
+    Total Price : @(Model.DeliveryFee + Model.SubPrice) L.E
+</div>

@@ -74,7 +74,11 @@ namespace Otlob.Areas.Customer.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError("Password", "Invalid Password");
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError("", error.Description);
+                    }
+                    return View(userVM);
                 }
             }
             return View(userVM);
@@ -141,6 +145,7 @@ namespace Otlob.Areas.Customer.Controllers
                 };
                 return View(userProfile);
             }
+
             return View(user);
         }
 
@@ -152,23 +157,7 @@ namespace Otlob.Areas.Customer.Controllers
                 var user = await userManager.GetUserAsync(User);
 
                 if (user != null)
-                {
-                    if (user.Email != profileVM.Email || user.FirstName != profileVM.FirstName || user.LastName != profileVM.LastName || user.PhoneNumber != profileVM.PhoneNumber || user.Gender != profileVM.Gender || user.BirthDate != profileVM.BirthDate)
-                    {
-                        user.FirstName = profileVM.FirstName;
-                        user.LastName = profileVM.LastName;
-                        user.BirthDate = profileVM.BirthDate;
-                        user.Gender = profileVM.Gender;
-                        user.PhoneNumber = profileVM.PhoneNumber;
-                        user.Email = profileVM.Email;
-                        var result = await userManager.UpdateAsync(user);
-                        if (result.Succeeded)
-                        {
-                            TempData["Success"] = "Profile updated successfully.";
-                            return RedirectToAction("Profile");
-                        }
-                    }
-                    
+                {                                        
                     if (Request.Form.Files.Count > 0)
                     {
                         var file = Request.Form.Files.FirstOrDefault();
@@ -195,7 +184,7 @@ namespace Otlob.Areas.Customer.Controllers
                             using (var memoryStream = new MemoryStream())
                             {
                                 await file.CopyToAsync(memoryStream);
-                                user.ProfilePicture = memoryStream.ToArray(); // Assuming ProfilePicture is a byte array
+                                user.ProfilePicture = memoryStream.ToArray();
                             }
 
                             var updateResult = await userManager.UpdateAsync(user);
@@ -210,6 +199,22 @@ namespace Otlob.Areas.Customer.Controllers
                             {
                                 ModelState.AddModelError("", error.Description);
                             }
+                        }
+                    }
+
+                    if (user.Email != profileVM.Email || user.FirstName != profileVM.FirstName || user.LastName != profileVM.LastName || user.PhoneNumber != profileVM.PhoneNumber || user.Gender != profileVM.Gender || user.BirthDate != profileVM.BirthDate)
+                    {
+                        user.FirstName = profileVM.FirstName;
+                        user.LastName = profileVM.LastName;
+                        user.BirthDate = profileVM.BirthDate;
+                        user.Gender = profileVM.Gender;
+                        user.PhoneNumber = profileVM.PhoneNumber;
+                        user.Email = profileVM.Email;
+                        var result = await userManager.UpdateAsync(user);
+                        if (result.Succeeded)
+                        {
+                            TempData["Success"] = "Profile updated successfully.";
+                            return RedirectToAction("Profile");
                         }
                     }
                 }                
@@ -311,15 +316,7 @@ namespace Otlob.Areas.Customer.Controllers
             }
             return View(registresturant);
         }
-        public IActionResult SavedAddresses()
-        {
-            return View();
-        }
-        public IActionResult Orders()
-        {
-            return View();
-        }
-
+       
         public IActionResult Logout()
         {
             signInManager.SignOutAsync();

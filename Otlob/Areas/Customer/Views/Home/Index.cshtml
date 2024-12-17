@@ -1,8 +1,70 @@
-﻿@using Utility
+﻿@model IEnumerable<RepositoryPatternWithUOW.Core.Models.Restaurant>
+@using Utility
 @{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome Customer</h1>
+@section Notify {
+    <partial name="_NotificationPartial"></partial>
+}
+
+
+
+<div class="articles" id="articles">
+
+    <form class="search" action="" method="post">
+        <input type="text" id="searchBar" placeholder="Enter Restaurant Name" name="query" />
+    </form>
+
+    <div class="icons">
+        <a asp-action="Index" asp-route-filter="burger"><img src="/images/icons/burger.png" alt="Alternate Text" /></a>
+        <a asp-action="Index" asp-route-filter="pizza"><img src="/images/icons/pizza.png" alt="Alternate Text" /></a>
+        <a asp-action="Index" asp-route-filter="shawrma"><img src="/images/icons/shawrma.png" alt="Alternate Text" /></a>
+        <a asp-action="Index" asp-route-filter="sandwich"><img src="/images/icons/sandwich.jpg" alt="Alternate Text" /></a>
+        <a asp-action="Index" asp-route-filter="dessert" ><img src="/images/icons/cookies.png" alt="Alternate Text" /></a>
+        <a asp-action="Index" asp-route-filter="all"><img src="/images/icons/all.png" alt="Alternate Text" /></a>
+    </div>
+
+    
+
+    <div class="container">       
+
+        @foreach (var item in Model)
+        {
+            <div class="menue" data-name="@item.Name">
+                @if (item.Logo is not null) {
+                    <img src="~/images/resturantLogo/@item.Logo" alt="resturantLogo">
+                }
+                else {
+                    <img src="~/images/Default.jpg" alt="resturantLogo">
+                }
+                <div class="text">
+                    <h3>@item.Name</h3>                  
+                    <p>Delivery Fee: @item.DeliveryFee</p>
+                    <p>Delivery Time: @item.DeliveryDuration</p>
+                </div>
+                <a class="card-button" href="/Customer/Home/Details/?id=@item.Id">Menue</a>
+            </div>
+        }
+
+    </div>
 </div>
+
+@section Scripts {
+    <script>
+        document.getElementById('searchBar').addEventListener('input', function () {
+            const query = this.value.toLowerCase();
+            const restaurants = document.querySelectorAll('.menue');
+
+            restaurants.forEach(function (restaurant) {
+                const name = restaurant.getAttribute('data-name').toLowerCase();
+                if (name.includes(query)) {
+                    restaurant.style.display = ''; // Show the restaurant
+                } else {
+                    restaurant.style.display = 'none'; // Hide the restaurant
+                }
+            });
+        });
+     
+    </script>
+}

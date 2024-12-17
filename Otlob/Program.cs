@@ -5,6 +5,9 @@ using Otlob.EF;
 using System.Configuration;
 using Otlob.Core.IUnitOfWorkRepository;
 using Otlob.EF.UnitOfWorkRepository;
+using Otlob.Core.Hubs;
+using Stripe;
+using Utility;
 
 namespace Otlob
 {
@@ -15,6 +18,7 @@ namespace Otlob
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
+            builder.Services.AddSignalR();
             builder.Services.AddControllersWithViews();
             builder.Services.AddRazorPages();
 
@@ -29,8 +33,6 @@ namespace Otlob
             .AddDefaultUI()
             .AddDefaultTokenProviders();
 
-            builder.Services.AddScoped<IUnitOfWorkRepository, UnitOfWorkRepository>();
-
             builder.Services.AddAuthentication()  
             .AddMicrosoftAccount(microsoftOptions =>
             {
@@ -42,6 +44,11 @@ namespace Otlob
                 googleOptions.ClientId = builder.Configuration["Authentication:Google:ClientId"];
                 googleOptions.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
             });
+
+            builder.Services.AddScoped<IUnitOfWorkRepository, UnitOfWorkRepository>();
+
+            builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
+            StripeConfiguration.ApiKey = builder.Configuration["Stripe:SecretKey"];
 
             var app = builder.Build();
 
@@ -61,6 +68,8 @@ namespace Otlob
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.MapHub<OrdersHub>("/orderHub");
 
             app.MapControllerRoute(
                 name: "default",

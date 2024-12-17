@@ -1,1 +1,32 @@
-[]
+[
+  {
+    "ContainingType": "Otlob.Areas.SuperAdmin.Controllers.CustomersApiController",
+    "Method": "Index",
+    "RelativePath": "api/CustomersApi",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Otlob.Areas.SuperAdmin.Controllers.PartnersApiController",
+    "Method": "Partners",
+    "RelativePath": "api/PartnersApi",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Otlob.Areas.SuperAdmin.Controllers.UsersApiController",
+    "Method": "Index",
+    "RelativePath": "api/UsersApi",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  }
+]

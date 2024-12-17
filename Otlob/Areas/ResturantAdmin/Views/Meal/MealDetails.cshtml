@@ -1,0 +1,65 @@
+﻿@using RepositoryPatternWithUOW.Core.Models
+@using Utility
+@model RepositoryPatternWithUOW.Core.Models.Meal
+
+<h4>Meal</h4>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="MealDetails" enctype="multipart/form-data">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />            
+            <div class="form-group mb-3">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="ImageUrl" class="control-label"></label>
+                <input type="file" asp-for="ImageUrl" class="form-control" />
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="Price" class="control-label"></label>
+                <input asp-for="Price" class="form-control" />
+            </div>
+            <div class="form-group mb-3 form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsAvailable" /> @Html.DisplayNameFor(model => model.IsAvailable)
+                </label>
+            </div>
+            <div class="form-group mb-3 form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsNewMeal" /> @Html.DisplayNameFor(model => model.IsNewMeal)
+                </label>
+            </div>
+            <div class="form-group mb-3 form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsTrendingMeal" /> @Html.DisplayNameFor(model => model.IsTrendingMeal)
+                </label>
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="NumberOfServings" class="control-label"></label>
+                <input asp-for="NumberOfServings" class="form-control" />
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="Category" class="control-label"></label>
+                <select asp-for="Category" class="form-control">
+                    <option>@MealCategory.MainCourse</option>
+                    <option>@MealCategory.Grill</option>
+                    <option>@MealCategory.Dessert</option>
+                </select>
+            </div>
+            <div class="form-group mb-3">
+                <input type="submit" value="Save Updates" class="btn  btn-warning" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

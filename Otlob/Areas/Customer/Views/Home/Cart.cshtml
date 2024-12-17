@@ -1,0 +1,73 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using Otlob.Core.Models
+@using RepositoryPatternWithUOW.Core.Models
+@model List<Restaurant>
+
+@inject UserManager<ApplicationUser> userManager;
+
+<div class="card shadow border-0">
+    <div class="card-header bg-secondary bg-gradient text-light ml-0 py-4">
+        <div class="row px-4">
+            <div class="col-6">
+                <h5 class="pt-2 text-white">
+                    Shopping Cart
+                </h5>
+            </div>
+        </div>
+    </div>
+    <div class="card-body my-4">
+        <div class="row">
+        </div>
+
+        <div class="row mb-3 pb-3">
+            <div class="col-md-2 offset-md-1">
+                <a asp-action="Index" asp-controller="Home" class="btn btn-outline-primary text-uppercase mb-5 btn-sm"><small>Continue Shopping</small></a>
+            </div>
+
+            @foreach(var res in Model)
+            {
+                if (ViewBag.User == userManager.GetUserId(User))
+                {
+                    <div class="col-md-10 offset-md-1">
+                        <div class="row border-bottom pb-3">
+                            <div class="d-none d-lg-block col-lg-1 text-center py-2">
+                                <img src="~/images/resturantLogo/@res.Logo" class="rounded" width="100%" />
+                            </div>
+                            <div class="col-12 col-lg-6 pt-md-3">
+                                <h5 class="text-uppercase text-secondary"><strong>@res.Name</strong></h5>
+                                <p><small>@res.Description</small></p>
+                                <p><small><a class="btn btn-outline-primary text-uppercase mb-5 btn-sm" asp-action="RelatedMeals" asp-route-resId="@res.Id">Meals</a></small></p>
+                            </div>
+
+                            <div class="col-12  col-lg-5 text-center row">
+                                <div class="col-12 text-md-right pt-2 pt-md-4">
+                                    <div class="col-3 col-sm-4 col-lg-2 offset-lg-1 text-right pt-2">
+                                        <a class="btn btn-danger bg-gradient py-2" asp-controller="" asp-action="DeleteCart" asp-route-resId="@res.Id">
+                                            <i class="fa-solid fa-trash"></i>
+                                        </a>
+                                    </div>
+                                </div>                                
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+        
+        <div class="card-footer bg-white border-0">
+            <div class="row">
+                <div class="col-md-4 offset-md-4 text-center">                     
+                    <h6 class="text-secondary text-uppercase">Sub Price: @ViewBag.mealsPrice  L.E</h6>
+                    <h6 class="text-secondary text-uppercase">Delivery Fee: @ViewBag.Tax  L.E</h6>
+                    <h5 class="text-success fw-bold text-uppercase">Total Price: @ViewBag.totalPrice  L.E</h5>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-2 offset-md-5">
+                    <a asp-controller="Order" asp-action="Pay" class="btn btn-primary border-0 bg-gradient w-100 py-2">Check Out</a>
+                </div>
+            </div>
+        </div>
+    </div>
+ </div>

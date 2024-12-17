@@ -1,0 +1,66 @@
+﻿@model IEnumerable<Otlob.Core.Models.Address>
+
+@section Notify {
+    <partial name="_NotificationPartial"></partial>
+}
+
+<a class="btn btn-primary mybtn" asp-action="AddAddress">Create New</a>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CustomerAddres)
+            </th>
+            <th>
+                Actions
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CustomerAddres)
+            </td>
+            <td>
+                <a class="btn btn-success" asp-action="UpdateAddress" asp-route-id="@item.Id">Update Address</a> 
+                <a class="btn btn-danger" asp-action="DeleteAddress" asp-route-id="@item.Id" data-bs-toggle="modal" data-bs-target="#deleteModal" data-categoryid="@item.Id">Delete Address</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+<!-- Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Confirm Delete</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete your address?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <form id="deleteForm" method="post" asp-action="DeleteAddress">
+                    <input type="hidden" name="id" id="categoryIdInput" value="" />
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var deleteModal = document.getElementById('deleteModal');
+    deleteModal.addEventListener('show.bs.modal', function (event) {
+        var button = event.relatedTarget;
+        var categoryId = button.getAttribute('data-categoryid');
+        var input = document.getElementById('categoryIdInput');
+        input.value = categoryId;
+    });
+</script>
