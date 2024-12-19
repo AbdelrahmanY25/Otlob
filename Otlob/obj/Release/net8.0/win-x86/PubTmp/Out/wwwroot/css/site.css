@@ -234,7 +234,8 @@ body {
 
 .ordersData {
     display: flex;
-    gap: 15px;
+    justify-content: space-between;
+    gap: 10px;
 }
 
 .orders {
@@ -244,8 +245,7 @@ body {
     max-width: fit-content;
     min-height: 150px;
     max-height: fit-content;
-    border-radius: 20px;
-    margin-left: 10%;
+    border-radius: 20px;    
     margin-bottom: 40px;
     display: flex;
     justify-content: center;
@@ -278,8 +278,13 @@ body {
 
 .users {
     background-color: #e0583d;
-    cursor: pointer;
     box-shadow: 0 4px 6px var(--secondary-color);
+}
+
+.users,
+.ordersStatus {
+    min-width: fit-content;
+    cursor: pointer;
 }
 
 .users a {
@@ -297,13 +302,17 @@ body {
     justify-content: center;    
 }
 
-.users .dd {
+.users .dd,
+.ordersStatus .dd,
+.fund .dd {
     display: flex;
     text-align: center;
+    justify-content: center;
     flex-direction: column;
     width: 200px;
     margin-left: 25px;
     gap: 15px;
+    height: 100%;
 }
 
 .users .dd a {
@@ -311,12 +320,203 @@ body {
     font-size: 22px;   
 }
 
+/* Orders Dashboard */
+.ordersData .ordersStatus {
+    background-color: #eee;
+}
+.ordersData .ordersStatus .pending,
+.ordersData .ordersStatus .preparing,
+.ordersData .ordersStatus .shipped {
+    border-radius: 50%;
+    width: 151px;
+    border: 20px solid;
+    transition: var(--main-transition);
+
+}
+.ordersData .ordersStatus .pending {
+    border-color: var(--secondary-color);   
+    border-left-color: transparent;
+    font-size: 22px;
+    a {
+        color: var(--secondary-color);
+      }
+}
+
+.ordersData .ordersStatus .preparing {
+    border-color: #0ac2d9;
+    border-left-color: transparent;
+    border-right-color: transparent;
+    border-bottom-color: transparent;
+    font-size: 22px;
+    a {
+        color: #0ac2d9;
+      }
+}
+
+.ordersData .ordersStatus .shipped {
+    border-color: #09d449;
+    border-left-color: transparent;
+    border-right-color: transparent;
+    border-bottom-color: transparent;
+    font-size: 22px;
+    a {
+        color: #09d449;
+      }
+}
+
+.ordersData .ordersStatus .pending:hover,
+.ordersData .ordersStatus .preparing:hover,
+.ordersData .ordersStatus .shipped:hover {
+    transform: scale(1.1);
+}
+
+/* Sales Dashboard */
+
+.ordersData .fund {
+    background-color: #041a46;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.ordersData .fund form {
+    margin-bottom: 15px;
+}
+.ordersData .fund form input:first-child {
+    font-size: 18px;
+    width: 250px;
+    padding: 6px 12px;
+    border-radius: 8px;
+    outline: none;
+    border: none;
+    color: var(--primary-color);
+}
+
+.ordersData .fund form input[type='submit'] {
+    font-size: 18px;
+    padding: 6px 12px;
+    border-radius: 8px;
+    width: 100px;
+    outline: none;
+    border: none;
+    background-color: var(--primary-color);
+    color: #fff;
+}
+
+.ordersData .fund .fd {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.fund .dd {
+    flex-direction: row;
+    align-items: center;
+}
+
+.fund .fd .dd .ico {
+    width: 6px;
+    height: 6px;
+    border-radius: 0;
+    padding: 6px;
+}
+
+.fund .fd .dd.nOfOrders .ico {
+    background-color: #0ac2d9;
+}
+
+.fund .fd .dd.sales .ico {
+    background-color: var(--secondary-color);
+}
+
+.fund .fd .dd.netProfit .ico {
+    background-color: #09d449;
+}
+
+.fund .fd .dd .ico + span {
+    padding: 0 8px;
+    background-color: #1d4f98;
+    box-shadow: 0 4px 20px rgb(88 63 63 / 77%);
+    position: relative;
+    min-width: fit-content;
+}
+
+.fund .fd .dd .ico + span::before {
+    content: 'Sales';
+    position: absolute;
+    top: -50%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    height: 20px;
+    font-size: 14px;
+    letter-spacing: 2px;
+}
+
+.fund .fd .dd.nOfOrders .ico + span::before {
+    content: 'Orders';
+}
+
+.fund .fd .dd.netProfit .ico + span::before {
+    content: 'Net Profit';
+} 
+
+/* Users Dashboard */
+.ordersData .orders.usersStatus {
+    flex-direction: column;
+    font-size: 15px;
+    font-weight: bold;
+    background-color: #d8d2d2;
+    position: relative;
+    min-width: 600px;
+    align-items: flex-start;
+    gap: 50px;
+}
+
+.ordersData .orders.usersStatus::before,
+.ordersData .orders.usersStatus::after {
+    content: '';
+    position: absolute;
+    height: 15px;
+    left: 75px;
+    border-radius: 5px;
+}
+
+.ordersData .orders.usersStatus::before {    
+    bottom: 32px;
+    background-color: var(--primary-color);
+}
+
+.ordersData .orders.usersStatus::after {   
+    top: 32px;
+    background-color: #09d449;
+}
+
+.ordersData .orders.usersStatus .active {
+    color: #09d449;
+}
+
+.ordersData .orders.usersStatus .unactive {
+    color: var(--primary-color);
+}
+
+.ordersData .orders.usersStatus .ud span {
+    position: absolute;
+    background-color: #f7f7f7;
+    right: -115px;
+    padding: 0;
+    box-shadow: none;
+}
+
+.ordersData .orders.usersStatus .ud.active span {
+    
+}
+
 .label {
     background-color: #09d449;
     color: #fff;
     margin-left: 10px;
     padding: 2px;
-    border-radius: 4px;    
+    border-radius: 4px;
 }
 
 .search {
@@ -343,6 +543,12 @@ body {
     padding: 10px;
 }
 
+.icons a.fMeals {
+    background-color: var(--primary-color);
+    border-radius: 15px;
+    padding: 4px 8px;
+}
+
 .icons img {
     max-width: 70px;
     max-height: 70px;
@@ -352,7 +558,8 @@ body {
     transition: var(--main-transition);
 }
 
-.icons img:hover {
+.icons img:hover,
+.icons a.fMeals:hover {
     transform: scale(1.1);
 }
 
@@ -390,79 +597,94 @@ body {
     background-color: orangered;
 }
 
-#deleteModal {
-    position: relative;
-    top: 50%;
-    transform: translateY(-100%);
-}
-
-.modal-dialog {
-    margin: 0;
-    max-width: 100%;
-    background-color: #fff;
+/* Modal Card Styling */
+#deleteModal .modal-dialog {
+    max-width: 400px; /* Limit modal width */
+    margin: auto;
     border-radius: 15px;
 }
 
-.modal-footer {
-    padding: 0;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    padding: 0;
-    background-color: #e6e3cc;
+.modal-content {
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
 }
 
-.modal-footer img {
-    max-width: 50%;
+.modal-header {
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 15px;
+    text-align: center;
+    border-bottom: none;
 }
 
-.modal-footer .btn-close {
-    position: absolute;
-    right: 10px;
-    top: 10px;
+.modal-title {
+    font-size: 16px;
+    font-weight: bold;
 }
 
-#deleteForm {
+.modal-body {
+    padding: 20px;
+    background-color: #f8f9fa;
+}
+
+.modal-body-container {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-    gap: 25px;
-    position: absolute;
-    right: 25px;    
-    width: 40%;
+    gap: 15px;
 }
 
-#deleteForm textarea,
-#deleteForm .quant {
-    width: 100%;
-    border: 1px solid #d4d4d4;
-    outline: none;
-    padding: 10px 15px;
+.modal-image img {
+    max-width: 80%;
     border-radius: 10px;
-    caret-color: var(--primary-color);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 15px;
 }
 
-#deleteForm .quant {
+/* Form Styling */
+#deleteForm {
+    width: 100%;
+}
 
+#deleteForm .form-label {
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+#deleteForm .form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 8px;
+    outline: none;
+    font-size: 14px;
+}
+
+#deleteForm .form-control:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 5px rgba(192, 40, 16, 0.2);
 }
 
 #deleteForm button {
-    width: 40%;
-    outline: none;
-    border: none;
-    color: #fff;
-    padding: 8px 15px;
-    border-radius: 15px;
+    width: 100%;
+    padding: 10px;
     background-color: var(--primary-color);
-    transition: var(--main-transition);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
 }
 
 #deleteForm button:hover {
-    width: 50%;    
+    background-color: var(--secondary-color);
 }
 
-#deleteForm textarea {
-    width: 100%;
-    height: 200px;
+/* Mobile Optimization */
+@media (max-width: 768px) {
+    #deleteModal .modal-dialog {
+        max-width: 90%;
+    }
 }

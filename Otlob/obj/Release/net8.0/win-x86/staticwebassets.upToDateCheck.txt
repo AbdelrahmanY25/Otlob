@@ -8,8 +8,12 @@ wwwroot\images\Default.jpg
 wwwroot\images\icons\all.png
 wwwroot\images\icons\burger.png
 wwwroot\images\icons\cookies.png
+wwwroot\images\icons\grill.jpg
+wwwroot\images\icons\IMG-20241218-WA0004.jpg
+wwwroot\images\icons\IMG-20241218-WA0007.jpg
+wwwroot\images\icons\Koshary.jpg
 wwwroot\images\icons\pizza.png
-wwwroot\images\icons\sandwich.jpg
+wwwroot\images\icons\sandwich.png
 wwwroot\images\icons\shawrma.png
 wwwroot\images\landing\add1.png
 wwwroot\images\landing\add2.png
@@ -62,6 +66,7 @@ wwwroot\images\resturantLogo\b477eef0-774d-4e95-8599-e2bc5b969748.png
 wwwroot\images\resturantLogo\c09e5087-355f-4e5e-9d5c-49c07dca46d2.JPG
 wwwroot\images\resturantLogo\d29547ee-4bf1-4eb4-990b-563bee8ad04e.png
 wwwroot\js\customersDataTable.js
+wwwroot\js\dashbooard.js
 wwwroot\js\partnersDataTable.js
 wwwroot\js\site.js
 wwwroot\js\usersDataTable.js

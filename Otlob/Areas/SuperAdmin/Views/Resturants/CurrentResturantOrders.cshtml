@@ -46,6 +46,7 @@
                     <p>Address: @item.CustomerAddres</p>
                     <p>Phone Number: @user?.Result?.PhoneNumber</p>
                     <p>Email: @user?.Result?.Email</p>
+                    <p>At: @item.OrderDate</p>
                 </div>
                 <div class="text">
                     <p>Order Status: <strong class="text-success">@item.Status</strong></p>                    
@@ -55,5 +56,24 @@
                 </div>
             </div>
         }
+    </div>
+
+    <div style="margin: 50px; display: flex; justify-content: center">
+        <nav aria-label="Page navigation example" style="margin: 50px 50%">
+            <ul class="pagination">
+                <li class="page-item">
+                    <a class="page-link" asp-route-pageNumber="@(Math.Max(1, ViewBag.PageNumber - 1))" asp-route-id="@ViewBag.ResId">Previous</a>
+                </li>
+                @for (int i = 1; i <= ViewBag.Count; i++)
+                {
+                    <li class="page-item @(i == ViewBag.PageNumber ? "active" : "")">
+                        <a class="page-link" asp-route-pageNumber="@i" asp-route-id="@ViewBag.ResId">@i</a>
+                    </li>
+                }
+                <li class="page-item">
+                    <a class="page-link" asp-route-pageNumber="@(Math.Min(ViewBag.Count, ViewBag.PageNumber + 1))" asp-route-id="@ViewBag.ResId">Next</a>
+                </li>
+            </ul>
+        </nav>
     </div>
 </div>

@@ -6,14 +6,72 @@
     <partial name="_NotificationPartial"></partial>
 }
 
+<style>
+    .ordersData .orders.usersStatus::before {        
+        width: calc(@ViewBag.UnActiveUsers% - 75px);        
+    }
+
+    .ordersData .orders.usersStatus::after {
+        width: calc(@ViewBag.ActiveUsers% - 75px);
+    }
+</style>
 
 <div class="ordersData">
+
     <div class="orders users">
-        <a class="opacity-0 position-absolute" id="usersLink"></a>
         <a class="icon" asp-action="Index" asp-controller="Users" ><i class="bi bi-person"></i></a>
        <div class="dd">
             <a  asp-action="Customers" asp-controller="Users">Customers: @ViewBag.Users</a>
-            <a asp-action="Partners" asp-controller="Users">Partners: @ViewBag.Customers</a>
+            <a asp-action="Partners" asp-controller="Users">Partners: @ViewBag.Partners</a>
        </div>
+    </div>
+
+    <div class="orders ordersStatus">
+        <div class="dd pending">
+            <a asp-action="Pending" asp-controller="OrdersStatus">Pending @ViewBag.PendingOrders%</a>
+        </div>
+        <div class="dd preparing">
+            <a asp-action="Preparing" asp-controller="OrdersStatus">Preparing @ViewBag.PreparingOrders%</a>
+        </div>
+        <div class="dd shipped">
+            <a asp-action="Shipped" asp-controller="OrdersStatus">Shipped @ViewBag.ShippedOrders%</a>
+        </div>
+    </div>
+
+</div>
+
+<div class="ordersData">
+    <div class="orders fund">
+        <form method="post" asp-action="Index" >
+            <input type="date" name="ordersDate" />
+            <input type="submit" />
+        </form>
+        <div class="fd">
+            <div class="dd nOfOrders">
+                <span class="ico"></span>
+                <span>@ViewBag.TotalOrders</span>
+            </div>
+            <div class="dd sales">
+                <span class="ico"></span>
+                <span>@ViewBag.Sales L.E</span>
+            </div>
+            <div class="dd netProfit">
+                <span class="ico"></span>
+                <span>@ViewBag.NetProfit L.E</span>
+            </div>
+        </div>
+    </div>    
+</div>
+
+<div class="ordersData text-center">    
+    <div class="orders usersStatus">
+        <div class="ud active">
+            @ViewBag.ActiveUsers%
+            <span>Active Users</span>
+        </div>
+        <div class="ud unactive">
+            @ViewBag.UnActiveUsers%
+            <span>Offline Users</span>
+        </div>       
     </div>
 </div>

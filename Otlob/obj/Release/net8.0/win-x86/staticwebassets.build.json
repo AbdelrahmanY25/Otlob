@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "CTy0Sge9g/85wDHt3A18W7VQFkfuCd174nshOzIoDoo=",
+  "Hash": "2zTZO4Up7ma9NtSmwPDPK4Dpn6M7zMFMxmP47M2LeqM=",
   "Source": "Otlob",
   "BasePath": "_content/Otlob",
   "Mode": "Default",
@@ -1333,8 +1333,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "criupkb0qn",
-      "Integrity": "ePNWcCRgCS5T0AuTy+ljPuql8zFvj1GUq0ix2YBeUfA=",
+      "Fingerprint": "3sfu7cqqhj",
+      "Integrity": "nR3gt32QJNjtPxTkSDHnZYFUYeCvwyJC/mnkQVbRUQ4=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\css\\dashboard.css"
@@ -1417,8 +1417,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "rbcbn9espf",
-      "Integrity": "2dFzqvpZjePCFtSPA+5hjLnBz1VcmlUqPGInHEbNjNw=",
+      "Fingerprint": "v5ekgmqop9",
+      "Integrity": "TbMi4DiBm7WBY/dy0jFzZE37K0sl03EAqrPVWmuBkgU=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\css\\site.css"
@@ -1480,8 +1480,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "an84enw50q",
-      "Integrity": "OjHggNqaHw3W5vyk8wpD/YEKn4nhFUmAQFsRI4O5XEI=",
+      "Fingerprint": "cyn0gs5a39",
+      "Integrity": "vLaqZY4JT5SMyvGwYFF1DDVf6hUNrC0U3ANBhgendiw=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\icons\\all.png"
@@ -1501,8 +1501,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "hfw8t9klo3",
-      "Integrity": "LddJoEUn5YFIpN733Q4JdHwOJRl4XXqy1bboIgo4KNA=",
+      "Fingerprint": "q04wvh5236",
+      "Integrity": "Wg9pXgTL5QMY4ZsC54l3ctlvI2KRo48cLq/3nc22Bfw=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\icons\\burger.png"
@@ -1522,11 +1522,95 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "rq7gjvhupg",
-      "Integrity": "M+pArlxBIxEwKHCP4rMUOl9PxDesD8V08vPk0AS/F24=",
+      "Fingerprint": "d1jnex3lfv",
+      "Integrity": "390VIXA/6lmcLelHkB9wcjSdAJYynIjCsJfNETY1eew=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\icons\\cookies.png"
+    },
+    {
+      "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\icons\\grill.jpg",
+      "SourceId": "Otlob",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\",
+      "BasePath": "_content/Otlob",
+      "RelativePath": "images/icons/grill#[.{fingerprint}]?.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "f3vmh6xmg9",
+      "Integrity": "FaCt7pmrQ3vvkKGe9itoGnjfe/E7yU0ZaIor7IihWbg=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\icons\\grill.jpg"
+    },
+    {
+      "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\icons\\IMG-20241218-WA0004.jpg",
+      "SourceId": "Otlob",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\",
+      "BasePath": "_content/Otlob",
+      "RelativePath": "images/icons/IMG-20241218-WA0004#[.{fingerprint}]?.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "tph03zz11t",
+      "Integrity": "T+drJivcFLqMH5W0sYeVZI1DOy7WD3wNO3ugfyItSKs=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\icons\\IMG-20241218-WA0004.jpg"
+    },
+    {
+      "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\icons\\IMG-20241218-WA0007.jpg",
+      "SourceId": "Otlob",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\",
+      "BasePath": "_content/Otlob",
+      "RelativePath": "images/icons/IMG-20241218-WA0007#[.{fingerprint}]?.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "r3ht6vswm6",
+      "Integrity": "KaL7bIgxeE7QXiypx5M8m04FK97i6UiMHPiM93bmPVk=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\icons\\IMG-20241218-WA0007.jpg"
+    },
+    {
+      "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\icons\\Koshary.jpg",
+      "SourceId": "Otlob",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\",
+      "BasePath": "_content/Otlob",
+      "RelativePath": "images/icons/Koshary#[.{fingerprint}]?.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "hpfg0jjnt6",
+      "Integrity": "ezD/+DTJI/Orx8Ircz600vNm/ex+fm4xcpen4mupZoM=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\icons\\Koshary.jpg"
     },
     {
       "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\icons\\pizza.png",
@@ -1543,19 +1627,19 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "oynr6z48l9",
-      "Integrity": "8Nsm3GcIXGO8TsCjHj/JBwBRxg30eS1fyI4EACIQUL0=",
+      "Fingerprint": "4n3dki3z6f",
+      "Integrity": "sF8LDhXiE4IC00RN25HKUIBgLIvgnZZYXMez6cr0CqU=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\icons\\pizza.png"
     },
     {
-      "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\icons\\sandwich.jpg",
+      "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\icons\\sandwich.png",
       "SourceId": "Otlob",
       "SourceType": "Discovered",
       "ContentRoot": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\",
       "BasePath": "_content/Otlob",
-      "RelativePath": "images/icons/sandwich#[.{fingerprint}]?.jpg",
+      "RelativePath": "images/icons/sandwich#[.{fingerprint}]?.png",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -1564,11 +1648,11 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "dzb19x1pyz",
-      "Integrity": "F/DnGf0SCaqHQVIa8hTT9eMy2SERoBlIGc6X/d9n4jI=",
+      "Fingerprint": "9v4ueuxcbt",
+      "Integrity": "23XpEQTWpZfq3QII+Afs0NtbBwnzXgO3EglqzZE7UOU=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\images\\icons\\sandwich.jpg"
+      "OriginalItemSpec": "wwwroot\\images\\icons\\sandwich.png"
     },
     {
       "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\icons\\shawrma.png",
@@ -1585,8 +1669,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "q41wcl1zny",
-      "Integrity": "RmLlO6VW2iz7wMYtqH/XyrfU+GGnNpsTOyfElwAOq7I=",
+      "Fingerprint": "hiw595ebpv",
+      "Integrity": "J09r221iy/mcNEte0qxGBrOjCOHHd0cqqUIzmdBe7QE=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\icons\\shawrma.png"
@@ -2661,6 +2745,27 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\js\\customersDataTable.js"
+    },
+    {
+      "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\js\\dashbooard.js",
+      "SourceId": "Otlob",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\",
+      "BasePath": "_content/Otlob",
+      "RelativePath": "js/dashbooard#[.{fingerprint}]?.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "eyek5cljjj",
+      "Integrity": "tm1oWHxLWRYfox9RHxLmjPPGbHHtvseiSsWTixLgI74=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\dashbooard.js"
     },
     {
       "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\js\\partnersDataTable.js",
@@ -4786,7 +4891,7 @@
   ],
   "Endpoints": [
     {
-      "Route": "css/dashboard.criupkb0qn.css",
+      "Route": "css/dashboard.3sfu7cqqhj.css",
       "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\css\\dashboard.css",
       "Selectors": [],
       "ResponseHeaders": [
@@ -4796,7 +4901,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "1069"
+          "Value": "1108"
         },
         {
           "Name": "Content-Type",
@@ -4804,11 +4909,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"ePNWcCRgCS5T0AuTy+ljPuql8zFvj1GUq0ix2YBeUfA=\""
+          "Value": "\"nR3gt32QJNjtPxTkSDHnZYFUYeCvwyJC/mnkQVbRUQ4=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 17 Dec 2024 19:14:38 GMT"
+          "Value": "Thu, 19 Dec 2024 00:03:17 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -4818,7 +4923,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "criupkb0qn"
+          "Value": "3sfu7cqqhj"
         },
         {
           "Name": "label",
@@ -4826,7 +4931,7 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-ePNWcCRgCS5T0AuTy+ljPuql8zFvj1GUq0ix2YBeUfA="
+          "Value": "sha256-nR3gt32QJNjtPxTkSDHnZYFUYeCvwyJC/mnkQVbRUQ4="
         }
       ]
     },
@@ -4841,7 +4946,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "1069"
+          "Value": "1108"
         },
         {
           "Name": "Content-Type",
@@ -4849,11 +4954,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"ePNWcCRgCS5T0AuTy+ljPuql8zFvj1GUq0ix2YBeUfA=\""
+          "Value": "\"nR3gt32QJNjtPxTkSDHnZYFUYeCvwyJC/mnkQVbRUQ4=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 17 Dec 2024 19:14:38 GMT"
+          "Value": "Thu, 19 Dec 2024 00:03:17 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -4863,7 +4968,7 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-ePNWcCRgCS5T0AuTy+ljPuql8zFvj1GUq0ix2YBeUfA="
+          "Value": "sha256-nR3gt32QJNjtPxTkSDHnZYFUYeCvwyJC/mnkQVbRUQ4="
         }
       ]
     },
@@ -5124,7 +5229,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "8633"
+          "Value": "13298"
         },
         {
           "Name": "Content-Type",
@@ -5132,11 +5237,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"2dFzqvpZjePCFtSPA+5hjLnBz1VcmlUqPGInHEbNjNw=\""
+          "Value": "\"TbMi4DiBm7WBY/dy0jFzZE37K0sl03EAqrPVWmuBkgU=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 17 Dec 2024 18:21:51 GMT"
+          "Value": "Thu, 19 Dec 2024 22:24:06 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -5146,12 +5251,12 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-2dFzqvpZjePCFtSPA+5hjLnBz1VcmlUqPGInHEbNjNw="
+          "Value": "sha256-TbMi4DiBm7WBY/dy0jFzZE37K0sl03EAqrPVWmuBkgU="
         }
       ]
     },
     {
-      "Route": "css/site.rbcbn9espf.css",
+      "Route": "css/site.v5ekgmqop9.css",
       "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\css\\site.css",
       "Selectors": [],
       "ResponseHeaders": [
@@ -5161,7 +5266,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "8633"
+          "Value": "13298"
         },
         {
           "Name": "Content-Type",
@@ -5169,11 +5274,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"2dFzqvpZjePCFtSPA+5hjLnBz1VcmlUqPGInHEbNjNw=\""
+          "Value": "\"TbMi4DiBm7WBY/dy0jFzZE37K0sl03EAqrPVWmuBkgU=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 17 Dec 2024 18:21:51 GMT"
+          "Value": "Thu, 19 Dec 2024 22:24:06 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -5183,7 +5288,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "rbcbn9espf"
+          "Value": "v5ekgmqop9"
         },
         {
           "Name": "label",
@@ -5191,7 +5296,7 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-2dFzqvpZjePCFtSPA+5hjLnBz1VcmlUqPGInHEbNjNw="
+          "Value": "sha256-TbMi4DiBm7WBY/dy0jFzZE37K0sl03EAqrPVWmuBkgU="
         }
       ]
     },
@@ -7580,7 +7685,7 @@
       ]
     },
     {
-      "Route": "images/icons/all.an84enw50q.png",
+      "Route": "images/icons/all.cyn0gs5a39.png",
       "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\icons\\all.png",
       "Selectors": [],
       "ResponseHeaders": [
@@ -7590,7 +7695,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "267199"
+          "Value": "25474"
         },
         {
           "Name": "Content-Type",
@@ -7598,11 +7703,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"OjHggNqaHw3W5vyk8wpD/YEKn4nhFUmAQFsRI4O5XEI=\""
+          "Value": "\"vLaqZY4JT5SMyvGwYFF1DDVf6hUNrC0U3ANBhgendiw=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Sun, 15 Dec 2024 13:33:09 GMT"
+          "Value": "Wed, 18 Dec 2024 16:07:50 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -7612,7 +7717,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "an84enw50q"
+          "Value": "cyn0gs5a39"
         },
         {
           "Name": "label",
@@ -7620,7 +7725,7 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-OjHggNqaHw3W5vyk8wpD/YEKn4nhFUmAQFsRI4O5XEI="
+          "Value": "sha256-vLaqZY4JT5SMyvGwYFF1DDVf6hUNrC0U3ANBhgendiw="
         }
       ]
     },
@@ -7635,7 +7740,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "267199"
+          "Value": "25474"
         },
         {
           "Name": "Content-Type",
@@ -7643,11 +7748,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"OjHggNqaHw3W5vyk8wpD/YEKn4nhFUmAQFsRI4O5XEI=\""
+          "Value": "\"vLaqZY4JT5SMyvGwYFF1DDVf6hUNrC0U3ANBhgendiw=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Sun, 15 Dec 2024 13:33:09 GMT"
+          "Value": "Wed, 18 Dec 2024 16:07:50 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -7657,52 +7762,7 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-OjHggNqaHw3W5vyk8wpD/YEKn4nhFUmAQFsRI4O5XEI="
-        }
-      ]
-    },
-    {
-      "Route": "images/icons/burger.hfw8t9klo3.png",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\icons\\burger.png",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "355673"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "image/png"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"LddJoEUn5YFIpN733Q4JdHwOJRl4XXqy1bboIgo4KNA=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Sun, 15 Dec 2024 12:27:56 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "hfw8t9klo3"
-        },
-        {
-          "Name": "label",
-          "Value": "images/icons/burger.png"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-LddJoEUn5YFIpN733Q4JdHwOJRl4XXqy1bboIgo4KNA="
+          "Value": "sha256-vLaqZY4JT5SMyvGwYFF1DDVf6hUNrC0U3ANBhgendiw="
         }
       ]
     },
@@ -7717,7 +7777,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "355673"
+          "Value": "44663"
         },
         {
           "Name": "Content-Type",
@@ -7725,11 +7785,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"LddJoEUn5YFIpN733Q4JdHwOJRl4XXqy1bboIgo4KNA=\""
+          "Value": "\"Wg9pXgTL5QMY4ZsC54l3ctlvI2KRo48cLq/3nc22Bfw=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Sun, 15 Dec 2024 12:27:56 GMT"
+          "Value": "Wed, 18 Dec 2024 16:07:50 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -7739,7 +7799,97 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-LddJoEUn5YFIpN733Q4JdHwOJRl4XXqy1bboIgo4KNA="
+          "Value": "sha256-Wg9pXgTL5QMY4ZsC54l3ctlvI2KRo48cLq/3nc22Bfw="
+        }
+      ]
+    },
+    {
+      "Route": "images/icons/burger.q04wvh5236.png",
+      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\icons\\burger.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "44663"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"Wg9pXgTL5QMY4ZsC54l3ctlvI2KRo48cLq/3nc22Bfw=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 18 Dec 2024 16:07:50 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "q04wvh5236"
+        },
+        {
+          "Name": "label",
+          "Value": "images/icons/burger.png"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-Wg9pXgTL5QMY4ZsC54l3ctlvI2KRo48cLq/3nc22Bfw="
+        }
+      ]
+    },
+    {
+      "Route": "images/icons/cookies.d1jnex3lfv.png",
+      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\icons\\cookies.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "45120"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"390VIXA/6lmcLelHkB9wcjSdAJYynIjCsJfNETY1eew=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 18 Dec 2024 16:07:50 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "d1jnex3lfv"
+        },
+        {
+          "Name": "label",
+          "Value": "images/icons/cookies.png"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-390VIXA/6lmcLelHkB9wcjSdAJYynIjCsJfNETY1eew="
         }
       ]
     },
@@ -7754,7 +7904,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "316666"
+          "Value": "45120"
         },
         {
           "Name": "Content-Type",
@@ -7762,11 +7912,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"M+pArlxBIxEwKHCP4rMUOl9PxDesD8V08vPk0AS/F24=\""
+          "Value": "\"390VIXA/6lmcLelHkB9wcjSdAJYynIjCsJfNETY1eew=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Sun, 15 Dec 2024 12:38:48 GMT"
+          "Value": "Wed, 18 Dec 2024 16:07:50 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -7776,13 +7926,13 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-M+pArlxBIxEwKHCP4rMUOl9PxDesD8V08vPk0AS/F24="
+          "Value": "sha256-390VIXA/6lmcLelHkB9wcjSdAJYynIjCsJfNETY1eew="
         }
       ]
     },
     {
-      "Route": "images/icons/cookies.rq7gjvhupg.png",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\icons\\cookies.png",
+      "Route": "images/icons/grill.f3vmh6xmg9.jpg",
+      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\icons\\grill.jpg",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -7791,19 +7941,19 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "316666"
+          "Value": "83371"
         },
         {
           "Name": "Content-Type",
-          "Value": "image/png"
+          "Value": "image/jpeg"
         },
         {
           "Name": "ETag",
-          "Value": "\"M+pArlxBIxEwKHCP4rMUOl9PxDesD8V08vPk0AS/F24=\""
+          "Value": "\"FaCt7pmrQ3vvkKGe9itoGnjfe/E7yU0ZaIor7IihWbg=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Sun, 15 Dec 2024 12:38:48 GMT"
+          "Value": "Wed, 18 Dec 2024 16:07:50 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -7813,20 +7963,303 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "rq7gjvhupg"
+          "Value": "f3vmh6xmg9"
         },
         {
           "Name": "label",
-          "Value": "images/icons/cookies.png"
+          "Value": "images/icons/grill.jpg"
         },
         {
           "Name": "integrity",
-          "Value": "sha256-M+pArlxBIxEwKHCP4rMUOl9PxDesD8V08vPk0AS/F24="
+          "Value": "sha256-FaCt7pmrQ3vvkKGe9itoGnjfe/E7yU0ZaIor7IihWbg="
         }
       ]
     },
     {
-      "Route": "images/icons/pizza.oynr6z48l9.png",
+      "Route": "images/icons/grill.jpg",
+      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\icons\\grill.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "83371"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"FaCt7pmrQ3vvkKGe9itoGnjfe/E7yU0ZaIor7IihWbg=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 18 Dec 2024 16:07:50 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-FaCt7pmrQ3vvkKGe9itoGnjfe/E7yU0ZaIor7IihWbg="
+        }
+      ]
+    },
+    {
+      "Route": "images/icons/IMG-20241218-WA0004.jpg",
+      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\icons\\IMG-20241218-WA0004.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "96096"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"T+drJivcFLqMH5W0sYeVZI1DOy7WD3wNO3ugfyItSKs=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 18 Dec 2024 16:07:50 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-T+drJivcFLqMH5W0sYeVZI1DOy7WD3wNO3ugfyItSKs="
+        }
+      ]
+    },
+    {
+      "Route": "images/icons/IMG-20241218-WA0004.tph03zz11t.jpg",
+      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\icons\\IMG-20241218-WA0004.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "96096"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"T+drJivcFLqMH5W0sYeVZI1DOy7WD3wNO3ugfyItSKs=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 18 Dec 2024 16:07:50 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "tph03zz11t"
+        },
+        {
+          "Name": "label",
+          "Value": "images/icons/IMG-20241218-WA0004.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-T+drJivcFLqMH5W0sYeVZI1DOy7WD3wNO3ugfyItSKs="
+        }
+      ]
+    },
+    {
+      "Route": "images/icons/IMG-20241218-WA0007.jpg",
+      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\icons\\IMG-20241218-WA0007.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "78846"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"KaL7bIgxeE7QXiypx5M8m04FK97i6UiMHPiM93bmPVk=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 18 Dec 2024 16:07:50 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-KaL7bIgxeE7QXiypx5M8m04FK97i6UiMHPiM93bmPVk="
+        }
+      ]
+    },
+    {
+      "Route": "images/icons/IMG-20241218-WA0007.r3ht6vswm6.jpg",
+      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\icons\\IMG-20241218-WA0007.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "78846"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"KaL7bIgxeE7QXiypx5M8m04FK97i6UiMHPiM93bmPVk=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 18 Dec 2024 16:07:50 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "r3ht6vswm6"
+        },
+        {
+          "Name": "label",
+          "Value": "images/icons/IMG-20241218-WA0007.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-KaL7bIgxeE7QXiypx5M8m04FK97i6UiMHPiM93bmPVk="
+        }
+      ]
+    },
+    {
+      "Route": "images/icons/Koshary.hpfg0jjnt6.jpg",
+      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\icons\\Koshary.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "60996"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"ezD/+DTJI/Orx8Ircz600vNm/ex+fm4xcpen4mupZoM=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 18 Dec 2024 16:07:50 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "hpfg0jjnt6"
+        },
+        {
+          "Name": "label",
+          "Value": "images/icons/Koshary.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-ezD/+DTJI/Orx8Ircz600vNm/ex+fm4xcpen4mupZoM="
+        }
+      ]
+    },
+    {
+      "Route": "images/icons/Koshary.jpg",
+      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\icons\\Koshary.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "60996"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"ezD/+DTJI/Orx8Ircz600vNm/ex+fm4xcpen4mupZoM=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 18 Dec 2024 16:07:50 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-ezD/+DTJI/Orx8Ircz600vNm/ex+fm4xcpen4mupZoM="
+        }
+      ]
+    },
+    {
+      "Route": "images/icons/pizza.4n3dki3z6f.png",
       "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\icons\\pizza.png",
       "Selectors": [],
       "ResponseHeaders": [
@@ -7836,7 +8269,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "331270"
+          "Value": "58029"
         },
         {
           "Name": "Content-Type",
@@ -7844,11 +8277,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"8Nsm3GcIXGO8TsCjHj/JBwBRxg30eS1fyI4EACIQUL0=\""
+          "Value": "\"sF8LDhXiE4IC00RN25HKUIBgLIvgnZZYXMez6cr0CqU=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Sun, 15 Dec 2024 12:30:39 GMT"
+          "Value": "Wed, 18 Dec 2024 16:07:50 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -7858,7 +8291,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "oynr6z48l9"
+          "Value": "4n3dki3z6f"
         },
         {
           "Name": "label",
@@ -7866,7 +8299,7 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-8Nsm3GcIXGO8TsCjHj/JBwBRxg30eS1fyI4EACIQUL0="
+          "Value": "sha256-sF8LDhXiE4IC00RN25HKUIBgLIvgnZZYXMez6cr0CqU="
         }
       ]
     },
@@ -7881,7 +8314,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "331270"
+          "Value": "58029"
         },
         {
           "Name": "Content-Type",
@@ -7889,11 +8322,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"8Nsm3GcIXGO8TsCjHj/JBwBRxg30eS1fyI4EACIQUL0=\""
+          "Value": "\"sF8LDhXiE4IC00RN25HKUIBgLIvgnZZYXMez6cr0CqU=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Sun, 15 Dec 2024 12:30:39 GMT"
+          "Value": "Wed, 18 Dec 2024 16:07:50 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -7903,13 +8336,13 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-8Nsm3GcIXGO8TsCjHj/JBwBRxg30eS1fyI4EACIQUL0="
+          "Value": "sha256-sF8LDhXiE4IC00RN25HKUIBgLIvgnZZYXMez6cr0CqU="
         }
       ]
     },
     {
-      "Route": "images/icons/sandwich.dzb19x1pyz.jpg",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\icons\\sandwich.jpg",
+      "Route": "images/icons/sandwich.9v4ueuxcbt.png",
+      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\icons\\sandwich.png",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -7918,19 +8351,19 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "218620"
+          "Value": "45931"
         },
         {
           "Name": "Content-Type",
-          "Value": "image/jpeg"
+          "Value": "image/png"
         },
         {
           "Name": "ETag",
-          "Value": "\"F/DnGf0SCaqHQVIa8hTT9eMy2SERoBlIGc6X/d9n4jI=\""
+          "Value": "\"23XpEQTWpZfq3QII+Afs0NtbBwnzXgO3EglqzZE7UOU=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 15 Jul 2021 18:25:26 GMT"
+          "Value": "Wed, 18 Dec 2024 16:07:50 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -7940,21 +8373,21 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "dzb19x1pyz"
+          "Value": "9v4ueuxcbt"
         },
         {
           "Name": "label",
-          "Value": "images/icons/sandwich.jpg"
+          "Value": "images/icons/sandwich.png"
         },
         {
           "Name": "integrity",
-          "Value": "sha256-F/DnGf0SCaqHQVIa8hTT9eMy2SERoBlIGc6X/d9n4jI="
+          "Value": "sha256-23XpEQTWpZfq3QII+Afs0NtbBwnzXgO3EglqzZE7UOU="
         }
       ]
     },
     {
-      "Route": "images/icons/sandwich.jpg",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\icons\\sandwich.jpg",
+      "Route": "images/icons/sandwich.png",
+      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\icons\\sandwich.png",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -7963,19 +8396,19 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "218620"
+          "Value": "45931"
         },
         {
           "Name": "Content-Type",
-          "Value": "image/jpeg"
+          "Value": "image/png"
         },
         {
           "Name": "ETag",
-          "Value": "\"F/DnGf0SCaqHQVIa8hTT9eMy2SERoBlIGc6X/d9n4jI=\""
+          "Value": "\"23XpEQTWpZfq3QII+Afs0NtbBwnzXgO3EglqzZE7UOU=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 15 Jul 2021 18:25:26 GMT"
+          "Value": "Wed, 18 Dec 2024 16:07:50 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -7985,7 +8418,52 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-F/DnGf0SCaqHQVIa8hTT9eMy2SERoBlIGc6X/d9n4jI="
+          "Value": "sha256-23XpEQTWpZfq3QII+Afs0NtbBwnzXgO3EglqzZE7UOU="
+        }
+      ]
+    },
+    {
+      "Route": "images/icons/shawrma.hiw595ebpv.png",
+      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\icons\\shawrma.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "62375"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"J09r221iy/mcNEte0qxGBrOjCOHHd0cqqUIzmdBe7QE=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 18 Dec 2024 16:07:50 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "hiw595ebpv"
+        },
+        {
+          "Name": "label",
+          "Value": "images/icons/shawrma.png"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-J09r221iy/mcNEte0qxGBrOjCOHHd0cqqUIzmdBe7QE="
         }
       ]
     },
@@ -8000,7 +8478,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "276497"
+          "Value": "62375"
         },
         {
           "Name": "Content-Type",
@@ -8008,11 +8486,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"RmLlO6VW2iz7wMYtqH/XyrfU+GGnNpsTOyfElwAOq7I=\""
+          "Value": "\"J09r221iy/mcNEte0qxGBrOjCOHHd0cqqUIzmdBe7QE=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Sun, 15 Dec 2024 12:34:51 GMT"
+          "Value": "Wed, 18 Dec 2024 16:07:50 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -8022,52 +8500,7 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-RmLlO6VW2iz7wMYtqH/XyrfU+GGnNpsTOyfElwAOq7I="
-        }
-      ]
-    },
-    {
-      "Route": "images/icons/shawrma.q41wcl1zny.png",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\icons\\shawrma.png",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "276497"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "image/png"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"RmLlO6VW2iz7wMYtqH/XyrfU+GGnNpsTOyfElwAOq7I=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Sun, 15 Dec 2024 12:34:51 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "q41wcl1zny"
-        },
-        {
-          "Name": "label",
-          "Value": "images/icons/shawrma.png"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-RmLlO6VW2iz7wMYtqH/XyrfU+GGnNpsTOyfElwAOq7I="
+          "Value": "sha256-J09r221iy/mcNEte0qxGBrOjCOHHd0cqqUIzmdBe7QE="
         }
       ]
     },
@@ -12250,6 +12683,88 @@
         {
           "Name": "integrity",
           "Value": "sha256-Hd+xEeWA3tzgSTg66v+QA52UZPLmUhziMDSbyHG2iz4="
+        }
+      ]
+    },
+    {
+      "Route": "js/dashbooard.eyek5cljjj.js",
+      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\js\\dashbooard.js",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "225"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"tm1oWHxLWRYfox9RHxLmjPPGbHHtvseiSsWTixLgI74=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 18 Dec 2024 17:56:35 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "eyek5cljjj"
+        },
+        {
+          "Name": "label",
+          "Value": "js/dashbooard.js"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-tm1oWHxLWRYfox9RHxLmjPPGbHHtvseiSsWTixLgI74="
+        }
+      ]
+    },
+    {
+      "Route": "js/dashbooard.js",
+      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\js\\dashbooard.js",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "225"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"tm1oWHxLWRYfox9RHxLmjPPGbHHtvseiSsWTixLgI74=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 18 Dec 2024 17:56:35 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-tm1oWHxLWRYfox9RHxLmjPPGbHHtvseiSsWTixLgI74="
         }
       ]
     },

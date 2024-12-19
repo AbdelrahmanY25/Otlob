@@ -1,0 +1,67 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using Otlob.Core.IUnitOfWorkRepository
+@using Otlob.Core.Models
+@inject UserManager<ApplicationUser> userManager
+@inject IUnitOfWorkRepository unitOfWorkRepository
+@model IEnumerable<Otlob.Core.Models.Order>
+
+<div class="articles" id="articles">
+
+    <div class="ordersData">
+        <div class="orders">
+            <span>@Model.Count() : Orders</span>
+        </div>
+    </div>
+
+    <div class="container">
+        @foreach (var item in Model)
+        {
+            var user = userManager.FindByIdAsync(item.ApplicationUserId);
+            <div class="card">
+                <div class="text">
+                    @if (user?.Result?.ProfilePicture != null)
+                    {
+                        <img class="avatar rounded-circle" alt="Profile Picture" src="data:image/*;base64,@(Convert.ToBase64String(user.Result.ProfilePicture))" />
+                    }
+                    else
+                    {
+                        <img class="avatar rounded-circle" src="~/images/Default.jpg" alt="Customer Profile Picture" />
+                    }
+                    @user?.Result?.UserName                   
+                </div>
+                <div class="text">
+                    <h4>Customer Details</h4>
+                    <p>Address: @item.CustomerAddres</p>
+                    <p>Phone Number: @user?.Result?.PhoneNumber</p>
+                    <p>Email: @user?.Result?.Email</p>
+                    <p>At: @item.OrderDate</p>
+                </div>
+                <div class="text">
+                    <p>Order Status: <strong class="text-success">@item.Status</strong></p>
+                </div>
+                <div class="read">
+                    <a class="btn btn-success" asp-action="OrderDetails" asp-controller="Resturants" asp-route-id="@item.Id">Order Details</a>
+                </div>
+            </div>
+        }
+    </div>
+
+    <div style="margin: 50px; display: flex; justify-content: center">
+        <nav aria-label="Page navigation example" style="margin: 50px 50%">
+            <ul class="pagination">
+                <li class="page-item">
+                    <a class="page-link" href="/SuperAdmin/OrdersStatus/Preparing?pageNumber=@(Math.Max(1, ViewBag.PageNumber - 1))">Previous</a>
+                </li>
+                @for (int i = 1; i <= ViewBag.Count; i++)
+                {
+                    <li class="page-item @(i == ViewBag.PageNumber ? "active" : "")">
+                        <a class="page-link" href="/SuperAdmin/OrdersStatus/Preparing?pageNumber=@i">@i</a>
+                    </li>
+                }
+                <li class="page-item">
+                    <a class="page-link" href="/SuperAdmin/OrdersStatus/Preparing?pageNumber=@(Math.Min(ViewBag.Count, ViewBag.PageNumber + 1))">Next</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>

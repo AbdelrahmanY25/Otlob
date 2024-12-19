@@ -402,28 +402,67 @@ namespace Otlob.Areas.SuperAdmin.Controllers
 
         #region ResturantsOrders
 
-        public IActionResult CurrentResturantOrders(int id)
+        public IActionResult CurrentResturantOrders(int id, int pageNumber = 1)
         {
             var orders = unitOfWorkRepository.Orders.Get([o => o.ApplicationUser, o => o.Restaurant], expression: o => o.RestaurantId == id && o.Status != OrderStatus.Delivered);
-            var resturant = unitOfWorkRepository.Orders.GetOne([o => o.Restaurant], expression: o => o.RestaurantId == id);           
+            var resturant = unitOfWorkRepository.Orders.GetOne([o => o.Restaurant], expression: o => o.RestaurantId == id);
+
+            if (orders != null)
+                orders = orders.OrderByDescending(o => o.OrderDate);
+
+            ViewBag.ResId = id;
 
             if (orders.Count() == 0)
                 ViewBag.MostExpensiveOrder = 0.0;
             else
                 ViewBag.MostExpensiveOrder = orders.Max(O => O.OrderPrice) + resturant.Restaurant.DeliveryFee;
 
+            const int pageSize = 9;
+            double pageCount = Math.Ceiling((double)orders.Count() / pageSize);
+
+
+            if (pageNumber - 1 < pageCount)
+            {
+                orders = orders.Skip((pageNumber - 1) * pageSize).Take(pageSize).OrderByDescending(o => o.OrderDate);
+
+                ViewBag.Count = pageCount;
+                pageNumber = Math.Clamp(pageNumber, 1, (int)pageCount);
+                ViewBag.PageNumber = pageNumber;
+
+                return View(orders);
+            }
+
             return View(orders);
         }
         
-        public IActionResult DeliveredOrders(int id)
+        public IActionResult DeliveredOrders(int id, int pageNumber = 1)
         {
             var orders = unitOfWorkRepository.Orders.Get([o => o.ApplicationUser], expression: o => o.RestaurantId == id && o.Status == OrderStatus.Delivered);
             var resturant = unitOfWorkRepository.Orders.GetOne([o => o.Restaurant], expression: o => o.RestaurantId == id);
+
+            if (orders != null)
+                orders = orders.OrderByDescending(o => o.OrderDate);
+
+            ViewBag.ResId = id;
 
             if (orders.Count() == 0)
                 ViewBag.MostExpensiveDeliveredOrder = 0.0;
             else
                 ViewBag.MostExpensiveOrder = orders.Max(O => O.OrderPrice) + resturant.Restaurant.DeliveryFee;
+
+            const int pageSize = 9;
+            double pageCount = Math.Ceiling((double)orders.Count() / pageSize);
+
+            if (pageNumber - 1 < pageCount)
+            {
+                orders = orders.Skip((pageNumber - 1) * pageSize).Take(pageSize);
+
+                ViewBag.Count = pageCount;
+                pageNumber = Math.Clamp(pageNumber, 1, (int)pageCount);
+                ViewBag.PageNumber = pageNumber;
+
+                return View(orders);
+            }
 
             return View(orders);
         }

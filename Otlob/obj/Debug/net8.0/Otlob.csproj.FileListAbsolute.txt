@@ -297,3 +297,4 @@ D:\My_Projects\Talabat Project\Otlob\Otlob\bin\Debug\net8.0\libman.json
 D:\My_Projects\Talabat Project\Otlob\Otlob\bin\Debug\net8.0\System.Linq.Dynamic.Core.dll
 D:\My_Projects\Talabat Project\Otlob\Otlob\bin\Debug\net8.0\System.Net.WebSockets.WebSocketProtocol.dll
 D:\My_Projects\Talabat Project\Otlob\Otlob\bin\Debug\net8.0\Stripe.net.dll
+D:\My_Projects\Talabat Project\Otlob\Otlob\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt

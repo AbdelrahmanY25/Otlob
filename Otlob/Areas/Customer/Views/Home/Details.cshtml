@@ -9,8 +9,19 @@
         <input type="text" id="searchBar" placeholder="Enter Your Meal" name="query" />
     </form>
 
-    <div class="container">
+    <div class="icons">
+        <a class="fMeals" asp-action="Details" asp-route-filter="new" asp-route-id="@ViewBag.ResId">New Meals</a>
+        <a class="fMeals" asp-action="Details" asp-route-filter="trend" asp-route-id="@ViewBag.ResId">Trending Meals</a>
+        <a class="fMeals" asp-action="Details" asp-route-filter="main" asp-route-id="@ViewBag.ResId">Main Course</a>
+        <a class="fMeals" asp-action="Details" asp-route-filter="grilled" asp-route-id="@ViewBag.ResId">Grilled</a>
+        <a class="fMeals" asp-action="Details" asp-route-filter="Desserts" asp-route-id="@ViewBag.ResId">Desserts</a>
+        <a class="fMeals" asp-action="Details" asp-route-filter="Bakeries" asp-route-id="@ViewBag.ResId">Bakeries</a>
+        <a class="fMeals" asp-action="Details" asp-route-filter="all" asp-route-id="@ViewBag.ResId">All Meals</a>
+    </div>
 
+    <div class="container">
+    @if(Model.Any()) 
+    {
         @foreach (var item in Model)
         {
             <div class="menue" data-name="@item.Name">
@@ -36,11 +47,16 @@
                     <h3>@item.Name</h3>
                     <p>Price: <span>@item.Price.ToString("C")</span></p>
                     <p>Category: @item.Category</p>
-                    <p>Enough To: @item.NumberOfServings</p>
+                    <p >Enough To: @item.NumberOfServings</p>
                 </div>
-                <a class="card-button" data-bs-toggle="modal" data-bs-target="#deleteModal" data-categoryid="@item.Id" data-categoryname="@item.Name" data-resturantid="@item.RestaurantId"><i class="bi bi-plus"></i></a>
+                <a class="card-button" id="logo" data-logo="@item.ImageUrl" data-bs-toggle="modal" data-bs-target="#deleteModal" data-categoryid="@item.Id" data-categoryname="@item.Name" data-resturantid="@item.RestaurantId"><i class="bi bi-plus"></i></a>
             </div>
         }
+    }
+    else
+    {
+        <p>No meals available for the selected filter.</p>
+    }
     </div>
 </div>
 
@@ -48,31 +64,55 @@
 <!-- Modal -->
 
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
         <div class="modal-content">
-            @* <div class="modal-header">
-                <h5 class="modal-title" id="deleteModalLabel">Add Item Choices</h5>
-            </div>             *@
-            <div class="modal-footer">
-                <img src="/images/landing/food5.png" />
-                <form id="deleteForm" method="post" asp-action="AddMeal">
-                    <input type="hidden" name="MealId" id="categoryIdInput" value="" />
-                    <input type="hidden" name="MealName" id="categoryNameInput" value="" />
-                    <input type="hidden" name="RestaurantId" id="resturantIdInput" value="" />
-                    <input class="quant" type="number" name="Quantity" placeholder="Enter Meal Quantity" min="1" />
-                    <textarea name="MealDescription" placeholder="Write your Discreption, what is your additions if you want like (Spicy, Extra cheese)"></textarea>
-                    <button type="submit">Add to cart</button>
-                </form>
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Add Meal to Cart</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-body-container">
+                    <div class="modal-image">
+                        <img id="mealImage" src="" alt="Meal Image" />
+                    </div>
+                    <form id="deleteForm" method="post" asp-action="AddMeal">
+                        <input type="hidden" name="MealId" id="categoryIdInput" value="" />
+                        <input type="hidden" name="MealName" id="categoryNameInput" value="" />
+                        <input type="hidden" name="RestaurantId" id="resturantIdInput" value="" />
+
+                        <label for="quantity" class="form-label">Quantity</label>
+                        <input class="form-control" type="number" name="Quantity" id="quantity" placeholder="Enter Quantity" value="1" min="1" required />
+
+                        <label for="mealDescription" class="form-label">Description</label>
+                        <textarea id="mealDescription" name="MealDescription" class="form-control" placeholder="Write your Discreption, what is your additions if you want like (Spicy, Extra cheese)" rows="3"></textarea>
+
+                        <button type="submit" class="btn btn-primary mt-3">Add to Cart</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
+
+
 @section Scripts {
     <script>
+        const logoElement = document.querySelectorAll("#logo");
+        logoElement.forEach(m => {
+            m.onclick = () => {
+            var imageUrl = m.getAttribute("data-logo");
+            var imageElement = document.getElementById("mealImage");
 
-            var deleteModal = document.getElementById('deleteModal');
+            if (logoElement && imageElement) {
+                if (imageUrl) {
+                    imageElement.src = `/images/meals/${imageUrl}`; // Set the image URL dynamically
+                }
+            }
+        }
+        })
+
+        var deleteModal = document.getElementById('deleteModal');
         deleteModal.addEventListener('show.bs.modal', function (event) {
             var button = event.relatedTarget;
             var categoryId = button.getAttribute('data-categoryid');
@@ -100,7 +140,7 @@
             });
         });
 
-        var inp = document.querySelector("#deleteForm .quant");
+        var inp = document.querySelector("#deleteForm .form-control");
         inp.oninput = () => {
             if (inp.value < 1)
                 inp.value = 1;

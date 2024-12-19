@@ -12,8 +12,8 @@
       <RelatedAsset></RelatedAsset>
       <AssetTraitName></AssetTraitName>
       <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>criupkb0qn</Fingerprint>
-      <Integrity>ePNWcCRgCS5T0AuTy+ljPuql8zFvj1GUq0ix2YBeUfA=</Integrity>
+      <Fingerprint>3sfu7cqqhj</Fingerprint>
+      <Integrity>nR3gt32QJNjtPxTkSDHnZYFUYeCvwyJC/mnkQVbRUQ4=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\css\dashboard.css'))</OriginalItemSpec>
@@ -84,8 +84,8 @@
       <RelatedAsset></RelatedAsset>
       <AssetTraitName></AssetTraitName>
       <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>rbcbn9espf</Fingerprint>
-      <Integrity>2dFzqvpZjePCFtSPA+5hjLnBz1VcmlUqPGInHEbNjNw=</Integrity>
+      <Fingerprint>v5ekgmqop9</Fingerprint>
+      <Integrity>TbMi4DiBm7WBY/dy0jFzZE37K0sl03EAqrPVWmuBkgU=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\css\site.css'))</OriginalItemSpec>
@@ -138,8 +138,8 @@
       <RelatedAsset></RelatedAsset>
       <AssetTraitName></AssetTraitName>
       <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>an84enw50q</Fingerprint>
-      <Integrity>OjHggNqaHw3W5vyk8wpD/YEKn4nhFUmAQFsRI4O5XEI=</Integrity>
+      <Fingerprint>cyn0gs5a39</Fingerprint>
+      <Integrity>vLaqZY4JT5SMyvGwYFF1DDVf6hUNrC0U3ANBhgendiw=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\images\icons\all.png'))</OriginalItemSpec>
@@ -156,8 +156,8 @@
       <RelatedAsset></RelatedAsset>
       <AssetTraitName></AssetTraitName>
       <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>hfw8t9klo3</Fingerprint>
-      <Integrity>LddJoEUn5YFIpN733Q4JdHwOJRl4XXqy1bboIgo4KNA=</Integrity>
+      <Fingerprint>q04wvh5236</Fingerprint>
+      <Integrity>Wg9pXgTL5QMY4ZsC54l3ctlvI2KRo48cLq/3nc22Bfw=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\images\icons\burger.png'))</OriginalItemSpec>
@@ -174,11 +174,83 @@
       <RelatedAsset></RelatedAsset>
       <AssetTraitName></AssetTraitName>
       <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>rq7gjvhupg</Fingerprint>
-      <Integrity>M+pArlxBIxEwKHCP4rMUOl9PxDesD8V08vPk0AS/F24=</Integrity>
+      <Fingerprint>d1jnex3lfv</Fingerprint>
+      <Integrity>390VIXA/6lmcLelHkB9wcjSdAJYynIjCsJfNETY1eew=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\images\icons\cookies.png'))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\images\icons\grill.jpg'))">
+      <SourceType>Package</SourceType>
+      <SourceId>Otlob</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/Otlob</BasePath>
+      <RelativePath>images/icons/grill.jpg</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <Fingerprint>f3vmh6xmg9</Fingerprint>
+      <Integrity>FaCt7pmrQ3vvkKGe9itoGnjfe/E7yU0ZaIor7IihWbg=</Integrity>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\images\icons\grill.jpg'))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\images\icons\IMG-20241218-WA0004.jpg'))">
+      <SourceType>Package</SourceType>
+      <SourceId>Otlob</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/Otlob</BasePath>
+      <RelativePath>images/icons/IMG-20241218-WA0004.jpg</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <Fingerprint>tph03zz11t</Fingerprint>
+      <Integrity>T+drJivcFLqMH5W0sYeVZI1DOy7WD3wNO3ugfyItSKs=</Integrity>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\images\icons\IMG-20241218-WA0004.jpg'))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\images\icons\IMG-20241218-WA0007.jpg'))">
+      <SourceType>Package</SourceType>
+      <SourceId>Otlob</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/Otlob</BasePath>
+      <RelativePath>images/icons/IMG-20241218-WA0007.jpg</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <Fingerprint>r3ht6vswm6</Fingerprint>
+      <Integrity>KaL7bIgxeE7QXiypx5M8m04FK97i6UiMHPiM93bmPVk=</Integrity>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\images\icons\IMG-20241218-WA0007.jpg'))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\images\icons\Koshary.jpg'))">
+      <SourceType>Package</SourceType>
+      <SourceId>Otlob</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/Otlob</BasePath>
+      <RelativePath>images/icons/Koshary.jpg</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <Fingerprint>hpfg0jjnt6</Fingerprint>
+      <Integrity>ezD/+DTJI/Orx8Ircz600vNm/ex+fm4xcpen4mupZoM=</Integrity>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\images\icons\Koshary.jpg'))</OriginalItemSpec>
     </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\images\icons\pizza.png'))">
       <SourceType>Package</SourceType>
@@ -192,29 +264,29 @@
       <RelatedAsset></RelatedAsset>
       <AssetTraitName></AssetTraitName>
       <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>oynr6z48l9</Fingerprint>
-      <Integrity>8Nsm3GcIXGO8TsCjHj/JBwBRxg30eS1fyI4EACIQUL0=</Integrity>
+      <Fingerprint>4n3dki3z6f</Fingerprint>
+      <Integrity>sF8LDhXiE4IC00RN25HKUIBgLIvgnZZYXMez6cr0CqU=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\images\icons\pizza.png'))</OriginalItemSpec>
     </StaticWebAsset>
-    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\images\icons\sandwich.jpg'))">
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\images\icons\sandwich.png'))">
       <SourceType>Package</SourceType>
       <SourceId>Otlob</SourceId>
       <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
       <BasePath>_content/Otlob</BasePath>
-      <RelativePath>images/icons/sandwich.jpg</RelativePath>
+      <RelativePath>images/icons/sandwich.png</RelativePath>
       <AssetKind>All</AssetKind>
       <AssetMode>All</AssetMode>
       <AssetRole>Primary</AssetRole>
       <RelatedAsset></RelatedAsset>
       <AssetTraitName></AssetTraitName>
       <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>dzb19x1pyz</Fingerprint>
-      <Integrity>F/DnGf0SCaqHQVIa8hTT9eMy2SERoBlIGc6X/d9n4jI=</Integrity>
+      <Fingerprint>9v4ueuxcbt</Fingerprint>
+      <Integrity>23XpEQTWpZfq3QII+Afs0NtbBwnzXgO3EglqzZE7UOU=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-      <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\images\icons\sandwich.jpg'))</OriginalItemSpec>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\images\icons\sandwich.png'))</OriginalItemSpec>
     </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\images\icons\shawrma.png'))">
       <SourceType>Package</SourceType>
@@ -228,8 +300,8 @@
       <RelatedAsset></RelatedAsset>
       <AssetTraitName></AssetTraitName>
       <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>q41wcl1zny</Fingerprint>
-      <Integrity>RmLlO6VW2iz7wMYtqH/XyrfU+GGnNpsTOyfElwAOq7I=</Integrity>
+      <Fingerprint>hiw595ebpv</Fingerprint>
+      <Integrity>J09r221iy/mcNEte0qxGBrOjCOHHd0cqqUIzmdBe7QE=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\images\icons\shawrma.png'))</OriginalItemSpec>
@@ -1151,6 +1223,24 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\js\customersDataTable.js'))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\js\dashbooard.js'))">
+      <SourceType>Package</SourceType>
+      <SourceId>Otlob</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/Otlob</BasePath>
+      <RelativePath>js/dashbooard.js</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <Fingerprint>eyek5cljjj</Fingerprint>
+      <Integrity>tm1oWHxLWRYfox9RHxLmjPPGbHHtvseiSsWTixLgI74=</Integrity>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\js\dashbooard.js'))</OriginalItemSpec>
     </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\js\partnersDataTable.js'))">
       <SourceType>Package</SourceType>

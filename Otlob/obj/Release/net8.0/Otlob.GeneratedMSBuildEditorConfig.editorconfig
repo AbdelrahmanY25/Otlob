@@ -172,6 +172,18 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcU3VwZXJBZG1pblxWaWV3c1xIb21lXFJlc3R1cmF0blJlcXVpc3QuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/My_Projects/Talabat Project/Otlob/Otlob/Areas/SuperAdmin/Views/OrdersStatus/Pending.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcU3VwZXJBZG1pblxWaWV3c1xPcmRlcnNTdGF0dXNcUGVuZGluZy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/My_Projects/Talabat Project/Otlob/Otlob/Areas/SuperAdmin/Views/OrdersStatus/Preparing.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcU3VwZXJBZG1pblxWaWV3c1xPcmRlcnNTdGF0dXNcUHJlcGFyaW5nLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/My_Projects/Talabat Project/Otlob/Otlob/Areas/SuperAdmin/Views/OrdersStatus/Shipped.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcU3VwZXJBZG1pblxWaWV3c1xPcmRlcnNTdGF0dXNcU2hpcHBlZC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/My_Projects/Talabat Project/Otlob/Otlob/Areas/SuperAdmin/Views/Register/RegistResturant.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcU3VwZXJBZG1pblxWaWV3c1xSZWdpc3RlclxSZWdpc3RSZXN0dXJhbnQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 

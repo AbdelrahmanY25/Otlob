@@ -33,6 +33,18 @@
       "PackagePath": "staticwebassets\\images\\Default.jpg"
     },
     {
+      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\icons\\IMG-20241218-WA0004.jpg",
+      "PackagePath": "staticwebassets\\images\\icons\\IMG-20241218-WA0004.jpg"
+    },
+    {
+      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\icons\\IMG-20241218-WA0007.jpg",
+      "PackagePath": "staticwebassets\\images\\icons\\IMG-20241218-WA0007.jpg"
+    },
+    {
+      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\icons\\Koshary.jpg",
+      "PackagePath": "staticwebassets\\images\\icons\\Koshary.jpg"
+    },
+    {
       "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\icons\\all.png",
       "PackagePath": "staticwebassets\\images\\icons\\all.png"
     },
@@ -45,12 +57,16 @@
       "PackagePath": "staticwebassets\\images\\icons\\cookies.png"
     },
     {
+      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\icons\\grill.jpg",
+      "PackagePath": "staticwebassets\\images\\icons\\grill.jpg"
+    },
+    {
       "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\icons\\pizza.png",
       "PackagePath": "staticwebassets\\images\\icons\\pizza.png"
     },
     {
-      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\icons\\sandwich.jpg",
-      "PackagePath": "staticwebassets\\images\\icons\\sandwich.jpg"
+      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\icons\\sandwich.png",
+      "PackagePath": "staticwebassets\\images\\icons\\sandwich.png"
     },
     {
       "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\icons\\shawrma.png",
@@ -259,6 +275,10 @@
     {
       "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\js\\customersDataTable.js",
       "PackagePath": "staticwebassets\\js\\customersDataTable.js"
+    },
+    {
+      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\js\\dashbooard.js",
+      "PackagePath": "staticwebassets\\js\\dashbooard.js"
     },
     {
       "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\js\\partnersDataTable.js",

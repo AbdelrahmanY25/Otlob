@@ -28,20 +28,37 @@ namespace Otlob.Areas.Customer.Controllers
         public IActionResult Index(string? filter = null)
         {
             var resturants = unitOfWorkRepository.Restaurants.Get(expression: r => filter.IsNullOrEmpty() || filter == "all" ?
-                                                            r.AcctiveStatus == AcctiveStatus.Acctive ||
-                                                            r.AcctiveStatus == AcctiveStatus.Warning :
-                                                            r.AcctiveStatus == AcctiveStatus.Acctive &&
-                                                            r.Description.Contains(filter) ||
-                                                            r.AcctiveStatus == AcctiveStatus.Warning &&
-                                                            r.Description.Contains(filter));
+                                                                              r.AcctiveStatus == AcctiveStatus.Acctive ||
+                                                                              r.AcctiveStatus == AcctiveStatus.Warning :
+                                                                              r.AcctiveStatus == AcctiveStatus.Acctive &&
+                                                                              r.Description.Contains(filter) ||
+                                                                              r.AcctiveStatus == AcctiveStatus.Warning &&
+                                                                              r.Description.Contains(filter));
 
             return View(resturants);
         }
 
-        public IActionResult Details(int id)
+        public IActionResult Details(int id, string? filter = null)
         {
-            var Meals = unitOfWorkRepository.Meals.Get(expression: m => m.RestaurantId == id);        
-            return View(Meals);
+            var meals = unitOfWorkRepository.Meals.Get(expression: m => m.RestaurantId == id && m.IsAvailable);
+
+            if (!string.IsNullOrEmpty(filter) && filter.ToLower() != "all")
+            {
+                meals = filter.ToLower() switch
+                {
+                    "new" => meals.Where(m => m.IsNewMeal),
+                    "trend" => meals.Where(m => m.IsTrendingMeal),
+                    "main" => meals.Where(m => m.Category == MealCategory.MainCourse),
+                    "grilled" => meals.Where(m => m.Category == MealCategory.Grill),
+                    "desserts" => meals.Where(m => m.Category == MealCategory.Dessert),
+                    "bakeries" => meals.Where(m => m.Description.Contains("Bakeries")),
+                    _ => meals
+                };
+            }
+
+            ViewBag.ResId = id;
+
+            return View(meals);
         }
 
         public IActionResult AddMeal(OrderedMeals orderedMeals)
