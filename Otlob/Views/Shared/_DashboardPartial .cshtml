@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using Utility
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -12,22 +13,25 @@
             <span class="logo-text"><strong>Otlob</strong></span>
         </div>
         <ul class="menu">
-            <li class="menu-item active">
-                <i class="icon">🏠</i>
-                <a asp-area="SuperAdmin" asp-action="Index" asp-controller="Home">Home</a>
-            </li>
-            <li class="menu-item">
-                <i class="icon">AR</i>
-                <a asp-area="SuperAdmin" asp-action="ActiveResturatns" asp-controller="Home">Active Resturatns</a>
-            </li>
-            <li class="menu-item">
-                <i class="icon">RR</i>
-                <a asp-area="SuperAdmin" asp-action="ResturatnRequist" asp-controller="Home">Requists From Resturants</a>
-            </li>
-            <li class="menu-item">
-                <i class="icon">💬</i>
-                <a asp-action="UserComplaints" asp-controller="Complaint">Complaints</a>
-            </li>
+            @if(User.IsInRole(SD.superAdminRole)) 
+            {
+                <li class="menu-item active">
+                    <i class="icon">🏠</i>
+                    <a asp-area="SuperAdmin" asp-action="Index" asp-controller="Home">Home</a>
+                </li>
+                <li class="menu-item">
+                    <i class="icon">AR</i>
+                    <a asp-area="SuperAdmin" asp-action="ActiveResturatns" asp-controller="Home">Active Resturatns</a>
+                </li>
+                <li class="menu-item">
+                    <i class="icon">RR</i>
+                    <a asp-area="SuperAdmin" asp-action="ResturatnRequist" asp-controller="Home">Requists From Resturants</a>
+                </li>
+                <li class="menu-item">
+                    <i class="icon">💬</i>
+                    <a asp-action="UserComplaints" asp-controller="Complaint">Complaints</a>
+                </li>
+            }
             <li class="menu-item">
                 <i class="icon">📊</i>
                 Analytics

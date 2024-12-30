@@ -17,6 +17,8 @@ html {
 body {
     font-family: 'Cairo', sans-serif;
     background-color: #f7f7f7;
+    margin: 0;
+    padding: 0;
 }
 
 a {
@@ -316,8 +318,8 @@ body {
 }
 
 .users .dd a {
-    width: 150px;
-    font-size: 22px;   
+    min-width: 180px;
+    font-size: 20px;   
 }
 
 /* Orders Dashboard */
@@ -687,4 +689,54 @@ body {
     #deleteModal .modal-dialog {
         max-width: 90%;
     }
+}
+
+/* Offers Section */
+.offers {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.offers h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: var(--primary-color);
+}
+
+.offers-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+}
+
+.offer-card {
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    padding: 15px;
+    text-align: center;
+    transition: box-shadow 0.3s ease;
+}
+
+.offer-card img {
+    width: 100%;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+.offer-card h3 {
+    color: var(--primary-color);
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.offer-card p {
+    color: #555;
+    font-size: 14px;
+}
+
+.offer-card:hover {
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
 }

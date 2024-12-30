@@ -30,6 +30,17 @@
                     @user?.Result?.UserName                   
                 </div>
                 <div class="text">
+                    @if (item.Restaurant.Logo != null)
+                    {
+                        <img class="avatar rounded-circle" alt="Restaurant Logo" src="/images/resturantLogo/@item.Restaurant.Logo" />
+                    }
+                    else
+                    {
+                        <img class="avatar rounded-circle" src="~/images/Default.jpg" alt="Restaurant Logo" />
+                    }
+                    @item.Restaurant.Name
+                </div>
+                <div class="text">
                     <h4>Customer Details</h4>
                     <p>Address: @item.CustomerAddres</p>
                     <p>Phone Number: @user?.Result?.PhoneNumber</p>

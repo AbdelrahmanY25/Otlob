@@ -18,7 +18,7 @@ namespace Otlob.Areas.SuperAdmin.Controllers
         }
         public IActionResult Pending(int pageNumber = 1)
         {
-            var pendingOrders = unitOfWorkRepository.Orders.Get(expression: o => o.Status == OrderStatus.Pending && o.OrderDate.Day == DateTime.Today.Day && o.OrderDate.Month == DateTime.Today.Month && o.OrderDate.Year == DateTime.Today.Year);
+            var pendingOrders = unitOfWorkRepository.Orders.Get([o => o.Restaurant], expression: o => o.Status == OrderStatus.Pending && o.OrderDate.Day == DateTime.Today.Day && o.OrderDate.Month == DateTime.Today.Month && o.OrderDate.Year == DateTime.Today.Year);
 
             if (pendingOrders != null)
                 pendingOrders = pendingOrders.OrderByDescending(o => o.OrderDate);
@@ -41,7 +41,7 @@ namespace Otlob.Areas.SuperAdmin.Controllers
         }
          public IActionResult Preparing(int pageNumber = 1)
          {
-            var preparingOrders = unitOfWorkRepository.Orders.Get(expression: o => o.Status == OrderStatus.Preparing && o.OrderDate.Day == DateTime.Today.Day && o.OrderDate.Month == DateTime.Today.Month && o.OrderDate.Year == DateTime.Today.Year);
+            var preparingOrders = unitOfWorkRepository.Orders.Get([o => o.Restaurant], expression: o => o.Status == OrderStatus.Preparing && o.OrderDate.Day == DateTime.Today.Day && o.OrderDate.Month == DateTime.Today.Month && o.OrderDate.Year == DateTime.Today.Year);
 
             if (preparingOrders != null)
                 preparingOrders = preparingOrders.OrderByDescending(o => o.OrderDate);
@@ -64,7 +64,7 @@ namespace Otlob.Areas.SuperAdmin.Controllers
          }
          public IActionResult Shipped(int pageNumber = 1)
          {
-            var shippedOrders = unitOfWorkRepository.Orders.Get(expression: o => o.Status == OrderStatus.Shipped && o.OrderDate.Day == DateTime.Today.Day && o.OrderDate.Month == DateTime.Today.Month && o.OrderDate.Year == DateTime.Today.Year);
+            var shippedOrders = unitOfWorkRepository.Orders.Get([o => o.Restaurant], expression: o => o.Status == OrderStatus.Shipped && o.OrderDate.Day == DateTime.Today.Day && o.OrderDate.Month == DateTime.Today.Month && o.OrderDate.Year == DateTime.Today.Year);
             
             if (shippedOrders != null)
                 shippedOrders = shippedOrders.OrderByDescending(o => o.OrderDate);

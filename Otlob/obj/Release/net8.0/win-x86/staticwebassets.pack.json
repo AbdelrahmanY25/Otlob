@@ -73,20 +73,12 @@
       "PackagePath": "staticwebassets\\images\\icons\\shawrma.png"
     },
     {
-      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\landing\\add1.png",
-      "PackagePath": "staticwebassets\\images\\landing\\add1.png"
-    },
-    {
-      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\landing\\add2.png",
-      "PackagePath": "staticwebassets\\images\\landing\\add2.png"
-    },
-    {
-      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\landing\\add3.png",
-      "PackagePath": "staticwebassets\\images\\landing\\add3.png"
-    },
-    {
       "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\landing\\add4.png",
       "PackagePath": "staticwebassets\\images\\landing\\add4.png"
+    },
+    {
+      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\landing\\ai-generated-8276129.jpg",
+      "PackagePath": "staticwebassets\\images\\landing\\ai-generated-8276129.jpg"
     },
     {
       "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\landing\\food.jpg",
@@ -101,12 +93,24 @@
       "PackagePath": "staticwebassets\\images\\landing\\food3.png"
     },
     {
-      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\landing\\food4.png",
-      "PackagePath": "staticwebassets\\images\\landing\\food4.png"
+      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\landing\\pexels-brettjordan-825661.jpg",
+      "PackagePath": "staticwebassets\\images\\landing\\pexels-brettjordan-825661.jpg"
     },
     {
-      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\landing\\food5.png",
-      "PackagePath": "staticwebassets\\images\\landing\\food5.png"
+      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\landing\\pexels-chanwalrus-958545.jpg",
+      "PackagePath": "staticwebassets\\images\\landing\\pexels-chanwalrus-958545.jpg"
+    },
+    {
+      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\landing\\pexels-muffin-1653877.jpg",
+      "PackagePath": "staticwebassets\\images\\landing\\pexels-muffin-1653877.jpg"
+    },
+    {
+      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\landing\\pexels-norma-mortenson-4393668.jpg",
+      "PackagePath": "staticwebassets\\images\\landing\\pexels-norma-mortenson-4393668.jpg"
+    },
+    {
+      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\landing\\pexels-pixabay-280453.jpg",
+      "PackagePath": "staticwebassets\\images\\landing\\pexels-pixabay-280453.jpg"
     },
     {
       "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\meals\\1-1.jpg",
@@ -211,6 +215,10 @@
     {
       "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\meals\\68b7bfbd-1f5a-4a17-982e-050d884aa0d8.jpg",
       "PackagePath": "staticwebassets\\images\\meals\\68b7bfbd-1f5a-4a17-982e-050d884aa0d8.jpg"
+    },
+    {
+      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\meals\\6ba0287f-558c-45e9-8bb0-cbdbeb20cef6.jpg",
+      "PackagePath": "staticwebassets\\images\\meals\\6ba0287f-558c-45e9-8bb0-cbdbeb20cef6.jpg"
     },
     {
       "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\meals\\7141a900-ccd4-4cb2-ba5e-7a8d88235985.jpg",

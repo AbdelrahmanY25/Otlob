@@ -8,47 +8,68 @@
     <partial name="_NotificationPartial"></partial>
 }
 
-
-
 <div class="articles" id="articles">
 
+    <!-- Offers Section -->
+    <div class="offers">
+        <h2>Special Offers</h2>
+        <div class="offers-container">
+            <div class="offer-card">
+                <img src="/images/landing/add4.png" alt="Offer 1">
+                <h3>50% Off Burgers</h3>
+                <p>Available at selected restaurants.</p>
+            </div>
+            <div class="offer-card">
+                <img src="/images/icons/IMG-20241218-WA0004.jpg" alt="Offer 2">
+                <h3>Buy 1 Pizza, Get 1 Free</h3>
+                <p>Valid for this week only!</p>
+            </div>
+            <div class="offer-card">
+                <img src="/images/icons/IMG-20241218-WA0007.jpg" alt="Offer 3">
+                <h3>Free Delivery</h3>
+                <p>On orders above 100 L.E.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Search Bar -->
     <form class="search" action="" method="post">
         <input type="text" id="searchBar" placeholder="Enter Restaurant Name" name="query" />
     </form>
 
+    <!-- Categories Section -->
     <div class="icons">
-        <a asp-action="Index" asp-route-filter="burger"><img src="/images/icons/burger.png" alt="Alternate Text" /></a>
-        <a asp-action="Index" asp-route-filter="pizza"><img src="/images/icons/pizza.png" alt="Alternate Text" /></a>
-        <a asp-action="Index" asp-route-filter="shawrma"><img src="/images/icons/shawrma.png" alt="Alternate Text" /></a>
-        <a asp-action="Index" asp-route-filter="shawrma"><img src="/images/icons/sandwich.png" alt="Alternate Text" /></a>
-        <a asp-action="Index" asp-route-filter="grill"><img src="/images/icons/grill.jpg" alt="Alternate Text" /></a>
-        <a asp-action="Index" asp-route-filter="dessert" ><img src="/images/icons/cookies.png" alt="Alternate Text" /></a>
-        <a asp-action="Index" asp-route-filter="Koshary"><img src="/images/icons/Koshary.jpg" alt="Alternate Text" /></a>
-        <a asp-action="Index" asp-route-filter="all"><img src="/images/icons/all.png" alt="Alternate Text" /></a>
-    </div>
+        <a asp-action="Index" asp-route-filter="burger"><img src="/images/icons/burger.png" alt="Burger" /></a>
+        <a asp-action="Index" asp-route-filter="pizza"><img src="/images/icons/pizza.png" alt="Pizza" /></a>
+        <a asp-action="Index" asp-route-filter="shawarma"><img src="/images/icons/shawrma.png" alt="Shawarma" /></a>
+        <a asp-action="Index" asp-route-filter="sandwich"><img src="/images/icons/sandwich.png" alt="Sandwich" /></a>
+        <a asp-action="Index" asp-route-filter="grill"><img src="/images/icons/grill.jpg" alt="Grill" /></a>
+        <a asp-action="Index" asp-route-filter="dessert"><img src="/images/icons/cookies.png" alt="Dessert" /></a>
+        <a asp-action="Index" asp-route-filter="koshary"><img src="/images/icons/koshary.jpg" alt="Koshary" /></a>
+        <a asp-action="Index" asp-route-filter="all"><img src="/images/icons/all.png" alt="All" /></a>
+    </div>    
 
-    
-
-    <div class="container">       
-
+    <!-- Restaurants Listing Section -->
+    <div class="container">
         @foreach (var item in Model)
         {
             <div class="menue" data-name="@item.Name">
-                @if (item.Logo is not null) {
-                    <img src="~/images/resturantLogo/@item.Logo" alt="resturantLogo">
+                @if (item.Logo is not null)
+                {
+                    <img src="~/images/resturantLogo/@item.Logo" alt="Restaurant Logo">
                 }
-                else {
-                    <img src="~/images/Default.jpg" alt="resturantLogo">
+                else
+                {
+                    <img src="~/images/Default.jpg" alt="Restaurant Logo">
                 }
                 <div class="text">
-                    <h3>@item.Name</h3>                  
-                    <p>Delivery Fee: @item.DeliveryFee</p>
-                    <p>Delivery Time: @item.DeliveryDuration</p>
+                    <h3>@item.Name</h3>
+                    <p>Delivery Fee: @item.DeliveryFee L.E</p>
+                    <p>Delivery Time: @item.DeliveryDuration m</p>
                 </div>
-                <a class="card-button" href="/Customer/Home/Details/?id=@item.Id">Menue</a>
+                <a class="card-button" href="/Customer/Home/Details/?id=@item.Id">Menu</a>
             </div>
         }
-
     </div>
 </div>
 
@@ -61,12 +82,16 @@
             restaurants.forEach(function (restaurant) {
                 const name = restaurant.getAttribute('data-name').toLowerCase();
                 if (name.includes(query)) {
-                    restaurant.style.display = ''; // Show the restaurant
+                    restaurant.style.display = '';
                 } else {
-                    restaurant.style.display = 'none'; // Hide the restaurant
+                    restaurant.style.display = 'none';
                 }
             });
         });
-     
+
+        window.addEventListener('load', function() {
+            window.scrollTo(0, 800);
+        });
+
     </script>
 }

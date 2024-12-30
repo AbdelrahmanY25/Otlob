@@ -58,7 +58,7 @@ namespace Otlob.Areas.SuperAdmin.Controllers
                         Email = registresturant.ResEmail,
                         Address = registresturant.ResAddress.ToString(),
                         Phone = registresturant.ResPhone,
-                        Description = "Welcome " + registresturant.ResName
+                        Description = registresturant.Description
                     };
 
 

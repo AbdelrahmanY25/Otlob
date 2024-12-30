@@ -14,6 +14,7 @@
         <a class="fMeals" asp-action="Details" asp-route-filter="trend" asp-route-id="@ViewBag.ResId">Trending Meals</a>
         <a class="fMeals" asp-action="Details" asp-route-filter="main" asp-route-id="@ViewBag.ResId">Main Course</a>
         <a class="fMeals" asp-action="Details" asp-route-filter="grilled" asp-route-id="@ViewBag.ResId">Grilled</a>
+        <a class="fMeals" asp-action="Details" asp-route-filter="Drink" asp-route-id="@ViewBag.ResId">Drinks</a>
         <a class="fMeals" asp-action="Details" asp-route-filter="Desserts" asp-route-id="@ViewBag.ResId">Desserts</a>
         <a class="fMeals" asp-action="Details" asp-route-filter="Bakeries" asp-route-id="@ViewBag.ResId">Bakeries</a>
         <a class="fMeals" asp-action="Details" asp-route-filter="all" asp-route-id="@ViewBag.ResId">All Meals</a>
@@ -45,7 +46,7 @@
                 </div>                
                 <div class="text">
                     <h3>@item.Name</h3>
-                    <p>Price: <span>@item.Price.ToString("C")</span></p>
+                    <p>Price: <span>@item.Price L.E</span></p>
                     <p>Category: @item.Category</p>
                     <p >Enough To: @item.NumberOfServings</p>
                 </div>

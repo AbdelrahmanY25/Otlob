@@ -52,6 +52,7 @@ namespace Otlob.Areas.Customer.Controllers
                     "grilled" => meals.Where(m => m.Category == MealCategory.Grill),
                     "desserts" => meals.Where(m => m.Category == MealCategory.Dessert),
                     "bakeries" => meals.Where(m => m.Description.Contains("Bakeries")),
+                    "drink" => meals.Where(m => m.Description.Contains("Drink")),
                     _ => meals
                 };
             }

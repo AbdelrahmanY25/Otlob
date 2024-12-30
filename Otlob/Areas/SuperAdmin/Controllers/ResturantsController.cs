@@ -302,6 +302,8 @@ namespace Otlob.Areas.SuperAdmin.Controllers
                     Price = mealVm.Price,
                     Category = mealVm.Category,
                     IsAvailable = mealVm.IsAvailable,
+                    IsNewMeal = mealVm.IsNewMeal,
+                    IsTrendingMeal = mealVm.IsTrendingMeal,
                     ImageUrl = mealVm.ImageUrl,
                     RestaurantId = resId
                 };

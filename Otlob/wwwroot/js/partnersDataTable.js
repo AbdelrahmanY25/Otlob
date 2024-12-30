@@ -16,7 +16,7 @@
         "columns": [
             { "data": "id", "name": "Id", "autowidth": true },
             { "data": "userName", "name": "UserName", "autowidth": true },
-            { "data": "phoneNumber", "name": "PhoneNumber", "autowidth": true },
+            { "data": "phone", "name": "Phone", "autowidth": true },
             { "data": "email", "name": "Email", "autowidth": true },
         ]
     });

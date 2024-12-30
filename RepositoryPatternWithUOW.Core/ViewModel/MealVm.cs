@@ -17,7 +17,7 @@ namespace Otlob.Core.ViewModel
         public string Name { get; set; }
 
         [ValidateNever]
-        public string ImageUrl { get; set; }
+        public string? ImageUrl { get; set; }
 
         [Required, MinLength(3)]
         public string Description { get; set; }
@@ -26,7 +26,10 @@ namespace Otlob.Core.ViewModel
         public decimal Price { get; set; }
 
         [Required]
-        public bool IsAvailable { get; set; }       
+        public bool IsAvailable { get; set; }
+
+        public bool IsNewMeal { get; set; }
+        public bool IsTrendingMeal { get; set; }
 
         [Required]
         public MealCategory Category { get; set; }
