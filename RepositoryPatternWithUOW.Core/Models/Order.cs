@@ -1,10 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using RepositoryPatternWithUOW.Core.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Otlob.Core.Models
 {
@@ -14,7 +9,7 @@ namespace Otlob.Core.Models
         public string ApplicationUserId { get; set; } = null!; 
         public string CustomerAddres { get; set; } = null!; 
         public int RestaurantId { get; set; }
-        public int CartInOrderId { get; set; } 
+        public int CartInOrderId { get; set; }
         public DateTime OrderDate { get; set; } = DateTime.Now;
         public OrderStatus Status { get; set; } = OrderStatus.Pending;
         public PaymentMethod Method {  get; set; }

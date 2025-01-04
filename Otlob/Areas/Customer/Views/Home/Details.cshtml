@@ -76,13 +76,13 @@
                     <div class="modal-image">
                         <img id="mealImage" src="" alt="Meal Image" />
                     </div>
-                    <form id="deleteForm" method="post" asp-action="AddMeal">
+                    <form id="deleteForm" method="post" asp-controller="Cart" asp-action="AddToCart">
                         <input type="hidden" name="MealId" id="categoryIdInput" value="" />
                         <input type="hidden" name="MealName" id="categoryNameInput" value="" />
                         <input type="hidden" name="RestaurantId" id="resturantIdInput" value="" />
 
                         <label for="quantity" class="form-label">Quantity</label>
-                        <input class="form-control" type="number" name="Quantity" id="quantity" placeholder="Enter Quantity" value="1" min="1" required />
+                        <input class="form-control" type="number" name="Quantity" id="quantity" placeholder="Enter Quantity" value="1" min="1" max="99" required />
 
                         <label for="mealDescription" class="form-label">Description</label>
                         <textarea id="mealDescription" name="MealDescription" class="form-control" placeholder="Write your Discreption, what is your additions if you want like (Spicy, Extra cheese)" rows="3"></textarea>

@@ -42,7 +42,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Content Update="Areas\Customer\Views\Account\RegistResturant.cshtml">
+	  <Content Update="Areas\Customer\Views\BecomeaPartner\BecomeaPartner.cshtml">
 	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
 	    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
 	  </Content>

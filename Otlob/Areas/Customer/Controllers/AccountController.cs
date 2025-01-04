@@ -143,6 +143,7 @@ namespace Otlob.Areas.Customer.Controllers
                     PhoneNumber = user.PhoneNumber,
                     ProfilePicture = user.ProfilePicture
                 };
+
                 return View(userProfile);
             }
 
@@ -256,66 +257,7 @@ namespace Otlob.Areas.Customer.Controllers
             }
 
             return View();
-        }
-
-        public IActionResult RegistResturant()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> RegistResturant(RegistResturantVM registresturant)
-        {
-            if (ModelState.IsValid)
-            {
-                var applicationUser = new ApplicationUser
-                {
-                    UserName = registresturant.ResUserName,
-                    Email = registresturant.ResEmail,
-                };
-
-                var result = await userManager.CreateAsync(applicationUser, registresturant.Password);
-
-                if (result.Succeeded)
-                {
-                    await userManager.AddToRoleAsync(applicationUser, SD.restaurantAdmin);
-
-                    var resturant = new Restaurant
-                    {
-                        Name = registresturant.ResName,
-                        Email = registresturant.ResEmail,
-                        Address = registresturant.ResAddress.ToString(),
-                        Phone = registresturant.ResPhone,
-                        Description = registresturant.Description
-                    };
-
-
-                    unitOfWorkRepository.Restaurants.Create(resturant);
-                    unitOfWorkRepository.SaveChanges();
-
-                    var theresturant = unitOfWorkRepository.Restaurants.GetOne(expression: r => r.Name == registresturant.ResName, tracked: false);
-
-                    if (theresturant != null)
-                    {
-                        applicationUser.Resturant_Id = theresturant.Id;
-                        await userManager.UpdateAsync(applicationUser);
-                    }
-
-                    TempData["Success"] = "Resturant Account Created Succefully";
-
-                    return RedirectToAction("Index", "Home");
-                }
-                else
-                {
-                    foreach (var error in result.Errors)
-                    {
-                        ModelState.AddModelError("", error.Description);
-                    }
-                    return View(registresturant);
-                }
-            }
-            return View(registresturant);
-        }
+        }      
        
         public IActionResult Logout()
         {

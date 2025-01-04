@@ -88,6 +88,5 @@ namespace Otlob.Areas.Customer.Controllers
 
             return RedirectToAction("SavedAddresses", addresses);
         }
-
     }
 }
