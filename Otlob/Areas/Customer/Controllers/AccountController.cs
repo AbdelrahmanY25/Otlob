@@ -1,13 +1,11 @@
-﻿using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Otlob.Core.IUnitOfWorkRepository;
+using Otlob.Core.Services;
+using Otlob.Core.IServices;
 using Otlob.Core.Models;
 using Otlob.Core.ViewModel;
-using RepositoryPatternWithUOW.Core.Models;
-using System.ComponentModel.DataAnnotations;
-using System.Security.Claims;
 using Utility;
 
 namespace Otlob.Areas.Customer.Controllers
@@ -19,16 +17,22 @@ namespace Otlob.Areas.Customer.Controllers
         private readonly SignInManager<ApplicationUser> signInManager;
         private readonly RoleManager<IdentityRole> roleManager;
         private readonly IUnitOfWorkRepository unitOfWorkRepository;
+        private readonly IImageService imageService;
+        private readonly IUserServices userServices;
 
         public AccountController(UserManager<ApplicationUser> userManager,
                                   SignInManager<ApplicationUser> signInManager,
                                   RoleManager<IdentityRole> roleManager,
-                                  IUnitOfWorkRepository unitOfWorkRepository)
+                                  IUnitOfWorkRepository unitOfWorkRepository,
+                                  IImageService imageService,
+                                  IUserServices userServices)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
             this.roleManager = roleManager;
             this.unitOfWorkRepository = unitOfWorkRepository;
+            this.imageService = imageService;
+            this.userServices = userServices;
         }
 
         public async Task<IActionResult> Register()
@@ -104,18 +108,7 @@ namespace Otlob.Areas.Customer.Controllers
                     {
                         await signInManager.SignInAsync(userDb, loginVM.RememberMe);
 
-                        if (await userManager.IsInRoleAsync(userDb, SD.superAdminRole))
-                        {
-                            return RedirectToAction("Index", "Home", new { area = "SuperAdmin" });
-                        }
-                        else if (await userManager.IsInRoleAsync(userDb, SD.restaurantAdmin))
-                        {
-                            return RedirectToAction("Index", "Home", new { area = "ResturantAdmin" });
-                        }
-                        else if (await userManager.IsInRoleAsync(userDb, SD.customer))
-                        {
-                            return RedirectToAction("Index", "Home", new { area = "Customer" });
-                        }
+                        return await CheckOnUserRoll(userDb);
                     }
                     else
                         ModelState.AddModelError("", "There is invalid user name or password");
@@ -127,23 +120,29 @@ namespace Otlob.Areas.Customer.Controllers
             return View(loginVM);
         }
 
+        private async Task<IActionResult> CheckOnUserRoll(ApplicationUser user)
+        {
+            if (await userManager.IsInRoleAsync(user, SD.superAdminRole))
+            {
+                return RedirectToAction("Index", "Home", new { area = "SuperAdmin" });
+            }
+            else if (await userManager.IsInRoleAsync(user, SD.restaurantAdmin))
+            {
+                return RedirectToAction("Index", "Home", new { area = "ResturantAdmin" });
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home", new { area = "Customer" });
+            }
+        }
+
         public async Task<IActionResult> Profile()
         {
             var user = await userManager.FindByNameAsync(User.Identity.Name);
 
             if (user != null)
             {
-                var userProfile = new ProfileVM
-                {
-                    Email = user.Email,
-                    BirthDate = user.BirthDate,
-                    FirstName = user.FirstName,
-                    LastName = user.LastName,
-                    Gender = user.Gender,
-                    PhoneNumber = user.PhoneNumber,
-                    ProfilePicture = user.ProfilePicture
-                };
-
+                var userProfile = ProfileVM.MapToProfileVM(user);
                 return View(userProfile);
             }
 
@@ -158,65 +157,40 @@ namespace Otlob.Areas.Customer.Controllers
                 var user = await userManager.GetUserAsync(User);
 
                 if (user != null)
-                {                                        
-                    if (Request.Form.Files.Count > 0)
+                {
+                    user = userServices.ValidateUserInfo(user, profileVM);
+
+                    var updateUserInfo = await userManager.UpdateAsync(user);
+
+                    if (!imageService.UploadUserProfilePicture(Request.Form.Files)) return RedirectToAction("Profile");
+
+                    var image = Request.Form.Files.FirstOrDefault();
+                    var resOfValidation = imageService.ValidateImageSizeAndExtension(image);
+
+                    if (resOfValidation is string error)
                     {
-                        var file = Request.Form.Files.FirstOrDefault();
-
-                        if (file != null)
-                        {
-                            const long maxFileSize = 4 * 1024 * 1024;
-
-                            if (file.Length > maxFileSize)
-                            {
-                                ModelState.AddModelError("", "The file size exceeds the 4MB limit.");
-                                return View(profileVM);
-                            }
-
-                            var allowedExtentions = new[] { ".png", ".jpg", ".jpeg" };
-                            var fileExtension = Path.GetExtension(file.FileName).ToLowerInvariant();
-
-                            if (!allowedExtentions.Contains(fileExtension))
-                            {
-                                ModelState.AddModelError("", "Invalid file type. Only .jpg, .jpeg, and .png are allowed.");
-                                return View(profileVM);
-                            }
-
-                            using (var memoryStream = new MemoryStream())
-                            {
-                                await file.CopyToAsync(memoryStream);
-                                user.ProfilePicture = memoryStream.ToArray();
-                            }
-
-                            var updateResult = await userManager.UpdateAsync(user);
-
-                            if (updateResult.Succeeded)
-                            {
-                                TempData["Success"] = "Profile Picture updated successfully.";
-                                return RedirectToAction("Profile");
-                            }
-
-                            foreach (var error in updateResult.Errors)
-                            {
-                                ModelState.AddModelError("", error.Description);
-                            }
-                        }
+                        ModelState.AddModelError("", error);
+                        profileVM.ProfilePicture = user.ProfilePicture;
+                        return View(profileVM);
                     }
 
-                    if (user.Email != profileVM.Email || user.FirstName != profileVM.FirstName || user.LastName != profileVM.LastName || user.PhoneNumber != profileVM.PhoneNumber || user.Gender != profileVM.Gender || user.BirthDate != profileVM.BirthDate)
+                    if (!await imageService.CopyImageToMemoryStream(image, user))
                     {
-                        user.FirstName = profileVM.FirstName;
-                        user.LastName = profileVM.LastName;
-                        user.BirthDate = profileVM.BirthDate;
-                        user.Gender = profileVM.Gender;
-                        user.PhoneNumber = profileVM.PhoneNumber;
-                        user.Email = profileVM.Email;
-                        var result = await userManager.UpdateAsync(user);
-                        if (result.Succeeded)
-                        {
-                            TempData["Success"] = "Profile updated successfully.";
-                            return RedirectToAction("Profile");
-                        }
+                        ModelState.AddModelError("", "Error in uploading image");
+                        return View(profileVM);
+                    }
+
+                    updateUserInfo = await userManager.UpdateAsync(user);
+
+                    if (updateUserInfo.Succeeded)
+                    {
+                        TempData["Success"] = "Your profile info updated successfully.";
+                        return RedirectToAction("Profile");                        
+                    }
+                    
+                    foreach (var errorInfo in updateUserInfo.Errors)
+                    {
+                        ModelState.AddModelError("", errorInfo.Description);
                     }
                 }                
             }

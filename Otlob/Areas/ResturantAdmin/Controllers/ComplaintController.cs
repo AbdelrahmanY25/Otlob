@@ -13,11 +13,11 @@ namespace Otlob.Areas.ResturantAdmin.Controllers
         private readonly IUnitOfWorkRepository unitOfWorkRepository;
         private readonly UserManager<ApplicationUser> userManager;
 
-        public ComplaintController(IUnitOfWorkRepository unitOfWorkRepository, UserManager<ApplicationUser> userManager)
+        public ComplaintController(IUnitOfWorkRepository unitOfWorkRepository,
+                                   UserManager<ApplicationUser> userManager)
         {
             this.unitOfWorkRepository = unitOfWorkRepository;
             this.userManager = userManager;
-            ;
         }
         public  async Task<IActionResult> CustomerComplaints()
         {

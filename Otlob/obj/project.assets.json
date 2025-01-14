@@ -9777,11 +9777,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\Otlob.csproj",
+      "projectUniqueName": "D:\\My_Projects\\Otlob\\Otlob\\Otlob.csproj",
       "projectName": "Otlob",
-      "projectPath": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\Otlob.csproj",
+      "projectPath": "D:\\My_Projects\\Otlob\\Otlob\\Otlob.csproj",
       "packagesPath": "C:\\Users\\ASUS\\.nuget\\packages\\",
-      "outputPath": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\obj\\",
+      "outputPath": "D:\\My_Projects\\Otlob\\Otlob\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -9802,11 +9802,11 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "D:\\My_Projects\\Talabat Project\\Otlob\\RepositoryPatternWithUOW.EF\\Otlob.EF.csproj": {
-              "projectPath": "D:\\My_Projects\\Talabat Project\\Otlob\\RepositoryPatternWithUOW.EF\\Otlob.EF.csproj"
+            "D:\\My_Projects\\Otlob\\RepositoryPatternWithUOW.EF\\Otlob.EF.csproj": {
+              "projectPath": "D:\\My_Projects\\Otlob\\RepositoryPatternWithUOW.EF\\Otlob.EF.csproj"
             },
-            "D:\\My_Projects\\Talabat Project\\Otlob\\Utility\\Utility.csproj": {
-              "projectPath": "D:\\My_Projects\\Talabat Project\\Otlob\\Utility\\Utility.csproj"
+            "D:\\My_Projects\\Otlob\\Utility\\Utility.csproj": {
+              "projectPath": "D:\\My_Projects\\Otlob\\Utility\\Utility.csproj"
             }
           }
         }

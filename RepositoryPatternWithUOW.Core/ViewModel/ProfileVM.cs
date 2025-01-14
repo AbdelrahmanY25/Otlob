@@ -1,11 +1,5 @@
 ﻿using Otlob.Core.Models;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Utility;
 
 namespace Otlob.Core.ViewModel
 {
@@ -15,7 +9,7 @@ namespace Otlob.Core.ViewModel
 
         [Required, MaxLength(100), Display(Prompt = "Email")]
         [DataType(DataType.EmailAddress)]
-        public string? Email { get; set; }      
+        public string? Email { get; set; }
 
         [MaxLength(15), Display(Prompt = "FirstName")]
         [RegularExpression(@"^[a-zA-Z]{1,15}$", ErrorMessage = "The FirstName must be only letters.")]
@@ -36,5 +30,19 @@ namespace Otlob.Core.ViewModel
         [Required, DataType(DataType.PhoneNumber)]
         [RegularExpression(@"^\d{1,11}$", ErrorMessage = "The phone number must contain only numbers and be up to 11 digits long.")]
         public string? PhoneNumber { get; set; }
+
+        public static ProfileVM MapToProfileVM(ApplicationUser user)
+        {
+            return new ProfileVM
+            {
+                Email = user.Email,
+                BirthDate = user.BirthDate,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Gender = user.Gender,
+                PhoneNumber = user.PhoneNumber,
+                ProfilePicture = user.ProfilePicture
+            };
+        }
     }
 }

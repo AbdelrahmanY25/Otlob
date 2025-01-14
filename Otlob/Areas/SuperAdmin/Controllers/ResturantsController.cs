@@ -1,13 +1,13 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Otlob.Core.IServices;
 using Otlob.Core.IUnitOfWorkRepository;
 using Otlob.Core.Models;
+using Otlob.Core.Services;
 using Otlob.Core.ViewModel;
-using Otlob.EF.UnitOfWorkRepository;
 using RepositoryPatternWithUOW.Core.Models;
 using Utility;
-using static NuGet.Packaging.PackagingConstants;
 
 namespace Otlob.Areas.SuperAdmin.Controllers
 {
@@ -16,132 +16,88 @@ namespace Otlob.Areas.SuperAdmin.Controllers
     {       
         private readonly IUnitOfWorkRepository unitOfWorkRepository;
         private readonly UserManager<ApplicationUser> userManager;
+        private readonly IImageService imageService;
+        private readonly IUserServices userServices;
 
-        public ResturantsController(IUnitOfWorkRepository unitOfWorkRepository, UserManager<ApplicationUser> userManager)
+        public ResturantsController(IUnitOfWorkRepository unitOfWorkRepository,
+                                    UserManager<ApplicationUser> userManager, 
+                                    IImageService imageService,
+                                    IUserServices userServices)
         {
             this.unitOfWorkRepository = unitOfWorkRepository;
             this.userManager = userManager;
+            this.imageService = imageService;
+            this.userServices = userServices;
         }
         public IActionResult ResturantDetails(int id)
         {
             var resturnat = unitOfWorkRepository.Restaurants.GetOne(expression: r => r.Id == id);
 
             return View(resturnat);
-        }
-
-        public IActionResult AcceptResturant(int id)
-        {
-            var res = unitOfWorkRepository.Restaurants.GetOne(expression: r => r.Id == id);
-            if (res != null)
-            {
-                res.AcctiveStatus = AcctiveStatus.Acctive;
-                unitOfWorkRepository.Restaurants.Edit(res);
-                unitOfWorkRepository.SaveChanges();
-            }
-
-            var resturants = unitOfWorkRepository.Restaurants.Get(expression: r => r.AcctiveStatus != AcctiveStatus.Unaccepted);
-            TempData["Success"] = "The Resturant Status is Active";
-            return RedirectToAction("ActiveResturatns", "Home", resturants);
-        }
-
-        public IActionResult WarnResturant(int id)
-        {
-            var res = unitOfWorkRepository.Restaurants.GetOne(expression: r => r.Id == id);
-            if (res != null)
-            {
-                res.AcctiveStatus = AcctiveStatus.Warning;
-                unitOfWorkRepository.Restaurants.Edit(res);
-                unitOfWorkRepository.SaveChanges();
-            }
-
-            TempData["Success"] = "The Warning Was Sent to Resturant";
-            return RedirectToAction("ActiveResturatns", "Home");
-        }
-
-        public IActionResult BlockResturant(int id)
-        {
-            var res = unitOfWorkRepository.Restaurants.GetOne(expression: r => r.Id == id);
-            if (res != null)
-            {
-                res.AcctiveStatus = AcctiveStatus.Block;
-                unitOfWorkRepository.Restaurants.Edit(res);
-                unitOfWorkRepository.SaveChanges();
-            }
-
-            TempData["Success"] = "The Resturant Account Was Blocked";
-            return RedirectToAction("ActiveResturatns", "Home");
-        }
+        }        
 
         #region ResturantsProfiles
         public IActionResult ResturantProfile(int id)
         {
             var res = unitOfWorkRepository.Restaurants.GetOne(expression: r => r.Id == id);
+            if (res == null) return RedirectToAction("ActiveResturatns", "Home");
+            var resVM = RestaurantVM.MapToRestaurantVM(res);
             ViewBag.ResturantId = res.Id;
-            return View(res);
+            return View(resVM);
         }
 
         [HttpPost, ValidateAntiForgeryToken]
-        public IActionResult ResturantProfile(Restaurant restaurant, IFormFile Logo)
+        public IActionResult ResturantProfile(RestaurantVM restaurantVM, int resId, IFormFile logo)
         {
-            var oldResturant = unitOfWorkRepository.Restaurants.GetOne(expression: r => r.Id == restaurant.Id, tracked: false);
+            var oldResturant = unitOfWorkRepository.Restaurants.GetOne(expression: r => r.Id == resId, tracked: false);
 
             if (ModelState.IsValid)
             {
-                if (Logo != null)
+                var resOfValidation = imageService.ValidateImageSizeAndExtension(logo);
+
+                if (resOfValidation is string error)
                 {
-                    if (Logo.Length > 0)
-                    {
-                        const long maxFileSize = 4 * 1024 * 1024;
+                    ModelState.AddModelError("", error);
+                    restaurantVM.Logo = oldResturant.Logo;
+                    ViewBag.ResturantId = resId;
+                    return View(restaurantVM);
+                }                
 
-                        if (Logo.Length == 0 || Logo.Length > maxFileSize)
-                        {
-                            ModelState.AddModelError("", "The file size exceeds the 4MB limit.");
-                            return View(restaurant);
-                        }
+                var resOfDeleteOldImage = imageService.DelteOldImage(oldResturant.Logo, "wwwroot\\images\\resturantLogo");
 
-                        var allowedExtentions = new[] { ".png", ".jpg", ".jpeg" };
-                        var logoExtention = Path.GetExtension(Logo.FileName).ToLowerInvariant();
-
-                        if (!allowedExtentions.Contains(logoExtention))
-                        {
-                            ModelState.AddModelError("", "Invalid file type. Only .jpg, .jpeg, and .png are allowed.");
-                            return View(restaurant);
-                        }
-
-                        if (oldResturant.Logo != null)
-                        {
-                            var oldPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\images\\resturantLogo", oldResturant.Logo);
-
-                            if (System.IO.File.Exists(oldPath))
-                                System.IO.File.Delete(oldPath);
-                        }
-
-                        var logoName = Guid.NewGuid().ToString() + Path.GetExtension(Logo.FileName);
-                        var logoPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\images\\resturantLogo", logoName);
-
-                        using (var stream = System.IO.File.Create(logoPath))
-                        {
-                            Logo.CopyTo(stream);
-                        }
-
-                        restaurant.Logo = logoName;
-                    }
-                    else
-                    {
-                        restaurant.Logo = oldResturant.Logo;
-                    }
-
-                    restaurant.AcctiveStatus = oldResturant.AcctiveStatus;
-                    unitOfWorkRepository.Restaurants.Edit(restaurant);
-                    unitOfWorkRepository.SaveChanges();
-
-                    TempData["Success"] = "Your resturant info updated Successfully";
-
-                    return RedirectToAction("ResturantProfile");
+                if (!resOfDeleteOldImage)
+                {
+                    ModelState.AddModelError("", "Error in deleting old image");
+                    restaurantVM.Logo = oldResturant.Logo;
+                    ViewBag.ResturantId = resId;
+                    return View(restaurantVM);
                 }
+
+                var logoName = imageService.CreateNewImageExtention(logo, "wwwroot\\images\\resturantLogo");
+
+                if (logoName is null)
+                {
+                    ModelState.AddModelError("", "Error in uploading new image");
+                    restaurantVM.Logo = oldResturant.Logo;
+                    ViewBag.ResturantId = resId;
+                    return View(restaurantVM);
+                }
+
+                restaurantVM.Logo = logoName;
+
+                var restaurant = RestaurantVM.MapToRestaurant(restaurantVM, oldResturant);
+
+                unitOfWorkRepository.Restaurants.Edit(restaurant);
+                unitOfWorkRepository.SaveChanges();
+
+                TempData["Success"] = "Your resturant info updated Successfully";
+
+                return RedirectToAction("ResturantProfile", resId);
             }
 
-            return View(oldResturant);
+            ViewBag.ResturantId = resId;
+            restaurantVM.Logo = oldResturant.Logo;
+            return View(restaurantVM);
         }
 
         public IActionResult ResturantAdminProfile(int id)
@@ -150,16 +106,7 @@ namespace Otlob.Areas.SuperAdmin.Controllers
 
             if (admin != null)
             {
-                var userProfile = new ProfileVM
-                {
-                    Email = admin.Email,
-                    BirthDate = admin.BirthDate,
-                    FirstName = admin.FirstName,
-                    LastName = admin.LastName,
-                    Gender = admin.Gender,
-                    PhoneNumber = admin.PhoneNumber,
-                    ProfilePicture = admin.ProfilePicture
-                };
+                var userProfile = ProfileVM.MapToProfileVM(admin);
 
                 ViewBag.ResturantId = admin.Resturant_Id;
 
@@ -177,230 +124,54 @@ namespace Otlob.Areas.SuperAdmin.Controllers
             if (ModelState.IsValid)
             {
                 if (admin != null)
-                {
-                    if (Request.Form.Files.Count > 0)
+                {                 
+                    admin = userServices.ValidateUserInfo(admin, profileVM);
+
+                    var updateAdminInfo = await userManager.UpdateAsync(admin);
+
+                    if(!imageService.UploadUserProfilePicture(Request.Form.Files)) return RedirectToAction("ResturantAdminProfile", resId);
+
+                    var profilePic = Request.Form.Files.FirstOrDefault();
+
+                    var resOfValidation = imageService.ValidateImageSizeAndExtension(profilePic);
+
+                    if (resOfValidation is string error)
                     {
-                        var file = Request.Form.Files.FirstOrDefault();
-
-                        if (file != null)
-                        {
-                            const long maxFileSize = 4 * 1024 * 1024;
-                            if (file.Length > maxFileSize)
-                            {
-                                ModelState.AddModelError("", "The file size exceeds the 4MB limit.");
-                                return View(profileVM);
-                            }
-
-                            var allowedExtentions = new[] { ".png", ".jpg", ".jpeg" };
-                            var fileExtension = Path.GetExtension(file.FileName).ToLowerInvariant();
-
-                            if (!allowedExtentions.Contains(fileExtension))
-                            {
-                                ModelState.AddModelError("", "Invalid file type. Only .jpg, .jpeg, and .png are allowed.");
-                                return View(profileVM);
-                            }
-
-                            using (var memoryStream = new MemoryStream())
-                            {
-                                await file.CopyToAsync(memoryStream);
-                                admin.ProfilePicture = memoryStream.ToArray();
-                            }
-
-                            var updateResult = await userManager.UpdateAsync(admin);
-
-                            if (updateResult.Succeeded)
-                            {
-                                TempData["Success"] = "Profile Picture updated successfully.";
-                                return RedirectToAction("ResturantAdminProfile");
-                            }
-
-                            foreach (var error in updateResult.Errors)
-                            {
-                                ModelState.AddModelError("", error.Description);
-                            }
-                        }
+                        ModelState.AddModelError("", error);
+                        profileVM.ProfilePicture = admin.ProfilePicture;
+                        ViewBag.ResturantId = resId;
+                        return View(profileVM);
                     }
 
-                    if (admin.Email != profileVM.Email || admin.FirstName != profileVM.FirstName || admin.LastName != profileVM.LastName || admin.PhoneNumber != profileVM.PhoneNumber || admin.Gender != profileVM.Gender || admin.BirthDate != profileVM.BirthDate)
+                    if (!await imageService.CopyImageToMemoryStream(profilePic, admin))
                     {
-                        admin.FirstName = profileVM.FirstName;
-                        admin.LastName = profileVM.LastName;
-                        admin.BirthDate = profileVM.BirthDate;
-                        admin.Gender = profileVM.Gender;
-                        admin.PhoneNumber = profileVM.PhoneNumber;
-                        admin.Email = profileVM.Email;
+                        ModelState.AddModelError("", "Error in uploading image");
+                        ViewBag.ResturantId = resId;
+                        return View(profileVM);
+                    }
+                    
+                    updateAdminInfo = await userManager.UpdateAsync(admin);
 
-                        var result = await userManager.UpdateAsync(admin);
+                    if (updateAdminInfo.Succeeded)
+                    {
+                        TempData["Success"] = "User profile updated successfully.";
+                        return RedirectToAction("ResturantAdminProfile", resId);
+                    }
 
-                        if (result.Succeeded)
-                        {
-                            TempData["Success"] = "User profile updated successfully.";
-                            return RedirectToAction("ResturantAdminProfile");
-                        }
+
+                    foreach (var errorInfo in updateAdminInfo.Errors)
+                    {
+                        ModelState.AddModelError("", errorInfo.Description);
                     }
                 }
             }
 
+            ViewBag.ResturantId = resId;
+            profileVM.ProfilePicture = admin.ProfilePicture;
             return View(profileVM);
         }
 
-        #endregion ResturantsProfiles
-
-        #region ResturantsMeals
-        public IActionResult ResturantMeals(int id)
-        {
-            var meals = unitOfWorkRepository.Meals.Get(expression: m => m.RestaurantId == id);
-            ViewBag.ResturantId = id;
-            return View(meals);
-        }
-
-        public IActionResult AddMeal(int resId)
-        {
-            ViewBag.ResturantId = resId;
-            return View();
-        }
-
-        [HttpPost, ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddMeal(MealVm mealVm, IFormFile ImageUrl, int resId)
-        {
-            if (ModelState.IsValid)
-            {
-                if (ImageUrl != null)
-                {
-                    const long maxImageUrlSize = 4 * 1024 * 1024;
-
-                    if (ImageUrl.Length > maxImageUrlSize)
-                    {
-                        ModelState.AddModelError("", "The ImageUrl size exceeds the 4MB limit.");
-                        return View(mealVm);
-                    }
-
-                    var allowedExtentions = new[] { ".png", ".jpg", ".jpeg" };
-                    var ImageUrlExtension = Path.GetExtension(ImageUrl.FileName).ToLowerInvariant();
-
-                    if (!allowedExtentions.Contains(ImageUrlExtension))
-                    {
-                        ModelState.AddModelError("", "Invalid ImageUrl type. Only .jpg, .jpeg, and .png are allowed.");
-                        return View(mealVm);
-                    }
-
-                    var fileName = Guid.NewGuid().ToString() + Path.GetExtension(ImageUrl.FileName);
-                    var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\images\\meals", fileName);
-
-                    using (var stream = System.IO.File.Create(filePath))
-                    {
-                        ImageUrl.CopyTo(stream);
-                    }
-
-                    mealVm.ImageUrl = fileName;
-                }
-
-                var meal = new Meal
-                {
-                    Name = mealVm.Name,
-                    Description = mealVm.Description,
-                    Price = mealVm.Price,
-                    Category = mealVm.Category,
-                    IsAvailable = mealVm.IsAvailable,
-                    IsNewMeal = mealVm.IsNewMeal,
-                    IsTrendingMeal = mealVm.IsTrendingMeal,
-                    ImageUrl = mealVm.ImageUrl,
-                    RestaurantId = resId
-                };
-
-                unitOfWorkRepository.Meals.Create(meal);
-                unitOfWorkRepository.SaveChanges();
-
-                TempData["Success"] = "Your New Meal Added Successfully";
-
-                return Redirect($"/SuperAdmin/Resturants/ResturantMeals/{resId}");
-            }
-
-            return View(mealVm);
-        }
-
-        public IActionResult MealDetails(int id, int resId)
-        {
-            var meal = unitOfWorkRepository.Meals.GetOne(expression: m => m.Id == id);
-            ViewBag.ResturantId = resId;
-            return View(meal);
-        }
-
-        [HttpPost, ValidateAntiForgeryToken]
-        public async Task<IActionResult> MealDetails(Meal meal, IFormFile ImageUrl, int resId)
-        {
-            var oldMeal = unitOfWorkRepository.Meals.GetOne(expression: m => m.Id == meal.Id, tracked: false);
-
-            if (ModelState.IsValid)
-            {
-                if (ImageUrl != null)
-                {
-                    const long maxImageUrlSize = 4 * 1024 * 1024;
-
-                    if (ImageUrl.Length > maxImageUrlSize)
-                    {
-                        ModelState.AddModelError("", "The ImageUrl size exceeds the 4MB limit.");
-                        return View(meal);
-                    }
-
-                    var allowedExtentions = new[] { ".png", ".jpg", ".jpeg" };
-                    var ImageUrlExtension = Path.GetExtension(ImageUrl.FileName).ToLowerInvariant();
-
-                    if (!allowedExtentions.Contains(ImageUrlExtension))
-                    {
-                        ModelState.AddModelError("", "Invalid ImageUrl type. Only .jpg, .jpeg, and .png are allowed.");
-                        return View(meal);
-                    }
-
-                    var oldPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\images\\meals", oldMeal.ImageUrl);
-
-                    if (System.IO.File.Exists(oldPath))
-                        System.IO.File.Delete(oldPath);
-
-                    var fileName = Guid.NewGuid().ToString() + Path.GetExtension(ImageUrl.FileName);
-                    var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\images\\meals", fileName);
-
-                    using (var stream = System.IO.File.Create(filePath))
-                    {
-                        ImageUrl.CopyTo(stream);
-                    }
-
-                    meal.ImageUrl = fileName;
-                }
-                else
-                {
-                    meal.ImageUrl = oldMeal.ImageUrl;
-                }
-
-                meal.RestaurantId = resId;
-
-                unitOfWorkRepository.Meals.Edit(meal);
-                unitOfWorkRepository.SaveChanges();
-
-                TempData["Success"] = "Your Old Meal Updated Successfully";
-
-                return Redirect($"/SuperAdmin/Resturants/ResturantMeals/{resId}");
-            }
-
-            return View(meal);
-        }
-
-        [HttpPost, ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteMeal(int id, int resId)
-        {
-            var meal = unitOfWorkRepository.Meals.GetOne(expression: m => m.Id == id);
-
-            if (meal != null)
-            {
-                unitOfWorkRepository.Meals.Delete(meal);
-                unitOfWorkRepository.SaveChanges();
-            }
-
-            TempData["Success"] = "Choosed meal was delleted";
-            return Redirect($"/SuperAdmin/Resturants/ResturantMeals/{resId}");
-        }
-
-        #endregion ResturantsMeals
+        #endregion ResturantsProfiles       
 
         #region ResturantsOrders
 

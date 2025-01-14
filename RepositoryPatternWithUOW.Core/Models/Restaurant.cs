@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Otlob.Core.Models;
+using Otlob.Core.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,5 +40,5 @@ namespace RepositoryPatternWithUOW.Core.Models
         Block,
         Warning,
         Unaccepted
-    }
+    }   
 }

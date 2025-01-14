@@ -75,7 +75,7 @@ else
 <div>
     <a class="btn btn-primary" asp-action="ResturantProfile" asp-route-id="@Model.Id">Resturant Profile</a>
     <a class="btn btn-primary" asp-action="ResturantAdminProfile" asp-route-id="@Model.Id">Resturant Admin Profile</a>
-    <a class="btn btn-warning" asp-action="ResturantMeals" asp-route-id="@Model.Id">Meals</a>
+    <a class="btn btn-warning" asp-controller="RestaurantMeals" asp-action="ResturantMeals" asp-route-id="@Model.Id">Meals</a>
     <a class="btn btn-success" asp-action="CurrentResturantOrders" asp-route-id="@Model.Id">Orders</a>
     <a class="btn btn-info" asp-action="DeliveredOrders" asp-route-id="@Model.Id">Delivered Orders</a>
     <a class="btn btn-danger" asp-action="ResturantComplaints" asp-route-id="@Model.Id">Complaints</a>

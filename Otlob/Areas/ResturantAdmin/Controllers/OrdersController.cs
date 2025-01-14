@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using Otlob.Core.IUnitOfWorkRepository;
 using Otlob.Core.Models;
 using Otlob.Core.ViewModel;
-using RepositoryPatternWithUOW.Core.Models;
 using Utility;
 
 namespace Otlob.Areas.ResturantAdmin.Controllers
@@ -15,7 +14,8 @@ namespace Otlob.Areas.ResturantAdmin.Controllers
         private readonly IUnitOfWorkRepository unitOfWorkRepository;
         private readonly UserManager<ApplicationUser> userManager;
 
-        public OrdersController(IUnitOfWorkRepository unitOfWorkRepository, UserManager<ApplicationUser> userManager)
+        public OrdersController(IUnitOfWorkRepository unitOfWorkRepository,
+                                UserManager<ApplicationUser> userManager)
         {
             this.unitOfWorkRepository = unitOfWorkRepository;
             this.userManager = userManager;
@@ -73,30 +73,6 @@ namespace Otlob.Areas.ResturantAdmin.Controllers
             };
 
             return View(viewModel);
-        }
-
-        public async Task<IActionResult> ChangeOrderStatus(int id)
-        {
-            var order = unitOfWorkRepository.Orders.GetOne(expression: o => o.Id == id);
-
-            if (order != null) 
-            {
-                order.Status = order.Status switch
-                {
-                    OrderStatus.Pending => OrderStatus.Preparing,
-                    OrderStatus.Preparing => OrderStatus.Shipped,
-                    OrderStatus.Shipped => OrderStatus.Delivered,
-                    _ => order.Status
-                };
-
-                unitOfWorkRepository.Orders.Edit(order);
-                unitOfWorkRepository.SaveChanges();
-            }
-
-            var resturant = await userManager.GetUserAsync(User);
-            var resturanOrders = unitOfWorkRepository.Orders.Get([o => o.ApplicationUser], expression: o => o.RestaurantId == resturant.Resturant_Id);
-
-            return RedirectToAction("Index", resturanOrders);
-        }
+        }        
     }
 }

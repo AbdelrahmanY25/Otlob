@@ -2,12 +2,13 @@ using Microsoft.EntityFrameworkCore;
 using Otlob.Core.Models;
 using Microsoft.AspNetCore.Identity;
 using Otlob.EF;
-using System.Configuration;
 using Otlob.Core.IUnitOfWorkRepository;
 using Otlob.EF.UnitOfWorkRepository;
 using Otlob.Core.Hubs;
 using Stripe;
 using Utility;
+using Otlob.Core.Services;
+using Otlob.Core.IServices;
 
 namespace Otlob
 {
@@ -46,6 +47,8 @@ namespace Otlob
             });
 
             builder.Services.AddScoped<IUnitOfWorkRepository, UnitOfWorkRepository>();
+            builder.Services.AddScoped<IImageService, ImageService>();
+            builder.Services.AddScoped<IUserServices, UserServices>();
 
             builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
             StripeConfiguration.ApiKey = builder.Configuration["Stripe:SecretKey"];

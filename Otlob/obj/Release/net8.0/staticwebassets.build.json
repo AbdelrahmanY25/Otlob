@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "GUorVhB4wgopNNy6xWKrsRXYH/Tn80CqVHjvUpOinhE=",
+  "Hash": "xME9D3TsnOt9OQS1cDEgoK9rg9BhqDDlWk3gALsujy0=",
   "Source": "Otlob",
   "BasePath": "_content/Otlob",
   "Mode": "Default",
@@ -2824,8 +2824,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "4xpz356j31",
-      "Integrity": "CFsUQbH+Cc6IOYvl8ANq0g04NTee6qYaS6GWYWvwePA=",
+      "Fingerprint": "94touw5ma9",
+      "Integrity": "ade5YCzWn/QN0MmW8iLbeBQHBzTGQd//zhKDvdUQH1Q=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\js\\partnersDataTable.js"
@@ -12975,7 +12975,7 @@
       ]
     },
     {
-      "Route": "js/partnersDataTable.4xpz356j31.js",
+      "Route": "js/partnersDataTable.94touw5ma9.js",
       "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\js\\partnersDataTable.js",
       "Selectors": [],
       "ResponseHeaders": [
@@ -12985,7 +12985,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "752"
+          "Value": "740"
         },
         {
           "Name": "Content-Type",
@@ -12993,11 +12993,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"CFsUQbH+Cc6IOYvl8ANq0g04NTee6qYaS6GWYWvwePA=\""
+          "Value": "\"ade5YCzWn/QN0MmW8iLbeBQHBzTGQd//zhKDvdUQH1Q=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Sat, 14 Dec 2024 14:01:35 GMT"
+          "Value": "Sat, 21 Dec 2024 01:43:11 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -13007,7 +13007,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "4xpz356j31"
+          "Value": "94touw5ma9"
         },
         {
           "Name": "label",
@@ -13015,7 +13015,7 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-CFsUQbH+Cc6IOYvl8ANq0g04NTee6qYaS6GWYWvwePA="
+          "Value": "sha256-ade5YCzWn/QN0MmW8iLbeBQHBzTGQd//zhKDvdUQH1Q="
         }
       ]
     },
@@ -13030,7 +13030,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "752"
+          "Value": "740"
         },
         {
           "Name": "Content-Type",
@@ -13038,11 +13038,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"CFsUQbH+Cc6IOYvl8ANq0g04NTee6qYaS6GWYWvwePA=\""
+          "Value": "\"ade5YCzWn/QN0MmW8iLbeBQHBzTGQd//zhKDvdUQH1Q=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Sat, 14 Dec 2024 14:01:35 GMT"
+          "Value": "Sat, 21 Dec 2024 01:43:11 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -13052,7 +13052,7 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-CFsUQbH+Cc6IOYvl8ANq0g04NTee6qYaS6GWYWvwePA="
+          "Value": "sha256-ade5YCzWn/QN0MmW8iLbeBQHBzTGQd//zhKDvdUQH1Q="
         }
       ]
     },

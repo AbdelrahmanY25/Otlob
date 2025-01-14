@@ -34,7 +34,7 @@
         <a asp-action="TrackOrders" asp-controller="OrdersHistory">My Orders</a>
     </div>
     <form asp-action="Profile" enctype="multipart/form-data">        
-        <div asp-validation-summary="All" class="text-danger"></div>
+        <div asp-validation-summary="All" class="text-danger mb-5"></div>
         <div class="field">
             <label asp-for="Email"></label>
             <input asp-for="Email" value="@Model.Email"/>

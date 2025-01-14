@@ -1290,8 +1290,8 @@
       <RelatedAsset></RelatedAsset>
       <AssetTraitName></AssetTraitName>
       <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>4xpz356j31</Fingerprint>
-      <Integrity>CFsUQbH+Cc6IOYvl8ANq0g04NTee6qYaS6GWYWvwePA=</Integrity>
+      <Fingerprint>94touw5ma9</Fingerprint>
+      <Integrity>ade5YCzWn/QN0MmW8iLbeBQHBzTGQd//zhKDvdUQH1Q=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\js\partnersDataTable.js'))</OriginalItemSpec>

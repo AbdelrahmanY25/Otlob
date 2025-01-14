@@ -48,15 +48,20 @@ namespace Otlob.Areas.Customer.Controllers
 
             if (ModelState.IsValid)
             {
-                if (order.Method == PaymentMethod.Credit)
-                {
-                    return PayWithCredit(order, cartId);
-                }
-               
-                return await AddOrder(order, cartId);
+               return await CheckPaymentMethod(order, cartId);
             }
 
             return RedirectToAction("Index", userCarts);
+        }
+
+        private async Task<IActionResult> CheckPaymentMethod(Order order, int cartId)
+        {
+            if (order.Method == PaymentMethod.Credit)
+            {
+                return PayWithCredit(order, cartId);
+            }
+
+            return await AddOrder(order, cartId);
         }
 
         public async Task<IActionResult> AddOrder(Order order, int cartId)
@@ -76,14 +81,14 @@ namespace Otlob.Areas.Customer.Controllers
 
             var userCarts = unitOfWorkRepository.Carts.Get(expression: c => c.UserId == user.Id);
 
-            if (!userCarts.Any())
+            if (userCarts.Count() > 0)
             {
-                TempData["Success"] = "Your order was successfully placed!";
-                return RedirectToAction("Index", "Home");
+                TempData["Success"] = "Your Order Placed Successfully";
+                return RedirectToAction("Index", userCarts);                    
             }
 
-            TempData["Success"] = "Your Order Placed Successfully";
-            return RedirectToAction("Index", userCarts);                    
+            TempData["Success"] = "Your order was successfully placed!";
+            return RedirectToAction("Index", "Home");
         }
 
         public IActionResult PayWithCredit(Order order, int cartId)

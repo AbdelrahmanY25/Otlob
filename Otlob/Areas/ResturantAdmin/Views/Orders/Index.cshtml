@@ -49,13 +49,13 @@
                 <div class="text">
                     <h6>Order Status: <strong class="text-success">@item.Status</strong></h6>
                     @if (item.Status == OrderStatus.Pending) {
-                        <a class="btn btn-secondary" asp-action="ChangeOrderStatus" asp-route-id="@item.Id" >Make Order Preparing</a>
+                        <a class="btn btn-secondary" asp-controller="OrderStatus" asp-action="ChangeOrderStatus" asp-route-id="@item.Id">Make Order Preparing</a>
                     }
                     else if (item.Status == OrderStatus.Preparing) {
-                        <a class="btn btn-warning" asp-action="ChangeOrderStatus" asp-route-id="@item.Id">Make Order Shipped</a>
+                        <a class="btn btn-warning" asp-controller="OrderStatus" asp-action="ChangeOrderStatus" asp-route-id="@item.Id">Make Order Shipped</a>
                     }
                     else if (item.Status == OrderStatus.Shipped) {
-                        <a class="btn btn-success" asp-action="ChangeOrderStatus" asp-route-id="@item.Id">Make Order Delivered</a>
+                        <a class="btn btn-success" asp-controller="OrderStatus" asp-action="ChangeOrderStatus" asp-route-id="@item.Id">Make Order Delivered</a>
                     }
                 </div>
                 <div class="read">

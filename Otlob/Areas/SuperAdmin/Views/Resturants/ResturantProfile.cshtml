@@ -1,4 +1,4 @@
-﻿@model RepositoryPatternWithUOW.Core.Models.Restaurant
+﻿@model Otlob.Core.ViewModel.RestaurantVM
 
 @section Profile {
     <partial name="_ProfilePartial"></partial>
@@ -24,8 +24,8 @@
     </div>
 
     <form asp-action="ResturantProfile" enctype="multipart/form-data">
-        <div asp-validation-summary="All" class="text-danger"></div>
-        <input type="hidden" asp-for="Id" />
+        <div asp-validation-summary="All" class="text-danger mb-4"></div>
+        <input name="resId" type="hidden" value="@ViewBag.ResturantId" />
         <div class="field">
             <label asp-for="Name"></label>
             <input asp-for="Name" value="@Model.Name" />

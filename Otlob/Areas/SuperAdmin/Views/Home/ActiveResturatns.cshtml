@@ -52,18 +52,18 @@
                     <a class="btn btn-success" asp-controller="Resturants" asp-action="ResturantDetails" asp-route-id="@item.Id">Resturant Details</a>
                     @if (item.AcctiveStatus == AcctiveStatus.Warning) 
                     {
-                        <a class="btn btn-secondary text-light" asp-controller="Resturants" asp-action="AcceptResturant" asp-route-id="@item.Id">UnWarning</a>
-                        <a class="btn btn-danger" asp-controller="Resturants" asp-action="BlockResturant" asp-route-id="@item.Id">Block Resturant</a>
+                        <a class="btn btn-secondary text-light" asp-controller="RestaurantStatus" asp-action="AcceptResturant" asp-route-id="@item.Id">UnWarning</a>
+                        <a class="btn btn-danger" asp-controller="RestaurantStatus" asp-action="BlockResturant" asp-route-id="@item.Id">Block Resturant</a>
                     }
                     else if (item.AcctiveStatus == AcctiveStatus.Block) 
                     {
-                        <a class="btn btn-warning text-light"  asp-controller="Resturants" asp-action="WarnResturant" asp-route-id="@item.Id">Send Warning To Resturant</a>
-                        <a class="btn btn-secondary text-light" asp-controller="Resturants" asp-action="AcceptResturant" asp-route-id="@item.Id">UnBlock Resturant</a>
+                        <a class="btn btn-warning text-light" asp-controller="RestaurantStatus" asp-action="WarnResturant" asp-route-id="@item.Id">Send Warning To Resturant</a>
+                        <a class="btn btn-secondary text-light" asp-controller="RestaurantStatus" asp-action="AcceptResturant" asp-route-id="@item.Id">UnBlock Resturant</a>
                     }
                     else 
                     {
-                        <a class="btn btn-warning text-light"  asp-controller="Resturants" asp-action="WarnResturant" asp-route-id="@item.Id">Send Warning To Resturant</a>
-                        <a class="btn btn-danger" asp-controller="Resturants" asp-action="BlockResturant" asp-route-id="@item.Id">Block Resturant</a>
+                        <a class="btn btn-warning text-light" asp-controller="RestaurantStatus" asp-action="WarnResturant" asp-route-id="@item.Id">Send Warning To Resturant</a>
+                        <a class="btn btn-danger" asp-controller="RestaurantStatus" asp-action="BlockResturant" asp-route-id="@item.Id">Block Resturant</a>
                     }
                 </td>
             </tr>

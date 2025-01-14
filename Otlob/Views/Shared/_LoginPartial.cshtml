@@ -109,7 +109,7 @@
             }
             @if (User.IsInRole(SD.restaurantAdmin))
             {
-                <li><a asp-area="ResturantAdmin" asp-controller="Restaurant" asp-action="Edit">Your Restaurant Profile</a></li>
+                <li><a asp-area="ResturantAdmin" asp-controller="RestaurantProfile" asp-action="EditRestaurantProfile">Your Restaurant Profile</a></li>
             }
             else if (User.IsInRole(SD.superAdminRole))
             {
