@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Otlob.Core.IUnitOfWorkRepository;
 using Otlob.Core.Models;
+using Otlob.Core.ViewModel;
 
 namespace Otlob.Areas.Customer.Controllers
 {
@@ -30,43 +31,48 @@ namespace Otlob.Areas.Customer.Controllers
         }
 
         [HttpPost, ValidateAntiForgeryToken]
-        public IActionResult AddAddress(Address address)
+        public IActionResult AddAddress(AddressVM addressVM)
         {
             if (ModelState.IsValid)
             {
+                var address = AddressVM.MapToAddress(addressVM);                
                 unitOfWorkRepository.Addresses.Create(address);
                 unitOfWorkRepository.SaveChanges();
 
-                var user = userManager.GetUserId(User);
-                var addresses = unitOfWorkRepository.Addresses.Get([a => a.User], expression: a => a.ApplicationUserId == user);
-
-                TempData["Success"] = "Your New Address Added Successfully";
-
-                return RedirectToAction("SavedAddresses", addresses);
+                return BackToIndexAddressPage("Your New Address Added Successfully");
             }
 
             return View();
+        }       
+
+        public bool AddUserAddress(string customerAddres, string userId)
+        {
+            var userAddress = new Address { ApplicationUserId = userId, CustomerAddres = customerAddres };
+
+            unitOfWorkRepository.Addresses.Create(userAddress);
+            unitOfWorkRepository.SaveChanges();
+
+            return true;
         }
-         public IActionResult UpdateAddress(int id)
+
+        public IActionResult UpdateAddress(int id)
          {
             var address = unitOfWorkRepository.Addresses.GetOne(expression:  a => a.Id == id);
-            return View(address);
+            var addressVM = AddressVM.MapToAddressVM(address);
+            return View(addressVM);
          }
 
         [HttpPost, ValidateAntiForgeryToken]
-        public IActionResult UpdateAddress(Address address)
+        public IActionResult UpdateAddress(AddressVM addressVM)
         {
             if (ModelState.IsValid)
             {
-                var user = userManager.GetUserId(User);
-                var addresses = unitOfWorkRepository.Addresses.Get([a => a.User], expression: a => a.ApplicationUserId == user, tracked: false);
-
+                var address = AddressVM.MapToAddress(addressVM);
+                address.Id = addressVM.Id;
                 unitOfWorkRepository.Addresses.Edit(address);
                 unitOfWorkRepository.SaveChanges();
 
-                TempData["Success"] = "Your Old Address Updateded Successfully";
-
-                return RedirectToAction("SavedAddresses", addresses);
+                return BackToIndexAddressPage("Your Old Address Updateded Successfully");                
             }
             return View();
         }
@@ -74,8 +80,6 @@ namespace Otlob.Areas.Customer.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public IActionResult DeleteAddress(int id)
         {
-            var user = userManager.GetUserId(User);
-            var addresses = unitOfWorkRepository.Addresses.Get([a => a.User], expression: a => a.ApplicationUserId == user, tracked: false);
             var address = unitOfWorkRepository.Addresses.GetOne(expression: e => e.Id == id);
 
             if (address != null)
@@ -84,7 +88,15 @@ namespace Otlob.Areas.Customer.Controllers
                 unitOfWorkRepository.SaveChanges();
             }
 
-            TempData["Success"] = "Your Old Address Deleteded Successfully";
+            return BackToIndexAddressPage("Your Old Address Deleteded Successfully");            
+        }
+
+        private IActionResult BackToIndexAddressPage(string msg)
+        {
+            var user = userManager.GetUserId(User);
+            var addresses = unitOfWorkRepository.Addresses.Get([a => a.User], expression: a => a.ApplicationUserId == user, tracked: false);
+
+            TempData["Success"] = msg;
 
             return RedirectToAction("SavedAddresses", addresses);
         }

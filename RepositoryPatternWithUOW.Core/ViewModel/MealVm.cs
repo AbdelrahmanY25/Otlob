@@ -11,8 +11,6 @@ namespace Otlob.Core.ViewModel
         [Required ,MinLength(3)]
         public string Name { get; set; }
 
-        public int RestaurantId { get; set; }
-
         [ValidateNever]
         public string? ImageUrl { get; set; }
 
@@ -39,7 +37,6 @@ namespace Otlob.Core.ViewModel
             return new MealVm
             {
                 Name = meal.Name,
-                RestaurantId = meal.RestaurantId,
                 ImageUrl = meal.ImageUrl,
                 Description = meal.Description,
                 Price = meal.Price,
@@ -51,7 +48,7 @@ namespace Otlob.Core.ViewModel
             };
         }
 
-        public static Meal MapToMeal(MealVm mealVm, Meal oldMeal, ApplicationUser restaurant)
+        public static Meal MapToMeal(MealVm mealVm, Meal oldMeal)
         {
             oldMeal.Name = mealVm.Name;
             oldMeal.Description = mealVm.Description;
@@ -61,27 +58,11 @@ namespace Otlob.Core.ViewModel
             oldMeal.IsNewMeal = mealVm.IsNewMeal;
             oldMeal.IsTrendingMeal = mealVm.IsTrendingMeal;
             oldMeal.ImageUrl = mealVm.ImageUrl;
-            oldMeal.RestaurantId = restaurant.Resturant_Id;
             oldMeal.NumberOfServings = mealVm.NumberOfServings;
 
             return oldMeal;
         }
-        public static Meal MapToMeal(MealVm mealVm, Meal oldMeal, int resId)
-        {
-            oldMeal.Name = mealVm.Name;
-            oldMeal.Description = mealVm.Description;
-            oldMeal.Price = mealVm.Price;
-            oldMeal.Category = mealVm.Category;
-            oldMeal.IsAvailable = mealVm.IsAvailable;
-            oldMeal.IsNewMeal = mealVm.IsNewMeal;
-            oldMeal.IsTrendingMeal = mealVm.IsTrendingMeal;
-            oldMeal.ImageUrl = mealVm.ImageUrl;
-            oldMeal.RestaurantId = resId;
-            oldMeal.NumberOfServings = mealVm.NumberOfServings;
-
-            return oldMeal;
-        }
-
+        
         public static Meal MapToMeal(MealVm mealVm, ApplicationUser restaurant)
         {
             return new Meal
@@ -98,6 +79,7 @@ namespace Otlob.Core.ViewModel
                 NumberOfServings = mealVm.NumberOfServings
             };
         }
+
         public static Meal MapToMeal(MealVm mealVm, int resId)
         {
             return new Meal

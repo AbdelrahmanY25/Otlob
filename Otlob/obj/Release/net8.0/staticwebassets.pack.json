@@ -153,20 +153,12 @@
       "PackagePath": "staticwebassets\\images\\meals\\2-7.jpg"
     },
     {
-      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\meals\\2-8.jpg",
-      "PackagePath": "staticwebassets\\images\\meals\\2-8.jpg"
-    },
-    {
       "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\meals\\2-9.jpg",
       "PackagePath": "staticwebassets\\images\\meals\\2-9.jpg"
     },
     {
       "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\meals\\3-11.jpg",
       "PackagePath": "staticwebassets\\images\\meals\\3-11.jpg"
-    },
-    {
-      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\meals\\3-12.jpg",
-      "PackagePath": "staticwebassets\\images\\meals\\3-12.jpg"
     },
     {
       "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\meals\\3-13.jpg",
@@ -213,12 +205,12 @@
       "PackagePath": "staticwebassets\\images\\meals\\48c036f3-5e39-4697-ab7c-20e0686bbcf3.jpg"
     },
     {
-      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\meals\\68b7bfbd-1f5a-4a17-982e-050d884aa0d8.jpg",
-      "PackagePath": "staticwebassets\\images\\meals\\68b7bfbd-1f5a-4a17-982e-050d884aa0d8.jpg"
+      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\meals\\4dfd2943-4154-41bb-912b-f081662f71ca.jpg",
+      "PackagePath": "staticwebassets\\images\\meals\\4dfd2943-4154-41bb-912b-f081662f71ca.jpg"
     },
     {
-      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\meals\\6ba0287f-558c-45e9-8bb0-cbdbeb20cef6.jpg",
-      "PackagePath": "staticwebassets\\images\\meals\\6ba0287f-558c-45e9-8bb0-cbdbeb20cef6.jpg"
+      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\meals\\68b7bfbd-1f5a-4a17-982e-050d884aa0d8.jpg",
+      "PackagePath": "staticwebassets\\images\\meals\\68b7bfbd-1f5a-4a17-982e-050d884aa0d8.jpg"
     },
     {
       "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\meals\\7141a900-ccd4-4cb2-ba5e-7a8d88235985.jpg",
@@ -233,6 +225,14 @@
       "PackagePath": "staticwebassets\\images\\meals\\910f8b38-5357-4324-abea-910624f17706.jpg"
     },
     {
+      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\meals\\96543dce-c9ed-49cb-a87a-e61f3d80404b.jpg",
+      "PackagePath": "staticwebassets\\images\\meals\\96543dce-c9ed-49cb-a87a-e61f3d80404b.jpg"
+    },
+    {
+      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\meals\\9f40692b-f273-4b54-b1e3-a30f55dc6c4b.jpg",
+      "PackagePath": "staticwebassets\\images\\meals\\9f40692b-f273-4b54-b1e3-a30f55dc6c4b.jpg"
+    },
+    {
       "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\meals\\c1e7258f-bf4b-4a38-8600-9e689a2adc6d.jpg",
       "PackagePath": "staticwebassets\\images\\meals\\c1e7258f-bf4b-4a38-8600-9e689a2adc6d.jpg"
     },
@@ -241,20 +241,28 @@
       "PackagePath": "staticwebassets\\images\\meals\\c9e0e679-e166-473a-84d8-fc85d13c9806.png"
     },
     {
+      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\meals\\cac23d64-7c68-4707-a389-0c9fea847282.jpg",
+      "PackagePath": "staticwebassets\\images\\meals\\cac23d64-7c68-4707-a389-0c9fea847282.jpg"
+    },
+    {
       "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\meals\\cfe77172-13d4-4b5a-8cfc-2c716d90400f.jpg",
       "PackagePath": "staticwebassets\\images\\meals\\cfe77172-13d4-4b5a-8cfc-2c716d90400f.jpg"
     },
     {
-      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\resturantLogo\\39a5d681-ff4d-4f9c-879e-ae0c9e84f9dc.jpg",
-      "PackagePath": "staticwebassets\\images\\resturantLogo\\39a5d681-ff4d-4f9c-879e-ae0c9e84f9dc.jpg"
+      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\meals\\e26368a4-c95f-4529-a518-a0d67929884f.jpg",
+      "PackagePath": "staticwebassets\\images\\meals\\e26368a4-c95f-4529-a518-a0d67929884f.jpg"
+    },
+    {
+      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\resturantLogo\\45ed1d87-3d0d-4be5-aabf-2d4d9fc235cd.jpg",
+      "PackagePath": "staticwebassets\\images\\resturantLogo\\45ed1d87-3d0d-4be5-aabf-2d4d9fc235cd.jpg"
     },
     {
       "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\resturantLogo\\64811f0f-1d02-48f3-81e1-ec1df942a66d.png",
       "PackagePath": "staticwebassets\\images\\resturantLogo\\64811f0f-1d02-48f3-81e1-ec1df942a66d.png"
     },
     {
-      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\resturantLogo\\7ac456a0-c222-46dd-8e5e-44ef44550949.jpg",
-      "PackagePath": "staticwebassets\\images\\resturantLogo\\7ac456a0-c222-46dd-8e5e-44ef44550949.jpg"
+      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\resturantLogo\\6c7ad458-e02e-480c-be37-6649120423e0.png",
+      "PackagePath": "staticwebassets\\images\\resturantLogo\\6c7ad458-e02e-480c-be37-6649120423e0.png"
     },
     {
       "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\resturantLogo\\98a4af09-99d3-49e8-8f89-4392ad821571.JPG",
@@ -265,20 +273,16 @@
       "PackagePath": "staticwebassets\\images\\resturantLogo\\a11a2e8a-254e-49b5-a9bb-845f513d0abf.png"
     },
     {
-      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\resturantLogo\\a718d11a-8b7c-431d-b31a-04ecf0d32095.jpg",
-      "PackagePath": "staticwebassets\\images\\resturantLogo\\a718d11a-8b7c-431d-b31a-04ecf0d32095.jpg"
-    },
-    {
-      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\resturantLogo\\b477eef0-774d-4e95-8599-e2bc5b969748.png",
-      "PackagePath": "staticwebassets\\images\\resturantLogo\\b477eef0-774d-4e95-8599-e2bc5b969748.png"
-    },
-    {
-      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\resturantLogo\\c09e5087-355f-4e5e-9d5c-49c07dca46d2.JPG",
-      "PackagePath": "staticwebassets\\images\\resturantLogo\\c09e5087-355f-4e5e-9d5c-49c07dca46d2.JPG"
+      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\resturantLogo\\d21a0064-4793-4f1b-82e7-d3449739198e.jpg",
+      "PackagePath": "staticwebassets\\images\\resturantLogo\\d21a0064-4793-4f1b-82e7-d3449739198e.jpg"
     },
     {
       "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\resturantLogo\\d29547ee-4bf1-4eb4-990b-563bee8ad04e.png",
       "PackagePath": "staticwebassets\\images\\resturantLogo\\d29547ee-4bf1-4eb4-990b-563bee8ad04e.png"
+    },
+    {
+      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\resturantLogo\\e6626820-0d84-48d5-9b16-fe44657055bd.JPG",
+      "PackagePath": "staticwebassets\\images\\resturantLogo\\e6626820-0d84-48d5-9b16-fe44657055bd.JPG"
     },
     {
       "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\js\\customersDataTable.js",

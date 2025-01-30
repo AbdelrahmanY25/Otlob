@@ -1,12 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Otlob.Core.Models;
+﻿using Otlob.Core.Models;
 using Otlob.EF.IBaseRepository;
 using RepositoryPatternWithUOW.Core.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Otlob.Core.IUnitOfWorkRepository
 {

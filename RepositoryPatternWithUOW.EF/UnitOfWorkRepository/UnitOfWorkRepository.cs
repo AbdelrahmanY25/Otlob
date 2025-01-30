@@ -1,16 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Otlob.Core.IUnitOfWorkRepository;
+﻿using Otlob.Core.IUnitOfWorkRepository;
 using Otlob.Core.Models;
 using Otlob.EF.BaseRepository;
 using Otlob.EF.IBaseRepository;
 using RepositoryPatternWithUOW.Core.Models;
-using RepositoryPatternWithUOW.EF;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static NuGet.Packaging.PackagingConstants;
+
 
 namespace Otlob.EF.UnitOfWorkRepository
 {

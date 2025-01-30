@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Otlob.Core.IUnitOfWorkRepository;
-using Otlob.Core.Services;
 using Otlob.Core.IServices;
 using Otlob.Core.Models;
 using Otlob.Core.ViewModel;
@@ -51,27 +50,17 @@ namespace Otlob.Areas.Customer.Controllers
         {
             if (ModelState.IsValid)
             {
-                var applicatioUser = new ApplicationUser
-                {
-                    UserName = userVM.UserName,
-                    Email = userVM.Email,
-                    PhoneNumber = userVM.PhoneNumber
-                };
+                var applicatioUser = new ApplicationUser { UserName = userVM.UserName, Email = userVM.Email, PhoneNumber = userVM.PhoneNumber };
 
                 var result = await userManager.CreateAsync(applicatioUser, userVM.Password);                
                 
                 if (result.Succeeded)
                 {
                     await userManager.AddToRoleAsync(applicatioUser, SD.customer);
-                    var userAddress = new Address
-                    {
-                        CustomerAddres = userVM.Address,
-                        ApplicationUserId = applicatioUser.Id,
-                    };
 
-                    unitOfWorkRepository.Addresses.Create(userAddress);
-                    unitOfWorkRepository.SaveChanges();
-
+                    var userAddress = new AddressController(unitOfWorkRepository, userManager);                    
+                    userAddress.AddUserAddress(userVM.Address, applicatioUser.Id);
+                   
                     await signInManager.SignInAsync(applicatioUser, isPersistent: false);
 
                     return RedirectToAction("Index", "Home");

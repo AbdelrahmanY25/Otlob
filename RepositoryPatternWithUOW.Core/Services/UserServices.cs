@@ -1,11 +1,12 @@
 ﻿using Otlob.Core.IServices;
+using Otlob.Core.IUnitOfWorkRepository;
 using Otlob.Core.Models;
 using Otlob.Core.ViewModel;
 
 namespace Otlob.Core.Services
 {
     public class UserServices : IUserServices
-    {       
+    {        
         public ApplicationUser ValidateUserInfo(ApplicationUser user, ProfileVM profileVM)
         {
             user.Email = profileVM.Email;
@@ -15,6 +16,6 @@ namespace Otlob.Core.Services
             user.PhoneNumber = profileVM.PhoneNumber;
             user.BirthDate = profileVM.BirthDate;
             return user;
-        }
+        }          
     }
 }

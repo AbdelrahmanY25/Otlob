@@ -89,15 +89,32 @@ namespace Otlob.Areas.ResturantAdmin.Controllers
                     return View(mealVM);
                 }
 
-                imageService.DelteOldImage(oldMeal.ImageUrl, "wwwroot\\images\\meals");                
+                if (oldMeal.ImageUrl != null)
+                {
+                    var resOfDeleteOldImage = imageService.DelteOldImage(oldMeal.ImageUrl, "wwwroot\\images\\meals");
+
+                    if (!resOfDeleteOldImage)
+                    {
+                        ModelState.AddModelError("", "Error in deleting old image");
+                        mealVM.ImageUrl = oldMeal.ImageUrl;
+                        return View(mealVM);
+                    }
+                }
 
                 var fileName = imageService.CreateNewImageExtention(imageUrl, "wwwroot\\images\\meals");
+
+                if (fileName is null)
+                {
+                    ModelState.AddModelError("", "Error in uploading new image");
+                    mealVM.ImageUrl = oldMeal.ImageUrl;
+                    return View(mealVM);
+                }
 
                 mealVM.ImageUrl = fileName;                               
 
                 var restaurnat = await userManager.GetUserAsync(User);
 
-                var newMeal = MealVm.MapToMeal(mealVM, oldMeal, restaurnat);
+                var newMeal = MealVm.MapToMeal(mealVM, oldMeal);
 
                 unitOfWorkRepository.Meals.Edit(newMeal);
                 unitOfWorkRepository.SaveChanges();

@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "gsqHRHsZPuKqa7hkQKDlRTeMBt4BoMcdY471GeXRgN8=",
+  "Hash": "XDVQX4vK0cAe5FHTgwGXiHyqLtgUs/5LIZHHVzupQKE=",
   "Source": "Otlob",
   "BasePath": "_content/Otlob",
   "Mode": "Default",
@@ -2096,27 +2096,6 @@
       "OriginalItemSpec": "wwwroot\\images\\meals\\2-7.jpg"
     },
     {
-      "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\meals\\2-8.jpg",
-      "SourceId": "Otlob",
-      "SourceType": "Discovered",
-      "ContentRoot": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\",
-      "BasePath": "_content/Otlob",
-      "RelativePath": "images/meals/2-8#[.{fingerprint}]?.jpg",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "Fingerprint": "inohb66ryf",
-      "Integrity": "8oVQ/lEkHMiEjs7dW1Y2cv+0b2n+MVvopAqkpuTITKs=",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\images\\meals\\2-8.jpg"
-    },
-    {
       "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\meals\\2-9.jpg",
       "SourceId": "Otlob",
       "SourceType": "Discovered",
@@ -2157,27 +2136,6 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\meals\\3-11.jpg"
-    },
-    {
-      "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\meals\\3-12.jpg",
-      "SourceId": "Otlob",
-      "SourceType": "Discovered",
-      "ContentRoot": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\",
-      "BasePath": "_content/Otlob",
-      "RelativePath": "images/meals/3-12#[.{fingerprint}]?.jpg",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "Fingerprint": "d7w1bj9y6i",
-      "Integrity": "t3+QHw/+EJDx0HyJYeBtD2368E7Qw8keLyz2yW3+QmE=",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\images\\meals\\3-12.jpg"
     },
     {
       "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\meals\\3-13.jpg",
@@ -2411,6 +2369,27 @@
       "OriginalItemSpec": "wwwroot\\images\\meals\\48c036f3-5e39-4697-ab7c-20e0686bbcf3.jpg"
     },
     {
+      "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\meals\\4dfd2943-4154-41bb-912b-f081662f71ca.jpg",
+      "SourceId": "Otlob",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\",
+      "BasePath": "_content/Otlob",
+      "RelativePath": "images/meals/4dfd2943-4154-41bb-912b-f081662f71ca#[.{fingerprint}]?.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "d0nunbdqhk",
+      "Integrity": "A10gCB4m78eK1y0V0pHL+zamMBsK7qFRDEgLvoLOp0A=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\meals\\4dfd2943-4154-41bb-912b-f081662f71ca.jpg"
+    },
+    {
       "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\meals\\68b7bfbd-1f5a-4a17-982e-050d884aa0d8.jpg",
       "SourceId": "Otlob",
       "SourceType": "Discovered",
@@ -2430,27 +2409,6 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\meals\\68b7bfbd-1f5a-4a17-982e-050d884aa0d8.jpg"
-    },
-    {
-      "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\meals\\6ba0287f-558c-45e9-8bb0-cbdbeb20cef6.jpg",
-      "SourceId": "Otlob",
-      "SourceType": "Discovered",
-      "ContentRoot": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\",
-      "BasePath": "_content/Otlob",
-      "RelativePath": "images/meals/6ba0287f-558c-45e9-8bb0-cbdbeb20cef6#[.{fingerprint}]?.jpg",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "Fingerprint": "49p1zf7vqw",
-      "Integrity": "GAWvNECUXg8A2rmBWkbRtTwn7iZ7AsrCIt9wjx/dJXA=",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\images\\meals\\6ba0287f-558c-45e9-8bb0-cbdbeb20cef6.jpg"
     },
     {
       "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\meals\\7141a900-ccd4-4cb2-ba5e-7a8d88235985.jpg",
@@ -2516,6 +2474,48 @@
       "OriginalItemSpec": "wwwroot\\images\\meals\\910f8b38-5357-4324-abea-910624f17706.jpg"
     },
     {
+      "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\meals\\96543dce-c9ed-49cb-a87a-e61f3d80404b.jpg",
+      "SourceId": "Otlob",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\",
+      "BasePath": "_content/Otlob",
+      "RelativePath": "images/meals/96543dce-c9ed-49cb-a87a-e61f3d80404b#[.{fingerprint}]?.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "1v7w5gypis",
+      "Integrity": "zbTniKsgwFlAKvZNxwsfVf/yG+C2CFJV9th14czdGgA=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\meals\\96543dce-c9ed-49cb-a87a-e61f3d80404b.jpg"
+    },
+    {
+      "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\meals\\9f40692b-f273-4b54-b1e3-a30f55dc6c4b.jpg",
+      "SourceId": "Otlob",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\",
+      "BasePath": "_content/Otlob",
+      "RelativePath": "images/meals/9f40692b-f273-4b54-b1e3-a30f55dc6c4b#[.{fingerprint}]?.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "2gjwmbk792",
+      "Integrity": "cgzSOXIYbB4yk7bZMEOmnSVSLYwMHuTlUQmMGrUc/wI=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\meals\\9f40692b-f273-4b54-b1e3-a30f55dc6c4b.jpg"
+    },
+    {
       "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\meals\\c1e7258f-bf4b-4a38-8600-9e689a2adc6d.jpg",
       "SourceId": "Otlob",
       "SourceType": "Discovered",
@@ -2558,6 +2558,27 @@
       "OriginalItemSpec": "wwwroot\\images\\meals\\c9e0e679-e166-473a-84d8-fc85d13c9806.png"
     },
     {
+      "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\meals\\cac23d64-7c68-4707-a389-0c9fea847282.jpg",
+      "SourceId": "Otlob",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\",
+      "BasePath": "_content/Otlob",
+      "RelativePath": "images/meals/cac23d64-7c68-4707-a389-0c9fea847282#[.{fingerprint}]?.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "uibhz1nsb8",
+      "Integrity": "apSjqYaKSOGjYaAxl9JeQTEoy5qO73B40PRwxK1lcS0=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\meals\\cac23d64-7c68-4707-a389-0c9fea847282.jpg"
+    },
+    {
       "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\meals\\cfe77172-13d4-4b5a-8cfc-2c716d90400f.jpg",
       "SourceId": "Otlob",
       "SourceType": "Discovered",
@@ -2579,12 +2600,12 @@
       "OriginalItemSpec": "wwwroot\\images\\meals\\cfe77172-13d4-4b5a-8cfc-2c716d90400f.jpg"
     },
     {
-      "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\resturantLogo\\39a5d681-ff4d-4f9c-879e-ae0c9e84f9dc.jpg",
+      "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\meals\\e26368a4-c95f-4529-a518-a0d67929884f.jpg",
       "SourceId": "Otlob",
       "SourceType": "Discovered",
       "ContentRoot": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\",
       "BasePath": "_content/Otlob",
-      "RelativePath": "images/resturantLogo/39a5d681-ff4d-4f9c-879e-ae0c9e84f9dc#[.{fingerprint}]?.jpg",
+      "RelativePath": "images/meals/e26368a4-c95f-4529-a518-a0d67929884f#[.{fingerprint}]?.jpg",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -2593,11 +2614,32 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "p7e91m35w0",
-      "Integrity": "NdleaWQjLdkUbYnXhu+9Y38BoXN2O9wzmGbW0STB9XA=",
+      "Fingerprint": "kcozuig1vw",
+      "Integrity": "BAwoi6PKgwkBtvbk3m28C+QKtSzgkBI99Q/pg/5zWyY=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\images\\resturantLogo\\39a5d681-ff4d-4f9c-879e-ae0c9e84f9dc.jpg"
+      "OriginalItemSpec": "wwwroot\\images\\meals\\e26368a4-c95f-4529-a518-a0d67929884f.jpg"
+    },
+    {
+      "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\resturantLogo\\45ed1d87-3d0d-4be5-aabf-2d4d9fc235cd.jpg",
+      "SourceId": "Otlob",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\",
+      "BasePath": "_content/Otlob",
+      "RelativePath": "images/resturantLogo/45ed1d87-3d0d-4be5-aabf-2d4d9fc235cd#[.{fingerprint}]?.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "cx6qg1i2pk",
+      "Integrity": "cAZUxMK8vE6J7UniQeSHnv/JsQSWP0HGokPb2CFxu9w=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\resturantLogo\\45ed1d87-3d0d-4be5-aabf-2d4d9fc235cd.jpg"
     },
     {
       "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\resturantLogo\\64811f0f-1d02-48f3-81e1-ec1df942a66d.png",
@@ -2621,12 +2663,12 @@
       "OriginalItemSpec": "wwwroot\\images\\resturantLogo\\64811f0f-1d02-48f3-81e1-ec1df942a66d.png"
     },
     {
-      "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\resturantLogo\\7ac456a0-c222-46dd-8e5e-44ef44550949.jpg",
+      "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\resturantLogo\\6c7ad458-e02e-480c-be37-6649120423e0.png",
       "SourceId": "Otlob",
       "SourceType": "Discovered",
       "ContentRoot": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\",
       "BasePath": "_content/Otlob",
-      "RelativePath": "images/resturantLogo/7ac456a0-c222-46dd-8e5e-44ef44550949#[.{fingerprint}]?.jpg",
+      "RelativePath": "images/resturantLogo/6c7ad458-e02e-480c-be37-6649120423e0#[.{fingerprint}]?.png",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -2635,11 +2677,11 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "cx6qg1i2pk",
-      "Integrity": "cAZUxMK8vE6J7UniQeSHnv/JsQSWP0HGokPb2CFxu9w=",
+      "Fingerprint": "8gaya33fft",
+      "Integrity": "mHCRH5xRjhj+AYoh6NTL7u83De4tDDD56tBBoq72K/w=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\images\\resturantLogo\\7ac456a0-c222-46dd-8e5e-44ef44550949.jpg"
+      "OriginalItemSpec": "wwwroot\\images\\resturantLogo\\6c7ad458-e02e-480c-be37-6649120423e0.png"
     },
     {
       "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\resturantLogo\\98a4af09-99d3-49e8-8f89-4392ad821571.JPG",
@@ -2684,12 +2726,12 @@
       "OriginalItemSpec": "wwwroot\\images\\resturantLogo\\a11a2e8a-254e-49b5-a9bb-845f513d0abf.png"
     },
     {
-      "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\resturantLogo\\a718d11a-8b7c-431d-b31a-04ecf0d32095.jpg",
+      "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\resturantLogo\\d21a0064-4793-4f1b-82e7-d3449739198e.jpg",
       "SourceId": "Otlob",
       "SourceType": "Discovered",
       "ContentRoot": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\",
       "BasePath": "_content/Otlob",
-      "RelativePath": "images/resturantLogo/a718d11a-8b7c-431d-b31a-04ecf0d32095#[.{fingerprint}]?.jpg",
+      "RelativePath": "images/resturantLogo/d21a0064-4793-4f1b-82e7-d3449739198e#[.{fingerprint}]?.jpg",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -2698,53 +2740,11 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "p7e91m35w0",
-      "Integrity": "NdleaWQjLdkUbYnXhu+9Y38BoXN2O9wzmGbW0STB9XA=",
+      "Fingerprint": "jpcjd64yqr",
+      "Integrity": "F4yhj0nAPM4axH4j6HfGbNj/6Tyi+LcPfA2QmiadZFU=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\images\\resturantLogo\\a718d11a-8b7c-431d-b31a-04ecf0d32095.jpg"
-    },
-    {
-      "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\resturantLogo\\b477eef0-774d-4e95-8599-e2bc5b969748.png",
-      "SourceId": "Otlob",
-      "SourceType": "Discovered",
-      "ContentRoot": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\",
-      "BasePath": "_content/Otlob",
-      "RelativePath": "images/resturantLogo/b477eef0-774d-4e95-8599-e2bc5b969748#[.{fingerprint}]?.png",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "Fingerprint": "t26emkucqh",
-      "Integrity": "RZzvY8ANrTIZy+rAvW+71dJePT6AHfAYLcZluwvsPQA=",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\images\\resturantLogo\\b477eef0-774d-4e95-8599-e2bc5b969748.png"
-    },
-    {
-      "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\resturantLogo\\c09e5087-355f-4e5e-9d5c-49c07dca46d2.JPG",
-      "SourceId": "Otlob",
-      "SourceType": "Discovered",
-      "ContentRoot": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\",
-      "BasePath": "_content/Otlob",
-      "RelativePath": "images/resturantLogo/c09e5087-355f-4e5e-9d5c-49c07dca46d2#[.{fingerprint}]?.JPG",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "Fingerprint": "nmfkxdh32h",
-      "Integrity": "4Y7Yv8bK/dGCf7TGP08U9m1TDYatRCAG75UFyX6Nf+Y=",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\images\\resturantLogo\\c09e5087-355f-4e5e-9d5c-49c07dca46d2.JPG"
+      "OriginalItemSpec": "wwwroot\\images\\resturantLogo\\d21a0064-4793-4f1b-82e7-d3449739198e.jpg"
     },
     {
       "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\resturantLogo\\d29547ee-4bf1-4eb4-990b-563bee8ad04e.png",
@@ -2766,6 +2766,27 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\resturantLogo\\d29547ee-4bf1-4eb4-990b-563bee8ad04e.png"
+    },
+    {
+      "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\resturantLogo\\e6626820-0d84-48d5-9b16-fe44657055bd.JPG",
+      "SourceId": "Otlob",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\",
+      "BasePath": "_content/Otlob",
+      "RelativePath": "images/resturantLogo/e6626820-0d84-48d5-9b16-fe44657055bd#[.{fingerprint}]?.JPG",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "nmfkxdh32h",
+      "Integrity": "4Y7Yv8bK/dGCf7TGP08U9m1TDYatRCAG75UFyX6Nf+Y=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\resturantLogo\\e6626820-0d84-48d5-9b16-fe44657055bd.JPG"
     },
     {
       "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\js\\customersDataTable.js",
@@ -10187,88 +10208,6 @@
       ]
     },
     {
-      "Route": "images/meals/2-8.inohb66ryf.jpg",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\meals\\2-8.jpg",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "4132"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "image/jpeg"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"8oVQ/lEkHMiEjs7dW1Y2cv+0b2n+MVvopAqkpuTITKs=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Tue, 03 Dec 2024 14:19:39 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "inohb66ryf"
-        },
-        {
-          "Name": "label",
-          "Value": "images/meals/2-8.jpg"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-8oVQ/lEkHMiEjs7dW1Y2cv+0b2n+MVvopAqkpuTITKs="
-        }
-      ]
-    },
-    {
-      "Route": "images/meals/2-8.jpg",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\meals\\2-8.jpg",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "4132"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "image/jpeg"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"8oVQ/lEkHMiEjs7dW1Y2cv+0b2n+MVvopAqkpuTITKs=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Tue, 03 Dec 2024 14:19:39 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=3600, must-revalidate"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-8oVQ/lEkHMiEjs7dW1Y2cv+0b2n+MVvopAqkpuTITKs="
-        }
-      ]
-    },
-    {
       "Route": "images/meals/2-9.jpg",
       "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\meals\\2-9.jpg",
       "Selectors": [],
@@ -10429,88 +10368,6 @@
         {
           "Name": "integrity",
           "Value": "sha256-zbTniKsgwFlAKvZNxwsfVf/yG+C2CFJV9th14czdGgA="
-        }
-      ]
-    },
-    {
-      "Route": "images/meals/3-12.d7w1bj9y6i.jpg",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\meals\\3-12.jpg",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "9636"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "image/jpeg"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"t3+QHw/+EJDx0HyJYeBtD2368E7Qw8keLyz2yW3+QmE=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Tue, 03 Dec 2024 14:42:23 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "d7w1bj9y6i"
-        },
-        {
-          "Name": "label",
-          "Value": "images/meals/3-12.jpg"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-t3+QHw/+EJDx0HyJYeBtD2368E7Qw8keLyz2yW3+QmE="
-        }
-      ]
-    },
-    {
-      "Route": "images/meals/3-12.jpg",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\meals\\3-12.jpg",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "9636"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "image/jpeg"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"t3+QHw/+EJDx0HyJYeBtD2368E7Qw8keLyz2yW3+QmE=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Tue, 03 Dec 2024 14:42:23 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=3600, must-revalidate"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-t3+QHw/+EJDx0HyJYeBtD2368E7Qw8keLyz2yW3+QmE="
         }
       ]
     },
@@ -11417,6 +11274,88 @@
       ]
     },
     {
+      "Route": "images/meals/4dfd2943-4154-41bb-912b-f081662f71ca.d0nunbdqhk.jpg",
+      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\meals\\4dfd2943-4154-41bb-912b-f081662f71ca.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "5990"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"A10gCB4m78eK1y0V0pHL+zamMBsK7qFRDEgLvoLOp0A=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 08 Jan 2025 19:13:04 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "d0nunbdqhk"
+        },
+        {
+          "Name": "label",
+          "Value": "images/meals/4dfd2943-4154-41bb-912b-f081662f71ca.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-A10gCB4m78eK1y0V0pHL+zamMBsK7qFRDEgLvoLOp0A="
+        }
+      ]
+    },
+    {
+      "Route": "images/meals/4dfd2943-4154-41bb-912b-f081662f71ca.jpg",
+      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\meals\\4dfd2943-4154-41bb-912b-f081662f71ca.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "5990"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"A10gCB4m78eK1y0V0pHL+zamMBsK7qFRDEgLvoLOp0A=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 08 Jan 2025 19:13:04 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-A10gCB4m78eK1y0V0pHL+zamMBsK7qFRDEgLvoLOp0A="
+        }
+      ]
+    },
+    {
       "Route": "images/meals/68b7bfbd-1f5a-4a17-982e-050d884aa0d8.1q75p8c6tx.jpg",
       "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\meals\\68b7bfbd-1f5a-4a17-982e-050d884aa0d8.jpg",
       "Selectors": [],
@@ -11495,88 +11434,6 @@
         {
           "Name": "integrity",
           "Value": "sha256-pzAruLlj4Vno153l08LhJr/BX7aCl+A2j6+7G9Y8RJE="
-        }
-      ]
-    },
-    {
-      "Route": "images/meals/6ba0287f-558c-45e9-8bb0-cbdbeb20cef6.49p1zf7vqw.jpg",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\meals\\6ba0287f-558c-45e9-8bb0-cbdbeb20cef6.jpg",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "17922"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "image/jpeg"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"GAWvNECUXg8A2rmBWkbRtTwn7iZ7AsrCIt9wjx/dJXA=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Fri, 20 Dec 2024 14:55:27 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "49p1zf7vqw"
-        },
-        {
-          "Name": "label",
-          "Value": "images/meals/6ba0287f-558c-45e9-8bb0-cbdbeb20cef6.jpg"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-GAWvNECUXg8A2rmBWkbRtTwn7iZ7AsrCIt9wjx/dJXA="
-        }
-      ]
-    },
-    {
-      "Route": "images/meals/6ba0287f-558c-45e9-8bb0-cbdbeb20cef6.jpg",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\meals\\6ba0287f-558c-45e9-8bb0-cbdbeb20cef6.jpg",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "17922"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "image/jpeg"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"GAWvNECUXg8A2rmBWkbRtTwn7iZ7AsrCIt9wjx/dJXA=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Fri, 20 Dec 2024 14:55:27 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=3600, must-revalidate"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-GAWvNECUXg8A2rmBWkbRtTwn7iZ7AsrCIt9wjx/dJXA="
         }
       ]
     },
@@ -11827,6 +11684,170 @@
       ]
     },
     {
+      "Route": "images/meals/96543dce-c9ed-49cb-a87a-e61f3d80404b.1v7w5gypis.jpg",
+      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\meals\\96543dce-c9ed-49cb-a87a-e61f3d80404b.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "4750"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"zbTniKsgwFlAKvZNxwsfVf/yG+C2CFJV9th14czdGgA=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 08 Jan 2025 18:09:32 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "1v7w5gypis"
+        },
+        {
+          "Name": "label",
+          "Value": "images/meals/96543dce-c9ed-49cb-a87a-e61f3d80404b.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-zbTniKsgwFlAKvZNxwsfVf/yG+C2CFJV9th14czdGgA="
+        }
+      ]
+    },
+    {
+      "Route": "images/meals/96543dce-c9ed-49cb-a87a-e61f3d80404b.jpg",
+      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\meals\\96543dce-c9ed-49cb-a87a-e61f3d80404b.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "4750"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"zbTniKsgwFlAKvZNxwsfVf/yG+C2CFJV9th14czdGgA=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 08 Jan 2025 18:09:32 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-zbTniKsgwFlAKvZNxwsfVf/yG+C2CFJV9th14czdGgA="
+        }
+      ]
+    },
+    {
+      "Route": "images/meals/9f40692b-f273-4b54-b1e3-a30f55dc6c4b.2gjwmbk792.jpg",
+      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\meals\\9f40692b-f273-4b54-b1e3-a30f55dc6c4b.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "4790"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"cgzSOXIYbB4yk7bZMEOmnSVSLYwMHuTlUQmMGrUc/wI=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 27 Jan 2025 22:20:13 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "2gjwmbk792"
+        },
+        {
+          "Name": "label",
+          "Value": "images/meals/9f40692b-f273-4b54-b1e3-a30f55dc6c4b.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-cgzSOXIYbB4yk7bZMEOmnSVSLYwMHuTlUQmMGrUc/wI="
+        }
+      ]
+    },
+    {
+      "Route": "images/meals/9f40692b-f273-4b54-b1e3-a30f55dc6c4b.jpg",
+      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\meals\\9f40692b-f273-4b54-b1e3-a30f55dc6c4b.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "4790"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"cgzSOXIYbB4yk7bZMEOmnSVSLYwMHuTlUQmMGrUc/wI=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 27 Jan 2025 22:20:13 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-cgzSOXIYbB4yk7bZMEOmnSVSLYwMHuTlUQmMGrUc/wI="
+        }
+      ]
+    },
+    {
       "Route": "images/meals/c1e7258f-bf4b-4a38-8600-9e689a2adc6d.1q75p8c6tx.jpg",
       "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\meals\\c1e7258f-bf4b-4a38-8600-9e689a2adc6d.jpg",
       "Selectors": [],
@@ -11991,6 +12012,88 @@
       ]
     },
     {
+      "Route": "images/meals/cac23d64-7c68-4707-a389-0c9fea847282.jpg",
+      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\meals\\cac23d64-7c68-4707-a389-0c9fea847282.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "4696"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"apSjqYaKSOGjYaAxl9JeQTEoy5qO73B40PRwxK1lcS0=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 08 Jan 2025 18:04:37 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-apSjqYaKSOGjYaAxl9JeQTEoy5qO73B40PRwxK1lcS0="
+        }
+      ]
+    },
+    {
+      "Route": "images/meals/cac23d64-7c68-4707-a389-0c9fea847282.uibhz1nsb8.jpg",
+      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\meals\\cac23d64-7c68-4707-a389-0c9fea847282.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "4696"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"apSjqYaKSOGjYaAxl9JeQTEoy5qO73B40PRwxK1lcS0=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 08 Jan 2025 18:04:37 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "uibhz1nsb8"
+        },
+        {
+          "Name": "label",
+          "Value": "images/meals/cac23d64-7c68-4707-a389-0c9fea847282.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-apSjqYaKSOGjYaAxl9JeQTEoy5qO73B40PRwxK1lcS0="
+        }
+      ]
+    },
+    {
       "Route": "images/meals/cfe77172-13d4-4b5a-8cfc-2c716d90400f.1q75p8c6tx.jpg",
       "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\meals\\cfe77172-13d4-4b5a-8cfc-2c716d90400f.jpg",
       "Selectors": [],
@@ -12073,8 +12176,8 @@
       ]
     },
     {
-      "Route": "images/resturantLogo/39a5d681-ff4d-4f9c-879e-ae0c9e84f9dc.jpg",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\resturantLogo\\39a5d681-ff4d-4f9c-879e-ae0c9e84f9dc.jpg",
+      "Route": "images/meals/e26368a4-c95f-4529-a518-a0d67929884f.jpg",
+      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\meals\\e26368a4-c95f-4529-a518-a0d67929884f.jpg",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -12083,7 +12186,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "3085"
+          "Value": "9200"
         },
         {
           "Name": "Content-Type",
@@ -12091,11 +12194,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"NdleaWQjLdkUbYnXhu+9Y38BoXN2O9wzmGbW0STB9XA=\""
+          "Value": "\"BAwoi6PKgwkBtvbk3m28C+QKtSzgkBI99Q/pg/5zWyY=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Sat, 30 Nov 2024 10:33:19 GMT"
+          "Value": "Mon, 27 Jan 2025 22:41:08 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -12105,13 +12208,13 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-NdleaWQjLdkUbYnXhu+9Y38BoXN2O9wzmGbW0STB9XA="
+          "Value": "sha256-BAwoi6PKgwkBtvbk3m28C+QKtSzgkBI99Q/pg/5zWyY="
         }
       ]
     },
     {
-      "Route": "images/resturantLogo/39a5d681-ff4d-4f9c-879e-ae0c9e84f9dc.p7e91m35w0.jpg",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\resturantLogo\\39a5d681-ff4d-4f9c-879e-ae0c9e84f9dc.jpg",
+      "Route": "images/meals/e26368a4-c95f-4529-a518-a0d67929884f.kcozuig1vw.jpg",
+      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\meals\\e26368a4-c95f-4529-a518-a0d67929884f.jpg",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -12120,7 +12223,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "3085"
+          "Value": "9200"
         },
         {
           "Name": "Content-Type",
@@ -12128,11 +12231,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"NdleaWQjLdkUbYnXhu+9Y38BoXN2O9wzmGbW0STB9XA=\""
+          "Value": "\"BAwoi6PKgwkBtvbk3m28C+QKtSzgkBI99Q/pg/5zWyY=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Sat, 30 Nov 2024 10:33:19 GMT"
+          "Value": "Mon, 27 Jan 2025 22:41:08 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -12142,15 +12245,97 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "p7e91m35w0"
+          "Value": "kcozuig1vw"
         },
         {
           "Name": "label",
-          "Value": "images/resturantLogo/39a5d681-ff4d-4f9c-879e-ae0c9e84f9dc.jpg"
+          "Value": "images/meals/e26368a4-c95f-4529-a518-a0d67929884f.jpg"
         },
         {
           "Name": "integrity",
-          "Value": "sha256-NdleaWQjLdkUbYnXhu+9Y38BoXN2O9wzmGbW0STB9XA="
+          "Value": "sha256-BAwoi6PKgwkBtvbk3m28C+QKtSzgkBI99Q/pg/5zWyY="
+        }
+      ]
+    },
+    {
+      "Route": "images/resturantLogo/45ed1d87-3d0d-4be5-aabf-2d4d9fc235cd.cx6qg1i2pk.jpg",
+      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\resturantLogo\\45ed1d87-3d0d-4be5-aabf-2d4d9fc235cd.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "5458"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"cAZUxMK8vE6J7UniQeSHnv/JsQSWP0HGokPb2CFxu9w=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 09 Jan 2025 14:17:12 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "cx6qg1i2pk"
+        },
+        {
+          "Name": "label",
+          "Value": "images/resturantLogo/45ed1d87-3d0d-4be5-aabf-2d4d9fc235cd.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-cAZUxMK8vE6J7UniQeSHnv/JsQSWP0HGokPb2CFxu9w="
+        }
+      ]
+    },
+    {
+      "Route": "images/resturantLogo/45ed1d87-3d0d-4be5-aabf-2d4d9fc235cd.jpg",
+      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\resturantLogo\\45ed1d87-3d0d-4be5-aabf-2d4d9fc235cd.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "5458"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"cAZUxMK8vE6J7UniQeSHnv/JsQSWP0HGokPb2CFxu9w=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 09 Jan 2025 14:17:12 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-cAZUxMK8vE6J7UniQeSHnv/JsQSWP0HGokPb2CFxu9w="
         }
       ]
     },
@@ -12237,8 +12422,8 @@
       ]
     },
     {
-      "Route": "images/resturantLogo/7ac456a0-c222-46dd-8e5e-44ef44550949.cx6qg1i2pk.jpg",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\resturantLogo\\7ac456a0-c222-46dd-8e5e-44ef44550949.jpg",
+      "Route": "images/resturantLogo/6c7ad458-e02e-480c-be37-6649120423e0.8gaya33fft.png",
+      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\resturantLogo\\6c7ad458-e02e-480c-be37-6649120423e0.png",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -12247,19 +12432,19 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "5458"
+          "Value": "20874"
         },
         {
           "Name": "Content-Type",
-          "Value": "image/jpeg"
+          "Value": "image/png"
         },
         {
           "Name": "ETag",
-          "Value": "\"cAZUxMK8vE6J7UniQeSHnv/JsQSWP0HGokPb2CFxu9w=\""
+          "Value": "\"mHCRH5xRjhj+AYoh6NTL7u83De4tDDD56tBBoq72K/w=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 10 Dec 2024 16:24:45 GMT"
+          "Value": "Mon, 27 Jan 2025 22:06:39 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -12269,21 +12454,21 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "cx6qg1i2pk"
+          "Value": "8gaya33fft"
         },
         {
           "Name": "label",
-          "Value": "images/resturantLogo/7ac456a0-c222-46dd-8e5e-44ef44550949.jpg"
+          "Value": "images/resturantLogo/6c7ad458-e02e-480c-be37-6649120423e0.png"
         },
         {
           "Name": "integrity",
-          "Value": "sha256-cAZUxMK8vE6J7UniQeSHnv/JsQSWP0HGokPb2CFxu9w="
+          "Value": "sha256-mHCRH5xRjhj+AYoh6NTL7u83De4tDDD56tBBoq72K/w="
         }
       ]
     },
     {
-      "Route": "images/resturantLogo/7ac456a0-c222-46dd-8e5e-44ef44550949.jpg",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\resturantLogo\\7ac456a0-c222-46dd-8e5e-44ef44550949.jpg",
+      "Route": "images/resturantLogo/6c7ad458-e02e-480c-be37-6649120423e0.png",
+      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\resturantLogo\\6c7ad458-e02e-480c-be37-6649120423e0.png",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -12292,19 +12477,19 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "5458"
+          "Value": "20874"
         },
         {
           "Name": "Content-Type",
-          "Value": "image/jpeg"
+          "Value": "image/png"
         },
         {
           "Name": "ETag",
-          "Value": "\"cAZUxMK8vE6J7UniQeSHnv/JsQSWP0HGokPb2CFxu9w=\""
+          "Value": "\"mHCRH5xRjhj+AYoh6NTL7u83De4tDDD56tBBoq72K/w=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 10 Dec 2024 16:24:45 GMT"
+          "Value": "Mon, 27 Jan 2025 22:06:39 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -12314,7 +12499,7 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-cAZUxMK8vE6J7UniQeSHnv/JsQSWP0HGokPb2CFxu9w="
+          "Value": "sha256-mHCRH5xRjhj+AYoh6NTL7u83De4tDDD56tBBoq72K/w="
         }
       ]
     },
@@ -12483,8 +12668,8 @@
       ]
     },
     {
-      "Route": "images/resturantLogo/a718d11a-8b7c-431d-b31a-04ecf0d32095.jpg",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\resturantLogo\\a718d11a-8b7c-431d-b31a-04ecf0d32095.jpg",
+      "Route": "images/resturantLogo/d21a0064-4793-4f1b-82e7-d3449739198e.jpcjd64yqr.jpg",
+      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\resturantLogo\\d21a0064-4793-4f1b-82e7-d3449739198e.jpg",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -12493,7 +12678,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "3085"
+          "Value": "6040"
         },
         {
           "Name": "Content-Type",
@@ -12501,48 +12686,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"NdleaWQjLdkUbYnXhu+9Y38BoXN2O9wzmGbW0STB9XA=\""
+          "Value": "\"F4yhj0nAPM4axH4j6HfGbNj/6Tyi+LcPfA2QmiadZFU=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Sat, 30 Nov 2024 16:51:26 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=3600, must-revalidate"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-NdleaWQjLdkUbYnXhu+9Y38BoXN2O9wzmGbW0STB9XA="
-        }
-      ]
-    },
-    {
-      "Route": "images/resturantLogo/a718d11a-8b7c-431d-b31a-04ecf0d32095.p7e91m35w0.jpg",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\resturantLogo\\a718d11a-8b7c-431d-b31a-04ecf0d32095.jpg",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "3085"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "image/jpeg"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"NdleaWQjLdkUbYnXhu+9Y38BoXN2O9wzmGbW0STB9XA=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Sat, 30 Nov 2024 16:51:26 GMT"
+          "Value": "Tue, 14 Jan 2025 17:53:09 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -12552,21 +12700,21 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "p7e91m35w0"
+          "Value": "jpcjd64yqr"
         },
         {
           "Name": "label",
-          "Value": "images/resturantLogo/a718d11a-8b7c-431d-b31a-04ecf0d32095.jpg"
+          "Value": "images/resturantLogo/d21a0064-4793-4f1b-82e7-d3449739198e.jpg"
         },
         {
           "Name": "integrity",
-          "Value": "sha256-NdleaWQjLdkUbYnXhu+9Y38BoXN2O9wzmGbW0STB9XA="
+          "Value": "sha256-F4yhj0nAPM4axH4j6HfGbNj/6Tyi+LcPfA2QmiadZFU="
         }
       ]
     },
     {
-      "Route": "images/resturantLogo/b477eef0-774d-4e95-8599-e2bc5b969748.png",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\resturantLogo\\b477eef0-774d-4e95-8599-e2bc5b969748.png",
+      "Route": "images/resturantLogo/d21a0064-4793-4f1b-82e7-d3449739198e.jpg",
+      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\resturantLogo\\d21a0064-4793-4f1b-82e7-d3449739198e.jpg",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -12575,19 +12723,19 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "42037"
+          "Value": "6040"
         },
         {
           "Name": "Content-Type",
-          "Value": "image/png"
+          "Value": "image/jpeg"
         },
         {
           "Name": "ETag",
-          "Value": "\"RZzvY8ANrTIZy+rAvW+71dJePT6AHfAYLcZluwvsPQA=\""
+          "Value": "\"F4yhj0nAPM4axH4j6HfGbNj/6Tyi+LcPfA2QmiadZFU=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Sat, 30 Nov 2024 10:39:31 GMT"
+          "Value": "Tue, 14 Jan 2025 17:53:09 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -12597,134 +12745,7 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-RZzvY8ANrTIZy+rAvW+71dJePT6AHfAYLcZluwvsPQA="
-        }
-      ]
-    },
-    {
-      "Route": "images/resturantLogo/b477eef0-774d-4e95-8599-e2bc5b969748.t26emkucqh.png",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\resturantLogo\\b477eef0-774d-4e95-8599-e2bc5b969748.png",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "42037"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "image/png"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"RZzvY8ANrTIZy+rAvW+71dJePT6AHfAYLcZluwvsPQA=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Sat, 30 Nov 2024 10:39:31 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "t26emkucqh"
-        },
-        {
-          "Name": "label",
-          "Value": "images/resturantLogo/b477eef0-774d-4e95-8599-e2bc5b969748.png"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-RZzvY8ANrTIZy+rAvW+71dJePT6AHfAYLcZluwvsPQA="
-        }
-      ]
-    },
-    {
-      "Route": "images/resturantLogo/c09e5087-355f-4e5e-9d5c-49c07dca46d2.JPG",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\resturantLogo\\c09e5087-355f-4e5e-9d5c-49c07dca46d2.JPG",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "3542"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "image/jpeg"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"4Y7Yv8bK/dGCf7TGP08U9m1TDYatRCAG75UFyX6Nf+Y=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Tue, 10 Dec 2024 16:13:50 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=3600, must-revalidate"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-4Y7Yv8bK/dGCf7TGP08U9m1TDYatRCAG75UFyX6Nf+Y="
-        }
-      ]
-    },
-    {
-      "Route": "images/resturantLogo/c09e5087-355f-4e5e-9d5c-49c07dca46d2.nmfkxdh32h.JPG",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\resturantLogo\\c09e5087-355f-4e5e-9d5c-49c07dca46d2.JPG",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "3542"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "image/jpeg"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"4Y7Yv8bK/dGCf7TGP08U9m1TDYatRCAG75UFyX6Nf+Y=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Tue, 10 Dec 2024 16:13:50 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "nmfkxdh32h"
-        },
-        {
-          "Name": "label",
-          "Value": "images/resturantLogo/c09e5087-355f-4e5e-9d5c-49c07dca46d2.JPG"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-4Y7Yv8bK/dGCf7TGP08U9m1TDYatRCAG75UFyX6Nf+Y="
+          "Value": "sha256-F4yhj0nAPM4axH4j6HfGbNj/6Tyi+LcPfA2QmiadZFU="
         }
       ]
     },
@@ -12807,6 +12828,88 @@
         {
           "Name": "integrity",
           "Value": "sha256-RZzvY8ANrTIZy+rAvW+71dJePT6AHfAYLcZluwvsPQA="
+        }
+      ]
+    },
+    {
+      "Route": "images/resturantLogo/e6626820-0d84-48d5-9b16-fe44657055bd.JPG",
+      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\resturantLogo\\e6626820-0d84-48d5-9b16-fe44657055bd.JPG",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "3542"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"4Y7Yv8bK/dGCf7TGP08U9m1TDYatRCAG75UFyX6Nf+Y=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 16 Jan 2025 00:42:51 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-4Y7Yv8bK/dGCf7TGP08U9m1TDYatRCAG75UFyX6Nf+Y="
+        }
+      ]
+    },
+    {
+      "Route": "images/resturantLogo/e6626820-0d84-48d5-9b16-fe44657055bd.nmfkxdh32h.JPG",
+      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\resturantLogo\\e6626820-0d84-48d5-9b16-fe44657055bd.JPG",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "3542"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"4Y7Yv8bK/dGCf7TGP08U9m1TDYatRCAG75UFyX6Nf+Y=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 16 Jan 2025 00:42:51 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "nmfkxdh32h"
+        },
+        {
+          "Name": "label",
+          "Value": "images/resturantLogo/e6626820-0d84-48d5-9b16-fe44657055bd.JPG"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-4Y7Yv8bK/dGCf7TGP08U9m1TDYatRCAG75UFyX6Nf+Y="
         }
       ]
     },

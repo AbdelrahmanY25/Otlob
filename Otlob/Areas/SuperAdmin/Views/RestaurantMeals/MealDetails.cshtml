@@ -11,7 +11,6 @@
         <form asp-action="MealDetails" enctype="multipart/form-data">
             <div asp-validation-summary="All" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
-            <input type="hidden" name="resId" value="@ViewBag.ResturantId" />
             <div class="form-group mb-3">
                 <label asp-for="Name" class="control-label"></label>
                 <input asp-for="Name" class="form-control" />

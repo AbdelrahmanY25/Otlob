@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
-using System;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 namespace Otlob.Core.Models

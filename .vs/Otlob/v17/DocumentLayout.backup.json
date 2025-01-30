@@ -3,6 +3,14 @@
   "WorkspaceRootPath": "D:\\My_Projects\\Otlob\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{D640FB36-1719-48B8-B41E-BE4D95F57950}|Otlob\\Otlob.csproj|d:\\my_projects\\otlob\\otlob\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{D640FB36-1719-48B8-B41E-BE4D95F57950}|Otlob\\Otlob.csproj|solutionrelative:otlob\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D640FB36-1719-48B8-B41E-BE4D95F57950}|Otlob\\Otlob.csproj|d:\\my_projects\\otlob\\otlob\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D640FB36-1719-48B8-B41E-BE4D95F57950}|Otlob\\Otlob.csproj|solutionrelative:otlob\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{D640FB36-1719-48B8-B41E-BE4D95F57950}|Otlob\\Otlob.csproj|d:\\my_projects\\otlob\\otlob\\areas\\superadmin\\controllers\\resturantscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{D640FB36-1719-48B8-B41E-BE4D95F57950}|Otlob\\Otlob.csproj|solutionrelative:otlob\\areas\\superadmin\\controllers\\resturantscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -31,19 +39,43 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "ResturantsController.cs",
-              "DocumentMoniker": "D:\\My_Projects\\Otlob\\Otlob\\Areas\\SuperAdmin\\Controllers\\ResturantsController.cs",
-              "RelativeDocumentMoniker": "Otlob\\Areas\\SuperAdmin\\Controllers\\ResturantsController.cs",
-              "ToolTip": "D:\\My_Projects\\Otlob\\Otlob\\Areas\\SuperAdmin\\Controllers\\ResturantsController.cs",
-              "RelativeToolTip": "Otlob\\Areas\\SuperAdmin\\Controllers\\ResturantsController.cs",
-              "ViewState": "AgIAAHUAAAAAAAAAAAAowA4AAAAyAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-14T18:23:26.797Z",
+              "Title": "appsettings.json",
+              "DocumentMoniker": "D:\\My_Projects\\Otlob\\Otlob\\appsettings.json",
+              "RelativeDocumentMoniker": "Otlob\\appsettings.json",
+              "ToolTip": "D:\\My_Projects\\Otlob\\Otlob\\appsettings.json",
+              "RelativeToolTip": "Otlob\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-01-14T18:26:04.292Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\My_Projects\\Otlob\\Otlob\\Program.cs",
+              "RelativeDocumentMoniker": "Otlob\\Program.cs",
+              "ToolTip": "D:\\My_Projects\\Otlob\\Otlob\\Program.cs",
+              "RelativeToolTip": "Otlob\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-14T18:26:00.976Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ResturantsController.cs",
+              "DocumentMoniker": "D:\\My_Projects\\Otlob\\Otlob\\Areas\\SuperAdmin\\Controllers\\ResturantsController.cs",
+              "RelativeDocumentMoniker": "Otlob\\Areas\\SuperAdmin\\Controllers\\ResturantsController.cs",
+              "ToolTip": "D:\\My_Projects\\Otlob\\Otlob\\Areas\\SuperAdmin\\Controllers\\ResturantsController.cs",
+              "RelativeToolTip": "Otlob\\Areas\\SuperAdmin\\Controllers\\ResturantsController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAyAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-14T18:23:26.797Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "ImageService.cs",
               "DocumentMoniker": "D:\\My_Projects\\Otlob\\RepositoryPatternWithUOW.Core\\Services\\ImageService.cs",
               "RelativeDocumentMoniker": "RepositoryPatternWithUOW.Core\\Services\\ImageService.cs",
@@ -51,8 +83,7 @@
               "RelativeToolTip": "RepositoryPatternWithUOW.Core\\Services\\ImageService.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-14T18:23:15.56Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-01-14T18:23:15.56Z"
             }
           ]
         }

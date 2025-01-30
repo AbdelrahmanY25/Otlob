@@ -1,10 +1,5 @@
-﻿using Otlob.Core.Models;
-using System;
-using System.Collections.Generic;
+﻿using RepositoryPatternWithUOW.Core.Models;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Otlob.Core.ViewModel
 {
@@ -27,7 +22,7 @@ namespace Otlob.Core.ViewModel
 
         [Required, Display(Prompt = "Resturant Phone")]
         [DataType(DataType.PhoneNumber)]
-        [RegularExpression(@"^\d{5,11}$", ErrorMessage = "The phone number must contain only numbers and be up to 11 digits long.")]
+        [RegularExpression(@"^\d{5}|\d{11}$", ErrorMessage = "The phone number must contain only numbers and be either 5 or 11 digits.")]
         public string ResPhone { get; set; } = null!;
 
         [Required, DataType(DataType.Password), Display(Prompt = "Password")]
@@ -39,5 +34,17 @@ namespace Otlob.Core.ViewModel
 
         [Required,MinLength(10), Display(Prompt = "Write a Description about your resturant")]
         public string Description { get; set; } = null!;
+
+        public static Restaurant MapToRestaurant(RegistResturantVM registresturant)
+        {
+            return new Restaurant
+            {
+                Name = registresturant.ResName,
+                Email = registresturant.ResEmail,
+                Address = registresturant.ResAddress.ToString(),
+                Phone = registresturant.ResPhone,
+                Description = registresturant.Description
+            };
+        }
     } 
 }

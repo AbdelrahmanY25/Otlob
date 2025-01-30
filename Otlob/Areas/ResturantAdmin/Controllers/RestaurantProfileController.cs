@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Otlob.Core.IUnitOfWorkRepository;
-using Otlob.Core.Services;
 using Otlob.Core.IServices;
 using Otlob.Core.Models;
 using Otlob.Core.ViewModel;
@@ -65,13 +64,16 @@ namespace Otlob.Areas.Restaurants.Controllers
                     return View(restaurantVM);
                 }
 
-                var resOfDeleteOldImage = imageService.DelteOldImage(oldResturantInfo.Logo, "wwwroot\\images\\resturantLogo");
-
-                if (!resOfDeleteOldImage)
+                if (oldResturantInfo.Logo != null)
                 {
-                    ModelState.AddModelError("", "Error in deleting old image");
-                    restaurantVM.Logo = oldResturantInfo.Logo;
-                    return View(restaurantVM);
+                    var resOfDeleteOldImage = imageService.DelteOldImage(oldResturantInfo.Logo, "wwwroot\\images\\resturantLogo");
+
+                    if (!resOfDeleteOldImage)
+                    {
+                        ModelState.AddModelError("", "Error in deleting old image");
+                        restaurantVM.Logo = oldResturantInfo.Logo;
+                        return View(restaurantVM);
+                    }
                 }
 
                 var logoName = imageService.CreateNewImageExtention(logo, "wwwroot\\images\\resturantLogo");                

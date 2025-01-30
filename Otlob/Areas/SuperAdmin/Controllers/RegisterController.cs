@@ -3,29 +3,21 @@ using Microsoft.AspNetCore.Mvc;
 using Otlob.Core.ViewModel;
 using Otlob.Core.Models;
 using Utility;
-using RepositoryPatternWithUOW.Core.Models;
 using Microsoft.AspNetCore.Identity;
 using Otlob.Core.IUnitOfWorkRepository;
-using Microsoft.IdentityModel.Tokens;
 
 namespace Otlob.Areas.SuperAdmin.Controllers
 {
     [Area("SuperAdmin"), Authorize(Roles = SD.superAdminRole)]
     public class RegisterController : Controller
     {
-        private readonly UserManager<ApplicationUser> userManager;
-        private readonly SignInManager<ApplicationUser> signInManager;
-        private readonly RoleManager<IdentityRole> roleManager;
+        private readonly UserManager<ApplicationUser> userManager;       
         private readonly IUnitOfWorkRepository unitOfWorkRepository;
 
-        public RegisterController(UserManager<ApplicationUser> userManager,
-                                  SignInManager<ApplicationUser> signInManager,
-                                  RoleManager<IdentityRole> roleManager,
+        public RegisterController(UserManager<ApplicationUser> userManager,                                  
                                   IUnitOfWorkRepository unitOfWorkRepository)
         {
-            this.userManager = userManager;
-            this.signInManager = signInManager;
-            this.roleManager = roleManager;
+            this.userManager = userManager;            
             this.unitOfWorkRepository = unitOfWorkRepository;
         }
 
@@ -34,16 +26,12 @@ namespace Otlob.Areas.SuperAdmin.Controllers
             return View();
         }
 
-        [HttpPost]
+        [HttpPost, ValidateAntiForgeryToken]
         public async Task<IActionResult> RegistResturant(RegistResturantVM registresturant)
         {
             if (ModelState.IsValid)
             {
-                var applicationUser = new ApplicationUser
-                {
-                    UserName = registresturant.ResUserName,
-                    Email = registresturant.ResEmail,
-                };
+                var applicationUser = new ApplicationUser { UserName = registresturant.ResUserName, Email = registresturant.ResEmail };
 
                 var result = await userManager.CreateAsync(applicationUser, registresturant.Password);
 
@@ -51,27 +39,13 @@ namespace Otlob.Areas.SuperAdmin.Controllers
                 {
                     await userManager.AddToRoleAsync(applicationUser, SD.restaurantAdmin);
 
-
-                    var resturant = new Restaurant
-                    {
-                        Name = registresturant.ResName,
-                        Email = registresturant.ResEmail,
-                        Address = registresturant.ResAddress.ToString(),
-                        Phone = registresturant.ResPhone,
-                        Description = registresturant.Description
-                    };
-
+                    var resturant = RegistResturantVM.MapToRestaurant(registresturant);
 
                     unitOfWorkRepository.Restaurants.Create(resturant);
                     unitOfWorkRepository.SaveChanges();
 
-                    var theresturant = unitOfWorkRepository.Restaurants.GetOne(expression: r => r.Name == registresturant.ResName, tracked: false);
-
-                    if (theresturant != null)
-                    {
-                        applicationUser.Resturant_Id = theresturant.Id;
-                        await userManager.UpdateAsync(applicationUser);
-                    }
+                    applicationUser.Resturant_Id = resturant.Id;
+                    await userManager.UpdateAsync(applicationUser);
 
                     TempData["Success"] = "Resturant Account Created Succefully";
 
@@ -99,24 +73,18 @@ namespace Otlob.Areas.SuperAdmin.Controllers
         {
             if (ModelState.IsValid)
             {
-                var applicatioUser = new ApplicationUser
-                {
-                    UserName = userVM.UserName,
-                    Email = userVM.Email,
-                    PhoneNumber = userVM.PhoneNumber
-                };
+                var applicatioUser = new ApplicationUser { UserName = userVM.UserName, Email = userVM.Email, PhoneNumber = userVM.PhoneNumber };
 
                 var result = await userManager.CreateAsync(applicatioUser, userVM.Password);
 
                 if (result.Succeeded)
                 {
                     await userManager.AddToRoleAsync(applicatioUser, SD.superAdminRole);
-                    var userAddress = new Address
-                    {
-                        CustomerAddres = userVM.Address,
-                        ApplicationUserId = applicatioUser.Id,
-                    };
+
+                    var userAddress = new Address { CustomerAddres = userVM.Address, ApplicationUserId = applicatioUser.Id, };
+
                     TempData["Success"] = "Super Admin Account Created Succefully";
+
                     return RedirectToAction("Index", "Home");
                 }
                 else

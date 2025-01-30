@@ -67,22 +67,15 @@ namespace Otlob.Areas.SuperAdmin.Controllers
             return View(mealVM);
         }
 
-        private IActionResult BackToMealsView(string msg, int? resId)
-        {
-            TempData["Success"] = msg;
-            return Redirect($"/SuperAdmin/RestaurantMeals/ResturantMeals/{resId}");
-        }
-
         public IActionResult MealDetails(int id, int resId)
         {
             var meal = unitOfWorkRepository.Meals.GetOne(expression: m => m.Id == id);
             var mealVM = MealVm.MaptoMealVm(meal);
-            ViewBag.ResturantId = resId;
             return View(mealVM);
         }
 
         [HttpPost, ValidateAntiForgeryToken]
-        public async Task<IActionResult> MealDetails(MealVm mealVM, IFormFile imageUrl, int resId)
+        public async Task<IActionResult> MealDetails(MealVm mealVM, IFormFile imageUrl)
         {
             var oldMeal = unitOfWorkRepository.Meals.GetOne(expression: m => m.Id == mealVM.Id, tracked: false);
 
@@ -93,7 +86,7 @@ namespace Otlob.Areas.SuperAdmin.Controllers
                 if (resOfValidation is string errorMsg)
                 {
                     ModelState.AddModelError("", errorMsg);
-                    ViewBag.ResturantId = resId;
+                    ViewBag.ResturantId = oldMeal.RestaurantId;
                     return View(mealVM);
                 }
 
@@ -102,7 +95,7 @@ namespace Otlob.Areas.SuperAdmin.Controllers
                 if (!resOfDeleteOldImage)
                 {
                     ModelState.AddModelError("", "Error in deleting old image");
-                    ViewBag.ResturantId = resId;
+                    ViewBag.ResturantId = oldMeal.RestaurantId;
                     return View(mealVM);
                 }
 
@@ -111,21 +104,21 @@ namespace Otlob.Areas.SuperAdmin.Controllers
                 if (fileName is null)
                 {
                     ModelState.AddModelError("", "Error in uploading new image");
-                    ViewBag.ResturantId = resId;
+                    ViewBag.ResturantId = oldMeal.RestaurantId;
                     return View(mealVM);
                 }
 
                 mealVM.ImageUrl = fileName;
 
-                var newMeal = MealVm.MapToMeal(mealVM, oldMeal, resId);
+                var newMeal = MealVm.MapToMeal(mealVM, oldMeal);
 
                 unitOfWorkRepository.Meals.Edit(newMeal);
                 unitOfWorkRepository.SaveChanges();
 
-                return BackToMealsView("Your Old Meal Updated Successfully", resId);
+                return BackToMealsView("Your Old Meal Updated Successfully", oldMeal.RestaurantId);
             }
 
-            ViewBag.ResturantId = resId;
+            ViewBag.ResturantId = oldMeal.RestaurantId;
             return View(mealVM);
         }
 
@@ -141,6 +134,12 @@ namespace Otlob.Areas.SuperAdmin.Controllers
             }
 
             TempData["Success"] = "Choosed meal was delleted";
+            return Redirect($"/SuperAdmin/RestaurantMeals/ResturantMeals/{resId}");
+        }
+        
+        private IActionResult BackToMealsView(string msg, int? resId)
+        {
+            TempData["Success"] = msg;
             return Redirect($"/SuperAdmin/RestaurantMeals/ResturantMeals/{resId}");
         }
     }
