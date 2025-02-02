@@ -23,6 +23,17 @@ namespace Otlob
             builder.Services.AddControllersWithViews();
             builder.Services.AddRazorPages();
 
+            // Add Distributed Memory Cache (Required for Session)
+            builder.Services.AddDistributedMemoryCache();
+
+            // Configure Session
+            builder.Services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(30); // Set session timeout
+                options.Cookie.HttpOnly = true; // Prevent client-side script access
+                options.Cookie.IsEssential = true; // Ensure session is always available
+            });
+
             builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
                     b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
 
@@ -49,6 +60,7 @@ namespace Otlob
             builder.Services.AddScoped<IUnitOfWorkRepository, UnitOfWorkRepository>();
             builder.Services.AddScoped<IImageService, ImageService>();
             builder.Services.AddScoped<IUserServices, UserServices>();
+            builder.Services.AddScoped<IIdEncryptionService, IdEncryptionService>();
 
             builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
             StripeConfiguration.ApiKey = builder.Configuration["Stripe:SecretKey"];
@@ -65,6 +77,9 @@ namespace Otlob
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
+            // Enable Session Middleware (Before Routing)
+            app.UseSession();
 
             app.UseRouting();
             app.MapRazorPages();

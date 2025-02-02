@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using Otlob.Core.IServices;
 
 namespace Otlob.Core.Models
 {

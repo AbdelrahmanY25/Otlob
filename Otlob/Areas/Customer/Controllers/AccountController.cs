@@ -6,6 +6,7 @@ using Otlob.Core.IServices;
 using Otlob.Core.Models;
 using Otlob.Core.ViewModel;
 using Utility;
+using Otlob.Core.Services;
 
 namespace Otlob.Areas.Customer.Controllers
 {
@@ -18,13 +19,15 @@ namespace Otlob.Areas.Customer.Controllers
         private readonly IUnitOfWorkRepository unitOfWorkRepository;
         private readonly IImageService imageService;
         private readonly IUserServices userServices;
+        private readonly IIdEncryptionService encryptionService;
 
         public AccountController(UserManager<ApplicationUser> userManager,
                                   SignInManager<ApplicationUser> signInManager,
                                   RoleManager<IdentityRole> roleManager,
                                   IUnitOfWorkRepository unitOfWorkRepository,
                                   IImageService imageService,
-                                  IUserServices userServices)
+                                  IUserServices userServices,
+                                  IIdEncryptionService encryptionService)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
@@ -32,6 +35,7 @@ namespace Otlob.Areas.Customer.Controllers
             this.unitOfWorkRepository = unitOfWorkRepository;
             this.imageService = imageService;
             this.userServices = userServices;
+            this.encryptionService = encryptionService;
         }
 
         public async Task<IActionResult> Register()
@@ -58,7 +62,7 @@ namespace Otlob.Areas.Customer.Controllers
                 {
                     await userManager.AddToRoleAsync(applicatioUser, SD.customer);
 
-                    var userAddress = new AddressController(unitOfWorkRepository, userManager);                    
+                    var userAddress = new AddressController(unitOfWorkRepository, userManager, encryptionService);                    
                     userAddress.AddUserAddress(userVM.Address, applicatioUser.Id);
                    
                     await signInManager.SignInAsync(applicatioUser, isPersistent: false);

@@ -5,11 +5,7 @@
 <div class="row">
     <div class="col-md-4">
         <form asp-action="UpdateAddress">
-            <div asp-validation-summary="All" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <input type="hidden" asp-for="ApplicationUserId" class="form-control" />
-            </div>
+            <div asp-validation-summary="All" class="text-danger"></div>     
             <div class="form-group">
                 <label asp-for="CustomerAddres" class="control-label">Your Address</label>
                 <input asp-for="CustomerAddres" class="form-control" />

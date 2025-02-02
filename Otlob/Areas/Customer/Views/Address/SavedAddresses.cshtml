@@ -1,4 +1,6 @@
-﻿@model IEnumerable<Otlob.Core.Models.Address>
+﻿@using Otlob.Core.IServices
+@model IEnumerable<Otlob.Core.Models.Address>
+@inject IIdEncryptionService IdEncryptor
 
 @section Notify {
     <partial name="_NotificationPartial"></partial>
@@ -20,13 +22,14 @@
     </thead>
     <tbody>
     @foreach (var item in Model) {
+        var encryptedId = IdEncryptor.EncryptId(item.Id);
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.CustomerAddres)
             </td>
             <td>
-                <a class="btn btn-success" asp-action="UpdateAddress" asp-route-id="@item.Id">Update Address</a> 
-                <a class="btn btn-danger" asp-action="DeleteAddress" asp-route-id="@item.Id" data-bs-toggle="modal" data-bs-target="#deleteModal" data-categoryid="@item.Id">Delete Address</a>
+                <a class="btn btn-success" asp-action="UpdateAddress" asp-route-id="@encryptedId">Update Address</a>
+                <a class="btn btn-danger" asp-action="DeleteAddress" data-bs-toggle="modal" data-bs-target="#deleteModal" data-categoryid="@encryptedId">Delete Address</a>
             </td>
         </tr>
     }

@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Otlob.Core.IServices;
 using Otlob.Core.IUnitOfWorkRepository;
 using Otlob.Core.Models;
 using Otlob.Core.ViewModel;
+using System.Text;
 
 namespace Otlob.Areas.Customer.Controllers
 {
@@ -11,17 +13,20 @@ namespace Otlob.Areas.Customer.Controllers
     {
         private readonly IUnitOfWorkRepository unitOfWorkRepository;
         private readonly UserManager<ApplicationUser> userManager;
+        private readonly IIdEncryptionService encryptionService;
 
         public AddressController(IUnitOfWorkRepository unitOfWorkRepository,
-                                 UserManager<ApplicationUser> userManager)
+                                 UserManager<ApplicationUser> userManager,
+                                 IIdEncryptionService encryptionService)
         {
             this.unitOfWorkRepository = unitOfWorkRepository;
             this.userManager = userManager;
+            this.encryptionService = encryptionService;
         }
         public IActionResult SavedAddresses()
         {
-            var user = userManager.GetUserId(User);
-            var addresses = unitOfWorkRepository.Addresses.Get([a => a.User], expression: a => a.ApplicationUserId == user);
+            var userId = userManager.GetUserId(User);
+            var addresses = unitOfWorkRepository.Addresses.Get(expression: a => a.ApplicationUserId == userId);
             return View(addresses);
         }
 
@@ -35,7 +40,8 @@ namespace Otlob.Areas.Customer.Controllers
         {
             if (ModelState.IsValid)
             {
-                var address = AddressVM.MapToAddress(addressVM);                
+                var address = AddressVM.MapToAddress(addressVM);
+                address.ApplicationUserId = userManager.GetUserId(User);
                 unitOfWorkRepository.Addresses.Create(address);
                 unitOfWorkRepository.SaveChanges();
 
@@ -55,21 +61,30 @@ namespace Otlob.Areas.Customer.Controllers
             return true;
         }
 
-        public IActionResult UpdateAddress(int id)
-         {
-            var address = unitOfWorkRepository.Addresses.GetOne(expression:  a => a.Id == id);
-            var addressVM = AddressVM.MapToAddressVM(address);
-            return View(addressVM);
-         }
+        public IActionResult UpdateAddress(string id)
+        {
+            var addressId = encryptionService.DecryptId(id);
+            var address = unitOfWorkRepository.Addresses.GetOne(expression:  a => a.Id == addressId);
+
+            if (address == null) return Unauthorized();
+
+            HttpContext.Session.SetString("AddressId", id.ToString());
+            return View(AddressVM.MapToAddressVM(address));
+        }
 
         [HttpPost, ValidateAntiForgeryToken]
         public IActionResult UpdateAddress(AddressVM addressVM)
         {
+            var addressId = encryptionService.DecryptId(HttpContext.Session.GetString("AddressId"));
+            var oldAddress = unitOfWorkRepository.Addresses.GetOne(expression: a => a.Id == addressId, tracked: false);
+
+            if (oldAddress == null) return Unauthorized();
+            if (oldAddress.CustomerAddres == addressVM.CustomerAddres) return RedirectToAction("SavedAddresses");
+
             if (ModelState.IsValid)
             {
-                var address = AddressVM.MapToAddress(addressVM);
-                address.Id = addressVM.Id;
-                unitOfWorkRepository.Addresses.Edit(address);
+                var address = AddressVM.MapToAddress(addressVM);         
+                unitOfWorkRepository.Addresses.Edit(FillAddressData(address));
                 unitOfWorkRepository.SaveChanges();
 
                 return BackToIndexAddressPage("Your Old Address Updateded Successfully");                
@@ -78,27 +93,34 @@ namespace Otlob.Areas.Customer.Controllers
         }
 
         [HttpPost, ValidateAntiForgeryToken]
-        public IActionResult DeleteAddress(int id)
+        public IActionResult DeleteAddress(string id)
         {
-            var address = unitOfWorkRepository.Addresses.GetOne(expression: e => e.Id == id);
+            var addressId = encryptionService.DecryptId(id);
+            var address = unitOfWorkRepository.Addresses.GetOne(expression: e => e.Id == addressId);
 
-            if (address != null)
-            {
-                unitOfWorkRepository.Addresses.Delete(address);
-                unitOfWorkRepository.SaveChanges();
-            }
+            if (address == null) return Unauthorized();
+
+            unitOfWorkRepository.Addresses.Delete(address);
+            unitOfWorkRepository.SaveChanges();
 
             return BackToIndexAddressPage("Your Old Address Deleteded Successfully");            
         }
 
         private IActionResult BackToIndexAddressPage(string msg)
         {
-            var user = userManager.GetUserId(User);
-            var addresses = unitOfWorkRepository.Addresses.Get([a => a.User], expression: a => a.ApplicationUserId == user, tracked: false);
+            var userId = userManager.GetUserId(User);
+            var addresses = unitOfWorkRepository.Addresses.Get(expression: a => a.ApplicationUserId == userId, tracked: false);
 
             TempData["Success"] = msg;
 
             return RedirectToAction("SavedAddresses", addresses);
+        }       
+
+        private Address FillAddressData(Address address)
+        {
+            address.Id = encryptionService.DecryptId(HttpContext.Session.GetString("AddressId"));
+            address.ApplicationUserId = userManager.GetUserId(User);
+            return address;
         }
     }
 }

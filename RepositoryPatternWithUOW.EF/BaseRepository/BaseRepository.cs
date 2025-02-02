@@ -1,19 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using NuGet.ContentModel;
 using Otlob.EF.IBaseRepository;
-using RepositoryPatternWithUOW.EF;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Otlob.EF.BaseRepository
 {
     public class BaseRepository<T>(ApplicationDbContext context) : IBaseRepository<T> where T : class
     {
-        private readonly ApplicationDbContext _context = context;
+        //private readonly ApplicationDbContext _context = context;
         private DbSet<T> dbSet = context.Set<T>();
 
         public void Create(T entity)
@@ -30,7 +23,10 @@ namespace Otlob.EF.BaseRepository
         {
             dbSet.Update(entity);
         }
-        public IEnumerable<T>? Get(Expression<Func<T, object>>[]? includeProps = null, Expression<Func<T, bool>>? expression = null, bool tracked = true)
+
+        public IEnumerable<T>? Get(Expression<Func<T, object>>[]? includeProps = null,
+                                   Expression<Func<T, bool>>? expression = null,
+                                   bool tracked = true)
         {
             IQueryable<T> query = dbSet;
 
