@@ -175,7 +175,7 @@ namespace RepositoryPatternWithUOW.EF.Migrations
 
                     b.HasIndex("ApplicationUserId");
 
-                    b.ToTable("Addresses", (string)null);
+                    b.ToTable("Addresses");
                 });
 
             modelBuilder.Entity("Otlob.Core.Models.ApplicationUser", b =>
@@ -201,15 +201,16 @@ namespace RepositoryPatternWithUOW.EF.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("FirstName")
-                        .HasMaxLength(15)
-                        .HasColumnType("nvarchar(15)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("Gender")
                         .HasColumnType("int");
 
+                    b.Property<byte[]>("Image")
+                        .HasColumnType("varbinary(max)");
+
                     b.Property<string>("LastName")
-                        .HasMaxLength(15)
-                        .HasColumnType("nvarchar(15)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -234,10 +235,7 @@ namespace RepositoryPatternWithUOW.EF.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<byte[]>("ProfilePicture")
-                        .HasColumnType("varbinary(max)");
-
-                    b.Property<int>("Resturant_Id")
+                    b.Property<int>("RestaurantId")
                         .HasColumnType("int");
 
                     b.Property<string>("SecurityStamp")
@@ -260,6 +258,8 @@ namespace RepositoryPatternWithUOW.EF.Migrations
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
+                    b.HasIndex("RestaurantId");
+
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
@@ -271,40 +271,20 @@ namespace RepositoryPatternWithUOW.EF.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("ResturantId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserId")
+                    b.Property<string>("ApplicationUserId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Cart", (string)null);
-                });
-
-            modelBuilder.Entity("Otlob.Core.Models.CartInOrder", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int>("RestaurantId")
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("ResturantId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("ApplicationUserId");
 
-                    b.ToTable("CartInOrder", (string)null);
+                    b.HasIndex("RestaurantId");
+
+                    b.ToTable("Cart");
                 });
 
             modelBuilder.Entity("Otlob.Core.Models.Delivery", b =>
@@ -334,7 +314,83 @@ namespace RepositoryPatternWithUOW.EF.Migrations
 
                     b.HasIndex("RestaurantId");
 
-                    b.ToTable("Deliveries", (string)null);
+                    b.ToTable("Deliveries");
+                });
+
+            modelBuilder.Entity("Otlob.Core.Models.Meal", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("Category")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("Image")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<bool>("IsAvailable")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsNewMeal")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsTrendingMeal")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("NumberOfServings")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,4)");
+
+                    b.Property<int>("RestaurantId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RestaurantId");
+
+                    b.ToTable("Meals");
+                });
+
+            modelBuilder.Entity("Otlob.Core.Models.MealPriceHistory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime?>("EndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("MealId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,4)");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MealId");
+
+                    b.HasIndex("StartDate");
+
+                    b.ToTable("MealsPriceHistories");
                 });
 
             modelBuilder.Entity("Otlob.Core.Models.MealsInOrder", b =>
@@ -345,32 +401,25 @@ namespace RepositoryPatternWithUOW.EF.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CartInOrderId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("MealDescription")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("MealId")
                         .HasColumnType("int");
 
-                    b.Property<string>("MealName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,4)");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.Property<int>("RestaurantId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("CartInOrderId");
 
                     b.HasIndex("MealId");
 
-                    b.ToTable("MealsInOrder", (string)null);
+                    b.HasIndex("OrderId");
+
+                    b.ToTable("MealsInOrder");
                 });
 
             modelBuilder.Entity("Otlob.Core.Models.Order", b =>
@@ -381,16 +430,11 @@ namespace RepositoryPatternWithUOW.EF.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("ApplicationUserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("CartInOrderId")
+                    b.Property<int>("AddressId")
                         .HasColumnType("int");
 
-                    b.Property<string>("CustomerAddres")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("Method")
                         .HasColumnType("int");
@@ -412,13 +456,19 @@ namespace RepositoryPatternWithUOW.EF.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("AddressId");
+
                     b.HasIndex("ApplicationUserId");
 
-                    b.HasIndex("CartInOrderId");
+                    b.HasIndex("OrderDate");
+
+                    b.HasIndex("OrderPrice");
 
                     b.HasIndex("RestaurantId");
 
-                    b.ToTable("Orders", (string)null);
+                    b.HasIndex("Status");
+
+                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("Otlob.Core.Models.OrderedMeals", b =>
@@ -432,20 +482,13 @@ namespace RepositoryPatternWithUOW.EF.Migrations
                     b.Property<int>("CartId")
                         .HasColumnType("int");
 
-                    b.Property<string>("MealDescription")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("MealId")
                         .HasColumnType("int");
 
-                    b.Property<string>("MealName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<decimal>("PricePerMeal")
+                        .HasColumnType("decimal(18,4)");
 
                     b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.Property<int>("RestaurantId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -454,7 +497,7 @@ namespace RepositoryPatternWithUOW.EF.Migrations
 
                     b.HasIndex("MealId");
 
-                    b.ToTable("OrderedMeals", (string)null);
+                    b.ToTable("OrderedMeals");
                 });
 
             modelBuilder.Entity("Otlob.Core.Models.Point", b =>
@@ -482,7 +525,58 @@ namespace RepositoryPatternWithUOW.EF.Migrations
 
                     b.HasIndex("ApplicationUserId");
 
-                    b.ToTable("Points", (string)null);
+                    b.ToTable("Points");
+                });
+
+            modelBuilder.Entity("Otlob.Core.Models.Restaurant", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AcctiveStatus")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Category")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("DeliveryDuration")
+                        .HasColumnType("decimal(18,4)");
+
+                    b.Property<decimal>("DeliveryFee")
+                        .HasColumnType("decimal(18,4)");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("Image")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Rate")
+                        .HasColumnType("decimal(18,4)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Restaurants");
                 });
 
             modelBuilder.Entity("Otlob.Core.Models.UserComplaint", b =>
@@ -516,103 +610,7 @@ namespace RepositoryPatternWithUOW.EF.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserComplaints", (string)null);
-                });
-
-            modelBuilder.Entity("RepositoryPatternWithUOW.Core.Models.Meal", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("Category")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ImageUrl")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsAvailable")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsNewMeal")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsTrendingMeal")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("NumberOfServings")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("RestaurantId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RestaurantId");
-
-                    b.ToTable("Meals", (string)null);
-                });
-
-            modelBuilder.Entity("RepositoryPatternWithUOW.Core.Models.Restaurant", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("AcctiveStatus")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("DeliveryDuration")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal>("DeliveryFee")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Logo")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Phone")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("Rate")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Restaurants", (string)null);
+                    b.ToTable("UserComplaints");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -677,31 +675,39 @@ namespace RepositoryPatternWithUOW.EF.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Otlob.Core.Models.ApplicationUser", b =>
+                {
+                    b.HasOne("Otlob.Core.Models.Restaurant", "Restaurant")
+                        .WithMany()
+                        .HasForeignKey("RestaurantId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Restaurant");
+                });
+
             modelBuilder.Entity("Otlob.Core.Models.Cart", b =>
                 {
                     b.HasOne("Otlob.Core.Models.ApplicationUser", "User")
                         .WithMany()
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("ApplicationUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Otlob.Core.Models.CartInOrder", b =>
-                {
-                    b.HasOne("Otlob.Core.Models.ApplicationUser", "User")
+                    b.HasOne("Otlob.Core.Models.Restaurant", "Restaurant")
                         .WithMany()
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("RestaurantId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Restaurant");
 
                     b.Navigation("User");
                 });
 
             modelBuilder.Entity("Otlob.Core.Models.Delivery", b =>
                 {
-                    b.HasOne("RepositoryPatternWithUOW.Core.Models.Restaurant", "Restaurant")
+                    b.HasOne("Otlob.Core.Models.Restaurant", "Restaurant")
                         .WithMany("Deliveries")
                         .HasForeignKey("RestaurantId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -710,48 +716,66 @@ namespace RepositoryPatternWithUOW.EF.Migrations
                     b.Navigation("Restaurant");
                 });
 
-            modelBuilder.Entity("Otlob.Core.Models.MealsInOrder", b =>
+            modelBuilder.Entity("Otlob.Core.Models.Meal", b =>
                 {
-                    b.HasOne("Otlob.Core.Models.CartInOrder", "CartInOrder")
-                        .WithMany("MealsInOrder")
-                        .HasForeignKey("CartInOrderId")
+                    b.HasOne("Otlob.Core.Models.Restaurant", "Restaurant")
+                        .WithMany("Meals")
+                        .HasForeignKey("RestaurantId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("RepositoryPatternWithUOW.Core.Models.Meal", "Meal")
+                    b.Navigation("Restaurant");
+                });
+
+            modelBuilder.Entity("Otlob.Core.Models.MealPriceHistory", b =>
+                {
+                    b.HasOne("Otlob.Core.Models.Meal", "Meal")
+                        .WithMany("MealPriceHistories")
+                        .HasForeignKey("MealId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Meal");
+                });
+
+            modelBuilder.Entity("Otlob.Core.Models.MealsInOrder", b =>
+                {
+                    b.HasOne("Otlob.Core.Models.Meal", "Meal")
                         .WithMany()
                         .HasForeignKey("MealId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("CartInOrder");
+                    b.HasOne("Otlob.Core.Models.Order", "Order")
+                        .WithMany("MealsInOrder")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Meal");
+
+                    b.Navigation("Order");
                 });
 
             modelBuilder.Entity("Otlob.Core.Models.Order", b =>
                 {
-                    b.HasOne("Otlob.Core.Models.ApplicationUser", "ApplicationUser")
-                        .WithMany("Orders")
-                        .HasForeignKey("ApplicationUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Otlob.Core.Models.CartInOrder", "CartInOrder")
+                    b.HasOne("Otlob.Core.Models.Address", "Address")
                         .WithMany()
-                        .HasForeignKey("CartInOrderId")
+                        .HasForeignKey("AddressId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("RepositoryPatternWithUOW.Core.Models.Restaurant", "Restaurant")
+                    b.HasOne("Otlob.Core.Models.ApplicationUser", null)
+                        .WithMany("Orders")
+                        .HasForeignKey("ApplicationUserId");
+
+                    b.HasOne("Otlob.Core.Models.Restaurant", "Restaurant")
                         .WithMany("Orders")
                         .HasForeignKey("RestaurantId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("ApplicationUser");
-
-                    b.Navigation("CartInOrder");
+                    b.Navigation("Address");
 
                     b.Navigation("Restaurant");
                 });
@@ -764,7 +788,7 @@ namespace RepositoryPatternWithUOW.EF.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("RepositoryPatternWithUOW.Core.Models.Meal", "Meal")
+                    b.HasOne("Otlob.Core.Models.Meal", "Meal")
                         .WithMany()
                         .HasForeignKey("MealId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -786,7 +810,7 @@ namespace RepositoryPatternWithUOW.EF.Migrations
 
             modelBuilder.Entity("Otlob.Core.Models.UserComplaint", b =>
                 {
-                    b.HasOne("RepositoryPatternWithUOW.Core.Models.Restaurant", "Restaurant")
+                    b.HasOne("Otlob.Core.Models.Restaurant", "Restaurant")
                         .WithMany()
                         .HasForeignKey("RestaurantId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -803,17 +827,6 @@ namespace RepositoryPatternWithUOW.EF.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("RepositoryPatternWithUOW.Core.Models.Meal", b =>
-                {
-                    b.HasOne("RepositoryPatternWithUOW.Core.Models.Restaurant", "Restaurant")
-                        .WithMany("Meals")
-                        .HasForeignKey("RestaurantId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Restaurant");
-                });
-
             modelBuilder.Entity("Otlob.Core.Models.ApplicationUser", b =>
                 {
                     b.Navigation("Orders");
@@ -828,12 +841,17 @@ namespace RepositoryPatternWithUOW.EF.Migrations
                     b.Navigation("OrderedMeals");
                 });
 
-            modelBuilder.Entity("Otlob.Core.Models.CartInOrder", b =>
+            modelBuilder.Entity("Otlob.Core.Models.Meal", b =>
+                {
+                    b.Navigation("MealPriceHistories");
+                });
+
+            modelBuilder.Entity("Otlob.Core.Models.Order", b =>
                 {
                     b.Navigation("MealsInOrder");
                 });
 
-            modelBuilder.Entity("RepositoryPatternWithUOW.Core.Models.Restaurant", b =>
+            modelBuilder.Entity("Otlob.Core.Models.Restaurant", b =>
                 {
                     b.Navigation("Deliveries");
 

@@ -1,0 +1,84 @@
+﻿@model Otlob.Core.ViewModel.RestaurantVM
+
+@section Profile {
+    <partial name="_ProfilePartial"></partial>
+}
+
+<div class="profile">
+    <div class="info">
+        <div class="home">
+            <a href="/SuperAdmin/Resturants/ResturantDetails/@ViewBag.ResturantId">Back </a>
+            <span>></span>
+            <span>Account</span>
+        </div>
+        <h2>Resturant Account</h2>
+    </div>
+
+    <hr class="line" />
+
+    <div class="links">
+        <a href="#" class="active">Account Info</a>
+    </div>
+
+    <form asp-action="EditRestaurantProfile" enctype="multipart/form-data">
+        <div asp-validation-summary="All" class="text-danger mb-4"></div>
+        <div class="field">
+            <label asp-for="Name"></label>
+            <input asp-for="Name" value="@Model.Name" />
+        </div>
+        <div class="field">
+            <label asp-for="Address"></label>
+            <input asp-for="Address" value="@Model.Address" />
+        </div>
+        <div class="field">
+            <label asp-for="Email"></label>
+            <input asp-for="Email" value="@Model.Email" />
+        </div>
+        <div class="field">
+            <label asp-for="Phone"></label>
+            <input asp-for="Phone" value="@Model.Phone" />
+        </div>
+        <div class="field">
+            <label asp-for="Description"></label>
+            <input asp-for="Description" value="@Model.Description" />
+        </div>
+        <div class="pic">
+            <i class="edit-icon" onclick="triggerFileInput()" title="Edit Profile Picture">&#9998;</i>
+            @if (Model.Image is not null)
+            {
+                <img id="restaurantProfilePicture" alt="restaurantProfilePicture" src="data:image/*;base64,@(Convert.ToBase64String(Model.Image))" />
+            }
+            else
+            {
+                <img id="restaurantProfilePicture" src="~/images/Default.jpg" alt="resturantLogo" />
+            }
+            <input class="hidden-file-input"
+                   id="fileInput"
+                   type="file"
+                   accept="image/*"
+                   asp-for="Image"
+                   onchange="document.getElementById('restaurantProfilePicture').src = window.URL.createObjectURL(this.files[0]);" />
+        </div>
+        <div class="field">
+            <label asp-for="DeliveryFee"></label>
+            <input asp-for="DeliveryFee" />
+        </div>
+        <div class="field">
+            <label asp-for="DeliveryDuration"></label>
+            <input asp-for="DeliveryDuration" />
+        </div>
+        <button type="submit">Update Your Resturan info</button>
+    </form>
+</div>
+
+<script>
+    function triggerFileInput() {
+        document.getElementById("fileInput").click();
+    }
+</script>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -1,6 +1,7 @@
 ﻿@using Otlob.Core.IServices
-@model IEnumerable<Otlob.Core.Models.Address>
-@inject IIdEncryptionService IdEncryptor
+@model IEnumerable<Otlob.Core.ViewModel.AddressVM>
+
+@inject IEncryptionService IdEncryptor
 
 @section Notify {
     <partial name="_NotificationPartial"></partial>
@@ -21,8 +22,9 @@
         </tr>
     </thead>
     <tbody>
-    @foreach (var item in Model) {
-        var encryptedId = IdEncryptor.EncryptId(item.Id);
+    @foreach (var item in Model) 
+    {
+        var encryptedId = IdEncryptor.EncryptId(item.AddressVMId);
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.CustomerAddres)

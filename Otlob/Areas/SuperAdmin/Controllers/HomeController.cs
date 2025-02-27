@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Otlob.Core.IServices;
 using Otlob.Core.IUnitOfWorkRepository;
 using Otlob.Core.Models;
-using RepositoryPatternWithUOW.Core.Models;
 using Utility;
 
 namespace Otlob.Areas.SuperAdmin.Controllers
@@ -11,21 +11,24 @@ namespace Otlob.Areas.SuperAdmin.Controllers
     public class HomeController : Controller
     {        
         private readonly IUnitOfWorkRepository unitOfWorkRepository;
-        public HomeController(IUnitOfWorkRepository unitOfWorkRepository)
+        private readonly IRestaurantService restaurantService;
+
+        public HomeController(IUnitOfWorkRepository unitOfWorkRepository, IRestaurantService restaurantService)
         {
             this.unitOfWorkRepository = unitOfWorkRepository;
+            this.restaurantService = restaurantService;
         }
         public IActionResult Index(DateOnly ordersDate)
         {
             // Users data
-            var users = unitOfWorkRepository.Users.Get(expression: u => u.Resturant_Id == 0);
-            var partners = unitOfWorkRepository.Users.Get(expression: u => u.Resturant_Id != 0);
+            var users = unitOfWorkRepository.Users.Get(expression: u => u.RestaurantId == 0);
+            var partners = unitOfWorkRepository.Users.Get(expression: u => u.RestaurantId != 0);
 
             ViewBag.Users = users.Count();
             ViewBag.Partners = partners.Count();
 
             // Users Status
-            var activeUsers = unitOfWorkRepository.Orders.Get().GroupBy(o => o.ApplicationUserId);
+            var activeUsers = unitOfWorkRepository.Orders.Get([o => o.Address]).GroupBy(o => o.Address.ApplicationUserId);
 
             var nOfUsers = users.Count();
             var nOfActiveUsers = activeUsers.Count();
@@ -70,7 +73,7 @@ namespace Otlob.Areas.SuperAdmin.Controllers
 
                 if (totalDeliverdOrders > 0)
                 {
-                    var Sales = allDeliverdOrders.Sum(o => o.OrderPrice);
+                    var Sales = 0;// allDeliverdOrders.Sum(o => o.OrderPrice)
 
                     ViewBag.TotalOrders = totalDeliverdOrders;
                     ViewBag.Sales = Sales;
@@ -89,13 +92,17 @@ namespace Otlob.Areas.SuperAdmin.Controllers
         
         public IActionResult ResturatnRequist()
         {
-            var resturants = unitOfWorkRepository.Restaurants.Get(expression: r => r.AcctiveStatus == AcctiveStatus.Unaccepted);
-            return View(resturants);
+            var resturantsVM = restaurantService.GetAllRestaurantsJustMainInfo(filter: null, statuses: [AcctiveStatus.Unaccepted]);
+
+            return View(resturantsVM);
         }
         public IActionResult ActiveResturatns()
         {
-            var resturants = unitOfWorkRepository.Restaurants.Get(expression: r => r.AcctiveStatus != AcctiveStatus.Unaccepted);
-            return View(resturants);
+            AcctiveStatus[] acceptedStatuses = [ AcctiveStatus.Acctive, AcctiveStatus.Warning, AcctiveStatus.Block ];
+
+            var resturantsVM = restaurantService.GetAllRestaurantsJustMainInfo(filter: null, statuses: acceptedStatuses);
+
+            return View(resturantsVM);
         }
     }
 }

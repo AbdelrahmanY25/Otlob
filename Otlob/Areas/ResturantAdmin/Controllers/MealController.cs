@@ -1,153 +1,110 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Otlob.Core.IServices;
-using Otlob.Core.IUnitOfWorkRepository;
 using Otlob.Core.Models;
 using Otlob.Core.ViewModel;
+using Otlob.IServices;
 
 namespace Otlob.Areas.ResturantAdmin.Controllers
 {
     [Area("ResturantAdmin")]
     public class MealController : Controller
     {
-        private readonly IUnitOfWorkRepository unitOfWorkRepository;
         private readonly UserManager<ApplicationUser> userManager;
-        private readonly IImageService imageService;
+        private readonly IMealService mealService;
+        private readonly IEncryptionService encryptionService;
 
-        public MealController(IUnitOfWorkRepository unitOfWorkRepository,
-                                 UserManager<ApplicationUser> userManager,
-                                 IImageService imageService)
+        public MealController(UserManager<ApplicationUser> userManager,
+                                 IMealService mealService,
+                                 IEncryptionService encryptionService)
         {
-            this.unitOfWorkRepository = unitOfWorkRepository;
             this.userManager = userManager;
-            this.imageService = imageService;
+            this.mealService = mealService;
+            this.encryptionService = encryptionService;
         }
 
         public async Task<IActionResult> Index()
         {
             var restaurnat =  await userManager.GetUserAsync(User);
-            var meals = unitOfWorkRepository.Meals.Get(expression: m => m.RestaurantId == restaurnat.Resturant_Id);
 
-            return View(meals);
-        }
-        public IActionResult AddMeal()
-        {           
-            return View();
-        }
-
-        [HttpPost, ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddMeal(MealVm mealVM, IFormFile imageUrl)
-        {
-            if (ModelState.IsValid)
+            if (restaurnat == null)
             {
-                var resOfValidation = imageService.ValidateImageSizeAndExtension(imageUrl);
-
-                if (resOfValidation is string errorMsg)
-                {
-                    ModelState.AddModelError("", errorMsg);
-                    return View(mealVM);
-                }
-
-                var fileName = imageService.CreateNewImageExtention(imageUrl, "wwwroot\\images\\meals");               
-
-                mealVM.ImageUrl = fileName;
-
-                var restaurnat = await userManager.GetUserAsync(User);
-
-                var meal = MealVm.MapToMeal(mealVM, restaurnat);
-
-                unitOfWorkRepository.Meals.Create(meal);
-                unitOfWorkRepository.SaveChanges();
-
-                return BackToMealsView("Your New Meal Added Successfully", restaurnat);                
+                return RedirectToAction("Login", "Account", new { Area = "Customer" });
             }
 
-            return View(mealVM);
+            var mealsVM = mealService.ViewMealsVmToRestaurantAdminSummary(restaurnat.RestaurantId);
+
+            return View(mealsVM);
         }
 
-        public IActionResult MealDetails(int id)
-        {
-            var meal = unitOfWorkRepository.Meals.GetOne(expression: m => m.Id == id);
-
-            var mealVM = MealVm.MaptoMealVm(meal);
-
-            return View(mealVM);
-        }
+        public IActionResult AddMeal() => View();
 
         [HttpPost, ValidateAntiForgeryToken]
-        public async Task<IActionResult> MealDetails(MealVm mealVM, IFormFile imageUrl)
+        public async Task<IActionResult> AddMeal(MealVm mealVM)
         {
-            var oldMeal = unitOfWorkRepository.Meals.GetOne(expression: m => m.Id ==  mealVM.Id, tracked: false); 
-
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                var resOfValidation = imageService.ValidateImageSizeAndExtension(imageUrl);
-
-                if (resOfValidation is string errorMsg)
-                {
-                    ModelState.AddModelError("", errorMsg);
-                    return View(mealVM);
-                }
-
-                if (oldMeal.ImageUrl != null)
-                {
-                    var resOfDeleteOldImage = imageService.DelteOldImage(oldMeal.ImageUrl, "wwwroot\\images\\meals");
-
-                    if (!resOfDeleteOldImage)
-                    {
-                        ModelState.AddModelError("", "Error in deleting old image");
-                        mealVM.ImageUrl = oldMeal.ImageUrl;
-                        return View(mealVM);
-                    }
-                }
-
-                var fileName = imageService.CreateNewImageExtention(imageUrl, "wwwroot\\images\\meals");
-
-                if (fileName is null)
-                {
-                    ModelState.AddModelError("", "Error in uploading new image");
-                    mealVM.ImageUrl = oldMeal.ImageUrl;
-                    return View(mealVM);
-                }
-
-                mealVM.ImageUrl = fileName;                               
-
-                var restaurnat = await userManager.GetUserAsync(User);
-
-                var newMeal = MealVm.MapToMeal(mealVM, oldMeal);
-
-                unitOfWorkRepository.Meals.Edit(newMeal);
-                unitOfWorkRepository.SaveChanges();
-
-                return BackToMealsView("Your Old Meal Updated Successfully", restaurnat);        
+                return View(mealVM);                
             }
 
-            return View(mealVM);
-        }
-
-        [HttpPost, ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteMeal(int id)
-        {
             var restaurnat = await userManager.GetUserAsync(User);
-            var meals = unitOfWorkRepository.Meals.Get(expression: m => m.RestaurantId == restaurnat.Resturant_Id);
-            var meal = unitOfWorkRepository.Meals.GetOne(expression: m => m.Id == id);
 
-            if (meal != null)
+            var isMealadded = await mealService.AddMeal(mealVM, restaurnat.RestaurantId, Request.Form.Files);
+
+            if (isMealadded is string)
             {
-                unitOfWorkRepository.Meals.Delete(meal);
-                unitOfWorkRepository.SaveChanges();
+                ModelState.AddModelError("", isMealadded);
+                return View(mealVM);
             }
 
-            return RedirectToAction("Index", meals);
+            return BackToMealsView("Your New Meal Added Successfully");                            
         }
 
-        private IActionResult BackToMealsView(string msg, ApplicationUser restaurant)
+        public IActionResult MealDetails(string id)
         {
-            var meals = unitOfWorkRepository.Meals.Get(expression: m => m.RestaurantId == restaurant.Resturant_Id);
+            var mealId = encryptionService.DecryptId(id);
 
+            var mealVM = mealService.GetMealVM(mealId);
+
+            HttpContext.Session.SetString("MealId", encryptionService.EncryptId(mealId));
+
+            return View(mealVM);
+        }
+
+        [HttpPost, ValidateAntiForgeryToken]
+        public async Task<IActionResult> MealDetails(MealVm mealVM)
+        {
+            int mealId = encryptionService.DecryptId(HttpContext.Session.GetString("MealId"));
+
+            if (!ModelState.IsValid)
+            {
+                return View(mealVM);
+            }
+
+            string isMealAdded = await mealService.EditMeal(mealVM, mealId, Request.Form.Files);
+
+            if (isMealAdded is string)
+            {
+                ModelState.AddModelError("", isMealAdded);
+                return View(mealVM);
+            }
+
+            return BackToMealsView("Your Old Meal Updated Successfully");        
+        }
+
+        [HttpPost, ValidateAntiForgeryToken]
+        public IActionResult DeleteMeal(string id)
+        {
+            int mealId = encryptionService.DecryptId(id);
+            mealService.DeleteMeal(mealId);
+            return RedirectToAction("Index");
+        }
+
+        private IActionResult BackToMealsView(string msg)
+        {
             TempData["Success"] = msg;
 
-            return RedirectToAction("Index", meals);
+            return RedirectToAction("Index");
         }
     }
 }

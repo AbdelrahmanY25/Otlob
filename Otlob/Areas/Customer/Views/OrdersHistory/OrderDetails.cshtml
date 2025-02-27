@@ -27,11 +27,14 @@
 @foreach (var item in Model) {
         <tr>            
             <td>
-                <img alt="MealLogo" class="avatar rounded-circle" src="/images/meals/@unitOfWorkRepository.Meals.GetOne(expression: m => m.Id == item.MealId).ImageUrl"/>
-                @Html.DisplayFor(modelItem => item.MealName)
+                @* <img alt="MealLogo" class="avatar rounded-circle" src="/images/meals/@unitOfWorkRepository.Meals.GetOne(expression: m => m.Id == item.MealId).Image"/> *@
+
+                <img alt="MealLogo" class="avatar rounded-circle" src="data:image/*;base64,@(Convert.ToBase64String(unitOfWorkRepository.Meals.GetOne(expression: m => m.Id == item.MealId).Image))" />
+
+                @Html.DisplayFor(modelItem => item.Meal.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.MealDescription)
+                @Html.DisplayFor(modelItem => item.Meal.Description)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Quantity)

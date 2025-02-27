@@ -1,5 +1,12 @@
-﻿@model IEnumerable<RepositoryPatternWithUOW.Core.Models.Restaurant>
+﻿@using Otlob.Core.Models
 @using Utility
+@using Otlob.Core.IServices
+
+@inject IEncryptionService encryptionService
+
+@model IQueryable<Otlob.Core.ViewModel.RestaurantVM>
+
+
 @{
     ViewData["Title"] = "Home Page";
 }
@@ -39,6 +46,14 @@
 
     <!-- Categories Section -->
     <div class="icons">
+        @* Add Icon to each category *@
+        @* @{
+            foreach (var category in Enum.GetNames(typeof(RestaurantCategory))) 
+            {
+                <a asp-action="Index" asp-route-filter="@category"><img src="/images/icons/@(category.ToLower()).png" alt="Burger"/></a>
+            }
+        } *@
+
         <a asp-action="Index" asp-route-filter="burger"><img src="/images/icons/burger.png" alt="Burger" /></a>
         <a asp-action="Index" asp-route-filter="pizza"><img src="/images/icons/pizza.png" alt="Pizza" /></a>
         <a asp-action="Index" asp-route-filter="shawarma"><img src="/images/icons/shawrma.png" alt="Shawarma" /></a>
@@ -46,17 +61,19 @@
         <a asp-action="Index" asp-route-filter="grill"><img src="/images/icons/grill.jpg" alt="Grill" /></a>
         <a asp-action="Index" asp-route-filter="dessert"><img src="/images/icons/cookies.png" alt="Dessert" /></a>
         <a asp-action="Index" asp-route-filter="koshary"><img src="/images/icons/koshary.jpg" alt="Koshary" /></a>
-        <a asp-action="Index" asp-route-filter="all"><img src="/images/icons/all.png" alt="All" /></a>
+        <a asp-action="Index" asp-route-filter="all"><img src="/images/icons/all.png" alt="All" /></a> 
     </div>    
 
     <!-- Restaurants Listing Section -->
     <div class="container">
         @foreach (var item in Model)
         {
+            var encryptedId = encryptionService.EncryptId(item.RestaurantVMId);
+
             <div class="menue" data-name="@item.Name">
-                @if (item.Logo is not null)
+                @if (item.Image is not null)
                 {
-                    <img src="~/images/resturantLogo/@item.Logo" alt="Restaurant Logo">
+                    <img alt="RestaurantLogo" src="data:image/*;base64,@(Convert.ToBase64String(item.Image))" />
                 }
                 else
                 {
@@ -64,10 +81,12 @@
                 }
                 <div class="text">
                     <h3>@item.Name</h3>
-                    <p>Delivery Fee: @item.DeliveryFee L.E</p>
-                    <p>Delivery Time: @item.DeliveryDuration m</p>
-                </div>
-                <a class="card-button" href="/Customer/Home/Details/?id=@item.Id">Menu</a>
+                    <p>Delivery Fee: @item.DeliveryFee.ToString("0.00") L.E</p>
+                    <p>Delivery Time: @item.DeliveryDuration.ToString("0.00") Mins</p>
+                </div>               
+                               
+                <a class="card-button" asp-action="Details" asp-route-id="@encryptedId">Menue</a>
+
             </div>
         }
     </div>

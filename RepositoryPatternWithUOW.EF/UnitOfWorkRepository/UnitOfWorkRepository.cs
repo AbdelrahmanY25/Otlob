@@ -2,8 +2,6 @@
 using Otlob.Core.Models;
 using Otlob.EF.BaseRepository;
 using Otlob.EF.IBaseRepository;
-using RepositoryPatternWithUOW.Core.Models;
-
 
 namespace Otlob.EF.UnitOfWorkRepository
 {
@@ -19,8 +17,9 @@ namespace Otlob.EF.UnitOfWorkRepository
         public IBaseRepository<OrderedMeals> OrderedMeals { get; private set; }
         public IBaseRepository<Cart> Carts { get; private set; }
         public IBaseRepository<MealsInOrder> MealsInOrder { get; private set; }
-        public IBaseRepository<CartInOrder> CartInOrder { get; private set; }
         public IBaseRepository<ApplicationUser> Users { get; private set; }
+        public IBaseRepository<MealPriceHistory> MealsPriceHistories { get; private set; }
+
         public void Dispose()
         {
             _applicationDbContext.Dispose();
@@ -29,7 +28,6 @@ namespace Otlob.EF.UnitOfWorkRepository
         {
             _applicationDbContext.SaveChanges();
         }
-
 
         private readonly ApplicationDbContext _applicationDbContext;
 
@@ -50,9 +48,9 @@ namespace Otlob.EF.UnitOfWorkRepository
             Addresses = CreateRepository<Address>();
             Carts = CreateRepository<Cart>();
             OrderedMeals = CreateRepository<OrderedMeals>();
-            CartInOrder = CreateRepository<CartInOrder>();
             MealsInOrder = CreateRepository<MealsInOrder>();
             Users = CreateRepository<ApplicationUser>();
+            MealsPriceHistories = CreateRepository<MealPriceHistory>();
         }
 
         private IBaseRepository<T> CreateRepository<T>() where T : class

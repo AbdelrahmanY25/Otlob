@@ -1,10 +1,8 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using Otlob.Core.IUnitOfWorkRepository
 @using Otlob.Core.Models
-@using RepositoryPatternWithUOW.Core.Models
-@inject IUnitOfWorkRepository unitOfWorkRepository
-@inject UserManager<ApplicationUser> userManager
-@model IEnumerable<Cart>
+
+@model Otlob.Core.ViewModel.OrderVM
 
 @section Notify {
     <partial name="_NotificationPartial"></partial>
@@ -100,31 +98,12 @@
 </style>  
 <div class="articles">
     <div class="container">
-
-        @foreach (var item in Model)
-        {
-            IEnumerable<OrderedMeals>? order = unitOfWorkRepository.OrderedMeals.Get([o => o.Meal], expression: o => o.CartId == item.Id);
-            Restaurant? restaurant = unitOfWorkRepository.Restaurants.GetOne(expression: r => r.Id == item.ResturantId);
-
-            decimal supPrice = 0;
-            foreach (var meal in order)
-            {
-                supPrice += meal.Meal.Price * meal.Quantity;
-            }
-
-            
-
             <div class="card mb-5">
-                <form asp-action="PlaceOrder">
-                    <input type="hidden" name="Id" value="0" />
-                    <input type="hidden" name="ApplicationUserId" value="@userManager.GetUserId(User)" />
-                    <input type="hidden" name="RestaurantId" value="@item.ResturantId" />
-                    <input type="hidden" name="CartId" value="@item.Id" />
-
+                <form asp-action="PlaceOrder">                  
                     <div class="image">
                         <label for="addressSelect">Select Delivery Address:</label>
-                        <select name="CustomerAddres" id="addressSelect" class="form-select">
-                            @foreach (var address in ViewBag.Address)
+                        <select name="Addresses" id="addressSelect" class="form-select">
+                            @foreach (var address in Model.Addresses)
                             {
                                 <option>@address.CustomerAddres</option>
                             }
@@ -136,7 +115,7 @@
                             <option>@PaymentMethod.Cash</option>
                             <option>@PaymentMethod.Credit</option>
                         </select>
-                        <p><strong>Delivery Time:</strong> @restaurant.DeliveryDuration mins</p>
+                       @*  <p><strong>Delivery Time:</strong> @restaurant.DeliveryDuration mins</p>
                         <p>
                             <strong>Sub Price:</strong> @(supPrice + " L.E")
                         </p>
@@ -145,10 +124,8 @@
                         </p>
                         <p class="text-success">
                             <strong>Total Price:</strong> @(supPrice + restaurant.DeliveryFee + " L.E")
-                        </p>
-                        <input type="hidden" name="OrderPrice" readonly value="@(supPrice + restaurant.DeliveryFee)" />
+                        </p> *@
                     </div>
-
 
                     <div class="notes">
                         <label for="orderNotes" class="form-label">Special Instructions (Optional):</label>
@@ -160,7 +137,5 @@
                     </div>
                 </form>
             </div>
-
-        }
     </div>
 </div>

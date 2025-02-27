@@ -1,125 +1,80 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Otlob.Core.IUnitOfWorkRepository;
+using Otlob.Core.IServices;
 using Otlob.Core.Models;
-using RepositoryPatternWithUOW.Core.Models;
+using Otlob.Core.ViewModel;
 
 namespace Otlob.Areas.Customer.Controllers
 {
     [Area("Customer")]
     public class CartController : Controller
     {
-        private readonly IUnitOfWorkRepository unitOfWorkRepository;
+        private readonly ICartService cartService;
         private readonly UserManager<ApplicationUser> userManager;
 
-        public CartController(IUnitOfWorkRepository unitOfWorkRepository, UserManager<ApplicationUser> userManager)
+        public CartController(ICartService cartService,
+                              UserManager<ApplicationUser> userManager)
         {
-            this.unitOfWorkRepository = unitOfWorkRepository;
+            this.cartService = cartService;
             this.userManager = userManager;
         }
 
         [HttpPost, ValidateAntiForgeryToken]
-        public IActionResult AddToCart(OrderedMeals orderedMeals)
+        public IActionResult AddToCart(OrderedMealsVM orderedMealVM, string resId)
         {
-            var user = userManager.GetUserId(User);
-            var carts = unitOfWorkRepository.Carts.GetOne(expression: c => c.ResturantId == orderedMeals.RestaurantId && c.UserId == user);
-            var order = unitOfWorkRepository.OrderedMeals.GetOne(expression: o => o.RestaurantId == orderedMeals.RestaurantId && o.MealId == orderedMeals.MealId);
-
-            if (carts != null)
-                order = unitOfWorkRepository.OrderedMeals.GetOne(expression: o => o.RestaurantId == orderedMeals.RestaurantId && o.MealId == orderedMeals.MealId && o.CartId == carts.Id);
-
-            if (user != null)
+            if (!ModelState.IsValid)
             {
-                if (carts != null)
-                {
-                    if (order != null)
-                    {
-                        order.Quantity += orderedMeals.Quantity;
-                        unitOfWorkRepository.OrderedMeals.Edit(order);
-                        unitOfWorkRepository.SaveChanges();
-                    }
-                    else
-                    {
-                        orderedMeals.CartId = carts.Id;
-                        unitOfWorkRepository.OrderedMeals.Create(orderedMeals);
-                        unitOfWorkRepository.SaveChanges();
-                    }
-                }
-                else
-                {
-                    var cart = new Cart
-                    {
-                        ResturantId = orderedMeals.RestaurantId,
-                        UserId = user
-                    };
-
-                    unitOfWorkRepository.Carts.Create(cart);
-                    unitOfWorkRepository.SaveChanges();
-
-                    orderedMeals.CartId = cart.Id;
-                    unitOfWorkRepository.OrderedMeals.Create(orderedMeals);
-                    unitOfWorkRepository.SaveChanges();
-                }
+                return RedirectToAction("Details", "Home", new { id = resId });
             }
-            else
+
+            string? userId = userManager.GetUserId(User);
+
+            if (userId is null)
             {
                 return RedirectToAction("Login", "Account");
+            }            
+            
+            bool canaddCart = cartService.CheckIfCanAddOrderToCart(orderedMealVM, userId, resId);
+
+            if (canaddCart)
+            {
+                return RedirectToAction("Details", "Home", new { id = resId });
             }
 
-            string url = $"/Customer/Home/Details/?id={orderedMeals.RestaurantId}";
-            return Redirect(url);
+            TempData["Error"] = "Must Order from one Restaurant at a time";
+            return RedirectToAction("Index", "Home");       
         }
 
         public IActionResult Cart()
         {
-            var user = userManager.GetUserId(User);
+            var userId = userManager.GetUserId(User);
 
-            var cart = unitOfWorkRepository.Carts.Get(expression: c => c.UserId == user);
-
-            var carts = new List<int>();
-
-            foreach (var cartItem in cart)
+            if (userId is null)
             {
-                carts.Add(cartItem.Id);
+                return View("EmptyCart");
             }
 
-            var res = new List<Restaurant>(); // resturants_id = [ 8 - 15 - 16 ]
-            decimal resturantsTax = 0;
+            CartVM? cartVM = cartService.GetUserCartToView(userId);
 
-            foreach (var resturant in cart)
+            if (cartVM is null)
             {
-                var resturants = unitOfWorkRepository.Restaurants.GetOne(expression: r => r.Id == resturant.ResturantId);
-                if (resturants != null)
-                {
-                    res.Add(resturants);
-                    resturantsTax += resturants.DeliveryFee;
-                }                    
+                return View("EmptyCart");
             }
-
-            ViewBag.mealsPrice = 0;
-
-            for (int i = 0; i < res.Count(); i++)
-            {
-                var ordersPrice = unitOfWorkRepository.OrderedMeals.Get([o => o.Meal], expression: o => o.RestaurantId == res[i].Id && o.CartId == carts[i]);
-                ViewBag.mealsPrice += ordersPrice.Sum(o => o.Quantity * o.Meal.Price);
-            }
-
-            ViewBag.Tax = resturantsTax;
-            ViewBag.totalPrice = ViewBag.mealsPrice + ViewBag.Tax;
-            ViewBag.User = user;
-            return View(res);
+           
+            return View(cartVM);
         }       
 
-        public IActionResult DeleteCart(int resId)
-        {
-            var user = userManager.GetUserId(User);
-            var cart = unitOfWorkRepository.Carts.GetOne(expression: c => c.ResturantId == resId && c.UserId == user);
-            if (cart != null)
+        public IActionResult DeleteCart(string id)
+        {            
+            bool isCartDeleted = cartService.DeleteCart(id);
+
+            if (isCartDeleted)
             {
-                unitOfWorkRepository.Carts.Delete(cart);
-                unitOfWorkRepository.SaveChanges();
+                return View("EmptyCart");
             }
-            return RedirectToAction("Cart");
+
+            TempData["Error"] = "There Is Somthing Wrong Try Clear Your Cart";
+            return RedirectToAction("Index", "Home");
         }
     }
 }

@@ -1,29 +1,26 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
-using RepositoryPatternWithUOW.Core.Models;
 
 namespace Otlob.Core.Models
 {
      public class Order
-    {
+     {
         public int Id { get; set; } 
-        public string ApplicationUserId { get; set; } = null!; 
-        public string CustomerAddres { get; set; } = null!; 
+        public int AddressId { get; set; }
         public int RestaurantId { get; set; }
-        public int CartInOrderId { get; set; }
-        public DateTime OrderDate { get; set; } = DateTime.Now;
+        public decimal OrderPrice { get; set; } 
+        public DateTime OrderDate { get; set; } = DateTime.UtcNow;
         public OrderStatus Status { get; set; } = OrderStatus.Pending;
         public PaymentMethod Method {  get; set; }
-        public decimal OrderPrice { get; set; }
         public string? Notes { get; set; }
-
-        [ValidateNever]
-        public ApplicationUser ApplicationUser { get; set; }
 
         [ValidateNever]
         public Restaurant Restaurant { get; set; }
 
         [ValidateNever]
-        public CartInOrder CartInOrder { get; set; }
+        public ICollection<MealsInOrder> MealsInOrder { get; set; }
+
+        [ValidateNever]
+        public Address Address { get; set; }
     }
 
     public enum OrderStatus

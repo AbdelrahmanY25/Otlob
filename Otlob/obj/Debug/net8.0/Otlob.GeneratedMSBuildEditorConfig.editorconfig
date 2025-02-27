@@ -44,10 +44,6 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQ3VzdG9tZXJcVmlld3NcQWNjb3VudFxSZWdpc3Rlci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/My_Projects/Otlob/Otlob/Areas/Customer/Views/Account/RegistResturant.cshtml]
-build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQ3VzdG9tZXJcVmlld3NcQWNjb3VudFxSZWdpc3RSZXN0dXJhbnQuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
 [D:/My_Projects/Otlob/Otlob/Areas/Customer/Views/Address/AddAddress.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQ3VzdG9tZXJcVmlld3NcQWRkcmVzc1xBZGRBZGRyZXNzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
@@ -68,12 +64,12 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQ3VzdG9tZXJcVmlld3NcQ2FydFxDYXJ0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/My_Projects/Otlob/Otlob/Areas/Customer/Views/Complaint/AddComplaint.cshtml]
-build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQ3VzdG9tZXJcVmlld3NcQ29tcGxhaW50XEFkZENvbXBsYWludC5jc2h0bWw=
+[D:/My_Projects/Otlob/Otlob/Areas/Customer/Views/Cart/EmptyCart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQ3VzdG9tZXJcVmlld3NcQ2FydFxFbXB0eUNhcnQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/My_Projects/Otlob/Otlob/Areas/Customer/Views/Home/Cart.cshtml]
-build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQ3VzdG9tZXJcVmlld3NcSG9tZVxDYXJ0LmNzaHRtbA==
+[D:/My_Projects/Otlob/Otlob/Areas/Customer/Views/Complaint/AddComplaint.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQ3VzdG9tZXJcVmlld3NcQ29tcGxhaW50XEFkZENvbXBsYWludC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/My_Projects/Otlob/Otlob/Areas/Customer/Views/Home/Details.cshtml]
@@ -88,10 +84,6 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQ3VzdG9tZXJcVmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/My_Projects/Otlob/Otlob/Areas/Customer/Views/Home/RelatedMeals.cshtml]
-build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQ3VzdG9tZXJcVmlld3NcSG9tZVxSZWxhdGVkTWVhbHMuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
 [D:/My_Projects/Otlob/Otlob/Areas/Customer/Views/OrdersHistory/OrderDetails.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQ3VzdG9tZXJcVmlld3NcT3JkZXJzSGlzdG9yeVxPcmRlckRldGFpbHMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
@@ -102,22 +94,6 @@ build_metadata.AdditionalFiles.CssScope =
 
 [D:/My_Projects/Otlob/Otlob/Areas/Customer/Views/Order/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQ3VzdG9tZXJcVmlld3NcT3JkZXJcSW5kZXguY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
-[D:/My_Projects/Otlob/Otlob/Areas/Customer/Views/Order/OrderDetails.cshtml]
-build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQ3VzdG9tZXJcVmlld3NcT3JkZXJcT3JkZXJEZXRhaWxzLmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[D:/My_Projects/Otlob/Otlob/Areas/Customer/Views/Order/Pay.cshtml]
-build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQ3VzdG9tZXJcVmlld3NcT3JkZXJcUGF5LmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[D:/My_Projects/Otlob/Otlob/Areas/Customer/Views/Order/PayCredit.cshtml]
-build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQ3VzdG9tZXJcVmlld3NcT3JkZXJcUGF5Q3JlZGl0LmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[D:/My_Projects/Otlob/Otlob/Areas/Customer/Views/Order/TrackOrders.cshtml]
-build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQ3VzdG9tZXJcVmlld3NcT3JkZXJcVHJhY2tPcmRlcnMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/My_Projects/Otlob/Otlob/Areas/Customer/Views/RelatedMealsInCart/RelatedMeals.cshtml]
@@ -166,10 +142,6 @@ build_metadata.AdditionalFiles.CssScope =
 
 [D:/My_Projects/Otlob/Otlob/Areas/ResturantAdmin/Views/RestaurantProfile/EditRestaurantProfile.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcUmVzdHVyYW50QWRtaW5cVmlld3NcUmVzdGF1cmFudFByb2ZpbGVcRWRpdFJlc3RhdXJhbnRQcm9maWxlLmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[D:/My_Projects/Otlob/Otlob/Areas/ResturantAdmin/Views/Restaurant/Edit.cshtml]
-build_metadata.AdditionalFiles.TargetPath = QXJlYXNcUmVzdHVyYW50QWRtaW5cVmlld3NcUmVzdGF1cmFudFxFZGl0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/My_Projects/Otlob/Otlob/Areas/ResturantAdmin/Views/_ViewImports.cshtml]
@@ -228,60 +200,36 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcU3VwZXJBZG1pblxWaWV3c1xSZXN0YXVyYW50TWVhbHNcTWVhbERldGFpbHMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/My_Projects/Otlob/Otlob/Areas/SuperAdmin/Views/RestaurantMeals/ResturantMeals.cshtml]
-build_metadata.AdditionalFiles.TargetPath = QXJlYXNcU3VwZXJBZG1pblxWaWV3c1xSZXN0YXVyYW50TWVhbHNcUmVzdHVyYW50TWVhbHMuY3NodG1s
+[D:/My_Projects/Otlob/Otlob/Areas/SuperAdmin/Views/RestaurantMeals/RestaurantMeals.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcU3VwZXJBZG1pblxWaWV3c1xSZXN0YXVyYW50TWVhbHNcUmVzdGF1cmFudE1lYWxzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/My_Projects/Otlob/Otlob/Areas/SuperAdmin/Views/Resturants/AddMeal.cshtml]
-build_metadata.AdditionalFiles.TargetPath = QXJlYXNcU3VwZXJBZG1pblxWaWV3c1xSZXN0dXJhbnRzXEFkZE1lYWwuY3NodG1s
+[D:/My_Projects/Otlob/Otlob/Areas/SuperAdmin/Views/RestaurantProfile/EditRestaurantProfile.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcU3VwZXJBZG1pblxWaWV3c1xSZXN0YXVyYW50UHJvZmlsZVxFZGl0UmVzdGF1cmFudFByb2ZpbGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/My_Projects/Otlob/Otlob/Areas/SuperAdmin/Views/Resturants/CurrentResturantOrders.cshtml]
-build_metadata.AdditionalFiles.TargetPath = QXJlYXNcU3VwZXJBZG1pblxWaWV3c1xSZXN0dXJhbnRzXEN1cnJlbnRSZXN0dXJhbnRPcmRlcnMuY3NodG1s
+[D:/My_Projects/Otlob/Otlob/Areas/SuperAdmin/Views/Restaurants/CurrentResturantOrders.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcU3VwZXJBZG1pblxWaWV3c1xSZXN0YXVyYW50c1xDdXJyZW50UmVzdHVyYW50T3JkZXJzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/My_Projects/Otlob/Otlob/Areas/SuperAdmin/Views/Resturants/DeliveredOrders.cshtml]
-build_metadata.AdditionalFiles.TargetPath = QXJlYXNcU3VwZXJBZG1pblxWaWV3c1xSZXN0dXJhbnRzXERlbGl2ZXJlZE9yZGVycy5jc2h0bWw=
+[D:/My_Projects/Otlob/Otlob/Areas/SuperAdmin/Views/Restaurants/DeliveredOrders.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcU3VwZXJBZG1pblxWaWV3c1xSZXN0YXVyYW50c1xEZWxpdmVyZWRPcmRlcnMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/My_Projects/Otlob/Otlob/Areas/SuperAdmin/Views/Resturants/MealDetails.cshtml]
-build_metadata.AdditionalFiles.TargetPath = QXJlYXNcU3VwZXJBZG1pblxWaWV3c1xSZXN0dXJhbnRzXE1lYWxEZXRhaWxzLmNzaHRtbA==
+[D:/My_Projects/Otlob/Otlob/Areas/SuperAdmin/Views/Restaurants/OrderDetails.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcU3VwZXJBZG1pblxWaWV3c1xSZXN0YXVyYW50c1xPcmRlckRldGFpbHMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/My_Projects/Otlob/Otlob/Areas/SuperAdmin/Views/Resturants/OrderDetails.cshtml]
-build_metadata.AdditionalFiles.TargetPath = QXJlYXNcU3VwZXJBZG1pblxWaWV3c1xSZXN0dXJhbnRzXE9yZGVyRGV0YWlscy5jc2h0bWw=
+[D:/My_Projects/Otlob/Otlob/Areas/SuperAdmin/Views/Restaurants/ResturantComplaints.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcU3VwZXJBZG1pblxWaWV3c1xSZXN0YXVyYW50c1xSZXN0dXJhbnRDb21wbGFpbnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/My_Projects/Otlob/Otlob/Areas/SuperAdmin/Views/Resturants/ResturantAdminProfile.cshtml]
-build_metadata.AdditionalFiles.TargetPath = QXJlYXNcU3VwZXJBZG1pblxWaWV3c1xSZXN0dXJhbnRzXFJlc3R1cmFudEFkbWluUHJvZmlsZS5jc2h0bWw=
+[D:/My_Projects/Otlob/Otlob/Areas/SuperAdmin/Views/Restaurants/ResturantDetails.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcU3VwZXJBZG1pblxWaWV3c1xSZXN0YXVyYW50c1xSZXN0dXJhbnREZXRhaWxzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/My_Projects/Otlob/Otlob/Areas/SuperAdmin/Views/Resturants/ResturantComplaints.cshtml]
-build_metadata.AdditionalFiles.TargetPath = QXJlYXNcU3VwZXJBZG1pblxWaWV3c1xSZXN0dXJhbnRzXFJlc3R1cmFudENvbXBsYWludHMuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
-[D:/My_Projects/Otlob/Otlob/Areas/SuperAdmin/Views/Resturants/ResturantDetails.cshtml]
-build_metadata.AdditionalFiles.TargetPath = QXJlYXNcU3VwZXJBZG1pblxWaWV3c1xSZXN0dXJhbnRzXFJlc3R1cmFudERldGFpbHMuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
-[D:/My_Projects/Otlob/Otlob/Areas/SuperAdmin/Views/Resturants/ResturantMeals.cshtml]
-build_metadata.AdditionalFiles.TargetPath = QXJlYXNcU3VwZXJBZG1pblxWaWV3c1xSZXN0dXJhbnRzXFJlc3R1cmFudE1lYWxzLmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[D:/My_Projects/Otlob/Otlob/Areas/SuperAdmin/Views/Resturants/ResturantProfile.cshtml]
-build_metadata.AdditionalFiles.TargetPath = QXJlYXNcU3VwZXJBZG1pblxWaWV3c1xSZXN0dXJhbnRzXFJlc3R1cmFudFByb2ZpbGUuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
-[D:/My_Projects/Otlob/Otlob/Areas/SuperAdmin/Views/Users/Customers.cshtml]
-build_metadata.AdditionalFiles.TargetPath = QXJlYXNcU3VwZXJBZG1pblxWaWV3c1xVc2Vyc1xDdXN0b21lcnMuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
-[D:/My_Projects/Otlob/Otlob/Areas/SuperAdmin/Views/Users/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = QXJlYXNcU3VwZXJBZG1pblxWaWV3c1xVc2Vyc1xJbmRleC5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[D:/My_Projects/Otlob/Otlob/Areas/SuperAdmin/Views/Users/Partners.cshtml]
-build_metadata.AdditionalFiles.TargetPath = QXJlYXNcU3VwZXJBZG1pblxWaWV3c1xVc2Vyc1xQYXJ0bmVycy5jc2h0bWw=
+[D:/My_Projects/Otlob/Otlob/Areas/SuperAdmin/Views/ResturantAdminProfile/ResturantAdminProfile.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcU3VwZXJBZG1pblxWaWV3c1xSZXN0dXJhbnRBZG1pblByb2ZpbGVcUmVzdHVyYW50QWRtaW5Qcm9maWxlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/My_Projects/Otlob/Otlob/Areas/SuperAdmin/Views/_ViewImports.cshtml]

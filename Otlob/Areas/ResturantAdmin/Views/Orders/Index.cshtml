@@ -23,25 +23,26 @@
     <div class="container" id="container">
         @foreach (var item in Model.Orders)
         {
-            var user = item.ApplicationUser;
+            var user = item.Address.User;
             <div class="card">
                 <div class="text">
-                    @if (user?.ProfilePicture != null)
+                    @if (user?.Image != null)
                     {
-                        <img class="avatar rounded-circle" alt="Profile Picture" src="data:image/*;base64,@(Convert.ToBase64String(user.ProfilePicture))" />
+                        <img class="avatar rounded-circle" alt="Profile Picture" src="data:image/*;base64,@(Convert.ToBase64String(user.Image))" />
                     }
-                    else {
+                    else 
+                    {
                         <img class="avatar rounded-circle" src="~/images/Default.jpg" alt="Customer Profile Picture" />
                     }
                     @user?.UserName
-                    @if (item.OrderPrice == Model.MostExpensiveOrder)
+                   @*  @if (item.OrderPrice == Model.MostExpensiveOrder)
                     {
                         <span class="label">Top Order</span>
-                    }
+                    } *@
                 </div>
                 <div class="text">
                     <h4>Customer Details</h4>
-                    <p>Address: @item.CustomerAddres</p>
+                    <p>Address: @item.AddressId</p>
                     <p>Phone Number: @user?.PhoneNumber</p>
                     <p>Email: @user?.Email</p>
                     <p>At: @item.OrderDate</p>

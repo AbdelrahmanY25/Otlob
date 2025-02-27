@@ -2,8 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Otlob.Core.IUnitOfWorkRepository;
 using Otlob.Core.Models;
-using Otlob.Core.ViewModel;
-using RepositoryPatternWithUOW.Core.Models;
 
 namespace Otlob.Areas.Customer.Controllers
 {
@@ -20,13 +18,13 @@ namespace Otlob.Areas.Customer.Controllers
         }
         public IActionResult AddComplaint()
         {
-            var userResturants = unitOfWorkRepository.Carts.Get(expression: r => r.UserId == userManager.GetUserId(User));
+            var userResturants = unitOfWorkRepository.Carts.Get(expression: r => r.ApplicationUserId == userManager.GetUserId(User));
 
             var resturants = new List<Restaurant>();
 
             foreach (var res in userResturants)
             {
-                var resturnat = unitOfWorkRepository.Restaurants.GetOne(expression: r => r.Id == res.ResturantId);
+                var resturnat = unitOfWorkRepository.Restaurants.GetOne(expression: r => r.Id == res.RestaurantId);
                 if (resturnat != null) 
                     resturants.Add(resturnat);  
             }

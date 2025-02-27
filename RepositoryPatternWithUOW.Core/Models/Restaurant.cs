@@ -1,16 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
-using Otlob.Core.Models;
-using Otlob.Core.ViewModel;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 
-namespace RepositoryPatternWithUOW.Core.Models
+
+namespace Otlob.Core.Models
 {
-    public class Restaurant
+    public class Restaurant : ImageProp
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -18,11 +13,11 @@ namespace RepositoryPatternWithUOW.Core.Models
         public string Phone { get; set; }
         public string Email { get; set; }
         public string Description { get; set; }
-        public decimal Rate { get; set; }
-        public string? Logo { get; set; }
-        public decimal DeliveryFee { get; set; }
+        public decimal Rate { get; set; }        
+        public decimal DeliveryFee { get; set; }        
         public decimal DeliveryDuration { get; set; }
         public AcctiveStatus AcctiveStatus { get; set; } = AcctiveStatus.Unaccepted;
+        public RestaurantCategory Category { get; set; }
 
         [ValidateNever]
         public ICollection<Meal> Meals { get; set; }
@@ -41,4 +36,25 @@ namespace RepositoryPatternWithUOW.Core.Models
         Warning,
         Unaccepted
     }   
+   
+    public enum RestaurantCategory
+    {
+        All,
+        Burger,
+        Pizza,
+        EgyptionFood,
+        FriedChicken,
+        Shawarma,
+        ChineseFood,
+        ItalianFood,
+        Sandwiches,
+        HealthyFood,
+        SeaFood,
+        Drinks,
+        IceCream,
+        Dessert,
+        Bakery,
+        Coffee,
+        Other
+    }
 }

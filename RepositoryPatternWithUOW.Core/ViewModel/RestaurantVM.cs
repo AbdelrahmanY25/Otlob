@@ -1,13 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
-using RepositoryPatternWithUOW.Core.Models;
+using Otlob.Core.Models;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Otlob.Core.ViewModel
 {
-    public class RestaurantVM
+    public class RestaurantVM : ImageProp
     {
-        public int Id { get; set; }
+        public int RestaurantVMId { get; set; }
 
         [Required]
         [MinLength(3, ErrorMessage = "the Length must be greater than 2")]
@@ -35,13 +34,12 @@ namespace Otlob.Core.ViewModel
 
         [Range(0, 200, ErrorMessage = "The value must be between 0 and 200.")]
         public decimal DeliveryFee { get; set; }
-       
-        [ValidateNever]
-        [NotMapped]
-        public string Logo { get; set; }
 
-        [ValidateNever]
-        public AcctiveStatus AcctiveStatus { get; set; }
+        [Range(0, 3)]
+        public AcctiveStatus AcctiveStatus { get; set; } = AcctiveStatus.Unaccepted;
+
+        [Range(0, 15), Required]
+        public RestaurantCategory Category { get; set; }
 
         public static RestaurantVM MapToRestaurantVM(Restaurant restaurant)
         {
@@ -55,20 +53,26 @@ namespace Otlob.Core.ViewModel
                 DeliveryDuration = restaurant.DeliveryDuration,
                 DeliveryFee = restaurant.DeliveryFee,
                 AcctiveStatus = restaurant.AcctiveStatus,
-                Logo = restaurant.Logo
+                Image = restaurant.Image
             };
         }
-
-        public static Restaurant MapToRestaurant(RestaurantVM restaurantVM, Restaurant oldRestaurant)
+        public static RestaurantVM MapToRestaurantVMWithId(Restaurant restaurant)
         {
-           oldRestaurant.Name = restaurantVM.Name;
-           oldRestaurant.Address = restaurantVM.Address;
-           oldRestaurant.Phone = restaurantVM.Phone;
-           oldRestaurant.Email = restaurantVM.Email;
-           oldRestaurant.Description = restaurantVM.Description;
-           oldRestaurant.DeliveryDuration = restaurantVM.DeliveryDuration;
-           oldRestaurant.DeliveryFee = restaurantVM.DeliveryFee;
-           oldRestaurant.Logo = restaurantVM.Logo;
+            RestaurantVM restaurantVM = MapToRestaurantVM(restaurant);
+            restaurantVM.RestaurantVMId = restaurant.Id;
+
+            return restaurantVM;
+        }
+
+        public Restaurant MapToRestaurant(Restaurant oldRestaurant)
+        {
+           oldRestaurant.Name = this.Name;
+           oldRestaurant.Address = this.Address;
+           oldRestaurant.Phone = this.Phone;
+           oldRestaurant.Email = this.Email;
+           oldRestaurant.Description = this.Description;
+           oldRestaurant.DeliveryDuration = this.DeliveryDuration;
+           oldRestaurant.DeliveryFee = this.DeliveryFee;
 
             return oldRestaurant;
         }

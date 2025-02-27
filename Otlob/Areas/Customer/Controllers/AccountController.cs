@@ -1,12 +1,11 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
-using Otlob.Core.IUnitOfWorkRepository;
 using Otlob.Core.IServices;
 using Otlob.Core.Models;
 using Otlob.Core.ViewModel;
 using Utility;
-using Otlob.Core.Services;
+using Otlob.Areas.Customer.Services.Interfaces;
 
 namespace Otlob.Areas.Customer.Controllers
 {
@@ -16,26 +15,26 @@ namespace Otlob.Areas.Customer.Controllers
         private readonly UserManager<ApplicationUser> userManager;
         private readonly SignInManager<ApplicationUser> signInManager;
         private readonly RoleManager<IdentityRole> roleManager;
-        private readonly IUnitOfWorkRepository unitOfWorkRepository;
         private readonly IImageService imageService;
         private readonly IUserServices userServices;
-        private readonly IIdEncryptionService encryptionService;
+        private readonly IEncryptionService encryptionService;
+        private readonly IAddressService addressService;
 
         public AccountController(UserManager<ApplicationUser> userManager,
                                   SignInManager<ApplicationUser> signInManager,
                                   RoleManager<IdentityRole> roleManager,
-                                  IUnitOfWorkRepository unitOfWorkRepository,
                                   IImageService imageService,
                                   IUserServices userServices,
-                                  IIdEncryptionService encryptionService)
+                                  IEncryptionService encryptionService,
+                                  IAddressService addressService)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
             this.roleManager = roleManager;
-            this.unitOfWorkRepository = unitOfWorkRepository;
             this.imageService = imageService;
             this.userServices = userServices;
             this.encryptionService = encryptionService;
+            this.addressService = addressService;
         }
 
         public async Task<IActionResult> Register()
@@ -52,33 +51,32 @@ namespace Otlob.Areas.Customer.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(ApplicationUserlVM userVM)
         {
-            if (ModelState.IsValid)
-            {
-                var applicatioUser = new ApplicationUser { UserName = userVM.UserName, Email = userVM.Email, PhoneNumber = userVM.PhoneNumber };
+            if (!ModelState.IsValid) return View(userVM);
 
-                var result = await userManager.CreateAsync(applicatioUser, userVM.Password);                
+            var applicatioUser = new ApplicationUser { UserName = userVM.UserName, Email = userVM.Email, PhoneNumber = userVM.PhoneNumber };
+
+            var result = await userManager.CreateAsync(applicatioUser, userVM.Password);                
                 
-                if (result.Succeeded)
-                {
-                    await userManager.AddToRoleAsync(applicatioUser, SD.customer);
+            if (result.Succeeded)
+            {
+                await userManager.AddToRoleAsync(applicatioUser, SD.customer);
 
-                    var userAddress = new AddressController(unitOfWorkRepository, userManager, encryptionService);                    
-                    userAddress.AddUserAddress(userVM.Address, applicatioUser.Id);
-                   
-                    await signInManager.SignInAsync(applicatioUser, isPersistent: false);
+                var userAddress = addressService.AddUserAddress(userVM.Address, applicatioUser.Id);
+                  
+                if (!userAddress) return View(userVM);
 
-                    return RedirectToAction("Index", "Home");
-                }
-                else
-                {
-                    foreach (var error in result.Errors)
-                    {
-                        ModelState.AddModelError("", error.Description);
-                    }
-                    return View(userVM);
-                }
+                await signInManager.SignInAsync(applicatioUser, isPersistent: false);
+
+                return RedirectToAction("Index", "Home");
             }
-            return View(userVM);
+            else
+            {
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+                }
+                return View(userVM);
+            }            
         }
 
         public IActionResult Login()
@@ -117,93 +115,86 @@ namespace Otlob.Areas.Customer.Controllers
         {
             if (await userManager.IsInRoleAsync(user, SD.superAdminRole))
             {
-                return RedirectToAction("Index", "Home", new { area = "SuperAdmin" });
+                return RedirectToAction("Index", "Home", new { Area = "SuperAdmin" });
             }
             else if (await userManager.IsInRoleAsync(user, SD.restaurantAdmin))
             {
-                return RedirectToAction("Index", "Home", new { area = "ResturantAdmin" });
+                return RedirectToAction("Index", "Home", new { Area = "ResturantAdmin" });
             }
             else
             {
-                return RedirectToAction("Index", "Home", new { area = "Customer" });
+                return RedirectToAction("Index", "Home", new { Area = "Customer" });
             }
         }
 
-        public async Task<IActionResult> Profile()
+        public IActionResult Profile()
         {
-            var user = await userManager.FindByNameAsync(User.Identity.Name);
+            string? userId = userManager.GetUserId(User);
 
-            if (user != null)
+            ProfileVM userProfileDetails = userServices.ViewUserProfileVmDetails(userId);
+
+            if (userProfileDetails is null)
             {
-                var userProfile = ProfileVM.MapToProfileVM(user);
-                return View(userProfile);
+                return RedirectToAction("Login");
             }
 
-            return View(user);
+            return View(userProfileDetails);
         }
 
         [HttpPost, ValidateAntiForgeryToken]
         public async Task<IActionResult> Profile(ProfileVM profileVM)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                var user = await userManager.GetUserAsync(User);
-
-                if (user != null)
-                {
-                    user = userServices.ValidateUserInfo(user, profileVM);
-
-                    var updateUserInfo = await userManager.UpdateAsync(user);
-
-                    if (!imageService.UploadUserProfilePicture(Request.Form.Files)) return RedirectToAction("Profile");
-
-                    var image = Request.Form.Files.FirstOrDefault();
-                    var resOfValidation = imageService.ValidateImageSizeAndExtension(image);
-
-                    if (resOfValidation is string error)
-                    {
-                        ModelState.AddModelError("", error);
-                        profileVM.ProfilePicture = user.ProfilePicture;
-                        return View(profileVM);
-                    }
-
-                    if (!await imageService.CopyImageToMemoryStream(image, user))
-                    {
-                        ModelState.AddModelError("", "Error in uploading image");
-                        return View(profileVM);
-                    }
-
-                    updateUserInfo = await userManager.UpdateAsync(user);
-
-                    if (updateUserInfo.Succeeded)
-                    {
-                        TempData["Success"] = "Your profile info updated successfully.";
-                        return RedirectToAction("Profile");                        
-                    }
-                    
-                    foreach (var errorInfo in updateUserInfo.Errors)
-                    {
-                        ModelState.AddModelError("", errorInfo.Description);
-                    }
-                }                
+                return View(profileVM);
             }
+
+            var user = await userManager.GetUserAsync(User);
+
+            if (user == null)
+            {
+                return RedirectToAction("Login");
+            }
+
+            user = userServices.UpdateUserInfo(user, profileVM);
+
+            var updateUserInfo = await userManager.UpdateAsync(user);
+
+            string isImageUploaded  = await imageService.UploadImage(Request.Form.Files, profileVM);
+
+            if (isImageUploaded is string)
+            {
+                ModelState.AddModelError("", isImageUploaded);
+                return View(profileVM);
+            }
+
+            user.Image = profileVM.Image;
+
+            updateUserInfo = await userManager.UpdateAsync(user);
+
+            if (updateUserInfo.Succeeded)
+            {
+                TempData["Success"] = "Your profile info updated successfully.";
+                return RedirectToAction("Profile");                     
+            }
+                    
+            foreach (var errorInfo in updateUserInfo.Errors)
+                ModelState.AddModelError("", errorInfo.Description);
 
             return View(profileVM);
         }
 
-        public IActionResult ChangePassword()
-        {
-            return View();
-        }
+        public IActionResult ChangePassword() => View();
+
 
         [HttpPost, ValidateAntiForgeryToken]
         public async Task<IActionResult> ChangePassword(ChangePasswordVM passwordVM)
         {
             var user = await userManager.GetUserAsync(User);
 
-            if (user == null)
+            if (user is null)
             {
-                ModelState.AddModelError("", "User is no user");
+                ModelState.AddModelError("", "There is no user");
                 RedirectToAction("Index", "Home");
             }
 

@@ -1,63 +1,61 @@
 using System.Diagnostics;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
-using Otlob.Core.IUnitOfWorkRepository;
+using Otlob.Core.IServices;
 using Otlob.Core.Models;
+using Otlob.IServices;
 using Otlob.Models;
-using RepositoryPatternWithUOW.Core.Models;
 
 namespace Otlob.Areas.Customer.Controllers
 {
     [Area("Customer")]
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-        private readonly IUnitOfWorkRepository unitOfWorkRepository;
-        private readonly UserManager<ApplicationUser> userManager;
+        private readonly ILogger<HomeController> logger;
+        private readonly IEncryptionService encryptionService;
+        private readonly IRestaurantService restaurantService;
+        private readonly IMealService mealService;
 
         public HomeController(ILogger<HomeController> logger,
-                              IUnitOfWorkRepository unitOfWorkRepository,
-                              UserManager<ApplicationUser> userManager)
+                              IEncryptionService encryptionService,
+                              IRestaurantService restaurantService,
+                              IMealService mealService)
         {
-            _logger = logger;
-            this.unitOfWorkRepository = unitOfWorkRepository;
-            this.userManager = userManager;
+            this.logger = logger;
+            this.encryptionService = encryptionService;
+            this.restaurantService = restaurantService;
+            this.mealService = mealService;
         }
 
-        public IActionResult Index(string? filter = null)
+        public IActionResult Index(RestaurantCategory? filter = null)
         {
-            var resturants = unitOfWorkRepository.Restaurants.Get(expression: r => filter.IsNullOrEmpty() || filter == "all" ?
-                                                                              r.AcctiveStatus == AcctiveStatus.Acctive ||
-                                                                              r.AcctiveStatus == AcctiveStatus.Warning :
-                                                                              r.AcctiveStatus == AcctiveStatus.Acctive &&
-                                                                              r.Description.Contains(filter) ||
-                                                                              r.AcctiveStatus == AcctiveStatus.Warning &&
-                                                                              r.Description.Contains(filter));
-
-            return View(resturants);
+            var restaurants = restaurantService.GetAllRestaurantsJustMainInfo(filter);
+           
+            return View(restaurants);
         }
 
-        public IActionResult Details(int id, string? filter = null)
+        public IActionResult Details(string? id, string? filter = null)
         {
-            var meals = unitOfWorkRepository.Meals.Get(expression: m => m.RestaurantId == id && m.IsAvailable);
-
-            if (!string.IsNullOrEmpty(filter) && filter.ToLower() != "all")
+            if (id.IsNullOrEmpty())
             {
-                meals = filter.ToLower() switch
-                {
-                    "new" => meals.Where(m => m.IsNewMeal),
-                    "trend" => meals.Where(m => m.IsTrendingMeal),
-                    "main" => meals.Where(m => m.Category == MealCategory.MainCourse),
-                    "grilled" => meals.Where(m => m.Category == MealCategory.Grill),
-                    "desserts" => meals.Where(m => m.Category == MealCategory.Dessert),
-                    "bakeries" => meals.Where(m => m.Description.Contains("Bakeries")),
-                    "drink" => meals.Where(m => m.Description.Contains("Drink")),
-                    _ => meals
-                };
+                return RedirectToAction("Index");
             }
 
-            ViewBag.ResId = id;
+            int restaurantlId = encryptionService.DecryptId(id);
+
+            var meals = mealService.ViewAllMealsVm(restaurantlId);
+
+            if (meals is null)
+            {
+                return NotFound();
+            }
+
+            if (filter is not null)
+            {
+                meals = mealService.MealCategoryFilter(meals, filter);
+            }
+
+            ViewBag.ResId = encryptionService.EncryptId(restaurantlId);
 
             return View(meals);
         }

@@ -9,19 +9,19 @@ namespace Otlob.Areas.Customer.Controllers
     [Area("Customer")]
     public class CompleteOrderProceduresController : Controller
     {
-        public static int CreateNewCartInOrder(string userId, int restauranId, IUnitOfWorkRepository unitOfWorkRepository)
-        {
-            var cartInOrder = new CartInOrder
-            {
-                UserId = userId,
-                ResturantId = restauranId
-            };
+        //public static int CreateNewCartInOrder(string userId, int restauranId, IUnitOfWorkRepository unitOfWorkRepository)
+        //{
+        //    var cartInOrder = new CartInOrder
+        //    {
+        //        UserId = userId,
+        //        ResturantId = restauranId
+        //    };
 
-            unitOfWorkRepository.CartInOrder.Create(cartInOrder);
-            unitOfWorkRepository.SaveChanges();
+        //    unitOfWorkRepository.CartInOrder.Create(cartInOrder);
+        //    unitOfWorkRepository.SaveChanges();
 
-            return cartInOrder.Id;
-        }
+        //    return cartInOrder.Id;
+        //}
 
         public static void AddOrdredMeals(int cartId, int restauranId, int cartInOrderId, IUnitOfWorkRepository unitOfWorkRepository)
         {
@@ -33,11 +33,11 @@ namespace Otlob.Areas.Customer.Controllers
                 {
                     var mealsInOrder = new MealsInOrder
                     {
-                        RestaurantId = restauranId,
-                        CartInOrderId = cartInOrderId,
+                        //RestaurantId = restauranId,
+                        //CartInOrderId = cartInOrderId,
                         MealId = meal.MealId,
-                        MealName = meal.MealName,
-                        MealDescription = meal.MealDescription,
+                        //MealName = meal.MealName,
+                        //MealDescription = meal.MealDescription,
                         Quantity = meal.Quantity
                     };
 
@@ -53,7 +53,7 @@ namespace Otlob.Areas.Customer.Controllers
             {
                 id = order.Id,
                 name = user.UserName,
-                address = order.CustomerAddres,
+                address = order.AddressId,
                 phone = user.PhoneNumber,
                 email = user.Email,
                 date = order.OrderDate,

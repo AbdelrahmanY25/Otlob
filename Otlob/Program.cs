@@ -9,6 +9,10 @@ using Stripe;
 using Utility;
 using Otlob.Core.Services;
 using Otlob.Core.IServices;
+using Otlob.Areas.Customer.Services.Interfaces;
+using Otlob.Areas.Customer.Services;
+using Otlob.Services;
+using Otlob.IServices;
 
 namespace Otlob
 {
@@ -57,10 +61,19 @@ namespace Otlob
                 googleOptions.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
             });
 
+
+
             builder.Services.AddScoped<IUnitOfWorkRepository, UnitOfWorkRepository>();
             builder.Services.AddScoped<IImageService, ImageService>();
             builder.Services.AddScoped<IUserServices, UserServices>();
-            builder.Services.AddScoped<IIdEncryptionService, IdEncryptionService>();
+            builder.Services.AddScoped<IEncryptionService, EncryptionService>();
+            builder.Services.AddScoped<IAddressService, AddressService>();
+            builder.Services.AddScoped<IRegisterService, RegisterService>();
+            builder.Services.AddScoped<IRestaurantService, RestaurantService>();
+            builder.Services.AddScoped<IRestaurantFilterService, RestaurantFilterService>();
+            builder.Services.AddScoped<IMealService, MealService>();
+            builder.Services.AddScoped<ICartService, CartService>();
+            builder.Services.AddScoped<IOrderedMealsService, OrderedMealsService>();
 
             builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
             StripeConfiguration.ApiKey = builder.Configuration["Stripe:SecretKey"];

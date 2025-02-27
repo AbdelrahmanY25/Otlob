@@ -34,17 +34,17 @@ namespace Otlob.Areas.ResturantAdmin.Controllers
         {
             var resturant = await userManager.GetUserAsync(User);
 
-            var orders = unitOfWorkRepository.Orders.Get(
-                [o => o.ApplicationUser, o => o.Restaurant],
-                expression: o => o.RestaurantId == resturant.Resturant_Id && (exclude ? o.Status != status : o.Status == status)
+            IQueryable<Order>? orders = unitOfWorkRepository.Orders.Get(
+                [o => o.Address, o => o.Restaurant],
+                expression: o => o.RestaurantId == resturant.RestaurantId && (exclude ? o.Status != status : o.Status == status)
             ).OrderByDescending(o => o.OrderDate);
 
-            decimal mostExpensiveOrder = orders.Any() ? orders.Max(o => o.OrderPrice) : 0;
+            decimal mostExpensiveOrder = orders.Any() ? 0 : 0;
 
             var viewModel = new OrderViewModel
             {
                 Orders = orders,
-                ResturantId = resturant.Resturant_Id.ToString(),
+                ResturantId = resturant.RestaurantId.ToString(),
                 MostExpensiveOrder = mostExpensiveOrder
             };
 
@@ -58,7 +58,7 @@ namespace Otlob.Areas.ResturantAdmin.Controllers
             if (order == null)
                 return NotFound();
 
-            var meals = unitOfWorkRepository.MealsInOrder.Get([m => m.Meal], expression: m => m.CartInOrderId == order.CartInOrderId);
+            var meals = unitOfWorkRepository.MealsInOrder.Get([m => m.Meal], expression: m => m.OrderId == order.Id);
 
             var mealsPrice = meals.Sum(m => m.Meal.Price * m.Quantity);
 

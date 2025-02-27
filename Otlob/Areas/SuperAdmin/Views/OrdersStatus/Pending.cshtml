@@ -16,12 +16,12 @@
     <div class="container">
         @foreach (var item in Model)
         {
-            var user = userManager.FindByIdAsync(item.ApplicationUserId);
+            var user = userManager.FindByIdAsync(item.Address.ApplicationUserId);
             <div class="card">
                 <div class="text">
-                    @if (user?.Result?.ProfilePicture != null)
+                    @if (user?.Result?.Image is not null)
                     {
-                        <img class="avatar rounded-circle" alt="Profile Picture" src="data:image/*;base64,@(Convert.ToBase64String(user.Result.ProfilePicture))" />
+                        <img class="avatar rounded-circle" alt="profilePicture" src="data:image/*;base64,@(Convert.ToBase64String(user.Result.Image))" />
                     }
                     else
                     {
@@ -30,9 +30,9 @@
                     @user?.Result?.UserName                   
                 </div>
                 <div class="text">
-                    @if (item.Restaurant.Logo != null)
+                    @if (item.Restaurant.Image is not null)
                     {
-                        <img class="avatar rounded-circle" alt="Restaurant Logo" src="/images/resturantLogo/@item.Restaurant.Logo" />
+                        <img class="avatar rounded-circle" alt="resturantLogo" src="data:image/*;base64,@(Convert.ToBase64String(item.Restaurant.Image))" />
                     }
                     else
                     {
@@ -42,7 +42,7 @@
                 </div>
                 <div class="text">
                     <h4>Customer Details</h4>
-                    <p>Address: @item.CustomerAddres</p>
+                    <p>Address: @item.AddressId</p>
                     <p>Phone Number: @user?.Result?.PhoneNumber</p>
                     <p>Email: @user?.Result?.Email</p>
                     <p>At: @item.OrderDate</p>

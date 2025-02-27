@@ -1,9 +1,4 @@
-﻿using RepositoryPatternWithUOW.Core.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 namespace Otlob.Core.Models
 {
@@ -13,7 +8,9 @@ namespace Otlob.Core.Models
         public string Name { get; set; }
         public string Phone { get; set; }
         public string Email { get; set; }
-        public Restaurant Restaurant { get; set; }
         public int RestaurantId { get; set; }
+
+        [ValidateNever]
+        public Restaurant Restaurant { get; set; }
     }
 }

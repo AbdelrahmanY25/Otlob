@@ -22,7 +22,7 @@ namespace Otlob.Areas.ResturantAdmin.Controllers
         public  async Task<IActionResult> CustomerComplaints()
         {
             var user = await userManager.GetUserAsync(User);
-            var UserComplaints = unitOfWorkRepository.UserComplaints.Get([c => c.User, c => c.Restaurant], c => c.RestaurantId == user.Resturant_Id);
+            var UserComplaints = unitOfWorkRepository.UserComplaints.Get([c => c.User, c => c.Restaurant], c => c.RestaurantId == user.RestaurantId);
             return View(UserComplaints);
         }
     }

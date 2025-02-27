@@ -1,21 +1,25 @@
-﻿using Otlob.Core.Models;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using Otlob.Core.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace Otlob.Core.ViewModel
 {
     public class AddressVM
     {
+        [ValidateNever]
+        public int AddressVMId { get; set; }
+
         [Required, MinLength(10), MaxLength(100)]
         public string CustomerAddres { get; set; }
 
-        public static Address MapToAddress(AddressVM addressVM)
+        public Address MapToAddress(string userId, int addresId = 0) 
         {
-            return new Address { CustomerAddres = addressVM.CustomerAddres };
-        }
+            Address address;
 
-        public static AddressVM MapToAddressVM(Address address)
-        {
-            return new AddressVM { CustomerAddres = address.CustomerAddres };
-        }
+            if (addresId == 0)
+                return address = new Address { ApplicationUserId = userId, CustomerAddres = this.CustomerAddres };
+
+            return new Address { Id = addresId, CustomerAddres = this.CustomerAddres, ApplicationUserId = userId };
+        } 
     }
 }

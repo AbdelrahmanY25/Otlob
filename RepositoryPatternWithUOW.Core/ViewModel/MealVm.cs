@@ -1,23 +1,21 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Otlob.Core.Models;
-using RepositoryPatternWithUOW.Core.Models;
 using System.ComponentModel.DataAnnotations;
+
 namespace Otlob.Core.ViewModel
 {
-    public class MealVm
+    public class MealVm : ImageProp
     {
-        public int Id { get; set; }
+        public int MealVmId { get; set; }
+        public int RestaurantId { get; set; }
 
         [Required ,MinLength(3)]
         public string Name { get; set; }
 
-        [ValidateNever]
-        public string? ImageUrl { get; set; }
-
         [Required, MinLength(3)]
         public string Description { get; set; }
 
-        [Required, Range(0, 50000)]
+        [Required, Range(1, 50000)]
         public decimal Price { get; set; }
 
         [Required, Range(0, 20)]
@@ -25,7 +23,6 @@ namespace Otlob.Core.ViewModel
 
         [Required]
         public bool IsAvailable { get; set; }
-
         public bool IsNewMeal { get; set; }
         public bool IsTrendingMeal { get; set; }
 
@@ -37,7 +34,7 @@ namespace Otlob.Core.ViewModel
             return new MealVm
             {
                 Name = meal.Name,
-                ImageUrl = meal.ImageUrl,
+                Image = meal.Image,
                 Description = meal.Description,
                 Price = meal.Price,
                 NumberOfServings = meal.NumberOfServings,
@@ -57,13 +54,13 @@ namespace Otlob.Core.ViewModel
             oldMeal.IsAvailable = mealVm.IsAvailable;
             oldMeal.IsNewMeal = mealVm.IsNewMeal;
             oldMeal.IsTrendingMeal = mealVm.IsTrendingMeal;
-            oldMeal.ImageUrl = mealVm.ImageUrl;
             oldMeal.NumberOfServings = mealVm.NumberOfServings;
+            oldMeal.Image = mealVm.Image;
 
             return oldMeal;
         }
-        
-        public static Meal MapToMeal(MealVm mealVm, ApplicationUser restaurant)
+       
+        public static Meal MapToMeal(MealVm mealVm, int restaurantId)
         {
             return new Meal
             {
@@ -74,28 +71,10 @@ namespace Otlob.Core.ViewModel
                 IsAvailable = mealVm.IsAvailable,
                 IsNewMeal = mealVm.IsNewMeal,
                 IsTrendingMeal = mealVm.IsTrendingMeal,
-                ImageUrl = mealVm.ImageUrl,
-                RestaurantId = restaurant.Resturant_Id,
+                Image = mealVm.Image,
+                RestaurantId = restaurantId,
                 NumberOfServings = mealVm.NumberOfServings
             };
-        }
-
-        public static Meal MapToMeal(MealVm mealVm, int resId)
-        {
-            return new Meal
-            {
-                Name = mealVm.Name,
-                Description = mealVm.Description,
-                Price = mealVm.Price,
-                Category = mealVm.Category,
-                IsAvailable = mealVm.IsAvailable,
-                IsNewMeal = mealVm.IsNewMeal,
-                IsTrendingMeal = mealVm.IsTrendingMeal,
-                ImageUrl = mealVm.ImageUrl,
-                RestaurantId = resId,
-                NumberOfServings = mealVm.NumberOfServings
-            };
-        }
-
+        }       
     }
 }

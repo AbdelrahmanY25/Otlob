@@ -1,6 +1,5 @@
 ﻿using Otlob.Core.Models;
 using Otlob.EF.IBaseRepository;
-using RepositoryPatternWithUOW.Core.Models;
 
 namespace Otlob.Core.IUnitOfWorkRepository
 {
@@ -15,9 +14,9 @@ namespace Otlob.Core.IUnitOfWorkRepository
         IBaseRepository<Address> Addresses { get; }
         IBaseRepository<OrderedMeals> OrderedMeals { get; }
         IBaseRepository<Cart> Carts { get; }
-        IBaseRepository<CartInOrder> CartInOrder { get; }
         IBaseRepository<MealsInOrder> MealsInOrder { get; }
         IBaseRepository<ApplicationUser> Users { get; }
+        IBaseRepository<MealPriceHistory> MealsPriceHistories { get; }
         void SaveChanges();
     }
 }

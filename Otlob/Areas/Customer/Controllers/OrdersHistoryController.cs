@@ -21,37 +21,37 @@ namespace Otlob.Areas.Customer.Controllers
             this.unitOfWorkRepository = unitOfWorkRepository;
             this.userManager = userManager;
         }
-        public ActionResult TrackOrders()
-        {
-            var user = userManager.GetUserId(User);
-            var orders = unitOfWorkRepository.Orders.Get([o => o.ApplicationUser, o => o.CartInOrder, o => o.Restaurant], expression: o => o.ApplicationUserId == user);
+        //public ActionResult TrackOrders()
+        //{
+        //    var user = userManager.GetUserId(User);
+        //    var orders = unitOfWorkRepository.Orders.Get([o => o.Address, o => o.CartInOrder, o => o.Restaurant], expression: o => o.Address.ApplicationUserId == user);
 
-            return View(orders);
-        }
-        public ActionResult OrderDetails(int id)
-        {
-            var order = unitOfWorkRepository.Orders.GetOne(expression: o => o.Id == id);
+        //    return View(orders);
+        //}
+        //public ActionResult OrderDetails(int id)
+        //{
+        //    var order = unitOfWorkRepository.Orders.GetOne(expression: o => o.Id == id);
 
-            if (order == null)
-            {
-                return NotFound();
-            }
+        //    if (order == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            var meals = unitOfWorkRepository.MealsInOrder.Get([m => m.Meal], expression: m => m.CartInOrderId == order.CartInOrderId);
-            var mealsPrice = meals.Sum(m => m.Meal.Price * m.Quantity);
+        //    var meals = unitOfWorkRepository.MealsInOrder.Get([m => m.Meal], expression: m => m.CartInOrderId == order.CartInOrderId);
+        //    var mealsPrice = meals.Sum(m => m.Meal.Price * m.Quantity);
 
-            var resturant = unitOfWorkRepository.Restaurants.GetOne(expression: o => o.Id == order.RestaurantId);
+        //    var resturant = unitOfWorkRepository.Restaurants.GetOne(expression: o => o.Id == order.RestaurantId);
 
-            if (resturant == null)
-            {
-                return NotFound();
-            }
+        //    if (resturant == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            ViewBag.OrderDetails = order;
-            ViewBag.SubPrice = mealsPrice;
-            ViewBag.DeliveryFee = resturant.DeliveryFee;
+        //    ViewBag.OrderDetails = order;
+        //    ViewBag.SubPrice = mealsPrice;
+        //    ViewBag.DeliveryFee = resturant.DeliveryFee;
 
-            return View(meals);
-        }
+        //    return View(meals);
+        //}
     }
 }

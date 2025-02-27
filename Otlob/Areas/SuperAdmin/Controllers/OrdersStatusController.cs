@@ -2,9 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Otlob.Core.IUnitOfWorkRepository;
 using Otlob.Core.Models;
-using Otlob.EF.UnitOfWorkRepository;
 using Utility;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Otlob.Areas.SuperAdmin.Controllers
 {
@@ -16,6 +14,7 @@ namespace Otlob.Areas.SuperAdmin.Controllers
         {
             this.unitOfWorkRepository = unitOfWorkRepository;
         }
+
         public IActionResult Pending(int pageNumber = 1)
         {
             var pendingOrders = unitOfWorkRepository.Orders.Get([o => o.Restaurant], expression: o => o.Status == OrderStatus.Pending && o.OrderDate.Day == DateTime.Today.Day && o.OrderDate.Month == DateTime.Today.Month && o.OrderDate.Year == DateTime.Today.Year);

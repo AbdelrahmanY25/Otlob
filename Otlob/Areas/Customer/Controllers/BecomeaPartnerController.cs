@@ -1,63 +1,36 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Otlob.Core.IUnitOfWorkRepository;
-using Otlob.Core.Models;
+﻿using Microsoft.AspNetCore.Mvc;
+using Otlob.Core.IServices;
 using Otlob.Core.ViewModel;
-using Utility;
 
 namespace Otlob.Areas.Customer.Controllers
 {
     [Area("Customer")]
     public class BecomeaPartnerController : Controller
     {
-        private readonly IUnitOfWorkRepository unitOfWorkRepository;
-        private readonly UserManager<ApplicationUser> userManager;
+        private readonly IRegisterService registerService;
 
-        public BecomeaPartnerController(IUnitOfWorkRepository unitOfWorkRepository, UserManager<ApplicationUser> userManager)
+        public BecomeaPartnerController(IRegisterService registerService)
         {
-            this.unitOfWorkRepository = unitOfWorkRepository;
-            this.userManager = userManager;
+            this.registerService = registerService;
         }
-        public IActionResult BecomeaPartner()
-        {
-            return View();
-        }
+
+        public IActionResult BecomeaPartner() => View();
 
         [HttpPost, ValidateAntiForgeryToken]
-        public async Task<IActionResult> BecomeaPartner(RegistResturantVM registresturant)
+        public async Task<IActionResult> BecomeaPartner(RegistResturantVM registresturantVM)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                var applicationUser = new ApplicationUser { UserName = registresturant.ResUserName, Email = registresturant.ResEmail };
-
-                var result = await userManager.CreateAsync(applicationUser, registresturant.Password);
-
-                if (result.Succeeded)
-                {
-                    await userManager.AddToRoleAsync(applicationUser, SD.restaurantAdmin);
-
-                    var resturant = RegistResturantVM.MapToRestaurant(registresturant);
-
-                    unitOfWorkRepository.Restaurants.Create(resturant);
-                    unitOfWorkRepository.SaveChanges();
-                    
-                    applicationUser.Resturant_Id = resturant.Id;
-                    await userManager.UpdateAsync(applicationUser);
-
-                    TempData["Success"] = "Resturant Account Created Succefully";
-
-                    return RedirectToAction("Index", "Home");
-                }
-                else
-                {
-                    foreach (var error in result.Errors)
-                    {
-                        ModelState.AddModelError("", error.Description);
-                    }
-                    return View(registresturant);
-                }
+                return View(registresturantVM);
             }
-            return View(registresturant);
+
+            if (!await registerService.RegisterRestaurant(registresturantVM))
+            {
+                return View(registresturantVM);
+            }
+
+            TempData["Success"] = "Resturant Account Created Succefully";
+            return RedirectToAction("Index", "Home");
         }
     }
 }

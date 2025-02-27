@@ -1,26 +1,68 @@
 ﻿@model Otlob.Core.ViewModel.AddressVM
 
-<h4>Address</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="UpdateAddress">
-            <div asp-validation-summary="All" class="text-danger"></div>     
-            <div class="form-group">
-                <label asp-for="CustomerAddres" class="control-label">Your Address</label>
-                <input asp-for="CustomerAddres" class="form-control" />
+<div class="container mt-5">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">Address</h4>
+        </div>
+        <div class="card-body">
+            <form asp-action="UpdateAddress">
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="mb-3">
+                    <label asp-for="CustomerAddres" class="form-label">Your New Address</label>
+                    <input asp-for="CustomerAddres" class="form-control" id="CustomerAddres" placeholder="Enter your address" />
+                </div>
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-success">Create Address</button>
+                </div>
+            </form>
+            <hr />
+            <div class="text-center">
+                <a class="btn btn-warning mt-3" asp-action="SavedAddresses">Back to List</a>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary mt-3" />
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 
-<div>
-    <a class="btn btn-warning mybtn mt-3" asp-action="SavedAddresses">Back to List</a>
-</div>
-
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <!-- jQuery and jQuery UI libraries for autocomplete -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css" />
+
+
+    <script>
+        $(function(){
+          $("#CustomerAddres").autocomplete({
+            source: function(request, response) {
+              $.ajax({
+                url: "https://nominatim.openstreetmap.org/search",
+                dataType: "json",
+                data: {
+                  q: request.term,
+                  format: "json",
+                  addressdetails: 1,
+                  limit: 5
+                },
+                success: function(data) {
+                  response($.map(data, function(item){
+                    return {
+                      label: item.display_name,
+                      value: item.display_name
+                    };
+                  }));
+                },
+                error: function(xhr, status, error) {
+                    console.error("AJAX error:", error);
+                }
+              });
+            },
+            minLength: 3
+          });
+        });
+    </script>
 }

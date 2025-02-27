@@ -3,9 +3,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Otlob.Core.ViewModel
 {
-    public class ProfileVM
+    public class ProfileVM : ImageProp
     {
-        public int Id { get; set; }
+        public int ProfileVMId { get; set; }
 
         [Required, MaxLength(100), Display(Prompt = "Email")]
         [DataType(DataType.EmailAddress)]
@@ -17,10 +17,7 @@ namespace Otlob.Core.ViewModel
 
         [MaxLength(15), Display(Prompt = "LastName")]
         [RegularExpression(@"^[a-zA-Z]{1,15}$", ErrorMessage = "The LastName must be only letters.")]
-        public string? LastName { get; set; }
-
-        [Display(Prompt = "Profile Picture")]
-        public byte[]? ProfilePicture { get; set; }
+        public string? LastName { get; set; }      
         public Gender? Gender { get; set; }
 
         [Display(Prompt = "Date of Birth")]
@@ -41,7 +38,7 @@ namespace Otlob.Core.ViewModel
                 LastName = user.LastName,
                 Gender = user.Gender,
                 PhoneNumber = user.PhoneNumber,
-                ProfilePicture = user.ProfilePicture
+                Image = user.Image
             };
         }
     }
