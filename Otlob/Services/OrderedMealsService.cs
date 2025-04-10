@@ -40,8 +40,63 @@ namespace Otlob.Services
 
         public IEnumerable<OrderedMealsVM> GetOrderedMealsVMToView(int cartId)
         {
-            var orderedMeals = unitOfWorkRepository.OrderedMeals.Get([m => m.Meal], expression: o => o.CartId == cartId, tracked: false);
-            return OrderedMealsVM.MappToOrderedMealsVMCollection(orderedMeals);
+            var orderedMeals = unitOfWorkRepository
+                               .OrderedMeals
+                               .GetAllWithSelect
+                                (
+                                    selector: o => new OrderedMeals
+                                    {
+                                        Id = o.Id,
+                                        PricePerMeal = o.PricePerMeal,
+                                        Quantity = o.Quantity,
+                                        Meal = new Meal { Name = o.Meal.Name, Image = o.Meal.Image, Description = o.Meal.Description }
+                                    },
+                                    expression: o => o.CartId == cartId, 
+                                    tracked: false
+                                );
+
+            var orderedMealsVM = OrderedMealsVM.MappToOrderedMealsVMCollection(orderedMeals);
+
+            return orderedMealsVM;
+        }
+
+        public IEnumerable<OrderedMeals> GetOrderedMealsWithMealsDetails(int cartId)
+        {
+            var orderedMeals = unitOfWorkRepository
+                               .OrderedMeals
+                               .GetAllWithSelect
+                                (
+                                    selector: o => new OrderedMeals
+                                    {
+                                        Id = o.Id,
+                                        PricePerMeal = o.PricePerMeal,
+                                        Quantity = o.Quantity,
+                                        Meal = new Meal { Name = o.Meal.Name, Price = o.Meal.Price, Description = o.Meal.Description }
+                                    },
+                                    expression: o => o.CartId == cartId, 
+                                    tracked: false
+                                );
+
+            return orderedMeals;
+        }
+
+        public IEnumerable<OrderedMeals> GetOrderedMealsDetails(int cartId)
+        {
+            var orderedMeals = unitOfWorkRepository
+                               .OrderedMeals
+                               .GetAllWithSelect
+                                (
+                                    selector: o => new OrderedMeals
+                                    {
+                                        PricePerMeal = o.PricePerMeal,
+                                        Quantity = o.Quantity,
+                                        MealId = o.MealId,
+                                    },
+                                    expression: o => o.CartId == cartId, 
+                                    tracked: false
+                                );
+
+            return orderedMeals.ToList();
         }
 
         public bool AddQuantityToOrderedMeals(OrderedMeals orderedMeal, OrderedMealsVM orderedMealsVM)
@@ -95,13 +150,14 @@ namespace Otlob.Services
                 return selectedOrderMeal;
             }
 
-            unitOfWorkRepository.OrderedMeals.Delete(selectedOrderMeal);
+            unitOfWorkRepository.OrderedMeals.HardDelete(selectedOrderMeal);
             unitOfWorkRepository.SaveChanges();
 
             return selectedOrderMeal;            
         }
 
-        public bool ThereIsAnyMealsInCart(OrderedMeals selectedOrderMeal) => unitOfWorkRepository.OrderedMeals.Get(expression: c => c.CartId == selectedOrderMeal.CartId).Any();
+        public bool ThereIsAnyMealsInCart(OrderedMeals selectedOrderMeal) =>
+            unitOfWorkRepository.OrderedMeals.Get(expression: c => c.CartId == selectedOrderMeal.CartId).Any();
 
         public bool CheckWhenUserAddAnotherMeal(OrderedMealsVM orderedMealsVM, Cart usercart)
         {
@@ -119,9 +175,9 @@ namespace Otlob.Services
             return true;
         }
 
-        public decimal CalculateTotalMealsPrice(CartVM cart)
+        public decimal CalculateTotalMealsPrice(int cartId)
         {
-            decimal totalMealsPrice = unitOfWorkRepository.OrderedMeals.Get([o => o.Meal], expression: o => o.CartId == cart.CartVMId, tracked: false)
+            decimal totalMealsPrice = unitOfWorkRepository.OrderedMeals.Get(expression: o => o.CartId == cartId, tracked: false)
             .Sum(o => (o.Meal.Price * o.Quantity));
 
             return totalMealsPrice;

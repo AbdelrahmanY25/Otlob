@@ -14,9 +14,10 @@ namespace Otlob.Core.IUnitOfWorkRepository
         IBaseRepository<Address> Addresses { get; }
         IBaseRepository<OrderedMeals> OrderedMeals { get; }
         IBaseRepository<Cart> Carts { get; }
-        IBaseRepository<MealsInOrder> MealsInOrder { get; }
+        IBaseRepository<OrderDetails> OrderDetails { get; }
         IBaseRepository<ApplicationUser> Users { get; }
         IBaseRepository<MealPriceHistory> MealsPriceHistories { get; }
+        IBaseRepository<TempOrder> TempOrders { get; }
         void SaveChanges();
     }
 }

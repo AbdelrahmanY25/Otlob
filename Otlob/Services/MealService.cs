@@ -10,19 +10,21 @@ namespace Otlob.Services
     {
         private readonly IUnitOfWorkRepository unitOfWorkRepository;
         private readonly IImageService imageService;
+        private readonly IMealPriceHistoryService mealPriceHistoryService;
 
-        public MealService(IUnitOfWorkRepository unitOfWorkRepository, IImageService imageService)
+        public MealService(IUnitOfWorkRepository unitOfWorkRepository, IImageService imageService, IMealPriceHistoryService mealPriceHistoryService)
         {
             this.unitOfWorkRepository = unitOfWorkRepository;
             this.imageService = imageService;
+            this.mealPriceHistoryService = mealPriceHistoryService;
         }
 
-        public IQueryable<MealVm> ViewMealsVmToRestaurantAdminSummary(int RestaurantlId)
+        public IQueryable<MealVm> ViewMealsVmToRestaurantAdminSummary(int restaurantlId)
         {
             IQueryable<MealVm>? mealsVM = unitOfWorkRepository.Meals
                 .GetAllWithSelect
                  (
-                    expression: m => m.RestaurantId == RestaurantlId,
+                    expression: m => m.RestaurantId == restaurantlId,
                     tracked: false,
                     selector: m => new MealVm
                     {
@@ -60,13 +62,14 @@ namespace Otlob.Services
             return mealsVM;
         }
 
-        public MealVm GetMealVM(int MealId)
+        public MealVm GetMealVM(int mealId)
         {
-            var meal = unitOfWorkRepository.Meals.GetOne(expression: m => m.Id == MealId);
+            var meal = unitOfWorkRepository.Meals.GetOne(expression: m => m.Id == mealId);
             return MealVm.MaptoMealVm(meal);
         }
 
-        public Meal GetMeal(int MealId) => unitOfWorkRepository.Meals.GetOne(expression: m => m.Id == MealId);
+        public Meal GetMeal(int mealId) => unitOfWorkRepository.Meals.GetOne(expression: m => m.Id == mealId);
+        public Meal GetMealNameAndImage(int mealId) => unitOfWorkRepository.Meals.GetOneWithSelect(selector: m => new Meal { Id = m.Id, Name = m.Name, Image = m.Image},expression: m => m.Id == mealId);
 
         public async Task<string> AddMeal(MealVm mealVM, int restaurantId, IFormFileCollection image)
         {
@@ -81,6 +84,8 @@ namespace Otlob.Services
 
             unitOfWorkRepository.Meals.Create(meal);
             unitOfWorkRepository.SaveChanges();
+
+            mealPriceHistoryService.AddMealPriceHistory(meal.Id, meal.Price);
 
             return null;
         }
@@ -101,6 +106,8 @@ namespace Otlob.Services
             unitOfWorkRepository.Meals.Edit(newMeal);
             unitOfWorkRepository.SaveChanges();
 
+            mealPriceHistoryService.UpdateMealPriceHistory(mealId, mealVM.Price);
+
             return null;
         }
 
@@ -108,7 +115,7 @@ namespace Otlob.Services
         {
             Meal meal = GetMeal(mealId);
 
-            unitOfWorkRepository.Meals.Delete(meal);
+            unitOfWorkRepository.Meals.SoftDelete(meal);
             unitOfWorkRepository.SaveChanges();
             return true;
         }

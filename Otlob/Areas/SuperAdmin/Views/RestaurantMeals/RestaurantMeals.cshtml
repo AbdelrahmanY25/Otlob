@@ -44,7 +44,8 @@
                     @Html.DisplayFor(modelItem => item.Price)
                 </td>
                 <td>
-                    <a class="btn btn-success" asp-controller="RestaurantMeals" asp-action="MealDetails" asp-route-id="@encryptedId">Meal Details</a>
+                    <a class="btn btn-success" asp-action="MealDetails" asp-route-id="@encryptedId">Meal Details</a>
+                    <a class="btn btn-primary" asp-action="MealPriceHistoryDetails" asp-route-id="@encryptedId">Meal Price History</a>
                     <a class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" data-categoryid="@encryptedId">Delete Meal</a>
                 </td>
             </tr>

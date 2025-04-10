@@ -102,7 +102,7 @@
                 <form asp-action="PlaceOrder">                  
                     <div class="image">
                         <label for="addressSelect">Select Delivery Address:</label>
-                        <select name="Addresses" id="addressSelect" class="form-select">
+                        <select name="UserAddress" id="addressSelect" class="form-select">
                             @foreach (var address in Model.Addresses)
                             {
                                 <option>@address.CustomerAddres</option>
@@ -112,19 +112,20 @@
 
                     <div class="text">
                         <select name="Method" class="form-select">
-                            <option>@PaymentMethod.Cash</option>
-                            <option>@PaymentMethod.Credit</option>
+                            @foreach (var method in Enum.GetNames(typeof(PaymentMethod)))
+                            {
+                                <option>@method</option>
+                            }
                         </select>
-                       @*  <p><strong>Delivery Time:</strong> @restaurant.DeliveryDuration mins</p>
                         <p>
-                            <strong>Sub Price:</strong> @(supPrice + " L.E")
+                            <strong>Sub Price:</strong> @( " L.E")
                         </p>
                         <p>
-                            <strong>Delivery Fee:</strong> @(restaurant.DeliveryFee + " L.E")
+                            <strong>Delivery Fee:</strong> @(Model.DeliveryFee + " L.E")
                         </p>
                         <p class="text-success">
-                            <strong>Total Price:</strong> @(supPrice + restaurant.DeliveryFee + " L.E")
-                        </p> *@
+                            <strong>Total Price:</strong> @( Model.DeliveryFee + " L.E")
+                        </p>
                     </div>
 
                     <div class="notes">

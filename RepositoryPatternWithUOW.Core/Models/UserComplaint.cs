@@ -12,10 +12,10 @@ namespace Otlob.Core.Models
         public DateTime DateTime { get; set; } = DateTime.UtcNow;
 
         [ValidateNever]
-        public ApplicationUser User { get; set; }
+        public  ApplicationUser User { get; set; }
 
         [ValidateNever]
-        public Restaurant Restaurant { get; set; }
+        public  Restaurant Restaurant { get; set; }
     }
     public enum RequestStatus
     {

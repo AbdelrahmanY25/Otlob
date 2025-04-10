@@ -28,14 +28,14 @@ namespace Otlob.Areas.SuperAdmin.Controllers
             ViewBag.Partners = partners.Count();
 
             // Users Status
-            var activeUsers = unitOfWorkRepository.Orders.Get([o => o.Address]).GroupBy(o => o.Address.ApplicationUserId);
+           // var activeUsers = unitOfWorkRepository.Orders.Get([o => o.Address]).GroupBy(o => o.Address.ApplicationUserId);
 
             var nOfUsers = users.Count();
-            var nOfActiveUsers = activeUsers.Count();
-            var nOfUnActiveUsers = nOfUsers - nOfActiveUsers;
+            //var nOfActiveUsers = activeUsers.Count();
+           // var nOfUnActiveUsers = nOfUsers - nOfActiveUsers;
 
-            ViewBag.ActiveUsers = Math.Round((decimal)nOfActiveUsers / nOfUsers * 100, 2);
-            ViewBag.UnActiveUsers = Math.Round((decimal)nOfUnActiveUsers / nOfUsers * 100, 2);
+           // ViewBag.ActiveUsers = Math.Round((decimal)nOfActiveUsers / nOfUsers * 100, 2);
+            //ViewBag.UnActiveUsers = Math.Round((decimal)nOfUnActiveUsers / nOfUsers * 100, 2);
 
             // Orders data
             var allOrders = unitOfWorkRepository.Orders.Get(expression: o => o.OrderDate.Day == DateTime.Today.Day && o.OrderDate.Month == DateTime.Today.Month && o.OrderDate.Year == DateTime.Today.Year);

@@ -1,67 +1,276 @@
 ﻿@model CartVM
 
+@using Otlob.Core.Models
+@using Otlob.Core.Services
 @using Otlob.Core.ViewModel
 @using Otlob.Core.IServices
+@using Otlob.Services.Results
 
 @inject IEncryptionService encryptionService;
 
 @{
-    var encrypteedCart = encryptionService.EncryptId(Model.CartVMId);
+    string encrypteedCart = encryptionService.EncryptId(Model.CartVMId);
 }
 
-<div class="card shadow border-0">
-    <div class="card-header bg-secondary bg-gradient text-light ml-0 py-4">
-        <div class="row px-4">
-            <div class="col-md-6">
-                <h5 class="pt-2 text-white">
-                    Shopping Cart
-                </h5>
+<style>
+    /* General Styling */
+    .custom-dropdown {
+        border: none;
+        padding: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        position: relative;
+        z-index: 1050;
+        transition: box-shadow 0.3s ease;
+    }
+
+    .custom-dropdown:focus {
+        outline: none;
+        box-shadow: 0 0 5px rgba(192, 40, 16, 0.5);
+       /*  margin-bottom: 50px; */ /* Ensure dropdown menu has space */
+    }
+
+    /* Meal Cards */
+    .meal-list {
+        max-width: 600px;
+    }
+
+    .meal-card {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 35px;
+        border-radius: 10px;
+    }
+
+    /* Meal Image */
+    .meal-image img {
+        width: 80px;
+        height: 80px;
+        border-radius: 12px;
+        object-fit: cover;
+    }
+
+    /* Meal Details */
+    .meal-details {
+        flex-grow: 1;
+        margin-left: 15px;
+    }
+
+    /* Buttons */
+    .custom-btn {
+        border-color: rgb(192, 40, 16);
+        color: rgb(192, 40, 16);
+        transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    .custom-btn:focus {
+        background: rgb(192, 40, 16);
+        color: white;
+    }
+
+    .delete-btn {
+        background-color: rgb(192, 40, 16);
+        border-color: rgb(192, 40, 16);
+        transition: background 0.3s ease;
+    }
+
+    .delete-btn:hover {
+        background: darkred;
+    }
+
+    /* Special Instructions */
+    .notes {
+        max-width: 600px;
+    }
+
+    #orderNotes {
+        width: 100%;
+        height: 150px;
+        outline: none;
+        padding: 10px;
+        border: 1px solid rgb(192, 40, 16);
+        border-radius: 12px;
+    }
+
+    /* Footer */
+    .total-price {
+        color: rgb(192, 40, 16);
+    }
+
+   @@keyframes jump {
+        0% { transform: translateY(0); }
+        50% { transform: translateY(-8px); }
+        100% { transform: translateY(0); }
+    }
+
+    .checkout-btn {
+        background-color: rgb(192, 40, 16);
+        border-color: rgb(192, 40, 16);
+        transition: background 0.3s ease, transform 0.3s ease;
+        animation: jump 0.5s ease-in-out infinite;
+        animation-iteration-count: infinite;
+        animation-delay: 2s;
+        border-radius: 12px;
+        animation-timing-function: ease-in-out;
+    }
+
+    @@keyframes jump-pause {
+        0%, 80% { transform: translateY(0); }
+        40% { transform: translateY(-8px); }
+    }
+
+    .checkout-btn {
+        animation: jump-pause 2.5s ease-in-out infinite;
+    }
+
+    .payment-options {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-block: 20px;
+    }
+
+    .payment-option {
+        display: flex;
+        align-items: center;
+        border: 2px solid #ddd;
+        border-radius: 8px;
+        padding: 12px 16px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .payment-option:hover {
+        border-color: rgb(192, 40, 16);
+    }
+
+    .payment-content {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        width: 20%;
+    }
+
+    .payment-icon img {
+        width: 30px;
+        height: 30px;
+    }
+
+    .payment-label {
+        font-size: 16px;
+        font-weight: 500;
+        color: #333;
+    }
+
+    /* Hide Default Radio Button */
+    .hidden-radio {
+        display: none;
+    }
+
+    /* Selected State */
+    .hidden-radio:checked + .payment-content {
+        border: 2px solid rgb(192, 40, 16);
+        background-color: rgba(192, 40, 16, 0.1);
+        border-radius: 8px;
+    }
+
+    /* When selected, add an outline */
+    .hidden-radio:checked + .payment-content .payment-label {
+        font-weight: bold;
+        color: rgb(192, 40, 16);
+    }
+</style>
+
+<form asp-action="PlaceOrder" asp-controller="Order">
+    <div class="card-body">
+        <a asp-action="Index" asp-controller="Home" class="btn btn-outline-secondary btn-sm mb-3">
+            <i class="fa fa-arrow-left"></i> Back To Home
+        </a>
+
+        <div class="d-flex gap-3 mb-3">
+            <div class="flex-grow-1">
+                <label for="addressSelect">Select Delivery Address:</label>
+                <select name="UserAddress" id="addressSelect" class="form-select custom-dropdown">
+                    @foreach (var address in Model.Addresses)
+                    {
+                        <option>@address.CustomerAddres</option>
+                    }
+                </select>
             </div>
         </div>
-    </div>
-    <div class="card-body my-4">
-        <div class="row">
-            <div class="col-md-2 offset-md-1">
-                <a asp-action="Index" asp-controller="Home" class="btn btn-outline-primary text-uppercase mb-5 btn-sm"><small>Back To Home</small></a>
-            </div>           
-            <div class="col-md-10 offset-md-1">
-                <div class="row border-bottom pb-3">
-                    <div class="d-none d-lg-block col-lg-1 text-center py-2">
-                        <img alt="RestaurantLogo" src="data:image/*;base64,@(Convert.ToBase64String(Model.Image))" class="rounded" width="100%" />
-                    </div>
-                    <div class="col-12 col-lg-6 pt-md-3">
-                        <h5 class="text-uppercase text-secondary"><strong>@Model.RestaurantName</strong></h5>
-                        <p><small><a class="btn btn-outline-primary text-uppercase mb-5 btn-sm" asp-controller="RelatedMealsInCart" asp-action="RelatedMeals" asp-route-id="@encrypteedCart">Meals</a></small></p>
-                    </div>
 
-                    <div class="col-12 col-lg-5 text-center row">
-                        <div class="col-12 text-md-right pt-2 pt-md-4">
-                            <div class="col-3 col-sm-4 col-lg-2 offset-lg-1 text-right pt-2">
-                                <a class="btn btn-danger bg-gradient py-2" asp-action="DeleteCart" asp-route-id="@encrypteedCart" data-toggle="tooltip" title="Remove from Cart">
-                                    <i class="fa-solid fa-trash"></i>
+        <div class="meal-list mx-auto">
+            @foreach (var item in Model.Meals)
+            {
+                string encId = encryptionService.EncryptId(item.Id);
+
+                <div class="card meal-card p-3 border-0 shadow-sm">
+                    <div class="d-flex align-items-center">
+                        <!-- Meal Image -->
+                        <div class="meal-image">
+                            <img class="rounded img-fluid" src="data:image/*;base64,@(Convert.ToBase64String(item.Image))" alt="Meal Image">
+                        </div>
+
+                        <!-- Meal Details -->
+                        <div class="meal-details">
+                            <h6 class="fw-bold text-secondary">@item.MealName</h6>
+                            <p class="text-muted small">@item.MealDescription</p>
+                            <p class="text-muted small">X @item.Quantity</p>
+
+                            <!-- Price & Buttons -->
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="fw-semibold">@((item.Quantity * item.PricePerMeal).ToString("0.00")) L.E</span>
+                                <div class="btn-group">
+                                    <a class="btn btn-outline-danger btn-sm custom-btn" asp-controller="RelatedMealsInCart" asp-action="ChangeMealQuantity" asp-route-id="@encId" asp-route-type="@MealQuantity.Increase">
+                                        <i class="fa fa-plus"></i>
+                                    </a>
+                                    <a class="btn btn-outline-danger btn-sm custom-btn" asp-controller="RelatedMealsInCart" asp-action="ChangeMealQuantity" asp-route-id="@encId" asp-route-type="@MealQuantity.Decrease">
+                                        <i class="fa fa-minus"></i>
+                                    </a>
+                                </div>
+                                <a class="btn btn-danger btn-sm delete-btn" asp-controller="RelatedMealsInCart" asp-action="DeleteOrderedMeal" asp-route-id="@encId">
+                                    <i class="fa fa-trash"></i>
                                 </a>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            }
         </div>
-       
-        <div class="card-footer bg-white border-0">
-            <div class="row">
-                <div class="col-md-4 offset-md-4 text-center">
-                    <h6 class="text-secondary text-uppercase">Delivery Fee: @Model.RestaurantDeliveryFee.ToString("0.00") L.E</h6>
-                    <h6 class="text-secondary text-uppercase">Sub Price: @Model.TotalMealsPrice.ToString("0.00") L.E</h6>
-                    <h5 class="text-success fw-bold text-uppercase">Total Price: @Model.TotalPrice.ToString("0.00") L.E</h5>
-                </div>
+      
+        <div class="notes mx-auto">
+            <label for="paymentMethod" class="form-label fw-bold">Select your payment method</label>
+            <div class="payment-options">
+                @foreach (var method in Enum.GetNames(typeof(PaymentMethod)))
+                {
+                    <label class="payment-option">
+                        <input type="radio" name="Method" id="@method" value="@method" class="hidden-radio" />
+                        <div class="payment-content">
+                            <div class="payment-icon">
+                                @if (method == "Credit")
+                                {
+                                    <img src="/images/creditIcon.png" alt="Credit Card" />
+                                }
+                                else if (method == "Cash")
+                                {
+                                    <i class="fa-solid fa-money-bill-wave"></i>
+                                }
+                            </div>
+                            <span class="payment-label">@method</span>
+                        </div>
+                    </label>
+                }
             </div>
 
-            <div class="row">
-                <div class="col-md-2 offset-md-5">
-                    <a asp-controller="Order" asp-action="Index" class="btn btn-primary border-0 bg-gradient w-100 py-2">Check Out</a>
-                </div>
-            </div>
+            <label for="orderNotes" class="form-label">Special Instructions (Optional):</label>
+            <textarea name="Notes" id="orderNotes" placeholder="Add special instructions for your order..."></textarea>
         </div>
     </div>
-</div>
 
+    <div class="card-footer text-center bg-light border-0">
+        <h6 class="text-secondary">Delivery Fee: @Model.RestaurantDeliveryFee.ToString("0.00") L.E</h6>
+        <h6 class="text-secondary">Sub Total: @Model.TotalMealsPrice.ToString("0.00") L.E</h6>
+        <h5 class="fw-bold total-price">Total: @Model.TotalPrice.ToString("0.00") L.E</h5>
+
+        <input type="submit" value="Checkout" asp-action="PlaceOrder" asp-controller="Order" asp-route-id="@encrypteedCart" class="btn checkout-btn text-white mt-3 w-50 py-2" />
+    </div>
+</form>

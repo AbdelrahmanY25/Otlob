@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "2J6IcTVxv4E=",
+  "dgSpecHash": "piZd5wHoDFo=",
   "success": true,
   "projectFilePath": "D:\\My_Projects\\Talabat Project\\Otlob\\Utility\\Utility.csproj",
   "expectedPackageFiles": [
@@ -97,28 +97,5 @@
     "C:\\Users\\ASUS\\.nuget\\packages\\system.xml.readerwriter\\4.0.11\\system.xml.readerwriter.4.0.11.nupkg.sha512",
     "C:\\Users\\ASUS\\.nuget\\packages\\system.xml.xdocument\\4.0.11\\system.xml.xdocument.4.0.11.nupkg.sha512"
   ],
-  "logs": [
-    {
-      "code": "NU1903",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "Package 'Newtonsoft.Json' 9.0.1 has a known high severity vulnerability, https://github.com/advisories/GHSA-5crp-9r3c-p9vr",
-      "libraryId": "Newtonsoft.Json",
-      "targetGraphs": [
-        "net8.0",
-        "net8.0/win-x86"
-      ]
-    },
-    {
-      "code": "NU1904",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "Package 'System.Text.Encodings.Web' 4.5.0 has a known critical severity vulnerability, https://github.com/advisories/GHSA-ghhp-997w-qr28",
-      "libraryId": "System.Text.Encodings.Web",
-      "targetGraphs": [
-        "net8.0",
-        "net8.0/win-x86"
-      ]
-    }
-  ]
+  "logs": []
 }

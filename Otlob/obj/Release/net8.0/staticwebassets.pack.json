@@ -33,6 +33,10 @@
       "PackagePath": "staticwebassets\\images\\Default.jpg"
     },
     {
+      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\creditIcon.png",
+      "PackagePath": "staticwebassets\\images\\creditIcon.png"
+    },
+    {
       "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\icons\\IMG-20241218-WA0004.jpg",
       "PackagePath": "staticwebassets\\images\\icons\\IMG-20241218-WA0004.jpg"
     },
@@ -45,6 +49,10 @@
       "PackagePath": "staticwebassets\\images\\icons\\Koshary.jpg"
     },
     {
+      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\icons\\all - Copy.png",
+      "PackagePath": "staticwebassets\\images\\icons\\all - Copy.png"
+    },
+    {
       "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\icons\\all.png",
       "PackagePath": "staticwebassets\\images\\icons\\all.png"
     },
@@ -55,6 +63,10 @@
     {
       "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\icons\\cookies.png",
       "PackagePath": "staticwebassets\\images\\icons\\cookies.png"
+    },
+    {
+      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\icons\\css_sprites.png",
+      "PackagePath": "staticwebassets\\images\\icons\\css_sprites.png"
     },
     {
       "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\icons\\grill.jpg",
@@ -133,6 +145,10 @@
       "PackagePath": "staticwebassets\\images\\meals\\1-5.jpg"
     },
     {
+      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\meals\\1c498e4b-7b5e-42fb-8f6c-d2a83e8cf42f.jpg",
+      "PackagePath": "staticwebassets\\images\\meals\\1c498e4b-7b5e-42fb-8f6c-d2a83e8cf42f.jpg"
+    },
+    {
       "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\meals\\1c8a8f39-a797-4004-96c3-50b9ec9c3251.jpg",
       "PackagePath": "staticwebassets\\images\\meals\\1c8a8f39-a797-4004-96c3-50b9ec9c3251.jpg"
     },
@@ -147,10 +163,6 @@
     {
       "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\meals\\2-6.jpg",
       "PackagePath": "staticwebassets\\images\\meals\\2-6.jpg"
-    },
-    {
-      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\meals\\2-7.jpg",
-      "PackagePath": "staticwebassets\\images\\meals\\2-7.jpg"
     },
     {
       "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\meals\\2-9.jpg",
@@ -175,6 +187,10 @@
     {
       "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\meals\\32558d93-316b-41d9-ab00-69b52fe4ab1d.jpg",
       "PackagePath": "staticwebassets\\images\\meals\\32558d93-316b-41d9-ab00-69b52fe4ab1d.jpg"
+    },
+    {
+      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\meals\\3de46de1-7d34-477f-8d9b-7768dffdd4e3.jpg",
+      "PackagePath": "staticwebassets\\images\\meals\\3de46de1-7d34-477f-8d9b-7768dffdd4e3.jpg"
     },
     {
       "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\meals\\4-16.jpg",
@@ -237,12 +253,12 @@
       "PackagePath": "staticwebassets\\images\\meals\\c1e7258f-bf4b-4a38-8600-9e689a2adc6d.jpg"
     },
     {
-      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\meals\\c9e0e679-e166-473a-84d8-fc85d13c9806.png",
-      "PackagePath": "staticwebassets\\images\\meals\\c9e0e679-e166-473a-84d8-fc85d13c9806.png"
+      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\meals\\c22c404c-b786-4190-8fe3-318c9cfb33ef.jpg",
+      "PackagePath": "staticwebassets\\images\\meals\\c22c404c-b786-4190-8fe3-318c9cfb33ef.jpg"
     },
     {
-      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\meals\\cac23d64-7c68-4707-a389-0c9fea847282.jpg",
-      "PackagePath": "staticwebassets\\images\\meals\\cac23d64-7c68-4707-a389-0c9fea847282.jpg"
+      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\meals\\c9e0e679-e166-473a-84d8-fc85d13c9806.png",
+      "PackagePath": "staticwebassets\\images\\meals\\c9e0e679-e166-473a-84d8-fc85d13c9806.png"
     },
     {
       "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\meals\\cfe77172-13d4-4b5a-8cfc-2c716d90400f.jpg",
@@ -483,170 +499,6 @@
     {
       "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.min.js.map"
-    },
-    {
-      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\css\\datatables.bootstrap.css",
-      "PackagePath": "staticwebassets\\lib\\datatables\\css\\datatables.bootstrap.css"
-    },
-    {
-      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\css\\datatables.bootstrap.min.css",
-      "PackagePath": "staticwebassets\\lib\\datatables\\css\\datatables.bootstrap.min.css"
-    },
-    {
-      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\css\\datatables.bootstrap4.css",
-      "PackagePath": "staticwebassets\\lib\\datatables\\css\\datatables.bootstrap4.css"
-    },
-    {
-      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\css\\datatables.bootstrap4.min.css",
-      "PackagePath": "staticwebassets\\lib\\datatables\\css\\datatables.bootstrap4.min.css"
-    },
-    {
-      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\css\\datatables.foundation.css",
-      "PackagePath": "staticwebassets\\lib\\datatables\\css\\datatables.foundation.css"
-    },
-    {
-      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\css\\datatables.foundation.min.css",
-      "PackagePath": "staticwebassets\\lib\\datatables\\css\\datatables.foundation.min.css"
-    },
-    {
-      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\css\\datatables.jqueryui.css",
-      "PackagePath": "staticwebassets\\lib\\datatables\\css\\datatables.jqueryui.css"
-    },
-    {
-      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\css\\datatables.jqueryui.min.css",
-      "PackagePath": "staticwebassets\\lib\\datatables\\css\\datatables.jqueryui.min.css"
-    },
-    {
-      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\css\\datatables.material.css",
-      "PackagePath": "staticwebassets\\lib\\datatables\\css\\datatables.material.css"
-    },
-    {
-      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\css\\datatables.material.min.css",
-      "PackagePath": "staticwebassets\\lib\\datatables\\css\\datatables.material.min.css"
-    },
-    {
-      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\css\\datatables.semanticui.css",
-      "PackagePath": "staticwebassets\\lib\\datatables\\css\\datatables.semanticui.css"
-    },
-    {
-      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\css\\datatables.semanticui.min.css",
-      "PackagePath": "staticwebassets\\lib\\datatables\\css\\datatables.semanticui.min.css"
-    },
-    {
-      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\css\\datatables.uikit.css",
-      "PackagePath": "staticwebassets\\lib\\datatables\\css\\datatables.uikit.css"
-    },
-    {
-      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\css\\datatables.uikit.min.css",
-      "PackagePath": "staticwebassets\\lib\\datatables\\css\\datatables.uikit.min.css"
-    },
-    {
-      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\css\\jquery.datatables.css",
-      "PackagePath": "staticwebassets\\lib\\datatables\\css\\jquery.datatables.css"
-    },
-    {
-      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\css\\jquery.datatables.min.css",
-      "PackagePath": "staticwebassets\\lib\\datatables\\css\\jquery.datatables.min.css"
-    },
-    {
-      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\css\\jquery.datatables_themeroller.css",
-      "PackagePath": "staticwebassets\\lib\\datatables\\css\\jquery.datatables_themeroller.css"
-    },
-    {
-      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\css\\jquery.datatables_themeroller.min.css",
-      "PackagePath": "staticwebassets\\lib\\datatables\\css\\jquery.datatables_themeroller.min.css"
-    },
-    {
-      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\images\\sort_asc.png",
-      "PackagePath": "staticwebassets\\lib\\datatables\\images\\sort_asc.png"
-    },
-    {
-      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\images\\sort_asc_disabled.png",
-      "PackagePath": "staticwebassets\\lib\\datatables\\images\\sort_asc_disabled.png"
-    },
-    {
-      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\images\\sort_both.png",
-      "PackagePath": "staticwebassets\\lib\\datatables\\images\\sort_both.png"
-    },
-    {
-      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\images\\sort_desc.png",
-      "PackagePath": "staticwebassets\\lib\\datatables\\images\\sort_desc.png"
-    },
-    {
-      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\images\\sort_desc_disabled.png",
-      "PackagePath": "staticwebassets\\lib\\datatables\\images\\sort_desc_disabled.png"
-    },
-    {
-      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\js\\datatables.bootstrap.js",
-      "PackagePath": "staticwebassets\\lib\\datatables\\js\\datatables.bootstrap.js"
-    },
-    {
-      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\js\\datatables.bootstrap.min.js",
-      "PackagePath": "staticwebassets\\lib\\datatables\\js\\datatables.bootstrap.min.js"
-    },
-    {
-      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\js\\datatables.bootstrap4.js",
-      "PackagePath": "staticwebassets\\lib\\datatables\\js\\datatables.bootstrap4.js"
-    },
-    {
-      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\js\\datatables.bootstrap4.min.js",
-      "PackagePath": "staticwebassets\\lib\\datatables\\js\\datatables.bootstrap4.min.js"
-    },
-    {
-      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\js\\datatables.datatables.js",
-      "PackagePath": "staticwebassets\\lib\\datatables\\js\\datatables.datatables.js"
-    },
-    {
-      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\js\\datatables.datatables.min.js",
-      "PackagePath": "staticwebassets\\lib\\datatables\\js\\datatables.datatables.min.js"
-    },
-    {
-      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\js\\datatables.foundation.js",
-      "PackagePath": "staticwebassets\\lib\\datatables\\js\\datatables.foundation.js"
-    },
-    {
-      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\js\\datatables.foundation.min.js",
-      "PackagePath": "staticwebassets\\lib\\datatables\\js\\datatables.foundation.min.js"
-    },
-    {
-      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\js\\datatables.jqueryui.js",
-      "PackagePath": "staticwebassets\\lib\\datatables\\js\\datatables.jqueryui.js"
-    },
-    {
-      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\js\\datatables.jqueryui.min.js",
-      "PackagePath": "staticwebassets\\lib\\datatables\\js\\datatables.jqueryui.min.js"
-    },
-    {
-      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\js\\datatables.material.js",
-      "PackagePath": "staticwebassets\\lib\\datatables\\js\\datatables.material.js"
-    },
-    {
-      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\js\\datatables.material.min.js",
-      "PackagePath": "staticwebassets\\lib\\datatables\\js\\datatables.material.min.js"
-    },
-    {
-      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\js\\datatables.semanticui.js",
-      "PackagePath": "staticwebassets\\lib\\datatables\\js\\datatables.semanticui.js"
-    },
-    {
-      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\js\\datatables.semanticui.min.js",
-      "PackagePath": "staticwebassets\\lib\\datatables\\js\\datatables.semanticui.min.js"
-    },
-    {
-      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\js\\datatables.uikit.js",
-      "PackagePath": "staticwebassets\\lib\\datatables\\js\\datatables.uikit.js"
-    },
-    {
-      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\js\\datatables.uikit.min.js",
-      "PackagePath": "staticwebassets\\lib\\datatables\\js\\datatables.uikit.min.js"
-    },
-    {
-      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\js\\jquery.datatables.js",
-      "PackagePath": "staticwebassets\\lib\\datatables\\js\\jquery.datatables.js"
-    },
-    {
-      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\js\\jquery.datatables.min.js",
-      "PackagePath": "staticwebassets\\lib\\datatables\\js\\jquery.datatables.min.js"
     },
     {
       "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\jquery-validation-unobtrusive\\LICENSE.txt",

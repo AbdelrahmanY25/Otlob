@@ -16,7 +16,7 @@
     <div class="container">
         @foreach (var item in Model)
         {
-            var user = userManager.FindByIdAsync(item.Address.ApplicationUserId);
+            var user = userManager.FindByIdAsync(item.User.Id);
             <div class="card">
                 <div class="text">
                     @if (user?.Result?.Image != null)
@@ -42,7 +42,6 @@
                 </div>
                 <div class="text">
                     <h4>Customer Details</h4>
-                    <p>Address: @item.AddressId</p>
                     <p>Phone Number: @user?.Result?.PhoneNumber</p>
                     <p>Email: @user?.Result?.Email</p>
                     <p>At: @item.OrderDate</p>

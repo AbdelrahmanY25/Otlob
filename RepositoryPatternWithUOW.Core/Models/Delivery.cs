@@ -11,6 +11,6 @@ namespace Otlob.Core.Models
         public int RestaurantId { get; set; }
 
         [ValidateNever]
-        public Restaurant Restaurant { get; set; }
+        public  Restaurant Restaurant { get; set; }
     }
 }

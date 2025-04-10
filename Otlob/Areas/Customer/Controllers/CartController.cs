@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Otlob.Areas.Customer.Services.Interfaces;
 using Otlob.Core.IServices;
 using Otlob.Core.Models;
 using Otlob.Core.ViewModel;
@@ -54,7 +55,7 @@ namespace Otlob.Areas.Customer.Controllers
                 return View("EmptyCart");
             }
 
-            CartVM? cartVM = cartService.GetUserCartToView(userId);
+            var cartVM = cartService.GetUserCartToView(userId);
 
             if (cartVM is null)
             {
@@ -62,19 +63,6 @@ namespace Otlob.Areas.Customer.Controllers
             }
            
             return View(cartVM);
-        }       
-
-        public IActionResult DeleteCart(string id)
-        {            
-            bool isCartDeleted = cartService.DeleteCart(id);
-
-            if (isCartDeleted)
-            {
-                return View("EmptyCart");
-            }
-
-            TempData["Error"] = "There Is Somthing Wrong Try Clear Your Cart";
-            return RedirectToAction("Index", "Home");
         }
     }
 }

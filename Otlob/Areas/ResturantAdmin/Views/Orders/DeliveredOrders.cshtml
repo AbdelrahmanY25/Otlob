@@ -23,7 +23,7 @@
     <div class="container">
         @foreach (var item in Model.Orders)
         {
-            var user = item.Address.User;
+            var user = item.User;
             <div class="card">
                 <div class="text">
                     @if (user?.Image != null)
@@ -42,7 +42,6 @@
                 </div>
                 <div class="text">
                     <h4>Customer Details</h4>
-                    <p>Address: @item.AddressId</p>
                     <p>Phone Number: @user?.PhoneNumber</p>
                     <p>Email: @user?.Email</p>
                     <p>At: @item.OrderDate</p>

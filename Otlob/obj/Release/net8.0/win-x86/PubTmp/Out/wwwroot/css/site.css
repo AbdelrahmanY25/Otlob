@@ -212,6 +212,7 @@ body {
     align-items: center;
     width: 40px;
     height: 40px;
+    border: none;
     background-color: var(--primary-color);
     color: white;
     font-size: 12px;
@@ -545,10 +546,22 @@ body {
     padding: 10px;
 }
 
-.icons a.fMeals {
+.icons form {
+    display: inline-block;
+    margin: 0;
+}
+
+.icons .fMeals {
     background-color: var(--primary-color);
     border-radius: 15px;
     padding: 4px 8px;
+    border: none;
+    cursor: pointer;
+    font-size: inherit;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    transition: var(--main-transition);
 }
 
 .icons img {
@@ -561,7 +574,7 @@ body {
 }
 
 .icons img:hover,
-.icons a.fMeals:hover {
+.icons .fMeals:hover {
     transform: scale(1.1);
 }
 

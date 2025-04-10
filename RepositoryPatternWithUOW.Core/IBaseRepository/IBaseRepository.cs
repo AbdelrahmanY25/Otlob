@@ -10,9 +10,9 @@ namespace Otlob.EF.IBaseRepository
         IQueryable<TResult>? GetAllWithSelect<TResult>(Expression<Func<T, TResult>> selector, Expression<Func<T, object>>[]? includeProps = null, Expression<Func<T, bool>>? expression = null, bool tracked = true);
         TResult? GetOneWithSelect<TResult>(Expression<Func<T, TResult>> selector, Expression<Func<T, object>>[]? includeProps = null, Expression<Func<T, bool>>? expression = null, bool tracked = true);
         void Create(T entity);
-
         void Edit(T entity);
-
-        void Delete(T entity);
+        void UnSoftDelete(T entity);
+        void SoftDelete(T entity);
+        void HardDelete(T entity);
     }
 }

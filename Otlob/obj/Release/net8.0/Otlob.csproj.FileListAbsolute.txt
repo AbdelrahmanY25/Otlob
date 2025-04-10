@@ -298,3 +298,15 @@ D:\My_Projects\Talabat Project\Otlob\Otlob\obj\Release\net8.0\Otlob.pdb
 D:\My_Projects\Talabat Project\Otlob\Otlob\obj\Release\net8.0\Otlob.genruntimeconfig.cache
 D:\My_Projects\Talabat Project\Otlob\Otlob\obj\Release\net8.0\ref\Otlob.dll
 D:\My_Projects\Talabat Project\Otlob\Otlob\bin\Release\net8.0\Stripe.net.dll
+D:\My_Projects\Talabat Project\Otlob\Otlob\bin\Release\net8.0\Castle.Core.dll
+D:\My_Projects\Talabat Project\Otlob\Otlob\bin\Release\net8.0\EntityFramework.SqlServer.dll
+D:\My_Projects\Talabat Project\Otlob\Otlob\bin\Release\net8.0\EntityFramework.dll
+D:\My_Projects\Talabat Project\Otlob\Otlob\bin\Release\net8.0\LinqKit.dll
+D:\My_Projects\Talabat Project\Otlob\Otlob\bin\Release\net8.0\LinqKit.Core.dll
+D:\My_Projects\Talabat Project\Otlob\Otlob\bin\Release\net8.0\Microsoft.EntityFrameworkCore.Proxies.dll
+D:\My_Projects\Talabat Project\Otlob\Otlob\bin\Release\net8.0\System.Data.SqlClient.dll
+D:\My_Projects\Talabat Project\Otlob\Otlob\bin\Release\net8.0\runtimes\win-arm64\native\sni.dll
+D:\My_Projects\Talabat Project\Otlob\Otlob\bin\Release\net8.0\runtimes\win-x64\native\sni.dll
+D:\My_Projects\Talabat Project\Otlob\Otlob\bin\Release\net8.0\runtimes\win-x86\native\sni.dll
+D:\My_Projects\Talabat Project\Otlob\Otlob\bin\Release\net8.0\runtimes\unix\lib\netcoreapp2.1\System.Data.SqlClient.dll
+D:\My_Projects\Talabat Project\Otlob\Otlob\bin\Release\net8.0\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll

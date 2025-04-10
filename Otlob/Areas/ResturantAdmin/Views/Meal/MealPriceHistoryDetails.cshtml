@@ -1,0 +1,41 @@
+﻿@model IQueryable<Otlob.Core.ViewModel.MealPriceHistoryVM>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Price
+            </th>
+            <th>
+                Created Date
+            </th>
+            <th>
+                End Date
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StartDate)
+                </td>
+                <td>
+                    @if (item.EndDate != null)
+                    {
+                        @Html.DisplayFor(modelItem => item.EndDate)
+                    }
+                    else
+                    {
+                        <span class="label">Current Price</span>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

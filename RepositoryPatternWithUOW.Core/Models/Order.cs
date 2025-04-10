@@ -4,24 +4,27 @@ namespace Otlob.Core.Models
 {
      public class Order
      {
-        public int Id { get; set; } 
-        public int AddressId { get; set; }
+        public int Id { get; set; }
+        public string ApplicationUserId { get; set; }
+        public string UserAddress { get; set; }
         public int RestaurantId { get; set; }
-        public decimal OrderPrice { get; set; } 
+        public decimal TotalMealsPrice { get; set; }
+        public decimal TotalTaxPrice { get; set; }
+        public decimal TotalOrderPrice { get; set; }
+        public string? Notes { get; set; }
+        public PaymentMethod Method {  get; set; }
         public DateTime OrderDate { get; set; } = DateTime.UtcNow;
         public OrderStatus Status { get; set; } = OrderStatus.Pending;
-        public PaymentMethod Method {  get; set; }
-        public string? Notes { get; set; }
 
         [ValidateNever]
-        public Restaurant Restaurant { get; set; }
+        public ApplicationUser User { get; set; }
 
         [ValidateNever]
-        public ICollection<MealsInOrder> MealsInOrder { get; set; }
+        public  Restaurant Restaurant { get; set; }
 
         [ValidateNever]
-        public Address Address { get; set; }
-    }
+        public  ICollection<OrderDetails> MealsInOrder { get; set; }       
+     }
 
     public enum OrderStatus
     {

@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Otlob.Core")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1976892b3eff57c1c938f53c373088034db77ec5")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3e4b280000ea4b6fc3e1b94f5b686b2035694131")]
 [assembly: System.Reflection.AssemblyProductAttribute("Otlob.Core")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Otlob.Core")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -1,9 +1,8 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Otlob.Areas.Customer.Services.Interfaces;
 using Otlob.Core.IServices;
 using Otlob.Core.Models;
 using Otlob.Core.ViewModel;
 using Otlob.IServices;
-using Otlob.Services;
 
 namespace Otlob.Core.Services
 {
@@ -13,28 +12,50 @@ namespace Otlob.Core.Services
         private readonly IRestaurantService restaurantService;
         private readonly IOrderedMealsService orderedMealsService;
         private readonly IEncryptionService encryptionService;
+        private readonly IAddressService addressService;
 
         public CartService(IUnitOfWorkRepository.IUnitOfWorkRepository unitOfWorkRepository,
                           IRestaurantService restaurantService,
                           IOrderedMealsService orderedMealsService,
-                          IEncryptionService encryptionService)
+                          IEncryptionService encryptionService,
+                          IAddressService addressService)
         {
             this.unitOfWorkRepository = unitOfWorkRepository;
             this.restaurantService = restaurantService;
             this.orderedMealsService = orderedMealsService;
             this.encryptionService = encryptionService;
+            this.addressService = addressService;
+        }
+
+        public Cart? GetCartById(string id)
+        {
+            int cartId = encryptionService.DecryptId(id);
+
+            Cart? userCart = unitOfWorkRepository
+                .Carts.GetOneWithSelect
+                (
+                    selector: c => new Cart
+                    {
+                        Id = c.Id,
+                        RestaurantId = c.RestaurantId,
+                        ApplicationUserId = c.ApplicationUserId,
+                        Restaurant = new Restaurant { DeliveryFee = c.Restaurant.DeliveryFee }
+                    },
+                    expression: c => c.Id == cartId,
+                    tracked: false
+                );
+
+            return userCart;
         }
 
         public Cart? GetUserCart(string userId, int restaurantId)
         {
             Cart? userCart = unitOfWorkRepository
                 .Carts.GetOne
-                (
-                    expression: c => c.RestaurantId == restaurantId && c.ApplicationUserId == userId
-                );
+                 (expression: c => c.RestaurantId == restaurantId && c.ApplicationUserId == userId);
 
             return userCart;
-        }
+        }      
           
         public CartVM? GetUserCartToView(string userId)
         {
@@ -55,23 +76,19 @@ namespace Otlob.Core.Services
                 return cartVM;
             }
 
+            var meals = orderedMealsService.GetOrderedMealsVMToView(cartVM.CartVMId);
+
             RestaurantVM? restaurantVM = restaurantService.GetRestaurantJustMainInfo(cartVM.RestaurantId);
 
-            decimal orderedMeals = orderedMealsService.CalculateTotalMealsPrice(cartVM);
+            IEnumerable<AddressVM>? addresses = addressService.GetUserAddressies(userId).ToList();
 
-            CartVM newCartVM = CartVM.MappToCartVM(cartVM, restaurantVM, orderedMeals);
+            decimal orderedMeals = orderedMealsService.CalculateTotalMealsPrice(cartVM.CartVMId);
+
+            CartVM newCartVM = CartVM.MappToCartVM(cartVM, restaurantVM, meals, orderedMeals, addresses);
             
             return newCartVM;
         }
-            
-        public IQueryable<Cart> GetCarts(string userId)
-        {
-            var qurey = unitOfWorkRepository.Carts.Get(includeProps: [cr => cr.Restaurant, co => co.OrderedMeals],
-                                                       expression: c => c.ApplicationUserId == userId, tracked: false);
-
-            return qurey;
-        }
-
+       
         public Cart? AddCart(string userId, int restaurantId)
         {
             var cart = new Cart
@@ -86,14 +103,13 @@ namespace Otlob.Core.Services
             return cart;
         }
 
-        public bool DeleteCart(string id)
+        public bool DeleteCart(int cartId)
         {
-            int cartId = encryptionService.DecryptId(id);
             var cart = unitOfWorkRepository.Carts.GetOne(expression: c => c.Id == cartId);
 
             if (cart is not null)
             {
-                unitOfWorkRepository.Carts.Delete(cart);
+                unitOfWorkRepository.Carts.HardDelete(cart);
                 unitOfWorkRepository.SaveChanges();
 
                 return true;

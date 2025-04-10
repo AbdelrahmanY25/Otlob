@@ -21,16 +21,26 @@ namespace Otlob.EF.BaseRepository
             dbSet.Add(entity);
         }
 
-        public void Delete(T entity)
-        {
-            dbSet.Remove(entity);
-        }
-
         public void Edit(T entity)
         {
             dbSet.Update(entity);
         }
 
+        public void SoftDelete(T entity)
+        {
+            context.Entry(entity).Property("IsDeleted").CurrentValue = true;
+        }
+
+        public void UnSoftDelete(T entity)
+        {
+            context.Entry(entity).Property("IsDeleted").CurrentValue = false;
+        }
+        
+        public void HardDelete(T entity)
+        {
+            dbSet.Remove(entity);
+        }
+        
         public IQueryable<T>? Get(Expression<Func<T, object>>[]? includeProps = null,
                                    Expression<Func<T, bool>>? expression = null,
                                    bool tracked = true)
@@ -38,14 +48,19 @@ namespace Otlob.EF.BaseRepository
             IQueryable<T> query = dbSet;
 
             if (expression != null)
+            {
                 query = query.Where(expression);
-
+            }
+           
             if (includeProps != null)
+            {
                 foreach (var prop in includeProps)
+                {
                     query = query.Include(prop);
+                }
+            }
 
-            if (!tracked)
-                query = query.AsNoTracking();
+            query = tracked ? query : query.AsNoTracking();
 
             return query;
         }
@@ -63,8 +78,7 @@ namespace Otlob.EF.BaseRepository
                 foreach (var prop in includeProps)
                     query = query.Include(prop);
 
-            if (!tracked)
-                query = query.AsNoTracking();
+            query = tracked ? query : query.AsNoTracking();
 
             return query.FirstOrDefault();
         }
@@ -83,8 +97,7 @@ namespace Otlob.EF.BaseRepository
                 foreach(var prop in includeProps)
                     query = query.Include(prop);
 
-            if (!tracked)
-                query = query.AsNoTracking();
+            query = tracked ? query : query.AsNoTracking();
 
             return query.Select(selector);
         }
@@ -103,8 +116,7 @@ namespace Otlob.EF.BaseRepository
                 foreach (var prop in includeProps)
                     query = query.Include(prop);
 
-            if (!tracked)
-                query = query.AsNoTracking();
+            query = tracked ? query : query.AsNoTracking();
 
             return query.Select(selector).FirstOrDefault();
         }

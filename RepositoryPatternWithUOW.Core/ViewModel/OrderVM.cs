@@ -9,7 +9,7 @@ namespace Otlob.Core.ViewModel
         public int Id { get; set; }
      
         [Required]
-        public IQueryable<Address> Addresses { get; set; }
+        public IEnumerable<AddressVM> Addresses { get; set; }
 
         [Required]
         public int ResturantId { get; set; }
@@ -21,5 +21,6 @@ namespace Otlob.Core.ViewModel
         public PaymentMethod Method { get; set; }
 
         public string? Notes { get; set; }
+        public decimal DeliveryFee { get; set; }
     }
 }

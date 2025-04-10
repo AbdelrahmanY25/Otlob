@@ -40,7 +40,7 @@ namespace Otlob
 
             builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
                     b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
-
+           
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
             {
                 options.SignIn.RequireConfirmedAccount = true;
@@ -74,6 +74,10 @@ namespace Otlob
             builder.Services.AddScoped<IMealService, MealService>();
             builder.Services.AddScoped<ICartService, CartService>();
             builder.Services.AddScoped<IOrderedMealsService, OrderedMealsService>();
+            builder.Services.AddScoped<IMealPriceHistoryService, MealPriceHistoryService>();
+            builder.Services.AddScoped<IOrderService, OrderService>();
+            builder.Services.AddScoped<IOrderDetailsService, OrderDetailsService>();
+            builder.Services.AddScoped<ITempOrderService, TempOrderService>();
 
             builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
             StripeConfiguration.ApiKey = builder.Configuration["Stripe:SecretKey"];

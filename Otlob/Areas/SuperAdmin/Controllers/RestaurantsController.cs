@@ -36,7 +36,7 @@ namespace Otlob.Areas.SuperAdmin.Controllers
         public IActionResult CurrentResturantOrders(string id, int pageNumber = 1)
         {
             int restaurantId = encryptionService.DecryptId(id);
-            var orders = unitOfWorkRepository.Orders.Get([o => o.Address, o => o.Restaurant], expression: o => o.RestaurantId == restaurantId && o.Status != OrderStatus.Delivered);
+            var orders = unitOfWorkRepository.Orders.Get([o => o.Restaurant], expression: o => o.RestaurantId == restaurantId && o.Status != OrderStatus.Delivered);
             var resturant = unitOfWorkRepository.Orders.GetOne([o => o.Restaurant], expression: o => o.RestaurantId == restaurantId);
 
             if (orders != null)
@@ -103,9 +103,9 @@ namespace Otlob.Areas.SuperAdmin.Controllers
         {
             var order = unitOfWorkRepository.Orders.GetOne(expression: o => o.Id == id);
 
-            var meals = unitOfWorkRepository.MealsInOrder.Get([m => m.Meal], expression: m => m.OrderId == order.Id);
+            var meals = unitOfWorkRepository.OrderDetails.Get([m => m.Meal], expression: m => m.OrderId == order.Id);
 
-            var mealsPrice = meals.Sum(m => m.Meal.Price * m.Quantity);
+            var mealsPrice = meals.Sum(m => m.Meal.Price * m.MealQuantity);
 
             var resturant = unitOfWorkRepository.Restaurants.GetOne(expression: o => o.Id == order.RestaurantId);
 

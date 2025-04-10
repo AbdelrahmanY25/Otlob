@@ -21,9 +21,11 @@ namespace Otlob.Core.ViewModel
       
         public static IEnumerable<OrderedMealsVM> MappToOrderedMealsVMCollection(IQueryable<OrderedMeals> orderedMeals)
         {
+            List<OrderedMealsVM> orderedMealsVMs = new List<OrderedMealsVM>();
+            
             foreach (var item in orderedMeals)
             {
-                yield return new OrderedMealsVM
+                orderedMealsVMs.Add(new OrderedMealsVM
                 {
                     Id = item.Id,
                     MealId = item.MealId,
@@ -33,8 +35,10 @@ namespace Otlob.Core.ViewModel
                     MealName = item.Meal.Name,
                     MealDescription = item.Meal.Description,
                     Image = item.Meal.Image
-                };
+                });    
             }
+
+            return orderedMealsVMs;
         }
     }
 }

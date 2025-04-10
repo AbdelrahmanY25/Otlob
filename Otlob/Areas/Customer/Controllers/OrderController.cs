@@ -1,187 +1,159 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SignalR;
-using Newtonsoft.Json;
-using Otlob.Core.Hubs;
-using Otlob.Core.IUnitOfWorkRepository;
+﻿using Microsoft.AspNetCore.Mvc;
 using Otlob.Core.Models;
+using Otlob.Core.IServices;
+using Otlob.IServices;
+using Newtonsoft.Json;
 using Stripe.Checkout;
-using Otlob.Core.ViewModel;
 
 namespace Otlob.Areas.Customer.Controllers
 {
     [Area("Customer")]
     public class OrderController : Controller
     {
-        private readonly IUnitOfWorkRepository unitOfWorkRepository;
-        private readonly UserManager<ApplicationUser> userManager;
-        private readonly IHubContext<OrdersHub> hubContext;
+        private readonly ICartService cartService;
+        private readonly IOrderedMealsService orderedMealsService;
+        private readonly ITempOrderService tempOrderService;
+        private readonly IOrderService orderService;
 
-        public OrderController(ILogger<HomeController> logger,
-                              IUnitOfWorkRepository unitOfWorkRepository,
-                              UserManager<ApplicationUser> userManager,
-                              IHubContext<OrdersHub> hubContext)
+        public OrderController(ICartService cartService, IOrderService orderService,
+                               IOrderedMealsService orderedMealsService, ITempOrderService tempOrderService)
         {
-            this.unitOfWorkRepository = unitOfWorkRepository;
-            this.userManager = userManager;
-            this.hubContext = hubContext;
+            this.cartService = cartService;
+            this.orderedMealsService = orderedMealsService;
+            this.tempOrderService = tempOrderService;
+            this.orderService = orderService;
         }
-        public IActionResult Index()
-        {
-            var userId = userManager.GetUserId(User);
 
-            if (userId == null)
+        [HttpPost, ValidateAntiForgeryToken]
+        public IActionResult PlaceOrder(string id, Order order)
+        {
+            Cart? cart = cartService.GetCartById(id);
+
+            if (cart is null)
             {
-                return RedirectToAction("Login", "Account");
+                TempData["Error"] = "Failed to retrieve order details.";
+                return RedirectToAction("Index", "Home");
             }
 
-            var userAddress = unitOfWorkRepository.Addresses
-                .GetAllWithSelect
-                 (
-                    expression: a => a.ApplicationUserId == userId,
-                    selector: a => new Address
-                    {
-                        Id = a.Id,
-                        CustomerAddres = a.CustomerAddres
-                    }
-                 );
-
-            OrderVM OrderVM = new OrderVM
-            {
-                Addresses = userAddress,
-            };
-
-            return View();
+            return CalculateTotalOrderPrice(cart, order);
         }
 
-        //[HttpPost, ValidateAntiForgeryToken]
-        //public async Task<IActionResult> PlaceOrder(OrderVM orderVM, int cartId)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //       return await CheckPaymentMethod(orderVM, cartId);
-        //    }
+        public IActionResult AddOrder(Cart cart, Order order, int totalMealsPrice, int totalTaxPrice)
+        {            
+            if (order is null || cart is null)
+            {
+                TempData["Error"] = "Failed to retrieve order details.";
+                return RedirectToAction("Index", "Home");
+            }
 
-        //    return RedirectToAction("Index");
-        //}
+            bool isOrderAdded = orderService.AddOrder(cart, order, totalMealsPrice, totalTaxPrice);
 
-        //private async Task<IActionResult> CheckPaymentMethod(OrderVM orderVM, int cartId)
-        //{
-        //    //if (orderVM.Method == PaymentMethod.Credit)
-        //    //{
-        //    //    return PayWithCredit(orderVM, cartId);
-        //    //}
+            if (isOrderAdded)
+            {
+                TempData["Success"] = "Your Order Has Been Sent To Restaurant...";
+                return RedirectToAction("Index", "Home");
+            }
 
-        //    return await AddOrder(orderVM, cartId);
-        //}
+            TempData["Error"] = "Failed to add order.";
+            return RedirectToAction("Index", "Home");
+        }
 
-        //public async Task<IActionResult> AddOrder(OrderVM orderVM, int cartId)
-        //{
-        //    var user = await userManager.GetUserAsync(User);
+        public IActionResult CalculateTotalOrderPrice(Cart cart, Order order)
+        {
+            int totalMealsPrice = (int)Math.Ceiling(orderedMealsService.CalculateTotalMealsPrice(cart.Id));
 
-        //    var cartInOrderId = CompleteOrderProceduresController.CreateNewCartInOrder(user.Id, order.RestaurantId, unitOfWorkRepository);
-        //    CompleteOrderProceduresController.AddOrdredMeals(cartId, order.RestaurantId, cartInOrderId, unitOfWorkRepository);
+            int totalTaxPrice = (int)Math.Ceiling(cart.Restaurant.DeliveryFee);
 
-        //    order.CartInOrderId = cartInOrderId;
-        //    unitOfWorkRepository.Orders.Create(order);
-        //    unitOfWorkRepository.SaveChanges();
+            return CheckOnPaymentMethod(cart, order, totalMealsPrice, totalTaxPrice);
+        }
 
-        //    CompleteOrderProceduresController.SendOrderToRestaurant(order, user, hubContext);
+        public IActionResult CheckOnPaymentMethod(Cart cart, Order order, int totalMealsPrice, int totalTaxPrice)
+        {
+            if (order.Method == PaymentMethod.Credit)
+            {
+                return PayWithCredit(cart, order, totalMealsPrice, totalTaxPrice);
+            }
 
-        //    CompleteOrderProceduresController.DeleteCart(cartId, unitOfWorkRepository);
+            return AddOrder(cart, order, totalMealsPrice, totalTaxPrice);
+        }
 
-        //    var userCarts = unitOfWorkRepository.Carts.Get(expression: c => c.ApplicationUserId == user.Id);
+        public IActionResult PayWithCredit(Cart cart, Order order, int totalMealsPrice, int totalTaxPrice)
+        {
+            var meals = orderedMealsService.GetOrderedMealsWithMealsDetails(cart.Id);
 
-        //    if (userCarts.Count() > 0)
-        //    {
-        //        TempData["Success"] = "Your Order Placed Successfully";
-        //        return RedirectToAction("Index", userCarts);                    
-        //    }
+            decimal deliveryFee = totalTaxPrice;
 
-        //    TempData["Success"] = "Your order was successfully placed!";
-        //    return RedirectToAction("Index", "Home");
-        //}
+            TempOrder tempOrder = tempOrderService.AddTempOrder(cart, order);
 
-        //public IActionResult PayWithCredit(Order order, int cartId)
-        //{
-        //    var meals = unitOfWorkRepository.OrderedMeals.Get([m => m.Meal, m => m.Meal.Restaurant, m => m.Cart], m => m.Meal.RestaurantId == order.RestaurantId && m.CartId == cartId);
+            SessionCreateOptions options = new SessionCreateOptions
+            {
+                PaymentMethodTypes = new List<string> { "card" },
+                LineItems = new List<SessionLineItemOptions>(),
+                Mode = "payment",
+                SuccessUrl = $"{Request.Scheme}://{Request.Host}/Customer/Order/FinishPaymentProcess/?tempOrderId={tempOrder.Id}&totalMealsPrice={totalMealsPrice}&totalTaxPrice={totalTaxPrice}",
+                CancelUrl = $"{Request.Scheme}://{Request.Host}/Customer/Home/Index",
+            };
 
-        //    decimal totalMealPrice = 0;
-        //    decimal deliveryFee = 0;
+            foreach (var item in meals)
+            {
+                options.LineItems.Add(new SessionLineItemOptions
+                {
+                    PriceData = new SessionLineItemPriceDataOptions
+                    {
+                        Currency = "EGP",
+                        ProductData = new SessionLineItemPriceDataProductDataOptions
+                        {
+                            Name = item.Meal.Name,
+                            Description = item.Meal.Description,
+                        },
+                        UnitAmount = (long)Math.Ceiling(item.Meal.Price * 100),
+                    },
+                    Quantity = item.Quantity,
+                });
+            }
 
-        //    foreach (var item in meals)
-        //    {
-        //        totalMealPrice += item.Meal.Price * item.Quantity;
-        //        deliveryFee = item.Meal.Restaurant.DeliveryFee;
-        //    }
+            options.LineItems.Add(new SessionLineItemOptions
+            {
+                PriceData = new SessionLineItemPriceDataOptions
+                {
+                    Currency = "EGP",
+                    ProductData = new SessionLineItemPriceDataProductDataOptions
+                    {
+                        Name = "Delivery Fee",
+                        Description = "Fee for delivering your order",
+                    },
+                    UnitAmount = (long)Math.Ceiling(deliveryFee * 100),
+                },
+                Quantity = 1,
+            });
 
-        //    var tempOrderId = Guid.NewGuid().ToString(); // Generate a unique identifier for the temporary order
-        //    TempData[tempOrderId] = JsonConvert.SerializeObject(order); // Store the order temporarily
+            var service = new SessionService();
+            var session = service.Create(options);
+            return Redirect(session.Url);
+        }
 
-        //    var options = new SessionCreateOptions
-        //    {
-        //        PaymentMethodTypes = new List<string> { "card" },
-        //        LineItems = new List<SessionLineItemOptions>(),
-        //        Mode = "payment",
-        //        SuccessUrl = $"{Request.Scheme}://{Request.Host}/Customer/Order/CompleteOrder/?tempOrderId={tempOrderId}&cartId={cartId}",
-        //        CancelUrl = $"{Request.Scheme}://{Request.Host}/Customer/Home/Index",
-        //    };
+        public IActionResult FinishPaymentProcess(string tempOrderId, int totalMealsPrice, int totalTaxPrice)
+        {
+            TempOrder? tempOrder = tempOrderService.GetTempOrder(tempOrderId);
 
-        //    foreach (var item in meals)
-        //    {
-        //        options.LineItems.Add(new SessionLineItemOptions
-        //        {
-        //            PriceData = new SessionLineItemPriceDataOptions
-        //            {
-        //                Currency = "EGP",
-        //                ProductData = new SessionLineItemPriceDataProductDataOptions
-        //                {
-        //                    Name = item.Meal.Name,
-        //                    Description = item.Meal.Description,
-        //                },
-        //                UnitAmount = (long)Math.Ceiling(item.Meal.Price * 100),
-        //            },
-        //            Quantity = item.Quantity,
-        //        });
-        //    }
+            if (tempOrder is null)
+            {
+                TempData["Error"] = "Session was expired P;ease try again.";
+                return RedirectToAction("Index", "Home");
+            }
 
-        //    options.LineItems.Add(new SessionLineItemOptions
-        //    {
-        //        PriceData = new SessionLineItemPriceDataOptions
-        //        {
-        //            Currency = "EGP",
-        //            ProductData = new SessionLineItemPriceDataProductDataOptions
-        //            {
-        //                Name = "Delivery Fee",
-        //                Description = "Fee for delivering your order",
-        //            },
-        //            UnitAmount = (long)Math.Ceiling(deliveryFee * 100),
-        //        },
-        //        Quantity = 1,
-        //    });
+            Order? order = JsonConvert.DeserializeObject<Order>(tempOrder.OrderData);
+            Cart? cart = JsonConvert.DeserializeObject<Cart>(tempOrder.CartData);
 
-        //    var service = new SessionService();
-        //    var session = service.Create(options);
-        //    return Redirect(session.Url);
-        //}
+            if (order is null || cart is null)
+            {
+                TempData["Error"] = "Session was expired P;ease try again.";
+                return RedirectToAction("Index", "Home");
+            }
 
-        //public async Task<IActionResult> CompleteOrder(string tempOrderId, int cartId)
-        //{
-        //    if (TempData[tempOrderId] is string serializedOrder)
-        //    {
-        //        var order = JsonConvert.DeserializeObject<Order>(serializedOrder);
-        //        if (order == null)
-        //        {
-        //            TempData["Error"] = "Failed to retrieve order details.";
-        //            return RedirectToAction("Index", "Home");
-        //        }
+            tempOrderService.RemoveTempOrder(tempOrder);
 
-        //        return await AddOrder(order, cartId);
-        //    }
-
-        //    TempData["Error"] = "Invalid order details.";
-        //    return RedirectToAction("Index", "Home");
-        //}
-
+            return AddOrder(cart, order, totalMealsPrice, totalTaxPrice);
+        }
     }
 }

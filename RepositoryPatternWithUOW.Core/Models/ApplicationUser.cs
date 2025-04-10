@@ -13,16 +13,16 @@ namespace Otlob.Core.Models
         public DateOnly? BirthDate { get; set; }
 
         [ValidateNever]
-        public Restaurant Restaurant { get; set; }
+        public  Restaurant Restaurant { get; set; }
 
         [ValidateNever]
-        public ICollection<Address> UserAddress { get; set; }
+        public  ICollection<Address> UserAddress { get; set; }
 
         [ValidateNever]
-        public ICollection<Order> Orders { get; set; }
+        public  ICollection<Order> Orders { get; set; }
 
         [ValidateNever]
-        public ICollection<UserComplaint> UserComplaints { get; set; }
+        public  ICollection<UserComplaint> UserComplaints { get; set; }
     }
     public enum Gender
     {

@@ -7,7 +7,7 @@ namespace Otlob.Core.Models
         public int Id { get; set; }
         public int RestaurantId { get; set; }
         public string Name { get; set; }
-        public string Description { get; set; }        
+        public string Description { get; set; }    
         public decimal Price { get; set; }
         public bool IsAvailable { get; set; }
         public bool IsNewMeal { get; set; } = false;
@@ -16,10 +16,10 @@ namespace Otlob.Core.Models
         public MealCategory Category { get; set; }
 
         [ValidateNever]
-        public Restaurant Restaurant { get; set; }
+        public  Restaurant Restaurant { get; set; }
 
         [ValidateNever]
-        public ICollection<MealPriceHistory> MealPriceHistories { get; set; }
+        public  ICollection<MealPriceHistory> MealPriceHistories { get; set; }
     }
 
     public enum MealCategory

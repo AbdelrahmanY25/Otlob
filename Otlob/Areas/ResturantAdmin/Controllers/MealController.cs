@@ -4,6 +4,7 @@ using Otlob.Core.IServices;
 using Otlob.Core.Models;
 using Otlob.Core.ViewModel;
 using Otlob.IServices;
+using Otlob.Services;
 
 namespace Otlob.Areas.ResturantAdmin.Controllers
 {
@@ -13,14 +14,17 @@ namespace Otlob.Areas.ResturantAdmin.Controllers
         private readonly UserManager<ApplicationUser> userManager;
         private readonly IMealService mealService;
         private readonly IEncryptionService encryptionService;
+        private readonly IMealPriceHistoryService mealPriceHistoryService;
 
         public MealController(UserManager<ApplicationUser> userManager,
                                  IMealService mealService,
-                                 IEncryptionService encryptionService)
+                                 IEncryptionService encryptionService,
+                                 IMealPriceHistoryService mealPriceHistoryService)
         {
             this.userManager = userManager;
             this.mealService = mealService;
             this.encryptionService = encryptionService;
+            this.mealPriceHistoryService = mealPriceHistoryService;
         }
 
         public async Task<IActionResult> Index()
@@ -90,6 +94,15 @@ namespace Otlob.Areas.ResturantAdmin.Controllers
             }
 
             return BackToMealsView("Your Old Meal Updated Successfully");        
+        }
+
+        public IActionResult MealPriceHistoryDetails(string id)
+        {
+            int mealId = encryptionService.DecryptId(id);
+
+            var mealPriceHistories = mealPriceHistoryService.GetMealPriceHistories(mealId);
+
+            return View(mealPriceHistories);
         }
 
         [HttpPost, ValidateAntiForgeryToken]

@@ -1,0 +1,5 @@
+D:\My_Projects\Talabat Project\Otlob\RepositoryPatternWithUOW.EF\obj\Debug\net8.0\Otlob.EntityF.csproj.AssemblyReference.cache
+D:\My_Projects\Talabat Project\Otlob\RepositoryPatternWithUOW.EF\obj\Debug\net8.0\Otlob.EntityF.GeneratedMSBuildEditorConfig.editorconfig
+D:\My_Projects\Talabat Project\Otlob\RepositoryPatternWithUOW.EF\obj\Debug\net8.0\Otlob.EntityF.AssemblyInfoInputs.cache
+D:\My_Projects\Talabat Project\Otlob\RepositoryPatternWithUOW.EF\obj\Debug\net8.0\Otlob.EntityF.AssemblyInfo.cs
+D:\My_Projects\Talabat Project\Otlob\RepositoryPatternWithUOW.EF\obj\Debug\net8.0\Otlob.EntityF.csproj.CoreCompileInputs.cache

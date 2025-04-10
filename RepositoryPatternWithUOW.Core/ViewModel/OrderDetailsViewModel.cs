@@ -1,16 +1,13 @@
 ﻿using Otlob.Core.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Otlob.Core.ViewModel
 {
     public class OrderDetailsViewModel
     {
-        public Order Order { get; set; }
-        public IEnumerable<MealsInOrder> Meals { get; set; }
+        public PaymentMethod PaymentMethod { get; set; }
+        public int RestaurantId { get; set; }
+        public OrderStatus OrderStatus { get; set; }
+        public IQueryable<OrderDetails> Meals { get; set; }
         public decimal SubPrice { get; set; }
         public decimal DeliveryFee { get; set; }
         public decimal TotalPrice => SubPrice + DeliveryFee;

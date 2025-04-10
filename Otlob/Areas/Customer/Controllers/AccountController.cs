@@ -17,23 +17,20 @@ namespace Otlob.Areas.Customer.Controllers
         private readonly RoleManager<IdentityRole> roleManager;
         private readonly IImageService imageService;
         private readonly IUserServices userServices;
-        private readonly IEncryptionService encryptionService;
         private readonly IAddressService addressService;
 
         public AccountController(UserManager<ApplicationUser> userManager,
-                                  SignInManager<ApplicationUser> signInManager,
-                                  RoleManager<IdentityRole> roleManager,
-                                  IImageService imageService,
-                                  IUserServices userServices,
-                                  IEncryptionService encryptionService,
-                                  IAddressService addressService)
+                                 SignInManager<ApplicationUser> signInManager,
+                                 RoleManager<IdentityRole> roleManager,
+                                 IImageService imageService,
+                                 IUserServices userServices,
+                                 IAddressService addressService)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
             this.roleManager = roleManager;
             this.imageService = imageService;
             this.userServices = userServices;
-            this.encryptionService = encryptionService;
             this.addressService = addressService;
         }
 
@@ -51,7 +48,10 @@ namespace Otlob.Areas.Customer.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(ApplicationUserlVM userVM)
         {
-            if (!ModelState.IsValid) return View(userVM);
+            if (!ModelState.IsValid)
+            {
+                return View(userVM);
+            }
 
             var applicatioUser = new ApplicationUser { UserName = userVM.UserName, Email = userVM.Email, PhoneNumber = userVM.PhoneNumber };
 
@@ -63,7 +63,10 @@ namespace Otlob.Areas.Customer.Controllers
 
                 var userAddress = addressService.AddUserAddress(userVM.Address, applicatioUser.Id);
                   
-                if (!userAddress) return View(userVM);
+                if (!userAddress)
+                {
+                    return View(userVM);
+                }
 
                 await signInManager.SignInAsync(applicatioUser, isPersistent: false);
 
@@ -75,6 +78,7 @@ namespace Otlob.Areas.Customer.Controllers
                 {
                     ModelState.AddModelError("", error.Description);
                 }
+
                 return View(userVM);
             }            
         }
@@ -91,21 +95,25 @@ namespace Otlob.Areas.Customer.Controllers
             if (ModelState.IsValid)
             {
                 var userDb = await userManager.FindByEmailAsync(loginVM.UserName);
-                if (userDb != null)
+
+                if (userDb is null)
                 {
-                    var finalResult = await userManager.CheckPasswordAsync(userDb, loginVM.Password);
+                    ModelState.AddModelError("", "There is invalid user name or password");                    
+                }
 
-                    if (finalResult)
-                    {
-                        await signInManager.SignInAsync(userDb, loginVM.RememberMe);
+               
+                var finalResult = await userManager.CheckPasswordAsync(userDb, loginVM.Password);
 
-                        return await CheckOnUserRoll(userDb);
-                    }
-                    else
-                        ModelState.AddModelError("", "There is invalid user name or password");
+                if (finalResult)
+                {
+                    await signInManager.SignInAsync(userDb, loginVM.RememberMe);
+
+                    return await CheckOnUserRoll(userDb);
                 }
                 else
+                {
                     ModelState.AddModelError("", "There is invalid user name or password");
+                }                
             }
 
             return View(loginVM);
@@ -179,7 +187,9 @@ namespace Otlob.Areas.Customer.Controllers
             }
                     
             foreach (var errorInfo in updateUserInfo.Errors)
+            {
                 ModelState.AddModelError("", errorInfo.Description);
+            }
 
             return View(profileVM);
         }

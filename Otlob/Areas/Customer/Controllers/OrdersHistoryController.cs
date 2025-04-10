@@ -1,57 +1,61 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SignalR;
-using Otlob.Core.Hubs;
-using Otlob.Core.IUnitOfWorkRepository;
 using Otlob.Core.Models;
-using Otlob.EF.UnitOfWorkRepository;
+using Otlob.Core.ViewModel;
+using Otlob.IServices;
 
 namespace Otlob.Areas.Customer.Controllers
 {
     [Area("Customer")]
     public class OrdersHistoryController : Controller
     {
-        private readonly IUnitOfWorkRepository unitOfWorkRepository;
+        private readonly IOrderDetailsService orderDetailsService;
+        private readonly IOrderService orderService;
         private readonly UserManager<ApplicationUser> userManager;
 
-        public OrdersHistoryController(ILogger<HomeController> logger,
-                              IUnitOfWorkRepository unitOfWorkRepository,
-                              UserManager<ApplicationUser> userManager)
+        public OrdersHistoryController(IOrderDetailsService orderDetailsService,
+                                       IOrderService orderService,
+                                       UserManager<ApplicationUser> userManager)
         {
-            this.unitOfWorkRepository = unitOfWorkRepository;
+            this.orderDetailsService = orderDetailsService;
+            this.orderService = orderService;
             this.userManager = userManager;
         }
-        //public ActionResult TrackOrders()
-        //{
-        //    var user = userManager.GetUserId(User);
-        //    var orders = unitOfWorkRepository.Orders.Get([o => o.Address, o => o.CartInOrder, o => o.Restaurant], expression: o => o.Address.ApplicationUserId == user);
 
-        //    return View(orders);
-        //}
-        //public ActionResult OrderDetails(int id)
-        //{
-        //    var order = unitOfWorkRepository.Orders.GetOne(expression: o => o.Id == id);
+        public ActionResult TrackOrders()
+        {
+            string? userId = userManager.GetUserId(User);
 
-        //    if (order == null)
-        //    {
-        //        return NotFound();
-        //    }
+            if (userId is null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
 
-        //    var meals = unitOfWorkRepository.MealsInOrder.Get([m => m.Meal], expression: m => m.CartInOrderId == order.CartInOrderId);
-        //    var mealsPrice = meals.Sum(m => m.Meal.Price * m.Quantity);
+            var orders = orderService.GetUserOrders(userId);
 
-        //    var resturant = unitOfWorkRepository.Restaurants.GetOne(expression: o => o.Id == order.RestaurantId);
+            return View(orders);
+        }
 
-        //    if (resturant == null)
-        //    {
-        //        return NotFound();
-        //    }
+        public ActionResult OrderDetails(string id)
+        {
+            Order? order = orderService.GetOrderPaymentDetails(id);
 
-        //    ViewBag.OrderDetails = order;
-        //    ViewBag.SubPrice = mealsPrice;
-        //    ViewBag.DeliveryFee = resturant.DeliveryFee;
+            if (order is null)
+            {
+                return NotFound();
+            }
 
-        //    return View(meals);
-        //}
+            IQueryable<OrderDetails>? meals = orderDetailsService.GetOrderDetailsToViewPage(id);
+
+            var orderDetails = new OrderDetailsViewModel
+            {
+                PaymentMethod = order.Method,
+                Meals = meals,
+                SubPrice = order.TotalMealsPrice,
+                DeliveryFee = order.TotalTaxPrice
+            };
+
+            return View(orderDetails);
+        }
     }
 }

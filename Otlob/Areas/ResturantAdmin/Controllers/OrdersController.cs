@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Otlob.Core.IUnitOfWorkRepository;
 using Otlob.Core.Models;
 using Otlob.Core.ViewModel;
+using Otlob.IServices;
 using Utility;
 
 namespace Otlob.Areas.ResturantAdmin.Controllers
@@ -12,14 +13,19 @@ namespace Otlob.Areas.ResturantAdmin.Controllers
     public class OrdersController : Controller
     {
         private readonly IUnitOfWorkRepository unitOfWorkRepository;
+        private readonly IOrderService orderService;
+        private readonly IOrderDetailsService orderDetailsService;
         private readonly UserManager<ApplicationUser> userManager;
 
-        public OrdersController(IUnitOfWorkRepository unitOfWorkRepository,
+        public OrdersController(IUnitOfWorkRepository unitOfWorkRepository, IOrderService orderService, IOrderDetailsService orderDetailsService,
                                 UserManager<ApplicationUser> userManager)
         {
             this.unitOfWorkRepository = unitOfWorkRepository;
+            this.orderService = orderService;
+            this.orderDetailsService = orderDetailsService;
             this.userManager = userManager;
         }
+
         public async Task<IActionResult> Index()
         {
             return await GetOrdersView(OrderStatus.Delivered, exclude: true);
@@ -34,10 +40,14 @@ namespace Otlob.Areas.ResturantAdmin.Controllers
         {
             var resturant = await userManager.GetUserAsync(User);
 
-            IQueryable<Order>? orders = unitOfWorkRepository.Orders.Get(
-                [o => o.Address, o => o.Restaurant],
-                expression: o => o.RestaurantId == resturant.RestaurantId && (exclude ? o.Status != status : o.Status == status)
-            ).OrderByDescending(o => o.OrderDate);
+            var orders = unitOfWorkRepository
+                                .Orders
+                                .Get(
+                                        [o => o.User, o => o.Restaurant],
+                                        expression: o => o.RestaurantId == resturant.RestaurantId && (exclude ? o.Status != status : o.Status == status),
+                                        tracked: false
+                                    )
+                                .OrderByDescending(o => o.OrderDate);
 
             decimal mostExpensiveOrder = orders.Any() ? 0 : 0;
 
@@ -51,28 +61,28 @@ namespace Otlob.Areas.ResturantAdmin.Controllers
             return View(viewModel);
         }
 
-        public ActionResult OrderDetails(int id)
+        public ActionResult OrderDetails(string id)
         {
-            var order = unitOfWorkRepository.Orders.GetOne(expression: o => o.Id == id);
+            Order? order = orderService.GetOrderPaymentDetails(id);
 
-            if (order == null)
+            if (order is null)
+            {
                 return NotFound();
+            }
 
-            var meals = unitOfWorkRepository.MealsInOrder.Get([m => m.Meal], expression: m => m.OrderId == order.Id);
-
-            var mealsPrice = meals.Sum(m => m.Meal.Price * m.Quantity);
-
-            var resturant = unitOfWorkRepository.Restaurants.GetOne(expression: o => o.Id == order.RestaurantId);
+            IQueryable<OrderDetails>? meals = orderDetailsService.GetOrderDetailsToViewPage(id);
 
             var viewModel = new OrderDetailsViewModel
             {
-                Order = order,
+                PaymentMethod = order.Method,
+                RestaurantId = order.RestaurantId,
+                OrderStatus = order.Status,
                 Meals = meals,
-                SubPrice = mealsPrice,
-                DeliveryFee = resturant.DeliveryFee
+                SubPrice = order.TotalMealsPrice,
+                DeliveryFee = order.TotalTaxPrice
             };
 
             return View(viewModel);
-        }        
+        }
     }
 }

@@ -1,11 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Otlob.Core.IServices;
-using Otlob.Core.IUnitOfWorkRepository;
 using Otlob.Core.Models;
 using Otlob.Core.ViewModel;
+using Otlob.EF;
 using Otlob.IServices;
-using Otlob.Services;
 
 namespace Otlob.Areas.SuperAdmin.Controllers
 {
@@ -14,13 +13,17 @@ namespace Otlob.Areas.SuperAdmin.Controllers
     {
         private readonly IMealService mealService;
         private readonly IEncryptionService encryptionService;
+        private readonly IMealPriceHistoryService mealPriceHistoryService;
 
         public RestaurantMealsController(IMealService mealService,
-                                         IEncryptionService encryptionService)
+                                         IEncryptionService encryptionService,
+                                         IMealPriceHistoryService mealPriceHistoryService)    
         {
             this.mealService = mealService;
             this.encryptionService = encryptionService;
+            this.mealPriceHistoryService = mealPriceHistoryService;
         }
+
         public IActionResult RestaurantMeals(string id)
         {
             int restaurantId = encryptionService.DecryptId(id);
@@ -83,6 +86,15 @@ namespace Otlob.Areas.SuperAdmin.Controllers
 
             int restaurantId = encryptionService.DecryptId(HttpContext.Session.GetString("restaurantId"));
             return RedirectToAction("RestaurantMeals", "RestaurantMeals", new { id = encryptionService.EncryptId(restaurantId) });
+        }
+
+        public IActionResult MealPriceHistoryDetails(string id)
+        {
+            int mealId = encryptionService.DecryptId(id);
+           
+            var mealPriceHistories = mealPriceHistoryService.GetMealPriceHistories(mealId);
+
+            return View(mealPriceHistories);
         }
 
         [HttpPost, ValidateAntiForgeryToken]

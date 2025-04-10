@@ -1,6 +1,6 @@
 ﻿@using Otlob.Core.IUnitOfWorkRepository
 @using Otlob.Core.Models
-@model IEnumerable<Otlob.Core.Models.MealsInOrder>
+@model IEnumerable<Otlob.Core.Models.OrderDetails>
 @inject IUnitOfWorkRepository unitOfWorkRepository
 
 @if (ViewBag.OrderDetails.Status == OrderStatus.Delivered) 
@@ -36,7 +36,7 @@ else
                     @Html.DisplayFor(modelItem => item.Meal.Name)
                 </td>
                 <td class="text-center text-success">
-                    X @Html.DisplayFor(modelItem => item.Quantity)
+                    X @Html.DisplayFor(modelItem => item.MealQuantity)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Meal.Description)

@@ -1,5 +1,5 @@
 ﻿@using Otlob.Core.IServices
-@model IEnumerable<Otlob.Core.ViewModel.AddressVM>
+@model IQueryable<Otlob.Core.ViewModel.AddressVM>
 
 @inject IEncryptionService IdEncryptor
 
@@ -14,7 +14,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.CustomerAddres)
+                Your Address
             </th>
             <th>
                 Actions

@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "F3CY+F2hWQCguZAUzJNHZjitC84GgLbDG59Ogh3ulQY=",
+  "Hash": "KVlKuJkk7ZLMKEcgExZRSkBAiwt7eZaElDQQbKVLOnM=",
   "Source": "Otlob",
   "BasePath": "_content/Otlob",
   "Mode": "Default",
@@ -1417,8 +1417,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "gxdxkuo526",
-      "Integrity": "PK89/32yoOb33sTQo+LiyYbCmOMCK3asbwaxV5Y3AEU=",
+      "Fingerprint": "cwgldokwz4",
+      "Integrity": "zBW0EyHciOVTkFTOj+AMYwaLbcxKUP5qYH2qed8U89g=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\css\\site.css"
@@ -1445,6 +1445,27 @@
       "OriginalItemSpec": "wwwroot\\favicon.ico"
     },
     {
+      "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\creditIcon.png",
+      "SourceId": "Otlob",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\",
+      "BasePath": "_content/Otlob",
+      "RelativePath": "images/creditIcon#[.{fingerprint}]?.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "e8i4zcld43",
+      "Integrity": "sodmRG8tINrcvCXQ8zPrclnybpduXdsDZhzEAVIHRLw=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\creditIcon.png"
+    },
+    {
       "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\Default.jpg",
       "SourceId": "Otlob",
       "SourceType": "Discovered",
@@ -1464,6 +1485,27 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\Default.jpg"
+    },
+    {
+      "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\icons\\all - Copy.png",
+      "SourceId": "Otlob",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\",
+      "BasePath": "_content/Otlob",
+      "RelativePath": "images/icons/all - Copy#[.{fingerprint}]?.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "cyn0gs5a39",
+      "Integrity": "vLaqZY4JT5SMyvGwYFF1DDVf6hUNrC0U3ANBhgendiw=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\icons\\all - Copy.png"
     },
     {
       "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\icons\\all.png",
@@ -1527,6 +1569,27 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\icons\\cookies.png"
+    },
+    {
+      "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\icons\\css_sprites.png",
+      "SourceId": "Otlob",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\",
+      "BasePath": "_content/Otlob",
+      "RelativePath": "images/icons/css_sprites#[.{fingerprint}]?.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "llc5bd1p9g",
+      "Integrity": "96EbQJ4ZPsfwgZqVIdVlKPOYEfw2ym9fcNvTH9fGlnU=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\icons\\css_sprites.png"
     },
     {
       "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\icons\\grill.jpg",
@@ -1991,6 +2054,27 @@
       "OriginalItemSpec": "wwwroot\\images\\meals\\1-5.jpg"
     },
     {
+      "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\meals\\1c498e4b-7b5e-42fb-8f6c-d2a83e8cf42f.jpg",
+      "SourceId": "Otlob",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\",
+      "BasePath": "_content/Otlob",
+      "RelativePath": "images/meals/1c498e4b-7b5e-42fb-8f6c-d2a83e8cf42f#[.{fingerprint}]?.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "fslbyunaob",
+      "Integrity": "8TKkuYjKGVeuCefz3F15FMIS3huJqSUrIMKeV6iHgnw=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\meals\\1c498e4b-7b5e-42fb-8f6c-d2a83e8cf42f.jpg"
+    },
+    {
       "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\meals\\1c8a8f39-a797-4004-96c3-50b9ec9c3251.jpg",
       "SourceId": "Otlob",
       "SourceType": "Discovered",
@@ -2073,27 +2157,6 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\meals\\2-6.jpg"
-    },
-    {
-      "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\meals\\2-7.jpg",
-      "SourceId": "Otlob",
-      "SourceType": "Discovered",
-      "ContentRoot": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\",
-      "BasePath": "_content/Otlob",
-      "RelativePath": "images/meals/2-7#[.{fingerprint}]?.jpg",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "Fingerprint": "w6vx5orfnd",
-      "Integrity": "2O6w4X8bc7bZmiSqlwH3dybv6W3OQEiPXFT4/e2wzVU=",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\images\\meals\\2-7.jpg"
     },
     {
       "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\meals\\2-9.jpg",
@@ -2220,6 +2283,27 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\meals\\32558d93-316b-41d9-ab00-69b52fe4ab1d.jpg"
+    },
+    {
+      "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\meals\\3de46de1-7d34-477f-8d9b-7768dffdd4e3.jpg",
+      "SourceId": "Otlob",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\",
+      "BasePath": "_content/Otlob",
+      "RelativePath": "images/meals/3de46de1-7d34-477f-8d9b-7768dffdd4e3#[.{fingerprint}]?.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "yzu7fbim3e",
+      "Integrity": "rrMuAepveZou1nmfQeXYrz09Jt6S4q6u7oWNbhOK/1E=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\meals\\3de46de1-7d34-477f-8d9b-7768dffdd4e3.jpg"
     },
     {
       "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\meals\\4-16.jpg",
@@ -2537,6 +2621,27 @@
       "OriginalItemSpec": "wwwroot\\images\\meals\\c1e7258f-bf4b-4a38-8600-9e689a2adc6d.jpg"
     },
     {
+      "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\meals\\c22c404c-b786-4190-8fe3-318c9cfb33ef.jpg",
+      "SourceId": "Otlob",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\",
+      "BasePath": "_content/Otlob",
+      "RelativePath": "images/meals/c22c404c-b786-4190-8fe3-318c9cfb33ef#[.{fingerprint}]?.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "u1sj2skl0o",
+      "Integrity": "wsZT34P8GJUDTDCYfSz0lv8LZpSeF5x+7N4n4V6k42Y=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\meals\\c22c404c-b786-4190-8fe3-318c9cfb33ef.jpg"
+    },
+    {
       "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\meals\\c9e0e679-e166-473a-84d8-fc85d13c9806.png",
       "SourceId": "Otlob",
       "SourceType": "Discovered",
@@ -2556,27 +2661,6 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\meals\\c9e0e679-e166-473a-84d8-fc85d13c9806.png"
-    },
-    {
-      "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\meals\\cac23d64-7c68-4707-a389-0c9fea847282.jpg",
-      "SourceId": "Otlob",
-      "SourceType": "Discovered",
-      "ContentRoot": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\",
-      "BasePath": "_content/Otlob",
-      "RelativePath": "images/meals/cac23d64-7c68-4707-a389-0c9fea847282#[.{fingerprint}]?.jpg",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "Fingerprint": "uibhz1nsb8",
-      "Integrity": "apSjqYaKSOGjYaAxl9JeQTEoy5qO73B40PRwxK1lcS0=",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\images\\meals\\cac23d64-7c68-4707-a389-0c9fea847282.jpg"
     },
     {
       "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\meals\\cfe77172-13d4-4b5a-8cfc-2c716d90400f.jpg",
@@ -3839,867 +3923,6 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\LICENSE"
     },
     {
-      "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\css\\datatables.bootstrap.css",
-      "SourceId": "Otlob",
-      "SourceType": "Discovered",
-      "ContentRoot": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\",
-      "BasePath": "_content/Otlob",
-      "RelativePath": "lib/datatables/css/datatables.bootstrap#[.{fingerprint}]?.css",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "Fingerprint": "rg4ljflo7u",
-      "Integrity": "2+imhFwgmypnG2qRAKlNJfBzr7oZ4sJGsTk8c1LVLM8=",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\lib\\datatables\\css\\datatables.bootstrap.css"
-    },
-    {
-      "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\css\\datatables.bootstrap.min.css",
-      "SourceId": "Otlob",
-      "SourceType": "Discovered",
-      "ContentRoot": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\",
-      "BasePath": "_content/Otlob",
-      "RelativePath": "lib/datatables/css/datatables.bootstrap.min#[.{fingerprint}]?.css",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "Fingerprint": "50zibcw55r",
-      "Integrity": "tVxhGiZeK2Ipsdwgwwl7+GLO3FNCbwxhtpFuABXxNM8=",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\lib\\datatables\\css\\datatables.bootstrap.min.css"
-    },
-    {
-      "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\css\\datatables.bootstrap4.css",
-      "SourceId": "Otlob",
-      "SourceType": "Discovered",
-      "ContentRoot": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\",
-      "BasePath": "_content/Otlob",
-      "RelativePath": "lib/datatables/css/datatables.bootstrap4#[.{fingerprint}]?.css",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "Fingerprint": "4dkpupy0ge",
-      "Integrity": "qMoK+0lCl/zG0kRxVNBNkMarWd9ptEP+JapSge0kavs=",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\lib\\datatables\\css\\datatables.bootstrap4.css"
-    },
-    {
-      "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\css\\datatables.bootstrap4.min.css",
-      "SourceId": "Otlob",
-      "SourceType": "Discovered",
-      "ContentRoot": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\",
-      "BasePath": "_content/Otlob",
-      "RelativePath": "lib/datatables/css/datatables.bootstrap4.min#[.{fingerprint}]?.css",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "Fingerprint": "yd9jjromr5",
-      "Integrity": "ugpqzk9NhK3S2sVpMgSrIin1AzsJMlqUIMOCXyzPaL8=",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\lib\\datatables\\css\\datatables.bootstrap4.min.css"
-    },
-    {
-      "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\css\\datatables.foundation.css",
-      "SourceId": "Otlob",
-      "SourceType": "Discovered",
-      "ContentRoot": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\",
-      "BasePath": "_content/Otlob",
-      "RelativePath": "lib/datatables/css/datatables.foundation#[.{fingerprint}]?.css",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "Fingerprint": "15h0h82wt8",
-      "Integrity": "xUcsXoi0XVRWxF9elX4gF8PHxx5wV24L92iteCON6ug=",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\lib\\datatables\\css\\datatables.foundation.css"
-    },
-    {
-      "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\css\\datatables.foundation.min.css",
-      "SourceId": "Otlob",
-      "SourceType": "Discovered",
-      "ContentRoot": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\",
-      "BasePath": "_content/Otlob",
-      "RelativePath": "lib/datatables/css/datatables.foundation.min#[.{fingerprint}]?.css",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "Fingerprint": "hwjl4zlfrn",
-      "Integrity": "/6ecmXPZDHXBtIkRX3OBVMTmR39Yr/chJQPFKFX16EY=",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\lib\\datatables\\css\\datatables.foundation.min.css"
-    },
-    {
-      "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\css\\datatables.jqueryui.css",
-      "SourceId": "Otlob",
-      "SourceType": "Discovered",
-      "ContentRoot": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\",
-      "BasePath": "_content/Otlob",
-      "RelativePath": "lib/datatables/css/datatables.jqueryui#[.{fingerprint}]?.css",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "Fingerprint": "xvyplfyl67",
-      "Integrity": "3a1JZqiFWT1s8ZRp/o1ka3iXhmKBfYacL3Ha1+W9LcM=",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\lib\\datatables\\css\\datatables.jqueryui.css"
-    },
-    {
-      "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\css\\datatables.jqueryui.min.css",
-      "SourceId": "Otlob",
-      "SourceType": "Discovered",
-      "ContentRoot": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\",
-      "BasePath": "_content/Otlob",
-      "RelativePath": "lib/datatables/css/datatables.jqueryui.min#[.{fingerprint}]?.css",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "Fingerprint": "5ffyu43opt",
-      "Integrity": "b99Lyn9Ltfz6XV4LKgYZ7z8vL8q+nSxNSZyhHrXNDuY=",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\lib\\datatables\\css\\datatables.jqueryui.min.css"
-    },
-    {
-      "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\css\\datatables.material.css",
-      "SourceId": "Otlob",
-      "SourceType": "Discovered",
-      "ContentRoot": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\",
-      "BasePath": "_content/Otlob",
-      "RelativePath": "lib/datatables/css/datatables.material#[.{fingerprint}]?.css",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "Fingerprint": "0w8z6abcly",
-      "Integrity": "wPVacwslxbhgoyj7FHonP7mWxSk3KlCXzz4lA6FTeJI=",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\lib\\datatables\\css\\datatables.material.css"
-    },
-    {
-      "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\css\\datatables.material.min.css",
-      "SourceId": "Otlob",
-      "SourceType": "Discovered",
-      "ContentRoot": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\",
-      "BasePath": "_content/Otlob",
-      "RelativePath": "lib/datatables/css/datatables.material.min#[.{fingerprint}]?.css",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "Fingerprint": "gkzgf1104w",
-      "Integrity": "8MRVycsiAACpUp3LezQXiodYbPSgMHAEbmHxJSlyQ8A=",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\lib\\datatables\\css\\datatables.material.min.css"
-    },
-    {
-      "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\css\\datatables.semanticui.css",
-      "SourceId": "Otlob",
-      "SourceType": "Discovered",
-      "ContentRoot": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\",
-      "BasePath": "_content/Otlob",
-      "RelativePath": "lib/datatables/css/datatables.semanticui#[.{fingerprint}]?.css",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "Fingerprint": "84v3jgirvn",
-      "Integrity": "SNO+/RGANXQYVBI59Jl+SmySbIXhGWvgdbhltStQmjo=",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\lib\\datatables\\css\\datatables.semanticui.css"
-    },
-    {
-      "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\css\\datatables.semanticui.min.css",
-      "SourceId": "Otlob",
-      "SourceType": "Discovered",
-      "ContentRoot": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\",
-      "BasePath": "_content/Otlob",
-      "RelativePath": "lib/datatables/css/datatables.semanticui.min#[.{fingerprint}]?.css",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "Fingerprint": "843yypbt9k",
-      "Integrity": "SJpV2BABjesndlj0vdtRpj4LE4eigoPZVjTNQ6cMsy8=",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\lib\\datatables\\css\\datatables.semanticui.min.css"
-    },
-    {
-      "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\css\\datatables.uikit.css",
-      "SourceId": "Otlob",
-      "SourceType": "Discovered",
-      "ContentRoot": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\",
-      "BasePath": "_content/Otlob",
-      "RelativePath": "lib/datatables/css/datatables.uikit#[.{fingerprint}]?.css",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "Fingerprint": "z7z92km2vr",
-      "Integrity": "jwzSofBdCYBl1X9lyKNbCcMTiKy8NzVObm/bRI9FK6k=",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\lib\\datatables\\css\\datatables.uikit.css"
-    },
-    {
-      "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\css\\datatables.uikit.min.css",
-      "SourceId": "Otlob",
-      "SourceType": "Discovered",
-      "ContentRoot": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\",
-      "BasePath": "_content/Otlob",
-      "RelativePath": "lib/datatables/css/datatables.uikit.min#[.{fingerprint}]?.css",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "Fingerprint": "4lk4n36oje",
-      "Integrity": "OARMRHAsfct7nm9bca7xzvyQOKQMM6syC2QyODwt8BM=",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\lib\\datatables\\css\\datatables.uikit.min.css"
-    },
-    {
-      "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\css\\jquery.datatables.css",
-      "SourceId": "Otlob",
-      "SourceType": "Discovered",
-      "ContentRoot": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\",
-      "BasePath": "_content/Otlob",
-      "RelativePath": "lib/datatables/css/jquery.datatables#[.{fingerprint}]?.css",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "Fingerprint": "bl5gdecmyp",
-      "Integrity": "T+WBw5FjB+EH6bPuRH8flbu+aOS9AAnRzhO0vZWhdng=",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\lib\\datatables\\css\\jquery.datatables.css"
-    },
-    {
-      "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\css\\jquery.datatables.min.css",
-      "SourceId": "Otlob",
-      "SourceType": "Discovered",
-      "ContentRoot": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\",
-      "BasePath": "_content/Otlob",
-      "RelativePath": "lib/datatables/css/jquery.datatables.min#[.{fingerprint}]?.css",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "Fingerprint": "e2q9soyr7p",
-      "Integrity": "NsjPUPa1DUo51N8aw3uVf4ygtyEBB8DzDAfH2eRJTUs=",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\lib\\datatables\\css\\jquery.datatables.min.css"
-    },
-    {
-      "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\css\\jquery.datatables_themeroller.css",
-      "SourceId": "Otlob",
-      "SourceType": "Discovered",
-      "ContentRoot": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\",
-      "BasePath": "_content/Otlob",
-      "RelativePath": "lib/datatables/css/jquery.datatables_themeroller#[.{fingerprint}]?.css",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "Fingerprint": "4w4t7nxiva",
-      "Integrity": "/I46pnUiYUyilMyUMv08B9tEUgxxuWJJCqoyl6+Cz+I=",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\lib\\datatables\\css\\jquery.datatables_themeroller.css"
-    },
-    {
-      "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\css\\jquery.datatables_themeroller.min.css",
-      "SourceId": "Otlob",
-      "SourceType": "Discovered",
-      "ContentRoot": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\",
-      "BasePath": "_content/Otlob",
-      "RelativePath": "lib/datatables/css/jquery.datatables_themeroller.min#[.{fingerprint}]?.css",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "Fingerprint": "5metj1w1yq",
-      "Integrity": "wzm/DIUUQACnzkqkQkjH8267FFIoQnSEGmhEPM7iF94=",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\lib\\datatables\\css\\jquery.datatables_themeroller.min.css"
-    },
-    {
-      "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\images\\sort_asc.png",
-      "SourceId": "Otlob",
-      "SourceType": "Discovered",
-      "ContentRoot": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\",
-      "BasePath": "_content/Otlob",
-      "RelativePath": "lib/datatables/images/sort_asc#[.{fingerprint}]?.png",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "Fingerprint": "tb3mdwjjyp",
-      "Integrity": "WVcEw/PPTLZcfZyFCKmedIDhUAlUc/rtMaB8IbEzibg=",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\lib\\datatables\\images\\sort_asc.png"
-    },
-    {
-      "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\images\\sort_asc_disabled.png",
-      "SourceId": "Otlob",
-      "SourceType": "Discovered",
-      "ContentRoot": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\",
-      "BasePath": "_content/Otlob",
-      "RelativePath": "lib/datatables/images/sort_asc_disabled#[.{fingerprint}]?.png",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "Fingerprint": "2ardtfk7fw",
-      "Integrity": "pluPT4TWQnqBw2AoL8U5TVG/mdraXxWeaqD848OWglw=",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\lib\\datatables\\images\\sort_asc_disabled.png"
-    },
-    {
-      "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\images\\sort_both.png",
-      "SourceId": "Otlob",
-      "SourceType": "Discovered",
-      "ContentRoot": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\",
-      "BasePath": "_content/Otlob",
-      "RelativePath": "lib/datatables/images/sort_both#[.{fingerprint}]?.png",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "Fingerprint": "air2rz2q5l",
-      "Integrity": "PgFsI65RQXOCtkCuLRnrSAR1MsN61TiUvRhVhlWcz/s=",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\lib\\datatables\\images\\sort_both.png"
-    },
-    {
-      "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\images\\sort_desc.png",
-      "SourceId": "Otlob",
-      "SourceType": "Discovered",
-      "ContentRoot": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\",
-      "BasePath": "_content/Otlob",
-      "RelativePath": "lib/datatables/images/sort_desc#[.{fingerprint}]?.png",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "Fingerprint": "krfgnlfo4n",
-      "Integrity": "0I7Q4h8YfdMJAw1GUiTagIURmhWhfWFroOR3u1DG8Q0=",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\lib\\datatables\\images\\sort_desc.png"
-    },
-    {
-      "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\images\\sort_desc_disabled.png",
-      "SourceId": "Otlob",
-      "SourceType": "Discovered",
-      "ContentRoot": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\",
-      "BasePath": "_content/Otlob",
-      "RelativePath": "lib/datatables/images/sort_desc_disabled#[.{fingerprint}]?.png",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "Fingerprint": "swt4jbawiz",
-      "Integrity": "bA8MGyHvaAcFevyN3BqSXR29IcsR6ScOyE/0rEDZo/o=",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\lib\\datatables\\images\\sort_desc_disabled.png"
-    },
-    {
-      "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\js\\datatables.bootstrap.js",
-      "SourceId": "Otlob",
-      "SourceType": "Discovered",
-      "ContentRoot": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\",
-      "BasePath": "_content/Otlob",
-      "RelativePath": "lib/datatables/js/datatables.bootstrap#[.{fingerprint}]?.js",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "Fingerprint": "zpweozclkd",
-      "Integrity": "2d5xfxwENmbaiVaTj0lIu7zDFW2PZj/dQyYi2IsGnNw=",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\lib\\datatables\\js\\datatables.bootstrap.js"
-    },
-    {
-      "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\js\\datatables.bootstrap.min.js",
-      "SourceId": "Otlob",
-      "SourceType": "Discovered",
-      "ContentRoot": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\",
-      "BasePath": "_content/Otlob",
-      "RelativePath": "lib/datatables/js/datatables.bootstrap.min#[.{fingerprint}]?.js",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "Fingerprint": "pdmprbj5zf",
-      "Integrity": "c0sghAryOuWj4sftUftYNtoAyyI4bahkv1+wopyUhFU=",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\lib\\datatables\\js\\datatables.bootstrap.min.js"
-    },
-    {
-      "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\js\\datatables.bootstrap4.js",
-      "SourceId": "Otlob",
-      "SourceType": "Discovered",
-      "ContentRoot": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\",
-      "BasePath": "_content/Otlob",
-      "RelativePath": "lib/datatables/js/datatables.bootstrap4#[.{fingerprint}]?.js",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "Fingerprint": "otlgdfh03i",
-      "Integrity": "hFS8da5C3Y/fnlA9Jt+QANb5BWmvCet3D8K+y4bU5mc=",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\lib\\datatables\\js\\datatables.bootstrap4.js"
-    },
-    {
-      "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\js\\datatables.bootstrap4.min.js",
-      "SourceId": "Otlob",
-      "SourceType": "Discovered",
-      "ContentRoot": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\",
-      "BasePath": "_content/Otlob",
-      "RelativePath": "lib/datatables/js/datatables.bootstrap4.min#[.{fingerprint}]?.js",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "Fingerprint": "vbs3zd8vwt",
-      "Integrity": "1bbr2U4VkmmTxaxcHlFp9rgBhLrwQTP2rl8/jlivGb0=",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\lib\\datatables\\js\\datatables.bootstrap4.min.js"
-    },
-    {
-      "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\js\\datatables.datatables.js",
-      "SourceId": "Otlob",
-      "SourceType": "Discovered",
-      "ContentRoot": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\",
-      "BasePath": "_content/Otlob",
-      "RelativePath": "lib/datatables/js/datatables.datatables#[.{fingerprint}]?.js",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "Fingerprint": "gv0cpucvr0",
-      "Integrity": "lP/dfavyMhejkuCnctA8ONq/T6cBapwLkYl+zw7UZLQ=",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\lib\\datatables\\js\\datatables.datatables.js"
-    },
-    {
-      "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\js\\datatables.datatables.min.js",
-      "SourceId": "Otlob",
-      "SourceType": "Discovered",
-      "ContentRoot": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\",
-      "BasePath": "_content/Otlob",
-      "RelativePath": "lib/datatables/js/datatables.datatables.min#[.{fingerprint}]?.js",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "Fingerprint": "rze3aupk02",
-      "Integrity": "p4D/w4DqrLwtnCOKUwCbzyPQhmCpgv5dMvCiU3PVMj8=",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\lib\\datatables\\js\\datatables.datatables.min.js"
-    },
-    {
-      "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\js\\datatables.foundation.js",
-      "SourceId": "Otlob",
-      "SourceType": "Discovered",
-      "ContentRoot": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\",
-      "BasePath": "_content/Otlob",
-      "RelativePath": "lib/datatables/js/datatables.foundation#[.{fingerprint}]?.js",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "Fingerprint": "bac9vmbvzw",
-      "Integrity": "jVJSAFrPNNq3MciArO3Rwgs03NDjXWB1h4BeEW+o8r4=",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\lib\\datatables\\js\\datatables.foundation.js"
-    },
-    {
-      "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\js\\datatables.foundation.min.js",
-      "SourceId": "Otlob",
-      "SourceType": "Discovered",
-      "ContentRoot": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\",
-      "BasePath": "_content/Otlob",
-      "RelativePath": "lib/datatables/js/datatables.foundation.min#[.{fingerprint}]?.js",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "Fingerprint": "8s3gh723th",
-      "Integrity": "2HtMoTMWkSD6AIxgdglrME8cldjjPtb7iwJ+9XdQbGA=",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\lib\\datatables\\js\\datatables.foundation.min.js"
-    },
-    {
-      "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\js\\datatables.jqueryui.js",
-      "SourceId": "Otlob",
-      "SourceType": "Discovered",
-      "ContentRoot": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\",
-      "BasePath": "_content/Otlob",
-      "RelativePath": "lib/datatables/js/datatables.jqueryui#[.{fingerprint}]?.js",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "Fingerprint": "9amfu3ellf",
-      "Integrity": "kQh7N6u/hSlsXyBm+LnV1ti8fPRCQ44mmnqTAa9ErVs=",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\lib\\datatables\\js\\datatables.jqueryui.js"
-    },
-    {
-      "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\js\\datatables.jqueryui.min.js",
-      "SourceId": "Otlob",
-      "SourceType": "Discovered",
-      "ContentRoot": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\",
-      "BasePath": "_content/Otlob",
-      "RelativePath": "lib/datatables/js/datatables.jqueryui.min#[.{fingerprint}]?.js",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "Fingerprint": "6fhqumn8j7",
-      "Integrity": "Tr/W2AiGOXy8ixjslb4IVGK7Y2MCLqcJAvpfIZZxnoE=",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\lib\\datatables\\js\\datatables.jqueryui.min.js"
-    },
-    {
-      "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\js\\datatables.material.js",
-      "SourceId": "Otlob",
-      "SourceType": "Discovered",
-      "ContentRoot": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\",
-      "BasePath": "_content/Otlob",
-      "RelativePath": "lib/datatables/js/datatables.material#[.{fingerprint}]?.js",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "Fingerprint": "oa28walmjy",
-      "Integrity": "YOqqPIQrjYLAuNxcnizt+AMxl100GLqdKgUYnSUZBac=",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\lib\\datatables\\js\\datatables.material.js"
-    },
-    {
-      "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\js\\datatables.material.min.js",
-      "SourceId": "Otlob",
-      "SourceType": "Discovered",
-      "ContentRoot": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\",
-      "BasePath": "_content/Otlob",
-      "RelativePath": "lib/datatables/js/datatables.material.min#[.{fingerprint}]?.js",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "Fingerprint": "eiak09qvzh",
-      "Integrity": "ymnJWcrEQT2x0Tndf/dP7CHSNf4GAbv2jGVQYkyw8Q0=",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\lib\\datatables\\js\\datatables.material.min.js"
-    },
-    {
-      "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\js\\datatables.semanticui.js",
-      "SourceId": "Otlob",
-      "SourceType": "Discovered",
-      "ContentRoot": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\",
-      "BasePath": "_content/Otlob",
-      "RelativePath": "lib/datatables/js/datatables.semanticui#[.{fingerprint}]?.js",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "Fingerprint": "xnznf0gk29",
-      "Integrity": "TYM1CPwZN78MQk7E3UdkrTklcKK2nE811FfvoW5jDP0=",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\lib\\datatables\\js\\datatables.semanticui.js"
-    },
-    {
-      "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\js\\datatables.semanticui.min.js",
-      "SourceId": "Otlob",
-      "SourceType": "Discovered",
-      "ContentRoot": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\",
-      "BasePath": "_content/Otlob",
-      "RelativePath": "lib/datatables/js/datatables.semanticui.min#[.{fingerprint}]?.js",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "Fingerprint": "nuyr63gdyj",
-      "Integrity": "L9t1ZuJNPnJ2fHvdL9PFpdW3IC3jQFx+0oXN520PVFM=",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\lib\\datatables\\js\\datatables.semanticui.min.js"
-    },
-    {
-      "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\js\\datatables.uikit.js",
-      "SourceId": "Otlob",
-      "SourceType": "Discovered",
-      "ContentRoot": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\",
-      "BasePath": "_content/Otlob",
-      "RelativePath": "lib/datatables/js/datatables.uikit#[.{fingerprint}]?.js",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "Fingerprint": "ma8747nked",
-      "Integrity": "vpWfZIynszE4FQRJH2zqho+p5kU9uBZmOB6Zp9vcjUo=",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\lib\\datatables\\js\\datatables.uikit.js"
-    },
-    {
-      "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\js\\datatables.uikit.min.js",
-      "SourceId": "Otlob",
-      "SourceType": "Discovered",
-      "ContentRoot": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\",
-      "BasePath": "_content/Otlob",
-      "RelativePath": "lib/datatables/js/datatables.uikit.min#[.{fingerprint}]?.js",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "Fingerprint": "zmxql2290j",
-      "Integrity": "NfbyaGrQvTCHK9Fs9Sd0Jdeco0PBiUdmNj4B3rRA/AE=",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\lib\\datatables\\js\\datatables.uikit.min.js"
-    },
-    {
-      "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\js\\jquery.datatables.js",
-      "SourceId": "Otlob",
-      "SourceType": "Discovered",
-      "ContentRoot": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\",
-      "BasePath": "_content/Otlob",
-      "RelativePath": "lib/datatables/js/jquery.datatables#[.{fingerprint}]?.js",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "Fingerprint": "f3zfiuxf3i",
-      "Integrity": "a7kJXc5h4SZLa4gWXUO6UFcNouDoWGsLun4BaRjTtAc=",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\lib\\datatables\\js\\jquery.datatables.js"
-    },
-    {
-      "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\js\\jquery.datatables.min.js",
-      "SourceId": "Otlob",
-      "SourceType": "Discovered",
-      "ContentRoot": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\",
-      "BasePath": "_content/Otlob",
-      "RelativePath": "lib/datatables/js/jquery.datatables.min#[.{fingerprint}]?.js",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "Fingerprint": "rd57uehf8c",
-      "Integrity": "/7zo27Ll/hVKhCsE+y8m2SS5bhFPEQFheTCL87HuumA=",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\lib\\datatables\\js\\jquery.datatables.min.js"
-    },
-    {
       "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\jquery\\dist\\jquery.js",
       "SourceId": "Otlob",
       "SourceType": "Discovered",
@@ -5292,7 +4515,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "14249"
+          "Value": "14509"
         },
         {
           "Name": "Content-Type",
@@ -5300,11 +4523,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"PK89/32yoOb33sTQo+LiyYbCmOMCK3asbwaxV5Y3AEU=\""
+          "Value": "\"zBW0EyHciOVTkFTOj+AMYwaLbcxKUP5qYH2qed8U89g=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Sat, 21 Dec 2024 00:53:12 GMT"
+          "Value": "Thu, 13 Mar 2025 14:22:54 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -5314,12 +4537,12 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-PK89/32yoOb33sTQo+LiyYbCmOMCK3asbwaxV5Y3AEU="
+          "Value": "sha256-zBW0EyHciOVTkFTOj+AMYwaLbcxKUP5qYH2qed8U89g="
         }
       ]
     },
     {
-      "Route": "css/site.gxdxkuo526.css",
+      "Route": "css/site.cwgldokwz4.css",
       "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\css\\site.css",
       "Selectors": [],
       "ResponseHeaders": [
@@ -5329,7 +4552,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "14249"
+          "Value": "14509"
         },
         {
           "Name": "Content-Type",
@@ -5337,11 +4560,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"PK89/32yoOb33sTQo+LiyYbCmOMCK3asbwaxV5Y3AEU=\""
+          "Value": "\"zBW0EyHciOVTkFTOj+AMYwaLbcxKUP5qYH2qed8U89g=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Sat, 21 Dec 2024 00:53:12 GMT"
+          "Value": "Thu, 13 Mar 2025 14:22:54 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -5351,7 +4574,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "gxdxkuo526"
+          "Value": "cwgldokwz4"
         },
         {
           "Name": "label",
@@ -5359,7 +4582,7 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-PK89/32yoOb33sTQo+LiyYbCmOMCK3asbwaxV5Y3AEU="
+          "Value": "sha256-zBW0EyHciOVTkFTOj+AMYwaLbcxKUP5qYH2qed8U89g="
         }
       ]
     },
@@ -7666,6 +6889,88 @@
       ]
     },
     {
+      "Route": "images/creditIcon.e8i4zcld43.png",
+      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\creditIcon.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1620"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"sodmRG8tINrcvCXQ8zPrclnybpduXdsDZhzEAVIHRLw=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 04 Apr 2025 15:16:54 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "e8i4zcld43"
+        },
+        {
+          "Name": "label",
+          "Value": "images/creditIcon.png"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-sodmRG8tINrcvCXQ8zPrclnybpduXdsDZhzEAVIHRLw="
+        }
+      ]
+    },
+    {
+      "Route": "images/creditIcon.png",
+      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\creditIcon.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1620"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"sodmRG8tINrcvCXQ8zPrclnybpduXdsDZhzEAVIHRLw=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 04 Apr 2025 15:16:54 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-sodmRG8tINrcvCXQ8zPrclnybpduXdsDZhzEAVIHRLw="
+        }
+      ]
+    },
+    {
       "Route": "images/Default.e95pl0smkm.jpg",
       "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\Default.jpg",
       "Selectors": [],
@@ -7744,6 +7049,88 @@
         {
           "Name": "integrity",
           "Value": "sha256-4lsXIlwS4wNfoAl+ilpwQgy8KIUY+AdqvMxxD4w3D2I="
+        }
+      ]
+    },
+    {
+      "Route": "images/icons/all - Copy.cyn0gs5a39.png",
+      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\icons\\all - Copy.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "25474"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"vLaqZY4JT5SMyvGwYFF1DDVf6hUNrC0U3ANBhgendiw=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 18 Dec 2024 16:07:50 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "cyn0gs5a39"
+        },
+        {
+          "Name": "label",
+          "Value": "images/icons/all - Copy.png"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-vLaqZY4JT5SMyvGwYFF1DDVf6hUNrC0U3ANBhgendiw="
+        }
+      ]
+    },
+    {
+      "Route": "images/icons/all - Copy.png",
+      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\icons\\all - Copy.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "25474"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"vLaqZY4JT5SMyvGwYFF1DDVf6hUNrC0U3ANBhgendiw=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 18 Dec 2024 16:07:50 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-vLaqZY4JT5SMyvGwYFF1DDVf6hUNrC0U3ANBhgendiw="
         }
       ]
     },
@@ -7990,6 +7377,88 @@
         {
           "Name": "integrity",
           "Value": "sha256-390VIXA/6lmcLelHkB9wcjSdAJYynIjCsJfNETY1eew="
+        }
+      ]
+    },
+    {
+      "Route": "images/icons/css_sprites.llc5bd1p9g.png",
+      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\icons\\css_sprites.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "6041369"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"96EbQJ4ZPsfwgZqVIdVlKPOYEfw2ym9fcNvTH9fGlnU=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 13 Mar 2025 14:16:22 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "llc5bd1p9g"
+        },
+        {
+          "Name": "label",
+          "Value": "images/icons/css_sprites.png"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-96EbQJ4ZPsfwgZqVIdVlKPOYEfw2ym9fcNvTH9fGlnU="
+        }
+      ]
+    },
+    {
+      "Route": "images/icons/css_sprites.png",
+      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\icons\\css_sprites.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "6041369"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"96EbQJ4ZPsfwgZqVIdVlKPOYEfw2ym9fcNvTH9fGlnU=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 13 Mar 2025 14:16:22 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-96EbQJ4ZPsfwgZqVIdVlKPOYEfw2ym9fcNvTH9fGlnU="
         }
       ]
     },
@@ -9798,6 +9267,88 @@
       ]
     },
     {
+      "Route": "images/meals/1c498e4b-7b5e-42fb-8f6c-d2a83e8cf42f.fslbyunaob.jpg",
+      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\meals\\1c498e4b-7b5e-42fb-8f6c-d2a83e8cf42f.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "6206"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"8TKkuYjKGVeuCefz3F15FMIS3huJqSUrIMKeV6iHgnw=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 13 Feb 2025 19:51:13 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "fslbyunaob"
+        },
+        {
+          "Name": "label",
+          "Value": "images/meals/1c498e4b-7b5e-42fb-8f6c-d2a83e8cf42f.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-8TKkuYjKGVeuCefz3F15FMIS3huJqSUrIMKeV6iHgnw="
+        }
+      ]
+    },
+    {
+      "Route": "images/meals/1c498e4b-7b5e-42fb-8f6c-d2a83e8cf42f.jpg",
+      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\meals\\1c498e4b-7b5e-42fb-8f6c-d2a83e8cf42f.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "6206"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"8TKkuYjKGVeuCefz3F15FMIS3huJqSUrIMKeV6iHgnw=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 13 Feb 2025 19:51:13 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-8TKkuYjKGVeuCefz3F15FMIS3huJqSUrIMKeV6iHgnw="
+        }
+      ]
+    },
+    {
       "Route": "images/meals/1c8a8f39-a797-4004-96c3-50b9ec9c3251.jpg",
       "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\meals\\1c8a8f39-a797-4004-96c3-50b9ec9c3251.jpg",
       "Selectors": [],
@@ -10122,88 +9673,6 @@
         {
           "Name": "integrity",
           "Value": "sha256-wsZT34P8GJUDTDCYfSz0lv8LZpSeF5x+7N4n4V6k42Y="
-        }
-      ]
-    },
-    {
-      "Route": "images/meals/2-7.jpg",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\meals\\2-7.jpg",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "6136"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "image/jpeg"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"2O6w4X8bc7bZmiSqlwH3dybv6W3OQEiPXFT4/e2wzVU=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Tue, 03 Dec 2024 14:19:33 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=3600, must-revalidate"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-2O6w4X8bc7bZmiSqlwH3dybv6W3OQEiPXFT4/e2wzVU="
-        }
-      ]
-    },
-    {
-      "Route": "images/meals/2-7.w6vx5orfnd.jpg",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\meals\\2-7.jpg",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "6136"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "image/jpeg"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"2O6w4X8bc7bZmiSqlwH3dybv6W3OQEiPXFT4/e2wzVU=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Tue, 03 Dec 2024 14:19:33 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "w6vx5orfnd"
-        },
-        {
-          "Name": "label",
-          "Value": "images/meals/2-7.jpg"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-2O6w4X8bc7bZmiSqlwH3dybv6W3OQEiPXFT4/e2wzVU="
         }
       ]
     },
@@ -10696,6 +10165,88 @@
         {
           "Name": "integrity",
           "Value": "sha256-NdleaWQjLdkUbYnXhu+9Y38BoXN2O9wzmGbW0STB9XA="
+        }
+      ]
+    },
+    {
+      "Route": "images/meals/3de46de1-7d34-477f-8d9b-7768dffdd4e3.jpg",
+      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\meals\\3de46de1-7d34-477f-8d9b-7768dffdd4e3.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "9216"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"rrMuAepveZou1nmfQeXYrz09Jt6S4q6u7oWNbhOK/1E=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 16 Feb 2025 20:10:00 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-rrMuAepveZou1nmfQeXYrz09Jt6S4q6u7oWNbhOK/1E="
+        }
+      ]
+    },
+    {
+      "Route": "images/meals/3de46de1-7d34-477f-8d9b-7768dffdd4e3.yzu7fbim3e.jpg",
+      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\meals\\3de46de1-7d34-477f-8d9b-7768dffdd4e3.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "9216"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"rrMuAepveZou1nmfQeXYrz09Jt6S4q6u7oWNbhOK/1E=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 16 Feb 2025 20:10:00 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "yzu7fbim3e"
+        },
+        {
+          "Name": "label",
+          "Value": "images/meals/3de46de1-7d34-477f-8d9b-7768dffdd4e3.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-rrMuAepveZou1nmfQeXYrz09Jt6S4q6u7oWNbhOK/1E="
         }
       ]
     },
@@ -11930,6 +11481,88 @@
       ]
     },
     {
+      "Route": "images/meals/c22c404c-b786-4190-8fe3-318c9cfb33ef.jpg",
+      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\meals\\c22c404c-b786-4190-8fe3-318c9cfb33ef.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "6322"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"wsZT34P8GJUDTDCYfSz0lv8LZpSeF5x+7N4n4V6k42Y=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 13 Feb 2025 19:47:51 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-wsZT34P8GJUDTDCYfSz0lv8LZpSeF5x+7N4n4V6k42Y="
+        }
+      ]
+    },
+    {
+      "Route": "images/meals/c22c404c-b786-4190-8fe3-318c9cfb33ef.u1sj2skl0o.jpg",
+      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\meals\\c22c404c-b786-4190-8fe3-318c9cfb33ef.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "6322"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"wsZT34P8GJUDTDCYfSz0lv8LZpSeF5x+7N4n4V6k42Y=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 13 Feb 2025 19:47:51 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "u1sj2skl0o"
+        },
+        {
+          "Name": "label",
+          "Value": "images/meals/c22c404c-b786-4190-8fe3-318c9cfb33ef.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-wsZT34P8GJUDTDCYfSz0lv8LZpSeF5x+7N4n4V6k42Y="
+        }
+      ]
+    },
+    {
       "Route": "images/meals/c9e0e679-e166-473a-84d8-fc85d13c9806.g9engqvzqv.png",
       "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\meals\\c9e0e679-e166-473a-84d8-fc85d13c9806.png",
       "Selectors": [],
@@ -12008,88 +11641,6 @@
         {
           "Name": "integrity",
           "Value": "sha256-9A+b/lYi4jgU6DgFD2y2YJtxxtzx3uBwN3dXLy4z9y8="
-        }
-      ]
-    },
-    {
-      "Route": "images/meals/cac23d64-7c68-4707-a389-0c9fea847282.jpg",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\meals\\cac23d64-7c68-4707-a389-0c9fea847282.jpg",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "4696"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "image/jpeg"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"apSjqYaKSOGjYaAxl9JeQTEoy5qO73B40PRwxK1lcS0=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Wed, 08 Jan 2025 18:04:37 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=3600, must-revalidate"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-apSjqYaKSOGjYaAxl9JeQTEoy5qO73B40PRwxK1lcS0="
-        }
-      ]
-    },
-    {
-      "Route": "images/meals/cac23d64-7c68-4707-a389-0c9fea847282.uibhz1nsb8.jpg",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\meals\\cac23d64-7c68-4707-a389-0c9fea847282.jpg",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "4696"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "image/jpeg"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"apSjqYaKSOGjYaAxl9JeQTEoy5qO73B40PRwxK1lcS0=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Wed, 08 Jan 2025 18:04:37 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "uibhz1nsb8"
-        },
-        {
-          "Name": "label",
-          "Value": "images/meals/cac23d64-7c68-4707-a389-0c9fea847282.jpg"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-apSjqYaKSOGjYaAxl9JeQTEoy5qO73B40PRwxK1lcS0="
         }
       ]
     },
@@ -17010,3368 +16561,6 @@
         {
           "Name": "integrity",
           "Value": "sha256-ZH6pA6BSx6fuHZvdaKph1DwUJ+VSYilIiEQu8ilnvqk="
-        }
-      ]
-    },
-    {
-      "Route": "lib/datatables/css/datatables.bootstrap.css",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\css\\datatables.bootstrap.css",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "5002"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"2+imhFwgmypnG2qRAKlNJfBzr7oZ4sJGsTk8c1LVLM8=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 12 Dec 2024 15:37:37 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-2+imhFwgmypnG2qRAKlNJfBzr7oZ4sJGsTk8c1LVLM8="
-        }
-      ]
-    },
-    {
-      "Route": "lib/datatables/css/datatables.bootstrap.min.50zibcw55r.css",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\css\\datatables.bootstrap.min.css",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "4347"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"tVxhGiZeK2Ipsdwgwwl7+GLO3FNCbwxhtpFuABXxNM8=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 12 Dec 2024 15:37:37 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "50zibcw55r"
-        },
-        {
-          "Name": "label",
-          "Value": "lib/datatables/css/datatables.bootstrap.min.css"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-tVxhGiZeK2Ipsdwgwwl7+GLO3FNCbwxhtpFuABXxNM8="
-        }
-      ]
-    },
-    {
-      "Route": "lib/datatables/css/datatables.bootstrap.min.css",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\css\\datatables.bootstrap.min.css",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "4347"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"tVxhGiZeK2Ipsdwgwwl7+GLO3FNCbwxhtpFuABXxNM8=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 12 Dec 2024 15:37:37 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-tVxhGiZeK2Ipsdwgwwl7+GLO3FNCbwxhtpFuABXxNM8="
-        }
-      ]
-    },
-    {
-      "Route": "lib/datatables/css/datatables.bootstrap.rg4ljflo7u.css",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\css\\datatables.bootstrap.css",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "5002"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"2+imhFwgmypnG2qRAKlNJfBzr7oZ4sJGsTk8c1LVLM8=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 12 Dec 2024 15:37:37 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "rg4ljflo7u"
-        },
-        {
-          "Name": "label",
-          "Value": "lib/datatables/css/datatables.bootstrap.css"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-2+imhFwgmypnG2qRAKlNJfBzr7oZ4sJGsTk8c1LVLM8="
-        }
-      ]
-    },
-    {
-      "Route": "lib/datatables/css/datatables.bootstrap4.4dkpupy0ge.css",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\css\\datatables.bootstrap4.css",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "5994"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"qMoK+0lCl/zG0kRxVNBNkMarWd9ptEP+JapSge0kavs=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 12 Dec 2024 15:37:38 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "4dkpupy0ge"
-        },
-        {
-          "Name": "label",
-          "Value": "lib/datatables/css/datatables.bootstrap4.css"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-qMoK+0lCl/zG0kRxVNBNkMarWd9ptEP+JapSge0kavs="
-        }
-      ]
-    },
-    {
-      "Route": "lib/datatables/css/datatables.bootstrap4.css",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\css\\datatables.bootstrap4.css",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "5994"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"qMoK+0lCl/zG0kRxVNBNkMarWd9ptEP+JapSge0kavs=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 12 Dec 2024 15:37:38 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-qMoK+0lCl/zG0kRxVNBNkMarWd9ptEP+JapSge0kavs="
-        }
-      ]
-    },
-    {
-      "Route": "lib/datatables/css/datatables.bootstrap4.min.css",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\css\\datatables.bootstrap4.min.css",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "5395"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"ugpqzk9NhK3S2sVpMgSrIin1AzsJMlqUIMOCXyzPaL8=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 12 Dec 2024 15:37:38 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-ugpqzk9NhK3S2sVpMgSrIin1AzsJMlqUIMOCXyzPaL8="
-        }
-      ]
-    },
-    {
-      "Route": "lib/datatables/css/datatables.bootstrap4.min.yd9jjromr5.css",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\css\\datatables.bootstrap4.min.css",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "5395"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"ugpqzk9NhK3S2sVpMgSrIin1AzsJMlqUIMOCXyzPaL8=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 12 Dec 2024 15:37:38 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "yd9jjromr5"
-        },
-        {
-          "Name": "label",
-          "Value": "lib/datatables/css/datatables.bootstrap4.min.css"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-ugpqzk9NhK3S2sVpMgSrIin1AzsJMlqUIMOCXyzPaL8="
-        }
-      ]
-    },
-    {
-      "Route": "lib/datatables/css/datatables.foundation.15h0h82wt8.css",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\css\\datatables.foundation.css",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "3015"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"xUcsXoi0XVRWxF9elX4gF8PHxx5wV24L92iteCON6ug=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 12 Dec 2024 15:37:38 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "15h0h82wt8"
-        },
-        {
-          "Name": "label",
-          "Value": "lib/datatables/css/datatables.foundation.css"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-xUcsXoi0XVRWxF9elX4gF8PHxx5wV24L92iteCON6ug="
-        }
-      ]
-    },
-    {
-      "Route": "lib/datatables/css/datatables.foundation.css",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\css\\datatables.foundation.css",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "3015"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"xUcsXoi0XVRWxF9elX4gF8PHxx5wV24L92iteCON6ug=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 12 Dec 2024 15:37:38 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-xUcsXoi0XVRWxF9elX4gF8PHxx5wV24L92iteCON6ug="
-        }
-      ]
-    },
-    {
-      "Route": "lib/datatables/css/datatables.foundation.min.css",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\css\\datatables.foundation.min.css",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "2669"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"/6ecmXPZDHXBtIkRX3OBVMTmR39Yr/chJQPFKFX16EY=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 12 Dec 2024 15:37:38 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-/6ecmXPZDHXBtIkRX3OBVMTmR39Yr/chJQPFKFX16EY="
-        }
-      ]
-    },
-    {
-      "Route": "lib/datatables/css/datatables.foundation.min.hwjl4zlfrn.css",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\css\\datatables.foundation.min.css",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "2669"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"/6ecmXPZDHXBtIkRX3OBVMTmR39Yr/chJQPFKFX16EY=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 12 Dec 2024 15:37:38 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "hwjl4zlfrn"
-        },
-        {
-          "Name": "label",
-          "Value": "lib/datatables/css/datatables.foundation.min.css"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-/6ecmXPZDHXBtIkRX3OBVMTmR39Yr/chJQPFKFX16EY="
-        }
-      ]
-    },
-    {
-      "Route": "lib/datatables/css/datatables.jqueryui.css",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\css\\datatables.jqueryui.css",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "16496"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"3a1JZqiFWT1s8ZRp/o1ka3iXhmKBfYacL3Ha1+W9LcM=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 12 Dec 2024 15:37:38 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-3a1JZqiFWT1s8ZRp/o1ka3iXhmKBfYacL3Ha1+W9LcM="
-        }
-      ]
-    },
-    {
-      "Route": "lib/datatables/css/datatables.jqueryui.min.5ffyu43opt.css",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\css\\datatables.jqueryui.min.css",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "14476"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"b99Lyn9Ltfz6XV4LKgYZ7z8vL8q+nSxNSZyhHrXNDuY=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 12 Dec 2024 15:37:38 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "5ffyu43opt"
-        },
-        {
-          "Name": "label",
-          "Value": "lib/datatables/css/datatables.jqueryui.min.css"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-b99Lyn9Ltfz6XV4LKgYZ7z8vL8q+nSxNSZyhHrXNDuY="
-        }
-      ]
-    },
-    {
-      "Route": "lib/datatables/css/datatables.jqueryui.min.css",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\css\\datatables.jqueryui.min.css",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "14476"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"b99Lyn9Ltfz6XV4LKgYZ7z8vL8q+nSxNSZyhHrXNDuY=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 12 Dec 2024 15:37:38 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-b99Lyn9Ltfz6XV4LKgYZ7z8vL8q+nSxNSZyhHrXNDuY="
-        }
-      ]
-    },
-    {
-      "Route": "lib/datatables/css/datatables.jqueryui.xvyplfyl67.css",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\css\\datatables.jqueryui.css",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "16496"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"3a1JZqiFWT1s8ZRp/o1ka3iXhmKBfYacL3Ha1+W9LcM=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 12 Dec 2024 15:37:38 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "xvyplfyl67"
-        },
-        {
-          "Name": "label",
-          "Value": "lib/datatables/css/datatables.jqueryui.css"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-3a1JZqiFWT1s8ZRp/o1ka3iXhmKBfYacL3Ha1+W9LcM="
-        }
-      ]
-    },
-    {
-      "Route": "lib/datatables/css/datatables.material.0w8z6abcly.css",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\css\\datatables.material.css",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "4733"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"wPVacwslxbhgoyj7FHonP7mWxSk3KlCXzz4lA6FTeJI=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 12 Dec 2024 15:37:38 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "0w8z6abcly"
-        },
-        {
-          "Name": "label",
-          "Value": "lib/datatables/css/datatables.material.css"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-wPVacwslxbhgoyj7FHonP7mWxSk3KlCXzz4lA6FTeJI="
-        }
-      ]
-    },
-    {
-      "Route": "lib/datatables/css/datatables.material.css",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\css\\datatables.material.css",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "4733"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"wPVacwslxbhgoyj7FHonP7mWxSk3KlCXzz4lA6FTeJI=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 12 Dec 2024 15:37:38 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-wPVacwslxbhgoyj7FHonP7mWxSk3KlCXzz4lA6FTeJI="
-        }
-      ]
-    },
-    {
-      "Route": "lib/datatables/css/datatables.material.min.css",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\css\\datatables.material.min.css",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "4358"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"8MRVycsiAACpUp3LezQXiodYbPSgMHAEbmHxJSlyQ8A=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 12 Dec 2024 15:37:38 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-8MRVycsiAACpUp3LezQXiodYbPSgMHAEbmHxJSlyQ8A="
-        }
-      ]
-    },
-    {
-      "Route": "lib/datatables/css/datatables.material.min.gkzgf1104w.css",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\css\\datatables.material.min.css",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "4358"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"8MRVycsiAACpUp3LezQXiodYbPSgMHAEbmHxJSlyQ8A=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 12 Dec 2024 15:37:38 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "gkzgf1104w"
-        },
-        {
-          "Name": "label",
-          "Value": "lib/datatables/css/datatables.material.min.css"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-8MRVycsiAACpUp3LezQXiodYbPSgMHAEbmHxJSlyQ8A="
-        }
-      ]
-    },
-    {
-      "Route": "lib/datatables/css/datatables.semanticui.84v3jgirvn.css",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\css\\datatables.semanticui.css",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "2942"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"SNO+/RGANXQYVBI59Jl+SmySbIXhGWvgdbhltStQmjo=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 12 Dec 2024 15:37:38 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "84v3jgirvn"
-        },
-        {
-          "Name": "label",
-          "Value": "lib/datatables/css/datatables.semanticui.css"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-SNO+/RGANXQYVBI59Jl+SmySbIXhGWvgdbhltStQmjo="
-        }
-      ]
-    },
-    {
-      "Route": "lib/datatables/css/datatables.semanticui.css",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\css\\datatables.semanticui.css",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "2942"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"SNO+/RGANXQYVBI59Jl+SmySbIXhGWvgdbhltStQmjo=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 12 Dec 2024 15:37:38 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-SNO+/RGANXQYVBI59Jl+SmySbIXhGWvgdbhltStQmjo="
-        }
-      ]
-    },
-    {
-      "Route": "lib/datatables/css/datatables.semanticui.min.843yypbt9k.css",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\css\\datatables.semanticui.min.css",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "2625"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"SJpV2BABjesndlj0vdtRpj4LE4eigoPZVjTNQ6cMsy8=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 12 Dec 2024 15:37:38 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "843yypbt9k"
-        },
-        {
-          "Name": "label",
-          "Value": "lib/datatables/css/datatables.semanticui.min.css"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-SJpV2BABjesndlj0vdtRpj4LE4eigoPZVjTNQ6cMsy8="
-        }
-      ]
-    },
-    {
-      "Route": "lib/datatables/css/datatables.semanticui.min.css",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\css\\datatables.semanticui.min.css",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "2625"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"SJpV2BABjesndlj0vdtRpj4LE4eigoPZVjTNQ6cMsy8=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 12 Dec 2024 15:37:38 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-SJpV2BABjesndlj0vdtRpj4LE4eigoPZVjTNQ6cMsy8="
-        }
-      ]
-    },
-    {
-      "Route": "lib/datatables/css/datatables.uikit.css",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\css\\datatables.uikit.css",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "4486"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"jwzSofBdCYBl1X9lyKNbCcMTiKy8NzVObm/bRI9FK6k=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 12 Dec 2024 15:37:38 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-jwzSofBdCYBl1X9lyKNbCcMTiKy8NzVObm/bRI9FK6k="
-        }
-      ]
-    },
-    {
-      "Route": "lib/datatables/css/datatables.uikit.min.4lk4n36oje.css",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\css\\datatables.uikit.min.css",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "4032"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"OARMRHAsfct7nm9bca7xzvyQOKQMM6syC2QyODwt8BM=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 12 Dec 2024 15:37:38 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "4lk4n36oje"
-        },
-        {
-          "Name": "label",
-          "Value": "lib/datatables/css/datatables.uikit.min.css"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-OARMRHAsfct7nm9bca7xzvyQOKQMM6syC2QyODwt8BM="
-        }
-      ]
-    },
-    {
-      "Route": "lib/datatables/css/datatables.uikit.min.css",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\css\\datatables.uikit.min.css",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "4032"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"OARMRHAsfct7nm9bca7xzvyQOKQMM6syC2QyODwt8BM=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 12 Dec 2024 15:37:38 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-OARMRHAsfct7nm9bca7xzvyQOKQMM6syC2QyODwt8BM="
-        }
-      ]
-    },
-    {
-      "Route": "lib/datatables/css/datatables.uikit.z7z92km2vr.css",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\css\\datatables.uikit.css",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "4486"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"jwzSofBdCYBl1X9lyKNbCcMTiKy8NzVObm/bRI9FK6k=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 12 Dec 2024 15:37:38 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "z7z92km2vr"
-        },
-        {
-          "Name": "label",
-          "Value": "lib/datatables/css/datatables.uikit.css"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-jwzSofBdCYBl1X9lyKNbCcMTiKy8NzVObm/bRI9FK6k="
-        }
-      ]
-    },
-    {
-      "Route": "lib/datatables/css/jquery.datatables.bl5gdecmyp.css",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\css\\jquery.datatables.css",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "15792"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"T+WBw5FjB+EH6bPuRH8flbu+aOS9AAnRzhO0vZWhdng=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 12 Dec 2024 15:37:38 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "bl5gdecmyp"
-        },
-        {
-          "Name": "label",
-          "Value": "lib/datatables/css/jquery.datatables.css"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-T+WBw5FjB+EH6bPuRH8flbu+aOS9AAnRzhO0vZWhdng="
-        }
-      ]
-    },
-    {
-      "Route": "lib/datatables/css/jquery.datatables.css",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\css\\jquery.datatables.css",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "15792"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"T+WBw5FjB+EH6bPuRH8flbu+aOS9AAnRzhO0vZWhdng=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 12 Dec 2024 15:37:38 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-T+WBw5FjB+EH6bPuRH8flbu+aOS9AAnRzhO0vZWhdng="
-        }
-      ]
-    },
-    {
-      "Route": "lib/datatables/css/jquery.datatables.min.css",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\css\\jquery.datatables.min.css",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "13892"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"NsjPUPa1DUo51N8aw3uVf4ygtyEBB8DzDAfH2eRJTUs=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 12 Dec 2024 15:37:38 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-NsjPUPa1DUo51N8aw3uVf4ygtyEBB8DzDAfH2eRJTUs="
-        }
-      ]
-    },
-    {
-      "Route": "lib/datatables/css/jquery.datatables.min.e2q9soyr7p.css",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\css\\jquery.datatables.min.css",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "13892"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"NsjPUPa1DUo51N8aw3uVf4ygtyEBB8DzDAfH2eRJTUs=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 12 Dec 2024 15:37:38 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "e2q9soyr7p"
-        },
-        {
-          "Name": "label",
-          "Value": "lib/datatables/css/jquery.datatables.min.css"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-NsjPUPa1DUo51N8aw3uVf4ygtyEBB8DzDAfH2eRJTUs="
-        }
-      ]
-    },
-    {
-      "Route": "lib/datatables/css/jquery.datatables_themeroller.4w4t7nxiva.css",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\css\\jquery.datatables_themeroller.css",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "14229"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"/I46pnUiYUyilMyUMv08B9tEUgxxuWJJCqoyl6+Cz+I=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 12 Dec 2024 15:37:38 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "4w4t7nxiva"
-        },
-        {
-          "Name": "label",
-          "Value": "lib/datatables/css/jquery.datatables_themeroller.css"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-/I46pnUiYUyilMyUMv08B9tEUgxxuWJJCqoyl6+Cz+I="
-        }
-      ]
-    },
-    {
-      "Route": "lib/datatables/css/jquery.datatables_themeroller.css",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\css\\jquery.datatables_themeroller.css",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "14229"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"/I46pnUiYUyilMyUMv08B9tEUgxxuWJJCqoyl6+Cz+I=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 12 Dec 2024 15:37:38 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-/I46pnUiYUyilMyUMv08B9tEUgxxuWJJCqoyl6+Cz+I="
-        }
-      ]
-    },
-    {
-      "Route": "lib/datatables/css/jquery.datatables_themeroller.min.5metj1w1yq.css",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\css\\jquery.datatables_themeroller.min.css",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "12624"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"wzm/DIUUQACnzkqkQkjH8267FFIoQnSEGmhEPM7iF94=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 12 Dec 2024 15:37:38 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "5metj1w1yq"
-        },
-        {
-          "Name": "label",
-          "Value": "lib/datatables/css/jquery.datatables_themeroller.min.css"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-wzm/DIUUQACnzkqkQkjH8267FFIoQnSEGmhEPM7iF94="
-        }
-      ]
-    },
-    {
-      "Route": "lib/datatables/css/jquery.datatables_themeroller.min.css",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\css\\jquery.datatables_themeroller.min.css",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "12624"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"wzm/DIUUQACnzkqkQkjH8267FFIoQnSEGmhEPM7iF94=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 12 Dec 2024 15:37:38 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-wzm/DIUUQACnzkqkQkjH8267FFIoQnSEGmhEPM7iF94="
-        }
-      ]
-    },
-    {
-      "Route": "lib/datatables/images/sort_asc.png",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\images\\sort_asc.png",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "160"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "image/png"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"WVcEw/PPTLZcfZyFCKmedIDhUAlUc/rtMaB8IbEzibg=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 12 Dec 2024 15:37:38 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=3600, must-revalidate"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-WVcEw/PPTLZcfZyFCKmedIDhUAlUc/rtMaB8IbEzibg="
-        }
-      ]
-    },
-    {
-      "Route": "lib/datatables/images/sort_asc.tb3mdwjjyp.png",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\images\\sort_asc.png",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "160"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "image/png"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"WVcEw/PPTLZcfZyFCKmedIDhUAlUc/rtMaB8IbEzibg=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 12 Dec 2024 15:37:38 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "tb3mdwjjyp"
-        },
-        {
-          "Name": "label",
-          "Value": "lib/datatables/images/sort_asc.png"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-WVcEw/PPTLZcfZyFCKmedIDhUAlUc/rtMaB8IbEzibg="
-        }
-      ]
-    },
-    {
-      "Route": "lib/datatables/images/sort_asc_disabled.2ardtfk7fw.png",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\images\\sort_asc_disabled.png",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "148"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "image/png"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"pluPT4TWQnqBw2AoL8U5TVG/mdraXxWeaqD848OWglw=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 12 Dec 2024 15:37:38 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "2ardtfk7fw"
-        },
-        {
-          "Name": "label",
-          "Value": "lib/datatables/images/sort_asc_disabled.png"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-pluPT4TWQnqBw2AoL8U5TVG/mdraXxWeaqD848OWglw="
-        }
-      ]
-    },
-    {
-      "Route": "lib/datatables/images/sort_asc_disabled.png",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\images\\sort_asc_disabled.png",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "148"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "image/png"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"pluPT4TWQnqBw2AoL8U5TVG/mdraXxWeaqD848OWglw=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 12 Dec 2024 15:37:38 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=3600, must-revalidate"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-pluPT4TWQnqBw2AoL8U5TVG/mdraXxWeaqD848OWglw="
-        }
-      ]
-    },
-    {
-      "Route": "lib/datatables/images/sort_both.air2rz2q5l.png",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\images\\sort_both.png",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "201"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "image/png"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"PgFsI65RQXOCtkCuLRnrSAR1MsN61TiUvRhVhlWcz/s=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 12 Dec 2024 15:37:38 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "air2rz2q5l"
-        },
-        {
-          "Name": "label",
-          "Value": "lib/datatables/images/sort_both.png"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-PgFsI65RQXOCtkCuLRnrSAR1MsN61TiUvRhVhlWcz/s="
-        }
-      ]
-    },
-    {
-      "Route": "lib/datatables/images/sort_both.png",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\images\\sort_both.png",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "201"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "image/png"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"PgFsI65RQXOCtkCuLRnrSAR1MsN61TiUvRhVhlWcz/s=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 12 Dec 2024 15:37:38 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=3600, must-revalidate"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-PgFsI65RQXOCtkCuLRnrSAR1MsN61TiUvRhVhlWcz/s="
-        }
-      ]
-    },
-    {
-      "Route": "lib/datatables/images/sort_desc.krfgnlfo4n.png",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\images\\sort_desc.png",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "158"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "image/png"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"0I7Q4h8YfdMJAw1GUiTagIURmhWhfWFroOR3u1DG8Q0=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 12 Dec 2024 15:37:38 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "krfgnlfo4n"
-        },
-        {
-          "Name": "label",
-          "Value": "lib/datatables/images/sort_desc.png"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-0I7Q4h8YfdMJAw1GUiTagIURmhWhfWFroOR3u1DG8Q0="
-        }
-      ]
-    },
-    {
-      "Route": "lib/datatables/images/sort_desc.png",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\images\\sort_desc.png",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "158"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "image/png"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"0I7Q4h8YfdMJAw1GUiTagIURmhWhfWFroOR3u1DG8Q0=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 12 Dec 2024 15:37:38 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=3600, must-revalidate"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-0I7Q4h8YfdMJAw1GUiTagIURmhWhfWFroOR3u1DG8Q0="
-        }
-      ]
-    },
-    {
-      "Route": "lib/datatables/images/sort_desc_disabled.png",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\images\\sort_desc_disabled.png",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "146"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "image/png"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"bA8MGyHvaAcFevyN3BqSXR29IcsR6ScOyE/0rEDZo/o=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 12 Dec 2024 15:37:38 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=3600, must-revalidate"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-bA8MGyHvaAcFevyN3BqSXR29IcsR6ScOyE/0rEDZo/o="
-        }
-      ]
-    },
-    {
-      "Route": "lib/datatables/images/sort_desc_disabled.swt4jbawiz.png",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\images\\sort_desc_disabled.png",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "146"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "image/png"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"bA8MGyHvaAcFevyN3BqSXR29IcsR6ScOyE/0rEDZo/o=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 12 Dec 2024 15:37:38 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "swt4jbawiz"
-        },
-        {
-          "Name": "label",
-          "Value": "lib/datatables/images/sort_desc_disabled.png"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-bA8MGyHvaAcFevyN3BqSXR29IcsR6ScOyE/0rEDZo/o="
-        }
-      ]
-    },
-    {
-      "Route": "lib/datatables/js/datatables.bootstrap.js",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\js\\datatables.bootstrap.js",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "4568"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/javascript"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"2d5xfxwENmbaiVaTj0lIu7zDFW2PZj/dQyYi2IsGnNw=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 12 Dec 2024 15:37:38 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-2d5xfxwENmbaiVaTj0lIu7zDFW2PZj/dQyYi2IsGnNw="
-        }
-      ]
-    },
-    {
-      "Route": "lib/datatables/js/datatables.bootstrap.min.js",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\js\\datatables.bootstrap.min.js",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "3159"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/javascript"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"c0sghAryOuWj4sftUftYNtoAyyI4bahkv1+wopyUhFU=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 12 Dec 2024 15:37:38 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-c0sghAryOuWj4sftUftYNtoAyyI4bahkv1+wopyUhFU="
-        }
-      ]
-    },
-    {
-      "Route": "lib/datatables/js/datatables.bootstrap.min.pdmprbj5zf.js",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\js\\datatables.bootstrap.min.js",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "3159"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/javascript"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"c0sghAryOuWj4sftUftYNtoAyyI4bahkv1+wopyUhFU=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 12 Dec 2024 15:37:38 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "pdmprbj5zf"
-        },
-        {
-          "Name": "label",
-          "Value": "lib/datatables/js/datatables.bootstrap.min.js"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-c0sghAryOuWj4sftUftYNtoAyyI4bahkv1+wopyUhFU="
-        }
-      ]
-    },
-    {
-      "Route": "lib/datatables/js/datatables.bootstrap.zpweozclkd.js",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\js\\datatables.bootstrap.js",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "4568"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/javascript"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"2d5xfxwENmbaiVaTj0lIu7zDFW2PZj/dQyYi2IsGnNw=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 12 Dec 2024 15:37:38 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "zpweozclkd"
-        },
-        {
-          "Name": "label",
-          "Value": "lib/datatables/js/datatables.bootstrap.js"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-2d5xfxwENmbaiVaTj0lIu7zDFW2PZj/dQyYi2IsGnNw="
-        }
-      ]
-    },
-    {
-      "Route": "lib/datatables/js/datatables.bootstrap4.js",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\js\\datatables.bootstrap4.js",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "4702"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/javascript"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"hFS8da5C3Y/fnlA9Jt+QANb5BWmvCet3D8K+y4bU5mc=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 12 Dec 2024 15:37:38 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-hFS8da5C3Y/fnlA9Jt+QANb5BWmvCet3D8K+y4bU5mc="
-        }
-      ]
-    },
-    {
-      "Route": "lib/datatables/js/datatables.bootstrap4.min.js",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\js\\datatables.bootstrap4.min.js",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "3278"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/javascript"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"1bbr2U4VkmmTxaxcHlFp9rgBhLrwQTP2rl8/jlivGb0=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 12 Dec 2024 15:37:38 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-1bbr2U4VkmmTxaxcHlFp9rgBhLrwQTP2rl8/jlivGb0="
-        }
-      ]
-    },
-    {
-      "Route": "lib/datatables/js/datatables.bootstrap4.min.vbs3zd8vwt.js",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\js\\datatables.bootstrap4.min.js",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "3278"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/javascript"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"1bbr2U4VkmmTxaxcHlFp9rgBhLrwQTP2rl8/jlivGb0=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 12 Dec 2024 15:37:38 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "vbs3zd8vwt"
-        },
-        {
-          "Name": "label",
-          "Value": "lib/datatables/js/datatables.bootstrap4.min.js"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-1bbr2U4VkmmTxaxcHlFp9rgBhLrwQTP2rl8/jlivGb0="
-        }
-      ]
-    },
-    {
-      "Route": "lib/datatables/js/datatables.bootstrap4.otlgdfh03i.js",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\js\\datatables.bootstrap4.js",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "4702"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/javascript"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"hFS8da5C3Y/fnlA9Jt+QANb5BWmvCet3D8K+y4bU5mc=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 12 Dec 2024 15:37:38 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "otlgdfh03i"
-        },
-        {
-          "Name": "label",
-          "Value": "lib/datatables/js/datatables.bootstrap4.js"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-hFS8da5C3Y/fnlA9Jt+QANb5BWmvCet3D8K+y4bU5mc="
-        }
-      ]
-    },
-    {
-      "Route": "lib/datatables/js/datatables.datatables.gv0cpucvr0.js",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\js\\datatables.datatables.js",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "868"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/javascript"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"lP/dfavyMhejkuCnctA8ONq/T6cBapwLkYl+zw7UZLQ=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 12 Dec 2024 15:37:38 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "gv0cpucvr0"
-        },
-        {
-          "Name": "label",
-          "Value": "lib/datatables/js/datatables.datatables.js"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-lP/dfavyMhejkuCnctA8ONq/T6cBapwLkYl+zw7UZLQ="
-        }
-      ]
-    },
-    {
-      "Route": "lib/datatables/js/datatables.datatables.js",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\js\\datatables.datatables.js",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "868"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/javascript"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"lP/dfavyMhejkuCnctA8ONq/T6cBapwLkYl+zw7UZLQ=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 12 Dec 2024 15:37:38 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-lP/dfavyMhejkuCnctA8ONq/T6cBapwLkYl+zw7UZLQ="
-        }
-      ]
-    },
-    {
-      "Route": "lib/datatables/js/datatables.datatables.min.js",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\js\\datatables.datatables.min.js",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "437"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/javascript"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"p4D/w4DqrLwtnCOKUwCbzyPQhmCpgv5dMvCiU3PVMj8=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 12 Dec 2024 15:37:38 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-p4D/w4DqrLwtnCOKUwCbzyPQhmCpgv5dMvCiU3PVMj8="
-        }
-      ]
-    },
-    {
-      "Route": "lib/datatables/js/datatables.datatables.min.rze3aupk02.js",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\js\\datatables.datatables.min.js",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "437"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/javascript"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"p4D/w4DqrLwtnCOKUwCbzyPQhmCpgv5dMvCiU3PVMj8=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 12 Dec 2024 15:37:38 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "rze3aupk02"
-        },
-        {
-          "Name": "label",
-          "Value": "lib/datatables/js/datatables.datatables.min.js"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-p4D/w4DqrLwtnCOKUwCbzyPQhmCpgv5dMvCiU3PVMj8="
-        }
-      ]
-    },
-    {
-      "Route": "lib/datatables/js/datatables.foundation.bac9vmbvzw.js",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\js\\datatables.foundation.js",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "4373"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/javascript"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"jVJSAFrPNNq3MciArO3Rwgs03NDjXWB1h4BeEW+o8r4=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 12 Dec 2024 15:37:38 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "bac9vmbvzw"
-        },
-        {
-          "Name": "label",
-          "Value": "lib/datatables/js/datatables.foundation.js"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-jVJSAFrPNNq3MciArO3Rwgs03NDjXWB1h4BeEW+o8r4="
-        }
-      ]
-    },
-    {
-      "Route": "lib/datatables/js/datatables.foundation.js",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\js\\datatables.foundation.js",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "4373"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/javascript"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"jVJSAFrPNNq3MciArO3Rwgs03NDjXWB1h4BeEW+o8r4=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 12 Dec 2024 15:37:38 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-jVJSAFrPNNq3MciArO3Rwgs03NDjXWB1h4BeEW+o8r4="
-        }
-      ]
-    },
-    {
-      "Route": "lib/datatables/js/datatables.foundation.min.8s3gh723th.js",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\js\\datatables.foundation.min.js",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "2146"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/javascript"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"2HtMoTMWkSD6AIxgdglrME8cldjjPtb7iwJ+9XdQbGA=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 12 Dec 2024 15:37:38 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "8s3gh723th"
-        },
-        {
-          "Name": "label",
-          "Value": "lib/datatables/js/datatables.foundation.min.js"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-2HtMoTMWkSD6AIxgdglrME8cldjjPtb7iwJ+9XdQbGA="
-        }
-      ]
-    },
-    {
-      "Route": "lib/datatables/js/datatables.foundation.min.js",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\js\\datatables.foundation.min.js",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "2146"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/javascript"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"2HtMoTMWkSD6AIxgdglrME8cldjjPtb7iwJ+9XdQbGA=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 12 Dec 2024 15:37:38 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-2HtMoTMWkSD6AIxgdglrME8cldjjPtb7iwJ+9XdQbGA="
-        }
-      ]
-    },
-    {
-      "Route": "lib/datatables/js/datatables.jqueryui.9amfu3ellf.js",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\js\\datatables.jqueryui.js",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "4486"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/javascript"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"kQh7N6u/hSlsXyBm+LnV1ti8fPRCQ44mmnqTAa9ErVs=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 12 Dec 2024 15:37:38 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "9amfu3ellf"
-        },
-        {
-          "Name": "label",
-          "Value": "lib/datatables/js/datatables.jqueryui.js"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-kQh7N6u/hSlsXyBm+LnV1ti8fPRCQ44mmnqTAa9ErVs="
-        }
-      ]
-    },
-    {
-      "Route": "lib/datatables/js/datatables.jqueryui.js",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\js\\datatables.jqueryui.js",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "4486"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/javascript"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"kQh7N6u/hSlsXyBm+LnV1ti8fPRCQ44mmnqTAa9ErVs=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 12 Dec 2024 15:37:38 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-kQh7N6u/hSlsXyBm+LnV1ti8fPRCQ44mmnqTAa9ErVs="
-        }
-      ]
-    },
-    {
-      "Route": "lib/datatables/js/datatables.jqueryui.min.6fhqumn8j7.js",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\js\\datatables.jqueryui.min.js",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "3821"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/javascript"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"Tr/W2AiGOXy8ixjslb4IVGK7Y2MCLqcJAvpfIZZxnoE=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 12 Dec 2024 15:37:38 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "6fhqumn8j7"
-        },
-        {
-          "Name": "label",
-          "Value": "lib/datatables/js/datatables.jqueryui.min.js"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-Tr/W2AiGOXy8ixjslb4IVGK7Y2MCLqcJAvpfIZZxnoE="
-        }
-      ]
-    },
-    {
-      "Route": "lib/datatables/js/datatables.jqueryui.min.js",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\js\\datatables.jqueryui.min.js",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "3821"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/javascript"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"Tr/W2AiGOXy8ixjslb4IVGK7Y2MCLqcJAvpfIZZxnoE=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 12 Dec 2024 15:37:38 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-Tr/W2AiGOXy8ixjslb4IVGK7Y2MCLqcJAvpfIZZxnoE="
-        }
-      ]
-    },
-    {
-      "Route": "lib/datatables/js/datatables.material.js",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\js\\datatables.material.js",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "6392"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/javascript"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"YOqqPIQrjYLAuNxcnizt+AMxl100GLqdKgUYnSUZBac=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 12 Dec 2024 15:37:38 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-YOqqPIQrjYLAuNxcnizt+AMxl100GLqdKgUYnSUZBac="
-        }
-      ]
-    },
-    {
-      "Route": "lib/datatables/js/datatables.material.min.eiak09qvzh.js",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\js\\datatables.material.min.js",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "4397"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/javascript"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"ymnJWcrEQT2x0Tndf/dP7CHSNf4GAbv2jGVQYkyw8Q0=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 12 Dec 2024 15:37:38 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "eiak09qvzh"
-        },
-        {
-          "Name": "label",
-          "Value": "lib/datatables/js/datatables.material.min.js"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-ymnJWcrEQT2x0Tndf/dP7CHSNf4GAbv2jGVQYkyw8Q0="
-        }
-      ]
-    },
-    {
-      "Route": "lib/datatables/js/datatables.material.min.js",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\js\\datatables.material.min.js",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "4397"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/javascript"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"ymnJWcrEQT2x0Tndf/dP7CHSNf4GAbv2jGVQYkyw8Q0=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 12 Dec 2024 15:37:38 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-ymnJWcrEQT2x0Tndf/dP7CHSNf4GAbv2jGVQYkyw8Q0="
-        }
-      ]
-    },
-    {
-      "Route": "lib/datatables/js/datatables.material.oa28walmjy.js",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\js\\datatables.material.js",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "6392"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/javascript"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"YOqqPIQrjYLAuNxcnizt+AMxl100GLqdKgUYnSUZBac=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 12 Dec 2024 15:37:38 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "oa28walmjy"
-        },
-        {
-          "Name": "label",
-          "Value": "lib/datatables/js/datatables.material.js"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-YOqqPIQrjYLAuNxcnizt+AMxl100GLqdKgUYnSUZBac="
-        }
-      ]
-    },
-    {
-      "Route": "lib/datatables/js/datatables.semanticui.js",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\js\\datatables.semanticui.js",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "5322"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/javascript"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"TYM1CPwZN78MQk7E3UdkrTklcKK2nE811FfvoW5jDP0=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 12 Dec 2024 15:37:38 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-TYM1CPwZN78MQk7E3UdkrTklcKK2nE811FfvoW5jDP0="
-        }
-      ]
-    },
-    {
-      "Route": "lib/datatables/js/datatables.semanticui.min.js",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\js\\datatables.semanticui.min.js",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "3629"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/javascript"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"L9t1ZuJNPnJ2fHvdL9PFpdW3IC3jQFx+0oXN520PVFM=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 12 Dec 2024 15:37:38 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-L9t1ZuJNPnJ2fHvdL9PFpdW3IC3jQFx+0oXN520PVFM="
-        }
-      ]
-    },
-    {
-      "Route": "lib/datatables/js/datatables.semanticui.min.nuyr63gdyj.js",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\js\\datatables.semanticui.min.js",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "3629"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/javascript"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"L9t1ZuJNPnJ2fHvdL9PFpdW3IC3jQFx+0oXN520PVFM=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 12 Dec 2024 15:37:38 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "nuyr63gdyj"
-        },
-        {
-          "Name": "label",
-          "Value": "lib/datatables/js/datatables.semanticui.min.js"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-L9t1ZuJNPnJ2fHvdL9PFpdW3IC3jQFx+0oXN520PVFM="
-        }
-      ]
-    },
-    {
-      "Route": "lib/datatables/js/datatables.semanticui.xnznf0gk29.js",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\js\\datatables.semanticui.js",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "5322"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/javascript"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"TYM1CPwZN78MQk7E3UdkrTklcKK2nE811FfvoW5jDP0=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 12 Dec 2024 15:37:38 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "xnznf0gk29"
-        },
-        {
-          "Name": "label",
-          "Value": "lib/datatables/js/datatables.semanticui.js"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-TYM1CPwZN78MQk7E3UdkrTklcKK2nE811FfvoW5jDP0="
-        }
-      ]
-    },
-    {
-      "Route": "lib/datatables/js/datatables.uikit.js",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\js\\datatables.uikit.js",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "4666"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/javascript"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"vpWfZIynszE4FQRJH2zqho+p5kU9uBZmOB6Zp9vcjUo=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 12 Dec 2024 15:37:38 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-vpWfZIynszE4FQRJH2zqho+p5kU9uBZmOB6Zp9vcjUo="
-        }
-      ]
-    },
-    {
-      "Route": "lib/datatables/js/datatables.uikit.ma8747nked.js",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\js\\datatables.uikit.js",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "4666"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/javascript"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"vpWfZIynszE4FQRJH2zqho+p5kU9uBZmOB6Zp9vcjUo=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 12 Dec 2024 15:37:38 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "ma8747nked"
-        },
-        {
-          "Name": "label",
-          "Value": "lib/datatables/js/datatables.uikit.js"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-vpWfZIynszE4FQRJH2zqho+p5kU9uBZmOB6Zp9vcjUo="
-        }
-      ]
-    },
-    {
-      "Route": "lib/datatables/js/datatables.uikit.min.js",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\js\\datatables.uikit.min.js",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "3483"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/javascript"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"NfbyaGrQvTCHK9Fs9Sd0Jdeco0PBiUdmNj4B3rRA/AE=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 12 Dec 2024 15:37:38 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-NfbyaGrQvTCHK9Fs9Sd0Jdeco0PBiUdmNj4B3rRA/AE="
-        }
-      ]
-    },
-    {
-      "Route": "lib/datatables/js/datatables.uikit.min.zmxql2290j.js",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\js\\datatables.uikit.min.js",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "3483"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/javascript"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"NfbyaGrQvTCHK9Fs9Sd0Jdeco0PBiUdmNj4B3rRA/AE=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 12 Dec 2024 15:37:38 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "zmxql2290j"
-        },
-        {
-          "Name": "label",
-          "Value": "lib/datatables/js/datatables.uikit.min.js"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-NfbyaGrQvTCHK9Fs9Sd0Jdeco0PBiUdmNj4B3rRA/AE="
-        }
-      ]
-    },
-    {
-      "Route": "lib/datatables/js/jquery.datatables.f3zfiuxf3i.js",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\js\\jquery.datatables.js",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "449246"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/javascript"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"a7kJXc5h4SZLa4gWXUO6UFcNouDoWGsLun4BaRjTtAc=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 12 Dec 2024 15:37:38 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "f3zfiuxf3i"
-        },
-        {
-          "Name": "label",
-          "Value": "lib/datatables/js/jquery.datatables.js"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-a7kJXc5h4SZLa4gWXUO6UFcNouDoWGsLun4BaRjTtAc="
-        }
-      ]
-    },
-    {
-      "Route": "lib/datatables/js/jquery.datatables.js",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\js\\jquery.datatables.js",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "449246"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/javascript"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"a7kJXc5h4SZLa4gWXUO6UFcNouDoWGsLun4BaRjTtAc=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 12 Dec 2024 15:37:38 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-a7kJXc5h4SZLa4gWXUO6UFcNouDoWGsLun4BaRjTtAc="
-        }
-      ]
-    },
-    {
-      "Route": "lib/datatables/js/jquery.datatables.min.js",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\js\\jquery.datatables.min.js",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "84647"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/javascript"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"/7zo27Ll/hVKhCsE+y8m2SS5bhFPEQFheTCL87HuumA=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 12 Dec 2024 15:37:38 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-/7zo27Ll/hVKhCsE+y8m2SS5bhFPEQFheTCL87HuumA="
-        }
-      ]
-    },
-    {
-      "Route": "lib/datatables/js/jquery.datatables.min.rd57uehf8c.js",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\datatables\\js\\jquery.datatables.min.js",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "84647"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/javascript"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"/7zo27Ll/hVKhCsE+y8m2SS5bhFPEQFheTCL87HuumA=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 12 Dec 2024 15:37:38 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "rd57uehf8c"
-        },
-        {
-          "Name": "label",
-          "Value": "lib/datatables/js/jquery.datatables.min.js"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-/7zo27Ll/hVKhCsE+y8m2SS5bhFPEQFheTCL87HuumA="
         }
       ]
     },

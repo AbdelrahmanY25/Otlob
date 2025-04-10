@@ -4,10 +4,13 @@ wwwroot\css\profile.css
 wwwroot\css\register.css
 wwwroot\css\site.css
 wwwroot\favicon.ico
+wwwroot\images\creditIcon.png
 wwwroot\images\Default.jpg
+wwwroot\images\icons\all - Copy.png
 wwwroot\images\icons\all.png
 wwwroot\images\icons\burger.png
 wwwroot\images\icons\cookies.png
+wwwroot\images\icons\css_sprites.png
 wwwroot\images\icons\grill.jpg
 wwwroot\images\icons\IMG-20241218-WA0004.jpg
 wwwroot\images\icons\IMG-20241218-WA0007.jpg

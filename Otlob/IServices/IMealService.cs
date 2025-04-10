@@ -9,6 +9,7 @@ namespace Otlob.IServices
         IQueryable<MealVm> ViewMealsVmToRestaurantAdminSummary(int RestaurantlId);
         MealVm GetMealVM(int MealId);
         Meal GetMeal(int MealId);
+        Meal GetMealNameAndImage(int mealId);
         Task<string> AddMeal(MealVm mealVM, int restaurantId, IFormFileCollection image);
         Task<string> EditMeal(MealVm mealVM, int mealId, IFormFileCollection image);
         bool DeleteMeal(int mealId);

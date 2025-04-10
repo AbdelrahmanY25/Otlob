@@ -13,7 +13,7 @@ namespace Otlob.Areas.Customer.Controllers
         private readonly IEncryptionService encryptionService;
 
         public RelatedMealsInCartController(IOrderedMealsService orderedMealsService,
-                                           IEncryptionService encryptionService)
+                                            IEncryptionService encryptionService)
         {
             this.orderedMealsService = orderedMealsService;
             this.encryptionService = encryptionService;
@@ -21,11 +21,11 @@ namespace Otlob.Areas.Customer.Controllers
 
         public IActionResult RelatedMeals(string id)
         {
-            int cartId = encryptionService.DecryptId(id);   
+            int cartId = encryptionService.DecryptId(id);
 
-            var orderedMealsVM = orderedMealsService.GetOrderedMealsVMToView(cartId);
+            var orderedMeals = orderedMealsService.GetOrderedMealsVMToView(cartId);
 
-            return View(orderedMealsVM);
+            return View(orderedMeals);
         }      
 
         public IActionResult ChangeMealQuantity(string id, MealQuantity type)
@@ -42,7 +42,7 @@ namespace Otlob.Areas.Customer.Controllers
                     return DeleteOrderedMeal(id);
 
                 default:
-                    return RedirectToAction("RelatedMeals", new { id = encryptionService.EncryptId(result.CartId.Value) });
+                    return RedirectToAction("Cart", "Cart");
             }            
         }
 
@@ -57,7 +57,7 @@ namespace Otlob.Areas.Customer.Controllers
                 return RedirectToAction("DeleteCart", "Cart", new { id = encryptionService.EncryptId(selectedOrderMeal.CartId) });
             }
 
-            return RedirectToAction("RelatedMeals", new { id = encryptionService.EncryptId(selectedOrderMeal.CartId) });
+            return RedirectToAction("Cart", "Cart");
         }
     }
 }

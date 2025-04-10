@@ -11,9 +11,9 @@ namespace Otlob.Core.Models
         public decimal PricePerMeal { get; set; }
 
         [ValidateNever]
-        public Meal Meal { get; set; }
+        public  Meal Meal { get; set; }
 
         [ValidateNever]
-        public Cart Cart { get; set; }
+        public  Cart Cart { get; set; }
     }
 }

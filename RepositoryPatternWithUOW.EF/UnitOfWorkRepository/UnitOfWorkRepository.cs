@@ -16,9 +16,10 @@ namespace Otlob.EF.UnitOfWorkRepository
         public IBaseRepository<Address> Addresses { get; private set; }
         public IBaseRepository<OrderedMeals> OrderedMeals { get; private set; }
         public IBaseRepository<Cart> Carts { get; private set; }
-        public IBaseRepository<MealsInOrder> MealsInOrder { get; private set; }
+        public IBaseRepository<OrderDetails> OrderDetails { get; private set; }
         public IBaseRepository<ApplicationUser> Users { get; private set; }
         public IBaseRepository<MealPriceHistory> MealsPriceHistories { get; private set; }
+        public IBaseRepository<TempOrder> TempOrders { get; private set; }
 
         public void Dispose()
         {
@@ -48,9 +49,10 @@ namespace Otlob.EF.UnitOfWorkRepository
             Addresses = CreateRepository<Address>();
             Carts = CreateRepository<Cart>();
             OrderedMeals = CreateRepository<OrderedMeals>();
-            MealsInOrder = CreateRepository<MealsInOrder>();
+            OrderDetails = CreateRepository<OrderDetails>();
             Users = CreateRepository<ApplicationUser>();
             MealsPriceHistories = CreateRepository<MealPriceHistory>();
+            TempOrders = CreateRepository<TempOrder>();
         }
 
         private IBaseRepository<T> CreateRepository<T>() where T : class

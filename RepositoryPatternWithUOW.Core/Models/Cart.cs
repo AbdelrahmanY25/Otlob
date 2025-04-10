@@ -9,12 +9,12 @@ namespace Otlob.Core.Models
         public int RestaurantId { get; set; }
 
         [ValidateNever]
-        public ApplicationUser User { get; set; }
+        public  ApplicationUser User { get; set; }
 
         [ValidateNever]
-        public ICollection<OrderedMeals> OrderedMeals { get; set; }
+        public  ICollection<OrderedMeals> OrderedMeals { get; set; }
 
         [ValidateNever]
-        public Restaurant Restaurant { get; set; }
+        public  Restaurant Restaurant { get; set; }
     }
 }

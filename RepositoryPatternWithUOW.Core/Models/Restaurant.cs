@@ -1,7 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
-using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
-
 
 namespace Otlob.Core.Models
 {
@@ -20,13 +17,13 @@ namespace Otlob.Core.Models
         public RestaurantCategory Category { get; set; }
 
         [ValidateNever]
-        public ICollection<Meal> Meals { get; set; }
+        public  ICollection<Meal> Meals { get; set; }
 
         [ValidateNever]
-        public ICollection<Delivery> Deliveries { get; set; }        
+        public  ICollection<Delivery> Deliveries { get; set; }        
 
         [ValidateNever]
-        public ICollection<Order> Orders { get; set; }
+        public  ICollection<Order> Orders { get; set; }
     }
 
     public enum AcctiveStatus
@@ -35,7 +32,7 @@ namespace Otlob.Core.Models
         Block,
         Warning,
         Unaccepted
-    }   
+    }
    
     public enum RestaurantCategory
     {

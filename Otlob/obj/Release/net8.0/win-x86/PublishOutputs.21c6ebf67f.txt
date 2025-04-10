@@ -7,7 +7,12 @@ D:\My_Projects\Talabat Project\Otlob\Otlob\obj\Release\net8.0\win-x86\PubTmp\Out
 D:\My_Projects\Talabat Project\Otlob\Otlob\obj\Release\net8.0\win-x86\PubTmp\Out\Otlob.pdb
 D:\My_Projects\Talabat Project\Otlob\Otlob\obj\Release\net8.0\win-x86\PubTmp\Out\Azure.Core.dll
 D:\My_Projects\Talabat Project\Otlob\Otlob\obj\Release\net8.0\win-x86\PubTmp\Out\Azure.Identity.dll
+D:\My_Projects\Talabat Project\Otlob\Otlob\obj\Release\net8.0\win-x86\PubTmp\Out\Castle.Core.dll
+D:\My_Projects\Talabat Project\Otlob\Otlob\obj\Release\net8.0\win-x86\PubTmp\Out\EntityFramework.SqlServer.dll
+D:\My_Projects\Talabat Project\Otlob\Otlob\obj\Release\net8.0\win-x86\PubTmp\Out\EntityFramework.dll
 D:\My_Projects\Talabat Project\Otlob\Otlob\obj\Release\net8.0\win-x86\PubTmp\Out\Humanizer.dll
+D:\My_Projects\Talabat Project\Otlob\Otlob\obj\Release\net8.0\win-x86\PubTmp\Out\LinqKit.dll
+D:\My_Projects\Talabat Project\Otlob\Otlob\obj\Release\net8.0\win-x86\PubTmp\Out\LinqKit.Core.dll
 D:\My_Projects\Talabat Project\Otlob\Otlob\obj\Release\net8.0\win-x86\PubTmp\Out\Microsoft.AspNetCore.Authentication.Google.dll
 D:\My_Projects\Talabat Project\Otlob\Otlob\obj\Release\net8.0\win-x86\PubTmp\Out\Microsoft.AspNetCore.Authentication.MicrosoftAccount.dll
 D:\My_Projects\Talabat Project\Otlob\Otlob\obj\Release\net8.0\win-x86\PubTmp\Out\Microsoft.AspNetCore.Cryptography.Internal.dll
@@ -34,6 +39,7 @@ D:\My_Projects\Talabat Project\Otlob\Otlob\obj\Release\net8.0\win-x86\PubTmp\Out
 D:\My_Projects\Talabat Project\Otlob\Otlob\obj\Release\net8.0\win-x86\PubTmp\Out\Microsoft.DotNet.Scaffolding.Shared.dll
 D:\My_Projects\Talabat Project\Otlob\Otlob\obj\Release\net8.0\win-x86\PubTmp\Out\Microsoft.EntityFrameworkCore.dll
 D:\My_Projects\Talabat Project\Otlob\Otlob\obj\Release\net8.0\win-x86\PubTmp\Out\Microsoft.EntityFrameworkCore.Abstractions.dll
+D:\My_Projects\Talabat Project\Otlob\Otlob\obj\Release\net8.0\win-x86\PubTmp\Out\Microsoft.EntityFrameworkCore.Proxies.dll
 D:\My_Projects\Talabat Project\Otlob\Otlob\obj\Release\net8.0\win-x86\PubTmp\Out\Microsoft.EntityFrameworkCore.Relational.dll
 D:\My_Projects\Talabat Project\Otlob\Otlob\obj\Release\net8.0\win-x86\PubTmp\Out\Microsoft.EntityFrameworkCore.Sqlite.dll
 D:\My_Projects\Talabat Project\Otlob\Otlob\obj\Release\net8.0\win-x86\PubTmp\Out\Microsoft.EntityFrameworkCore.SqlServer.dll
@@ -87,6 +93,7 @@ D:\My_Projects\Talabat Project\Otlob\Otlob\obj\Release\net8.0\win-x86\PubTmp\Out
 D:\My_Projects\Talabat Project\Otlob\Otlob\obj\Release\net8.0\win-x86\PubTmp\Out\System.Composition.Runtime.dll
 D:\My_Projects\Talabat Project\Otlob\Otlob\obj\Release\net8.0\win-x86\PubTmp\Out\System.Composition.TypedParts.dll
 D:\My_Projects\Talabat Project\Otlob\Otlob\obj\Release\net8.0\win-x86\PubTmp\Out\System.Configuration.ConfigurationManager.dll
+D:\My_Projects\Talabat Project\Otlob\Otlob\obj\Release\net8.0\win-x86\PubTmp\Out\System.Data.SqlClient.dll
 D:\My_Projects\Talabat Project\Otlob\Otlob\obj\Release\net8.0\win-x86\PubTmp\Out\System.IdentityModel.Tokens.Jwt.dll
 D:\My_Projects\Talabat Project\Otlob\Otlob\obj\Release\net8.0\win-x86\PubTmp\Out\System.Linq.Dynamic.Core.dll
 D:\My_Projects\Talabat Project\Otlob\Otlob\obj\Release\net8.0\win-x86\PubTmp\Out\System.Memory.Data.dll
@@ -234,6 +241,7 @@ D:\My_Projects\Talabat Project\Otlob\Otlob\obj\Release\net8.0\win-x86\PubTmp\Out
 D:\My_Projects\Talabat Project\Otlob\Otlob\obj\Release\net8.0\win-x86\PubTmp\Out\zh-Hans\Microsoft.CodeAnalysis.Workspaces.resources.dll
 D:\My_Projects\Talabat Project\Otlob\Otlob\obj\Release\net8.0\win-x86\PubTmp\Out\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll
 D:\My_Projects\Talabat Project\Otlob\Otlob\obj\Release\net8.0\win-x86\PubTmp\Out\Microsoft.Data.SqlClient.SNI.dll
+D:\My_Projects\Talabat Project\Otlob\Otlob\obj\Release\net8.0\win-x86\PubTmp\Out\sni.dll
 D:\My_Projects\Talabat Project\Otlob\Otlob\obj\Release\net8.0\win-x86\PubTmp\Out\e_sqlite3.dll
 D:\My_Projects\Talabat Project\Otlob\Otlob\obj\Release\net8.0\win-x86\PubTmp\Out\Otlob.Core.dll
 D:\My_Projects\Talabat Project\Otlob\Otlob\obj\Release\net8.0\win-x86\PubTmp\Out\Otlob.EF.dll

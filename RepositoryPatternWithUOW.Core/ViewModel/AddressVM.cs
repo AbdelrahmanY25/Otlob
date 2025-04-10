@@ -12,7 +12,7 @@ namespace Otlob.Core.ViewModel
         [Required, MinLength(10), MaxLength(100)]
         public string CustomerAddres { get; set; }
 
-        public Address MapToAddress(string userId, int addresId = 0) 
+        public Address MapToAddress(string userId, int addresId = 0)
         {
             Address address;
 

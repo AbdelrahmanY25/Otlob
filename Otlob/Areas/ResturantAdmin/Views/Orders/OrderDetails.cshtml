@@ -1,12 +1,10 @@
-﻿@using Otlob.Core.IUnitOfWorkRepository
-@using Otlob.Core.Models
+﻿@using Otlob.Core.Models
 @using Otlob.Core.ViewModel
 @model OrderDetailsViewModel
-@inject IUnitOfWorkRepository unitOfWorkRepository
 
-@if (Model.Order.Status == OrderStatus.Delivered)
+@if (Model.OrderStatus == OrderStatus.Delivered)
 {
-    <div class="btn btn-warning"><a href="/ResturantAdmin/Orders/DeliveredOrders/@Model.Order.RestaurantId">Back to resturant orders</a></div>
+    <div class="btn btn-warning"><a href="/ResturantAdmin/Orders/DeliveredOrders/@Model.RestaurantId">Back to resturant orders</a></div>
 }
 else
 {
@@ -17,15 +15,17 @@ else
 
 <table class="table table-bordered table-striped dt-responsive nowrap">
     <thead>
-        <tr>
+        <tr class="text-center">
             <th>
                 Meal
             </th>
             <th>Price</th>
-            <th></th>
             <th>
-                Additons
-            </th>             
+                Quantity
+            </th>
+            <th>
+                Total Price
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -33,30 +33,29 @@ else
         {
             <tr>
                 <td>
-                    @* <img alt="MealLogo" class="avatar rounded-circle" src="/images/meals/@item.Meal.Image" /> *@
                     <img alt="MealLogo" class="avatar rounded-circle" src="data:image/*;base64,@(Convert.ToBase64String(item.Meal.Image))" />
                     @Html.DisplayFor(modelItem => item.Meal.Name)
                 </td>
-                <td>
-                    @item.Meal.Price
+                <td class="text-center">
+                    @item.MealPrice L.E
                 </td>
                 <td class="text-center text-success">
-                    X @Html.DisplayFor(modelItem => item.Quantity)
+                    X @Html.DisplayFor(modelItem => item.MealQuantity)
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Meal.Description)
-                </td>               
+                <td class="text-center">
+                    @item.TotalPrice L.E
+                </td>
             </tr>
         }
     </tbody>
 </table>
 
 <div class="text-center">
-    PaymentMethod : @Model.Order.Method
+    PaymentMethod : @Model.PaymentMethod
 </div>
 
 <div class="text-center">
-    Sub Price : @Model.SubPrice L.E <br />
-    DeliveryFee : @Model.DeliveryFee L.E <br />
-    Total Price : @(Model.DeliveryFee + Model.SubPrice) L.E
+    Sub Price : @Model.SubPrice.ToString("0.00") L.E <br />
+    DeliveryFee : @Model.DeliveryFee.ToString("0.00") L.E <br />
+    Total Price : @(Model.TotalPrice.ToString("0.00")) L.E
 </div>
