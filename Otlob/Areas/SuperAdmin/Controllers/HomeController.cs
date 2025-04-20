@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Otlob.Core.IServices;
 using Otlob.Core.IUnitOfWorkRepository;
 using Otlob.Core.Models;
+using Otlob.IServices;
 using Utility;
 
 namespace Otlob.Areas.SuperAdmin.Controllers
@@ -12,13 +13,16 @@ namespace Otlob.Areas.SuperAdmin.Controllers
     {        
         private readonly IUnitOfWorkRepository unitOfWorkRepository;
         private readonly IRestaurantService restaurantService;
+        private readonly IOrderService orderService;
 
-        public HomeController(IUnitOfWorkRepository unitOfWorkRepository, IRestaurantService restaurantService)
+        public HomeController(IUnitOfWorkRepository unitOfWorkRepository, IRestaurantService restaurantService, IOrderService orderService)
         {
             this.unitOfWorkRepository = unitOfWorkRepository;
             this.restaurantService = restaurantService;
+            this.orderService = orderService;
         }
-        public IActionResult Index(DateOnly ordersDate)
+
+        public IActionResult Index(DateTime ordersDate)
         {
             // Users data
             var users = unitOfWorkRepository.Users.Get(expression: u => u.RestaurantId == 0);
@@ -38,21 +42,20 @@ namespace Otlob.Areas.SuperAdmin.Controllers
             //ViewBag.UnActiveUsers = Math.Round((decimal)nOfUnActiveUsers / nOfUsers * 100, 2);
 
             // Orders data
-            var allOrders = unitOfWorkRepository.Orders.Get(expression: o => o.OrderDate.Day == DateTime.Today.Day && o.OrderDate.Month == DateTime.Today.Month && o.OrderDate.Year == DateTime.Today.Year);
-            var pendingOrders = unitOfWorkRepository.Orders.Get(expression: o => o.Status == OrderStatus.Pending && o.OrderDate.Day == DateTime.Today.Day && o.OrderDate.Month == DateTime.Today.Month && o.OrderDate.Year == DateTime.Today.Year);
-            var preparingOrders = unitOfWorkRepository.Orders.Get(expression: o => o.Status == OrderStatus.Preparing && o.OrderDate.Day == DateTime.Today.Day && o.OrderDate.Month == DateTime.Today.Month && o.OrderDate.Year == DateTime.Today.Year);
-            var shippedOrders = unitOfWorkRepository.Orders.Get(expression: o => o.Status == OrderStatus.Shipped && o.OrderDate.Day == DateTime.Today.Day && o.OrderDate.Month == DateTime.Today.Month && o.OrderDate.Year == DateTime.Today.Year);
+            var allOrders = orderService.GetOrdersCountByDate(DateTime.Today);
+            var pendingOrders = orderService.GetOrdersDayByStatus(OrderStatus.Pending);
+            var preparingOrders = orderService.GetOrdersDayByStatus(OrderStatus.Preparing);
+            var shippedOrders = orderService.GetOrdersDayByStatus(OrderStatus.Shipped);
 
-            var totalOrders = allOrders.Count();
             var pending = pendingOrders.Count();
             var preparing = preparingOrders.Count();
             var shipped = shippedOrders.Count();
 
-            if (totalOrders > 0)
+            if (allOrders > 0)
             {
-                ViewBag.PendingOrders = Math.Round((decimal)pending / totalOrders * 100, 2);
-                ViewBag.PreparingOrders = Math.Round((decimal)preparing / totalOrders * 100, 2);
-                ViewBag.ShippedOrders = Math.Round((decimal)shipped / totalOrders * 100, 2);
+                ViewBag.PendingOrders = Math.Round((decimal)pending / allOrders * 100, 2);
+                ViewBag.PreparingOrders = Math.Round((decimal)preparing / allOrders * 100, 2);
+                ViewBag.ShippedOrders = Math.Round((decimal)shipped / allOrders * 100, 2);
             }
             else
             {
@@ -62,9 +65,9 @@ namespace Otlob.Areas.SuperAdmin.Controllers
             }
 
             // Sales data
-            var allDeliverdOrders = unitOfWorkRepository.Orders.Get(expression: o => ordersDate == null || ordersDate == DateOnly.MinValue ?
-                                                                                    o.Status == OrderStatus.Delivered && o.OrderDate.Day == DateTime.Today.Day && o.OrderDate.Month == DateTime.Today.Month && o.OrderDate.Year == DateTime.Today.Year :
-                                                                                    o.Status == OrderStatus.Delivered && o.OrderDate.Day == ordersDate.Day && o.OrderDate.Month == ordersDate.Month && o.OrderDate.Year == ordersDate.Year);
+            var allDeliverdOrders = unitOfWorkRepository.Orders.Get(expression: o => ordersDate == null || ordersDate == DateTime.MinValue ?
+                                                                                    o.Status == OrderStatus.Delivered && o.OrderDate.Date == DateTime.Today.Date :
+                                                                                    o.Status == OrderStatus.Delivered && o.OrderDate.Date == ordersDate.Date);
 
                                                                                
             if (allDeliverdOrders != null)
@@ -73,11 +76,11 @@ namespace Otlob.Areas.SuperAdmin.Controllers
 
                 if (totalDeliverdOrders > 0)
                 {
-                    var Sales = 0;// allDeliverdOrders.Sum(o => o.OrderPrice)
+                    var Sales = allDeliverdOrders.Sum(o => o.TotalOrderPrice);
 
                     ViewBag.TotalOrders = totalDeliverdOrders;
                     ViewBag.Sales = Sales;
-                    ViewBag.NetProfit = Math.Round(Sales * (decimal)0.05, 2);
+                    ViewBag.NetProfit = Math.Round(Sales * (decimal)0.1, 2);
                 }
                 else
                 {

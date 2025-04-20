@@ -22,7 +22,7 @@ namespace Otlob.Areas.SuperAdmin.Controllers
         {
             int restaurantId = encryptionService.DecryptId(id);
 
-            RestaurantVM resturantVM = restaurantService.GetRestaurant(restaurantId);
+            RestaurantVM resturantVM = restaurantService.GetRestaurantDetailsById(restaurantId);
 
             HttpContext.Session.SetString("restaurantId", encryptionService.EncryptId(restaurantId));
 

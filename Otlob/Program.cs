@@ -38,8 +38,8 @@ namespace Otlob
                 options.Cookie.IsEssential = true; // Ensure session is always available
             });
 
-            builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
-                    b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
+            builder.Services.AddDbContext<ApplicationDbContext>(
+                options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
            
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
             {
@@ -78,6 +78,7 @@ namespace Otlob
             builder.Services.AddScoped<IOrderService, OrderService>();
             builder.Services.AddScoped<IOrderDetailsService, OrderDetailsService>();
             builder.Services.AddScoped<ITempOrderService, TempOrderService>();
+            builder.Services.AddScoped<IPaginationService, PaginationService>();
 
             builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
             StripeConfiguration.ApiKey = builder.Configuration["Stripe:SecretKey"];

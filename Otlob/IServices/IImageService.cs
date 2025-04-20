@@ -1,11 +1,10 @@
-﻿using Microsoft.AspNetCore.Http;
-using Otlob.Core.Models;
+﻿using Utility;
 
 
 namespace Otlob.Core.IServices
 {
     public interface IImageService
     {
-        Task<string>? UploadImage(IFormFileCollection formFile, ImageProp imageProp);
+        Task<string>? UploadImage(IFormFileCollection formFile, ImageUrl? imageUrl);
     }
 }

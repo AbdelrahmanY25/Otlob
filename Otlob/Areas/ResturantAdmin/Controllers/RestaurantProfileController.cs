@@ -30,7 +30,7 @@ namespace Otlob.Areas.Restaurants.Controllers
                 return RedirectToAction("Login", "Account", new { Area = "Customer" });
             }
 
-            RestaurantVM resturantVM = restaurantService.GetRestaurant(user.RestaurantId);
+            RestaurantVM resturantVM = restaurantService.GetRestaurantDetailsById(user.RestaurantId);
 
             return View(resturantVM);
         }

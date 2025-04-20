@@ -7,8 +7,8 @@ namespace Otlob.Core.IServices
     {
         IQueryable<RestaurantVM> GetAllRestaurantsJustMainInfo(RestaurantCategory? filter, AcctiveStatus[]? statuses = null);
         RestaurantVM GetRestaurantJustMainInfo(int restaurantId);
-        RestaurantVM GetRestaurant(int restaurantId);
+        RestaurantVM GetRestaurantDetailsById(int restaurantId);
         Task<string>? EditRestaurantProfileInfo(RestaurantVM restaurantVM, int restaurantId, IFormFileCollection image, bool ValidateData = true);
-        bool ChangeRestauranStatus(int restaurantId, AcctiveStatus status);
+        bool ChangeRestauranStatus(string id, AcctiveStatus status);
     }
 }

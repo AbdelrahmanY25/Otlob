@@ -73,7 +73,7 @@ namespace Otlob.Services
 
         public async Task<string> AddMeal(MealVm mealVM, int restaurantId, IFormFileCollection image)
         {
-            string isImageUploaded = await imageService.UploadImage(image, imageProp: mealVM);
+            string isImageUploaded = await imageService.UploadImage(image, imageUrl: mealVM);
 
             if (isImageUploaded is string)
             {
@@ -92,7 +92,7 @@ namespace Otlob.Services
 
         public async Task<string> EditMeal(MealVm mealVM, int mealId, IFormFileCollection image)
         {
-            string isImageUploaded = await imageService.UploadImage(image, imageProp: mealVM);
+            string isImageUploaded = await imageService.UploadImage(image, imageUrl: mealVM);
 
             if (isImageUploaded is string)
             {

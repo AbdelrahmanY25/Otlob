@@ -80,7 +80,7 @@ else
             </dt>
 
             <dd class = "col-sm-10">
-                <a class="btn btn-success" asp-action="AcceptResturant" asp-route-id="@encryptionId">Accept Resturant</a>
+                <a class="btn btn-success" asp-controller="RestaurantStatus" asp-action="ChangeRestaurantStatus" asp-route-id="@encryptionId" asp-route-status="@AcctiveStatus.Acctive">Accept Resturant</a>
             </dd>
         }
     </dl>
@@ -90,7 +90,6 @@ else
     <a class="btn btn-primary" asp-controller="RestaurantProfile" asp-action="EditRestaurantProfile" asp-route-id="@encryptionId">Resturant Profile</a>
     <a class="btn btn-primary" asp-controller="ResturantAdminProfile" asp-action="ResturantAdminProfile" asp-route-id="@encryptionId">Resturant Admin Profile</a>
     <a class="btn btn-warning" asp-controller="RestaurantMeals" asp-action="RestaurantMeals" asp-route-id="@encryptionId">Meals</a>
-    <a class="btn btn-success" asp-action="CurrentResturantOrders" asp-route-id="@encryptionId">Orders</a>
-    <a class="btn btn-info" asp-action="DeliveredOrders" asp-route-id="@encryptionId">Delivered Orders</a>
+    <a class="btn btn-success" asp-controller="RestaurantOrders" asp-action="RestaurantOrders" asp-route-id="@encryptionId">Restaurant Orders</a>
     <a class="btn btn-danger" asp-action="ResturantComplaints" asp-route-id="@encryptionId">Complaints</a>
 </div>

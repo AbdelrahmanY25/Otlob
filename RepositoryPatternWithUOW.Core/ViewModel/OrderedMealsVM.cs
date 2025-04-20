@@ -1,11 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Otlob.Core.Models;
 using System.ComponentModel.DataAnnotations;
+using Utility;
 
 namespace Otlob.Core.ViewModel
 {
-    public class OrderedMealsVM : ImageProp
+    public class OrderedMealsVM : ImageUrl
     {
         public int Id { get; set; }
         public int MealId { get; set; }
@@ -18,7 +18,8 @@ namespace Otlob.Core.ViewModel
         public decimal PricePerMeal { get; set; }
         public string MealName { get; set; }
         public string? MealDescription { get; set; }
-      
+        public byte[]? Image { get; set; }
+
         public static IEnumerable<OrderedMealsVM> MappToOrderedMealsVMCollection(IQueryable<OrderedMeals> orderedMeals)
         {
             List<OrderedMealsVM> orderedMealsVMs = new List<OrderedMealsVM>();

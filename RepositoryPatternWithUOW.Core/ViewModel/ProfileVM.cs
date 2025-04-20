@@ -1,9 +1,10 @@
 ﻿using Otlob.Core.Models;
 using System.ComponentModel.DataAnnotations;
+using Utility;
 
 namespace Otlob.Core.ViewModel
 {
-    public class ProfileVM : ImageProp
+    public class ProfileVM : ImageUrl
     {
         public int ProfileVMId { get; set; }
 
@@ -27,19 +28,20 @@ namespace Otlob.Core.ViewModel
         [Required, DataType(DataType.PhoneNumber)]
         [RegularExpression(@"^\d{1,11}$", ErrorMessage = "The phone number must contain only numbers and be up to 11 digits long.")]
         public string? PhoneNumber { get; set; }
+        public byte[]? Image { get; set; }
 
-        public static ProfileVM MapToProfileVM(ApplicationUser user)
-        {
-            return new ProfileVM
-            {
-                Email = user.Email,
-                BirthDate = user.BirthDate,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                Gender = user.Gender,
-                PhoneNumber = user.PhoneNumber,
-                Image = user.Image
-            };
-        }
+        //public static ProfileVM MapToProfileVM(ApplicationUser user)
+        //{
+        //    return new ProfileVM
+        //    {
+        //        Email = user.Email,
+        //        BirthDate = user.BirthDate,
+        //        FirstName = user.FirstName,
+        //        LastName = user.LastName,
+        //        Gender = user.Gender,
+        //        PhoneNumber = user.PhoneNumber,
+        //        Image.Image = user.Image
+        //    };
+        //}
     }
 }

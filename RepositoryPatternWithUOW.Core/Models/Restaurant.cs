@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using Utility;
 
 namespace Otlob.Core.Models
 {
-    public class Restaurant : ImageProp
+    public class Restaurant : ImageUrl
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -15,6 +16,7 @@ namespace Otlob.Core.Models
         public decimal DeliveryDuration { get; set; }
         public AcctiveStatus AcctiveStatus { get; set; } = AcctiveStatus.Unaccepted;
         public RestaurantCategory Category { get; set; }
+        public byte[]? Image { get; set; }
 
         [ValidateNever]
         public  ICollection<Meal> Meals { get; set; }

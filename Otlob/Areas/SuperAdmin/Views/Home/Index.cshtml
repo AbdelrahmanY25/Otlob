@@ -1,4 +1,5 @@
-﻿@using Utility
+﻿@using Otlob.Core.Models
+@using Utility
 @{
     ViewData["Title"] = "Super Admin Home Page";
 }
@@ -28,13 +29,13 @@
 
     <div class="orders ordersStatus">
         <div class="dd pending">
-            <a asp-action="Pending" asp-controller="OrdersStatus">Pending @ViewBag.PendingOrders%</a>
+            <a asp-controller="OrdersStatus" asp-action="Index" asp-route-status="@OrderStatus.Pending">Pending @ViewBag.PendingOrders%</a>
         </div>
         <div class="dd preparing">
-            <a asp-action="Preparing" asp-controller="OrdersStatus">Preparing @ViewBag.PreparingOrders%</a>
+            <a asp-controller="OrdersStatus" asp-action="Index" asp-route-status="@OrderStatus.Preparing">Preparing @ViewBag.PreparingOrders%</a>
         </div>
         <div class="dd shipped">
-            <a asp-action="Shipped" asp-controller="OrdersStatus">Shipped @ViewBag.ShippedOrders%</a>
+            <a asp-controller="OrdersStatus" asp-action="Index" asp-route-status="@OrderStatus.Shipped">Shipped @ViewBag.ShippedOrders%</a>
         </div>
     </div>
 

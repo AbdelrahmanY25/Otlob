@@ -35,7 +35,7 @@ namespace Otlob.EF
                     .HasDefaultValue(false);
             }
 
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);           
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);     
         }
     }
 }

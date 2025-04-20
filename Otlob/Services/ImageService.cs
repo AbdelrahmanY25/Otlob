@@ -1,5 +1,5 @@
 ﻿using Otlob.Core.IServices;
-using Otlob.Core.Models;
+using Utility;
 
 namespace Otlob.Core.Services
 {
@@ -31,22 +31,22 @@ namespace Otlob.Core.Services
             return null; 
         }
 
-        private async Task<bool> CopyImageToMemoryStream(IFormFile image, ImageProp imageProp)
+        private async Task<bool> CopyImageToMemoryStream(IFormFile image, ImageUrl imageUrl)
         {            
             using var memoryStream = new MemoryStream();
             await image.CopyToAsync(memoryStream);
 
-            if (imageProp is null)
+            if (imageUrl is null)
             {
                 return false;
             }
 
-            imageProp.Image = memoryStream.ToArray();           
+            imageUrl.Image = memoryStream.ToArray();           
             return true;
         }
 
-        public async Task<string>? UploadImage(IFormFileCollection formFile, ImageProp? imageProp)
-        {
+        public async Task<string>? UploadImage(IFormFileCollection formFile, ImageUrl? imageUrl)
+        {            
             if(!IsImageUploaded(formFile))
             {
                 return "There is no Image Uploaded";
@@ -60,12 +60,12 @@ namespace Otlob.Core.Services
                 return resOfValidation;
             }
            
-            if (imageProp is null)
+            if (imageUrl is null)
             {
                 return "Error in uploading image";
             }
 
-            if (!await CopyImageToMemoryStream(image, imageProp: imageProp))
+            if (!await CopyImageToMemoryStream(image, imageUrl: imageUrl))
             {
                 return "Error in uploading image";
             }

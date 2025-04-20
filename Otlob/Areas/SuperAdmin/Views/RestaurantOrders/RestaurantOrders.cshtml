@@ -1,0 +1,100 @@
+﻿@using Otlob.Core.IServices
+@using Otlob.Core.ViewModel
+@model PaginationVM<RestaurantOrdersVM>
+@inject IEncryptionService encryptionService
+
+<style>
+    .pagination .page-item.active .page-link {
+    background-color: rgb(192, 40, 16);
+    border-color: rgb(192, 40, 16);
+    }
+
+    .pagination .page-link {
+    color: rgb(192, 40, 16);
+    }
+
+    .pagination .page-link:hover {
+    color: #fff;
+    background-color: rgb(192, 40, 16);
+    border-color: rgb(192, 40, 16);
+    }
+</style>
+
+<div class="articles" id="articles">    
+    <div class="container" id="container">
+        @foreach (var item in Model.Items)
+        {
+            string encryptedId = encryptionService.EncryptId(item.OrderId);
+
+            <div class="card">                
+                <div class="text">
+                    <p>At: @item.OrderDate.ToString("dd/MM/yyyy : hh:mm:ss tt")</p>
+                </div>
+                <div class="text">
+                    <h6>Order Status: <strong class="text-success">@item.OrderStatus</strong></h6>                 
+                    <h6>Payment Method: <strong class="text-success">@item.PaymentMethod</strong></h6>                 
+                    <h6>Total Order Price: <strong class="text-success">@item.TotalOrderPrice</strong></h6>              
+                </div>
+
+                <div class="read">
+                    <a class="btn btn-success" asp-controller="Order" asp-action="Details" asp-route-id="@encryptedId">Order Details</a>
+                </div>
+            </div>
+        }
+    </div>
+
+    <nav aria-label="Page navigation example" class="mt-5">
+        <ul class="pagination justify-content-center">
+            @{
+                int id = Model.Items.First().RestaurantId;
+                string encrResId = encryptionService.EncryptId(id);
+            }
+
+            @if (Model.HasPreviousPage)
+            {
+                <li class="page-item">
+                    <a class="page-link" asp-controller="RestaurantOrders" asp-action="RestaurantOrders" asp-route-id="@encrResId" asp-route-currentPageNumber="@(Model.CurrentPageNumber - 1)">
+                        Previous
+                    </a>
+                </li>
+            }
+            else
+            {
+                <li class="page-item disabled">
+                    <span class="page-link">Previous</span>
+                </li>
+            }
+
+            @for (int i = 1; i <= Model.PageCount; i++)
+            {
+                if (i == Model.CurrentPageNumber)
+                {
+                    <li class="page-item active" aria-current="page">
+                        <span class="page-link">@i</span>
+                    </li>
+                }
+                else
+                {
+                    <li class="page-item">
+                        <a class="page-link" asp-controller="RestaurantOrders" asp-action="RestaurantOrders" asp-route-id="@encrResId" asp-route-currentPageNumber="@i">@i</a>
+                    </li>
+                }
+            }
+
+            @if (Model.HasNextPage)
+            {
+                <li class="page-item">
+                    <a class="page-link" asp-controller="RestaurantOrders" asp-action="RestaurantOrders" asp-route-id="@encrResId" asp-route-currentPageNumber="@(Model.CurrentPageNumber + 1)">
+                        Next
+                    </a>
+                </li>
+            }
+            else
+            {
+                <li class="page-item disabled">
+                    <span class="page-link">Next</span>
+                </li>
+            }
+        </ul>
+    </nav>
+</div>

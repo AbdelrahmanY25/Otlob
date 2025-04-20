@@ -3,7 +3,6 @@
     public class MealQuantityResult
     {
         public HandleMealQuantityProcess Status { get; init; }
-        public int? CartId { get; init; }
     }
 
     public enum HandleMealQuantityProcess

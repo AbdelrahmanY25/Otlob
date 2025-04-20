@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "WrvyqMe76l52gUH/97OBv8YfhGt2+JybUQ/pP2IRT1c=",
+  "Hash": "LtKiWro8gehUJ+5cZsK0wdoJ6a9KzuPYUwvN/XMxuSY=",
   "Source": "Otlob",
   "BasePath": "_content/Otlob",
   "Mode": "Default",
@@ -1417,8 +1417,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "cwgldokwz4",
-      "Integrity": "zBW0EyHciOVTkFTOj+AMYwaLbcxKUP5qYH2qed8U89g=",
+      "Fingerprint": "88mk8b5a3r",
+      "Integrity": "eG6Wb2mnFR706YzqrdpbCO0d/+V4wUf0z5H9J8LAVPk=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\css\\site.css"
@@ -4505,6 +4505,51 @@
       ]
     },
     {
+      "Route": "css/site.88mk8b5a3r.css",
+      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\css\\site.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "14538"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"eG6Wb2mnFR706YzqrdpbCO0d/+V4wUf0z5H9J8LAVPk=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 10 Apr 2025 17:56:40 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "88mk8b5a3r"
+        },
+        {
+          "Name": "label",
+          "Value": "css/site.css"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-eG6Wb2mnFR706YzqrdpbCO0d/+V4wUf0z5H9J8LAVPk="
+        }
+      ]
+    },
+    {
       "Route": "css/site.css",
       "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\css\\site.css",
       "Selectors": [],
@@ -4515,7 +4560,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "14509"
+          "Value": "14538"
         },
         {
           "Name": "Content-Type",
@@ -4523,11 +4568,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"zBW0EyHciOVTkFTOj+AMYwaLbcxKUP5qYH2qed8U89g=\""
+          "Value": "\"eG6Wb2mnFR706YzqrdpbCO0d/+V4wUf0z5H9J8LAVPk=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 13 Mar 2025 14:22:54 GMT"
+          "Value": "Thu, 10 Apr 2025 17:56:40 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -4537,52 +4582,7 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-zBW0EyHciOVTkFTOj+AMYwaLbcxKUP5qYH2qed8U89g="
-        }
-      ]
-    },
-    {
-      "Route": "css/site.cwgldokwz4.css",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\css\\site.css",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "14509"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"zBW0EyHciOVTkFTOj+AMYwaLbcxKUP5qYH2qed8U89g=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 13 Mar 2025 14:22:54 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "cwgldokwz4"
-        },
-        {
-          "Name": "label",
-          "Value": "css/site.css"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-zBW0EyHciOVTkFTOj+AMYwaLbcxKUP5qYH2qed8U89g="
+          "Value": "sha256-eG6Wb2mnFR706YzqrdpbCO0d/+V4wUf0z5H9J8LAVPk="
         }
       ]
     },

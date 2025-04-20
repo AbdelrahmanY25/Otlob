@@ -35,7 +35,7 @@ namespace Otlob.EF.Configurations
                     r => (RestaurantCategory)Enum.Parse(typeof(RestaurantCategory), r)
                 )
                 .HasColumnType("VARCHAR")
-                .HasMaxLength(20);
+                .HasMaxLength(20);            
         }
     }
 }

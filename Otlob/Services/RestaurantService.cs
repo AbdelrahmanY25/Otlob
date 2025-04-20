@@ -11,12 +11,17 @@ namespace Otlob.Core.Services
         private readonly IUnitOfWorkRepository.IUnitOfWorkRepository unitOfWorkRepository;
         private readonly IImageService imageService;
         private readonly IRestaurantFilterService restaurantFilterService;
+        private readonly IEncryptionService encryptionService;
 
-        public RestaurantService(IUnitOfWorkRepository.IUnitOfWorkRepository unitOfWorkRepository, IImageService imageService, IRestaurantFilterService restaurantFilterService)
+        public RestaurantService(IUnitOfWorkRepository.IUnitOfWorkRepository unitOfWorkRepository,
+                                 IImageService imageService,
+                                 IRestaurantFilterService restaurantFilterService,
+                                 IEncryptionService encryptionService)
         {
             this.unitOfWorkRepository = unitOfWorkRepository;
             this.imageService = imageService;
             this.restaurantFilterService = restaurantFilterService;
+            this.encryptionService = encryptionService;
         }
 
         public IQueryable<RestaurantVM> GetAllRestaurantsJustMainInfo(RestaurantCategory? filter = null, AcctiveStatus[]? statuses = null)
@@ -66,7 +71,7 @@ namespace Otlob.Core.Services
             return restaurantsVM;
          }
 
-        public RestaurantVM GetRestaurant(int restaurantId)
+        public RestaurantVM GetRestaurantDetailsById(int restaurantId)
         {
             var restaurant = unitOfWorkRepository.Restaurants
                 .GetOne
@@ -112,8 +117,10 @@ namespace Otlob.Core.Services
             return null;
         }
 
-        public bool ChangeRestauranStatus(int restaurantId, AcctiveStatus status)
+        public bool ChangeRestauranStatus(string id, AcctiveStatus status)
         {
+            int restaurantId = encryptionService.DecryptId(id);
+
             Restaurant? restaurant = unitOfWorkRepository.Restaurants.GetOne(expression: r => r.Id == restaurantId);
             
             if (restaurant is null)

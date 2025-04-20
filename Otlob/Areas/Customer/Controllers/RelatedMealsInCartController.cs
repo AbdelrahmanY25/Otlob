@@ -10,23 +10,17 @@ namespace Otlob.Areas.Customer.Controllers
     public class RelatedMealsInCartController : Controller
     {
         private readonly IOrderedMealsService orderedMealsService;
+        private readonly ICartService cartService;
         private readonly IEncryptionService encryptionService;
 
         public RelatedMealsInCartController(IOrderedMealsService orderedMealsService,
+                                            ICartService cartService,
                                             IEncryptionService encryptionService)
         {
             this.orderedMealsService = orderedMealsService;
+            this.cartService = cartService;
             this.encryptionService = encryptionService;
         }
-
-        public IActionResult RelatedMeals(string id)
-        {
-            int cartId = encryptionService.DecryptId(id);
-
-            var orderedMeals = orderedMealsService.GetOrderedMealsVMToView(cartId);
-
-            return View(orderedMeals);
-        }      
 
         public IActionResult ChangeMealQuantity(string id, MealQuantity type)
         {
@@ -54,7 +48,7 @@ namespace Otlob.Areas.Customer.Controllers
 
             if (selectedOrderMeal is null || !isMealsExistInCart)
             {
-                return RedirectToAction("DeleteCart", "Cart", new { id = encryptionService.EncryptId(selectedOrderMeal.CartId) });
+                cartService.DeleteCart(selectedOrderMeal.CartId);
             }
 
             return RedirectToAction("Cart", "Cart");

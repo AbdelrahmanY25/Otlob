@@ -44,12 +44,13 @@ namespace Otlob.Areas.ResturantAdmin.Controllers
                                 .Orders
                                 .Get(
                                         [o => o.User, o => o.Restaurant],
-                                        expression: o => o.RestaurantId == resturant.RestaurantId && (exclude ? o.Status != status : o.Status == status),
+                                        expression: o => o.RestaurantId == resturant.RestaurantId &&
+                                                         (exclude ? o.Status != status : o.Status == status),
                                         tracked: false
                                     )
                                 .OrderByDescending(o => o.OrderDate);
 
-            decimal mostExpensiveOrder = orders.Any() ? 0 : 0;
+            decimal mostExpensiveOrder = orders.Max(o => o.TotalOrderPrice);
 
             var viewModel = new OrderViewModel
             {

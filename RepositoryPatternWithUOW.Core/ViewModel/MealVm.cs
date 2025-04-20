@@ -1,10 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
-using Otlob.Core.Models;
+﻿using Otlob.Core.Models;
 using System.ComponentModel.DataAnnotations;
+using Utility;
 
 namespace Otlob.Core.ViewModel
 {
-    public class MealVm : ImageProp
+    public class MealVm : ImageUrl
     {
         public int MealVmId { get; set; }
         public int RestaurantId { get; set; }
@@ -25,6 +25,7 @@ namespace Otlob.Core.ViewModel
         public bool IsAvailable { get; set; }
         public bool IsNewMeal { get; set; }
         public bool IsTrendingMeal { get; set; }
+        public byte[]? Image { get; set; }
 
         [Required]
         public MealCategory Category { get; set; }

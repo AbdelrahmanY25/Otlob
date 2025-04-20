@@ -12,17 +12,22 @@ namespace Otlob.Areas.Customer.Controllers
         private readonly IOrderDetailsService orderDetailsService;
         private readonly IOrderService orderService;
         private readonly UserManager<ApplicationUser> userManager;
+        private readonly IPaginationService paginationService;
+
+        private const int pageSize = 5;
 
         public OrdersHistoryController(IOrderDetailsService orderDetailsService,
                                        IOrderService orderService,
-                                       UserManager<ApplicationUser> userManager)
+                                       UserManager<ApplicationUser> userManager,
+                                       IPaginationService paginationService)
         {
             this.orderDetailsService = orderDetailsService;
             this.orderService = orderService;
             this.userManager = userManager;
+            this.paginationService = paginationService;
         }
 
-        public ActionResult TrackOrders()
+        public ActionResult TrackOrders(int currentPageNumber = 1)
         {
             string? userId = userManager.GetUserId(User);
 
@@ -31,9 +36,11 @@ namespace Otlob.Areas.Customer.Controllers
                 return RedirectToAction("Login", "Account");
             }
 
-            var orders = orderService.GetUserOrders(userId);
+            var orders = orderService.GetUserTrackedOrders(userId);
 
-            return View(orders);
+            PaginationVM<TrackOrderVM> viewModel = paginationService.PaginateItems(orders, pageSize, currentPageNumber);
+
+            return View(viewModel);
         }
 
         public ActionResult OrderDetails(string id)

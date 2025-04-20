@@ -51,8 +51,8 @@ namespace Otlob.Core.Services
         public Cart? GetUserCart(string userId, int restaurantId)
         {
             Cart? userCart = unitOfWorkRepository
-                .Carts.GetOne
-                 (expression: c => c.RestaurantId == restaurantId && c.ApplicationUserId == userId);
+                            .Carts.GetOne(
+                                expression: c => c.RestaurantId == restaurantId && c.ApplicationUserId == userId);
 
             return userCart;
         }      

@@ -1,0 +1,128 @@
+﻿@using Otlob.Core.IServices
+@using Otlob.Core.ViewModel;
+@using Otlob.Core.Models;
+@model PaginationVM<Order>
+@inject IEncryptionService encryptionService
+
+<style>
+    .pagination .page-item.active .page-link {
+        background-color: rgb(192, 40, 16);
+        border-color: rgb(192, 40, 16);
+    }
+
+    .pagination .page-link {
+        color: rgb(192, 40, 16);
+    }
+
+    .pagination .page-link:hover {
+        color: #fff;
+        background-color: rgb(192, 40, 16);
+        border-color: rgb(192, 40, 16);
+    }
+</style>
+
+<div class="articles" id="articles">
+
+    <div class="ordersData">
+        <div class="orders">
+            <span>@Model.totalItems : Orders</span>
+        </div>
+    </div>
+
+    <div class="container">
+        @foreach (var item in Model.Items)
+        {
+            string encryptedId = encryptionService.EncryptId(item.Id);
+
+            <div class="card">
+                <div class="text">
+                    @if (item.User.Image is not null)
+                    {
+                        <img class="avatar rounded-circle" alt="profilePicture" src="data:image/*;base64,@(Convert.ToBase64String(item.User.Image))" />
+                    }
+                    else
+                    {
+                        <img class="avatar rounded-circle" src="~/images/Default.jpg" alt="Customer Profile Picture" />
+                    }
+                    @item.User.UserName
+                </div>
+                <div class="text">
+                    @if (item.Restaurant.Image is not null)
+                    {
+                        <img class="avatar rounded-circle" alt="resturantLogo" src="data:image/*;base64,@(Convert.ToBase64String(item.Restaurant.Image))" />
+                    }
+                    else
+                    {
+                        <img class="avatar rounded-circle" src="~/images/Default.jpg" alt="Restaurant Logo" />
+                    }
+                    @item.Restaurant.Name
+                </div>
+                <div class="text">
+                    <h4>Customer Details</h4>
+                    <p>Phone Number: @item.User.PhoneNumber</p>
+                    <p>Email: @item.User.Email</p>
+                    <p>At: @item.OrderDate.ToString("dd/MM/yyyy : hh:mm:ss tt")</p>
+                </div>
+                <div class="text">
+                    <p>Order Status: <strong class="text-success">@item.Status</strong></p>
+                </div>
+                <div class="read">
+                    <a class="btn btn-success" asp-controller="Order" asp-action="Details" asp-route-id="@encryptedId">Order Details</a>
+                </div>
+            </div>
+        }
+    </div>
+
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+
+            @{OrderStatus status = Model.Items.First().Status;}
+
+            @if (Model.HasPreviousPage)
+            {
+                <li class="page-item">
+                    <a class="page-link" asp-action="Index" asp-route-status="@status" asp-route-CurrentPageNumber="@(Model.CurrentPageNumber - 1)">
+                        Previous
+                    </a>
+                </li>
+            }
+            else
+            {
+                <li class="page-item disabled">
+                    <span class="page-link">Previous</span>
+                </li>
+            }
+
+            @for (int i = 1; i <= Model.PageCount; i++)
+            {
+                if (i == Model.CurrentPageNumber)
+                {
+                    <li class="page-item active" aria-current="page">
+                        <span class="page-link">@i</span>
+                    </li>
+                }
+                else
+                {
+                    <li class="page-item">
+                        <a class="page-link" asp-action="Index" asp-route-status="@status" asp-route-CurrentPageNumber="@i">@i</a>
+                    </li>
+                }
+            }
+
+            @if (Model.HasNextPage)
+            {
+                <li class="page-item">
+                    <a class="page-link" asp-action="Index" asp-route-status="@status" asp-route-CurrentPageNumber="@(Model.CurrentPageNumber + 1)">
+                        Next
+                    </a>
+                </li>
+            }
+            else
+            {
+                <li class="page-item disabled">
+                    <span class="page-link">Next</span>
+                </li>
+            }
+        </ul>
+    </nav>
+</div>

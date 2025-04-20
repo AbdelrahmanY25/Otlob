@@ -1,9 +1,9 @@
 ﻿@using Microsoft.AspNetCore.Identity
-@using Otlob.Core.IUnitOfWorkRepository
+@using Otlob.Core.IServices
 @using Otlob.Core.Models
 @using Otlob.Core.ViewModel
 @inject UserManager<ApplicationUser> userManager
-@inject IUnitOfWorkRepository unitOfWorkRepository
+@inject IEncryptionService encryptionService
 @model OrderViewModel
 
 
@@ -23,6 +23,8 @@
     <div class="container">
         @foreach (var item in Model.Orders)
         {
+            string encryptedId = encryptionService.EncryptId(item.Id);
+
             var user = item.User;
             <div class="card">
                 <div class="text">
@@ -35,10 +37,10 @@
                         <img class="avatar rounded-circle" src="~/images/Default.jpg" alt="Customer Profile Picture" />
                     }
                     @user?.UserName
-                    @* @if (item.OrderPrice == ViewBag.MostExpensiveOrder)
+                    @if (item.TotalOrderPrice == Model.MostExpensiveOrder)
                     {
                         <span class="label">Top Order</span>
-                    } *@
+                    }
                 </div>
                 <div class="text">
                     <h4>Customer Details</h4>
@@ -50,7 +52,7 @@
                     <h6>Order Status: <strong class="text-success">@item.Status</strong></h6>                    
                 </div>
                 <div class="read">
-                    <a class="btn btn-success" asp-action="OrderDetails" asp-route-id="@item.Id">Order Details</a>
+                    <a class="btn btn-success" asp-action="OrderDetails" asp-route-id="@encryptedId">Order Details</a>
                 </div>
             </div>
         }

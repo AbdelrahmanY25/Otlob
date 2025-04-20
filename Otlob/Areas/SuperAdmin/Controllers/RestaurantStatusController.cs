@@ -19,10 +19,9 @@ namespace Otlob.Areas.SuperAdmin.Controllers
 
         public IActionResult ChangeRestaurantStatus(string id, AcctiveStatus status)
         {
-            int restaurantId = encryptionService.DecryptId(id);
-            restaurantService.ChangeRestauranStatus(restaurantId, status);
+            restaurantService.ChangeRestauranStatus(id, status);
 
-            TempData["Success"] = "The Resturant Account Was Blocked";
+            TempData["Success"] = "The resturant status has been changed";
             return RedirectToAction("ActiveResturatns", "Home");
         }
     }

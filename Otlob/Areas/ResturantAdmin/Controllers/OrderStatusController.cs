@@ -18,20 +18,17 @@ namespace Otlob.Areas.ResturantAdmin.Controllers
             this.userManager = userManager;
         }
 
-        //public async Task<IActionResult> ChangeOrderStatus(int id)
-        //{
-        //    var order = unitOfWorkRepository.Orders.GetOne(expression: o => o.Id == id);
+        public async Task<IActionResult> ChangeOrderStatus(int id)
+        {
+            var order = unitOfWorkRepository.Orders.GetOne(expression: o => o.Id == id);
 
-        //    order.Status = GetNextStatus(order);
+            order.Status = GetNextStatus(order);
 
-        //    unitOfWorkRepository.Orders.Edit(order);
-        //    unitOfWorkRepository.SaveChanges();
-
-        //    var resturant = await userManager.GetUserAsync(User);
-        //    var resturanOrders = unitOfWorkRepository.Orders.Get([o => o.Address], expression: o => o.RestaurantId == resturant.RestaurantId);
-
-        //    return RedirectToAction("Index", "Orders", resturanOrders);
-        //}
+            unitOfWorkRepository.Orders.Edit(order);
+            unitOfWorkRepository.SaveChanges();
+            
+            return RedirectToAction("Index", "Orders");
+        }
 
         private OrderStatus GetNextStatus(Order order) /// Seperate Validation or Filter Service
         {

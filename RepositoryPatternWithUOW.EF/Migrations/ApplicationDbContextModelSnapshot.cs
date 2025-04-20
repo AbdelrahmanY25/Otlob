@@ -210,7 +210,7 @@ namespace Otlob.EF.Migrations
 
                     b.HasIndex("ApplicationUserId");
 
-                    b.ToTable("Addresses");
+                    b.ToTable("Addresses", (string)null);
                 });
 
             modelBuilder.Entity("Otlob.Core.Models.ApplicationUser", b =>
@@ -329,7 +329,7 @@ namespace Otlob.EF.Migrations
 
                     b.HasIndex("RestaurantId");
 
-                    b.ToTable("Cart");
+                    b.ToTable("Cart", (string)null);
                 });
 
             modelBuilder.Entity("Otlob.Core.Models.Delivery", b =>
@@ -364,7 +364,7 @@ namespace Otlob.EF.Migrations
 
                     b.HasIndex("RestaurantId");
 
-                    b.ToTable("Deliveries");
+                    b.ToTable("Deliveries", (string)null);
                 });
 
             modelBuilder.Entity("Otlob.Core.Models.Meal", b =>
@@ -418,7 +418,7 @@ namespace Otlob.EF.Migrations
 
                     b.HasIndex("RestaurantId");
 
-                    b.ToTable("Meals");
+                    b.ToTable("Meals", (string)null);
                 });
 
             modelBuilder.Entity("Otlob.Core.Models.MealPriceHistory", b =>
@@ -452,7 +452,7 @@ namespace Otlob.EF.Migrations
 
                     b.HasIndex("StartDate");
 
-                    b.ToTable("MealsPriceHistories");
+                    b.ToTable("MealsPriceHistories", (string)null);
                 });
 
             modelBuilder.Entity("Otlob.Core.Models.Order", b =>
@@ -516,7 +516,7 @@ namespace Otlob.EF.Migrations
 
                     b.HasIndex("TotalOrderPrice");
 
-                    b.ToTable("Orders");
+                    b.ToTable("Orders", (string)null);
                 });
 
             modelBuilder.Entity("Otlob.Core.Models.OrderDetails", b =>
@@ -555,7 +555,7 @@ namespace Otlob.EF.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("OrderDetails");
+                    b.ToTable("OrderDetails", (string)null);
                 });
 
             modelBuilder.Entity("Otlob.Core.Models.OrderedMeals", b =>
@@ -589,7 +589,7 @@ namespace Otlob.EF.Migrations
 
                     b.HasIndex("MealId");
 
-                    b.ToTable("OrderedMeals");
+                    b.ToTable("OrderedMeals", (string)null);
                 });
 
             modelBuilder.Entity("Otlob.Core.Models.Point", b =>
@@ -622,7 +622,7 @@ namespace Otlob.EF.Migrations
 
                     b.HasIndex("ApplicationUserId");
 
-                    b.ToTable("Points");
+                    b.ToTable("Points", (string)null);
                 });
 
             modelBuilder.Entity("Otlob.Core.Models.Restaurant", b =>
@@ -682,7 +682,7 @@ namespace Otlob.EF.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Restaurants");
+                    b.ToTable("Restaurants", (string)null);
                 });
 
             modelBuilder.Entity("Otlob.Core.Models.TempOrder", b =>
@@ -708,7 +708,7 @@ namespace Otlob.EF.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("TempOrders");
+                    b.ToTable("TempOrders", (string)null);
                 });
 
             modelBuilder.Entity("Otlob.Core.Models.UserComplaint", b =>
@@ -747,7 +747,7 @@ namespace Otlob.EF.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserComplaints");
+                    b.ToTable("UserComplaints", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

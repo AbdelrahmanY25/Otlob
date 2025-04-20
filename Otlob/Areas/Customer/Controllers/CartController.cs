@@ -11,12 +11,15 @@ namespace Otlob.Areas.Customer.Controllers
     public class CartController : Controller
     {
         private readonly ICartService cartService;
+        private readonly IAddressService addressService;
         private readonly UserManager<ApplicationUser> userManager;
 
         public CartController(ICartService cartService,
+                              IAddressService addressService,
                               UserManager<ApplicationUser> userManager)
         {
             this.cartService = cartService;
+            this.addressService = addressService;
             this.userManager = userManager;
         }
 
@@ -35,9 +38,17 @@ namespace Otlob.Areas.Customer.Controllers
                 return RedirectToAction("Login", "Account");
             }            
             
-            bool canaddCart = cartService.CheckIfCanAddOrderToCart(orderedMealVM, userId, resId);
+            var userAddresses = addressService.GetUserAddressies(userId).ToList();
 
-            if (canaddCart)
+            if (userAddresses.Count == 0)
+            {
+                TempData["Error"] = "Please Add Address First";
+                return RedirectToAction("SavedAddresses", "Address");
+            }
+
+            bool canAddCart = cartService.CheckIfCanAddOrderToCart(orderedMealVM, userId, resId);
+
+            if (canAddCart)
             {
                 return RedirectToAction("Details", "Home", new { id = resId });
             }

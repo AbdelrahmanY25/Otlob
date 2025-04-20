@@ -515,11 +515,12 @@ body {
 }
 
 .label {
-    background-color: #09d449;
+    background-color: #09b13e;
     color: #fff;
     margin-left: 10px;
-    padding: 2px;
-    border-radius: 4px;
+    padding: 5px 12px;
+    border-radius: 6px;
+    font-weight: bold;
 }
 
 .search {

@@ -38,10 +38,10 @@
                         <img class="avatar rounded-circle" src="~/images/Default.jpg" alt="Customer Profile Picture" />
                     }
                     @user?.UserName
-                   @*  @if (item.OrderPrice == Model.MostExpensiveOrder)
+                    @if (item.TotalOrderPrice == Model.MostExpensiveOrder)
                     {
                         <span class="label">Top Order</span>
-                    } *@
+                    }
                 </div>
                 <div class="text">
                     <h4>Customer Details</h4>

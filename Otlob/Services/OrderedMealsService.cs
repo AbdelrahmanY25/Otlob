@@ -130,13 +130,13 @@ namespace Otlob.Services
 
             if (selectedOrderMeal.Quantity == 0)
             {               
-                return new MealQuantityResult { Status = HandleMealQuantityProcess.DeleteMeal, CartId = selectedOrderMeal.CartId };
+                return new MealQuantityResult { Status = HandleMealQuantityProcess.DeleteMeal };
             }
 
             unitOfWorkRepository.OrderedMeals.Edit(selectedOrderMeal);
             unitOfWorkRepository.SaveChanges();
 
-            return new MealQuantityResult { Status = HandleMealQuantityProcess.Success, CartId = selectedOrderMeal.CartId };
+            return new MealQuantityResult { Status = HandleMealQuantityProcess.Success};
         }
 
         public OrderedMeals? DeleteOrderedMeal(string id)

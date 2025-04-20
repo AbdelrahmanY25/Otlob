@@ -1,7 +1,6 @@
-﻿
-namespace Otlob.Core.Models
+﻿namespace Utility
 {
-    public class ImageProp
+    public interface ImageUrl
     {
         public byte[]? Image { get; set; }
     }
