@@ -1,12 +1,19 @@
-﻿@using Utility
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Static Dashboard</title>
-    <link rel="stylesheet" href="/css/dashboard.css"> 
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Static Dashboard</title>
+        <link rel="stylesheet" href="/css/dashboard.css"> 
+    </head>
+
+    <style>
+        a {
+            text-decoration: none;
+            color: #fff;
+        }
+    </style>
+
 <body>
     <div class="sidebar">
         <div class="logo">
@@ -17,15 +24,19 @@
             {
                 <li class="menu-item active">
                     <i class="icon">🏠</i>
-                    <a asp-area="SuperAdmin" asp-action="Index" asp-controller="Home">Home</a>
+                    <a asp-area="SuperAdmin" asp-controller="Home" asp-action="Index">Home</a>
                 </li>
                 <li class="menu-item">
                     <i class="icon">AR</i>
-                    <a asp-area="SuperAdmin" asp-action="ActiveResturatns" asp-controller="Home">Active Resturatns</a>
+                    <a asp-area="SuperAdmin" asp-controller="Home" asp-action="ActiveResturatns">Active Resturatns</a>
                 </li>
                 <li class="menu-item">
                     <i class="icon">RR</i>
-                    <a asp-area="SuperAdmin" asp-action="ResturatnRequist" asp-controller="Home">Requists From Resturants</a>
+                    <a asp-area="SuperAdmin" asp-controller="Home" asp-action="ResturatnRequist">Resturants Requists</a>
+                </li>
+                <li class="menu-item">
+                    <i class="icon">DR</i>
+                    <a asp-area="SuperAdmin" asp-controller="Home" asp-action="DeletedRestaurant">Deleted Resturants</a>
                 </li>
                 <li class="menu-item">
                     <i class="icon">💬</i>

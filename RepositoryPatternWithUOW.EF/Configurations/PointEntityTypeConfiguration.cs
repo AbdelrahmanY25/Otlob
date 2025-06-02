@@ -1,9 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Otlob.Core.Models;
-using EFCore = Microsoft.EntityFrameworkCore.EF;
-
-
-namespace Otlob.EF.Configurations
+﻿namespace Otlob.EF.Configurations
 {
     public class PointEntityTypeConfiguration : IEntityTypeConfiguration<Point>
     {

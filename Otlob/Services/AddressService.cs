@@ -1,9 +1,4 @@
-﻿using Otlob.Areas.Customer.Services.Interfaces;
-using Otlob.Core.IUnitOfWorkRepository;
-using Otlob.Core.Models;
-using Otlob.Core.ViewModel;
-
-namespace Otlob.Areas.Customer.Services
+﻿namespace Otlob.Areas.Customer.Services
 {
     public class AddressService : IAddressService
     {
@@ -67,9 +62,7 @@ namespace Otlob.Areas.Customer.Services
 
         public bool DeleteAddress(int addressId)
         {
-            var address = unitOfWorkRepository.Addresses.GetOne(expression: add => add.Id == addressId);
-
-            unitOfWorkRepository.Addresses.SoftDelete(address);
+            unitOfWorkRepository.Addresses.SoftDelete(expression: add => add.Id == addressId);
             unitOfWorkRepository.SaveChanges();
             return true;
         }

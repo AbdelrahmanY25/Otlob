@@ -1,7 +1,4 @@
-﻿using Utility;
-
-
-namespace Otlob.Core.IServices
+﻿namespace Otlob.Core.IServices
 {
     public interface IImageService
     {

@@ -1,11 +1,8 @@
-﻿using Otlob.Core.ViewModel;
-using Otlob.IServices;
-
-namespace Otlob.Services
+﻿namespace Otlob.Services
 {
     public class PaginationService : IPaginationService
     {
-        public PaginationVM<T> PaginateItems<T>(IQueryable<T> items, int pageSize, int currentPageNumber) where T : class
+        public PaginationVM<T> PaginateItems<T>(IQueryable<T> items, int pageSize, int currentPageNumber, object? element = null) where T : class
         {
             int totalItems = items.Count();
 
@@ -23,8 +20,13 @@ namespace Otlob.Services
                 Items = items,
                 PageCount = pageCount,
                 CurrentPageNumber = currentPageNumber,
-                totalItems = totalItems
+                TotalItems = totalItems
             };
+
+            if (element != null)
+            {
+                viewModel.UnieqElement = element;
+            }
 
             return viewModel;
         }

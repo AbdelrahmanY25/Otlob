@@ -1,27 +1,66 @@
 ﻿@model IQueryable<Otlob.Core.ViewModel.RestaurantVM>
 
-@using Otlob.Core.IServices
-@using Otlob.Core.Models
-
 @inject IEncryptionService encryptionService
 
 
 @section Notify {
         <partial name="_NotificationPartial"></partial>
 }
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+<style>
+    .table thead th {
+        vertical-align: middle;
+    }
 
-<table class="table table-bordered table-striped">
-    <thead>
+    .restaurant-avatar {
+        width: 40px;
+        height: 40px;
+        object-fit: cover;
+        margin-right: 10px;
+    }
+
+    @@media (max-width: 768px) {
+        .table-responsive-stack td, .table-responsive-stack th {
+            display: block;
+            width: 100%;
+        }
+
+        .table-responsive-stack thead {
+            display: none;
+        }
+
+        .table-responsive-stack tr {
+            display: block;
+            margin-bottom: 1rem;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            background-color: #fff;
+        }
+
+        .table-responsive-stack td::before {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+    }
+
+    .btn:focus,
+    .btn:active,
+    .btn:focus-visible {
+        box-shadow: none !important;
+        outline: none !important;
+    }
+</style>
+
+<table class="table table-bordered table-hover align-middle text-center">
+    <thead class="table-light">
         <tr>
-            <th class="text-success">
-                Our Resturatns Partners
-            </th>
-            <th>
-                Resturant Status
-            </th>
-            <th>
-                Take Action
-            </th>
+            <th class="text-success">Our Restaurant Partners</th>
+            <th>Status</th>
+            <th>Details</th>
+            <th>Change Status</th>
+            <th>Delete</th>
         </tr>
     </thead>
     <tbody>
@@ -30,51 +69,110 @@
             string encryptionId = encryptionService.EncryptId(item.RestaurantVMId);
 
             <tr>
+                <!-- Restaurant Info -->
                 <td>
-                    @{
-                        if (item.Image is not null)
+                    <div class="d-flex gap-2 align-items-center">
+                        @if (item.Image is not null)
                         {
-                            <img class="avatar rounded-circle" alt="ResturantLogo" src="data:image/*;base64,@(Convert.ToBase64String(item.Image))" />
+                            <img class="avatar rounded-circle" alt="Restaurant Logo"
+                                 src="data:image/*;base64,@(Convert.ToBase64String(item.Image))"
+                                 style="width: 40px; height: 40px;" />
                         }
                         else
                         {
-                            <img class="avatar rounded-circle" alt="Resturant Logo" src="~/images/Default.jpg" />
+                            <img class="avatar rounded-circle" alt="Restaurant Logo"
+                                 src="~/images/Default.jpg"
+                                 style="width: 40px; height: 40px;" />
                         }
-                    }
-                    @Html.DisplayFor(modelItem => item.Name)
+                        <span class="fw-semibold">@item.Name</span>
+                    </div>
                 </td>
-                <td>
-                    @if (item.AcctiveStatus == AcctiveStatus.Acctive) 
-                    {
-                        <p class="text-success fw-bolder">@item.AcctiveStatus</p>
-                    }
-                    else if (item.AcctiveStatus == AcctiveStatus.Warning) 
-                    {
-                        <p class="text-warning fw-bolder">@item.AcctiveStatus</p>
-                    }
-                    else if (item.AcctiveStatus == AcctiveStatus.Block)
-                    {
-                        <p class="text-danger fw-bolder">@item.AcctiveStatus</p>
-                    }
-                </td>
-                <td>
-                    <a class="btn btn-success" asp-controller="Restaurants" asp-action="ResturantDetails" asp-route-id="@encryptionId">Resturant Details</a>
 
-                    @if (item.AcctiveStatus == AcctiveStatus.Warning) 
-                    {
-                        <a class="btn btn-secondary text-light" asp-controller="RestaurantStatus" asp-action="ChangeRestaurantStatus" asp-route-id="@encryptionId" asp-route-status="@AcctiveStatus.Acctive">UnWarning</a>
-                        <a class="btn btn-danger" asp-controller="RestaurantStatus" asp-action="ChangeRestaurantStatus" asp-route-id="@encryptionId" asp-route-status="@AcctiveStatus.Block">Block Resturant</a>
-                    }
-                    else if (item.AcctiveStatus == AcctiveStatus.Block) 
-                    {
-                        <a class="btn btn-warning text-light" asp-controller="RestaurantStatus" asp-action="ChangeRestaurantStatus" asp-route-id="@encryptionId" asp-route-status="@AcctiveStatus.Warning">Send Warning To Resturant</a>
-                        <a class="btn btn-secondary text-light" asp-controller="RestaurantStatus" asp-action="ChangeRestaurantStatus" asp-route-id="@encryptionId" asp-route-status="@AcctiveStatus.Acctive">UnBlock Resturant</a>
-                    }
-                    else 
-                    {
-                        <a class="btn btn-warning text-light" asp-controller="RestaurantStatus" asp-action="ChangeRestaurantStatus" asp-route-id="@encryptionId" asp-route-status="@AcctiveStatus.Warning">Send Warning To Resturant</a>
-                        <a class="btn btn-danger" asp-controller="RestaurantStatus" asp-action="ChangeRestaurantStatus" asp-route-id="@encryptionId" asp-route-status="@AcctiveStatus.Block">Block Resturant</a>
-                    }
+                <!-- Status -->
+                <td>
+                    <div class="d-flex align-items-center">
+                        @if (item.AcctiveStatus == AcctiveStatus.Acctive)
+                        {
+                            <span class="badge bg-success">@item.AcctiveStatus</span>
+                        }
+                        else if (item.AcctiveStatus == AcctiveStatus.Warning)
+                        {
+                            <span class="badge bg-warning text-dark">@item.AcctiveStatus</span>
+                        }
+                        else if (item.AcctiveStatus == AcctiveStatus.Block)
+                        {
+                            <span class="badge bg-danger">@item.AcctiveStatus</span>
+                        }
+                    </div>
+                </td>
+
+                <!-- Details -->
+                <td>
+                    <div class="d-flex align-items-center">
+                        <a class="btn btn-sm btn-outline-success"
+                           asp-controller="Restaurants"
+                           asp-action="ResturantDetails"
+                           asp-route-id="@encryptionId">
+                            <i class="bi bi-info-circle"></i> Details
+                        </a>
+                    </div>
+                </td>
+
+                <!-- Change Status -->
+                <td>
+                    <div class="d-flex flex-wrap gap-2 align-items-center w-100">
+                        @if (item.AcctiveStatus == AcctiveStatus.Warning)
+                        {
+                            <a class="btn btn-sm btn-secondary"
+                               asp-controller="RestaurantStatus"
+                               asp-action="ChangeRestaurantStatus"
+                               asp-route-id="@encryptionId"
+                               asp-route-status="@AcctiveStatus.Acctive">Unwarn</a>
+                            <a class="btn btn-sm btn-danger"
+                               asp-controller="RestaurantStatus"
+                               asp-action="ChangeRestaurantStatus"
+                               asp-route-id="@encryptionId"
+                               asp-route-status="@AcctiveStatus.Block">Block</a>
+                        }
+                        else if (item.AcctiveStatus == AcctiveStatus.Block)
+                        {
+                            <a class="btn btn-sm btn-warning"
+                               asp-controller="RestaurantStatus"
+                               asp-action="ChangeRestaurantStatus"
+                               asp-route-id="@encryptionId"
+                               asp-route-status="@AcctiveStatus.Warning">Warn</a>
+                            <a class="btn btn-sm btn-secondary"
+                               asp-controller="RestaurantStatus"
+                               asp-action="ChangeRestaurantStatus"
+                               asp-route-id="@encryptionId"
+                               asp-route-status="@AcctiveStatus.Acctive">Unblock</a>
+                        }
+                        else
+                        {
+                            <a class="btn btn-sm btn-warning"
+                               asp-controller="RestaurantStatus"
+                               asp-action="ChangeRestaurantStatus"
+                               asp-route-id="@encryptionId"
+                               asp-route-status="@AcctiveStatus.Warning">Warn</a>
+                            <a class="btn btn-sm btn-danger"
+                               asp-controller="RestaurantStatus"
+                               asp-action="ChangeRestaurantStatus"
+                               asp-route-id="@encryptionId"
+                               asp-route-status="@AcctiveStatus.Block">Block</a>
+                        }
+                    </div>
+                </td>
+
+                <!-- Delete -->
+                <td>
+                    <div class="d-flex align-items-center">
+                        <a class="btn btn-sm btn-outline-danger"
+                           asp-controller="Restaurants"
+                           asp-action="DeleteRestaurant"
+                           asp-route-id="@encryptionId">
+                            <i class="bi bi-trash"></i> Delete
+                        </a>
+                    </div>
                 </td>
             </tr>
         }

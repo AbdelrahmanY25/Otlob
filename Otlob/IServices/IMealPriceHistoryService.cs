@@ -1,6 +1,4 @@
-﻿using Otlob.Core.ViewModel;
-
-namespace Otlob.IServices
+﻿namespace Otlob.IServices
 {
     public interface IMealPriceHistoryService
     {

@@ -1,35 +1,28 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Otlob.Core.IServices;
-using Otlob.Core.Models;
-using Utility;
-
-namespace Otlob.Areas.ResturantAdmin.Controllers
+﻿namespace Otlob.Areas.ResturantAdmin.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly UserManager<ApplicationUser> userManager;
         private readonly IRestaurantService restaurantService;
 
-        public HomeController(UserManager<ApplicationUser> userManager, IRestaurantService restaurantService)
+        public HomeController(IRestaurantService restaurantService)
         {
-            this.userManager = userManager;
             this.restaurantService = restaurantService;
         }
 
         [Area("ResturantAdmin")]
         [Authorize(Roles = SD.restaurantAdmin)]
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            var user = await userManager.GetUserAsync(User);
+            string? userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            if (user is null)
+            if (userId is null)
             {
                 return RedirectToAction("Login", "Account", new { Area = "Customer" });
             }
 
-            var restauranVM = restaurantService.GetRestaurantJustMainInfo(user.RestaurantId);
+            int restaurantId = int.Parse(User.FindFirstValue(SD.restaurantId));
+
+            var restauranVM = restaurantService.GetRestaurantJustMainInfo(restaurantId);
 
             return View(restauranVM);
         }

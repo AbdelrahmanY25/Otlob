@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "LtKiWro8gehUJ+5cZsK0wdoJ6a9KzuPYUwvN/XMxuSY=",
+  "Hash": "2bpzmea5VOvxCSja0QumOiOb54xu45F6XkZl9QTCzcE=",
   "Source": "Otlob",
   "BasePath": "_content/Otlob",
   "Mode": "Default",
@@ -1417,8 +1417,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "88mk8b5a3r",
-      "Integrity": "eG6Wb2mnFR706YzqrdpbCO0d/+V4wUf0z5H9J8LAVPk=",
+      "Fingerprint": "b44jt8jio8",
+      "Integrity": "m6hg2I4ImKZp24Eiq61NWc4Bt06eHKwCdNs3erKpXuA=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\css\\site.css"
@@ -2703,6 +2703,27 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\meals\\e26368a4-c95f-4529-a518-a0d67929884f.jpg"
+    },
+    {
+      "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\OtlobLogo.jpg",
+      "SourceId": "Otlob",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\",
+      "BasePath": "_content/Otlob",
+      "RelativePath": "images/OtlobLogo#[.{fingerprint}]?.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "et9rw1oo49",
+      "Integrity": "jlE29etLqH3+hjUo6KHJQr2xewmGv5Yjd+/Agf8DAco=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\OtlobLogo.jpg"
     },
     {
       "Identity": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\resturantLogo\\45ed1d87-3d0d-4be5-aabf-2d4d9fc235cd.jpg",
@@ -4199,7 +4220,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 19 Dec 2024 00:03:17 GMT"
+          "Value": "Sat, 31 May 2025 18:16:02 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -4244,7 +4265,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 19 Dec 2024 00:03:17 GMT"
+          "Value": "Sat, 31 May 2025 18:16:02 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -4505,7 +4526,7 @@
       ]
     },
     {
-      "Route": "css/site.88mk8b5a3r.css",
+      "Route": "css/site.b44jt8jio8.css",
       "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\css\\site.css",
       "Selectors": [],
       "ResponseHeaders": [
@@ -4515,7 +4536,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "14538"
+          "Value": "15543"
         },
         {
           "Name": "Content-Type",
@@ -4523,11 +4544,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"eG6Wb2mnFR706YzqrdpbCO0d/+V4wUf0z5H9J8LAVPk=\""
+          "Value": "\"m6hg2I4ImKZp24Eiq61NWc4Bt06eHKwCdNs3erKpXuA=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 10 Apr 2025 17:56:40 GMT"
+          "Value": "Fri, 16 May 2025 13:27:27 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -4537,7 +4558,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "88mk8b5a3r"
+          "Value": "b44jt8jio8"
         },
         {
           "Name": "label",
@@ -4545,7 +4566,7 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-eG6Wb2mnFR706YzqrdpbCO0d/+V4wUf0z5H9J8LAVPk="
+          "Value": "sha256-m6hg2I4ImKZp24Eiq61NWc4Bt06eHKwCdNs3erKpXuA="
         }
       ]
     },
@@ -4560,7 +4581,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "14538"
+          "Value": "15543"
         },
         {
           "Name": "Content-Type",
@@ -4568,11 +4589,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"eG6Wb2mnFR706YzqrdpbCO0d/+V4wUf0z5H9J8LAVPk=\""
+          "Value": "\"m6hg2I4ImKZp24Eiq61NWc4Bt06eHKwCdNs3erKpXuA=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 10 Apr 2025 17:56:40 GMT"
+          "Value": "Fri, 16 May 2025 13:27:27 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -4582,7 +4603,7 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-eG6Wb2mnFR706YzqrdpbCO0d/+V4wUf0z5H9J8LAVPk="
+          "Value": "sha256-m6hg2I4ImKZp24Eiq61NWc4Bt06eHKwCdNs3erKpXuA="
         }
       ]
     },
@@ -11805,6 +11826,88 @@
         {
           "Name": "integrity",
           "Value": "sha256-BAwoi6PKgwkBtvbk3m28C+QKtSzgkBI99Q/pg/5zWyY="
+        }
+      ]
+    },
+    {
+      "Route": "images/OtlobLogo.et9rw1oo49.jpg",
+      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\OtlobLogo.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "67137"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"jlE29etLqH3+hjUo6KHJQr2xewmGv5Yjd+/Agf8DAco=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 25 Apr 2025 13:16:49 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "et9rw1oo49"
+        },
+        {
+          "Name": "label",
+          "Value": "images/OtlobLogo.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-jlE29etLqH3+hjUo6KHJQr2xewmGv5Yjd+/Agf8DAco="
+        }
+      ]
+    },
+    {
+      "Route": "images/OtlobLogo.jpg",
+      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\OtlobLogo.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "67137"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"jlE29etLqH3+hjUo6KHJQr2xewmGv5Yjd+/Agf8DAco=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 25 Apr 2025 13:16:49 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-jlE29etLqH3+hjUo6KHJQr2xewmGv5Yjd+/Agf8DAco="
         }
       ]
     },

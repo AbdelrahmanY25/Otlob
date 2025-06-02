@@ -1,8 +1,4 @@
-﻿using Otlob.Core.Models;
-using Otlob.Core.ViewModel;
-using Otlob.Services.Results;
-
-namespace Otlob.IServices
+﻿namespace Otlob.IServices
 {
     public interface IOrderedMealsService
     {

@@ -1,10 +1,4 @@
-﻿using Otlob.Core.IServices;
-using Otlob.Core.Models;
-using Otlob.Core.ViewModel;
-using Otlob.IServices;
-using LinqKit;
-
-namespace Otlob.Core.Services
+﻿namespace Otlob.Core.Services
 {
     public class RestaurantService : IRestaurantService
     {
@@ -12,16 +6,19 @@ namespace Otlob.Core.Services
         private readonly IImageService imageService;
         private readonly IRestaurantFilterService restaurantFilterService;
         private readonly IEncryptionService encryptionService;
+        private readonly IUserServices userServices;
 
         public RestaurantService(IUnitOfWorkRepository.IUnitOfWorkRepository unitOfWorkRepository,
                                  IImageService imageService,
                                  IRestaurantFilterService restaurantFilterService,
-                                 IEncryptionService encryptionService)
+                                 IEncryptionService encryptionService,
+                                 IUserServices userServices)
         {
             this.unitOfWorkRepository = unitOfWorkRepository;
             this.imageService = imageService;
             this.restaurantFilterService = restaurantFilterService;
             this.encryptionService = encryptionService;
+            this.userServices = userServices;
         }
 
         public IQueryable<RestaurantVM> GetAllRestaurantsJustMainInfo(RestaurantCategory? filter = null, AcctiveStatus[]? statuses = null)
@@ -53,7 +50,7 @@ namespace Otlob.Core.Services
         }
 
         public RestaurantVM GetRestaurantJustMainInfo(int restaurantId)
-         {
+        {
             var restaurantsVM = unitOfWorkRepository.Restaurants
                 .GetOneWithSelect
                  (
@@ -69,7 +66,7 @@ namespace Otlob.Core.Services
                  );
 
             return restaurantsVM;
-         }
+        }
 
         public RestaurantVM GetRestaurantDetailsById(int restaurantId)
         {
@@ -79,7 +76,9 @@ namespace Otlob.Core.Services
                     expression: r => r.Id == restaurantId, tracked: false
                  );
 
-            var restaurantsVM = RestaurantVM.MapToRestaurantVMWithId(restaurant);
+            string? userId = userServices.GetUserIdByRestaurantId(restaurantId);
+
+            var restaurantsVM = RestaurantVM.MapToRestaurantVMWithId(restaurant, userId);
 
             return restaurantsVM;
         }
@@ -88,13 +87,13 @@ namespace Otlob.Core.Services
         {
             Restaurant? oldResturantInfo = unitOfWorkRepository.Restaurants.GetOne(expression: r => r.Id == restaurantId);
 
-           if (ValidateData)
-           {
+            if (ValidateData)
+            {
                 if (!restaurantFilterService.ValidateDataWhenEditRedtaurantProfile(restaurantVM, oldResturantInfo))
                 {
                     return "You can't change your resturaant [ Name or Email or Address ]";
                 }
-           }
+            }
 
             if (image.Count > 0)
             {
@@ -122,7 +121,7 @@ namespace Otlob.Core.Services
             int restaurantId = encryptionService.DecryptId(id);
 
             Restaurant? restaurant = unitOfWorkRepository.Restaurants.GetOne(expression: r => r.Id == restaurantId);
-            
+
             if (restaurant is null)
             {
                 return false;
@@ -131,6 +130,52 @@ namespace Otlob.Core.Services
             restaurant.AcctiveStatus = status;
 
             unitOfWorkRepository.Restaurants.Edit(restaurant);
+            unitOfWorkRepository.SaveChanges();
+
+            return true;
+        }
+
+        public IQueryable<Restaurant>? GetDeletedRestaurants()
+        {
+            IQueryable<Restaurant>? restaurants = unitOfWorkRepository.Restaurants
+                .Get(expression: r => EFCore.Property<bool>(r, "IsDeleted"),
+                    tracked: false,
+                    ignoreQueryFilter: true
+                );
+
+            if (restaurants is null)
+            {
+                return null;
+            }
+
+            return restaurants;
+        }
+
+        public bool DelteRestaurant(string id)
+        {
+            int restaurantId = encryptionService.DecryptId(id);      
+
+            unitOfWorkRepository.Restaurants.SoftDelete(r => r.Id == restaurantId);
+
+            unitOfWorkRepository.Users.SoftDelete(u => u.RestaurantId == restaurantId);
+
+            unitOfWorkRepository.Meals.SoftDelete(expression: m => m.RestaurantId == restaurantId);
+
+            unitOfWorkRepository.SaveChanges();
+
+            return true;
+        }
+
+        public bool UnDelteRestaurant(string id)
+        {
+            int restaurantId = encryptionService.DecryptId(id);
+
+            unitOfWorkRepository.Restaurants.UnSoftDelete(r => r.Id == restaurantId);
+
+            unitOfWorkRepository.Users.UnSoftDelete(u => u.RestaurantId == restaurantId);
+
+            unitOfWorkRepository.Meals.UnSoftDelete(expression: m => m.RestaurantId == restaurantId);
+                       
             unitOfWorkRepository.SaveChanges();
 
             return true;

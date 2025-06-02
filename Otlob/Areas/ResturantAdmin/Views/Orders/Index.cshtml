@@ -1,75 +1,257 @@
-﻿@using Microsoft.AspNetCore.Identity
-@using Otlob.Core.IServices
-@using Otlob.Core.IUnitOfWorkRepository
-@using Otlob.Core.Models
-@using Otlob.Core.ViewModel
-@inject UserManager<ApplicationUser> userManager
-@inject IUnitOfWorkRepository unitOfWorkRepository
-@model OrderViewModel
+﻿@model PaginationVM<Order>
 @inject IEncryptionService encryptionService
 
+@{
+    bool isDeliveredOrders = Model.Items.FirstOrDefault().Status == OrderStatus.Delivered;
+    decimal MostExpensiveOrder = (decimal)(Model.UnieqElement ?? 0d);
+    string currentSearch = ViewContext.HttpContext.Request.Query["searchById"];
+}
 
-<div class="articles" id="articles">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
 
-    <div class="ordersData">
-        <div class="orders">
-            <span>@Model.Orders.Count() : Orders</span>
+<div class="container py-4">
+    <!-- Header Row -->
+    <div class="row mb-4 align-items-center">
+        <div class="col-md-4">
+            <h5 class="text-muted">@Model.TotalItems Orders</h5>
         </div>
-
-        <div class="orders price">
-            <span>Top Order : @Model.MostExpensiveOrder L.E</span>
+        <div class="col-md-4">
+            <form asp-action="@(isDeliveredOrders ? "DeliveredOrders" : "Index")" method="get" class="d-flex">
+                <input name="searchById"
+                value="@currentSearch"
+                class="form-control me-2"
+                placeholder="Search by Order ID..."
+                type="search" />
+                <button type="submit" class="btn btn-danger">Search</button>
+            </form>
+        </div>
+        <div class="col-md-4 text-end">
+            <h5 class="text-muted">
+                Top Order:
+                <strong class="text-success">@MostExpensiveOrder L.E</strong>
+            </h5>
         </div>
     </div>
 
-    <div class="container" id="container">
-        @foreach (var item in Model.Orders)
+    <!-- Filters: search by ID, status, payment -->
+    <div class="row mb-4 g-2 align-items-center">
+        <div class="col-md-4">
+            <input id="searchId"
+            type="text"
+            class="form-control"
+            placeholder="Search by Order ID..." />
+        </div>
+        <div class="col-md-4">        
+            <select id="filterStatus" class="form-select">
+                @if(isDeliveredOrders)
+                {
+                    <option value="Delivered">Delivered</option>                    
+                }
+                else
+                {
+                    <option value="">All Statuses</option>
+                    <option value="Pending">Pending</option>
+                    <option value="Preparing">Preparing</option>
+                    <option value="Shipped">Shipped</option>
+                }
+            </select>
+        </div>
+        <div class="col-md-4">
+            <select id="filterMethod" class="form-select">
+                <option value="">All Payments</option>
+                <option value="Cash">Cash</option>
+                <option value="Credit">Credit</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- Orders Grid -->
+    <div id="ordersRow" class="row g-4 mb-5">
+        @foreach (var item in Model.Items)
         {
             string encryptedId = encryptionService.EncryptId(item.Id);
-
             var user = item.User;
-            <div class="card">
-                <div class="text">
-                    @if (user?.Image != null)
-                    {
-                        <img class="avatar rounded-circle" alt="Profile Picture" src="data:image/*;base64,@(Convert.ToBase64String(user.Image))" />
-                    }
-                    else 
-                    {
-                        <img class="avatar rounded-circle" src="~/images/Default.jpg" alt="Customer Profile Picture" />
-                    }
-                    @user?.UserName
-                    @if (item.TotalOrderPrice == Model.MostExpensiveOrder)
-                    {
-                        <span class="label">Top Order</span>
-                    }
-                </div>
-                <div class="text">
-                    <h4>Customer Details</h4>
-                    <p>Phone Number: @user?.PhoneNumber</p>
-                    <p>Email: @user?.Email</p>
-                    <p>At: @item.OrderDate</p>
-                </div>
-                <div class="text">
-                    <h6>Order Status: <strong class="text-success">@item.Status</strong></h6>
-                    @if (item.Status == OrderStatus.Pending) {
-                        <a class="btn btn-secondary" asp-controller="OrderStatus" asp-action="ChangeOrderStatus" asp-route-id="@item.Id">Make Order Preparing</a>
-                    }
-                    else if (item.Status == OrderStatus.Preparing) {
-                        <a class="btn btn-warning" asp-controller="OrderStatus" asp-action="ChangeOrderStatus" asp-route-id="@item.Id">Make Order Shipped</a>
-                    }
-                    else if (item.Status == OrderStatus.Shipped) {
-                        <a class="btn btn-success" asp-controller="OrderStatus" asp-action="ChangeOrderStatus" asp-route-id="@item.Id">Make Order Delivered</a>
-                    }
-                </div>
-                <div class="read">
-                    <a class="btn btn-success" asp-action="OrderDetails" asp-route-id="@encryptedId">Order Details</a>
+            <div class="col-12 col-md-6 col-lg-4 order-card"
+            data-id="@item.Id"
+            data-status="@item.Status"
+            data-method="@item.Method">
+                <div class="card-modern">
+                    <div class="card-header-modern d-flex justify-content-between">
+                        <span>Order #@item.Id</span>
+                        @if (item.TotalOrderPrice == MostExpensiveOrder)
+                        {
+                            <span class="label">Top Order</span>
+                        }
+                    </div>
+                    <div class="card-body-modern">
+                        <div class="orderUserDetails p-0"></div>
+                        <p><strong>Date:</strong>
+                            @item.OrderDate.ToString("yyyy-MM-dd HH:mm:ss tt")</p>
+                        <p><strong>Sub Price:</strong> @item.TotalMealsPrice L.E</p>
+                        <p><strong>Delivery Fee:</strong> @item.TotalTaxPrice L.E</p>
+                        <p><strong>Total Price:</strong> @item.TotalOrderPrice L.E</p>
+                        <p><strong>Paynent Method:</strong> @item.Method</p>
+                        <hr />
+                        <p class="mb-1"><strong>Status:</strong>
+                            <span class="badge bg-@(item.Status == OrderStatus.Pending ? "secondary" :
+                                  item.Status == OrderStatus.Preparing ? "warning" :
+                                  "info")">
+                                @item.Status
+                            </span>
+                        </p>
+
+                        <div class="d-flex flex-wrap gap-2 mt-2">
+                            @if (item.Status == OrderStatus.Pending) {
+                                <a class="btn btn-modern btn-secondary"
+                                asp-controller="OrderStatus"
+                                asp-action="ChangeOrderStatus"
+                                asp-route-id="@item.Id">
+                                    Prepare
+                                </a>
+                            }
+                            else if (item.Status == OrderStatus.Preparing) {
+                                <a class="btn btn-modern btn-warning"
+                                asp-controller="OrderStatus"
+                                asp-action="ChangeOrderStatus"
+                                asp-route-id="@item.Id">
+                                    Ship
+                                </a>
+                            }
+                            else if (item.Status == OrderStatus.Shipped) {
+                                <a class="btn btn-modern btn-success"
+                                asp-controller="OrderStatus"
+                                asp-action="ChangeOrderStatus"
+                                asp-route-id="@item.Id">
+                                    Deliver
+                                </a>
+                            }
+
+                            <button class="view-details btn btn-modern btn-outline-primary"
+                            data-id="@item.Id">
+                                View User
+                            </button>
+                            <a class="btn btn-modern btn-outline-success"
+                            asp-action="OrderDetails"
+                            asp-route-id="@encryptedId">
+                                Details
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
         }
     </div>
+
+    <nav aria-label="Page navigation example" class="mb-5">
+        <ul class="pagination justify-content-center">        
+        @if (Model.HasPreviousPage)
+        {            
+            <li class="page-item">
+                    <a class="page-link" asp-action="@(isDeliveredOrders ? "DeliveredOrders" : "Index")" asp-route-currentPageNumber="@(Model.CurrentPageNumber - 1)">
+                    Previous
+                </a>
+            </li>                    
+        }
+        else
+        {
+            <li class="page-item disabled">
+                <span class="page-link">Previous</span>
+            </li>
+        }
+
+        @for (int i = 1; i <= Model.PageCount; i++)
+        {
+            if (i == Model.CurrentPageNumber)
+            {
+                <li class="page-item active" aria-current="page">
+                    <span class="page-link">@i</span>
+                </li>
+            }
+            else
+            {                               
+                <li class="page-item">
+                    <a class="page-link" asp-action=@(isDeliveredOrders ? "DeliveredOrders" : "Index") asp-route-currentPageNumber="@i">@i</a>
+                </li>                                   
+            }
+        }
+
+        @if (Model.HasNextPage)
+        {            
+            <li class="page-item">
+                <a class="page-link" asp-action=@(isDeliveredOrders ? "DeliveredOrders" : "Index") asp-route-currentPageNumber="@(Model.CurrentPageNumber + 1)">
+                    Next
+                </a>
+            </li>                               
+        }
+        else
+        {
+            <li class="page-item disabled">
+                <span class="page-link">Next</span>
+            </li>
+        }
+    </ul>
+</nav>
 </div>
 
 @section Scripts {
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    $(function () {
+      var detailsUrl = '@Url.Action(
+           "OrderUserDetailsPartial", "Orders", new { area = "ResturantAdmin" }
+      )';
+
+      // 1) Live filtering function
+      function filterOrders() {
+        var searchVal = $('#searchId').val().toString().trim(),
+            statusVal = $('#filterStatus').val(),
+            methodVal = $('#filterMethod').val();
+
+        $('.order-card').each(function () {
+          var $c = $(this),
+              id     = $c.data('id').toString(),
+              status = $c.data('status'),
+              method = $c.data('method');
+
+          var matchesId     = searchVal === '' || id.indexOf(searchVal) !== -1,
+              matchesStatus = statusVal === '' || status === statusVal,
+              matchesMethod = methodVal === '' || method === methodVal;
+
+          if (matchesId && matchesStatus && matchesMethod) {
+            $c.show();
+          } else {
+            $c.hide();
+          }
+        });
+      }
+
+      // Bind filter events
+      $('#searchId').on('input', filterOrders);
+      $('#filterStatus').on('change', filterOrders);
+      $('#filterMethod').on('change', filterOrders);
+
+      // 2) View-user AJAX (unchanged)
+      $('.view-details').on('click', function () {
+        var orderId      = $(this).data('id'),
+            $placeholder = $(this).closest('.card-modern').find('.orderUserDetails');
+
+        $placeholder.html(
+          '<div class="spinner-border spinner-border-sm" role="status">' +
+            '<span class="visually-hidden">Loading...</span>' +
+          '</div>'
+        );
+
+        $.get(detailsUrl, { orderId: orderId })
+         .done(function (html) { $placeholder.html(html); })
+         .fail(function () {
+           $placeholder.html('<div class="text-danger">Unable to load user details.</div>');
+         });
+      });
+    });
+  </script>
+}
+
+@* @section Scripts {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.0/signalr.min.js"></script>
     <script>
 
@@ -77,7 +259,7 @@
             .withUrl("/orderHub")
             .build();
 
-        const restaurantId = @Model.ResturantId;
+        const restaurantId = @Model.Orders.FirstOrDefault().RestaurantId;
 
         connection.start().then(() => {
             connection.invoke("JoinGroup", restaurantId.toString())
@@ -130,4 +312,4 @@
         });
 
     </script>
-}
+} *@

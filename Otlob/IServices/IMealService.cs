@@ -1,7 +1,4 @@
-﻿using Otlob.Core.Models;
-using Otlob.Core.ViewModel;
-
-namespace Otlob.IServices
+﻿namespace Otlob.IServices
 {
     public interface IMealService
     {
@@ -12,7 +9,9 @@ namespace Otlob.IServices
         Meal GetMealNameAndImage(int mealId);
         Task<string> AddMeal(MealVm mealVM, int restaurantId, IFormFileCollection image);
         Task<string> EditMeal(MealVm mealVM, int mealId, IFormFileCollection image);
+        IQueryable<MealVm> GetDeletedMeals(int restaurantId);
         bool DeleteMeal(int mealId);
+        bool UnDeleteMeal(int mealId);
         IQueryable<MealVm> MealCategoryFilter(IQueryable<MealVm> meals, string filter);
     }
 }

@@ -1,10 +1,4 @@
-﻿using Otlob.Core.IServices;
-using Otlob.Core.IUnitOfWorkRepository;
-using Otlob.Core.Models;
-using Otlob.Core.ViewModel;
-using Otlob.IServices;
-
-namespace Otlob.Services
+﻿namespace Otlob.Services
 {
     public class MealService : IMealService
     {
@@ -69,6 +63,7 @@ namespace Otlob.Services
         }
 
         public Meal GetMeal(int mealId) => unitOfWorkRepository.Meals.GetOne(expression: m => m.Id == mealId);
+
         public Meal GetMealNameAndImage(int mealId) => unitOfWorkRepository.Meals.GetOneWithSelect(selector: m => new Meal { Id = m.Id, Name = m.Name, Image = m.Image},expression: m => m.Id == mealId);
 
         public async Task<string> AddMeal(MealVm mealVM, int restaurantId, IFormFileCollection image)
@@ -91,7 +86,28 @@ namespace Otlob.Services
         }
 
         public async Task<string> EditMeal(MealVm mealVM, int mealId, IFormFileCollection image)
-        {
+        {            
+            var oldMeal = GetMeal(mealId);
+
+            if (oldMeal.Price != mealVM.Price)
+            {
+                mealPriceHistoryService.UpdateMealPriceHistory(mealId, mealVM.Price);
+            }
+
+            if (image.Count <= 0)
+            {
+
+                var newMeal = MealVm.MapToMeal(mealVM, oldMeal);
+
+                unitOfWorkRepository.Meals.Edit(newMeal);
+
+                unitOfWorkRepository.SaveChanges();
+
+                return null;
+            }
+
+            var newMealWithImage = MealVm.MapToMeal(mealVM, oldMeal);
+
             string isImageUploaded = await imageService.UploadImage(image, imageUrl: mealVM);
 
             if (isImageUploaded is string)
@@ -99,23 +115,44 @@ namespace Otlob.Services
                 return isImageUploaded;
             }
 
-            var oldMeal = GetMeal(mealId);
+            newMealWithImage.Image = mealVM.Image;
 
-            var newMeal = MealVm.MapToMeal(mealVM, oldMeal);
-
-            unitOfWorkRepository.Meals.Edit(newMeal);
+            unitOfWorkRepository.Meals.Edit(newMealWithImage);
+            
             unitOfWorkRepository.SaveChanges();
-
-            mealPriceHistoryService.UpdateMealPriceHistory(mealId, mealVM.Price);
 
             return null;
         }
 
+        public IQueryable<MealVm> GetDeletedMeals(int restaurantId)
+        {
+            IQueryable<MealVm>? mealVms = unitOfWorkRepository.Meals.GetAllWithSelect
+                 (
+                    expression: m => m.RestaurantId == restaurantId && EFCore.Property<bool>(m, "IsDeleted"),
+                    tracked: false,
+                    ignoreQueryFilter: true,
+                    selector: m => new MealVm
+                    {
+                        MealVmId = m.Id,
+                        Name = m.Name,
+                        Image = m.Image,
+                        Price = m.Price,                        
+                    }
+                 );
+
+            return mealVms;
+        }
+
         public bool DeleteMeal(int mealId)
         {
-            Meal meal = GetMeal(mealId);
+            unitOfWorkRepository.Meals.SoftDelete(expression: m => m.Id == mealId);
+            unitOfWorkRepository.SaveChanges();
+            return true;
+        }
 
-            unitOfWorkRepository.Meals.SoftDelete(meal);
+        public bool UnDeleteMeal(int mealId)
+        {
+            unitOfWorkRepository.Meals.UnSoftDelete(expression: m => m.Id == mealId);
             unitOfWorkRepository.SaveChanges();
             return true;
         }

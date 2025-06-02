@@ -1,7 +1,4 @@
-﻿@model Otlob.Core.ViewModel.RestaurantVM
-
-@using Otlob.Core.Models
-@using Otlob.Core.IServices
+﻿@model RestaurantVM
 
 @inject IEncryptionService encryptionService
 
@@ -15,15 +12,9 @@
 
 
 <div>
-    @if (Model.AcctiveStatus == AcctiveStatus.Unaccepted)
-    {
-        <a class="btn btn-primary mb-2" asp-action="ResturatnRequist" asp-controller="Home">←</a>
-    }
-    else
-    {
-        <a class="btn btn-primary mb-2" asp-action="ActiveResturatns" asp-controller="Home">←</a>
-    }
+    <a class="btn btn-primary mb-2" asp-action=@(Model.AcctiveStatus == AcctiveStatus.Unaccepted ? "ResturatnRequist" : "ActiveResturatns") asp-controller="Home">←</a>   
 </div>
+
 
 @if (Model.Image is not null)
 {
@@ -33,6 +24,7 @@ else
 {
     <img class="avatar rounded-circle" src="~/images/Default.jpg" alt="resturantLogo">
 }
+
 <span>@Model.Name</span>
 <div>
     <hr />
@@ -88,8 +80,10 @@ else
 
 <div>
     <a class="btn btn-primary" asp-controller="RestaurantProfile" asp-action="EditRestaurantProfile" asp-route-id="@encryptionId">Resturant Profile</a>
-    <a class="btn btn-primary" asp-controller="ResturantAdminProfile" asp-action="ResturantAdminProfile" asp-route-id="@encryptionId">Resturant Admin Profile</a>
+    <a class="btn btn-primary" asp-controller="UserProfile" asp-action="UserProfile" asp-route-UserId="@Model.UserId">Resturant Admin Profile</a>
     <a class="btn btn-warning" asp-controller="RestaurantMeals" asp-action="RestaurantMeals" asp-route-id="@encryptionId">Meals</a>
-    <a class="btn btn-success" asp-controller="RestaurantOrders" asp-action="RestaurantOrders" asp-route-id="@encryptionId">Restaurant Orders</a>
-    <a class="btn btn-danger" asp-action="ResturantComplaints" asp-route-id="@encryptionId">Complaints</a>
+    <a class="btn btn-secondary" asp-controller="RestaurantMeals" asp-action="RestaurantDeletedMeals" asp-route-id="@encryptionId">Deleted Meals</a>
+    <a class="btn btn-success" asp-controller="RestaurantOrders" asp-action="CurrentRestaurantOrders" asp-route-id="@encryptionId">Current Restaurant Orders</a>
+    <a class="btn btn-secondary" asp-controller="RestaurantOrders" asp-action="CompletedRestaurantOrders" asp-route-id="@encryptionId">Completed Restaurant Orders</a>
+    <a class="btn btn-danger mt-2" asp-action="ResturantComplaints" asp-route-id="@encryptionId">Complaints</a>
 </div>

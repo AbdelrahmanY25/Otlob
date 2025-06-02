@@ -1,6 +1,4 @@
-﻿using Otlob.Core.ViewModel;
-
-namespace Otlob.Core.IServices
+﻿namespace Otlob.Core.IServices
 {
     public interface IRegisterService
     {

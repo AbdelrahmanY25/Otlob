@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.WebUtilities;
-using Otlob.Core.IServices;
-
-namespace Otlob.Core.Services
+﻿namespace Otlob.Core.Services
 {
     public class EncryptionService : IEncryptionService
     {

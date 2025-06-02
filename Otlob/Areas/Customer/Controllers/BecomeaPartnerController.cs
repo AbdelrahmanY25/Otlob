@@ -1,8 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Otlob.Core.IServices;
-using Otlob.Core.ViewModel;
-
-namespace Otlob.Areas.Customer.Controllers
+﻿namespace Otlob.Areas.Customer.Controllers
 {
     [Area("Customer")]
     public class BecomeaPartnerController : Controller

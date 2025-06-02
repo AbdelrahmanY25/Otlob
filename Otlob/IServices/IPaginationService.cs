@@ -1,9 +1,7 @@
-﻿using Otlob.Core.ViewModel;
-
-namespace Otlob.IServices
+﻿namespace Otlob.IServices
 {
     public interface IPaginationService
     {
-        PaginationVM<T> PaginateItems<T>(IQueryable<T> items, int pageSize, int currentPageNumber) where T : class;
+        PaginationVM<T> PaginateItems<T>(IQueryable<T> items, int pageSize, int currentPageNumber, object? element = null) where T : class;
     }
 }

@@ -1,11 +1,6 @@
-﻿@using Otlob.Core.Models
-@using Utility
-@using Otlob.Core.IServices
+﻿@model IQueryable<RestaurantVM>
 
 @inject IEncryptionService encryptionService
-
-@model IQueryable<Otlob.Core.ViewModel.RestaurantVM>
-
 
 @{
     ViewData["Title"] = "Home Page";

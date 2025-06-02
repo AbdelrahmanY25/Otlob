@@ -1,11 +1,4 @@
-﻿using Otlob.Core.IServices;
-using Otlob.Core.IUnitOfWorkRepository;
-using Otlob.Core.Models;
-using Otlob.Core.ViewModel;
-using Otlob.IServices;
-using Otlob.Services.Results;
-
-namespace Otlob.Services
+﻿namespace Otlob.Services
 {
     public class OrderedMealsService : IOrderedMealsService
     {
@@ -157,7 +150,7 @@ namespace Otlob.Services
         }
 
         public bool ThereIsAnyMealsInCart(OrderedMeals selectedOrderMeal) =>
-            unitOfWorkRepository.OrderedMeals.Get(expression: c => c.CartId == selectedOrderMeal.CartId).Any();
+            unitOfWorkRepository.OrderedMeals.Get(expression: c => c.CartId == selectedOrderMeal.CartId, tracked: false).Any();
 
         public bool CheckWhenUserAddAnotherMeal(OrderedMealsVM orderedMealsVM, Cart usercart)
         {

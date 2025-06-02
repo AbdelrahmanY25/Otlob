@@ -1,87 +1,116 @@
-﻿@using Otlob.Core.IServices
-@using Otlob.Core.ViewModel;
-@using Otlob.Core.Models;
-@model PaginationVM<Order>
+﻿@model PaginationVM<Order>
 @inject IEncryptionService encryptionService
 
-<style>
-    .pagination .page-item.active .page-link {
-        background-color: rgb(192, 40, 16);
-        border-color: rgb(192, 40, 16);
-    }
+@{
+    OrderStatus orderStatus = Model.Items.FirstOrDefault().Status;
+}
 
-    .pagination .page-link {
-        color: rgb(192, 40, 16);
-    }
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
 
-    .pagination .page-link:hover {
-        color: #fff;
-        background-color: rgb(192, 40, 16);
-        border-color: rgb(192, 40, 16);
-    }
-</style>
+<div class="container py-4">
+    <!-- Header Row -->
+    <div class="row mb-4 align-items-center">
+        <div class="col-md-4">
+            <h5 class="text-muted">@Model.TotalItems Orders</h5>
+        </div>       
+    </div>
 
-<div class="articles" id="articles">
-
-    <div class="ordersData">
-        <div class="orders">
-            <span>@Model.totalItems : Orders</span>
+    <!-- Filters: search by ID, status, payment -->
+    <div class="row mb-4 g-2 align-items-center">
+        <div class="col-md-4">
+            <input id="searchId"
+                   type="text"
+                   class="form-control"
+                   placeholder="Search by Order ID..." />
+        </div>
+        <div class="col-md-4">
+            <select id="filterStatus" class="form-select">               
+                <option value="@orderStatus.ToString()">@orderStatus.ToString()</option>
+            </select>
+        </div>
+        <div class="col-md-4">
+            <select id="filterMethod" class="form-select">
+                <option value="">All Payments</option>
+                <option value="Cash">Cash</option>
+                <option value="Credit">Credit</option>
+            </select>
         </div>
     </div>
 
-    <div class="container">
+    <!-- Orders Grid -->
+    <div id="ordersRow" class="row g-4 mb-5">
         @foreach (var item in Model.Items)
         {
             string encryptedId = encryptionService.EncryptId(item.Id);
+            var user = item.User;
+            <div class="col-12 col-md-6 col-lg-4 order-card"
+                 data-id="@item.Id"
+                 data-status="@item.Status"
+                 data-method="@item.Method">
+                <div class="card-modern">
+                    <div class="card-header-modern d-flex justify-content-between">
+                        <span>Order #@item.Id</span>
+                    </div>
+                    <div class="card-body-modern">
+                        <div class="orderRestaurantDetails p-0">
+                            <div class="text">
+                                @if (item.Restaurant.Image != null)
+                                {
+                                    <img class="avatar rounded-circle" alt="Profile Picture" src="data:image/*;base64,@(Convert.ToBase64String(item.Restaurant.Image))" />
+                                }
+                                else
+                                {
+                                    <img class="avatar rounded-circle" src="~/images/Default.jpg" alt="Customer Profile Picture" />
+                                }
 
-            <div class="card">
-                <div class="text">
-                    @if (item.User.Image is not null)
-                    {
-                        <img class="avatar rounded-circle" alt="profilePicture" src="data:image/*;base64,@(Convert.ToBase64String(item.User.Image))" />
-                    }
-                    else
-                    {
-                        <img class="avatar rounded-circle" src="~/images/Default.jpg" alt="Customer Profile Picture" />
-                    }
-                    @item.User.UserName
-                </div>
-                <div class="text">
-                    @if (item.Restaurant.Image is not null)
-                    {
-                        <img class="avatar rounded-circle" alt="resturantLogo" src="data:image/*;base64,@(Convert.ToBase64String(item.Restaurant.Image))" />
-                    }
-                    else
-                    {
-                        <img class="avatar rounded-circle" src="~/images/Default.jpg" alt="Restaurant Logo" />
-                    }
-                    @item.Restaurant.Name
-                </div>
-                <div class="text">
-                    <h4>Customer Details</h4>
-                    <p>Phone Number: @item.User.PhoneNumber</p>
-                    <p>Email: @item.User.Email</p>
-                    <p>At: @item.OrderDate.ToString("dd/MM/yyyy : hh:mm:ss tt")</p>
-                </div>
-                <div class="text">
-                    <p>Order Status: <strong class="text-success">@item.Status</strong></p>
-                </div>
-                <div class="read">
-                    <a class="btn btn-success" asp-controller="Order" asp-action="Details" asp-route-id="@encryptedId">Order Details</a>
+                                <strong>Restaurant:</strong> @item.Restaurant.Name
+
+                                <hr />
+                            </div>
+                        </div>
+                        <div class="orderUserDetails p-0"></div>
+                        <p>
+                            <strong>Date:</strong>
+                            @item.OrderDate.ToString("yyyy-MM-dd HH:mm:ss tt")
+                        </p>
+                        <p><strong>Sub Price:</strong> @item.TotalMealsPrice L.E</p>
+                        <p><strong>Delivery Fee:</strong> @item.TotalTaxPrice L.E</p>
+                        <p><strong>Total Price:</strong> @item.TotalOrderPrice L.E</p>
+                        <p><strong>Paynent Method:</strong> @item.Method</p>
+                        <hr />
+                        <p class="mb-1">
+                            <strong>Status:</strong>
+                            <span class="badge bg-@(item.Status == OrderStatus.Pending ? "secondary" :
+                                  item.Status == OrderStatus.Preparing ? "warning" :
+                                  "info")">
+                                @item.Status
+                            </span>
+                        </p>
+
+                        <div class="d-flex flex-wrap gap-2 mt-2">
+                            <button class="view-details btn btn-modern btn-outline-primary"
+                                    data-id="@item.Id">
+                                View User
+                            </button>
+                            <a class="btn btn-modern btn-outline-success"
+                               asp-controller="Order"
+                               asp-action="Details"
+                               asp-route-id="@encryptedId">
+                                Details
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
         }
     </div>
 
-    <nav aria-label="Page navigation example">
+    <nav aria-label="Page navigation example" class="mb-5">
         <ul class="pagination justify-content-center">
-
-            @{OrderStatus status = Model.Items.First().Status;}
-
             @if (Model.HasPreviousPage)
             {
                 <li class="page-item">
-                    <a class="page-link" asp-action="Index" asp-route-status="@status" asp-route-CurrentPageNumber="@(Model.CurrentPageNumber - 1)">
+                    <a class="page-link" asp-action="Index" asp-route-status="@orderStatus" asp-route-currentPageNumber="@(Model.CurrentPageNumber - 1)">
                         Previous
                     </a>
                 </li>
@@ -104,7 +133,7 @@
                 else
                 {
                     <li class="page-item">
-                        <a class="page-link" asp-action="Index" asp-route-status="@status" asp-route-CurrentPageNumber="@i">@i</a>
+                        <a class="page-link" asp-action="Index" asp-route-status="@orderStatus"  asp-route-currentPageNumber="@i">@i</a>
                     </li>
                 }
             }
@@ -112,7 +141,7 @@
             @if (Model.HasNextPage)
             {
                 <li class="page-item">
-                    <a class="page-link" asp-action="Index" asp-route-status="@status" asp-route-CurrentPageNumber="@(Model.CurrentPageNumber + 1)">
+                    <a class="page-link" asp-action="Index" asp-route-status="@orderStatus"  asp-route-currentPageNumber="@(Model.CurrentPageNumber + 1)">
                         Next
                     </a>
                 </li>
@@ -126,3 +155,62 @@
         </ul>
     </nav>
 </div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(function () 
+        {
+            var detailsUrl = '@Url.Action(
+                "OrderUserDetailsPartial", "OrdersStatus", new { area = "SuperAdmin" }
+            )';
+
+          // 1) Live filtering function
+          function filterOrders() {
+            var searchVal = $('#searchId').val().toString().trim(),
+                statusVal = $('#filterStatus').val(),
+                methodVal = $('#filterMethod').val();
+
+            $('.order-card').each(function () {
+              var $c = $(this),
+                  id     = $c.data('id').toString(),
+                  status = $c.data('status'),
+                  method = $c.data('method');
+
+              var matchesId     = searchVal === '' || id.indexOf(searchVal) !== -1,
+                  matchesStatus = statusVal === '' || status === statusVal,
+                  matchesMethod = methodVal === '' || method === methodVal;
+
+              if (matchesId && matchesStatus && matchesMethod) {
+                $c.show();
+              } else {
+                $c.hide();
+              }
+            });
+          }
+
+          // Bind filter events
+          $('#searchId').on('input', filterOrders);
+          $('#filterStatus').on('change', filterOrders);
+          $('#filterMethod').on('change', filterOrders);
+
+          // 2) View-user AJAX (unchanged)
+          $('.view-details').on('click', function () {
+            var orderId      = $(this).data('id'),
+                $placeholder = $(this).closest('.card-modern').find('.orderUserDetails');
+
+            $placeholder.html(
+              '<div class="spinner-border spinner-border-sm" role="status">' +
+                '<span class="visually-hidden">Loading...</span>' +
+              '</div>'
+            );
+
+            $.get(detailsUrl, { orderId: orderId })
+             .done(function (html) { $placeholder.html(html); })
+             .fail(function () {
+               $placeholder.html('<div class="text-danger">Unable to load user details.</div>');
+             });
+          });
+        });
+    </script>
+}

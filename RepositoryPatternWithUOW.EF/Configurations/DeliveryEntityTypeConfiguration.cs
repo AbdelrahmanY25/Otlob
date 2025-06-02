@@ -1,10 +1,4 @@
-﻿using EFCore = Microsoft.EntityFrameworkCore.EF;
-
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Otlob.Core.Models;
-
-namespace Otlob.EF.Configurations
+﻿namespace Otlob.EF.Configurations
 {
     public class DeliveryEntityTypeConfiguration : IEntityTypeConfiguration<Delivery>
     {

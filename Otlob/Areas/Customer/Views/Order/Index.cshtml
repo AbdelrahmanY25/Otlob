@@ -1,8 +1,4 @@
-﻿@using Microsoft.AspNetCore.Identity
-@using Otlob.Core.IUnitOfWorkRepository
-@using Otlob.Core.Models
-
-@model Otlob.Core.ViewModel.OrderVM
+﻿@model OrderVM
 
 @section Notify {
     <partial name="_NotificationPartial"></partial>
@@ -112,7 +108,7 @@
 
                     <div class="text">
                         <select name="Method" class="form-select">
-                            @foreach (var method in Enum.GetNames(typeof(PaymentMethod)))
+                        @foreach (var method in Enum.GetNames(typeof(PaymentMethod)))
                             {
                                 <option>@method</option>
                             }

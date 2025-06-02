@@ -1,17 +1,15 @@
-﻿@using Utility
-
-<nav class="navbar navbar-expand-sm navbar-light border-bottom box-shadow mb-3">
+﻿<nav class="navbar navbar-expand-sm navbar-light border-bottom box-shadow mb-3">
     <div class="container-fluid">
         @if(User.IsInRole(SD.superAdminRole)) 
         {
-            <a style=" color: rgb(192 40 16);" class="navbar-brand" asp-area="SuperAdmin" asp-controller="Home" asp-action="Index">Otlob</a>
+            <img src="~/images/OtlobLogo.jpg" alt="Logo" class="avatar rounded-circle" />
             <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                 <ul class="navbar-nav flex-grow-1">
                     <li class="nav-item">
-                        <a style=" color: rgb(192 40 16)" class="nav-link" asp-area="SuperAdmin" asp-controller="Home" asp-action="Index">Home</a>
+                        <a style=" color: #F04335" class="nav-link" asp-area="SuperAdmin" asp-controller="Home" asp-action="Index">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a style=" color: rgb(192 40 16);" class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        <a style=" color: #F04335;" class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                     </li>
                 </ul>
                     <partial name="_LoginPartial"></partial>
@@ -19,14 +17,14 @@
         }
         else if (User.IsInRole(SD.restaurantAdmin)) 
         {
-            <a style=" color: rgb(192 40 16);" class="navbar-brand" asp-area="ResturantAdmin" asp-controller="Home" asp-action="Index">Otlob</a>
+            <img src="~/images/OtlobLogo.jpg" alt="Logo" class="avatar rounded-circle" />
             <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                 <ul class="navbar-nav flex-grow-1">
                     <li class="nav-item">
-                        <a style=" color: rgb(192 40 16)" class="nav-link" asp-area="ResturantAdmin" asp-controller="Home" asp-action="Index">Home</a>
+                        <a style=" color: #F04335" class="nav-link" asp-area="ResturantAdmin" asp-controller="Home" asp-action="Index">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a style=" color: rgb(192 40 16);" class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        <a style=" color: #F04335;" class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                     </li>                    
                 </ul>
                 <partial name="_LoginPartial"></partial>
@@ -34,16 +32,16 @@
         }
         else 
         {
-            <a style=" color: rgb(192 40 16);" class="navbar-brand" asp-area="Customer" asp-controller="Home" asp-action="Index">Otlob</a>
+            <img src="~/images/OtlobLogo.jpg" alt="Logo" class="avatar rounded-circle"/>
             <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                 <ul class="navbar-nav flex-grow-1">
                     <li class="nav-item">
-                        <a style=" color: rgb(192 40 16)" class="nav-link" asp-area="Customer" asp-controller="Home" asp-action="Index">Home</a>
+                        <a style=" color: #F04335" class="nav-link" asp-area="Customer" asp-controller="Home" asp-action="Index">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a style=" color: rgb(192 40 16);" class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        <a style=" color: #F04335;" class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                     </li>
-                    <a style=" color: rgb(192 40 16);" class="nav-link" asp-area="Customer" asp-controller="Cart" asp-action="Cart"><i class="fa-solid fa-cart-shopping"></i></a>
+                    <a style=" color: #F04335;" class="nav-link" asp-area="Customer" asp-controller="Cart" asp-action="Cart"><i class="fa-solid fa-cart-shopping"></i></a>
                 </ul>
                 <partial name="_LoginPartial"></partial>
             </div>

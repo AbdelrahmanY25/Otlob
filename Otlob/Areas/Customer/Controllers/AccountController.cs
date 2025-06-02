@@ -1,13 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
-using Otlob.Core.IServices;
-using Otlob.Core.Models;
-using Otlob.Core.ViewModel;
-using Utility;
-using Otlob.Areas.Customer.Services.Interfaces;
-
-namespace Otlob.Areas.Customer.Controllers
+﻿namespace Otlob.Areas.Customer.Controllers
 {
     [Area("Customer")]
     public class AccountController : Controller
@@ -94,20 +85,28 @@ namespace Otlob.Areas.Customer.Controllers
         {
             if (ModelState.IsValid)
             {
-                var userDb = await userManager.FindByEmailAsync(loginVM.UserName);
+                var userDb = await userManager.FindByEmailAsync(loginVM.UserName);                
 
                 if (userDb is null)
                 {
-                    ModelState.AddModelError("", "There is invalid user name or password");                    
+                    ModelState.AddModelError("", "There is invalid user name or password");           
+                    return View(loginVM);
                 }
 
-               
+                if (!userDb.LockoutEnabled)
+                {
+                    ModelState.AddModelError("", "Your account is not active, please contact support.");
+                    return View(loginVM);
+                }
+
                 var finalResult = await userManager.CheckPasswordAsync(userDb, loginVM.Password);
 
                 if (finalResult)
                 {
-                    await signInManager.SignInAsync(userDb, loginVM.RememberMe);
+                    List<Claim> claims = new();
+                    claims.Add(new Claim(SD.restaurantId, userDb.RestaurantId.ToString()));
 
+                    await signInManager.SignInWithClaimsAsync(userDb, loginVM.RememberMe, claims);
                     return await CheckOnUserRoll(userDb);
                 }
                 else
@@ -137,9 +136,9 @@ namespace Otlob.Areas.Customer.Controllers
 
         public IActionResult Profile()
         {
-            string? userId = userManager.GetUserId(User);
+            string? userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
 
-            ProfileVM userProfileDetails = userServices.ViewUserProfileVmDetails(userId);
+            ProfileVM userProfileDetails = userServices.GetUserProfileVmDetails(userId);
 
             if (userProfileDetails is null)
             {
@@ -150,7 +149,7 @@ namespace Otlob.Areas.Customer.Controllers
         }
 
         [HttpPost, ValidateAntiForgeryToken]
-        public async Task<IActionResult> Profile(ProfileVM profileVM)
+        public async Task<IActionResult> Profile(ProfileVM profileVM, IFormFileCollection files)
         {
             if (!ModelState.IsValid)
             {
@@ -159,7 +158,7 @@ namespace Otlob.Areas.Customer.Controllers
 
             var user = await userManager.GetUserAsync(User);
 
-            if (user == null)
+            if (user is null)
             {
                 return RedirectToAction("Login");
             }
@@ -167,6 +166,22 @@ namespace Otlob.Areas.Customer.Controllers
             user = userServices.UpdateUserInfo(user, profileVM);
 
             var updateUserInfo = await userManager.UpdateAsync(user);
+
+            if (files.Count <= 0 && updateUserInfo.Succeeded)
+            {
+                TempData["Success"] = "Your profile info updated successfully.";
+                return RedirectToAction("Profile");
+            }
+
+            if (!updateUserInfo.Succeeded)
+            {
+                foreach (var errorInfo in updateUserInfo.Errors)
+                {
+                    ModelState.AddModelError("", errorInfo.Description);
+                }
+
+                return View(profileVM);
+            }
 
             string isImageUploaded  = await imageService.UploadImage(Request.Form.Files, profileVM);
 

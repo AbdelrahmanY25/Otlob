@@ -1,9 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Otlob.Core.Models;
-using System.ComponentModel.DataAnnotations;
-using Utility;
-
-namespace Otlob.Core.ViewModel
+﻿namespace Otlob.Core.ViewModel
 {
     public class OrderedMealsVM : ImageUrl
     {

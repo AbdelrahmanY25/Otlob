@@ -1,9 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Otlob.Core.IUnitOfWorkRepository;
-using Utility;
-
-namespace Otlob.Areas.SuperAdmin.Controllers
+﻿namespace Otlob.Areas.SuperAdmin.Controllers
 {
     [Area("SuperAdmin"), Authorize(Roles = SD.superAdminRole)]
     public class ComplaintController : Controller

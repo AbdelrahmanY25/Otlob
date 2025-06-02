@@ -1,7 +1,4 @@
-﻿using Otlob.Core.Models;
-using Otlob.Core.ViewModel;
-
-namespace Otlob.Core.IServices
+﻿namespace Otlob.Core.IServices
 {
     public interface ICartService
     {
@@ -10,7 +7,7 @@ namespace Otlob.Core.IServices
         CartVM? GetUserCartToView(string userId);
         Cart? AddCart(string userId, int restaurantId);
         bool DeleteCart(int id);
-        bool IsCartNotEmpty(string userId);
+        bool IsCartHasItems(string userId);
         bool CheckIfCanAddOrderToCart(OrderedMealsVM orderedMealsVM, string userId, string resId);
         bool AddOrderToCart(OrderedMealsVM orderedMealsVM, string userId, int restaurantId);
     }

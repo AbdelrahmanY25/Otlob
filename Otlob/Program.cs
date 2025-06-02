@@ -1,18 +1,4 @@
-using Microsoft.EntityFrameworkCore;
-using Otlob.Core.Models;
-using Microsoft.AspNetCore.Identity;
-using Otlob.EF;
-using Otlob.Core.IUnitOfWorkRepository;
-using Otlob.EF.UnitOfWorkRepository;
-using Otlob.Core.Hubs;
 using Stripe;
-using Utility;
-using Otlob.Core.Services;
-using Otlob.Core.IServices;
-using Otlob.Areas.Customer.Services.Interfaces;
-using Otlob.Areas.Customer.Services;
-using Otlob.Services;
-using Otlob.IServices;
 
 namespace Otlob
 {
@@ -40,14 +26,14 @@ namespace Otlob
 
             builder.Services.AddDbContext<ApplicationDbContext>(
                 options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-           
+
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
             {
                 options.SignIn.RequireConfirmedAccount = true;
             })
-            .AddEntityFrameworkStores<ApplicationDbContext>()
-            .AddDefaultUI()
-            .AddDefaultTokenProviders();
+            .AddEntityFrameworkStores<ApplicationDbContext>();
+            //.AddDefaultUI()
+            //.AddDefaultTokenProviders();
 
             builder.Services.AddAuthentication()  
             .AddMicrosoftAccount(microsoftOptions =>
@@ -88,7 +74,7 @@ namespace Otlob
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/customer/Home/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }

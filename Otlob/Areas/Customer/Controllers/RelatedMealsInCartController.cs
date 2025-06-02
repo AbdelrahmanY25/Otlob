@@ -1,25 +1,15 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Otlob.Core.IServices;
-using Otlob.Core.Models;
-using Otlob.IServices;
-using Otlob.Services.Results;
-
-namespace Otlob.Areas.Customer.Controllers
+﻿namespace Otlob.Areas.Customer.Controllers
 {
     [Area("Customer")]
     public class RelatedMealsInCartController : Controller
     {
-        private readonly IOrderedMealsService orderedMealsService;
         private readonly ICartService cartService;
-        private readonly IEncryptionService encryptionService;
+        private readonly IOrderedMealsService orderedMealsService;
 
-        public RelatedMealsInCartController(IOrderedMealsService orderedMealsService,
-                                            ICartService cartService,
-                                            IEncryptionService encryptionService)
+        public RelatedMealsInCartController(ICartService cartService, IOrderedMealsService orderedMealsService)
         {
-            this.orderedMealsService = orderedMealsService;
             this.cartService = cartService;
-            this.encryptionService = encryptionService;
+            this.orderedMealsService = orderedMealsService;
         }
 
         public IActionResult ChangeMealQuantity(string id, MealQuantity type)

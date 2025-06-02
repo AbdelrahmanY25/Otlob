@@ -1,8 +1,4 @@
-﻿@using Microsoft.AspNetCore.Identity
-@using Otlob.Core.Models
-@using Utility
-
-@inject SignInManager<ApplicationUser> SignInManager
+﻿@inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> userManager
 
 <style>
@@ -118,8 +114,8 @@
             }
             else if (User.IsInRole(SD.customer))
             {
-                <li><a asp-controller="BecomeaPartner" asp-action="BecomeaPartner">Become a Partner</a></li>
-                <li><a asp-controller="Complaint" asp-action="AddComplaint">Add Complaint</a></li>
+                <li><a href="#" @* asp-controller="BecomeaPartner" asp-action="BecomeaPartner *@>Become a Partner</a></li>
+                @* <li><a asp-controller="Complaint" asp-action="AddComplaint">Add Complaint</a></li> *@
             }
 
             <li><a asp-area="Customer" asp-controller="Account" asp-action="Profile">Welcome @User.Identity.Name</a></li>

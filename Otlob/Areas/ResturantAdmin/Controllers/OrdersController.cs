@@ -1,68 +1,101 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Otlob.Core.IUnitOfWorkRepository;
-using Otlob.Core.Models;
-using Otlob.Core.ViewModel;
-using Otlob.IServices;
-using Utility;
-
-namespace Otlob.Areas.ResturantAdmin.Controllers
+﻿namespace Otlob.Areas.ResturantAdmin.Controllers
 {
     [Area("ResturantAdmin"), Authorize(Roles = SD.restaurantAdmin)]
     public class OrdersController : Controller
     {
-        private readonly IUnitOfWorkRepository unitOfWorkRepository;
         private readonly IOrderService orderService;
         private readonly IOrderDetailsService orderDetailsService;
-        private readonly UserManager<ApplicationUser> userManager;
+        private readonly IUserServices userServices;
+        private readonly IPaginationService paginationService;
 
-        public OrdersController(IUnitOfWorkRepository unitOfWorkRepository, IOrderService orderService, IOrderDetailsService orderDetailsService,
-                                UserManager<ApplicationUser> userManager)
+        private const int pageSize = 9;
+
+        public OrdersController(IOrderService orderService, IOrderDetailsService orderDetailsService,
+                                IUserServices userServices,
+                                IPaginationService paginationService)
         {
-            this.unitOfWorkRepository = unitOfWorkRepository;
             this.orderService = orderService;
             this.orderDetailsService = orderDetailsService;
-            this.userManager = userManager;
+            this.userServices = userServices;
+            this.paginationService = paginationService;
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index(int currentPageNumber = 1, string? searchById = null)
         {
-            return await GetOrdersView(OrderStatus.Delivered, exclude: true);
+            return GetOrdersView(OrderStatus.Delivered, exclude: true, currentPageNumber, searchById);
         }
 
-        public async Task<IActionResult> DeliveredOrders()
+        public IActionResult DeliveredOrders(int currentPageNumber = 1, string? searchById = null)
         {
-            return await GetOrdersView(OrderStatus.Delivered, exclude: false);
+            return GetOrdersView(OrderStatus.Delivered, exclude: false, currentPageNumber, searchById);           
         }
 
-        private async Task<IActionResult> GetOrdersView(OrderStatus status, bool exclude)
+        private IActionResult GetOrdersView(OrderStatus status, bool exclude, int currentPageNumber, string? searchById)
         {
-            var resturant = await userManager.GetUserAsync(User);
+            string? userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
 
-            var orders = unitOfWorkRepository
-                                .Orders
-                                .Get(
-                                        [o => o.User, o => o.Restaurant],
-                                        expression: o => o.RestaurantId == resturant.RestaurantId &&
-                                                         (exclude ? o.Status != status : o.Status == status),
-                                        tracked: false
-                                    )
-                                .OrderByDescending(o => o.OrderDate);
-
-            decimal mostExpensiveOrder = orders.Max(o => o.TotalOrderPrice);
-
-            var viewModel = new OrderViewModel
+            if (userId is null)
             {
-                Orders = orders,
-                ResturantId = resturant.RestaurantId.ToString(),
-                MostExpensiveOrder = mostExpensiveOrder
-            };
+                return RedirectToAction("Login", "Account", new { area = "Customer" });
+            }
 
-            return View(viewModel);
+            int restaurantId = userServices.GetUserRestaurantId(userId);
+
+            if (restaurantId == 0)
+            {
+                return RedirectToAction("Login", "Account", new { area = "Customer" });
+            }
+
+            if (int.TryParse(searchById, out int id))
+            {
+                Order order = orderService.GetOrderById(id, restaurantId);
+
+                if (order is null)
+                {
+                    return View("EmptyOrders");
+                }
+
+                return View("Order", order);
+            }
+            else if (!string.IsNullOrEmpty(searchById))
+            {
+                return View("EmptyOrders");
+            }
+
+            var orders = orderService.GetCurrentRestaurantOrders(restaurantId, status, exclude);
+
+            if (orders.IsNullOrEmpty())
+            {
+                return View("EmptyOrders");
+            }
+            
+            decimal? MostExpensiveOrder = orders.Max(o => (decimal?)o.TotalOrderPrice);
+
+            PaginationVM<Order> viewModel = paginationService.PaginateItems<Order>(orders, pageSize, currentPageNumber, MostExpensiveOrder);
+          
+            return View("Index", viewModel);
         }
 
-        public ActionResult OrderDetails(string id)
+        public IActionResult OrderUserDetailsPartial(int orderId)
+        {
+            string userId = orderService.GetUserIdByOrderId(orderId);
+
+            if (userId.IsNullOrEmpty())
+            {
+                return NotFound();
+            }
+
+            ApplicationUser? user = userServices.GetUserDataToPartialview(userId);
+
+            if (user is null)
+            {
+                return NotFound();
+            }
+
+            return PartialView("_UserOrder", user);
+        }
+
+        public ActionResult Details(string id)
         {
             Order? order = orderService.GetOrderPaymentDetails(id);
 

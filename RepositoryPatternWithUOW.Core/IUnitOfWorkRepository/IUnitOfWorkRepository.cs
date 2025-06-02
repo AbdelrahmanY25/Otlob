@@ -1,7 +1,4 @@
-﻿using Otlob.Core.Models;
-using Otlob.EF.IBaseRepository;
-
-namespace Otlob.Core.IUnitOfWorkRepository
+﻿namespace Otlob.Core.IUnitOfWorkRepository
 {
     public interface IUnitOfWorkRepository : IDisposable
     {

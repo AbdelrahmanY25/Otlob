@@ -1,26 +1,16 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Otlob.Areas.Customer.Services.Interfaces;
-using Otlob.Core.IServices;
-using Otlob.Core.Models;
-using Otlob.Core.ViewModel;
-
-namespace Otlob.Areas.Customer.Controllers
+﻿namespace Otlob.Areas.Customer.Controllers
 {
     [Area("Customer")]
     public class CartController : Controller
     {
         private readonly ICartService cartService;
         private readonly IAddressService addressService;
-        private readonly UserManager<ApplicationUser> userManager;
 
         public CartController(ICartService cartService,
-                              IAddressService addressService,
-                              UserManager<ApplicationUser> userManager)
+                              IAddressService addressService)
         {
             this.cartService = cartService;
             this.addressService = addressService;
-            this.userManager = userManager;
         }
 
         [HttpPost, ValidateAntiForgeryToken]
@@ -31,16 +21,16 @@ namespace Otlob.Areas.Customer.Controllers
                 return RedirectToAction("Details", "Home", new { id = resId });
             }
 
-            string? userId = userManager.GetUserId(User);
+            string? userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             if (userId is null)
             {
                 return RedirectToAction("Login", "Account");
             }            
             
-            var userAddresses = addressService.GetUserAddressies(userId).ToList();
+            var userAddresses = addressService.GetUserAddressies(userId).Any();
 
-            if (userAddresses.Count == 0)
+            if (!userAddresses)
             {
                 TempData["Error"] = "Please Add Address First";
                 return RedirectToAction("SavedAddresses", "Address");
@@ -59,7 +49,7 @@ namespace Otlob.Areas.Customer.Controllers
 
         public IActionResult Cart()
         {
-            var userId = userManager.GetUserId(User);
+            var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
 
             if (userId is null)
             {

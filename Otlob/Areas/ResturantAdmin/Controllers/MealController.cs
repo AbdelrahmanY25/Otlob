@@ -1,42 +1,32 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Otlob.Core.IServices;
-using Otlob.Core.Models;
-using Otlob.Core.ViewModel;
-using Otlob.IServices;
-using Otlob.Services;
-
-namespace Otlob.Areas.ResturantAdmin.Controllers
+﻿namespace Otlob.Areas.ResturantAdmin.Controllers
 {
     [Area("ResturantAdmin")]
     public class MealController : Controller
     {
-        private readonly UserManager<ApplicationUser> userManager;
         private readonly IMealService mealService;
         private readonly IEncryptionService encryptionService;
         private readonly IMealPriceHistoryService mealPriceHistoryService;
 
-        public MealController(UserManager<ApplicationUser> userManager,
-                                 IMealService mealService,
-                                 IEncryptionService encryptionService,
-                                 IMealPriceHistoryService mealPriceHistoryService)
+        public MealController(IMealService mealService,
+                             IEncryptionService encryptionService,
+                             IMealPriceHistoryService mealPriceHistoryService)
         {
-            this.userManager = userManager;
             this.mealService = mealService;
             this.encryptionService = encryptionService;
             this.mealPriceHistoryService = mealPriceHistoryService;
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            var restaurnat =  await userManager.GetUserAsync(User);
+            string? userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            if (restaurnat == null)
+            if (userId is null)
             {
                 return RedirectToAction("Login", "Account", new { Area = "Customer" });
             }
 
-            var mealsVM = mealService.ViewMealsVmToRestaurantAdminSummary(restaurnat.RestaurantId);
+            int restaurantId = int.Parse(User.FindFirstValue(SD.restaurantId));
+            var mealsVM = mealService.ViewMealsVmToRestaurantAdminSummary(restaurantId);
 
             return View(mealsVM);
         }
@@ -51,9 +41,16 @@ namespace Otlob.Areas.ResturantAdmin.Controllers
                 return View(mealVM);                
             }
 
-            var restaurnat = await userManager.GetUserAsync(User);
+            string? userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            var isMealadded = await mealService.AddMeal(mealVM, restaurnat.RestaurantId, Request.Form.Files);
+            if (userId is null)
+            {
+                return RedirectToAction("Login", "Account", new { Area = "Customer" });
+            }
+
+            int restaurantId = int.Parse(User.FindFirstValue(SD.restaurantId));
+
+            var isMealadded = await mealService.AddMeal(mealVM, restaurantId, Request.Form.Files);
 
             if (isMealadded is string)
             {
@@ -105,12 +102,42 @@ namespace Otlob.Areas.ResturantAdmin.Controllers
             return View(mealPriceHistories);
         }
 
+        public IActionResult DeletedMeals()
+        {
+            string? userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (userId is null)
+            {
+                return RedirectToAction("Login", "Account", new { Area = "Customer" });
+            }
+
+            int restaurantId = int.Parse(User.FindFirstValue(SD.restaurantId));
+
+            IQueryable<MealVm> mealsVM = mealService.GetDeletedMeals(restaurantId);
+
+            if (mealsVM.IsNullOrEmpty())
+            {
+                TempData["Error"] = "There is no deleted meals";
+                return RedirectToAction("Index", "Home");
+            }
+
+            return View(mealsVM);
+        }
+
         [HttpPost, ValidateAntiForgeryToken]
         public IActionResult DeleteMeal(string id)
         {
             int mealId = encryptionService.DecryptId(id);
             mealService.DeleteMeal(mealId);
             return RedirectToAction("Index");
+        }
+
+        public IActionResult UnDeleteMeal(string id)
+        {
+            int mealId = encryptionService.DecryptId(id);
+            mealService.UnDeleteMeal(mealId);
+
+            return RedirectToAction("DeletedMeals");
         }
 
         private IActionResult BackToMealsView(string msg)

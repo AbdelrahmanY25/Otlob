@@ -33,6 +33,10 @@
       "PackagePath": "staticwebassets\\images\\Default.jpg"
     },
     {
+      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\OtlobLogo.jpg",
+      "PackagePath": "staticwebassets\\images\\OtlobLogo.jpg"
+    },
+    {
       "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\images\\creditIcon.png",
       "PackagePath": "staticwebassets\\images\\creditIcon.png"
     },

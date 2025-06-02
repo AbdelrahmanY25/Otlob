@@ -1,36 +1,30 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Otlob.Core.IServices;
-using Otlob.Core.Models;
-using Otlob.Core.ViewModel;
-using Utility;
-
-namespace Otlob.Areas.Restaurants.Controllers
+﻿namespace Otlob.Areas.Restaurants.Controllers
 {
     [Area("ResturantAdmin"),Authorize(Roles = SD.restaurantAdmin)]
     public class RestaurantProfileController : Controller
     {
-        private readonly UserManager<ApplicationUser> userManager;
+        private readonly IUserServices userServices;
         private readonly IRestaurantService restaurantService;
 
-        public RestaurantProfileController(UserManager<ApplicationUser> userManager,
+        public RestaurantProfileController(IUserServices userServices,
                                            IRestaurantService restaurantService)
         {
-            this.userManager = userManager;
+            this.userServices = userServices;
             this.restaurantService = restaurantService;
         }
         
-        public async Task<IActionResult> EditRestaurantProfile()
+        public IActionResult EditRestaurantProfile()
         {
-            ApplicationUser? user = await userManager.GetUserAsync(User);
+            string? userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            if (user is null)
+            if (userId is null)
             {
                 return RedirectToAction("Login", "Account", new { Area = "Customer" });
             }
 
-            RestaurantVM resturantVM = restaurantService.GetRestaurantDetailsById(user.RestaurantId);
+            int restaurantId = userServices.GetUserRestaurantId(userId);
+
+            RestaurantVM resturantVM = restaurantService.GetRestaurantDetailsById(restaurantId);
 
             return View(resturantVM);
         }
@@ -43,14 +37,16 @@ namespace Otlob.Areas.Restaurants.Controllers
                 return View(restaurantVM);
             }
 
-            ApplicationUser? user = await userManager.GetUserAsync(User);
+            string? userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
 
-            if (user is null)
+            if (userId is null)
             {
                 return RedirectToAction("Login", "Account", new { Area = "Customer" });
             }            
 
-            string? isDataUpdated = await restaurantService.EditRestaurantProfileInfo(restaurantVM, user.RestaurantId, Request.Form.Files);
+            int restaurantId = userServices.GetUserRestaurantId(userId);
+
+            string? isDataUpdated = await restaurantService.EditRestaurantProfileInfo(restaurantVM, restaurantId, Request.Form.Files);
            
             if (isDataUpdated is string)
             {

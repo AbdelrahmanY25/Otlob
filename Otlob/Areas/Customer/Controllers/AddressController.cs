@@ -1,13 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Otlob.Areas.Customer.Services.Interfaces;
-using Otlob.Core.IServices;
-using Otlob.Core.IUnitOfWorkRepository;
-using Otlob.Core.Models;
-using Otlob.Core.ViewModel;
-using System.Text;
-
-namespace Otlob.Areas.Customer.Controllers
+﻿namespace Otlob.Areas.Customer.Controllers
 {
     [Area("Customer")]
     public class AddressController : Controller
@@ -26,7 +17,7 @@ namespace Otlob.Areas.Customer.Controllers
         }
         public IActionResult SavedAddresses()
         {
-            string? userId = userManager.GetUserId(User);
+            string? userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
 
             var addresses = addressService.GetUserAddressies(userId);
 
@@ -43,7 +34,7 @@ namespace Otlob.Areas.Customer.Controllers
                 return View();
             }
 
-            string? userId = userManager.GetUserId(User);
+            string? userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
 
             if (userId is null)
             {
@@ -64,7 +55,7 @@ namespace Otlob.Areas.Customer.Controllers
         {
             int addressId = encryptionService.DecryptId(id);
 
-            AddressVM addressVM = addressService.GetOneAddress(addressId);
+            AddressVM? addressVM = addressService.GetOneAddress(addressId);
 
             if (addressVM is null)
             {
@@ -93,7 +84,7 @@ namespace Otlob.Areas.Customer.Controllers
                 return RedirectToAction("SavedAddresses");
             }
 
-            string userId = userManager.GetUserId(User);
+            string? userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
 
             if (userId is null)
             {

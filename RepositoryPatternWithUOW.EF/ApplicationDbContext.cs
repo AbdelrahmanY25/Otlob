@@ -1,8 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
-using Otlob.Core.Models;
-
-namespace Otlob.EF
+﻿namespace Otlob.EF
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {

@@ -1,5 +1,4 @@
-﻿@using Otlob.Core.IServices
-@model IEnumerable<Otlob.Core.ViewModel.RestaurantVM>
+﻿@model IEnumerable<RestaurantVM>
 
 @inject IEncryptionService encryptionService
 
@@ -29,7 +28,7 @@
                 </div>
                 <div class="read">
                     <a class="btn btn-warning" asp-controller="Restaurants" asp-action="ResturantDetails" asp-route-id="@encryptionId">More Details</a>
-                </div>
+                </div>               
             </div>
         }
     </div>

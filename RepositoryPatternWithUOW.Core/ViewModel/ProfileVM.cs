@@ -1,12 +1,8 @@
-﻿using Otlob.Core.Models;
-using System.ComponentModel.DataAnnotations;
-using Utility;
-
-namespace Otlob.Core.ViewModel
+﻿namespace Otlob.Core.ViewModel
 {
     public class ProfileVM : ImageUrl
     {
-        public int ProfileVMId { get; set; }
+        public string? ProfileVMId { get; set; }
 
         [Required, MaxLength(100), Display(Prompt = "Email")]
         [DataType(DataType.EmailAddress)]
@@ -24,24 +20,11 @@ namespace Otlob.Core.ViewModel
         [Display(Prompt = "Date of Birth")]
         public DateOnly? BirthDate { get; set; }
 
-        [Display(Prompt = "PhoneNumber"), MinLength(11, ErrorMessage = "The Phone number must be 11 number")]
+        [Display(Prompt = "Phone Number")]
         [Required, DataType(DataType.PhoneNumber)]
-        [RegularExpression(@"^\d{1,11}$", ErrorMessage = "The phone number must contain only numbers and be up to 11 digits long.")]
+        [RegularExpression(@"^\d{11}$", ErrorMessage = "The phone number must contain only numbers and be up to 11 digits long.")]
         public string? PhoneNumber { get; set; }
-        public byte[]? Image { get; set; }
 
-        //public static ProfileVM MapToProfileVM(ApplicationUser user)
-        //{
-        //    return new ProfileVM
-        //    {
-        //        Email = user.Email,
-        //        BirthDate = user.BirthDate,
-        //        FirstName = user.FirstName,
-        //        LastName = user.LastName,
-        //        Gender = user.Gender,
-        //        PhoneNumber = user.PhoneNumber,
-        //        Image.Image = user.Image
-        //    };
-        //}
+        public byte[]? Image { get; set; }
     }
 }

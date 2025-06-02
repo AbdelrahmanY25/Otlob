@@ -1,11 +1,8 @@
-﻿using Otlob.Core.Models;
-
-namespace Otlob.IServices
+﻿namespace Otlob.IServices
 {
     public interface IOrderDetailsService
     {
-        bool AddOrderDetails(Cart cart, Order newOrder);
-        bool SaveOrderDetails(Order newOrder, Cart cart);
+        ICollection<OrderDetails> AddOrderDetails(int cartId);
         IQueryable<OrderDetails>? GetOrderDetailsToViewPage(string id);
     }
 }

@@ -1,8 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
-using Utility;
-
-
-namespace Otlob.Core.ViewModel
+﻿namespace Otlob.Core.ViewModel
 {
     public class CartVM : ImageUrl
     {

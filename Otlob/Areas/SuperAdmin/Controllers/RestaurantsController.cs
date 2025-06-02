@@ -1,10 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Otlob.Core.IServices;
-using Otlob.Core.ViewModel;
-using Utility;
-
-namespace Otlob.Areas.SuperAdmin.Controllers
+﻿namespace Otlob.Areas.SuperAdmin.Controllers
 {
     [Area("SuperAdmin"), Authorize(Roles = SD.superAdminRole)]
     public class RestaurantsController : Controller
@@ -27,6 +21,20 @@ namespace Otlob.Areas.SuperAdmin.Controllers
             RestaurantVM resturnatVm = restaurantService.GetRestaurantDetailsById(restaurantId);
 
             return View(resturnatVm);
-        }        
+        }
+
+        public IActionResult DeleteRestaurant(string id)
+        {
+            restaurantService.DelteRestaurant(id);
+            TempData["Success"] = "Restaurant Deleted Successfully";
+            return RedirectToAction("ActiveResturatns", "Home");
+        }
+
+        public IActionResult UnDeleteRestaurant(string id)
+        {
+            restaurantService.UnDelteRestaurant(id);
+            TempData["Success"] = "Restaurant UnDeleted Successfully";
+            return RedirectToAction("ActiveResturatns", "Home");
+        }
     }
 }

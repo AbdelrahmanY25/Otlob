@@ -1,49 +1,19 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Otlob.Core.IUnitOfWorkRepository;
-using Otlob.Core.Models;
-
-namespace Otlob.Areas.ResturantAdmin.Controllers
+﻿namespace Otlob.Areas.ResturantAdmin.Controllers
 {
     [Area("ResturantAdmin")]
     public class OrderStatusController : Controller
     {
-        private readonly IUnitOfWorkRepository unitOfWorkRepository;
-        private readonly UserManager<ApplicationUser> userManager;
+        private readonly IOrderService orderService;
 
-        public OrderStatusController(IUnitOfWorkRepository unitOfWorkRepository,
-                                     UserManager<ApplicationUser> userManager)
+        public OrderStatusController(IOrderService orderService)
         {
-            this.unitOfWorkRepository = unitOfWorkRepository;
-            this.userManager = userManager;
+            this.orderService = orderService;
         }
 
-        public async Task<IActionResult> ChangeOrderStatus(int id)
-        {
-            var order = unitOfWorkRepository.Orders.GetOne(expression: o => o.Id == id);
-
-            order.Status = GetNextStatus(order);
-
-            unitOfWorkRepository.Orders.Edit(order);
-            unitOfWorkRepository.SaveChanges();
-            
+        public IActionResult ChangeOrderStatus(int id)
+        {         
+            orderService.ChangeOrderstatus(id);
             return RedirectToAction("Index", "Orders");
-        }
-
-        private OrderStatus GetNextStatus(Order order) /// Seperate Validation or Filter Service
-        {
-            if (order is not null)
-            {
-                order.Status = order.Status switch
-                {
-                    OrderStatus.Pending => OrderStatus.Preparing,
-                    OrderStatus.Preparing => OrderStatus.Shipped,
-                    OrderStatus.Shipped => OrderStatus.Delivered,
-                    _ => order.Status
-                };
-                return order.Status;
-            }
-            return OrderStatus.Pending;
         }
     }
 }

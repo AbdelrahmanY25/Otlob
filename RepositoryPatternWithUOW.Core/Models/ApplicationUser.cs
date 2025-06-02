@@ -1,8 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
-using Utility;
-
-namespace Otlob.Core.Models
+﻿namespace Otlob.Core.Models
 {
     public class ApplicationUser : IdentityUser
     {

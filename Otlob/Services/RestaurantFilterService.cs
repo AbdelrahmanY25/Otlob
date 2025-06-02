@@ -1,10 +1,4 @@
-﻿using Microsoft.IdentityModel.Tokens;
-using Otlob.Core.Models;
-using Otlob.Core.ViewModel;
-using Otlob.IServices;
-using System.Linq.Expressions;
-
-namespace Otlob.Services
+﻿namespace Otlob.Services
 {
     public class RestaurantFilterService : IRestaurantFilterService
     {       

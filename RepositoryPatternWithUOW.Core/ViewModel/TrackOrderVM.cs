@@ -1,6 +1,4 @@
-﻿using Otlob.Core.Models;
-
-namespace Otlob.Core.ViewModel
+﻿namespace Otlob.Core.ViewModel
 {
     public class TrackOrderVM
     {

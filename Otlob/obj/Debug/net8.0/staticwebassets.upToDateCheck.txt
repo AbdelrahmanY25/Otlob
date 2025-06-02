@@ -64,6 +64,7 @@ wwwroot\images\meals\c22c404c-b786-4190-8fe3-318c9cfb33ef.jpg
 wwwroot\images\meals\c9e0e679-e166-473a-84d8-fc85d13c9806.png
 wwwroot\images\meals\cfe77172-13d4-4b5a-8cfc-2c716d90400f.jpg
 wwwroot\images\meals\e26368a4-c95f-4529-a518-a0d67929884f.jpg
+wwwroot\images\OtlobLogo.jpg
 wwwroot\images\resturantLogo\45ed1d87-3d0d-4be5-aabf-2d4d9fc235cd.jpg
 wwwroot\images\resturantLogo\64811f0f-1d02-48f3-81e1-ec1df942a66d.png
 wwwroot\images\resturantLogo\6c7ad458-e02e-480c-be37-6649120423e0.png

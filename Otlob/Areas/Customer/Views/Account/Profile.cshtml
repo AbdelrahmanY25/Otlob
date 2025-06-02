@@ -1,6 +1,4 @@
-﻿@using Otlob.Core.Models
-@using Utility
-@model Otlob.Core.ViewModel.ProfileVM
+﻿@model ProfileVM
 
 @section Profile {
     <partial name="_ProfilePartial.cshtml"></partial>
@@ -85,7 +83,7 @@
                    id="fileInput"
                    type="file"
                    accept="image/*"
-                   asp-for="Image"
+                   name="files"
                    onchange="document.getElementById('profilePicture').src = window.URL.createObjectURL(this.files[0]);" />
         </div>
 

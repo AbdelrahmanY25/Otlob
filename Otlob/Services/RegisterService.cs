@@ -1,10 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Otlob.Core.IServices;
-using Otlob.Core.Models;
-using Otlob.Core.ViewModel;
-using Utility;
-
-namespace Otlob.Core.Services
+﻿namespace Otlob.Core.Services
 {
     public class RegisterService : IRegisterService
     {

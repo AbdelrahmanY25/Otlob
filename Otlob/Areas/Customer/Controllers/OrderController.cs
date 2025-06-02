@@ -1,19 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Otlob.Core.Models;
-using Otlob.Core.IServices;
-using Otlob.IServices;
-using Newtonsoft.Json;
-using Stripe.Checkout;
-
-namespace Otlob.Areas.Customer.Controllers
+﻿namespace Otlob.Areas.Customer.Controllers
 {
     [Area("Customer")]
     public class OrderController : Controller
     {
         private readonly ICartService cartService;
-        private readonly IOrderedMealsService orderedMealsService;
-        private readonly ITempOrderService tempOrderService;
         private readonly IOrderService orderService;
+        private readonly ITempOrderService tempOrderService;
+        private readonly IOrderedMealsService orderedMealsService;
 
         public OrderController(ICartService cartService, IOrderService orderService,
                                IOrderedMealsService orderedMealsService, ITempOrderService tempOrderService)
@@ -35,18 +28,22 @@ namespace Otlob.Areas.Customer.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            return CalculateTotalOrderPrice(cart, order);
+            order.RestaurantId = cart.RestaurantId;
+            order.ApplicationUserId = cart.ApplicationUserId;
+            order.TotalTaxPrice = cart.Restaurant.DeliveryFee;
+
+            return CalculateTotalOrderPrice(cart.Id, order);
         }
 
-        public IActionResult AddOrder(Cart cart, Order order, int totalMealsPrice, int totalTaxPrice)
+        public IActionResult AddOrder(int cartId, Order order)
         {            
-            if (order is null || cart is null)
+            if (order is null)
             {
                 TempData["Error"] = "Failed to retrieve order details.";
                 return RedirectToAction("Index", "Home");
             }
 
-            bool isOrderAdded = orderService.AddOrder(cart, order, totalMealsPrice, totalTaxPrice);
+            bool isOrderAdded = orderService.AddOrder(cartId, order);
 
             if (isOrderAdded)
             {
@@ -58,39 +55,39 @@ namespace Otlob.Areas.Customer.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        public IActionResult CalculateTotalOrderPrice(Cart cart, Order order)
+        public IActionResult CalculateTotalOrderPrice(int cartId, Order order)
         {
-            int totalMealsPrice = (int)Math.Ceiling(orderedMealsService.CalculateTotalMealsPrice(cart.Id));
+            decimal totalMealsPrice = Math.Ceiling(orderedMealsService.CalculateTotalMealsPrice(cartId));
 
-            int totalTaxPrice = (int)Math.Ceiling(cart.Restaurant.DeliveryFee);
+            order.TotalMealsPrice = totalMealsPrice;
 
-            return CheckOnPaymentMethod(cart, order, totalMealsPrice, totalTaxPrice);
+            return CheckOnPaymentMethod(cartId, order);
         }
 
-        public IActionResult CheckOnPaymentMethod(Cart cart, Order order, int totalMealsPrice, int totalTaxPrice)
+        public IActionResult CheckOnPaymentMethod(int cartId, Order order)
         {
             if (order.Method == PaymentMethod.Credit)
             {
-                return PayWithCredit(cart, order, totalMealsPrice, totalTaxPrice);
+                return PayWithCredit(cartId, order);
             }
 
-            return AddOrder(cart, order, totalMealsPrice, totalTaxPrice);
+            return AddOrder(cartId, order);
         }
 
-        public IActionResult PayWithCredit(Cart cart, Order order, int totalMealsPrice, int totalTaxPrice)
+        public IActionResult PayWithCredit(int cartId, Order order)
         {
-            var meals = orderedMealsService.GetOrderedMealsWithMealsDetails(cart.Id);
+            var meals = orderedMealsService.GetOrderedMealsWithMealsDetails(cartId);
 
-            decimal deliveryFee = totalTaxPrice;
+            decimal deliveryFee = order.TotalTaxPrice;
 
-            TempOrder tempOrder = tempOrderService.AddTempOrder(cart, order);
+            TempOrder tempOrder = tempOrderService.AddTempOrder(order);
 
             SessionCreateOptions options = new SessionCreateOptions
             {
                 PaymentMethodTypes = new List<string> { "card" },
                 LineItems = new List<SessionLineItemOptions>(),
                 Mode = "payment",
-                SuccessUrl = $"{Request.Scheme}://{Request.Host}/Customer/Order/FinishPaymentProcess/?tempOrderId={tempOrder.Id}&totalMealsPrice={totalMealsPrice}&totalTaxPrice={totalTaxPrice}",
+                SuccessUrl = $"{Request.Scheme}://{Request.Host}/Customer/Order/FinishPaymentProcess/?tempOrderId={tempOrder.Id}&cartId={cartId}",
                 CancelUrl = $"{Request.Scheme}://{Request.Host}/Customer/Home/Index",
             };
 
@@ -132,20 +129,19 @@ namespace Otlob.Areas.Customer.Controllers
             return Redirect(session.Url);
         }
 
-        public IActionResult FinishPaymentProcess(string tempOrderId, int totalMealsPrice, int totalTaxPrice)
+        public IActionResult FinishPaymentProcess(string tempOrderId, int cartId)
         {
             TempOrder? tempOrder = tempOrderService.GetTempOrder(tempOrderId);
 
             if (tempOrder is null)
             {
-                TempData["Error"] = "Session was expired P;ease try again.";
+                TempData["Error"] = "Session was expired Please try again.";
                 return RedirectToAction("Index", "Home");
             }
 
             Order? order = JsonConvert.DeserializeObject<Order>(tempOrder.OrderData);
-            Cart? cart = JsonConvert.DeserializeObject<Cart>(tempOrder.CartData);
 
-            if (order is null || cart is null)
+            if (order is null)
             {
                 TempData["Error"] = "Session was expired P;ease try again.";
                 return RedirectToAction("Index", "Home");
@@ -153,7 +149,7 @@ namespace Otlob.Areas.Customer.Controllers
 
             tempOrderService.RemoveTempOrder(tempOrder);
 
-            return AddOrder(cart, order, totalMealsPrice, totalTaxPrice);
+            return AddOrder(cartId, order);
         }
     }
 }

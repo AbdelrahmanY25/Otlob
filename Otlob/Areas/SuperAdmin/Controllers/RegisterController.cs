@@ -1,12 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Otlob.Core.ViewModel;
-using Otlob.Core.Models;
-using Utility;
-using Microsoft.AspNetCore.Identity;
-using Otlob.Core.IServices;
-
-namespace Otlob.Areas.SuperAdmin.Controllers
+﻿namespace Otlob.Areas.SuperAdmin.Controllers
 {
     [Area("SuperAdmin"), Authorize(Roles = SD.superAdminRole)]
     public class RegisterController : Controller

@@ -3,7 +3,7 @@ html {
 }
 
 :root {
-    --primary-color: rgb(192 40 16);
+    --primary-color: #F04335;
     --secondary-color: #dd968c;
     --seccuss-color: #05a437;
     --main-transition: 0.2s;
@@ -25,9 +25,11 @@ a {
     text-decoration: none;
     color: #ffff;
 }
+
 a:hover {
     color: #ffff;
 }
+
 ul {
     list-style: none;
     padding: 0;
@@ -753,4 +755,51 @@ body {
 
 .offer-card:hover {
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+.card-modern {
+    background: #ffffff;
+    border: none;
+    border-radius: 1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
+}
+.card-modern:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+.card-header-modern {
+    background: #f7f9fc;
+    padding: 1rem 1.5rem;
+    border-bottom: none;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+.card-body-modern {
+    padding: 1.5rem;
+    color: #495057;
+}
+
+.btn-modern {
+    border-radius: 0.5rem;
+    padding: 0.5rem 1rem;
+    transition: none; /* remove default focus animation */
+}
+
+/* remove focus outline/glow */
+.btn-modern:focus,
+.btn-modern:focus-visible {
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+/* remove border on outline buttons */
+.btn-outline-primary,
+.btn-outline-success {
+    border: none !important;
+}
+
+.orderUserDetails {
+    min-height: 1rem;
 }

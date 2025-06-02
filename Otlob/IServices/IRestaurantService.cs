@@ -1,7 +1,4 @@
-﻿using Otlob.Core.Models;
-using Otlob.Core.ViewModel;
-
-namespace Otlob.Core.IServices
+﻿namespace Otlob.Core.IServices
 {
     public interface IRestaurantService
     {
@@ -10,5 +7,8 @@ namespace Otlob.Core.IServices
         RestaurantVM GetRestaurantDetailsById(int restaurantId);
         Task<string>? EditRestaurantProfileInfo(RestaurantVM restaurantVM, int restaurantId, IFormFileCollection image, bool ValidateData = true);
         bool ChangeRestauranStatus(string id, AcctiveStatus status);
+        IQueryable<Restaurant>? GetDeletedRestaurants();
+        bool DelteRestaurant(string id);
+        bool UnDelteRestaurant(string id);
     }
 }

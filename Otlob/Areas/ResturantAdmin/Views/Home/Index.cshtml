@@ -1,8 +1,4 @@
-﻿@using Otlob.Core.Models
-@using Utility
-
-
-@model Otlob.Core.ViewModel.RestaurantVM
+﻿@model RestaurantVM
 
 @{
     ViewData["Title"] = "Home Page";
@@ -62,11 +58,12 @@
 
         <div class="text-center mt-5">
             <a class="btn btn-warning" asp-controller="Meal" asp-action="Index">Our Meals</a>
+            <a class="btn btn-secondary" asp-controller="Meal" asp-action="DeletedMeals">Deleted Meals</a>
         </div>
 
         <div class="text-center mt-5">
             <a class="btn btn-primary" asp-controller="Orders" asp-action="Index">Orders</a>
-            <a class="btn btn-primary" asp-controller="Orders" asp-action="DeliveredOrders">Delivered Orders</a>
+            <a class="btn btn-success" asp-controller="Orders" asp-action="DeliveredOrders">Delivered Orders</a>
             <a class="btn btn-danger" asp-controller="Complaint" asp-action="CustomerComplaints">Customer Complaints</a>
         </div>
     }

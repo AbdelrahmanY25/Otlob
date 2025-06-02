@@ -1,12 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Otlob.Core.IServices;
-using Otlob.Core.Models;
-using Otlob.Core.ViewModel;
-using Otlob.EF;
-using Otlob.IServices;
-
-namespace Otlob.Areas.SuperAdmin.Controllers
+﻿namespace Otlob.Areas.SuperAdmin.Controllers
 {
     [Area("SuperAdmin")]
     public class RestaurantMealsController : Controller
@@ -17,7 +9,7 @@ namespace Otlob.Areas.SuperAdmin.Controllers
 
         public RestaurantMealsController(IMealService mealService,
                                          IEncryptionService encryptionService,
-                                         IMealPriceHistoryService mealPriceHistoryService)    
+                                         IMealPriceHistoryService mealPriceHistoryService)
         {
             this.mealService = mealService;
             this.encryptionService = encryptionService;
@@ -85,25 +77,50 @@ namespace Otlob.Areas.SuperAdmin.Controllers
             }
 
             int restaurantId = encryptionService.DecryptId(HttpContext.Session.GetString("restaurantId"));
+
             return RedirectToAction("RestaurantMeals", "RestaurantMeals", new { id = encryptionService.EncryptId(restaurantId) });
         }
 
         public IActionResult MealPriceHistoryDetails(string id)
         {
             int mealId = encryptionService.DecryptId(id);
-           
+
             var mealPriceHistories = mealPriceHistoryService.GetMealPriceHistories(mealId);
 
             return View(mealPriceHistories);
+        }
+
+        public IActionResult RestaurantDeletedMeals(string id)
+        {
+            int restaurantId = encryptionService.DecryptId(id);
+            HttpContext.Session.SetString("restaurantId", encryptionService.EncryptId(restaurantId));
+
+            IQueryable<MealVm> mealsVM = mealService.GetDeletedMeals(restaurantId);
+
+            return View(mealsVM);
         }
 
         [HttpPost, ValidateAntiForgeryToken]
         public IActionResult DeleteMeal(string id)
         {
             int mealId = encryptionService.DecryptId(id);
+
             mealService.DeleteMeal(mealId);
+
             int restaurantId = encryptionService.DecryptId(HttpContext.Session.GetString("restaurantId"));
+
             return RedirectToAction("RestaurantMeals", "RestaurantMeals", new { id = encryptionService.EncryptId(restaurantId) });
-        }        
+        }
+
+        public IActionResult UnDeleteMeal(string id)
+        {
+            int mealId = encryptionService.DecryptId(id);
+
+            mealService.UnDeleteMeal(mealId);
+
+            int restaurantId = encryptionService.DecryptId(HttpContext.Session.GetString("restaurantId"));
+
+            return RedirectToAction("RestaurantDeletedMeals", "RestaurantMeals", new { id = encryptionService.EncryptId(restaurantId) });
+        }
     }
 }

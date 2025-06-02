@@ -1,10 +1,8 @@
-﻿using Otlob.Core.Models;
-
-namespace Otlob.Core.ViewModel
+﻿namespace Otlob.Core.ViewModel
 {
     public class RestaurantOrdersVM
     {
-        public int OrderId { get; set; }
+        public int OrderId { get; set; }       
         public int RestaurantId { get; set; }
         public DateTime OrderDate { get; set; }
         public OrderStatus OrderStatus { get; set; }

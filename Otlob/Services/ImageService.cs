@@ -1,7 +1,4 @@
-﻿using Otlob.Core.IServices;
-using Utility;
-
-namespace Otlob.Core.Services
+﻿namespace Otlob.Core.Services
 {
     public  class ImageService : IImageService
     {

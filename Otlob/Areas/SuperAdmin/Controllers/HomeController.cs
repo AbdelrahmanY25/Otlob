@@ -1,12 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Otlob.Core.IServices;
-using Otlob.Core.IUnitOfWorkRepository;
-using Otlob.Core.Models;
-using Otlob.IServices;
-using Utility;
-
-namespace Otlob.Areas.SuperAdmin.Controllers
+﻿namespace Otlob.Areas.SuperAdmin.Controllers
 {
     [Area("SuperAdmin"), Authorize(Roles = SD.superAdminRole)]
     public class HomeController : Controller
@@ -53,15 +45,26 @@ namespace Otlob.Areas.SuperAdmin.Controllers
 
             if (allOrders > 0)
             {
-                ViewBag.PendingOrders = Math.Round((decimal)pending / allOrders * 100, 2);
-                ViewBag.PreparingOrders = Math.Round((decimal)preparing / allOrders * 100, 2);
-                ViewBag.ShippedOrders = Math.Round((decimal)shipped / allOrders * 100, 2);
+                decimal pendOrders = Math.Round((decimal)pending / allOrders * 100, 2);
+                decimal preparOrders = Math.Round((decimal)preparing / allOrders * 100, 2);
+                decimal shippOrders = Math.Round((decimal)shipped / allOrders * 100, 2);
+
+                ViewBag.OrderStatusPercentages = new Dictionary<string, decimal>
+                {
+                    { "Pending", pendOrders },
+                    { "Preparing", preparOrders },
+                    { "Shipped", shippOrders },
+                };
+
             }
             else
             {
-                ViewBag.PendingOrders = 0;
-                ViewBag.PreparingOrders = 0;
-                ViewBag.ShippedOrders = 0;
+                ViewBag.OrderStatusPercentages = new Dictionary<string, decimal>
+                {
+                    { "Pending", 0 },
+                    { "Preparing", 0 },
+                    { "Shipped", 0 },
+                };
             }
 
             // Sales data
@@ -99,6 +102,7 @@ namespace Otlob.Areas.SuperAdmin.Controllers
 
             return View(resturantsVM);
         }
+
         public IActionResult ActiveResturatns()
         {
             AcctiveStatus[] acceptedStatuses = [ AcctiveStatus.Acctive, AcctiveStatus.Warning, AcctiveStatus.Block ];
@@ -106,6 +110,19 @@ namespace Otlob.Areas.SuperAdmin.Controllers
             var resturantsVM = restaurantService.GetAllRestaurantsJustMainInfo(filter: null, statuses: acceptedStatuses);
 
             return View(resturantsVM);
+        }
+
+        public IActionResult DeletedRestaurant()
+        {
+            var restaurants = restaurantService.GetDeletedRestaurants();
+
+            if (restaurants.IsNullOrEmpty())
+            {
+                TempData["Error"] = "There is no deleted restaurants";
+                return RedirectToAction("Index");
+            }
+
+            return View(restaurants);
         }
     }
 }

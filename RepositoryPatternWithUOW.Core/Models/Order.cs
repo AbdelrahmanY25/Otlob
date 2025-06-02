@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
-
-namespace Otlob.Core.Models
+﻿namespace Otlob.Core.Models
 {
      public class Order
      {
@@ -13,7 +11,7 @@ namespace Otlob.Core.Models
         public decimal TotalOrderPrice { get; set; }
         public string? Notes { get; set; }
         public PaymentMethod Method {  get; set; }
-        public DateTime OrderDate { get; set; } = DateTime.UtcNow;
+        public DateTime OrderDate { get; set; } = DateTime.Now;
         public OrderStatus Status { get; set; } = OrderStatus.Pending;
 
         [ValidateNever]

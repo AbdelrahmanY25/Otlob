@@ -1,6 +1,4 @@
-﻿using Otlob.Core.ViewModel;
-
-namespace Otlob.Areas.Customer.Services.Interfaces
+﻿namespace Otlob.Areas.Customer.Services.Interfaces
 {
     public interface IAddressService
     {

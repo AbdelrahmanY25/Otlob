@@ -1,9 +1,4 @@
-﻿using Otlob.Core.IUnitOfWorkRepository;
-using Otlob.Core.Models;
-using Otlob.Core.ViewModel;
-using Otlob.IServices;
-
-namespace Otlob.Services
+﻿namespace Otlob.Services
 {
     public class MealPriceHistoryService : IMealPriceHistoryService
     {
@@ -24,6 +19,7 @@ namespace Otlob.Services
 
             unitOfWorkRepository.MealsPriceHistories.Create(mealPriceHistory);
             unitOfWorkRepository.SaveChanges();
+
             return true;
         }
 
@@ -61,15 +57,9 @@ namespace Otlob.Services
                 oldMealPriciesHistory.EndDate = DateTime.Now;
             }
 
-            var mealPriceHistory = new MealPriceHistory
-            {
-                Price = price,
-                MealId = mealId
-            };
-
             unitOfWorkRepository.MealsPriceHistories.Edit(oldMealPriciesHistory);
-            unitOfWorkRepository.MealsPriceHistories.Create(mealPriceHistory);
-            unitOfWorkRepository.SaveChanges();
+
+            AddMealPriceHistory(mealId, price);
 
             return true;
         }

@@ -1,9 +1,4 @@
-﻿using Otlob.Core.IUnitOfWorkRepository;
-using Otlob.Core.Models;
-using Otlob.EF.BaseRepository;
-using Otlob.EF.IBaseRepository;
-
-namespace Otlob.EF.UnitOfWorkRepository
+﻿namespace Otlob.EF.UnitOfWorkRepository
 {
     public class UnitOfWorkRepository : IUnitOfWorkRepository
     {

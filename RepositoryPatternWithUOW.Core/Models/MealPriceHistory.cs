@@ -1,5 +1,4 @@
-﻿
-namespace Otlob.Core.Models
+﻿namespace Otlob.Core.Models
 {
     public class MealPriceHistory
     {

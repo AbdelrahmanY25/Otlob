@@ -84,8 +84,8 @@
       <RelatedAsset></RelatedAsset>
       <AssetTraitName></AssetTraitName>
       <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>88mk8b5a3r</Fingerprint>
-      <Integrity>eG6Wb2mnFR706YzqrdpbCO0d/+V4wUf0z5H9J8LAVPk=</Integrity>
+      <Fingerprint>b44jt8jio8</Fingerprint>
+      <Integrity>m6hg2I4ImKZp24Eiq61NWc4Bt06eHKwCdNs3erKpXuA=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\css\site.css'))</OriginalItemSpec>
@@ -1187,6 +1187,24 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\images\meals\e26368a4-c95f-4529-a518-a0d67929884f.jpg'))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\images\OtlobLogo.jpg'))">
+      <SourceType>Package</SourceType>
+      <SourceId>Otlob</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/Otlob</BasePath>
+      <RelativePath>images/OtlobLogo.jpg</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <Fingerprint>et9rw1oo49</Fingerprint>
+      <Integrity>jlE29etLqH3+hjUo6KHJQr2xewmGv5Yjd+/Agf8DAco=</Integrity>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\images\OtlobLogo.jpg'))</OriginalItemSpec>
     </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\images\resturantLogo\45ed1d87-3d0d-4be5-aabf-2d4d9fc235cd.jpg'))">
       <SourceType>Package</SourceType>

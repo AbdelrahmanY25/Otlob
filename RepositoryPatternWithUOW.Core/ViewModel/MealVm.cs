@@ -1,8 +1,4 @@
-﻿using Otlob.Core.Models;
-using System.ComponentModel.DataAnnotations;
-using Utility;
-
-namespace Otlob.Core.ViewModel
+﻿namespace Otlob.Core.ViewModel
 {
     public class MealVm : ImageUrl
     {
@@ -56,7 +52,6 @@ namespace Otlob.Core.ViewModel
             oldMeal.IsNewMeal = mealVm.IsNewMeal;
             oldMeal.IsTrendingMeal = mealVm.IsTrendingMeal;
             oldMeal.NumberOfServings = mealVm.NumberOfServings;
-            oldMeal.Image = mealVm.Image;
 
             return oldMeal;
         }

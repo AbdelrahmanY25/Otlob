@@ -1,11 +1,3 @@
-using System.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
-using Otlob.Core.IServices;
-using Otlob.Core.Models;
-using Otlob.IServices;
-using Otlob.Models;
-
 namespace Otlob.Areas.Customer.Controllers
 {
     [Area("Customer")]

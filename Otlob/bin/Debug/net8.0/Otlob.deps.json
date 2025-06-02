@@ -23,6 +23,7 @@
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": "8.0.7",
           "Otlob.EF": "1.0.0",
           "Stripe.net": "47.1.0",
+          "Syncfusion.EJ2.AspNet.Core": "29.1.39",
           "System.Linq.Dynamic.Core": "1.5.0",
           "Utility": "1.0.0"
         },
@@ -2208,6 +2209,26 @@
           }
         }
       },
+      "Syncfusion.EJ2.AspNet.Core/29.1.39": {
+        "dependencies": {
+          "Newtonsoft.Json": "13.0.3",
+          "Syncfusion.Licensing": "29.1.39"
+        },
+        "runtime": {
+          "lib/net8.0/Syncfusion.EJ2.dll": {
+            "assemblyVersion": "29.1.39.0",
+            "fileVersion": "29.1.39.0"
+          }
+        }
+      },
+      "Syncfusion.Licensing/29.1.39": {
+        "runtime": {
+          "lib/net8.0/Syncfusion.Licensing.dll": {
+            "assemblyVersion": "29.1.39.0",
+            "fileVersion": "29.1.39.0"
+          }
+        }
+      },
       "System.Buffers/4.5.0": {},
       "System.ClientModel/1.0.0": {
         "dependencies": {
@@ -2528,7 +2549,7 @@
         },
         "runtime": {
           "Otlob.Core.dll": {
-            "assemblyVersion": "1.0.0",
+            "assemblyVersion": "1.0.0.0",
             "fileVersion": "1.0.0.0"
           }
         }
@@ -2547,7 +2568,7 @@
         },
         "runtime": {
           "Otlob.EF.dll": {
-            "assemblyVersion": "1.0.0",
+            "assemblyVersion": "1.0.0.0",
             "fileVersion": "1.0.0.0"
           }
         }
@@ -2558,7 +2579,7 @@
         },
         "runtime": {
           "Utility.dll": {
-            "assemblyVersion": "1.0.0",
+            "assemblyVersion": "1.0.0.0",
             "fileVersion": "1.0.0.0"
           }
         }
@@ -3788,6 +3809,20 @@
       "sha512": "sha512-APS+3Rlc2KD3e8dUaPzYKhSwTGNFixxITHUU4+fE0SZKPcNwnBW6dXAVoN4TgjWm9LX3jrTyTX6kWneJ+kjeew==",
       "path": "stripe.net/47.1.0",
       "hashPath": "stripe.net.47.1.0.nupkg.sha512"
+    },
+    "Syncfusion.EJ2.AspNet.Core/29.1.39": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-H/n6vfKaWhBuaf3doR6b3OvtHXgBUTTdi4HnUZ+Z62SzlTVthOAdEu7n8s1mJgnodzqTLhXm5Jzh7d3iVSn/pg==",
+      "path": "syncfusion.ej2.aspnet.core/29.1.39",
+      "hashPath": "syncfusion.ej2.aspnet.core.29.1.39.nupkg.sha512"
+    },
+    "Syncfusion.Licensing/29.1.39": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-WW+Gp+KOVl2+t0kwdUL6X6AaYRaSgOxnSuZ34hXVArTrKMAdDHTCykeE8ypJOJfZJitGn3LvR7aQtfTzuhhhUw==",
+      "path": "syncfusion.licensing/29.1.39",
+      "hashPath": "syncfusion.licensing.29.1.39.nupkg.sha512"
     },
     "System.Buffers/4.5.0": {
       "type": "package",

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "oKwUGt5YhxQ=",
+  "dgSpecHash": "n1v+hKcXcJM=",
   "success": true,
   "projectFilePath": "D:\\My_Projects\\Otlob\\Otlob\\Otlob.csproj",
   "expectedPackageFiles": [
@@ -178,6 +178,8 @@
     "C:\\Users\\ASUS\\.nuget\\packages\\sqlitepclraw.lib.e_sqlite3\\2.1.6\\sqlitepclraw.lib.e_sqlite3.2.1.6.nupkg.sha512",
     "C:\\Users\\ASUS\\.nuget\\packages\\sqlitepclraw.provider.e_sqlite3\\2.1.6\\sqlitepclraw.provider.e_sqlite3.2.1.6.nupkg.sha512",
     "C:\\Users\\ASUS\\.nuget\\packages\\stripe.net\\47.1.0\\stripe.net.47.1.0.nupkg.sha512",
+    "C:\\Users\\ASUS\\.nuget\\packages\\syncfusion.ej2.aspnet.core\\29.1.39\\syncfusion.ej2.aspnet.core.29.1.39.nupkg.sha512",
+    "C:\\Users\\ASUS\\.nuget\\packages\\syncfusion.licensing\\29.1.39\\syncfusion.licensing.29.1.39.nupkg.sha512",
     "C:\\Users\\ASUS\\.nuget\\packages\\system.buffers\\4.5.0\\system.buffers.4.5.0.nupkg.sha512",
     "C:\\Users\\ASUS\\.nuget\\packages\\system.clientmodel\\1.0.0\\system.clientmodel.1.0.0.nupkg.sha512",
     "C:\\Users\\ASUS\\.nuget\\packages\\system.codedom\\6.0.0\\system.codedom.6.0.0.nupkg.sha512",

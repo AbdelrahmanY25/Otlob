@@ -1,8 +1,4 @@
-﻿using Otlob.Core.Models;
-using System.ComponentModel.DataAnnotations;
-
-
-namespace Otlob.Core.ViewModel
+﻿namespace Otlob.Core.ViewModel
 {
     public class OrderVM
     {

@@ -1,10 +1,4 @@
-﻿using Otlob.Areas.Customer.Services.Interfaces;
-using Otlob.Core.IServices;
-using Otlob.Core.Models;
-using Otlob.Core.ViewModel;
-using Otlob.IServices;
-
-namespace Otlob.Core.Services
+﻿namespace Otlob.Core.Services
 {
     public class CartService : ICartService
     {
@@ -105,7 +99,7 @@ namespace Otlob.Core.Services
 
         public bool DeleteCart(int cartId)
         {
-            var cart = unitOfWorkRepository.Carts.GetOne(expression: c => c.Id == cartId);
+            Cart cart = new Cart { Id = cartId };
 
             if (cart is not null)
             {
@@ -118,13 +112,13 @@ namespace Otlob.Core.Services
             return false;
         }
 
-        public bool IsCartNotEmpty(string userId) => unitOfWorkRepository.Carts.Get(expression: c => c.ApplicationUserId == userId).Any();
+        public bool IsCartHasItems(string userId) => unitOfWorkRepository.Carts.Get(expression: c => c.ApplicationUserId == userId).Any();
 
         public bool CheckIfCanAddOrderToCart(OrderedMealsVM orderedMealsVM, string userId, string resId)
         {
             int restaurantId = encryptionService.DecryptId(resId);
 
-            if (IsCartNotEmpty(userId))
+            if (IsCartHasItems(userId))
             {
                 Cart? usercart = GetUserCart(userId, restaurantId);
 

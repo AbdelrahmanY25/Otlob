@@ -1,8 +1,8 @@
-﻿@using Otlob.Core.Models
-@using Utility
-@{
+﻿@{
     ViewData["Title"] = "Super Admin Home Page";
+    var orderStatusPercentages = ViewBag.OrderStatusPercentages as Dictionary<string, decimal>;
 }
+
 @section Notify {
     <partial name="_NotificationPartial"></partial>
 }
@@ -20,31 +20,31 @@
 <div class="ordersData">
 
     <div class="orders users">
-        <a class="icon" asp-action="Index" asp-controller="Users" ><i class="bi bi-person"></i></a>
+        <a class="icon" asp-controller="Users" asp-action="Index"><i class="bi bi-person"></i></a>
        <div class="dd">
-            <a  asp-action="Customers" asp-controller="Users">Customers: @ViewBag.Users</a>
-            <a asp-action="Partners" asp-controller="Users">Partners: @ViewBag.Partners</a>
+            <a asp-controller="Users" asp-action="Customers">Customers: @ViewBag.Users</a>
+            <a asp-controller="Users" asp-action="Partners">Partners: @ViewBag.Partners</a>
        </div>
     </div>
 
-    <div class="orders ordersStatus">
-        <div class="dd pending">
-            <a asp-controller="OrdersStatus" asp-action="Index" asp-route-status="@OrderStatus.Pending">Pending @ViewBag.PendingOrders%</a>
-        </div>
-        <div class="dd preparing">
-            <a asp-controller="OrdersStatus" asp-action="Index" asp-route-status="@OrderStatus.Preparing">Preparing @ViewBag.PreparingOrders%</a>
-        </div>
-        <div class="dd shipped">
-            <a asp-controller="OrdersStatus" asp-action="Index" asp-route-status="@OrderStatus.Shipped">Shipped @ViewBag.ShippedOrders%</a>
-        </div>
+    <div class="row justify-content-center">
+        @foreach (var item in orderStatusPercentages)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">@item.Key Orders</h5>
+                    <canvas id="@item.Key.ToLower()Chart" style="max-height: 250px;"></canvas>
+                </div>
+            </div>
+        }
     </div>
 
-</div>
+</div> 
 
 <div class="ordersData">
     <div class="orders fund">
         <form method="post" asp-action="Index" >
-            <input type="date" name="ordersDate" />
+            <input type="date" name="ordersDate"/>
             <input type="submit" />
         </form>
         <div class="fd">
@@ -76,3 +76,83 @@
         </div>       
     </div>
 </div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+
+    <script>
+        const statusColors = {
+            pending: '#f1c40f',   // Yellow
+            preparing: '#3498db', // Blue
+            shipped: '#e74c3c'    // Red
+        };
+
+        // Razor ViewBag data
+        const orderStatusPercentages = {
+            @foreach (var item in orderStatusPercentages)
+            {
+                <text>"@item.Key.ToLower()": @item.Value,</text>
+            }
+        };
+
+        // Status -> URL mapping
+        const statusUrls = {
+            pending: '@Url.Action("Index", "OrdersStatus", new { status = OrderStatus.Pending })',
+            preparing: '@Url.Action("Index", "OrdersStatus", new { status = OrderStatus.Preparing })',
+            shipped: '@Url.Action("Index", "OrdersStatus", new { status = OrderStatus.Shipped })'
+        };
+
+        // Loop and render each chart
+        Object.keys(orderStatusPercentages).forEach(status => {
+            const percent = orderStatusPercentages[status];
+            const color = statusColors[status];
+            const canvasId = `${status}Chart`;
+            const ctx = document.getElementById(canvasId).getContext('2d');
+
+            const chart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Progress', 'Remaining'],
+                    datasets: [{
+                        data: [percent, 100 - percent],
+                        backgroundColor: [color, '#eee'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    cutout: '50%',
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function (context) {
+                                    return `${context.label}: ${context.parsed}%`;
+                                }
+                            }
+                        },
+                        datalabels: {
+                            display: true,
+                            color: '#fff',
+                            font: {
+                                weight: 'bold',
+                                size: 16
+                            },
+                            formatter: function (value, context) {
+                                return context.dataIndex === 0 ? `${value}%` : '';
+                            }
+                        }
+                    },
+                    onClick: () => {
+                        const targetUrl = statusUrls[status];
+                        if (targetUrl) {
+                            window.location.href = targetUrl;
+                        }
+                    }
+                },
+                plugins: [ChartDataLabels]
+            });
+        });
+    </script>
+}

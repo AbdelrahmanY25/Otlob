@@ -1,12 +1,9 @@
-﻿using Otlob.Core.Models;
-using System.ComponentModel.DataAnnotations;
-using Utility;
-
-namespace Otlob.Core.ViewModel
+﻿namespace Otlob.Core.ViewModel
 {
     public class RestaurantVM : ImageUrl
     {
         public int RestaurantVMId { get; set; }
+        public string? UserId { get; set; }
 
         [Required]
         [MinLength(3, ErrorMessage = "the Length must be greater than 2")]
@@ -41,6 +38,7 @@ namespace Otlob.Core.ViewModel
         [Range(0, 15), Required]
         public RestaurantCategory Category { get; set; }
         public byte[]? Image { get; set; }
+
         public static RestaurantVM MapToRestaurantVM(Restaurant restaurant)
         {
             return new RestaurantVM
@@ -56,10 +54,12 @@ namespace Otlob.Core.ViewModel
                 Image = restaurant.Image
             };
         }
-        public static RestaurantVM MapToRestaurantVMWithId(Restaurant restaurant)
+
+        public static RestaurantVM MapToRestaurantVMWithId(Restaurant restaurant, string? userId)
         {
             RestaurantVM restaurantVM = MapToRestaurantVM(restaurant);
             restaurantVM.RestaurantVMId = restaurant.Id;
+            restaurantVM.UserId = userId;
 
             return restaurantVM;
         }
