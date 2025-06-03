@@ -16,9 +16,14 @@ html {
 
 body {
     font-family: 'Cairo', sans-serif;
-    background-color: #f7f7f7;
+    background-color: #fffaf7;
     margin: 0;
+    margin-bottom: 100px;
     padding: 0;
+}
+
+.navbar {
+    background-color: #fff;
 }
 
 a {
@@ -81,10 +86,6 @@ ul {
 html {
   position: relative;
   min-height: 100%;
-}
-
-body {
-  margin-bottom: 60px;
 }
 
 .articles {

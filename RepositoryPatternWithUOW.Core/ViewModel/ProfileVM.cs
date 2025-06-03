@@ -14,7 +14,8 @@
 
         [MaxLength(15), Display(Prompt = "LastName")]
         [RegularExpression(@"^[a-zA-Z]{1,15}$", ErrorMessage = "The LastName must be only letters.")]
-        public string? LastName { get; set; }      
+        public string? LastName { get; set; }
+
         public Gender? Gender { get; set; }
 
         [Display(Prompt = "Date of Birth")]
@@ -22,7 +23,8 @@
 
         [Display(Prompt = "Phone Number")]
         [Required, DataType(DataType.PhoneNumber)]
-        [RegularExpression(@"^\d{11}$", ErrorMessage = "The phone number must contain only numbers and be up to 11 digits long.")]
+        [RegularExpression(@"^\d{11}$", 
+            ErrorMessage = "The phone number must contain only numbers and be up to 11 digits long.")]
         public string? PhoneNumber { get; set; }
 
         public byte[]? Image { get; set; }

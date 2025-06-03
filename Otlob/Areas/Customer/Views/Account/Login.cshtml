@@ -1,33 +1,42 @@
 ﻿@model LoginVM
 
-@section Register {
-    <partial name="_RegisterPagePartial"></partial>
-}
-@section ExternalLogin {
-    <partial name="_ExternalLoginPartial"></partial>
-}
-@section Notify {
-    <partial name="_NotificationPartial"></partial>
+@section FormStyle {
+    <partial name="_FormStylePartial"></partial>
 }
 
-<form asp-action="Login" class="loginform">
+@{
+    ViewData["Title"] = "Login";
+}
+
+
+<form asp-action="Login" class="loginform">    
     <h2>Login</h2>
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div asp-validation-summary="All" class="text-danger text-center"></div>
     <div>
-        <input asp-for="UserName"/>
-        <span asp-validation-for="UserName" class="text-danger"></span>
+        <input asp-for="Email"/>        
     </div>
     <div>
         <input asp-for="Password" />
-        <span asp-validation-for="Password" class="text-danger"></span>
     </div>
     <div class="rememberme">
         <input asp-for="RememberMe" />
         <label asp-for="RememberMe"></label>
     </div>
+    <a asp-controller="Account" asp-action="Register">Create Account</a>
     <button type="submit">Login</button>
+    <div class="social-login">
+        <a href="/ExternalLogin/Google" class="social-button google">
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/google/google-original.svg" alt="Google" />
+            Login with Google
+        </a>
+        <a href="/ExternalLogin/Microsoft" class="social-button microsoft">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg" alt="Microsoft" />
+            Sign up with Microsoft
+        </a>
+    </div>
 </form>
 
+
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <partial name="_ValidationScriptsPartial"></partial>
 }

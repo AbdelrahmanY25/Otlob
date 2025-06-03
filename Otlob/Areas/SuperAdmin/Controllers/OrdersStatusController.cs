@@ -8,7 +8,7 @@
         private readonly IUserServices userServices;
         private const int pageSize = 5;
 
-        private OrderStatus[] statuses = { OrderStatus.Pending, OrderStatus.Preparing, OrderStatus.Shipped };
+        private OrderStatus[] statuses = { OrderStatus.Pending, OrderStatus.Preparing, OrderStatus.Shipped, OrderStatus.Delivered };
 
         public OrdersStatusController(IOrderService orderService, IPaginationService paginationService, IUserServices userServices)
         {

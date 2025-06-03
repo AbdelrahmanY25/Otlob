@@ -1,10 +1,15 @@
 ﻿@inject SignInManager<ApplicationUser> SignInManager
-@inject UserManager<ApplicationUser> userManager
+
+@{
+    string? userImageProfile = User.FindFirstValue(SD.userImageProfile);
+    bool isUserLogedIn = SignInManager.IsSignedIn(User);
+}
 
 <style>
     .menu-container {
         position: relative;
         padding: 10px 20px;
+        z-index: 1100;
     }
 
     .burger-icon {
@@ -12,113 +17,119 @@
         flex-direction: column;
         justify-content: space-between;
         width: 30px;
-        height: 25px;
+        height: 22px;
         cursor: pointer;
     }
 
     .burger-icon span {
         display: block;
+        height: 3px;
         width: 100%;
-        height: 4px;
-        background-color: rgb(192 40 16);
+        background-color: #C02810;
         border-radius: 2px;
-        transition: 0.3s;
+        transition: all 0.3s ease;
     }
 
     /* Dropdown Menu */
     .dropdown-menu {
-        display: none; /* Hidden by default */
+        display: none;
         position: absolute;
-        top: 50px;
-        right: 10px;
+        top: 45px;
+        right: 0;
         background-color: #fff;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        z-index: 999;
+        border-radius: 10px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        padding: 10px 0;
+        min-width: 220px;
         list-style: none;
-        padding: 10px 0;
-        margin: 0;
-        width: 200px;
+        z-index: 999;
     }
 
-    .dropdown-menu li {
-        text-align: center;
-        margin: 0;
-        padding: 10px 0;
-    }
-
-    .dropdown-menu li a {
-        text-decoration: none;
-        color: #333;
-        display: block;
-        padding: 8px 15px;
-        border-radius: 5px;
-        transition: 0.3s;
-    }
-
-    .dropdown-menu li a:hover {
-        background-color: #d9534f; /* Bootstrap danger color */
-        color: #fff;
-    }
-
-    /* Show Dropdown Menu */
     .dropdown-menu.show {
         display: block;
     }
 
-    @@media(max-width: 480px) {
+    .dropdown-menu li {
+        text-align: left;
+        padding: 0;
+        margin: 0;
+    }
+
+    .dropdown-menu li a {
+        display: block;
+        padding: 10px 20px;
+        color: #333;
+        text-decoration: none;
+        transition: background-color 0.2s ease;
+        border-radius: 5px;
+    }
+
+    .dropdown-menu li a:hover {
+        background-color: #F04335;
+        color: white;
+    }
+
+    .dropdown-menu li img {
+        display: block;
+        margin: 0 auto 10px auto;
+        width: 60px;
+        height: 60px;
+        object-fit: cover;
+        border-radius: 50%;
+        border: 2px solid #F04335;
+    }
+
+    /* Responsive for small screens */
+    @@media (max-width: 480px) {
         .dropdown-menu {
             width: 100%;
             right: 0;
+            left: 0;
+            border-radius: 0;
+            box-shadow: none;
         }
 
         .dropdown-menu li a {
-            padding: 10px;
+            padding: 12px;
+            text-align: center;
         }
     }
+
 </style>
 
 <div class="menu-container">
-    <!-- Burger Icon -->
     <div class="burger-icon" onclick="toggleMenu()">
         <span></span>
         <span></span>
         <span></span>
     </div>
 
-    <!-- Dropdown Menu -->
     <ul class="dropdown-menu" id="menu">
-        @if (SignInManager.IsSignedIn(User))
+        @if (isUserLogedIn)
         {
-            @if (userManager.GetUserAsync(User)?.Result?.Image != null)
-            {
-                <li class="nav-item">
-                    <img class="avatar rounded-circle" alt="Profile Picture" src="data:image/*;base64,@(Convert.ToBase64String(userManager.GetUserAsync(User).Result.Image))" />
-                </li>
-            }
-            else 
+            @if (userImageProfile.IsNullOrEmpty())
             {
                 <li class="nav-item">
                     <img class="avatar rounded-circle" alt="Profile Picture" src="~/images/Default.jpg" />
                 </li>
             }
-            @if (User.IsInRole(SD.restaurantAdmin))
+            else 
+            {
+                <li class="nav-item">
+                    <img class="avatar rounded-circle" alt="Profile Picture" src="data:image/*;base64,@(userImageProfile)" />
+                </li>
+            }
+            @if (User.FindFirstValue(ClaimTypes.Role) == SD.restaurantAdmin)
             {
                 <li><a asp-area="ResturantAdmin" asp-controller="RestaurantProfile" asp-action="EditRestaurantProfile">Your Restaurant Profile</a></li>
-            }
-            else if (User.IsInRole(SD.superAdminRole))
+            }            
+            else if (User.FindFirstValue(ClaimTypes.Role) == SD.customer)
             {
-                <li><a asp-area="SuperAdmin" asp-controller="Register" asp-action="RegistResturant">Add Partner</a></li>
-                <li><a asp-area="SuperAdmin" asp-controller="Register" asp-action="RegistSuperAdmin">Register A SuperAdmin</a></li>
-            }
-            else if (User.IsInRole(SD.customer))
-            {
-                <li><a href="#" @* asp-controller="BecomeaPartner" asp-action="BecomeaPartner *@>Become a Partner</a></li>
-                @* <li><a asp-controller="Complaint" asp-action="AddComplaint">Add Complaint</a></li> *@
+                <li><a asp-controller="BecomeaPartner" asp-action="BecomeaPartner">Become a Partner</a></li>
+                <li><a asp-controller="Complaint" asp-action="AddComplaint">Add Complaint</a></li> 
             }
 
-            <li><a asp-area="Customer" asp-controller="Account" asp-action="Profile">Welcome @User.Identity.Name</a></li>
+            <li><a asp-area="Customer" asp-controller="Account" asp-action="UserProfile">Welcome @User.Identity.Name</a></li>
             <li><a asp-area="Customer" asp-controller="Account" asp-action="Logout">Logout</a></li>
         }
         else
@@ -130,8 +141,16 @@
 </div>
 
 <script>
+    document.addEventListener("click", function (e) {
+        const menu = document.getElementById("menu");
+        const burger = document.querySelector(".burger-icon");
+        if (!menu.contains(e.target) && !burger.contains(e.target)) {
+            menu.classList.remove("show");
+        }
+    });
+
     function toggleMenu() {
-        const menu = document.getElementById('menu');
-        menu.classList.toggle('show');
+        const menu = document.getElementById("menu");
+        menu.classList.toggle("show");
     }
 </script>

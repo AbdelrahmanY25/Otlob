@@ -1,35 +1,35 @@
-﻿@model Otlob.Core.ViewModel.ApplicationUserlVM
+﻿@model ApplicationUserlVM
 
-@section Register {
-    <partial name="_RegisterPagePartial"></partial>
+@section FormStyle {
+    <partial name="_FormStylePartial"></partial>
 }
 
 <form asp-action="RegistSuperAdmin" class="loginform">
     <h2>Create a super admin account</h2>
     <div asp-validation-summary="All" class="text-danger"></div>
     <div>
-        <input asp-for="UserName" placeholder="UserName" />
+        <input asp-for="UserName"  />
     </div>
     <div>
-        <input asp-for="Email" placeholder="Email" />
+        <input asp-for="Email"  />
     </div>
     <div>
         <input asp-for="Password" placeholder="Password" />
     </div>
     <div>
-        <input asp-for="ConfirmPassword" placeholder="ConfirmPassword" />
+        <input asp-for="ConfirmPassword" placeholder="Confirm Password" />
     </div>
     <div>
         <input asp-for="Address" placeholder="Address" />
     </div>
     <div>
-        <input asp-for="PhoneNumber" placeholder="PhoneNumber" />
+        <input asp-for="PhoneNumber" placeholder="Phone Number" />
     </div>
     <div>
-        <button type="submit">Create super admin account</button>
+        <button type="submit">Create admin account</button>
     </div>
 </form>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <partial name="_ValidationScriptsPartial"></partial>
 }

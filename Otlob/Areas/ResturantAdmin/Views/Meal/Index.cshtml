@@ -2,10 +2,6 @@
 
 @inject IEncryptionService encryptionService
 
-@section Notify {
-        <partial name="_NotificationPartial"></partial>
-}
-
 <p>
     <a class="btn btn-warning" asp-action="AddMeal">Create New Meal</a>
 </p>
@@ -80,12 +76,16 @@
     </div>
 </div>
 
-<script>
-    var deleteModal = document.getElementById('deleteModal');
-    deleteModal.addEventListener('show.bs.modal', function (event) {
-        var button = event.relatedTarget;
-        var categoryId = button.getAttribute('data-categoryid');
-        var input = document.getElementById('categoryIdInput');
-        input.value = categoryId;
-    });
-</script>
+@section Scripts {
+    <partial name="_NotificationPartial"></partial>
+
+    <script>
+        var deleteModal = document.getElementById('deleteModal');
+        deleteModal.addEventListener('show.bs.modal', function (event) {
+            var button = event.relatedTarget;
+            var categoryId = button.getAttribute('data-categoryid');
+            var input = document.getElementById('categoryIdInput');
+            input.value = categoryId;
+        });
+    </script>
+}

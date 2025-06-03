@@ -83,39 +83,26 @@
         [HttpPost, ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginVM loginVM)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                var userDb = await userManager.FindByEmailAsync(loginVM.UserName);                
-
-                if (userDb is null)
-                {
-                    ModelState.AddModelError("", "There is invalid user name or password");           
-                    return View(loginVM);
-                }
-
-                if (!userDb.LockoutEnabled)
-                {
-                    ModelState.AddModelError("", "Your account is not active, please contact support.");
-                    return View(loginVM);
-                }
-
-                var finalResult = await userManager.CheckPasswordAsync(userDb, loginVM.Password);
-
-                if (finalResult)
-                {
-                    List<Claim> claims = new();
-                    claims.Add(new Claim(SD.restaurantId, userDb.RestaurantId.ToString()));
-
-                    await signInManager.SignInWithClaimsAsync(userDb, loginVM.RememberMe, claims);
-                    return await CheckOnUserRoll(userDb);
-                }
-                else
-                {
-                    ModelState.AddModelError("", "There is invalid user name or password");
-                }                
+                return View(loginVM);
             }
 
-            return View(loginVM);
+            var user = await userManager.FindByEmailAsync(loginVM.Email);
+            
+            var finalResult = await userManager.CheckPasswordAsync(user!, loginVM.Password);
+
+            if (finalResult)
+            {              
+                var claims = AddUserClaims(user!);
+                await signInManager.SignInWithClaimsAsync(user!, loginVM.RememberMe, claims);
+                return await CheckOnUserRoll(user!);
+            }
+            else
+            {
+                ModelState.AddModelError("", "There is invalid user name or password");
+                return View(loginVM);
+            }                
         }
 
         private async Task<IActionResult> CheckOnUserRoll(ApplicationUser user)
@@ -134,9 +121,18 @@
             }
         }
 
-        public IActionResult Profile()
+        private List<Claim> AddUserClaims(ApplicationUser user)
         {
-            string? userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            List<Claim> claims = new();
+            claims.Add(new Claim(SD.restaurantId, user.RestaurantId.ToString()));
+            //claims.Add(new Claim(SD.userImageProfile, Convert.ToBase64String(userDb.Image)));
+
+            return claims;
+        }
+
+        public IActionResult UserProfile()
+        {
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
 
             ProfileVM userProfileDetails = userServices.GetUserProfileVmDetails(userId);
 
@@ -149,7 +145,7 @@
         }
 
         [HttpPost, ValidateAntiForgeryToken]
-        public async Task<IActionResult> Profile(ProfileVM profileVM, IFormFileCollection files)
+        public async Task<IActionResult> UserProfile(ProfileVM profileVM, IFormFileCollection files)
         {
             if (!ModelState.IsValid)
             {

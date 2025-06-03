@@ -3028,32 +3028,6 @@
           }
         }
       },
-      "Syncfusion.EJ2.AspNet.Core/29.1.39": {
-        "type": "package",
-        "dependencies": {
-          "Newtonsoft.Json": "13.0.2",
-          "Syncfusion.Licensing": "29.1.39"
-        },
-        "compile": {
-          "lib/net8.0/Syncfusion.EJ2.dll": {
-            "related": ".xml"
-          }
-        },
-        "runtime": {
-          "lib/net8.0/Syncfusion.EJ2.dll": {
-            "related": ".xml"
-          }
-        }
-      },
-      "Syncfusion.Licensing/29.1.39": {
-        "type": "package",
-        "compile": {
-          "lib/net8.0/Syncfusion.Licensing.dll": {}
-        },
-        "runtime": {
-          "lib/net8.0/Syncfusion.Licensing.dll": {}
-        }
-      },
       "System.Buffers/4.5.0": {
         "type": "package",
         "compile": {
@@ -3401,7 +3375,7 @@
           "buildTransitive/net6.0/_._": {}
         }
       },
-      "System.Linq.Dynamic.Core/1.5.0": {
+      "System.Linq.Dynamic.Core/1.6.5": {
         "type": "package",
         "compile": {
           "lib/net8.0/System.Linq.Dynamic.Core.dll": {
@@ -8507,50 +8481,6 @@
         "stripe.net.nuspec"
       ]
     },
-    "Syncfusion.EJ2.AspNet.Core/29.1.39": {
-      "sha512": "H/n6vfKaWhBuaf3doR6b3OvtHXgBUTTdi4HnUZ+Z62SzlTVthOAdEu7n8s1mJgnodzqTLhXm5Jzh7d3iVSn/pg==",
-      "type": "package",
-      "path": "syncfusion.ej2.aspnet.core/29.1.39",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "LICENSE.txt",
-        "README.md",
-        "lib/net8.0/Syncfusion.EJ2.dll",
-        "lib/net8.0/Syncfusion.EJ2.xml",
-        "lib/net9.0/Syncfusion.EJ2.dll",
-        "lib/net9.0/Syncfusion.EJ2.xml",
-        "lib/netstandard2.0/Syncfusion.EJ2.dll",
-        "lib/netstandard2.0/Syncfusion.EJ2.xml",
-        "lib/netstandard2.1/Syncfusion.EJ2.dll",
-        "lib/netstandard2.1/Syncfusion.EJ2.xml",
-        "syncfusion.ej2.aspnet.core.29.1.39.nupkg.sha512",
-        "syncfusion.ej2.aspnet.core.nuspec",
-        "syncfusion_logo.png"
-      ]
-    },
-    "Syncfusion.Licensing/29.1.39": {
-      "sha512": "WW+Gp+KOVl2+t0kwdUL6X6AaYRaSgOxnSuZ34hXVArTrKMAdDHTCykeE8ypJOJfZJitGn3LvR7aQtfTzuhhhUw==",
-      "type": "package",
-      "path": "syncfusion.licensing/29.1.39",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "LICENSE.txt",
-        "README.md",
-        "lib/MonoAndroid90/Syncfusion.Licensing.dll",
-        "lib/Xamarin.Mac/Syncfusion.Licensing.dll",
-        "lib/Xamarin.iOS10/Syncfusion.Licensing.dll",
-        "lib/net462/Syncfusion.Licensing.dll",
-        "lib/net8.0/Syncfusion.Licensing.dll",
-        "lib/net9.0/Syncfusion.Licensing.dll",
-        "lib/netstandard2.0/Syncfusion.Licensing.dll",
-        "lib/uap10.0/Syncfusion.Licensing.dll",
-        "syncfusion.licensing.29.1.39.nupkg.sha512",
-        "syncfusion.licensing.nuspec",
-        "syncfusion_logo.png"
-      ]
-    },
     "System.Buffers/4.5.0": {
       "sha512": "pL2ChpaRRWI/p4LXyy4RgeWlYF2sgfj/pnVMvBqwNFr5cXg7CXNnWZWxrOONLg8VGdFB8oB+EG2Qw4MLgTOe+A==",
       "type": "package",
@@ -9255,10 +9185,10 @@
         "useSharedDesignerContext.txt"
       ]
     },
-    "System.Linq.Dynamic.Core/1.5.0": {
-      "sha512": "AnJlNFlkw9+grV+o3J0N/YolsD0F/03AFnFxBDgxs1eG87JF/RszdJM4HH9wUl4HrajYK/83xyyZ7bNI6J6vjg==",
+    "System.Linq.Dynamic.Core/1.6.5": {
+      "sha512": "NCldHajaCst63aFWXgkrRZOqt21LEDyQ/C0yKAlyuLRunbEaoxxrEm0qII0B6FXU7BE2qZjPRw2Dt5841VNE7w==",
       "type": "package",
-      "path": "system.linq.dynamic.core/1.5.0",
+      "path": "system.linq.dynamic.core/1.6.5",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -9313,7 +9243,7 @@
         "lib/uap10.0.10240/System.Linq.Dynamic.Core.pri",
         "lib/uap10.0.10240/System.Linq.Dynamic.Core.xml",
         "logo.png",
-        "system.linq.dynamic.core.1.5.0.nupkg.sha512",
+        "system.linq.dynamic.core.1.6.5.nupkg.sha512",
         "system.linq.dynamic.core.nuspec"
       ]
     },
@@ -10512,8 +10442,7 @@
       "Microsoft.VisualStudio.Web.CodeGeneration.Design >= 8.0.7",
       "Otlob.EF >= 1.0.0",
       "Stripe.net >= 47.1.0",
-      "Syncfusion.EJ2.AspNet.Core >= 29.1.39",
-      "System.Linq.Dynamic.Core >= 1.5.0",
+      "System.Linq.Dynamic.Core >= 1.6.5",
       "Utility >= 1.0.0"
     ]
   },
@@ -10634,13 +10563,9 @@
             "target": "Package",
             "version": "[47.1.0, )"
           },
-          "Syncfusion.EJ2.AspNet.Core": {
-            "target": "Package",
-            "version": "[29.1.39, )"
-          },
           "System.Linq.Dynamic.Core": {
             "target": "Package",
-            "version": "[1.5.0, )"
+            "version": "[1.6.5, )"
           }
         },
         "imports": [
@@ -10665,17 +10590,5 @@
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.203/PortableRuntimeIdentifierGraph.json"
       }
     }
-  },
-  "logs": [
-    {
-      "code": "NU1903",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "Package 'System.Linq.Dynamic.Core' 1.5.0 has a known high severity vulnerability, https://github.com/advisories/GHSA-4cv2-4hjh-77rx",
-      "libraryId": "System.Linq.Dynamic.Core",
-      "targetGraphs": [
-        "net8.0"
-      ]
-    }
-  ]
+  }
 }

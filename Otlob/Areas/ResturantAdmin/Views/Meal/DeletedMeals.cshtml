@@ -2,10 +2,6 @@
 
 @inject IEncryptionService encryptionService
 
-@section Notify {
-    <partial name="_NotificationPartial"></partial>
-}
-
 <table class="table">
     <thead>
         <tr>
@@ -54,3 +50,7 @@
         }
     </tbody>
 </table>
+
+@section Scripts {
+    <partial name="_NotificationPartial"></partial>
+}

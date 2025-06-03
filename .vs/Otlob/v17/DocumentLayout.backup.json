@@ -3,8 +3,8 @@
   "WorkspaceRootPath": "D:\\My_Projects\\Otlob\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{D640FB36-1719-48B8-B41E-BE4D95F57950}|Otlob\\Otlob.csproj|d:\\my_projects\\otlob\\otlob\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{D640FB36-1719-48B8-B41E-BE4D95F57950}|Otlob\\Otlob.csproj|solutionrelative:otlob\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+      "AbsoluteMoniker": "D:0:0:{D640FB36-1719-48B8-B41E-BE4D95F57950}|Otlob\\Otlob.csproj|d:\\my_projects\\otlob\\otlob\\views\\shared\\_navbarpartial.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{D640FB36-1719-48B8-B41E-BE4D95F57950}|Otlob\\Otlob.csproj|solutionrelative:otlob\\views\\shared\\_navbarpartial.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     }
   ],
   "DocumentGroupContainers": [
@@ -27,14 +27,14 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "appsettings.json",
-              "DocumentMoniker": "D:\\My_Projects\\Otlob\\Otlob\\appsettings.json",
-              "RelativeDocumentMoniker": "Otlob\\appsettings.json",
-              "ToolTip": "D:\\My_Projects\\Otlob\\Otlob\\appsettings.json",
-              "RelativeToolTip": "Otlob\\appsettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAADAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-06-02T20:48:29.257Z",
+              "Title": "_NavBarPartial.cshtml",
+              "DocumentMoniker": "D:\\My_Projects\\Otlob\\Otlob\\Views\\Shared\\_NavBarPartial.cshtml",
+              "RelativeDocumentMoniker": "Otlob\\Views\\Shared\\_NavBarPartial.cshtml",
+              "ToolTip": "D:\\My_Projects\\Otlob\\Otlob\\Views\\Shared\\_NavBarPartial.cshtml",
+              "RelativeToolTip": "Otlob\\Views\\Shared\\_NavBarPartial.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAC0AAAA4AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-06-03T12:19:30.687Z",
               "EditorCaption": ""
             }
           ]

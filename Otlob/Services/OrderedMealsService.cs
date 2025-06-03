@@ -132,16 +132,11 @@
             return new MealQuantityResult { Status = HandleMealQuantityProcess.Success};
         }
 
-        public OrderedMeals? DeleteOrderedMeal(string id)
+        public OrderedMeals DeleteOrderedMeal(string id)
         {
             int orderedMealId = encryptionService.DecryptId(id);
 
-            OrderedMeals? selectedOrderMeal = GetOrderedMealById(orderedMealId);
-
-            if (selectedOrderMeal is null)
-            {
-                return selectedOrderMeal;
-            }
+            OrderedMeals selectedOrderMeal = GetOrderedMealById(orderedMealId);
 
             unitOfWorkRepository.OrderedMeals.HardDelete(selectedOrderMeal);
             unitOfWorkRepository.SaveChanges();

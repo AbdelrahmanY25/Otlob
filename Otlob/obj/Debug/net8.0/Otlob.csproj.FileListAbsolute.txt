@@ -310,5 +310,3 @@ D:\My_Projects\Talabat Project\Otlob\Otlob\bin\Debug\net8.0\runtimes\unix\lib\ne
 D:\My_Projects\Talabat Project\Otlob\Otlob\bin\Debug\net8.0\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll
 D:\My_Projects\Talabat Project\Otlob\Otlob\bin\Debug\net8.0\Castle.Core.dll
 D:\My_Projects\Talabat Project\Otlob\Otlob\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.Proxies.dll
-D:\My_Projects\Talabat Project\Otlob\Otlob\bin\Debug\net8.0\Syncfusion.EJ2.dll
-D:\My_Projects\Talabat Project\Otlob\Otlob\bin\Debug\net8.0\Syncfusion.Licensing.dll

@@ -1,7 +1,6 @@
 wwwroot\css\dashboard.css
-wwwroot\css\externalLogin.css
-wwwroot\css\profile.css
-wwwroot\css\register.css
+wwwroot\css\form.css
+wwwroot\css\profileAccount.css
 wwwroot\css\site.css
 wwwroot\favicon.ico
 wwwroot\images\creditIcon.png
@@ -73,11 +72,8 @@ wwwroot\images\resturantLogo\a11a2e8a-254e-49b5-a9bb-845f513d0abf.png
 wwwroot\images\resturantLogo\d21a0064-4793-4f1b-82e7-d3449739198e.jpg
 wwwroot\images\resturantLogo\d29547ee-4bf1-4eb4-990b-563bee8ad04e.png
 wwwroot\images\resturantLogo\e6626820-0d84-48d5-9b16-fe44657055bd.JPG
-wwwroot\js\customersDataTable.js
 wwwroot\js\dashbooard.js
-wwwroot\js\partnersDataTable.js
 wwwroot\js\site.js
-wwwroot\js\usersDataTable.js
 wwwroot\lib\bootstrap\dist\css\bootstrap.css
 wwwroot\lib\bootstrap\dist\css\bootstrap.css.map
 wwwroot\lib\bootstrap\dist\css\bootstrap.min.css

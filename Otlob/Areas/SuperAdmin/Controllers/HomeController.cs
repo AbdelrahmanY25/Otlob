@@ -38,22 +38,26 @@
             var pendingOrders = orderService.GetOrdersDayByStatus(OrderStatus.Pending);
             var preparingOrders = orderService.GetOrdersDayByStatus(OrderStatus.Preparing);
             var shippedOrders = orderService.GetOrdersDayByStatus(OrderStatus.Shipped);
+            var deliveredOrders = orderService.GetOrdersDayByStatus(OrderStatus.Delivered);
 
             var pending = pendingOrders.Count();
             var preparing = preparingOrders.Count();
             var shipped = shippedOrders.Count();
+            var delivered = deliveredOrders.Count();
 
             if (allOrders > 0)
             {
                 decimal pendOrders = Math.Round((decimal)pending / allOrders * 100, 2);
                 decimal preparOrders = Math.Round((decimal)preparing / allOrders * 100, 2);
                 decimal shippOrders = Math.Round((decimal)shipped / allOrders * 100, 2);
+                decimal delevOrders = Math.Round((decimal)delivered / allOrders * 100, 2);
 
                 ViewBag.OrderStatusPercentages = new Dictionary<string, decimal>
                 {
                     { "Pending", pendOrders },
                     { "Preparing", preparOrders },
                     { "Shipped", shippOrders },
+                    { "Delivered", delevOrders }
                 };
 
             }
@@ -64,6 +68,7 @@
                     { "Pending", 0 },
                     { "Preparing", 0 },
                     { "Shipped", 0 },
+                    { "Delivered", 0 }
                 };
             }
 

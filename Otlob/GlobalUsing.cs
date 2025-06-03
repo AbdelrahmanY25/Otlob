@@ -23,7 +23,6 @@ global using Stripe.Checkout;
 global using Otlob.Core.Hubs;
 global using Otlob.IServices;
 global using Otlob.Services;
-global using Syncfusion.EJ2;
 global using Otlob.Models;
 global using Otlob.EF;
 global using Utility;

@@ -36,12 +36,12 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQ3VzdG9tZXJcVmlld3NcQWNjb3VudFxMb2dpbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/My_Projects/Otlob/Otlob/Areas/Customer/Views/Account/Profile.cshtml]
-build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQ3VzdG9tZXJcVmlld3NcQWNjb3VudFxQcm9maWxlLmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
 [D:/My_Projects/Otlob/Otlob/Areas/Customer/Views/Account/Register.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQ3VzdG9tZXJcVmlld3NcQWNjb3VudFxSZWdpc3Rlci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/My_Projects/Otlob/Otlob/Areas/Customer/Views/Account/UserProfile.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQ3VzdG9tZXJcVmlld3NcQWNjb3VudFxVc2VyUHJvZmlsZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/My_Projects/Otlob/Otlob/Areas/Customer/Views/Address/AddAddress.cshtml]
@@ -264,12 +264,12 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9EYXNoYm9hcmRQYXJ0aWFsIC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/My_Projects/Otlob/Otlob/Views/Shared/_ExternalLoginPartial.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9FeHRlcm5hbExvZ2luUGFydGlhbC5jc2h0bWw=
+[D:/My_Projects/Otlob/Otlob/Views/Shared/_FormProfilePartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9Gb3JtUHJvZmlsZVBhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/My_Projects/Otlob/Otlob/Views/Shared/_landingPartial.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9sYW5kaW5nUGFydGlhbC5jc2h0bWw=
+[D:/My_Projects/Otlob/Otlob/Views/Shared/_FormStylePartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9Gb3JtU3R5bGVQYXJ0aWFsLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/My_Projects/Otlob/Otlob/Views/Shared/_LoginPartial.cshtml]
@@ -290,10 +290,6 @@ build_metadata.AdditionalFiles.CssScope =
 
 [D:/My_Projects/Otlob/Otlob/Views/Shared/_ProfilePartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9Qcm9maWxlUGFydGlhbC5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[D:/My_Projects/Otlob/Otlob/Views/Shared/_RegisterPagePartial.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9SZWdpc3RlclBhZ2VQYXJ0aWFsLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/My_Projects/Otlob/Otlob/Views/Shared/_UserOrder.cshtml]

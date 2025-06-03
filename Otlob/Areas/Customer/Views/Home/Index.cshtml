@@ -6,10 +6,6 @@
     ViewData["Title"] = "Home Page";
 }
 
-@section Notify {
-    <partial name="_NotificationPartial"></partial>
-}
-
 <div class="articles" id="articles">
 
     <!-- Offers Section -->
@@ -35,7 +31,7 @@
     </div>
 
     <!-- Search Bar -->
-    <form class="search" action="" method="post">
+    <form class="search" action="" method="Get">
         <input type="text" id="searchBar" placeholder="Enter Restaurant Name" name="query" />
     </form>
 
@@ -106,6 +102,6 @@
         window.addEventListener('load', function() {
             window.scrollTo(0, 800);
         });
-
     </script>
+    <partial name="_NotificationPartial"></partial>
 }

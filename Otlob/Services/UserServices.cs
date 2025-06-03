@@ -14,32 +14,31 @@
         public IQueryable<ApplicationUser>? GetAllUsers(Expression<Func<ApplicationUser, bool>>? query = null)
         {
             var users = unitOfWorkRepository
-                    .Users
-                    .GetAllWithSelect(
-                        expression: query,
-                        tracked: false,
-                        selector: u => new ApplicationUser
-                        {
-                            Id = u.Id,
-                            UserName = u.UserName,
-                            Email = u.Email,
-                            PhoneNumber = u.PhoneNumber,
-                            LockoutEnabled = u.LockoutEnabled,
-                        }
-                    );
+                        .Users
+                        .GetAllWithSelect(
+                            expression: query,
+                            tracked: false,
+                            selector: u => new ApplicationUser
+                            {
+                                Id = u.Id,
+                                UserName = u.UserName,
+                                Email = u.Email,
+                                PhoneNumber = u.PhoneNumber,
+                                LockoutEnabled = u.LockoutEnabled,
+                            }
+                        );
 
-            return users;
+            return users.OrderBy(u => u.UserName);
         }
 
         public void ChangeBlockUserStatus(string userId, bool blockstatus)
         {
-            ApplicationUser? user = userManager.FindByIdAsync(userId).Result;
+            ApplicationUser user = userManager.FindByIdAsync(userId).GetAwaiter().GetResult()!;
 
             if (user is not null)
             {
                 user.LockoutEnabled = blockstatus;
-                unitOfWorkRepository.Users.Edit(user);
-                unitOfWorkRepository.SaveChanges();
+                userManager.UpdateAsync(user).GetAwaiter().GetResult();
             }
         }
 

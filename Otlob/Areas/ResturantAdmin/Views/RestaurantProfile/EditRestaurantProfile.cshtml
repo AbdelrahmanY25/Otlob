@@ -3,9 +3,6 @@
 @section Profile {
     <partial name="_ProfilePartial"></partial>
 }
-@section Notify {
-    <partial name="_NotificationPartial"></partial>
-}
 
 <div class="profile">
     <div class="info">
@@ -24,54 +21,55 @@
     </div>
 
     <form asp-action="EditRestaurantProfile" enctype="multipart/form-data">
-            <div asp-validation-summary="All" class="text-danger mb-5"></div>
-            <div class="field">
-                <label asp-for="Name"></label>
-                <input asp-for="Name" value="@Model.Name" readonly />
-            </div>
-            <div class="field">
-                <label asp-for="Address"></label>
-                <input asp-for="Address" value="@Model.Address" readonly />
-            </div>
-            <div class="field">
-                <label asp-for="Email"></label>
-                <input asp-for="Email" value="@Model.Email" readonly />
-            </div>
-            <div class="field">
-                <label asp-for="Phone"></label>
-                <input asp-for="Phone" value="@Model.Phone" />
-            </div>
-            <div class="field">
-                <label asp-for="Description"></label>
-                <input asp-for="Description" value="@Model.Description" />
-            </div>
-            <div class="pic">
-                <i class="edit-icon" onclick="triggerFileInput()" title="Edit Profile Picture">&#9998;</i>
-                @if (Model.Image is not null)
-                {
-                <img id="restaurantProfilePicture" alt="restaurantProfilePicture" src="data:image/*;base64,@(Convert.ToBase64String(Model.Image))" />
-                }
-                else
-                {
-                    <img id="restaurantProfilePicture" src="~/images/Default.jpg" alt="resturantLogo" />
-                }
-                <input class="hidden-file-input"
+        <div class="pic">
+            <i class="edit-icon" onclick="triggerFileInput()" title="Edit Profile Picture">&#9998;</i>
+            @if (Model.Image != null)
+            {
+                <img id="profilePicture" alt="Profile" src="data:image/*;base64,@(Convert.ToBase64String(Model.Image))" />
+            }
+            else
+            {
+                <img id="profilePicture" alt="Profile" src="~/images/Default.jpg" />
+            }
+            <input class="hidden-file-input"
                    id="fileInput"
                    type="file"
                    accept="image/*"
                    asp-for="Image"
-                   onchange="document.getElementById('restaurantProfilePicture').src = window.URL.createObjectURL(this.files[0]);" />
-            </div>
-            <div class="field">
-                <label asp-for="DeliveryFee"></label>
-                <input asp-for="DeliveryFee" />
-            </div>
-            <div class="field">
-                <label asp-for="DeliveryDuration"></label>
-                <input asp-for="DeliveryDuration" />
-            </div>
-            <button type="submit">Update Your Resturan info</button>
-        </form>
+                   onchange="document.getElementById('profilePicture').src = window.URL.createObjectURL(this.files[0]);" />
+        </div>
+
+        <div asp-validation-summary="All" class="text-danger mb-5"></div>
+        <div class="field">
+            <label asp-for="Name"></label>
+            <input asp-for="Name" value="@Model.Name" readonly />
+        </div>
+        <div class="field">
+            <label asp-for="Address"></label>
+            <input asp-for="Address" value="@Model.Address" readonly />
+        </div>
+        <div class="field">
+            <label asp-for="Email"></label>
+            <input asp-for="Email" value="@Model.Email" readonly />
+        </div>
+        <div class="field">
+            <label asp-for="Phone"></label>
+            <input asp-for="Phone" value="@Model.Phone" />
+        </div>
+        <div class="field">
+            <label asp-for="Description"></label>
+            <input asp-for="Description" value="@Model.Description" />
+        </div>            
+        <div class="field">
+            <label asp-for="DeliveryFee"></label>
+            <input asp-for="DeliveryFee" />
+        </div>
+        <div class="field">
+            <label asp-for="DeliveryDuration"></label>
+            <input asp-for="DeliveryDuration" />
+        </div>
+        <button type="submit">Update Your Resturan info</button>
+    </form>
 </div>
 
 <script>
@@ -81,5 +79,6 @@
 </script>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <partial name="_ValidationScriptsPartial"></partial>
+    <partial name="_NotificationPartial"></partial>
 }

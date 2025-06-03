@@ -4,6 +4,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>d503900d-4f3a-450a-b3a8-8454e6abf376</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -35,8 +36,7 @@
 		</PackageReference>
 		<PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.7" />
 		<PackageReference Include="Stripe.net" Version="47.1.0" />
-		<PackageReference Include="Syncfusion.EJ2.AspNet.Core" Version="29.1.39" />
-		<PackageReference Include="System.Linq.Dynamic.Core" Version="1.5.0" />
+		<PackageReference Include="System.Linq.Dynamic.Core" Version="1.6.5" />
 	</ItemGroup>
 
 	<ItemGroup>

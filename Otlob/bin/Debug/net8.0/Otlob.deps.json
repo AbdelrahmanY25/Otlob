@@ -23,8 +23,7 @@
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": "8.0.7",
           "Otlob.EF": "1.0.0",
           "Stripe.net": "47.1.0",
-          "Syncfusion.EJ2.AspNet.Core": "29.1.39",
-          "System.Linq.Dynamic.Core": "1.5.0",
+          "System.Linq.Dynamic.Core": "1.6.5",
           "Utility": "1.0.0"
         },
         "runtime": {
@@ -2209,26 +2208,6 @@
           }
         }
       },
-      "Syncfusion.EJ2.AspNet.Core/29.1.39": {
-        "dependencies": {
-          "Newtonsoft.Json": "13.0.3",
-          "Syncfusion.Licensing": "29.1.39"
-        },
-        "runtime": {
-          "lib/net8.0/Syncfusion.EJ2.dll": {
-            "assemblyVersion": "29.1.39.0",
-            "fileVersion": "29.1.39.0"
-          }
-        }
-      },
-      "Syncfusion.Licensing/29.1.39": {
-        "runtime": {
-          "lib/net8.0/Syncfusion.Licensing.dll": {
-            "assemblyVersion": "29.1.39.0",
-            "fileVersion": "29.1.39.0"
-          }
-        }
-      },
       "System.Buffers/4.5.0": {},
       "System.ClientModel/1.0.0": {
         "dependencies": {
@@ -2381,11 +2360,11 @@
         }
       },
       "System.IO.Pipelines/7.0.0": {},
-      "System.Linq.Dynamic.Core/1.5.0": {
+      "System.Linq.Dynamic.Core/1.6.5": {
         "runtime": {
           "lib/net8.0/System.Linq.Dynamic.Core.dll": {
-            "assemblyVersion": "1.5.0.0",
-            "fileVersion": "1.5.0.0"
+            "assemblyVersion": "1.6.5.0",
+            "fileVersion": "1.6.5.0"
           }
         }
       },
@@ -3810,20 +3789,6 @@
       "path": "stripe.net/47.1.0",
       "hashPath": "stripe.net.47.1.0.nupkg.sha512"
     },
-    "Syncfusion.EJ2.AspNet.Core/29.1.39": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-H/n6vfKaWhBuaf3doR6b3OvtHXgBUTTdi4HnUZ+Z62SzlTVthOAdEu7n8s1mJgnodzqTLhXm5Jzh7d3iVSn/pg==",
-      "path": "syncfusion.ej2.aspnet.core/29.1.39",
-      "hashPath": "syncfusion.ej2.aspnet.core.29.1.39.nupkg.sha512"
-    },
-    "Syncfusion.Licensing/29.1.39": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-WW+Gp+KOVl2+t0kwdUL6X6AaYRaSgOxnSuZ34hXVArTrKMAdDHTCykeE8ypJOJfZJitGn3LvR7aQtfTzuhhhUw==",
-      "path": "syncfusion.licensing/29.1.39",
-      "hashPath": "syncfusion.licensing.29.1.39.nupkg.sha512"
-    },
     "System.Buffers/4.5.0": {
       "type": "package",
       "serviceable": true,
@@ -3964,12 +3929,12 @@
       "path": "system.io.pipelines/7.0.0",
       "hashPath": "system.io.pipelines.7.0.0.nupkg.sha512"
     },
-    "System.Linq.Dynamic.Core/1.5.0": {
+    "System.Linq.Dynamic.Core/1.6.5": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-AnJlNFlkw9+grV+o3J0N/YolsD0F/03AFnFxBDgxs1eG87JF/RszdJM4HH9wUl4HrajYK/83xyyZ7bNI6J6vjg==",
-      "path": "system.linq.dynamic.core/1.5.0",
-      "hashPath": "system.linq.dynamic.core.1.5.0.nupkg.sha512"
+      "sha512": "sha512-NCldHajaCst63aFWXgkrRZOqt21LEDyQ/C0yKAlyuLRunbEaoxxrEm0qII0B6FXU7BE2qZjPRw2Dt5841VNE7w==",
+      "path": "system.linq.dynamic.core/1.6.5",
+      "hashPath": "system.linq.dynamic.core.1.6.5.nupkg.sha512"
     },
     "System.Memory/4.5.4": {
       "type": "package",

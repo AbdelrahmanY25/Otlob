@@ -9,16 +9,12 @@
       "PackagePath": "staticwebassets\\css\\dashboard.css"
     },
     {
-      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\css\\externalLogin.css",
-      "PackagePath": "staticwebassets\\css\\externalLogin.css"
+      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\css\\form.css",
+      "PackagePath": "staticwebassets\\css\\form.css"
     },
     {
-      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\css\\profile.css",
-      "PackagePath": "staticwebassets\\css\\profile.css"
-    },
-    {
-      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\css\\register.css",
-      "PackagePath": "staticwebassets\\css\\register.css"
+      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\css\\profileAccount.css",
+      "PackagePath": "staticwebassets\\css\\profileAccount.css"
     },
     {
       "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\css\\site.css",
@@ -305,24 +301,12 @@
       "PackagePath": "staticwebassets\\images\\resturantLogo\\e6626820-0d84-48d5-9b16-fe44657055bd.JPG"
     },
     {
-      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\js\\customersDataTable.js",
-      "PackagePath": "staticwebassets\\js\\customersDataTable.js"
-    },
-    {
       "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\js\\dashbooard.js",
       "PackagePath": "staticwebassets\\js\\dashbooard.js"
     },
     {
-      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\js\\partnersDataTable.js",
-      "PackagePath": "staticwebassets\\js\\partnersDataTable.js"
-    },
-    {
       "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\js\\site.js",
       "PackagePath": "staticwebassets\\js\\site.js"
-    },
-    {
-      "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\js\\usersDataTable.js",
-      "PackagePath": "staticwebassets\\js\\usersDataTable.js"
     },
     {
       "Id": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\lib\\bootstrap\\LICENSE",

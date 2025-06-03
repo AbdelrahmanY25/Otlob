@@ -3,9 +3,6 @@
     var orderStatusPercentages = ViewBag.OrderStatusPercentages as Dictionary<string, decimal>;
 }
 
-@section Notify {
-    <partial name="_NotificationPartial"></partial>
-}
 
 <style>
     .ordersData .orders.usersStatus::before {        
@@ -18,22 +15,21 @@
 </style>
 
 <div class="ordersData">
-
-    <div class="orders users">
-        <a class="icon" asp-controller="Users" asp-action="Index"><i class="bi bi-person"></i></a>
+    <div class="flex orders users">
+        <a class="icon" asp-controller="Users" asp-action="Index"><i class="bi bi-person"></i></a>      
        <div class="dd">
             <a asp-controller="Users" asp-action="Customers">Customers: @ViewBag.Users</a>
             <a asp-controller="Users" asp-action="Partners">Partners: @ViewBag.Partners</a>
        </div>
     </div>
 
-    <div class="row justify-content-center">
+    <div class="row justify-content-start">
         @foreach (var item in orderStatusPercentages)
         {
             <div class="col-md-4 mb-4">
                 <div class="card-body">
-                    <h5 class="card-title">@item.Key Orders</h5>
                     <canvas id="@item.Key.ToLower()Chart" style="max-height: 250px;"></canvas>
+                    <h6 class="card-title text-center mt-2">@item.Key Orders</h6>
                 </div>
             </div>
         }
@@ -84,9 +80,10 @@
 
     <script>
         const statusColors = {
-            pending: '#f1c40f',   // Yellow
-            preparing: '#3498db', // Blue
-            shipped: '#e74c3c'    // Red
+            pending: '#f1c40f',  
+            preparing: '#3498db',
+            shipped: '#e74c3c',  
+            delivered: '#2ecc71' 
         };
 
         // Razor ViewBag data
@@ -101,7 +98,8 @@
         const statusUrls = {
             pending: '@Url.Action("Index", "OrdersStatus", new { status = OrderStatus.Pending })',
             preparing: '@Url.Action("Index", "OrdersStatus", new { status = OrderStatus.Preparing })',
-            shipped: '@Url.Action("Index", "OrdersStatus", new { status = OrderStatus.Shipped })'
+            shipped: '@Url.Action("Index", "OrdersStatus", new { status = OrderStatus.Shipped })',
+            delivered: '@Url.Action("Index", "OrdersStatus", new { status = OrderStatus.Delivered })'
         };
 
         // Loop and render each chart
@@ -155,4 +153,6 @@
             });
         });
     </script>
+
+    <partial name="_NotificationPartial"></partial>
 }
