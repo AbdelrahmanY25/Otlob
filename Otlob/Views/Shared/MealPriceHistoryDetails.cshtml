@@ -1,0 +1,41 @@
+﻿@model IQueryable<MealPriceHistoryVM>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Price
+            </th>
+            <th>
+                Created Date
+            </th>
+            <th>
+                End Date
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @item.StartDate.ToString("dd/MM/yyyy HH:mm:ss tt")
+                </td>
+                <td>
+                    @if (item.EndDate != null)
+                    {
+                        @item.EndDate.Value.ToString("dd/MM/yyyy HH:mm:ss tt")
+                    }
+                    else
+                    {
+                        <span class="label">Current Price</span>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

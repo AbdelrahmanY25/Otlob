@@ -5,6 +5,6 @@ global using Microsoft.AspNetCore.Identity;
 global using Microsoft.AspNetCore.SignalR;
 global using Otlob.EF.IBaseRepository;
 global using System.Linq.Expressions;
+global using Otlob.Core.Attributes;
 global using Otlob.Core.Models;
-global using Newtonsoft.Json;
 global using Utility;

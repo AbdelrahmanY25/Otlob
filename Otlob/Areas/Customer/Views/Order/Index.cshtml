@@ -1,9 +1,5 @@
 ﻿@model OrderVM
 
-@section Notify {
-    <partial name="_NotificationPartial"></partial>
-}
-
 <style>       
     .map-container {
         margin: 20px auto;
@@ -101,7 +97,7 @@
                         <select name="UserAddress" id="addressSelect" class="form-select">
                             @foreach (var address in Model.Addresses)
                             {
-                                <option>@address.CustomerAddres</option>
+                                <option>@address.CustomerAddress</option>
                             }
                         </select>
                     </div>
@@ -136,3 +132,7 @@
             </div>
     </div>
 </div>
+
+@section Scripts {
+    <partial name="_NotificationPartial"></partial>
+}

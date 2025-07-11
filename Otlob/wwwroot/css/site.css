@@ -95,8 +95,8 @@ html {
 
 .articles .container {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /*~~~~~~~~~~~~~~~*/
-    gap: 47px;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 40px;
 }
 
 .articles .container .card,
@@ -242,10 +242,11 @@ html {
     display: flex;
     justify-content: space-between;
     gap: 10px;
+    margin-bottom: 50px;
 }
 
 .orders {
-    background-color: #878583; /*  #e0583d  #878583  */
+    background-color: #878583;
     color: #ffff;
     min-width: 150px;
     max-width: fit-content;
@@ -261,17 +262,17 @@ html {
 }
 
 .orders span {
-    background-color: #bcb4b0; /* #f28570  #bcb4b0 */
+    background-color: #bcb4b0;
     padding: 8px;
     border-radius: 12px;
 }
 
 .price {
-    background-color: #0ac2d9; /*  #0ac2d9     */
+    background-color: #0ac2d9;
 }
 
 .price span {
-    background-color: #84c7c1; /*   #84c7c1    */
+    background-color: #84c7c1;
 }
 
 .complaints {
@@ -618,7 +619,7 @@ html {
 
 /* Modal Card Styling */
 #deleteModal .modal-dialog {
-    max-width: 400px; /* Limit modal width */
+    max-width: 400px;
     margin: auto;
     border-radius: 15px;
 }
@@ -726,7 +727,7 @@ html {
 .offers-container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 15px;
+    gap: 40px;
 }
 
 .offer-card {

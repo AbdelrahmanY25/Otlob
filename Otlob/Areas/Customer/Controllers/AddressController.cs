@@ -3,23 +3,20 @@
     [Area("Customer")]
     public class AddressController : Controller
     {
-        private readonly UserManager<ApplicationUser> userManager;
         private readonly IAddressService addressService;
-        private readonly IEncryptionService encryptionService;
+        private readonly IDataProtector dataProtector;
 
-        public AddressController(UserManager<ApplicationUser> userManager,
-                                 IAddressService addressService,
-                                 IEncryptionService encryptionService)
+        public AddressController(IAddressService addressService,
+                                 IDataProtectionProvider dataProtectionProvider)
         {
-            this.userManager = userManager;
             this.addressService = addressService;
-            this.encryptionService = encryptionService;
+            dataProtector = dataProtectionProvider.CreateProtector("SecureData");
         }
         public IActionResult SavedAddresses()
         {
-            string? userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            string? userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            var addresses = addressService.GetUserAddressies(userId);
+            var addresses = addressService.GetUserAddressies(userId!);
 
             return View(addresses);
         }
@@ -41,7 +38,7 @@
                 return RedirectToAction("Login", "Account");
             }
 
-            string theResultOfAddingAddress = addressService.AddAddress(addressVM, userId);
+            string theResultOfAddingAddress = addressService.AddAddress(addressVM, userId)!;
 
             if (theResultOfAddingAddress is string)
             {
@@ -53,7 +50,7 @@
         
         public IActionResult UpdateAddress(string id)
         {
-            int addressId = encryptionService.DecryptId(id);
+            int addressId = int.Parse(dataProtector.Unprotect(id));
 
             AddressVM? addressVM = addressService.GetOneAddress(addressId);
 
@@ -62,7 +59,7 @@
                 return NotFound();
             }
 
-            HttpContext.Session.SetString("AddressId", id.ToString());
+            HttpContext.Session.SetString("AddressId", id);
 
             return View(addressVM);
         }
@@ -75,16 +72,16 @@
                 return View();
             }
 
-            int addressId = encryptionService.DecryptId(HttpContext.Session.GetString("AddressId"));
+            int addressId = int.Parse(dataProtector.Unprotect(HttpContext.Session.GetString("AddressId")!));
 
-            AddressVM oldAddressVM = addressService.GetOneAddress(addressId);
+            AddressVM oldAddressVM = addressService.GetOneAddress(addressId)!;
 
-            if (oldAddressVM is null || oldAddressVM.CustomerAddres == addressVM.CustomerAddres)
+            if (oldAddressVM is null || oldAddressVM.CustomerAddress == addressVM.CustomerAddress)
             {
                 return RedirectToAction("SavedAddresses");
             }
 
-            string? userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            string? userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             if (userId is null)
             {
@@ -99,7 +96,7 @@
         [HttpPost, ValidateAntiForgeryToken]
         public IActionResult DeleteAddress(string id)
         {
-            var addressId = encryptionService.DecryptId(id);
+            int addressId = int.Parse(dataProtector.Unprotect(id));
 
             addressService.DeleteAddress(addressId);
 

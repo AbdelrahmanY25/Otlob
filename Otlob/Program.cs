@@ -8,28 +8,31 @@ namespace Otlob
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
             builder.Services.AddSignalR();
             builder.Services.AddControllersWithViews();
             builder.Services.AddRazorPages();
 
-            // Add Distributed Memory Cache (Required for Session)
             builder.Services.AddDistributedMemoryCache();
 
-            // Configure Session
             builder.Services.AddSession(options =>
             {
-                options.IdleTimeout = TimeSpan.FromMinutes(30); // Set session timeout
+                options.IdleTimeout = TimeSpan.FromMinutes(30);
                 options.Cookie.HttpOnly = true; // Prevent client-side script access
                 options.Cookie.IsEssential = true; // Ensure session is always available
             });
 
-            builder.Services.AddDbContext<ApplicationDbContext>(
-                options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+            builder.Services.AddDbContext<ApplicationDbContext>(options =>
+            {
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+            });
 
+            
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
             {
-                options.SignIn.RequireConfirmedAccount = true;
+                options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._";
+                options.User.RequireUniqueEmail = true;
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(10);
+                options.Lockout.MaxFailedAccessAttempts = 5;
             })
             .AddEntityFrameworkStores<ApplicationDbContext>();
             //.AddDefaultUI()
@@ -38,16 +41,17 @@ namespace Otlob
             builder.Services.AddAuthentication()  
             .AddMicrosoftAccount(microsoftOptions =>
             {
-                microsoftOptions.ClientId = builder.Configuration["Authentication:Microsoft:ClientId"];
-                microsoftOptions.ClientSecret = builder.Configuration["Authentication:Microsoft:ClientSecret"];
+                microsoftOptions.ClientId = builder.Configuration["Authentication:Microsoft:ClientId"]!;
+                microsoftOptions.ClientSecret = builder.Configuration["Authentication:Microsoft:ClientSecret"]!;
             })
             .AddGoogle(googleOptions =>
             {
-                googleOptions.ClientId = builder.Configuration["Authentication:Google:ClientId"];
-                googleOptions.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
+                googleOptions.ClientId = builder.Configuration["Authentication:Google:ClientId"]!;
+                googleOptions.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"]!;
             });
 
-
+            builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
+            StripeConfiguration.ApiKey = builder.Configuration["Stripe:SecretKey"];
 
             builder.Services.AddScoped<IUnitOfWorkRepository, UnitOfWorkRepository>();
             builder.Services.AddScoped<IImageService, ImageService>();
@@ -65,10 +69,7 @@ namespace Otlob
             builder.Services.AddScoped<IOrderDetailsService, OrderDetailsService>();
             builder.Services.AddScoped<ITempOrderService, TempOrderService>();
             builder.Services.AddScoped<IPaginationService, PaginationService>();
-
-            builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
-            StripeConfiguration.ApiKey = builder.Configuration["Stripe:SecretKey"];
-
+           
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -82,7 +83,6 @@ namespace Otlob
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
-            // Enable Session Middleware (Before Routing)
             app.UseSession();
 
             app.UseRouting();

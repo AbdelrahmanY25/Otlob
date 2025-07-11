@@ -1,20 +1,19 @@
 ﻿@model PaginationVM<TrackOrderVM>
-@inject IEncryptionService encryptionService
 
 <style>
     .pagination .page-item.active .page-link {
-        background-color: rgb(192, 40, 16);
-        border-color: rgb(192, 40, 16);
+    background-color: rgb(192, 40, 16);
+    border-color: rgb(192, 40, 16);
     }
 
     .pagination .page-link {
-        color: rgb(192, 40, 16);
+    color: rgb(192, 40, 16);
     }
 
     .pagination .page-link:hover {
-        color: #fff;
-        background-color: rgb(192, 40, 16);
-        border-color: rgb(192, 40, 16);
+    color: #fff;
+    background-color: rgb(192, 40, 16);
+    border-color: rgb(192, 40, 16);
     }
 </style>
 
@@ -39,11 +38,9 @@
     <tbody>
         @foreach (var item in Model.Items) 
         {
-            string encryptedId = encryptionService.EncryptId(item.OrderId);
-
             <tr>
                 <td>
-                    <img alt="RestaurantLogo" class="avatar rounded-circle" src="data:image/*;base64,@(Convert.ToBase64String(item.RestaurantImage))" />
+                    <img alt="RestaurantLogo" class="avatar rounded-circle" src="/images/@(item.RestaurantImage is not null ? item.RestaurantImage : "Default.jpg")" />
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.RestaurantName)
@@ -55,7 +52,7 @@
                     @item.OrderDate.ToString("dd/MM/yyyy hh:mm:ss tt")
                 </td>   
                 <td>
-                    <a class="btn btn-success" asp-action="OrderDetails" asp-route-id="@encryptedId">Details</a>
+                    <a class="btn btn-success" asp-action="OrderDetails" asp-route-id="@item.OrderId">Details</a>
                 </td>            
             </tr>
         }        

@@ -7,8 +7,10 @@
         MealVm GetMealVM(int MealId);
         Meal GetMeal(int MealId);
         Meal GetMealNameAndImage(int mealId);
-        Task<string> AddMeal(MealVm mealVM, int restaurantId, IFormFileCollection image);
-        Task<string> EditMeal(MealVm mealVM, int mealId, IFormFileCollection image);
+        string AddMeal(MealVm mealVM, int restaurantId, IFormFile image);
+        string EditMeal(MealVm mealVM, int mealId);
+        Meal GetMealImageById(int mealId);
+        void UpdateMealImage(Meal meal, string imageUrl);
         IQueryable<MealVm> GetDeletedMeals(int restaurantId);
         bool DeleteMeal(int mealId);
         bool UnDeleteMeal(int mealId);

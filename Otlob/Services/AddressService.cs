@@ -1,28 +1,37 @@
-﻿namespace Otlob.Areas.Customer.Services
+﻿using Microsoft.AspNetCore.DataProtection;
+
+namespace Otlob.Areas.Customer.Services
 {
     public class AddressService : IAddressService
     {
         private readonly IUnitOfWorkRepository unitOfWorkRepository;
+        private readonly IDataProtector dataProtector;
 
-        public AddressService(IUnitOfWorkRepository unitOfWorkRepository)
+
+        public AddressService(IUnitOfWorkRepository unitOfWorkRepository, IDataProtectionProvider dataProtectionProvider)
         {
             this.unitOfWorkRepository = unitOfWorkRepository;
+            dataProtector = dataProtectionProvider.CreateProtector("SecureData");
         }
 
         public IQueryable<AddressVM>? GetUserAddressies(string userId)
         {
             return unitOfWorkRepository
                             .Addresses
-                            .GetAllWithSelect(selector: add => new AddressVM { AddressVMId = add.Id, CustomerAddres = add.CustomerAddres },
-                                             expression: add => add.ApplicationUserId == userId,
-                                             tracked: false);
+                            .GetAllWithSelect(selector: add => new AddressVM
+                            { 
+                                Key = dataProtector.Protect(add.Id.ToString()),
+                                CustomerAddress = add.CustomerAddres
+                            },
+                            expression: add => add.ApplicationUserId == userId,
+                            tracked: false);
         }
 
         public AddressVM? GetOneAddress(int addressId)
         {
             return unitOfWorkRepository
                             .Addresses
-                            .GetOneWithSelect(selector: add => new AddressVM { CustomerAddres = add.CustomerAddres },
+                            .GetOneWithSelect(selector: add => new AddressVM { CustomerAddress = add.CustomerAddres },
                                               expression: a => a.Id == addressId,
                                               tracked: false);
         }
@@ -68,11 +77,19 @@
         }
 
         public bool IsAddressExist(string userId, AddressVM addressVM)
-        {
-           return unitOfWorkRepository
-                              .Addresses
-                              .Get(expression: add => add.ApplicationUserId == userId && add.CustomerAddres == addressVM.CustomerAddres, tracked: false)
-                              .Any();
+        {           
+            return unitOfWorkRepository
+                .Addresses
+                .IsExist(expression: add => add.ApplicationUserId == userId && add.CustomerAddres == addressVM.CustomerAddress);
         }
+
+        public bool IsUserHasAnyAddress(string userId)
+        {           
+            return unitOfWorkRepository
+                .Addresses
+                .IsExist(expression: add => add.ApplicationUserId == userId);
+        }
+
+
     }
 }

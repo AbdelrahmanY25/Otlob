@@ -2,6 +2,7 @@
 {
     public interface IImageService
     {
-        Task<string>? UploadImage(IFormFileCollection formFile, ImageUrl? imageUrl);
+        UploadImageResult UploadImage(IFormFile formFile);
+        UploadImageResult DeleteOldImageIfExist(string? oldImage);
     }
 }

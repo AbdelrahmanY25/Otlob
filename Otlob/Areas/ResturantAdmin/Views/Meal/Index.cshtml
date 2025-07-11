@@ -1,10 +1,9 @@
 ﻿@model IQueryable<MealVm>
 
-@inject IEncryptionService encryptionService
-
 <p>
     <a class="btn btn-warning" asp-action="AddMeal">Create New Meal</a>
 </p>
+
 <table class="table">
     <thead>
         <tr>
@@ -23,19 +22,11 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model) {
-            var encryptedMealId = encryptionService.EncryptId(item.MealVmId);
-
+        @foreach (var item in Model) 
+        {
             <tr>
                 <td>                    
-                    @if (item.Image is not null)
-                    {
-                        <img alt="MealLogo" class="avatar rounded-circle" src="data:image/*;base64,@(Convert.ToBase64String(item.Image))" />
-                    }
-                    else
-                    {
-                        <img src="~/images/Default.jpg" alt="resturantLogo" class="avatar rounded-circle">
-                    }
+                    <img alt="MealLogo" class="avatar rounded-circle" src="/images/@(item.Image is not null ? item.Image : "Default.jpg")" />                    
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Name)
@@ -44,17 +35,15 @@
                     @Html.DisplayFor(modelItem => item.Price)
                 </td>            
                 <td>
-                    <a class="btn btn-success" asp-action="MealDetails" asp-route-id="@encryptedMealId">Meal Details</a>
-                    <a class="btn btn-primary" asp-action="MealPriceHistoryDetails" asp-route-id="@encryptedMealId">Meal Price History</a>
-                    <a class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" data-categoryid="@encryptedMealId">Delete Meal</a>
+                    <a class="btn btn-success" asp-action="MealDetails" asp-route-id="@item.Key">Meal Details</a>
+                    <a class="btn btn-primary" asp-action="MealPriceHistoryDetails" asp-route-id="@item.Key">Meal Price History</a>
+                    <a class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" data-categoryid="@item.Key">Delete Meal</a>
                 </td>
             </tr>
         }
     </tbody>
 </table>
 
-
-<!-- Modal -->
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">

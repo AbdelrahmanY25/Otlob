@@ -24,7 +24,7 @@
         {
             <tr>
                 <td>
-                    <img alt="MealLogo" class="avatar rounded-circle" src="data:image/*;base64,@(Convert.ToBase64String(item.Meal.Image))" />
+                    <img alt="MealLogo" class="avatar rounded-circle" src="/images/@(item.Meal.Image is not null ? item.Meal.Image : "Default.jpg")" />
                     @Html.DisplayFor(modelItem => item.Meal.Name)
                 </td>
                 <td class="text-center">

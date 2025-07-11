@@ -7,7 +7,6 @@
 }
 
 <style>
-    /* General Styling */
     .custom-dropdown {
         border: none;
         padding: 8px;
@@ -20,10 +19,8 @@
     .custom-dropdown:focus {
         outline: none;
         box-shadow: 0 0 5px rgba(192, 40, 16, 0.5);
-       /*  margin-bottom: 50px; */ /* Ensure dropdown menu has space */
     }
 
-    /* Meal Cards */
     .meal-list {
         max-width: 600px;
     }
@@ -35,7 +32,6 @@
         border-radius: 10px;
     }
 
-    /* Meal Image */
     .meal-image img {
         width: 80px;
         height: 80px;
@@ -43,13 +39,11 @@
         object-fit: cover;
     }
 
-    /* Meal Details */
     .meal-details {
         flex-grow: 1;
         margin-left: 15px;
     }
 
-    /* Buttons */
     .custom-btn {
         border-color: rgb(192, 40, 16);
         color: rgb(192, 40, 16);
@@ -71,7 +65,6 @@
         background: darkred;
     }
 
-    /* Special Instructions */
     .notes {
         max-width: 600px;
     }
@@ -85,7 +78,6 @@
         border-radius: 12px;
     }
 
-    /* Footer */
     .total-price {
         color: rgb(192, 40, 16);
     }
@@ -155,19 +147,16 @@
         color: #333;
     }
 
-    /* Hide Default Radio Button */
     .hidden-radio {
         display: none;
     }
 
-    /* Selected State */
     .hidden-radio:checked + .payment-content {
         border: 2px solid rgb(192, 40, 16);
         background-color: rgba(192, 40, 16, 0.1);
         border-radius: 8px;
     }
 
-    /* When selected, add an outline */
     .hidden-radio:checked + .payment-content .payment-label {
         font-weight: bold;
         color: rgb(192, 40, 16);
@@ -186,7 +175,7 @@
                 <select name="UserAddress" id="addressSelect" class="form-select custom-dropdown">
                     @foreach (var address in Model.Addresses)
                     {
-                        <option>@address.CustomerAddres</option>
+                        <option>@address.CustomerAddress</option>
                     }
                 </select>
             </div>
@@ -199,18 +188,15 @@
 
                 <div class="card meal-card p-3 border-0 shadow-sm">
                     <div class="d-flex align-items-center">
-                        <!-- Meal Image -->
                         <div class="meal-image">
-                            <img class="rounded img-fluid" src="data:image/*;base64,@(Convert.ToBase64String(item.Image))" alt="Meal Image">
+                            <img class="rounded img-fluid" src="/images/@(item.Image is not null ? item.Image : "Default.jpg")">
                         </div>
 
-                        <!-- Meal Details -->
                         <div class="meal-details">
                             <h6 class="fw-bold text-secondary">@item.MealName</h6>
                             <p class="text-muted small">@item.MealDescription</p>
                             <p class="text-muted small">X @item.Quantity</p>
 
-                            <!-- Price & Buttons -->
                             <div class="d-flex justify-content-between align-items-center">
                                 <span class="fw-semibold">@((item.Quantity * item.PricePerMeal).ToString("0.00")) L.E</span>
                                 <div class="btn-group">

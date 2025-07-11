@@ -29,7 +29,14 @@
 
         public void IgnoreChanges(T entity, Expression<Func<T, object>> property)
         {
+            dbSet.Attach(entity);
             context.Entry(entity).Property(property).IsModified = false;
+        }
+
+        public void ModifyProperty(T entity, Expression<Func<T, object>> property)
+        {
+            dbSet.Attach(entity);
+            context.Entry(entity).Property(property).IsModified = true;
         }
                
         public void SoftDelete(Expression<Func<T, bool>> expression)
@@ -37,7 +44,7 @@
             IQueryable<T> query = dbSet;
 
             query.Where(expression)
-                .ExecuteUpdate(e => e.SetProperty(d => EFCore.Property<bool>(d, "IsDeleted"), true));
+                .ExecuteUpdateAsync(e => e.SetProperty(d => EFCore.Property<bool>(d, "IsDeleted"), true));
         }
        
         public void UnSoftDelete(Expression<Func<T, bool>> expression)
@@ -45,12 +52,26 @@
             IQueryable<T> query = dbSet;
 
             query.Where(expression).IgnoreQueryFilters()
-                .ExecuteUpdate(e => e.SetProperty(d => EFCore.Property<bool>(d, "IsDeleted"), false));
+                .ExecuteUpdateAsync(e => e.SetProperty(d => EFCore.Property<bool>(d, "IsDeleted"), false));
         }
 
         public void HardDelete(T entity)
         {
             dbSet.Remove(entity);
+        }
+
+        public bool IsExist(Expression<Func<T, bool>> expression)
+        {
+            return dbSet.AsNoTracking().AnyAsync(expression).GetAwaiter().GetResult();
+        }
+
+        public IQueryable<KeyValuePair<TKey, int>> EntityWithCountBy<TKey>(Expression<Func<T, TKey>> property)
+        {
+            IQueryable<T> query = dbSet;
+
+            var result = query.AsNoTracking().CountBy(property);
+
+            return result;
         }
 
         public IQueryable<T>? Get(Expression<Func<T, object>>[]? includeProps = null,
@@ -143,21 +164,6 @@
             query = ignoreQueryFilter ? query.IgnoreQueryFilters() : query;
 
             return query.Select(selector).FirstOrDefault();
-        }
-
-        public TResult? AllowExplicitLoadingByReferenceWithSelect<TProperty, TResult>(T entity,
-                                                           Expression<Func<T, TProperty>> navigationProperty,                                                           
-                                                           Expression<Func<TProperty, TResult>> selector,
-                                                           Expression<Func<TProperty, bool>>? expression = null) where TProperty : class
-        {
-            var query = context.Entry(entity).Reference(navigationProperty).Query();
-
-            if (expression != null)
-            {
-                query = query.Where(expression);
-            }
-           
-            return query.Select(selector).FirstOrDefault();
-        }
+        }       
     } 
 }

@@ -1,6 +1,6 @@
 ﻿namespace Otlob.Core.Models
 {
-    public class Meal : ImageUrl
+    public class Meal
     {
         public int Id { get; set; }
         public int RestaurantId { get; set; }
@@ -12,7 +12,7 @@
         public bool IsTrendingMeal { get; set; } = false;
         public int NumberOfServings { get; set; }
         public MealCategory Category { get; set; }
-        public byte[]? Image { get; set; }
+        public string? Image { get; set; }
 
         [ValidateNever]
         public  Restaurant Restaurant { get; set; }

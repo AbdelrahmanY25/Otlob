@@ -23,7 +23,7 @@
                 TotalItems = totalItems
             };
 
-            if (element != null)
+            if (element is not null)
             {
                 viewModel.UnieqElement = element;
             }

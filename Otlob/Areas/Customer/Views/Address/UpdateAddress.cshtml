@@ -9,8 +9,8 @@
             <form asp-action="UpdateAddress">
                 <div asp-validation-summary="All" class="text-danger"></div>
                 <div class="mb-3">
-                    <label asp-for="CustomerAddres" class="form-label">Your New Address</label>
-                    <input asp-for="CustomerAddres" class="form-control" id="CustomerAddres" placeholder="Enter your address" />
+                    <label asp-for="CustomerAddress" class="form-label">Your New Address</label>
+                    <input asp-for="CustomerAddress" class="form-control" id="CustomerAddres" placeholder="Enter your address" />
                 </div>
                 <div class="d-grid gap-2">
                     <button type="submit" class="btn btn-success">Create Address</button>
@@ -25,9 +25,7 @@
 </div>
 
 @section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
+    <partial name="_ValidationScriptsPartial"></partial>
 
     <!-- jQuery and jQuery UI libraries for autocomplete -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

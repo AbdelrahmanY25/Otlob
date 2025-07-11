@@ -107,18 +107,9 @@
     <ul class="dropdown-menu" id="menu">
         @if (isUserLogedIn)
         {
-            @if (userImageProfile.IsNullOrEmpty())
-            {
-                <li class="nav-item">
-                    <img class="avatar rounded-circle" alt="Profile Picture" src="~/images/Default.jpg" />
-                </li>
-            }
-            else 
-            {
-                <li class="nav-item">
-                    <img class="avatar rounded-circle" alt="Profile Picture" src="data:image/*;base64,@(userImageProfile)" />
-                </li>
-            }
+            <li class="nav-item">
+                <img class="avatar rounded-circle" alt="Profile Picture" src="/images/@(userImageProfile is not null ? userImageProfile : "Default.jpg")" />
+            </li>        
             @if (User.FindFirstValue(ClaimTypes.Role) == SD.restaurantAdmin)
             {
                 <li><a asp-area="ResturantAdmin" asp-controller="RestaurantProfile" asp-action="EditRestaurantProfile">Your Restaurant Profile</a></li>
@@ -129,7 +120,7 @@
                 <li><a asp-controller="Complaint" asp-action="AddComplaint">Add Complaint</a></li> 
             }
 
-            <li><a asp-area="Customer" asp-controller="Account" asp-action="UserProfile">Welcome @User.Identity.Name</a></li>
+            <li><a asp-area="Customer" asp-controller="Account" asp-action="UserProfile">Welcome @User.Identity!.Name</a></li>
             <li><a asp-area="Customer" asp-controller="Account" asp-action="Logout">Logout</a></li>
         }
         else

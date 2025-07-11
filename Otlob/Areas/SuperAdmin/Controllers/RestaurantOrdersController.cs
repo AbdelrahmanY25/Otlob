@@ -7,18 +7,21 @@
         private readonly IPaginationService paginationService;
         private readonly IUserServices userServices;
         private readonly IEncryptionService encryptionService;
+        private readonly IDataProtector dataProtector;
 
         private const int pageSize = 6;
 
         public RestaurantOrdersController(IOrderService orderService,
                                           IPaginationService paginationService,
                                           IUserServices userServices,
-                                          IEncryptionService encryptionService)
+                                          IEncryptionService encryptionService,
+                                          IDataProtectionProvider dataProtectionProvider)
         {
             this.orderService = orderService;
             this.paginationService = paginationService;
             this.userServices = userServices;
             this.encryptionService = encryptionService;
+            this.dataProtector = dataProtectionProvider.CreateProtector("SecureData");
         }
 
         public IActionResult CurrentRestaurantOrders(string id, int currentPageNumber = 1, string? searchById = null)
@@ -33,7 +36,7 @@
 
         private IActionResult GetOrdersView(string resId, OrderStatus status, bool exclude, int currentPageNumber, string? searchById)
         {
-            int restaurantId = encryptionService.DecryptId(resId);
+            int restaurantId = int.Parse(dataProtector.Unprotect(resId));
            
             if (int.TryParse(searchById, out int id))
             {
@@ -51,21 +54,21 @@
                 return View("EmptyOrders");
             }
 
-            var orders = orderService.GetCurrentRestaurantOrders(restaurantId, status, exclude);
+            var restaurantOrdersVM = orderService.GetCurrentRestaurantOrders(restaurantId, status, exclude)!;
 
-            if (orders.IsNullOrEmpty())
+            if (restaurantOrdersVM.IsNullOrEmpty())
             {
                 return View("EmptyOrders");
             }
 
-            decimal? MostExpensiveOrder = orders.Max(o => (decimal?)o.TotalOrderPrice);
+            decimal? MostExpensiveOrder = restaurantOrdersVM.Max(o => (decimal?)o.TotalOrderPrice);
 
-            PaginationVM<Order> viewModel = paginationService.PaginateItems<Order>(orders, pageSize, currentPageNumber, MostExpensiveOrder);
+            PaginationVM<RestaurantOrdersVM> viewModel = paginationService.PaginateItems(restaurantOrdersVM, pageSize, currentPageNumber, MostExpensiveOrder);
 
             return View("Index", viewModel);
         }
 
-        public IActionResult OrderUserDetailsPartial(int orderId)
+        public IActionResult OrderUserDetailsPartial(string orderId)
         {
             string userId = orderService.GetUserIdByOrderId(orderId);
 

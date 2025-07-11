@@ -32,7 +32,7 @@
 
             var orders = orderService.GetUserTrackedOrders(userId);
 
-            PaginationVM<TrackOrderVM> viewModel = paginationService.PaginateItems(orders, pageSize, currentPageNumber);
+            PaginationVM<TrackOrderVM> viewModel = paginationService.PaginateItems(orders!, pageSize, currentPageNumber);
 
             return View(viewModel);
         }
@@ -51,7 +51,7 @@
             var orderDetails = new OrderDetailsViewModel
             {
                 PaymentMethod = order.Method,
-                Meals = meals,
+                Meals = meals!,
                 SubPrice = order.TotalMealsPrice,
                 DeliveryFee = order.TotalTaxPrice
             };

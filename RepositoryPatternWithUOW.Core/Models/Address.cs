@@ -3,10 +3,10 @@
     public class Address
     {
         public int Id { get; set; }
-        public string ApplicationUserId { get; set; }
-        public string CustomerAddres { get; set; }
+        public string ApplicationUserId { get; set; } = null!;
+        public string CustomerAddres { get; set; } = null!;
 
         [ValidateNever]
-        public ApplicationUser User { get; set; }
+        public ApplicationUser User { get; set; } = null!;
     }
 }

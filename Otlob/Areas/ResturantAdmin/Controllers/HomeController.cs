@@ -20,7 +20,7 @@
                 return RedirectToAction("Login", "Account", new { Area = "Customer" });
             }
 
-            int restaurantId = int.Parse(User.FindFirstValue(SD.restaurantId));
+            int restaurantId = int.Parse(User.FindFirstValue(SD.restaurantId)!);
 
             var restauranVM = restaurantService.GetRestaurantJustMainInfo(restaurantId);
 

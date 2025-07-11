@@ -1,14 +1,10 @@
 ﻿@model IQueryable<RestaurantVM>
 
-@inject IEncryptionService encryptionService
-
 @{
     ViewData["Title"] = "Home Page";
 }
 
 <div class="articles" id="articles">
-
-    <!-- Offers Section -->
     <div class="offers">
         <h2>Special Offers</h2>
         <div class="offers-container">
@@ -30,21 +26,11 @@
         </div>
     </div>
 
-    <!-- Search Bar -->
     <form class="search" action="" method="Get">
         <input type="text" id="searchBar" placeholder="Enter Restaurant Name" name="query" />
     </form>
 
-    <!-- Categories Section -->
-    <div class="icons">
-        @* Add Icon to each category *@
-        @* @{
-            foreach (var category in Enum.GetNames(typeof(RestaurantCategory))) 
-            {
-                <a asp-action="Index" asp-route-filter="@category"><img src="/images/icons/@(category.ToLower()).png" alt="Burger"/></a>
-            }
-        } *@
-
+    <div class="icons">       
         <a asp-action="Index" asp-route-filter="burger"><img src="/images/icons/burger.png" alt="Burger" /></a>
         <a asp-action="Index" asp-route-filter="pizza"><img src="/images/icons/pizza.png" alt="Pizza" /></a>
         <a asp-action="Index" asp-route-filter="shawarma"><img src="/images/icons/shawrma.png" alt="Shawarma" /></a>
@@ -55,28 +41,18 @@
         <a asp-action="Index" asp-route-filter="all"><img src="/images/icons/all.png" alt="All" /></a> 
     </div>    
 
-    <!-- Restaurants Listing Section -->
     <div class="container">
         @foreach (var item in Model)
         {
-            var encryptedId = encryptionService.EncryptId(item.RestaurantVMId);
-
             <div class="menue" data-name="@item.Name">
-                @if (item.Image is not null)
-                {
-                    <img alt="RestaurantLogo" src="data:image/*;base64,@(Convert.ToBase64String(item.Image))" />
-                }
-                else
-                {
-                    <img src="~/images/Default.jpg" alt="Restaurant Logo">
-                }
+                <img alt="RestaurantLogo" src="/images/@(item.Image is not null ? item.Image : "Default.jpg")" />
                 <div class="text">
                     <h3>@item.Name</h3>
                     <p>Delivery Fee: @item.DeliveryFee.ToString("0.00") L.E</p>
-                    <p>Delivery Time: @item.DeliveryDuration.ToString("0.00") Mins</p>
+                    <p>Delivery Time: @item.DeliveryDuration.ToString("0.00") M</p>
                 </div>               
                                
-                <a class="card-button" asp-action="Details" asp-route-id="@encryptedId">Menue</a>
+                <a class="card-button" asp-action="Details" asp-route-id="@item.Key">Menue</a>
 
             </div>
         }

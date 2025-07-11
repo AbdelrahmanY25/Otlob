@@ -6,6 +6,9 @@
         {
             builder.HasQueryFilter(r => EFCore.Property<bool>(r, "IsDeleted") == false);
 
+            builder.Property(r => r.Phone)
+                .HasMaxLength(11);
+
             builder.Property(r => r.Rate)
                .HasColumnType("decimal(7,2)");
 

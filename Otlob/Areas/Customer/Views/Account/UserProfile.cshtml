@@ -7,13 +7,8 @@
 <div class="profile">
     <div class="info">
         <div class="home">
-            <a asp-area="@(User.IsInRole(SD.superAdminRole) ? "SuperAdmin"
-                : User.IsInRole(SD.restaurantAdmin) ? "ResturantAdmin" : "Customer")"
-                asp-controller="Home"
-                asp-action="Index">Home 
-            </a>           
-            <span class="arrow">></span>
-            <span>Account</span>
+            <a asp-area="@User.FindFirstValue(ClaimTypes.Role)" asp-controller="Home" asp-action="Index">Home ></a>    
+            <a asp-area="@SD.customer" asp-controller="Account" asp-action="UserProfile">Account</a>
         </div>
         <h2>My Account</h2>
     </div>

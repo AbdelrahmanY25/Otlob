@@ -1,5 +1,6 @@
 ﻿global using EFCore = Microsoft.EntityFrameworkCore.EF;
 global using Otlob.Areas.Customer.Services.Interfaces;
+global using Microsoft.AspNetCore.DataProtection;
 global using Microsoft.AspNetCore.Authorization;
 global using Microsoft.AspNetCore.WebUtilities;
 global using Otlob.Core.IUnitOfWorkRepository;

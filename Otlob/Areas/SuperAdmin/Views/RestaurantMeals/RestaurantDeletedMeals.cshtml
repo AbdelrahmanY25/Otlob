@@ -1,11 +1,5 @@
 ﻿@model IQueryable<MealVm>
 
-@inject IEncryptionService encryptionService
-
-@section Notify {
-    <partial name="_NotificationPartial"></partial>
-}
-
 <table class="table">
     <thead>
         <tr>
@@ -26,10 +20,9 @@
     <tbody>
         @foreach (var item in Model)
         {
-            var encryptedId = encryptionService.EncryptId(item.MealVmId);
             <tr>
                 <td>
-                    <img class="avatar rounded-circle" alt="MealLogo" src="data:image/*;base64,@(Convert.ToBase64String(item.Image))" />
+                    <img class="avatar rounded-circle" alt="MealLogo" src="@(item.Image is not null ? item.Image : "~/images/Default.jpg")" />
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Name)
@@ -38,11 +31,15 @@
                     @Html.DisplayFor(modelItem => item.Price)
                 </td>
                 <td>
-                    <a class="btn btn-success" asp-action="MealDetails" asp-route-id="@encryptedId">Meal Details</a>
-                    <a class="btn btn-primary" asp-action="MealPriceHistoryDetails" asp-route-id="@encryptedId">Meal Price History</a>
-                    <a class="btn btn-danger" asp-action="UnDeleteMeal" asp-route-id="@encryptedId">UnDelete Meal</a>                    
+                    <a class="btn btn-success" asp-action="MealDetails" asp-route-id="@item.Key">Meal Details</a>
+                    <a class="btn btn-primary" asp-action="MealPriceHistoryDetails" asp-route-id="@item.Key">Meal Price History</a>
+                    <a class="btn btn-danger" asp-action="UnDeleteMeal" asp-route-id="@item.Key">UnDelete Meal</a>                    
                 </td>
             </tr>
         }
     </tbody>
 </table>
+
+@section Scripts {
+    <partial name="_NotificationPartial"></partial>
+}

@@ -1,6 +1,6 @@
 ﻿namespace Otlob.Core.ViewModel
 {
-    public class OrderedMealsVM : ImageUrl
+    public class OrderedMealsVM
     {
         public int Id { get; set; }
         public int MealId { get; set; }
@@ -11,9 +11,9 @@
 
         [Required, Range(1, 50000), Precision(18, 4)]
         public decimal PricePerMeal { get; set; }
-        public string MealName { get; set; }
+        public string MealName { get; set; } = null!;
         public string? MealDescription { get; set; }
-        public byte[]? Image { get; set; }
+        public string? Image { get; set; }
 
         public static IEnumerable<OrderedMealsVM> MappToOrderedMealsVMCollection(IQueryable<OrderedMeals> orderedMeals)
         {

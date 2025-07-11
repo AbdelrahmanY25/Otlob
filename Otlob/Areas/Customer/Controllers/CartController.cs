@@ -28,14 +28,14 @@
                 return RedirectToAction("Login", "Account");
             }            
             
-            var userAddresses = addressService.GetUserAddressies(userId).Any();
+            bool userAddresses = addressService.IsUserHasAnyAddress(userId);
 
             if (!userAddresses)
             {
                 TempData["Error"] = "Please Add Address First";
                 return RedirectToAction("SavedAddresses", "Address");
             }
-
+            
             bool canAddCart = cartService.CheckIfCanAddOrderToCart(orderedMealVM, userId, resId);
 
             if (canAddCart)

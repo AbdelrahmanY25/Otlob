@@ -1,13 +1,13 @@
 ﻿namespace Otlob.Core.ViewModel
 {
-    public class CartVM : ImageUrl
+    public class CartVM
     {
         public int CartVMId { get; set; }
         public  int RestaurantId { get; set; }
         public  decimal RestaurantDeliveryFee { get; set; }
         public decimal TotalMealsPrice { get; set; }
         public decimal TotalPrice { get; set; }
-        public byte[]? Image { get; set; }
+        public string? Image { get; set; }
 
         [ValidateNever]
         public IEnumerable<OrderedMealsVM> Meals { get; set; }

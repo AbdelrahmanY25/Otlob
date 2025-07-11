@@ -2,33 +2,39 @@
 
 <h4>Meal</h4>
 
-
 <hr />
+
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="MealDetails" enctype="multipart/form-data">
-            <div asp-validation-summary="All" class="text-danger"></div>
-            <div class="form-group mb-3">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-            </div>
+        <form asp-action="MealImage" enctype="multipart/form-data">
+            <div asp-validation-summary="All" class="text-danger"></div>            
             <div class="form-group mb-3">
                 <label asp-for="Image" class="control-label">Meal Logo</label>
-                @if (Model.Image is not null)
-                {
-                    <img id="mealLogo" alt="MealLogo" class="avatar rounded-circle" src="data:image/*;base64,@(Convert.ToBase64String(Model.Image))" />
-                }
-                else
-                {
-                    <img id="mealLogo" src="~/images/Default.jpg" alt="mealLogo" class="avatar rounded-circle">
-                }
+                <img id="mealLogo" alt="MealLogo" class="avatar rounded-circle" src="/images/@(Model.Image is not null ? Model.Image : "Default.jpg")" />
                 <input class="hidden-file-input"
                        id="fileInput"
                        type="file"
                        accept="image/*"
                        asp-for="Image"
+                       name="image"
                        onchange="document.getElementById('mealLogo').src = window.URL.createObjectURL(this.files[0]);" />
             </div>
+
+            <div class="form-group mb-3">
+                <input type="submit" value="Save Updates" class="btn  btn-danger" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="MealDetails">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group mb-3">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+            </div>            
             <div class="form-group mb-3">
                 <label asp-for="Description" class="control-label"></label>
                 <input asp-for="Description" class="form-control" />
@@ -59,13 +65,14 @@
             <div class="form-group mb-3">
                 <label asp-for="Category" class="control-label"></label>
                 <select asp-for="Category" class="form-control">
-                    <option>@MealCategory.MainCourse</option>
-                    <option>@MealCategory.Grill</option>
-                    <option>@MealCategory.Dessert</option>
+                    @foreach (var category in Enum.GetNames(typeof(MealCategory)))
+                    {
+                        <option>@category</option>
+                    }
                 </select>
             </div>
             <div class="form-group mb-3">
-                <input type="submit" value="Save Updates" class="btn  btn-warning" />
+                <input type="submit" value="Save Updates" class="btn  btn-danger" />
             </div>
         </form>
     </div>
@@ -82,7 +89,6 @@
 </script>
 
 @section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
+    <partial name="_ValidationScriptsPartial"></partial>
+    <partial name="_NotificationPartial"></partial>
 }

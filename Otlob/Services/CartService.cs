@@ -7,9 +7,11 @@
         private readonly IOrderedMealsService orderedMealsService;
         private readonly IEncryptionService encryptionService;
         private readonly IAddressService addressService;
+        private readonly IDataProtector dataProtector;
 
         public CartService(IUnitOfWorkRepository.IUnitOfWorkRepository unitOfWorkRepository,
                           IRestaurantService restaurantService,
+                          IDataProtectionProvider dataProtectionProvider,
                           IOrderedMealsService orderedMealsService,
                           IEncryptionService encryptionService,
                           IAddressService addressService)
@@ -19,6 +21,7 @@
             this.orderedMealsService = orderedMealsService;
             this.encryptionService = encryptionService;
             this.addressService = addressService;
+            dataProtector = dataProtectionProvider.CreateProtector("SecureData");
         }
 
         public Cart? GetCartById(string id)
@@ -74,7 +77,7 @@
 
             RestaurantVM? restaurantVM = restaurantService.GetRestaurantJustMainInfo(cartVM.RestaurantId);
 
-            IEnumerable<AddressVM>? addresses = addressService.GetUserAddressies(userId).ToList();
+            IEnumerable<AddressVM>? addresses = addressService.GetUserAddressies(userId)!.ToList();
 
             decimal orderedMeals = orderedMealsService.CalculateTotalMealsPrice(cartVM.CartVMId);
 
@@ -112,11 +115,11 @@
             return false;
         }
 
-        public bool IsCartHasItems(string userId) => unitOfWorkRepository.Carts.Get(expression: c => c.ApplicationUserId == userId).Any();
+        public bool IsCartHasItems(string userId) => unitOfWorkRepository.Carts.IsExist(expression: c => c.ApplicationUserId == userId);
 
         public bool CheckIfCanAddOrderToCart(OrderedMealsVM orderedMealsVM, string userId, string resId)
         {
-            int restaurantId = encryptionService.DecryptId(resId);
+            int restaurantId = int.Parse(dataProtector.Unprotect(resId));
 
             if (IsCartHasItems(userId))
             {

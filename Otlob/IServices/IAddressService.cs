@@ -9,5 +9,6 @@
         string? UpdateAddress(AddressVM addressVM, string userId, int addressId);
         bool DeleteAddress(int addressId);
         bool IsAddressExist(string userId, AddressVM addressVM);
+        bool IsUserHasAnyAddress(string userId);
     }
 }

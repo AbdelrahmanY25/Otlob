@@ -5,33 +5,36 @@
     {
         private readonly IImageService imageService;
         private readonly IUserServices userServices;
+        private readonly IDataProtector dataProtector;
         private readonly UserManager<ApplicationUser> userManager;
 
         public UserProfileController(IImageService imageService,
-                                               IUserServices userServices,
-                                               UserManager<ApplicationUser> userManager)
+                                     IUserServices userServices,
+                                     UserManager<ApplicationUser> userManager,
+                                     IDataProtectionProvider dataProtectionProvider)
         {
+            this.userManager = userManager;
             this.imageService = imageService;
             this.userServices = userServices;
-            this.userManager = userManager;
+            dataProtector = dataProtectionProvider.CreateProtector("SecureData");
         }
 
-        public IActionResult UserProfile(string userId)
+        public IActionResult UserProfile(string Id)
         {
-            if (string.IsNullOrEmpty(userId))
+            if (Id is null)
             {
                 TempData["Error"] = "User ID session timeout or notfound.";
                 return RedirectToAction("Index", "Home", new { Area = "SuperAdmin" });
             }
 
-            ProfileVM userProfileDetails = userServices.GetUserProfileVmDetails(userId);
+            ProfileVM userProfileDetails = userServices.GetUserProfileVmDetails(dataProtector.Unprotect(Id));
 
             if (userProfileDetails is null)
             {
                 return NotFound("User profile not found.");
             }
 
-            HttpContext.Session.SetString("userId", userId);
+            HttpContext.Session.SetString("userId", Id);
             
             return View(userProfileDetails);
         }
@@ -44,36 +47,18 @@
                 return View(profileVM);
             }
 
-            string? userId = HttpContext.Session.GetString("userId");
+            string? userId = dataProtector.Unprotect(HttpContext.Session.GetString("userId")!);
 
-            if (string.IsNullOrEmpty(userId))
+            if (userId is null)
             {
                 TempData["Error"] = "User ID session timeout or notfound.";
                 return RedirectToAction("Index", "Home", new { Area = "SuperAdmin" });
             }
-
+            
             ApplicationUser user = userServices.UpdateUserProfile(profileVM, userId);
             
             var updateUserInfo = await userManager.UpdateAsync(user);
-
-            if (Request.Form.Files.Count == 0)
-            {
-                TempData["Success"] = "Your profile info updated successfully.";
-                return RedirectToAction("UserProfile", new { userId });
-            }
-
-            string isImageUploaded = await imageService.UploadImage(Request.Form.Files, profileVM);
-
-            if (isImageUploaded is string)
-            {
-                ModelState.AddModelError("", isImageUploaded);
-                return View(profileVM);
-            }
-
-            user.Image = profileVM.Image;
-
-            updateUserInfo = await userManager.UpdateAsync(user);
-
+                                                    
             if (updateUserInfo.Succeeded)
             {
                 TempData["Success"] = "Your profile info updated successfully.";
@@ -86,6 +71,41 @@
             }
 
             return View(profileVM);
+        }
+
+        [HttpPost, ValidateAntiForgeryToken]
+        public IActionResult UserProfilePicture(IFormFile image)
+        {
+            string? userId = dataProtector.Unprotect(HttpContext.Session.GetString("userId")!);
+
+            if (userId is null)
+            {
+                TempData["Error"] = "User ID session timeout or notfound.";
+                return RedirectToAction("Index", "Home", new { Area = "SuperAdmin" });
+            }
+
+            var isImageUploaded = imageService.UploadImage(image!);
+
+            if (!isImageUploaded.IsSuccess)
+            {
+                TempData["Error"] = isImageUploaded.Message!;
+                return RedirectToAction("UserProfile", new { Id = HttpContext.Session.GetString("userId")! });
+            }
+
+            ApplicationUser? user = userManager.FindByIdAsync(userId).GetAwaiter().GetResult();
+            
+            var isOldImageDeleted = imageService.DeleteOldImageIfExist(user!.Image);
+
+            if (!isOldImageDeleted.IsSuccess)
+            {
+                TempData["Error"] = isOldImageDeleted.Message;
+                return RedirectToAction("UserProfile", new { Id = HttpContext.Session.GetString("userId")! });
+            }
+
+            userServices.UpdateUserImage(user!, isImageUploaded.ImageUrl);
+
+            TempData["Success"] = "Your profile picture updated successfully.";
+            return RedirectToAction("UserProfile", new { Id = HttpContext.Session.GetString("userId")! });
         }
     }
 }

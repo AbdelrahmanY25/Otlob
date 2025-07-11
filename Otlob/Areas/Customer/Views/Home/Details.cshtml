@@ -35,15 +35,9 @@
                     else if (item.IsTrendingMeal) 
                     {
                         <span class="meal trend">Treanding</span>
-                    }
-                    @if (item.Image is null)
-                    {
-                        <img src="~/images/Default.jpg" alt="mealLogo">
-                    }
-                    else
-                    {
-                        <img alt="mealLogo" src="data:image/*;base64,@(Convert.ToBase64String(item.Image))" />
-                    }
+                    }                   
+                    
+                    <img alt="mealLogo" src="/images/@(item.Image is not null ? item.Image : "Default.jpg")"/>                    
                 </div>                
                 <div class="text">
                     <h3>@item.Name</h3>
@@ -51,7 +45,10 @@
                     <p>Category: @item.Category</p>
                     <p >Enough To: @item.NumberOfServings</p>
                 </div>
-                <a class="card-button" id="logo" data-count="@count" data-logo="data:image/*;base64,@(Convert.ToBase64String(item.Image))" data-bs-toggle="modal" data-bs-target="#deleteModal" data-categoryid="@item.MealVmId" data-categoryname="@item.Name" data-resturantid="@ViewBag.ResId"><i class="bi bi-plus"></i></a>
+                <a class="card-button" id="logo" data-count="@count" data-logo="/images/@item.Image"
+                   data-bs-toggle="modal" data-bs-target="#deleteModal" data-categoryid="@item.MealVmId"
+                   data-categoryname="@item.Name" data-resturantid="@ViewBag.ResId"><i class="bi bi-plus"></i>
+               </a>
             </div>
             count++;
         }
@@ -62,9 +59,6 @@
     }
     </div>
 </div>
-
-
-<!-- Modal -->
 
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-sm">

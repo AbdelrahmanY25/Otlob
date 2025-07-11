@@ -18,12 +18,11 @@
         void CreateRange(IEnumerable<T> entities);
         void Edit(T entity);
         void IgnoreChanges(T entity, Expression<Func<T, object>> navigationProperty);
+        void ModifyProperty(T entity, Expression<Func<T, object>> property);
         void SoftDelete(Expression<Func<T, bool>> expression);
         void UnSoftDelete(Expression<Func<T, bool>> expression);
         void HardDelete(T entity);
-        TResult? AllowExplicitLoadingByReferenceWithSelect<TProperty, TResult>(T entity,
-                                                           Expression<Func<T, TProperty>> navigationProperty,
-                                                           Expression<Func<TProperty, TResult>> selector,
-                                                           Expression<Func<TProperty, bool>>? expression = null) where TProperty : class;
+        bool IsExist(Expression<Func<T, bool>> expression);
+        IQueryable<KeyValuePair<TKey, int>> EntityWithCountBy<TKey>(Expression<Func<T, TKey>> property);
     }
 }

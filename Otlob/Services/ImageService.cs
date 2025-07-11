@@ -5,69 +5,88 @@
         private const long maxFileSize = 4 * 1024 * 1024;
         private readonly string[] allowedExtentions = { ".png", ".jpg", ".jpeg" };
 
-        private bool IsImageUploaded(IFormFileCollection formFile) => formFile.Count != 0;
+        private UploadImageResult IsImageUploaded(IFormFile image) 
+            => image is null ? new UploadImageResult(false, "There is no Image Uploaded") : new UploadImageResult(true);
               
-        private string? ValidateImageSizeAndExtension(IFormFile image)
+        private UploadImageResult ValidateImageSize(IFormFile image)
+        {            
+            if (image.Length is > 0 and <= maxFileSize)
+            {
+                return new UploadImageResult(true);
+            }
+            
+            return new UploadImageResult(false, "The file size exceeds the 4MB limit."); 
+        }
+
+        private UploadImageResult ValidateImageExtension(IFormFile image)
+        {                        
+            if (allowedExtentions.Contains(Path.GetExtension(image.FileName).ToLower(), StringComparer.InvariantCultureIgnoreCase))
+            {
+                return new UploadImageResult(true);
+            }
+
+            return new UploadImageResult(false, "The file extension is not allowed. Allowed extensions are: " + string.Join(", ", allowedExtentions));
+        }
+
+        private UploadImageResult CreateImage(IFormFile image)
         {
-            if (image is null)
-            {
-                return "Please select an image.";
-            }
+            string theImageExtention = Path.GetExtension(image.FileName);
 
-            if (!(image.Length != 0 && image.Length <= maxFileSize))
-            {
-                return "The file size exceeds the 4MB limit.";
+            string newImageName = $"{Guid.NewGuid()}{theImageExtention}";
 
-            }
+            string imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", newImageName);
 
-            if (!(allowedExtentions.Contains(Path.GetExtension(image.FileName).ToLowerInvariant())))
-            {
-                return "Invalid file type. Only .jpg, .jpeg, and .png are allowed.";
-            }
+            using var fileStream = new FileStream(imagePath, FileMode.Create);
+            image.CopyTo(fileStream);
 
-            return null; 
+            return new UploadImageResult(true, imageUrl: newImageName);
         }
 
-        private async Task<bool> CopyImageToMemoryStream(IFormFile image, ImageUrl imageUrl)
-        {            
-            using var memoryStream = new MemoryStream();
-            await image.CopyToAsync(memoryStream);
-
-            if (imageUrl is null)
+        public UploadImageResult DeleteOldImageIfExist(string? oldImage)
+        {
+            if (oldImage.IsNullOrEmpty())
             {
-                return false;
+                return new UploadImageResult(false, "The image is Null");
             }
 
-            imageUrl.Image = memoryStream.ToArray();           
-            return true;
+            string imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", oldImage!);
+
+            if (File.Exists(imagePath))
+            {
+                File.Delete(imagePath);
+                return new UploadImageResult(true, "Old image deleted successfully.");
+            }
+
+            return new UploadImageResult(false, "The old image does not exist.");
         }
 
-        public async Task<string>? UploadImage(IFormFileCollection formFile, ImageUrl? imageUrl)
-        {            
-            if(!IsImageUploaded(formFile))
+
+        public UploadImageResult UploadImage(IFormFile image)
+        {        
+            var isImageUploaded = IsImageUploaded(image);
+
+            if (!isImageUploaded.IsSuccess)
             {
-                return "There is no Image Uploaded";
+                return isImageUploaded;
             }
 
-            var image = formFile.FirstOrDefault();
-            var resOfValidation = ValidateImageSizeAndExtension(image);
+            var isValidateImageSize = ValidateImageSize(image);
 
-            if (resOfValidation is string)
+            if (!isValidateImageSize.IsSuccess)
             {
-                return resOfValidation;
-            }
-           
-            if (imageUrl is null)
-            {
-                return "Error in uploading image";
+                return isValidateImageSize;
             }
 
-            if (!await CopyImageToMemoryStream(image, imageUrl: imageUrl))
-            {
-                return "Error in uploading image";
-            }
+            var isValidateImageExtention = ValidateImageExtension(image);
 
-            return null;
+            if (!isValidateImageExtention.IsSuccess)
+            {
+                return isValidateImageExtention;
+            }
+            
+            var uploadImageResult = CreateImage(image);
+
+            return uploadImageResult;
         }        
     }
 }

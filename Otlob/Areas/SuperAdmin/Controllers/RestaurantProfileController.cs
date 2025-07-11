@@ -3,36 +3,49 @@
     [Area("SuperAdmin"), Authorize(Roles = SD.superAdminRole)]
     public class RestaurantProfileController : Controller
     {
+        private readonly IImageService imageService;
+        private readonly IDataProtector dataProtector;
         private readonly IRestaurantService restaurantService;
-        private readonly IEncryptionService encryptionService;
 
-        public RestaurantProfileController(IRestaurantService restaurantService, IEncryptionService encryptionService)
+        public RestaurantProfileController(IImageService imageService,
+                                           IRestaurantService restaurantService,
+                                           IDataProtectionProvider dataProtectionProvider)
         {
+            this.imageService = imageService;
             this.restaurantService = restaurantService;
-            this.encryptionService = encryptionService;
+            dataProtector = dataProtectionProvider.CreateProtector("SecureData");
         }
+
         public IActionResult EditRestaurantProfile(string id)
         {
-            int restaurantId = encryptionService.DecryptId(id);
+            int restaurantId = int.Parse(dataProtector.Unprotect(id));
 
-            RestaurantVM resturantVM = restaurantService.GetRestaurantDetailsById(restaurantId);
+            RestaurantVM resturantVM = restaurantService.GetRestaurantVMDetailsById(restaurantId);
 
-            HttpContext.Session.SetString("restaurantId", encryptionService.EncryptId(restaurantId));
+            HttpContext.Session.SetString("restaurantId", dataProtector.Protect(restaurantId.ToString()));
 
             return View(resturantVM);
         }
 
         [HttpPost, ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditRestaurantProfile(RestaurantVM restaurantVM)
+        public IActionResult EditRestaurantProfile(RestaurantVM restaurantVM)
         {
-            int restaruantId = encryptionService.DecryptId(HttpContext.Session.GetString("restaurantId"));
-
             if (!ModelState.IsValid)
             {
                 return View(restaurantVM);
             }
 
-            string? isDataUpdated = await restaurantService.EditRestaurantProfileInfo(restaurantVM, restaruantId, Request.Form.Files, ValidateData: false);
+            string restaruantIdFromSession = dataProtector.Unprotect(HttpContext.Session.GetString("restaurantId")!);
+
+            if (restaruantIdFromSession is null)
+            {
+                TempData["Error"] = "User ID session timeout or notfound.";
+                return RedirectToAction("Index", "Home", new { Area = "SuperAdmin" });
+            }
+
+            int restaruantId = int.Parse(restaruantIdFromSession);
+
+            string? isDataUpdated = restaurantService.EditRestaurantProfileInfo(restaurantVM, restaruantId, ValidateData: false)!;
 
             if (isDataUpdated is string)
             {
@@ -40,9 +53,47 @@
                 return View(restaurantVM);
             }
 
-            TempData["Success"] = "The resturant info updated Successfully";
+            TempData["Success"] = "The resturant profile info updated Successfully";
 
-            return Redirect($"/SuperAdmin/Restaurants/ResturantDetails/{encryptionService.EncryptId(restaruantId)}");
+            return RedirectToAction("EditRestaurantProfile", new {id = dataProtector.Protect(restaruantId.ToString()) });
+        }
+
+        [HttpPost, ValidateAntiForgeryToken]
+        public IActionResult EditRestaurantProfilePicture(IFormFile image)
+        {
+            string restaruantIdFromSession = dataProtector.Unprotect(HttpContext.Session.GetString("restaurantId")!);
+
+            if (restaruantIdFromSession is null)
+            {
+                TempData["Error"] = "User ID session timeout or notfound.";
+                return RedirectToAction("Index", "Home", new { Area = "SuperAdmin" });
+            }
+
+            int restaruantId = int.Parse(restaruantIdFromSession);
+
+            var isImageUploaded = imageService.UploadImage(image!);
+
+            if (!isImageUploaded.IsSuccess)
+            {
+                TempData["Error"] = isImageUploaded.Message;
+                return RedirectToAction("EditRestaurantProfile", new { id = dataProtector.Protect(restaruantId.ToString()) });
+            }
+
+            Restaurant restaurant = restaurantService.GetRestaurantImageById(restaruantId);
+
+            var isOldImageDeleted = imageService.DeleteOldImageIfExist(restaurant.Image);
+
+            if (!isOldImageDeleted.IsSuccess)
+            {
+                TempData["Error"] = isOldImageDeleted.Message;
+                return RedirectToAction("EditRestaurantProfile", new { id = dataProtector.Protect(restaruantId.ToString()) });
+            }
+
+            restaurantService.UpdateRestaurantImage(restaurant, isImageUploaded.ImageUrl);
+
+            TempData["Success"] = "The resturant profile picture updated Successfully";
+
+            return RedirectToAction("EditRestaurantProfile", new { id = dataProtector.Protect(restaruantId.ToString()) });
         }
     }
 }

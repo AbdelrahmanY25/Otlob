@@ -3,16 +3,12 @@
     var orderStatusPercentages = ViewBag.OrderStatusPercentages as Dictionary<string, decimal>;
 }
 
-
-<style>
-    .ordersData .orders.usersStatus::before {        
-        width: calc(@ViewBag.UnActiveUsers% - 75px);        
-    }
-
-    .ordersData .orders.usersStatus::after {
-        width: calc(@ViewBag.ActiveUsers% - 75px);
-    }
-</style>
+<div class="ordersData">
+    <div class="card p-4 shadow-sm">
+        <h5 class="text-center">Order Status Overview</h5>
+        <canvas id="orderStatusChart" style="max-height: 400px;"></canvas>
+    </div>
+</div> 
 
 <div class="ordersData">
     <div class="flex orders users">
@@ -22,135 +18,75 @@
             <a asp-controller="Users" asp-action="Partners">Partners: @ViewBag.Partners</a>
        </div>
     </div>
-
-    <div class="row justify-content-start">
-        @foreach (var item in orderStatusPercentages)
-        {
-            <div class="col-md-4 mb-4">
-                <div class="card-body">
-                    <canvas id="@item.Key.ToLower()Chart" style="max-height: 250px;"></canvas>
-                    <h6 class="card-title text-center mt-2">@item.Key Orders</h6>
-                </div>
-            </div>
-        }
-    </div>
-
-</div> 
-
-<div class="ordersData">
-    <div class="orders fund">
-        <form method="post" asp-action="Index" >
-            <input type="date" name="ordersDate"/>
-            <input type="submit" />
-        </form>
-        <div class="fd">
-            <div class="dd nOfOrders">
-                <span class="ico"></span>
-                <span>@ViewBag.TotalOrders</span>
-            </div>
-            <div class="dd sales">
-                <span class="ico"></span>
-                <span>@ViewBag.Sales L.E</span>
-            </div>
-            <div class="dd netProfit">
-                <span class="ico"></span>
-                <span>@ViewBag.NetProfit L.E</span>
-            </div>
-        </div>
-    </div>    
-</div>
-
-<div class="ordersData text-center">    
-    <div class="orders usersStatus">
-        <div class="ud active">
-            @ViewBag.ActiveUsers%
-            <span>Active Users</span>
-        </div>
-        <div class="ud unactive">
-            @ViewBag.UnActiveUsers%
-            <span>Offline Users</span>
-        </div>       
-    </div>
 </div>
 
 @section Scripts {
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>  
 
     <script>
-        const statusColors = {
-            pending: '#f1c40f',  
-            preparing: '#3498db',
-            shipped: '#e74c3c',  
-            delivered: '#2ecc71' 
-        };
-
-        // Razor ViewBag data
-        const orderStatusPercentages = {
-            @foreach (var item in orderStatusPercentages)
+        const orderStatusData = {
+            @foreach (var item in orderStatusPercentages!)
             {
-                <text>"@item.Key.ToLower()": @item.Value,</text>
+                <text>"@item.Key": @item.Value,</text>
             }
         };
 
-        // Status -> URL mapping
-        const statusUrls = {
-            pending: '@Url.Action("Index", "OrdersStatus", new { status = OrderStatus.Pending })',
-            preparing: '@Url.Action("Index", "OrdersStatus", new { status = OrderStatus.Preparing })',
-            shipped: '@Url.Action("Index", "OrdersStatus", new { status = OrderStatus.Shipped })',
-            delivered: '@Url.Action("Index", "OrdersStatus", new { status = OrderStatus.Delivered })'
+        const statusColors = {
+            Pending: '#f1c40f',
+            Preparing: '#3498db',
+            Shipped: '#e74c3c',
+            Delivered: '#2ecc71'
         };
 
-        // Loop and render each chart
-        Object.keys(orderStatusPercentages).forEach(status => {
-            const percent = orderStatusPercentages[status];
-            const color = statusColors[status];
-            const canvasId = `${status}Chart`;
-            const ctx = document.getElementById(canvasId).getContext('2d');
+        const labels = Object.keys(orderStatusData);
+        const values = Object.values(orderStatusData);
+        const backgroundColors = labels.map(label => statusColors[label]);
 
-            const chart = new Chart(ctx, {
-                type: 'doughnut',
-                data: {
-                    labels: ['Progress', 'Remaining'],
-                    datasets: [{
-                        data: [percent, 100 - percent],
-                        backgroundColor: [color, '#eee'],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    cutout: '50%',
-                    plugins: {
-                        legend: { display: false },
-                        tooltip: {
-                            callbacks: {
-                                label: function (context) {
-                                    return `${context.label}: ${context.parsed}%`;
-                                }
-                            }
-                        },
-                        datalabels: {
-                            display: true,
-                            color: '#fff',
-                            font: {
-                                weight: 'bold',
-                                size: 16
-                            },
-                            formatter: function (value, context) {
-                                return context.dataIndex === 0 ? `${value}%` : '';
-                            }
+                const ctx = document.getElementById("orderStatusChart").getContext("2d");
+
+        new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: labels,
+                datasets: [{
+                    data: values,
+                    backgroundColor: backgroundColors,
+                    borderColor: '#ffffff',
+                    borderWidth: 0,
+                    hoverOffset: 5,
+                    spacing: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                cutout: '65%',
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top',
+                        labels: {
+                            usePointStyle: true,
+                            boxWidth: 15,
+                            padding: 20
                         }
                     },
-                    onClick: () => {
-                        const targetUrl = statusUrls[status];
-                        if (targetUrl) {
-                            window.location.href = targetUrl;
+                    tooltip: {
+                        callbacks: {
+                            label: function (context) {
+                                return `${context.label}: ${context.parsed}%`;
+                            }
                         }
                     }
                 },
-                plugins: [ChartDataLabels]
-            });
+
+                onClick: (event, elements) => {
+                    if (elements.length > 0) {
+                        const index = elements[0].index;
+                        const status = labels[index];
+                        window.location.href = `SuperAdmin/OrdersStatus/Index?status=${status}`;
+                    }
+                }
+            }
         });
     </script>
 

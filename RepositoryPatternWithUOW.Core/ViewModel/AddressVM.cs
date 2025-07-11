@@ -2,20 +2,19 @@
 {
     public class AddressVM
     {
-        [ValidateNever]
-        public int AddressVMId { get; set; }
+        public string? Key { get; set; }
 
-        [Required, MinLength(10), MaxLength(100)]
-        public string CustomerAddres { get; set; }
+        [Length(10, 100), RegularExpression(@"^[a-zA-Z].*", ErrorMessage = "Address must start with a letter")]
+        public string CustomerAddress { get; set; } = null!;
 
         public Address MapToAddress(string userId, int addresId = 0)
         {
             Address address;
 
             if (addresId == 0)
-                return address = new Address { ApplicationUserId = userId, CustomerAddres = this.CustomerAddres };
+                return address = new Address { ApplicationUserId = userId, CustomerAddres = this.CustomerAddress! };
 
-            return new Address { Id = addresId, CustomerAddres = this.CustomerAddres, ApplicationUserId = userId };
+            return new Address { Id = addresId, CustomerAddres = this.CustomerAddress!, ApplicationUserId = userId };
         } 
     }
 }

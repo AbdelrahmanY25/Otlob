@@ -10,5 +10,6 @@
         ApplicationUser? GetUserDataToPartialview(string userId);
         int GetUserRestaurantId(string userId);
         string? GetUserIdByRestaurantId(int restaurantId);
+        void UpdateUserImage(ApplicationUser user, string image);
     }
 }

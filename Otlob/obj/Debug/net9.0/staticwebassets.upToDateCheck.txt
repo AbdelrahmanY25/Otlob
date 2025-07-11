@@ -1,0 +1,190 @@
+D:\My_Projects\Talabat Project\Otlob\Otlob\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.min.css.map
+D:\My_Projects\Talabat Project\Otlob\Otlob\wwwroot\lib\bootstrap\dist\css\bootstrap.rtl.min.css
+D:\My_Projects\Talabat Project\Otlob\Otlob\wwwroot\lib\bootstrap\dist\css\bootstrap.min.css
+D:\My_Projects\Talabat Project\Otlob\Otlob\wwwroot\lib\bootstrap\dist\css\bootstrap.rtl.css.map
+D:\My_Projects\Talabat Project\Otlob\Otlob\wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.js
+D:\My_Projects\Talabat Project\Otlob\Otlob\wwwroot\lib\bootstrap\dist\css\bootstrap.rtl.min.css.map
+D:\My_Projects\Talabat Project\Otlob\Otlob\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css.map
+D:\My_Projects\Talabat Project\Otlob\Otlob\wwwroot\js\dashbooard.js
+D:\My_Projects\Talabat Project\Otlob\Otlob\wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js
+D:\My_Projects\Talabat Project\Otlob\Otlob\wwwroot\lib\jquery-validation\dist\jquery.validate.js
+D:\My_Projects\Talabat Project\Otlob\Otlob\wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.js.map
+D:\My_Projects\Talabat Project\Otlob\Otlob\wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js.map
+D:\My_Projects\Talabat Project\Otlob\Otlob\wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.rtl.css
+D:\My_Projects\Talabat Project\Otlob\Otlob\wwwroot\lib\jquery\LICENSE.txt
+D:\My_Projects\Talabat Project\Otlob\Otlob\wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.rtl.min.css.map
+D:\My_Projects\Talabat Project\Otlob\Otlob\wwwroot\css\site.css
+D:\My_Projects\Talabat Project\Otlob\Otlob\wwwroot\css\profileAccount.css
+D:\My_Projects\Talabat Project\Otlob\Otlob\wwwroot\lib\bootstrap\dist\css\bootstrap.css.map
+D:\My_Projects\Talabat Project\Otlob\Otlob\wwwroot\lib\jquery-validation\dist\jquery.validate.min.js
+D:\My_Projects\Talabat Project\Otlob\Otlob\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css
+D:\My_Projects\Talabat Project\Otlob\Otlob\wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.css
+D:\My_Projects\Talabat Project\Otlob\Otlob\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.rtl.css
+D:\My_Projects\Talabat Project\Otlob\Otlob\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.min.css
+D:\My_Projects\Talabat Project\Otlob\Otlob\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.rtl.min.css
+D:\My_Projects\Talabat Project\Otlob\Otlob\wwwroot\lib\jquery-validation\LICENSE.md
+D:\My_Projects\Talabat Project\Otlob\Otlob\wwwroot\css\dashboard.css
+D:\My_Projects\Talabat Project\Otlob\Otlob\wwwroot\lib\bootstrap\dist\js\bootstrap.esm.js.map
+D:\My_Projects\Talabat Project\Otlob\Otlob\wwwroot\lib\jquery-validation\dist\additional-methods.min.js
+D:\My_Projects\Talabat Project\Otlob\Otlob\wwwroot\lib\bootstrap\dist\js\bootstrap.esm.min.js.map
+D:\My_Projects\Talabat Project\Otlob\Otlob\wwwroot\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.min.js
+D:\My_Projects\Talabat Project\Otlob\Otlob\wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.rtl.css.map
+D:\My_Projects\Talabat Project\Otlob\Otlob\wwwroot\favicon.ico
+D:\My_Projects\Talabat Project\Otlob\Otlob\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.rtl.css.map
+D:\My_Projects\Talabat Project\Otlob\Otlob\wwwroot\lib\bootstrap\dist\js\bootstrap.js.map
+D:\My_Projects\Talabat Project\Otlob\Otlob\wwwroot\lib\bootstrap\dist\js\bootstrap.js
+D:\My_Projects\Talabat Project\Otlob\Otlob\wwwroot\lib\bootstrap\dist\css\bootstrap.css
+D:\My_Projects\Talabat Project\Otlob\Otlob\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.rtl.min.css.map
+D:\My_Projects\Talabat Project\Otlob\Otlob\wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.min.css
+D:\My_Projects\Talabat Project\Otlob\Otlob\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.rtl.css.map
+D:\My_Projects\Talabat Project\Otlob\Otlob\wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.css.map
+D:\My_Projects\Talabat Project\Otlob\Otlob\wwwroot\lib\bootstrap\dist\js\bootstrap.esm.js
+D:\My_Projects\Talabat Project\Otlob\Otlob\wwwroot\lib\bootstrap\dist\css\bootstrap.min.css.map
+D:\My_Projects\Talabat Project\Otlob\Otlob\wwwroot\lib\bootstrap\dist\js\bootstrap.esm.min.js
+D:\My_Projects\Talabat Project\Otlob\Otlob\wwwroot\lib\bootstrap\dist\css\bootstrap.rtl.css
+D:\My_Projects\Talabat Project\Otlob\Otlob\wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.rtl.min.css
+D:\My_Projects\Talabat Project\Otlob\Otlob\wwwroot\lib\jquery\dist\jquery.min.js
+D:\My_Projects\Talabat Project\Otlob\Otlob\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.rtl.css
+D:\My_Projects\Talabat Project\Otlob\Otlob\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css
+D:\My_Projects\Talabat Project\Otlob\Otlob\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.css.map
+D:\My_Projects\Talabat Project\Otlob\Otlob\wwwroot\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.js
+D:\My_Projects\Talabat Project\Otlob\Otlob\wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.min.css.map
+D:\My_Projects\Talabat Project\Otlob\Otlob\wwwroot\lib\jquery-validation\dist\additional-methods.js
+D:\My_Projects\Talabat Project\Otlob\Otlob\wwwroot\lib\bootstrap\dist\js\bootstrap.min.js
+D:\My_Projects\Talabat Project\Otlob\Otlob\wwwroot\lib\jquery-validation-unobtrusive\LICENSE.txt
+D:\My_Projects\Talabat Project\Otlob\Otlob\wwwroot\lib\bootstrap\dist\js\bootstrap.min.js.map
+D:\My_Projects\Talabat Project\Otlob\Otlob\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.rtl.min.css
+D:\My_Projects\Talabat Project\Otlob\Otlob\wwwroot\js\site.js
+D:\My_Projects\Talabat Project\Otlob\Otlob\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.rtl.min.css.map
+D:\My_Projects\Talabat Project\Otlob\Otlob\wwwroot\lib\jquery\dist\jquery.js
+D:\My_Projects\Talabat Project\Otlob\Otlob\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css.map
+D:\My_Projects\Talabat Project\Otlob\Otlob\wwwroot\css\form.css
+D:\My_Projects\Talabat Project\Otlob\Otlob\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.css
+D:\My_Projects\Talabat Project\Otlob\Otlob\wwwroot\lib\jquery\dist\jquery.min.map
+wwwroot\css\dashboard.css
+wwwroot\css\form.css
+wwwroot\css\profileAccount.css
+wwwroot\css\site.css
+wwwroot\favicon.ico
+wwwroot\images\0d09a4ba-1cd6-417b-ba54-10213926b227.png
+wwwroot\images\13548e2a-c35f-4296-8a32-ce43e9811ae5.png
+wwwroot\images\140ddc72-6dc8-4ddc-85c3-30114422f3c8.png
+wwwroot\images\1b117ed1-e6e6-41e7-a3c7-da26d3d70bb8.jpg
+wwwroot\images\1c04eb3e-d6c5-45e2-9e95-c5066708f074.jpg
+wwwroot\images\23dd303d-f83a-468f-ba33-715180931fdd.jpg
+wwwroot\images\269d7c44-1ae4-47ba-b380-a7fc78f2f05c.jpg
+wwwroot\images\28bb3de5-95fe-4501-a641-8d746276a252.jpg
+wwwroot\images\2b811ab6-6544-4ef4-b6fb-79a726e43354.jpg
+wwwroot\images\2bef9556-6483-470f-81b2-a56ea60505db.jpg
+wwwroot\images\3a9d3996-bb61-4a33-8bc3-b70526d7e305.png
+wwwroot\images\3c97da49-8eda-4cc1-813a-93d4ba1e4c75.jpg
+wwwroot\images\47077b6d-be5d-410e-8bc1-f21fae43494a.JPG
+wwwroot\images\4f461df5-b7e7-44c6-8a5c-cf4127acc4a6.jpg
+wwwroot\images\52539c86-3e56-4ca5-9d77-3473f92f9d8a.jpg
+wwwroot\images\5c8bac49-7ae1-4d77-81ac-4b1825df2553.png
+wwwroot\images\5c9116a2-dbc9-444c-858a-f4c6f0969428.jpg
+wwwroot\images\653e0456-5d3c-438e-9217-26c07ee38607.JPG
+wwwroot\images\66cb71df-72c1-4484-ba22-5303fe401da0.jpeg
+wwwroot\images\6d93391b-13b5-498c-a27f-734fc5447439.png
+wwwroot\images\76a5cfc6-e851-4223-98da-6289cbfb1683.jpg
+wwwroot\images\8326e724-6bb6-4beb-a3cf-aee13945ad67.jpg
+wwwroot\images\88b7e2a7-5a5f-4dc9-b472-648e2a582508.jpg
+wwwroot\images\9f48638a-2483-4678-839a-f336fb3beaf5.jpg
+wwwroot\images\acbb14d7-15d6-4ae0-a7b0-af84f94dce0f.png
+wwwroot\images\b1aa9248-eaad-4144-bacd-2b6db719a794.jpg
+wwwroot\images\b3ea3da7-6666-478a-abad-858805737ea6.jpg
+wwwroot\images\b81d25a3-2ba1-4b7f-aba2-c26bcc62f95c.jpg
+wwwroot\images\b8b1afda-69a8-4c71-9177-012d3e02e432.jpg
+wwwroot\images\b934e6a4-ecd5-4cd0-a91d-6172ba35ed47.jpg
+wwwroot\images\c89a581c-b447-4bd0-9610-92292a37d445.jpg
+wwwroot\images\creditIcon.png
+wwwroot\images\Default.jpg
+wwwroot\images\e65c03f4-4985-4874-96bb-1e7eac48413b.png
+wwwroot\images\e8713e14-ffac-4dbb-93dd-d52f31e091d7.jpg
+wwwroot\images\eddbdc0a-e090-4ea9-a470-415d0d3c9e50.jpg
+wwwroot\images\efb83ac0-5c3f-4505-99d3-3e0328f0301e.jpg
+wwwroot\images\f5cc4876-de57-4b80-aba6-d9a1077058d0.png
+wwwroot\images\f6ad9d88-e4e4-40c6-9a3d-8545c67707df.jpg
+wwwroot\images\fc84de7f-eb05-4469-bfa4-5b82e060466f.png
+wwwroot\images\icons\all - Copy.png
+wwwroot\images\icons\all.png
+wwwroot\images\icons\burger.png
+wwwroot\images\icons\cookies.png
+wwwroot\images\icons\css_sprites.png
+wwwroot\images\icons\grill.jpg
+wwwroot\images\icons\IMG-20241218-WA0004.jpg
+wwwroot\images\icons\IMG-20241218-WA0007.jpg
+wwwroot\images\icons\Koshary.jpg
+wwwroot\images\icons\pizza.png
+wwwroot\images\icons\sandwich.png
+wwwroot\images\icons\shawrma.png
+wwwroot\images\landing\add4.png
+wwwroot\images\landing\ai-generated-8276129.jpg
+wwwroot\images\landing\food.jpg
+wwwroot\images\landing\food2.png
+wwwroot\images\landing\food3.png
+wwwroot\images\landing\pexels-brettjordan-825661.jpg
+wwwroot\images\landing\pexels-chanwalrus-958545.jpg
+wwwroot\images\landing\pexels-muffin-1653877.jpg
+wwwroot\images\landing\pexels-norma-mortenson-4393668.jpg
+wwwroot\images\landing\pexels-pixabay-280453.jpg
+wwwroot\images\OtlobLogo.jpg
+wwwroot\js\dashbooard.js
+wwwroot\js\site.js
+wwwroot\lib\bootstrap\dist\css\bootstrap.css
+wwwroot\lib\bootstrap\dist\css\bootstrap.css.map
+wwwroot\lib\bootstrap\dist\css\bootstrap.min.css
+wwwroot\lib\bootstrap\dist\css\bootstrap.min.css.map
+wwwroot\lib\bootstrap\dist\css\bootstrap.rtl.css
+wwwroot\lib\bootstrap\dist\css\bootstrap.rtl.css.map
+wwwroot\lib\bootstrap\dist\css\bootstrap.rtl.min.css
+wwwroot\lib\bootstrap\dist\css\bootstrap.rtl.min.css.map
+wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css
+wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css.map
+wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css
+wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css.map
+wwwroot\lib\bootstrap\dist\css\bootstrap-grid.rtl.css
+wwwroot\lib\bootstrap\dist\css\bootstrap-grid.rtl.css.map
+wwwroot\lib\bootstrap\dist\css\bootstrap-grid.rtl.min.css
+wwwroot\lib\bootstrap\dist\css\bootstrap-grid.rtl.min.css.map
+wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.css
+wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.css.map
+wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.min.css
+wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.min.css.map
+wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.rtl.css
+wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.rtl.css.map
+wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.rtl.min.css
+wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.rtl.min.css.map
+wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.css
+wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.css.map
+wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.min.css
+wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.min.css.map
+wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.rtl.css
+wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.rtl.css.map
+wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.rtl.min.css
+wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.rtl.min.css.map
+wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.js
+wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.js.map
+wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js
+wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js.map
+wwwroot\lib\bootstrap\dist\js\bootstrap.esm.js
+wwwroot\lib\bootstrap\dist\js\bootstrap.esm.js.map
+wwwroot\lib\bootstrap\dist\js\bootstrap.esm.min.js
+wwwroot\lib\bootstrap\dist\js\bootstrap.esm.min.js.map
+wwwroot\lib\bootstrap\dist\js\bootstrap.js
+wwwroot\lib\bootstrap\dist\js\bootstrap.js.map
+wwwroot\lib\bootstrap\dist\js\bootstrap.min.js
+wwwroot\lib\bootstrap\dist\js\bootstrap.min.js.map
+wwwroot\lib\bootstrap\LICENSE
+wwwroot\lib\jquery\dist\jquery.js
+wwwroot\lib\jquery\dist\jquery.min.js
+wwwroot\lib\jquery\dist\jquery.min.map
+wwwroot\lib\jquery\LICENSE.txt
+wwwroot\lib\jquery-validation\dist\additional-methods.js
+wwwroot\lib\jquery-validation\dist\additional-methods.min.js
+wwwroot\lib\jquery-validation\dist\jquery.validate.js
+wwwroot\lib\jquery-validation\dist\jquery.validate.min.js
+wwwroot\lib\jquery-validation\LICENSE.md
+wwwroot\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.js
+wwwroot\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.min.js
+wwwroot\lib\jquery-validation-unobtrusive\LICENSE.txt

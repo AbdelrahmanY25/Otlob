@@ -7,3 +7,4 @@ global using Otlob.EF.IBaseRepository;
 global using Otlob.EF.BaseRepository;
 global using System.Linq.Expressions;
 global using Otlob.Core.Models;
+global using System.Linq;

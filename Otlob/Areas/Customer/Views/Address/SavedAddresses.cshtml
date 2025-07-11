@@ -1,13 +1,6 @@
 ﻿@model IQueryable<AddressVM>
 
-@inject IEncryptionService IdEncryptor
-
-@section Notify {
-    <partial name="_NotificationPartial"></partial>
-}
-
 <a class="btn btn-primary mybtn" asp-action="AddAddress">Create New</a>
-
 
 <table class="table">
     <thead>
@@ -23,21 +16,19 @@
     <tbody>
     @foreach (var item in Model) 
     {
-        var encryptedId = IdEncryptor.EncryptId(item.AddressVMId);
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.CustomerAddres)
+                @Html.DisplayFor(modelItem => item.CustomerAddress)
             </td>
             <td>
-                <a class="btn btn-success" asp-action="UpdateAddress" asp-route-id="@encryptedId">Update Address</a>
-                <a class="btn btn-danger" asp-action="DeleteAddress" data-bs-toggle="modal" data-bs-target="#deleteModal" data-categoryid="@encryptedId">Delete Address</a>
+                <a class="btn btn-success" asp-action="UpdateAddress" asp-route-id="@item.Key">Update Address</a>
+                <a class="btn btn-danger" asp-action="DeleteAddress" data-bs-toggle="modal" data-bs-target="#deleteModal" data-categoryid="@item.Key">Delete Address</a>
             </td>
         </tr>
     }
     </tbody>
 </table>
 
-<!-- Modal -->
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -59,12 +50,15 @@
     </div>
 </div>
 
-<script>
-    var deleteModal = document.getElementById('deleteModal');
-    deleteModal.addEventListener('show.bs.modal', function (event) {
-        var button = event.relatedTarget;
-        var categoryId = button.getAttribute('data-categoryid');
-        var input = document.getElementById('categoryIdInput');
-        input.value = categoryId;
-    });
-</script>
+@section Scripts {
+    <partial name="_NotificationPartial"></partial>
+    <script>
+        var deleteModal = document.getElementById('deleteModal');
+        deleteModal.addEventListener('show.bs.modal', function (event) {
+            var button = event.relatedTarget;
+            var categoryId = button.getAttribute('data-categoryid');
+            var input = document.getElementById('categoryIdInput');
+            input.value = categoryId;
+        });
+    </script>
+}

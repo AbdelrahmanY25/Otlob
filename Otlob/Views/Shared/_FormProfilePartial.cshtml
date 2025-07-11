@@ -1,24 +1,22 @@
 ﻿@model ProfileVM
 
-<form asp-action="UserProfile" enctype="multipart/form-data">
+<form asp-action="UserProfilePicture" enctype="multipart/form-data">
     <div class="pic">
         <i class="edit-icon" onclick="triggerFileInput()" title="Edit Profile Picture">&#9998;</i>
-        @if (Model.Image is not null)
-        {
-            <img id="profilePicture" alt="Profile" src="data:image/*;base64,@(Convert.ToBase64String(Model.Image))" />
-        }
-        else
-        {
-            <img id="profilePicture" alt="Profile" src="~/images/Default.jpg" />
-        }
+        <img id="profilePicture" alt="Profile" src="/images/@(Model.Image is not null ? Model.Image : "Default.jpg")" />
         <input class="hidden-file-input"
                id="fileInput"
                type="file"
                accept="image/*"
                asp-for="Image"
+               name="image"
                onchange="document.getElementById('profilePicture').src = window.URL.createObjectURL(this.files[0]);" />
     </div>
 
+    <button type="submit">Update</button>
+</form>
+
+<form asp-action="UserProfile">    
     <div asp-validation-summary="All" class="text-danger mb-5"></div>
     <div class="field">
         <label asp-for="Email"></label>
@@ -26,22 +24,22 @@
     </div>
 
     <div class="field">
-        <label asp-for="FirstName"></label>
+        <label asp-for="FirstName">First Name</label>
         <input asp-for="FirstName" value="@Model.FirstName" />
     </div>
 
     <div class="field">
-        <label asp-for="LastName"></label>
+        <label asp-for="LastName">Last Name</label>
         <input asp-for="LastName" value="@Model.LastName" />
     </div>
 
     <div class="field">
-        <label asp-for="PhoneNumber"></label>
+        <label asp-for="PhoneNumber">Phone Number</label>
         <input asp-for="PhoneNumber" value="@Model.PhoneNumber" />
     </div>
 
     <div class="field">
-        <label asp-for="BirthDate"></label>
+        <label asp-for="BirthDate">Date of Birth</label>
         <input type="date" asp-for="BirthDate" value="@(Model.BirthDate.HasValue ? Model.BirthDate.Value.ToString("yyyy-MM-dd") : null)" />
     </div>
 

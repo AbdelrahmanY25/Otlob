@@ -18,7 +18,7 @@
         {
             string? currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            var users = userServices.GetAllUsers(u => u.Id != currentUserId);
+            var users = userServices.GetAllUsers(u => u.Id != currentUserId)!;
 
             PaginationVM<ApplicationUser> viewModel = paginationService.PaginateItems(users, pageSize, currentPageNumber);
 
@@ -29,7 +29,7 @@
         {
             string? currentUserId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
 
-            var customers = userServices.GetAllUsers(u => u.RestaurantId == 0 && u.Id != currentUserId);
+            var customers = userServices.GetAllUsers(u => u.RestaurantId == 0 && u.Id != currentUserId)!;
 
             PaginationVM<ApplicationUser> viewModel = paginationService.PaginateItems(customers, pageSize, currentPageNumber);
 
@@ -38,7 +38,7 @@
 
         public IActionResult Partners(int currentPageNumber = 1)
         {
-            var partners = userServices.GetAllUsers(u => u.RestaurantId != 0);
+            var partners = userServices.GetAllUsers(u => u.RestaurantId != 0)!;
 
             PaginationVM<ApplicationUser> viewModel = paginationService.PaginateItems(partners, pageSize, currentPageNumber);
 

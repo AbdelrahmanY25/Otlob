@@ -70,7 +70,7 @@
                                     tracked: false
                                 );
 
-            return orderedMeals;
+            return orderedMeals!;
         }
 
         public IEnumerable<OrderedMeals> GetOrderedMealsDetails(int cartId)
@@ -89,7 +89,7 @@
                                     tracked: false
                                 );
 
-            return orderedMeals.ToList();
+            return orderedMeals!.ToList();
         }
 
         public bool AddQuantityToOrderedMeals(OrderedMeals orderedMeal, OrderedMealsVM orderedMealsVM)
@@ -136,7 +136,7 @@
         {
             int orderedMealId = encryptionService.DecryptId(id);
 
-            OrderedMeals selectedOrderMeal = GetOrderedMealById(orderedMealId);
+            OrderedMeals selectedOrderMeal = GetOrderedMealById(orderedMealId)!;
 
             unitOfWorkRepository.OrderedMeals.HardDelete(selectedOrderMeal);
             unitOfWorkRepository.SaveChanges();
@@ -145,7 +145,7 @@
         }
 
         public bool ThereIsAnyMealsInCart(OrderedMeals selectedOrderMeal) =>
-            unitOfWorkRepository.OrderedMeals.Get(expression: c => c.CartId == selectedOrderMeal.CartId, tracked: false).Any();
+            unitOfWorkRepository.OrderedMeals.IsExist(expression: c => c.CartId == selectedOrderMeal.CartId);
 
         public bool CheckWhenUserAddAnotherMeal(OrderedMealsVM orderedMealsVM, Cart usercart)
         {
@@ -165,7 +165,7 @@
 
         public decimal CalculateTotalMealsPrice(int cartId)
         {
-            decimal totalMealsPrice = unitOfWorkRepository.OrderedMeals.Get(expression: o => o.CartId == cartId, tracked: false)
+            decimal totalMealsPrice = unitOfWorkRepository.OrderedMeals.Get(expression: o => o.CartId == cartId, tracked: false)!
             .Sum(o => (o.Meal.Price * o.Quantity));
 
             return totalMealsPrice;

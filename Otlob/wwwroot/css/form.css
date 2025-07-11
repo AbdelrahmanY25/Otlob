@@ -1,11 +1,10 @@
 ﻿:root {
     --primary-color: #F04335;
-    --secondary-color: #f5a89e; /* Softer and more food-app friendly */
+    --secondary-color: #f5a89e;
     --success-color: #05a437;
     --main-transition: 0.3s ease;
 }
 
-/* Reset and base styles */
 * {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     box-sizing: border-box;
@@ -23,7 +22,6 @@ a {
 }
 
 
-/* Form Container */
 form.loginform {
     margin: 20px auto 80px;
     width: 100%;
@@ -39,7 +37,6 @@ form.loginform:hover {
     box-shadow: 0 20px 50px rgba(0, 0, 0, 0.12);
 }
 
-/* Heading */
 form.loginform h2 {
     text-align: center;
     color: var(--secondary-color);
@@ -48,7 +45,6 @@ form.loginform h2 {
     font-weight: 600;
 }
 
-/* Validation summary */
 form.loginform .text-danger {
     text-align: center;
     font-size: 14px;
@@ -56,7 +52,6 @@ form.loginform .text-danger {
     color: #e63946;
 }
 
-/* Form Fields */
 form.loginform div {
     display: flex;
     flex-direction: column;
@@ -86,7 +81,6 @@ form.loginform div textarea {
     resize: vertical;
 }
 
-/* Buttons */
 form.loginform button {
     width: 100%;
     padding: 14px;
@@ -106,7 +100,6 @@ form.loginform button:hover {
     color: #fff;
 }
 
-/* Remember Me Section */
 form.loginform .rememberme {
     flex-direction: row;
     align-items: center;
@@ -125,7 +118,6 @@ form.loginform .rememberme label {
     cursor: pointer;
 }
 
-/* Links below form */
 form.loginform a {
     text-align: center;
     display: block;
@@ -140,7 +132,6 @@ form.loginform a:hover {
     text-decoration: underline;
 }
 
-/* Responsive */
 @media (max-width: 480px) {
     form.loginform {
         margin: 40px 20px;

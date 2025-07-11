@@ -1,19 +1,19 @@
 ﻿namespace Otlob.Core.Models
 {
-    public class Restaurant : ImageUrl
+    public class Restaurant
     {
         public int Id { get; set; }
-        public string Name { get; set; }
-        public string Address { get; set; }
-        public string Phone { get; set; }
-        public string Email { get; set; }
-        public string Description { get; set; }
+        public string? Name { get; set; }
+        public string? Address { get; set; }
+        public string? Phone { get; set; }
+        public string? Email { get; set; }
+        public string? Description { get; set; }
         public decimal Rate { get; set; }        
         public decimal DeliveryFee { get; set; }        
         public decimal DeliveryDuration { get; set; }
         public AcctiveStatus AcctiveStatus { get; set; } = AcctiveStatus.Unaccepted;
         public RestaurantCategory Category { get; set; }
-        public byte[]? Image { get; set; }
+        public string? Image { get; set; }
 
         [ValidateNever]
         public  ICollection<Meal> Meals { get; set; }

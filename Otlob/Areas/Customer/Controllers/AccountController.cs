@@ -1,4 +1,6 @@
-﻿namespace Otlob.Areas.Customer.Controllers
+﻿using Otlob.Core.ViewModel;
+
+namespace Otlob.Areas.Customer.Controllers
 {
     [Area("Customer")]
     public class AccountController : Controller
@@ -89,17 +91,19 @@
             }
 
             var user = await userManager.FindByEmailAsync(loginVM.Email);
-            
+
             var finalResult = await userManager.CheckPasswordAsync(user!, loginVM.Password);
 
             if (finalResult)
             {              
+                await userManager.ResetAccessFailedCountAsync(user!);
                 var claims = AddUserClaims(user!);
                 await signInManager.SignInWithClaimsAsync(user!, loginVM.RememberMe, claims);
                 return await CheckOnUserRoll(user!);
             }
             else
-            {
+            {                
+                await userManager.AccessFailedAsync(user!);             
                 ModelState.AddModelError("", "There is invalid user name or password");
                 return View(loginVM);
             }                
@@ -125,7 +129,8 @@
         {
             List<Claim> claims = new();
             claims.Add(new Claim(SD.restaurantId, user.RestaurantId.ToString()));
-            //claims.Add(new Claim(SD.userImageProfile, Convert.ToBase64String(userDb.Image)));
+            if (user.Image is not null)
+                claims.Add(new Claim(SD.userImageProfile, user.Image!));
 
             return claims;
         }
@@ -145,14 +150,14 @@
         }
 
         [HttpPost, ValidateAntiForgeryToken]
-        public async Task<IActionResult> UserProfile(ProfileVM profileVM, IFormFileCollection files)
+        public async Task<IActionResult> UserProfile(ProfileVM profileVM)
         {
             if (!ModelState.IsValid)
             {
                 return View(profileVM);
             }
 
-            var user = await userManager.GetUserAsync(User);
+            ApplicationUser? user = await userManager.GetUserAsync(User);
 
             if (user is null)
             {
@@ -163,46 +168,50 @@
 
             var updateUserInfo = await userManager.UpdateAsync(user);
 
-            if (files.Count <= 0 && updateUserInfo.Succeeded)
-            {
-                TempData["Success"] = "Your profile info updated successfully.";
-                return RedirectToAction("Profile");
-            }
-
-            if (!updateUserInfo.Succeeded)
-            {
-                foreach (var errorInfo in updateUserInfo.Errors)
-                {
-                    ModelState.AddModelError("", errorInfo.Description);
-                }
-
-                return View(profileVM);
-            }
-
-            string isImageUploaded  = await imageService.UploadImage(Request.Form.Files, profileVM);
-
-            if (isImageUploaded is string)
-            {
-                ModelState.AddModelError("", isImageUploaded);
-                return View(profileVM);
-            }
-
-            user.Image = profileVM.Image;
-
-            updateUserInfo = await userManager.UpdateAsync(user);
-
             if (updateUserInfo.Succeeded)
             {
                 TempData["Success"] = "Your profile info updated successfully.";
-                return RedirectToAction("Profile");                     
+                return RedirectToAction("UserProfile");
             }
-                    
+            
             foreach (var errorInfo in updateUserInfo.Errors)
             {
                 ModelState.AddModelError("", errorInfo.Description);
             }
 
-            return View(profileVM);
+            return View(profileVM);                       
+        }
+
+        [HttpPost, ValidateAntiForgeryToken]
+        public async Task<IActionResult> UserProfilePicture(IFormFile image)
+        {
+            ApplicationUser? user = await userManager.GetUserAsync(User);
+
+            if (user is null)
+            {
+                return RedirectToAction("Login");
+            }
+
+            var isImageUploaded = imageService.UploadImage(image!);
+
+            if (!isImageUploaded.IsSuccess)
+            {                
+                TempData["Error"] = isImageUploaded.Message!;
+                return RedirectToAction("UserProfile");
+            }
+
+            var isOldImageDeleted = imageService.DeleteOldImageIfExist(user.Image!);
+
+            if (!isOldImageDeleted.IsSuccess)
+            {
+                TempData["Error"] = isOldImageDeleted.Message!;
+                return RedirectToAction("UserProfile");
+            }
+
+            userServices.UpdateUserImage(user!, isImageUploaded.ImageUrl);
+
+            TempData["Success"] = "Your profile picture updated successfully.";
+            return RedirectToAction("UserProfile");        
         }
 
         public IActionResult ChangePassword() => View();
@@ -219,7 +228,7 @@
                 RedirectToAction("Index", "Home");
             }
 
-            var result = await userManager.CheckPasswordAsync(user, passwordVM.OldPassword);
+            var result = await userManager.CheckPasswordAsync(user!, passwordVM.OldPassword);
 
             if (!result || passwordVM.OldPassword == passwordVM.NewPassword)
             {
@@ -227,7 +236,7 @@
                 return View();
             }
 
-            var finalRes = await userManager.ChangePasswordAsync(user, passwordVM.OldPassword, passwordVM.NewPassword);
+            var finalRes = await userManager.ChangePasswordAsync(user!, passwordVM.OldPassword, passwordVM.NewPassword);
 
             if (finalRes.Succeeded)
             {

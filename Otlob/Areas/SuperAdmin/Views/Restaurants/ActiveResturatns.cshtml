@@ -1,0 +1,165 @@
+﻿@model IQueryable<RestaurantVM>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
+<style>
+    .table thead th {
+        vertical-align: middle;
+    }
+
+    .restaurant-avatar {
+        width: 40px;
+        height: 40px;
+        object-fit: cover;
+        margin-right: 10px;
+    }
+
+    @@media (max-width: 768px) {
+        .table-responsive-stack td, .table-responsive-stack th {
+            display: block;
+            width: 100%;
+        }
+
+        .table-responsive-stack thead {
+            display: none;
+        }
+
+        .table-responsive-stack tr {
+            display: block;
+            margin-bottom: 1rem;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            background-color: #fff;
+        }
+
+        .table-responsive-stack td::before {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+    }
+
+    .btn:focus,
+    .btn:active,
+    .btn:focus-visible {
+        box-shadow: none !important;
+        outline: none !important;
+    }
+</style>
+
+<table class="table table-bordered table-hover align-middle text-center">
+    <thead class="table-light">
+        <tr>
+            <th class="text-success">Our Restaurant Partners</th>
+            <th>Status</th>
+            <th>Details</th>
+            <th>Change Status</th>
+            <th>Delete</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <div class="d-flex gap-2 align-items-center">
+                        <img class="avatar rounded-circle" alt="Restaurant Logo" src="/images/@(item.Image is not null ? item.Image : "Default.jpg")" />
+                        <span class="fw-semibold">@item.Name</span>
+                    </div>
+                </td>
+
+                <td>
+                    <div class="d-flex align-items-center">
+                        @if (item.AcctiveStatus == AcctiveStatus.Acctive)
+                        {
+                            <span class="badge bg-success">@item.AcctiveStatus</span>
+                        }
+                        else if (item.AcctiveStatus == AcctiveStatus.Warning)
+                        {
+                            <span class="badge bg-warning text-dark">@item.AcctiveStatus</span>
+                        }
+                        else if (item.AcctiveStatus == AcctiveStatus.Block)
+                        {
+                            <span class="badge bg-danger">@item.AcctiveStatus</span>
+                        }
+                    </div>
+                </td>
+                <td>
+                    <div class="d-flex align-items-center">
+                        <a class="btn btn-sm btn-outline-success"
+                           asp-controller="Restaurants"
+                           asp-action="ResturantDetails"
+                           asp-route-id="@item.Key">
+                            <i class="bi bi-info-circle"></i> Details
+                        </a>
+                    </div>
+                </td>
+
+                <td>
+                    <div class="d-flex flex-wrap gap-2 align-items-center w-100">
+                        @if (item.AcctiveStatus == AcctiveStatus.Warning)
+                        {
+                            <a class="btn btn-sm btn-secondary"
+                               asp-controller="RestaurantStatus"
+                               asp-action="ChangeRestaurantStatus"
+                               asp-route-id="@item.Key"
+                               asp-route-status="@AcctiveStatus.Acctive">Unwarn</a>
+                            <a class="btn btn-sm btn-danger"
+                               asp-controller="RestaurantStatus"
+                               asp-action="ChangeRestaurantStatus"
+                               asp-route-id="@item.Key"
+                               asp-route-status="@AcctiveStatus.Block">Block</a>
+                        }
+                        else if (item.AcctiveStatus == AcctiveStatus.Block)
+                        {
+                            <a class="btn btn-sm btn-warning"
+                               asp-controller="RestaurantStatus"
+                               asp-action="ChangeRestaurantStatus"
+                               asp-route-id="@item.Key"
+                               asp-route-status="@AcctiveStatus.Warning">Warn</a>
+                            <a class="btn btn-sm btn-secondary"
+                               asp-controller="RestaurantStatus"
+                               asp-action="ChangeRestaurantStatus"
+                               asp-route-id="@item.Key"
+                               asp-route-status="@AcctiveStatus.Acctive">Unblock</a>
+                        }
+                        else
+                        {
+                            <a class="btn btn-sm btn-warning"
+                               asp-controller="RestaurantStatus"
+                               asp-action="ChangeRestaurantStatus"
+                               asp-route-id="@item.Key"
+                               asp-route-status="@AcctiveStatus.Warning">Warn</a>
+                            <a class="btn btn-sm btn-danger"
+                               asp-controller="RestaurantStatus"
+                               asp-action="ChangeRestaurantStatus"
+                               asp-route-id="@item.Key"
+                               asp-route-status="@AcctiveStatus.Block">Block</a>
+                        }
+                        <a class="btn btn-sm btn-info"
+                           asp-controller="RestaurantStatus"
+                           asp-action="ChangeRestaurantStatus"
+                           asp-route-id="@item.Key"
+                           asp-route-status="@AcctiveStatus.Unaccepted">Un Accept</a>
+                    </div>
+                </td>
+
+                <td>
+                    <div class="d-flex align-items-center">
+                        <a class="btn btn-sm btn-outline-danger"
+                           asp-controller="Restaurants"
+                           asp-action="DeleteRestaurant"
+                           asp-route-id="@item.Key">
+                            <i class="bi bi-trash"></i> Delete
+                        </a>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    <partial name="_NotificationPartial"></partial>
+}

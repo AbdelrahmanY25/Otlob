@@ -31,17 +31,17 @@
                 return View("EmptyOrders");
             }
 
-            return Orders(orders, currentPageNumber);
+            return Orders(orders!, status, currentPageNumber);
         }
 
-        public IActionResult Orders(IQueryable<Order> orders, int currentPageNumber)
+        public IActionResult Orders(IQueryable<RestaurantOrdersVM> orders, OrderStatus status, int currentPageNumber)
         {                       
-            PaginationVM<Order> viewModel = paginationService.PaginateItems(orders, pageSize, currentPageNumber);
+            PaginationVM<RestaurantOrdersVM> viewModel = paginationService.PaginateItems(orders, pageSize, currentPageNumber, status);
 
             return View(viewModel);
         }
 
-        public IActionResult OrderUserDetailsPartial(int orderId)
+        public IActionResult OrderUserDetailsPartial(string orderId)
         {
             string userId = orderService.GetUserIdByOrderId(orderId);
 

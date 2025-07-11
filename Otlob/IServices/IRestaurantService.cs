@@ -3,11 +3,13 @@
     public interface IRestaurantService
     {
         IQueryable<RestaurantVM> GetAllRestaurantsJustMainInfo(RestaurantCategory? filter, AcctiveStatus[]? statuses = null);
+        Restaurant GetRestaurantImageById(int restaurantId);
         RestaurantVM GetRestaurantJustMainInfo(int restaurantId);
-        RestaurantVM GetRestaurantDetailsById(int restaurantId);
-        Task<string>? EditRestaurantProfileInfo(RestaurantVM restaurantVM, int restaurantId, IFormFileCollection image, bool ValidateData = true);
+        RestaurantVM GetRestaurantVMDetailsById(int restaurantId);
+        string EditRestaurantProfileInfo(RestaurantVM restaurantVM, int restaurantId, bool ValidateData = true);
+        void UpdateRestaurantImage(Restaurant restaurant, string imageUrl);
         bool ChangeRestauranStatus(string id, AcctiveStatus status);
-        IQueryable<Restaurant>? GetDeletedRestaurants();
+        IQueryable<RestaurantVM>? GetDeletedRestaurants();
         bool DelteRestaurant(string id);
         bool UnDelteRestaurant(string id);
     }

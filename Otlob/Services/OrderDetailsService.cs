@@ -4,16 +4,16 @@
     {
         private readonly IUnitOfWorkRepository unitOfWorkRepository;
         private readonly IOrderedMealsService orderedMealsService;
-        private readonly IEncryptionService encryptionService;
+        private readonly IDataProtector dataProtector;
 
         public OrderDetailsService(IUnitOfWorkRepository unitOfWorkRepository,
                                    IOrderedMealsService orderedMealsService,
                                    ICartService cartService,
-                                   IEncryptionService encryptionService)
+                                   IDataProtectionProvider dataProtectionProvider)
         {
             this.unitOfWorkRepository = unitOfWorkRepository;
             this.orderedMealsService = orderedMealsService;
-            this.encryptionService = encryptionService;
+            dataProtector = dataProtectionProvider.CreateProtector("SecureData");
         }
 
         public ICollection<OrderDetails> AddOrderDetails(int cartId)
@@ -44,7 +44,7 @@
 
         public IQueryable<OrderDetails>? GetOrderDetailsToViewPage(string id)
         {
-            int orderId = encryptionService.DecryptId(id);
+            int orderId = int.Parse(dataProtector.Unprotect(id));
 
             var meals = unitOfWorkRepository
                          .OrderDetails

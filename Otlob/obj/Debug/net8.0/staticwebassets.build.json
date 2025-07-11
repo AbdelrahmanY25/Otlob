@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "ryI8DoMnAsXiWMax7liNYFA3gfmSg/MFFmzIfltesm4=",
+  "Hash": "kSC0cKCcoD9qXdAB9Q6pDkpIMRvDkNjSve5S2G6ReJE=",
   "Source": "Otlob",
   "BasePath": "_content/Otlob",
   "Mode": "Default",
@@ -1354,8 +1354,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "b5opdi0uhx",
-      "Integrity": "f3s/Os7IEI8vuBWKPnydNagzCioOOJ78/vIFxGJPtaE=",
+      "Fingerprint": "d4lc41btmv",
+      "Integrity": "E/KgnmQ+cWj1gQjUn6XlkiaaFYFIV+h8RI7fNFfcA04=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\css\\form.css"
@@ -4196,51 +4196,6 @@
       ]
     },
     {
-      "Route": "css/form.b5opdi0uhx.css",
-      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\css\\form.css",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "3980"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"f3s/Os7IEI8vuBWKPnydNagzCioOOJ78/vIFxGJPtaE=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Tue, 03 Jun 2025 17:12:06 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "b5opdi0uhx"
-        },
-        {
-          "Name": "label",
-          "Value": "css/form.css"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-f3s/Os7IEI8vuBWKPnydNagzCioOOJ78/vIFxGJPtaE="
-        }
-      ]
-    },
-    {
       "Route": "css/form.css",
       "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\css\\form.css",
       "Selectors": [],
@@ -4251,7 +4206,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "3980"
+          "Value": "3745"
         },
         {
           "Name": "Content-Type",
@@ -4259,11 +4214,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"f3s/Os7IEI8vuBWKPnydNagzCioOOJ78/vIFxGJPtaE=\""
+          "Value": "\"E/KgnmQ+cWj1gQjUn6XlkiaaFYFIV+h8RI7fNFfcA04=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 03 Jun 2025 17:12:06 GMT"
+          "Value": "Wed, 04 Jun 2025 16:10:20 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -4273,7 +4228,52 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-f3s/Os7IEI8vuBWKPnydNagzCioOOJ78/vIFxGJPtaE="
+          "Value": "sha256-E/KgnmQ+cWj1gQjUn6XlkiaaFYFIV+h8RI7fNFfcA04="
+        }
+      ]
+    },
+    {
+      "Route": "css/form.d4lc41btmv.css",
+      "AssetFile": "D:\\My_Projects\\Talabat Project\\Otlob\\Otlob\\wwwroot\\css\\form.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "3745"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"E/KgnmQ+cWj1gQjUn6XlkiaaFYFIV+h8RI7fNFfcA04=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 04 Jun 2025 16:10:20 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "d4lc41btmv"
+        },
+        {
+          "Name": "label",
+          "Value": "css/form.css"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-E/KgnmQ+cWj1gQjUn6XlkiaaFYFIV+h8RI7fNFfcA04="
         }
       ]
     },
@@ -17262,7 +17262,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 11 Dec 2024 16:52:58 GMT"
+          "Value": "Thu, 03 Jul 2025 21:42:14 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -17299,7 +17299,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 11 Dec 2024 16:52:58 GMT"
+          "Value": "Thu, 03 Jul 2025 21:42:14 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -17344,7 +17344,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 11 Dec 2024 16:52:58 GMT"
+          "Value": "Thu, 03 Jul 2025 21:42:14 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -17389,7 +17389,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 11 Dec 2024 16:52:58 GMT"
+          "Value": "Thu, 03 Jul 2025 21:42:14 GMT"
         },
         {
           "Name": "Cache-Control",

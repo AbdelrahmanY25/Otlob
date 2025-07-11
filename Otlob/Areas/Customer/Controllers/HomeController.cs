@@ -4,19 +4,19 @@ namespace Otlob.Areas.Customer.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> logger;
-        private readonly IEncryptionService encryptionService;
         private readonly IRestaurantService restaurantService;
         private readonly IMealService mealService;
+        private readonly IDataProtector dataProtector;
 
         public HomeController(ILogger<HomeController> logger,
-                              IEncryptionService encryptionService,
                               IRestaurantService restaurantService,
-                              IMealService mealService)
+                              IMealService mealService,
+                              IDataProtectionProvider dataProtectionProvider)
         {
             this.logger = logger;
-            this.encryptionService = encryptionService;
             this.restaurantService = restaurantService;
             this.mealService = mealService;
+            dataProtector = dataProtectionProvider.CreateProtector("SecureData");
         }
 
         public IActionResult Index(RestaurantCategory? filter = null)
@@ -33,7 +33,7 @@ namespace Otlob.Areas.Customer.Controllers
                 return RedirectToAction("Index");
             }
 
-            int restaurantlId = encryptionService.DecryptId(id);
+            int restaurantlId = int.Parse(dataProtector.Unprotect(id!));
 
             var meals = mealService.ViewAllMealsVm(restaurantlId);
 
@@ -47,7 +47,7 @@ namespace Otlob.Areas.Customer.Controllers
                 meals = mealService.MealCategoryFilter(meals, filter);
             }
 
-            ViewBag.ResId = encryptionService.EncryptId(restaurantlId);
+            ViewBag.ResId = id;
 
             return View(meals);
         }

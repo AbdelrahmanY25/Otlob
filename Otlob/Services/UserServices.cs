@@ -2,11 +2,15 @@
 {
     public class UserServices : IUserServices
     {
-        private readonly IUnitOfWorkRepository.IUnitOfWorkRepository unitOfWorkRepository;
+        private readonly IDataProtector dataProtector;
         private readonly UserManager<ApplicationUser> userManager;
+        private readonly IUnitOfWorkRepository.IUnitOfWorkRepository unitOfWorkRepository;
 
-        public UserServices(IUnitOfWorkRepository.IUnitOfWorkRepository unitOfWorkRepository, UserManager<ApplicationUser> userManager)
+        public UserServices(UserManager<ApplicationUser> userManager,
+                            IDataProtectionProvider dataProtectionProvider,
+                            IUnitOfWorkRepository.IUnitOfWorkRepository unitOfWorkRepository)
         {
+            dataProtector = dataProtectionProvider.CreateProtector("SecureData");
             this.unitOfWorkRepository = unitOfWorkRepository;
             this.userManager = userManager;
         }
@@ -20,7 +24,7 @@
                             tracked: false,
                             selector: u => new ApplicationUser
                             {
-                                Id = u.Id,
+                                Id = dataProtector.Protect(u.Id),
                                 UserName = u.UserName,
                                 Email = u.Email,
                                 PhoneNumber = u.PhoneNumber,
@@ -28,17 +32,18 @@
                             }
                         );
 
-            return users.OrderBy(u => u.UserName);
+            return users!.OrderBy(u => u.UserName);
         }
 
         public void ChangeBlockUserStatus(string userId, bool blockstatus)
         {
-            ApplicationUser user = userManager.FindByIdAsync(userId).GetAwaiter().GetResult()!;
+            ApplicationUser user = userManager.FindByIdAsync(dataProtector.Unprotect(userId)).GetAwaiter().GetResult()!;
 
             if (user is not null)
             {
                 user.LockoutEnabled = blockstatus;
-                userManager.UpdateAsync(user).GetAwaiter().GetResult();
+                unitOfWorkRepository.Users.ModifyProperty(user, u => u.LockoutEnabled);
+                unitOfWorkRepository.SaveChanges();
             }
         }
 
@@ -56,7 +61,7 @@
 
         public ApplicationUser UpdateUserProfile(ProfileVM profileVM, string userId)
         {
-            ApplicationUser? user = unitOfWorkRepository.Users.GetOne(expression: u => u.Id == userId);
+            ApplicationUser? user = unitOfWorkRepository.Users.GetOne(expression: u => u.Id == userId)!;
 
             return UpdateUserInfo(user, profileVM);
         }
@@ -70,17 +75,17 @@
                     tracked: false,
                     selector: u => new ProfileVM
                     {
-                        Email = u.Email,
+                        Email = u.Email!,
                         FirstName = u.FirstName,
                         LastName = u.LastName,
                         Image = u.Image,
                         BirthDate = u.BirthDate,
-                        PhoneNumber = u.PhoneNumber,
+                        PhoneNumber = u.PhoneNumber!,
                         Gender = u.Gender,
                     }
                 );
 
-            return userProfile;
+            return userProfile!;
         }
 
         public ApplicationUser? GetUserDataToPartialview(string userId)
@@ -134,6 +139,13 @@
                 );
 
             return user?.Id;
+        }
+                
+        public void UpdateUserImage(ApplicationUser user, string image)
+        {
+            user.Image = image;
+            unitOfWorkRepository.Users.ModifyProperty(user, u => u.Image!);
+            unitOfWorkRepository.SaveChanges();
         }
     }
 }

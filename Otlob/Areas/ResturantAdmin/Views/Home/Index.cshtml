@@ -39,17 +39,7 @@
         }
 
         <div class="text-center">
-            @{
-                @if (Model.Image is not null)
-                {
-                    <img alt="resturantLogo" class="avatar rounded-circle" src="data:image/*;base64,@(Convert.ToBase64String(Model.Image))" />
-                }
-                else
-                {
-                    <img src="~/images/Default.jpg" alt="resturantLogo" class="avatar rounded-circle">
-                }
-            }
-            
+            <img alt="resturantLogo" class="avatar rounded-circle" src="/images/@(Model.Image is not null ? Model.Image : "Default.jpg")" />
         </div>
 
         <div class="text-center mt-5">

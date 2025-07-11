@@ -2,15 +2,20 @@
 {
     public class MealService : IMealService
     {
-        private readonly IUnitOfWorkRepository unitOfWorkRepository;
         private readonly IImageService imageService;
+        private readonly IDataProtector dataProtector;
+        private readonly IUnitOfWorkRepository unitOfWorkRepository;
         private readonly IMealPriceHistoryService mealPriceHistoryService;
 
-        public MealService(IUnitOfWorkRepository unitOfWorkRepository, IImageService imageService, IMealPriceHistoryService mealPriceHistoryService)
+        public MealService(IImageService imageService,
+                           IUnitOfWorkRepository unitOfWorkRepository,
+                           IDataProtectionProvider dataProtectionProvider,
+                           IMealPriceHistoryService mealPriceHistoryService)
         {
-            this.unitOfWorkRepository = unitOfWorkRepository;
             this.imageService = imageService;
+            this.unitOfWorkRepository = unitOfWorkRepository;
             this.mealPriceHistoryService = mealPriceHistoryService;
+            this.dataProtector = dataProtectionProvider.CreateProtector("SecureData");
         }
 
         public IQueryable<MealVm> ViewMealsVmToRestaurantAdminSummary(int restaurantlId)
@@ -22,14 +27,14 @@
                     tracked: false,
                     selector: m => new MealVm
                     {
-                        MealVmId = m.Id,
+                        Key = dataProtector.Protect(m.Id.ToString()),
                         Name = m.Name,
                         Image = m.Image,
                         Price = m.Price,
                     }
                  );
 
-            return mealsVM;
+            return mealsVM!;
         }
 
         public IQueryable<MealVm> ViewAllMealsVm(int RestaurantlId)
@@ -53,75 +58,86 @@
                     }
                  );
 
-            return mealsVM;
+            return mealsVM!;
         }
 
         public MealVm GetMealVM(int mealId)
         {
-            var meal = unitOfWorkRepository.Meals.GetOne(expression: m => m.Id == mealId);
-            return MealVm.MaptoMealVm(meal);
+            var meal = unitOfWorkRepository.Meals.GetOne(expression: m => m.Id == mealId, ignoreQueryFilter: true);
+            return MealVm.MaptoMealVm(meal!);
         }
 
-        public Meal GetMeal(int mealId) => unitOfWorkRepository.Meals.GetOne(expression: m => m.Id == mealId);
+        public Meal GetMeal(int mealId) => unitOfWorkRepository.Meals.GetOne(expression: m => m.Id == mealId)!;
 
-        public Meal GetMealNameAndImage(int mealId) => unitOfWorkRepository.Meals.GetOneWithSelect(selector: m => new Meal { Id = m.Id, Name = m.Name, Image = m.Image},expression: m => m.Id == mealId);
+        public Meal GetMealNameAndImage(int mealId) => unitOfWorkRepository
+                .Meals
+                .GetOneWithSelect(selector: m => new Meal { Id = m.Id, Name = m.Name, Image = m.Image}, expression: m => m.Id == mealId)!;
 
-        public async Task<string> AddMeal(MealVm mealVM, int restaurantId, IFormFileCollection image)
+        public string AddMeal(MealVm mealVM, int restaurantId, IFormFile image)
         {
-            string isImageUploaded = await imageService.UploadImage(image, imageUrl: mealVM);
+            var isImageUploaded = imageService.UploadImage(image)!;
 
-            if (isImageUploaded is string)
+            if (!isImageUploaded.IsSuccess)
             {
-                return isImageUploaded;
+                return isImageUploaded.Message!;
             }
 
-            var meal = MealVm.MapToMeal(mealVM, restaurantId);
+            Meal meal = FillMealData(mealVM, restaurantId, isImageUploaded.ImageUrl);
 
             unitOfWorkRepository.Meals.Create(meal);
             unitOfWorkRepository.SaveChanges();
 
             mealPriceHistoryService.AddMealPriceHistory(meal.Id, meal.Price);
 
-            return null;
-        }
+            return null!;
+        }        
 
-        public async Task<string> EditMeal(MealVm mealVM, int mealId, IFormFileCollection image)
+        public string EditMeal(MealVm mealVM, int mealId)
         {            
-            var oldMeal = GetMeal(mealId);
+            Meal oldMeal = GetMeal(mealId);
 
             if (oldMeal.Price != mealVM.Price)
             {
                 mealPriceHistoryService.UpdateMealPriceHistory(mealId, mealVM.Price);
             }
 
-            if (image.Count <= 0)
+            bool thereIsNewData = ThereIsNewData(mealVM, oldMeal);
+
+            if (!thereIsNewData)
             {
-
-                var newMeal = MealVm.MapToMeal(mealVM, oldMeal);
-
-                unitOfWorkRepository.Meals.Edit(newMeal);
-
-                unitOfWorkRepository.SaveChanges();
-
-                return null;
+                mealVM.Image = oldMeal.Image;
+                return "No new data to upload it";
             }
 
-            var newMealWithImage = MealVm.MapToMeal(mealVM, oldMeal);
+            UpdateMealData(mealVM, oldMeal);
 
-            string isImageUploaded = await imageService.UploadImage(image, imageUrl: mealVM);
-
-            if (isImageUploaded is string)
-            {
-                return isImageUploaded;
-            }
-
-            newMealWithImage.Image = mealVM.Image;
-
-            unitOfWorkRepository.Meals.Edit(newMealWithImage);
-            
+            unitOfWorkRepository.Meals.Edit(oldMeal);      
             unitOfWorkRepository.SaveChanges();
 
-            return null;
+            return null!;
+        }
+
+        public Meal GetMealImageById(int mealId)
+        {
+            Meal meal = unitOfWorkRepository
+                .Meals
+                .GetOneWithSelect(
+                    expression: m => m.Id == mealId,
+                    selector: m => new Meal
+                    {
+                        Id = m.Id,
+                        Image = m.Image
+                    }
+                )!;
+
+            return meal;
+        }
+
+        public void UpdateMealImage(Meal meal, string imageUrl)
+        {
+            meal.Image = imageUrl;
+            unitOfWorkRepository.Meals.ModifyProperty(meal, r => r.Image!);
+            unitOfWorkRepository.SaveChanges();
         }
 
         public IQueryable<MealVm> GetDeletedMeals(int restaurantId)
@@ -133,14 +149,14 @@
                     ignoreQueryFilter: true,
                     selector: m => new MealVm
                     {
-                        MealVmId = m.Id,
+                        Key = dataProtector.Protect(m.Id.ToString()),
                         Name = m.Name,
                         Image = m.Image,
                         Price = m.Price,                        
                     }
                  );
 
-            return mealVms;
+            return mealVms!;
         }
 
         public bool DeleteMeal(int mealId)
@@ -159,7 +175,7 @@
 
         public IQueryable<MealVm> MealCategoryFilter(IQueryable<MealVm> meals, string filter)
         {
-            if (!string.IsNullOrEmpty(filter) && filter.ToLower() != "all")
+            if (!filter.IsNullOrEmpty() && filter.ToLower() != "all")
             {
                 meals = filter.ToLower() switch
                 {
@@ -174,6 +190,48 @@
                 };
             }
             return meals;
+        }
+
+        private bool ThereIsNewData(MealVm newMeal, Meal oldMeal)
+        {
+            bool result = newMeal.Name == oldMeal.Name ?
+                          false : newMeal.Description == oldMeal.Description ?
+                          false : newMeal.Category == oldMeal.Category ?
+                          false : newMeal.IsNewMeal == oldMeal.IsNewMeal ?
+                          false : newMeal.IsTrendingMeal == newMeal.IsTrendingMeal ?
+                          false : newMeal.NumberOfServings == oldMeal.NumberOfServings ?
+                          false : newMeal.IsAvailable == oldMeal.IsAvailable;
+
+            return result;                
+        }
+
+        private Meal FillMealData(MealVm mealVm, int restaurantId, string imageUrl)
+        {
+            return new Meal
+            {
+                Image = imageUrl,
+                Name = mealVm.Name,
+                Price = mealVm.Price,
+                Category = mealVm.Category,
+                RestaurantId = restaurantId,
+                IsNewMeal = mealVm.IsNewMeal,
+                IsAvailable = mealVm.IsAvailable,
+                Description = mealVm.Description,
+                IsTrendingMeal = mealVm.IsTrendingMeal,
+                NumberOfServings = mealVm.NumberOfServings
+            };
+        }
+
+        private void UpdateMealData(MealVm mealVm, Meal oldMeal)
+        {
+            oldMeal.Name = mealVm.Name;
+            oldMeal.Price = mealVm.Price;
+            oldMeal.Category = mealVm.Category;
+            oldMeal.IsNewMeal = mealVm.IsNewMeal;
+            oldMeal.IsAvailable = mealVm.IsAvailable;
+            oldMeal.Description = mealVm.Description;
+            oldMeal.IsTrendingMeal = mealVm.IsTrendingMeal;
+            oldMeal.NumberOfServings = mealVm.NumberOfServings;
         }
     }
 }

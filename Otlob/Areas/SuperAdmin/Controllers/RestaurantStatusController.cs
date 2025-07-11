@@ -12,10 +12,12 @@
 
         public IActionResult ChangeRestaurantStatus(string id, AcctiveStatus status)
         {
-            restaurantService.ChangeRestauranStatus(id, status);
+            bool isStatusChanged = restaurantService.ChangeRestauranStatus(id, status);
 
-            TempData["Success"] = "The resturant status has been changed";
-            return RedirectToAction("ActiveResturatns", "Home");
+            TempData[isStatusChanged ? "Success" : "Error"] =
+                isStatusChanged ? "The resturant status has been changed" : "Try agin change status";
+
+            return RedirectToAction("ActiveResturatns", "Restaurants");
         }
     }
 }

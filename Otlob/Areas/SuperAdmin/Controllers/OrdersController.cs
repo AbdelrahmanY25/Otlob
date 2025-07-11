@@ -26,7 +26,7 @@
             var orderDetails = new OrderDetailsViewModel
             {
                 PaymentMethod = order.Method,
-                Meals = meals,
+                Meals = meals!,
                 SubPrice = order.TotalMealsPrice,
                 DeliveryFee = order.TotalTaxPrice
             };

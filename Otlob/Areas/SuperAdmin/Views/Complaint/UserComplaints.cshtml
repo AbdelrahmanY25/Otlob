@@ -39,24 +39,7 @@
     </thead>
     <tbody>
         @foreach (var item in Model) {
-            var user = userManager.FindByIdAsync(item.UserId);
-
-            <tr>
-                <td>
-                    @if (user?.Result?.Image != null)
-                        {
-                        <img class="avatar rounded-circle" alt="Profile Picture" src="data:image/*;base64,@(Convert.ToBase64String(user.Result.Image))" />
-                        }
-                        else {
-                            <img class="avatar rounded-circle" src="~/images/Default.jpg" alt="Customer Profile Picture" />
-                        }
-                    @Html.DisplayFor(modelItem => item.User.UserName)                
-                </td>
-                <td class="cell">
-                    @* <img class="avatar rounded-circle" src="/images/resturantLogo/@item.Restaurant.Image" /> *@
-                    <img class="avatar rounded-circle" alt="restaurantLogo" src="data:image/*;base64,@(Convert.ToBase64String(item.Restaurant.Image))" />
-                    @Html.DisplayFor(modelItem => item.Restaurant.Name)
-                </td>
+            <tr>               
                 <td>
                     Customer Phone : <strong class="text-success">@item.User.PhoneNumber</strong> <br />
                     Customer Email : <strong class="text-success">@item.User.Email</strong> <br />

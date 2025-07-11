@@ -4,16 +4,19 @@
     public class MealController : Controller
     {
         private readonly IMealService mealService;
-        private readonly IEncryptionService encryptionService;
+        private readonly IImageService imageService;
+        private readonly IDataProtector dataProtector;
         private readonly IMealPriceHistoryService mealPriceHistoryService;
 
         public MealController(IMealService mealService,
-                             IEncryptionService encryptionService,
-                             IMealPriceHistoryService mealPriceHistoryService)
+                              IImageService imageService,
+                              IDataProtectionProvider dataProtectionProvider,
+                              IMealPriceHistoryService mealPriceHistoryService)
         {
             this.mealService = mealService;
-            this.encryptionService = encryptionService;
+            this.imageService = imageService;
             this.mealPriceHistoryService = mealPriceHistoryService;
+            this.dataProtector = dataProtectionProvider.CreateProtector("SecureData");
         }
 
         public IActionResult Index()
@@ -25,7 +28,7 @@
                 return RedirectToAction("Login", "Account", new { Area = "Customer" });
             }
 
-            int restaurantId = int.Parse(User.FindFirstValue(SD.restaurantId));
+            int restaurantId = int.Parse(User.FindFirstValue(SD.restaurantId)!);
             var mealsVM = mealService.ViewMealsVmToRestaurantAdminSummary(restaurantId);
 
             return View(mealsVM);
@@ -34,7 +37,7 @@
         public IActionResult AddMeal() => View();
 
         [HttpPost, ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddMeal(MealVm mealVM)
+        public IActionResult AddMeal(MealVm mealVM, IFormFile image)
         {
             if (!ModelState.IsValid)
             {
@@ -48,9 +51,9 @@
                 return RedirectToAction("Login", "Account", new { Area = "Customer" });
             }
 
-            int restaurantId = int.Parse(User.FindFirstValue(SD.restaurantId));
+            int restaurantId = int.Parse(User.FindFirstValue(SD.restaurantId)!);
 
-            var isMealadded = await mealService.AddMeal(mealVM, restaurantId, Request.Form.Files);
+            var isMealadded = mealService.AddMeal(mealVM, restaurantId, image);
 
             if (isMealadded is string)
             {
@@ -63,39 +66,68 @@
 
         public IActionResult MealDetails(string id)
         {
-            var mealId = encryptionService.DecryptId(id);
+            int mealId = int.Parse(dataProtector.Unprotect(id));
 
             var mealVM = mealService.GetMealVM(mealId);
 
-            HttpContext.Session.SetString("MealId", encryptionService.EncryptId(mealId));
+            HttpContext.Session.SetString("MealId", dataProtector.Protect(mealId.ToString()));
 
             return View(mealVM);
         }
 
         [HttpPost, ValidateAntiForgeryToken]
-        public async Task<IActionResult> MealDetails(MealVm mealVM)
+        public IActionResult MealDetails(MealVm mealVM)
         {
-            int mealId = encryptionService.DecryptId(HttpContext.Session.GetString("MealId"));
+            int mealId = int.Parse(dataProtector.Unprotect(HttpContext.Session.GetString("MealId")!));
 
             if (!ModelState.IsValid)
             {
                 return View(mealVM);
             }
 
-            string isMealAdded = await mealService.EditMeal(mealVM, mealId, Request.Form.Files);
+            string isMealAdded = mealService.EditMeal(mealVM, mealId);
 
             if (isMealAdded is string)
             {
-                ModelState.AddModelError("", isMealAdded);
+                TempData["Error"] = isMealAdded;
                 return View(mealVM);
             }
 
-            return BackToMealsView("Your Old Meal Updated Successfully");        
+            return BackToMealsView("Your Old Meal Updated Successfully");
+        }
+
+        [HttpPost, ValidateAntiForgeryToken]
+        public IActionResult MealImage(IFormFile image)
+        {
+            int mealId = int.Parse(dataProtector.Unprotect(HttpContext.Session.GetString("MealId")!));
+
+            var isImageUpdated = imageService.UploadImage(image);
+
+            if (!isImageUpdated.IsSuccess)
+            {
+                TempData["Error"] = isImageUpdated.Message;
+                return RedirectToAction("MealDetails", new { id = dataProtector.Protect(mealId.ToString()) });
+            }
+
+            Meal meal = mealService.GetMealImageById(mealId);
+            
+            var isOldImageDeleted = imageService.DeleteOldImageIfExist(meal.Image);
+
+            if (!isOldImageDeleted.IsSuccess)
+            {
+                TempData["Error"] = isOldImageDeleted.Message;
+                return RedirectToAction("MealDetails", new { id = dataProtector.Protect(mealId.ToString()) });
+            }
+
+            mealService.UpdateMealImage(meal, isImageUpdated.ImageUrl);
+
+            TempData["Success"] = "Meal image Updated successfully";
+            return RedirectToAction("MealDetails", new { id = dataProtector.Protect(mealId.ToString()) });
         }
 
         public IActionResult MealPriceHistoryDetails(string id)
         {
-            int mealId = encryptionService.DecryptId(id);
+            int mealId = int.Parse(dataProtector.Unprotect(id));
 
             var mealPriceHistories = mealPriceHistoryService.GetMealPriceHistories(mealId);
 
@@ -111,7 +143,7 @@
                 return RedirectToAction("Login", "Account", new { Area = "Customer" });
             }
 
-            int restaurantId = int.Parse(User.FindFirstValue(SD.restaurantId));
+            int restaurantId = int.Parse(User.FindFirstValue(SD.restaurantId)!);
 
             IQueryable<MealVm> mealsVM = mealService.GetDeletedMeals(restaurantId);
 
@@ -127,14 +159,14 @@
         [HttpPost, ValidateAntiForgeryToken]
         public IActionResult DeleteMeal(string id)
         {
-            int mealId = encryptionService.DecryptId(id);
+            int mealId = int.Parse(dataProtector.Unprotect(id));
             mealService.DeleteMeal(mealId);
             return RedirectToAction("Index");
         }
 
         public IActionResult UnDeleteMeal(string id)
         {
-            int mealId = encryptionService.DecryptId(id);
+            int mealId = int.Parse(dataProtector.Unprotect(id));
             mealService.UnDeleteMeal(mealId);
 
             return RedirectToAction("DeletedMeals");
@@ -143,7 +175,6 @@
         private IActionResult BackToMealsView(string msg)
         {
             TempData["Success"] = msg;
-
             return RedirectToAction("Index");
         }
     }
