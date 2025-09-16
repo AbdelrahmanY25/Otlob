@@ -17,3 +17,5 @@ D:\My_Projects\Talabat Project\Otlob\RepositoryPatternWithUOW.EF\obj\Debug\net9.
 D:\My_Projects\Talabat Project\Otlob\RepositoryPatternWithUOW.EF\obj\Debug\net9.0\Otlob.EF.pdb
 D:\My_Projects\Talabat Project\Otlob\RepositoryPatternWithUOW.EF\obj\Debug\net9.0\Otlob.EF.genruntimeconfig.cache
 D:\My_Projects\Talabat Project\Otlob\RepositoryPatternWithUOW.EF\obj\Debug\net9.0\ref\Otlob.EF.dll
+D:\My_Projects\Talabat Project\Otlob\RepositoryPatternWithUOW.EF\obj\Debug\net9.0\Otlob.EF.sourcelink.json
+D:\My_Projects\Talabat Project\Otlob\RepositoryPatternWithUOW.EF\obj\Debug\net9.0\EFCoreSqlServerNetTopologySuite.cs

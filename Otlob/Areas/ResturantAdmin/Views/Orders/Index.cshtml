@@ -1,4 +1,5 @@
-﻿@model PaginationVM<RestaurantOrdersVM>
+﻿@using Otlob.Core.Contracts.ViewModel
+@model PaginationVM<RestaurantOrdersVM>
 
 @{
     bool isDeliveredOrders = Model.Items.Any(o => o.OrderStatus == OrderStatus.Delivered);

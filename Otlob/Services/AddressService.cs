@@ -1,95 +1,198 @@
-﻿using Microsoft.AspNetCore.DataProtection;
+﻿namespace Otlob.Services;
 
-namespace Otlob.Areas.Customer.Services
+public class AddressService(IUnitOfWorkRepository unitOfWorkRepository, IDataProtectionProvider dataProtectionProvider,
+                            UserManager<ApplicationUser> userManager, IHttpContextAccessor httpContextAccessor) : IAddressService
 {
-    public class AddressService : IAddressService
+    private readonly UserManager<ApplicationUser> _userManager = userManager;
+    private readonly IUnitOfWorkRepository _unitOfWorkRepository = unitOfWorkRepository;
+    private readonly IHttpContextAccessor _httpContextAccessor = httpContextAccessor;
+    private readonly IDataProtector _dataProtector = dataProtectionProvider.CreateProtector("SecureData");
+
+    public async Task<Result<IQueryable<AddressResponse>>?> GetUserAddressies()
     {
-        private readonly IUnitOfWorkRepository unitOfWorkRepository;
-        private readonly IDataProtector dataProtector;
+        string userId = _httpContextAccessor.HttpContext!.User.FindFirstValue(ClaimTypes.NameIdentifier)!;
 
+        var validateUserIdResult = await ValidateUserId(userId);
 
-        public AddressService(IUnitOfWorkRepository unitOfWorkRepository, IDataProtectionProvider dataProtectionProvider)
+        if (validateUserIdResult.IsFailure)
         {
-            this.unitOfWorkRepository = unitOfWorkRepository;
-            dataProtector = dataProtectionProvider.CreateProtector("SecureData");
+            return Result.Failure<IQueryable<AddressResponse>>(AuthenticationErrors.InvalidUser);
         }
 
-        public IQueryable<AddressVM>? GetUserAddressies(string userId)
+        var userAddressies = _unitOfWorkRepository.Addresses
+                                .GetAllWithSelect
+                                (
+                                    expression: add => add.UserId == userId,
+                                    tracked: false,
+                                    selector: add => new AddressResponse
+                                    {
+                                        Key = _dataProtector.Protect(add.Id.ToString()),
+                                        CustomerAddress = add.CustomerAddress
+                                    }
+                                )!;
+
+        return Result.Success(userAddressies);
+    }
+
+    public async Task<Result> AddAddress(AddressRequest request)
+    {
+        string userId = _httpContextAccessor.HttpContext!.User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+
+        var validateUserIdResult = await ValidateUserId(userId);
+
+        if (validateUserIdResult!.IsFailure)
         {
-            return unitOfWorkRepository
-                            .Addresses
-                            .GetAllWithSelect(selector: add => new AddressVM
-                            { 
-                                Key = dataProtector.Protect(add.Id.ToString()),
-                                CustomerAddress = add.CustomerAddres
-                            },
-                            expression: add => add.ApplicationUserId == userId,
-                            tracked: false);
+            return validateUserIdResult;
         }
 
-        public AddressVM? GetOneAddress(int addressId)
+        if (IsAddressExist(userId, request.CustomerAddress))
         {
-            return unitOfWorkRepository
-                            .Addresses
-                            .GetOneWithSelect(selector: add => new AddressVM { CustomerAddress = add.CustomerAddres },
-                                              expression: a => a.Id == addressId,
-                                              tracked: false);
+            return Result.Failure(AddressErrors.ExisteddAddress);
         }
 
-        public string? AddAddress(AddressVM addressVM, string userId)
+        Address address = new();
+
+        address.MapToAddress(request);
+
+        address.UserId = userId;
+
+        _unitOfWorkRepository.Addresses.Create(address);
+        _unitOfWorkRepository.SaveChanges();
+
+        return Result.Success();
+    }    
+    
+    public Result<AddressResponse> GetOneAddress(string id)
+    {
+        if (id is null)
         {
-            if(IsAddressExist(userId, addressVM))
-            {
-                return "The address is already exist";
-            }
-
-            var address = addressVM.MapToAddress(userId);
-
-            unitOfWorkRepository.Addresses.Create(address);
-            unitOfWorkRepository.SaveChanges();
-
-            return null;
+            return Result.Failure<AddressResponse>(AddressErrors.InvalidAddress);
         }
 
-        public bool AddUserAddress(string customerAddres, string userId)
+        int addressId = int.Parse(_dataProtector.Unprotect(id));
+
+        var isAddressIdExist = _unitOfWorkRepository.Addresses.IsExist(add => add.Id == addressId);
+
+        if (!isAddressIdExist)
         {
-            var userAddress = new Address { ApplicationUserId = userId, CustomerAddres = customerAddres };
-
-            unitOfWorkRepository.Addresses.Create(userAddress);
-            unitOfWorkRepository.SaveChanges();
-
-            return true;
+            return Result.Failure<AddressResponse>(AddressErrors.InvalidAddress);
         }
 
-        public string? UpdateAddress(AddressVM addressVM, string userId, int addressId)
+        AddressResponse addressVM = _unitOfWorkRepository
+                                .Addresses
+                                .GetOneWithSelect(
+                                    expression: a => a.Id == addressId,
+                                    tracked: false,
+                                    selector: add => new AddressResponse
+                                    {
+                                        Key = _dataProtector.Protect(add.Id.ToString()),
+                                        CustomerAddress = add.CustomerAddress,
+                                        PlaceType = add.PlaceType,
+                                        StreetName = add.StreetName,
+                                        FloorNumber = add.FloorNumber,
+                                        HouseNumberOrName = add.HouseNumberOrName,
+                                        CompanyName = add.CompanyName
+                                    }
+                                )!;
+
+        _httpContextAccessor.HttpContext!.Session.SetString("AddressId", id);
+
+        return Result.Success(addressVM);
+    }
+
+    public async Task<Result> UpdateAddress(AddressRequest request)
+    {
+        string userId = _httpContextAccessor.HttpContext!.User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+
+        var validateUserIdResult = await ValidateUserId(userId);
+
+        if (validateUserIdResult!.IsFailure)
         {
-            Address address = addressVM.MapToAddress(userId, addressId);
-            unitOfWorkRepository.Addresses.Edit(address);
-            unitOfWorkRepository.SaveChanges();
-            return null;
+            return validateUserIdResult;
         }
 
-        public bool DeleteAddress(int addressId)
+        string id = _httpContextAccessor.HttpContext!.Session.GetString("AddressId")!;
+
+        if (id is null)
         {
-            unitOfWorkRepository.Addresses.SoftDelete(expression: add => add.Id == addressId);
-            unitOfWorkRepository.SaveChanges();
-            return true;
+            return Result.Failure(AddressErrors.InvalidAddress);
         }
 
-        public bool IsAddressExist(string userId, AddressVM addressVM)
-        {           
-            return unitOfWorkRepository
-                .Addresses
-                .IsExist(expression: add => add.ApplicationUserId == userId && add.CustomerAddres == addressVM.CustomerAddress);
+        int addressId = int.Parse(_dataProtector.Unprotect(id));
+
+        var isAddressIdExist = _unitOfWorkRepository.Addresses.IsExist(add => add.Id == addressId);
+
+        if (!isAddressIdExist)
+        {
+            return Result.Failure(AddressErrors.InvalidAddress);
         }
 
-        public bool IsUserHasAnyAddress(string userId)
-        {           
-            return unitOfWorkRepository
-                .Addresses
-                .IsExist(expression: add => add.ApplicationUserId == userId);
+        Address oldAddress = _unitOfWorkRepository.Addresses.GetOne(expression: add => add.Id == addressId)!;
+
+        if (oldAddress!.CustomerAddress == request.CustomerAddress)
+        {
+            return Result.Failure(AddressErrors.ExisteddAddress);
         }
 
+        oldAddress.MapToAddress(request);
 
+        _unitOfWorkRepository.Addresses.Edit(oldAddress);
+        _unitOfWorkRepository.SaveChanges();
+
+        return Result.Success();
+    }
+
+    public Result DeleteAddress(string id)
+    {
+        if (id is null)
+        {
+            return Result.Failure(AddressErrors.InvalidAddress);
+        }
+
+        int addressId = int.Parse(_dataProtector.Unprotect(id));
+
+        var isAddressIdExists = _unitOfWorkRepository.Addresses.IsExist(add => add.Id == addressId);
+
+        if (!isAddressIdExists)
+        {
+            return Result.Failure(AddressErrors.InvalidAddress);
+        }
+
+        _unitOfWorkRepository.Addresses.SoftDelete(expression: add => add.Id == addressId);
+        _unitOfWorkRepository.SaveChanges();
+
+        return Result.Success();
+    }
+
+    public bool IsAddressExist(string userId, string customerAddress)
+    {           
+        return _unitOfWorkRepository
+            .Addresses
+            .IsExist(expression: add => add.UserId == userId && add.CustomerAddress == customerAddress);
+    }
+
+    public bool IsUserHasAnyAddresses(string userId)
+    {           
+        return _unitOfWorkRepository
+            .Addresses
+            .IsExist(expression: add => add.UserId == userId);
+    }
+
+
+    private async Task<Result> ValidateUserId(string userId)
+    {
+        if (userId is null)
+        {
+            return Result.Failure(AuthenticationErrors.InvalidUser);
+        }
+
+        bool isUserIdExists = await _userManager.Users.AnyAsync(u => u.Id == userId);
+
+        if (!isUserIdExists)
+        {
+            return Result.Failure(AuthenticationErrors.InvalidUser);
+        }
+
+        return Result.Success();
     }
 }

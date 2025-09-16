@@ -1,169 +1,162 @@
-﻿namespace Otlob.EF.BaseRepository
+﻿namespace Otlob.EF.BaseRepository;
+
+public class BaseRepository<T> : IBaseRepository<T> where T : class
 {
-    public class BaseRepository<T> : IBaseRepository<T> where T : class
+    private readonly ApplicationDbContext context;
+
+    private readonly DbSet<T> dbSet;
+
+    public BaseRepository(ApplicationDbContext context)
     {
-        private readonly ApplicationDbContext context;
+        this.context = context ?? throw new ArgumentNullException(nameof(context));
+        dbSet = context.Set<T>();
+    }
 
-        private readonly DbSet<T> dbSet;
+    public void Create(T entity)
+    {
+        dbSet.Add(entity);
+    }
 
-        public BaseRepository(ApplicationDbContext context)
+    public void CreateRange(IEnumerable<T> entities)
+    {
+        dbSet.AddRange(entities);
+    }
+
+    public void Edit(T entity)
+    {
+        dbSet.Update(entity);
+    }
+
+    public void IgnoreChanges(T entity, Expression<Func<T, object>> property)
+    {
+        dbSet.Attach(entity);
+
+        context.Entry(entity).Property(property).IsModified = false;
+    }
+
+    public void ModifyProperty(T entity, Expression<Func<T, object>> property)
+    {
+        dbSet.Attach(entity);
+
+        context.Entry(entity).Property(property).IsModified = true;
+    }
+           
+    public void SoftDelete(Expression<Func<T, bool>> expression)
+    {
+        IQueryable<T> query = dbSet;
+
+        query.Where(expression)
+            .ExecuteUpdate(e => e.SetProperty(d => EFCore.Property<bool>(d, "IsDeleted"), true));
+    }
+   
+    public void UnSoftDelete(Expression<Func<T, bool>> expression)
+    {
+        IQueryable<T> query = dbSet;
+
+        query.Where(expression)
+            .IgnoreQueryFilters()
+            .ExecuteUpdate(e => e.SetProperty(d => EFCore.Property<bool>(d, "IsDeleted"), false));
+    }
+
+    public void HardDelete(T entity)
+    {
+        dbSet.Remove(entity);
+    }
+
+    public bool IsExist(Expression<Func<T, bool>> expression)
+    {
+        return dbSet.AsNoTracking().Any(expression);
+    }
+
+    public IQueryable<T>? Get(Expression<Func<T, object>>[]? includeProps = null,
+                               Expression<Func<T, bool>>? expression = null,
+                               bool tracked = true,
+                               bool ignoreQueryFilter = false)
+    {
+        IQueryable<T> query = dbSet;
+
+        if (expression != null)
         {
-            this.context = context ?? throw new ArgumentNullException(nameof(context));
-            dbSet = context.Set<T>();
+            query = query.Where(expression);
         }
 
-        public void Create(T entity)
+        if (includeProps != null)
         {
-            dbSet.Add(entity);
-        }
-
-        public void CreateRange(IEnumerable<T> entities)
-        {
-            dbSet.AddRange(entities);
-        }
-
-        public void Edit(T entity)
-        {
-            dbSet.Update(entity);
-        }
-
-        public void IgnoreChanges(T entity, Expression<Func<T, object>> property)
-        {
-            dbSet.Attach(entity);
-            context.Entry(entity).Property(property).IsModified = false;
-        }
-
-        public void ModifyProperty(T entity, Expression<Func<T, object>> property)
-        {
-            dbSet.Attach(entity);
-            context.Entry(entity).Property(property).IsModified = true;
-        }
-               
-        public void SoftDelete(Expression<Func<T, bool>> expression)
-        {
-            IQueryable<T> query = dbSet;
-
-            query.Where(expression)
-                .ExecuteUpdateAsync(e => e.SetProperty(d => EFCore.Property<bool>(d, "IsDeleted"), true));
-        }
-       
-        public void UnSoftDelete(Expression<Func<T, bool>> expression)
-        {
-            IQueryable<T> query = dbSet;
-
-            query.Where(expression).IgnoreQueryFilters()
-                .ExecuteUpdateAsync(e => e.SetProperty(d => EFCore.Property<bool>(d, "IsDeleted"), false));
-        }
-
-        public void HardDelete(T entity)
-        {
-            dbSet.Remove(entity);
-        }
-
-        public bool IsExist(Expression<Func<T, bool>> expression)
-        {
-            return dbSet.AsNoTracking().AnyAsync(expression).GetAwaiter().GetResult();
-        }
-
-        public IQueryable<KeyValuePair<TKey, int>> EntityWithCountBy<TKey>(Expression<Func<T, TKey>> property)
-        {
-            IQueryable<T> query = dbSet;
-
-            var result = query.AsNoTracking().CountBy(property);
-
-            return result;
-        }
-
-        public IQueryable<T>? Get(Expression<Func<T, object>>[]? includeProps = null,
-                                   Expression<Func<T, bool>>? expression = null,
-                                   bool tracked = true,
-                                   bool ignoreQueryFilter = false)
-        {
-            IQueryable<T> query = dbSet;
-
-            if (expression != null)
+            foreach (var prop in includeProps)
             {
-                query = query.Where(expression);
+                query = query.Include(prop);
             }
-
-            if (includeProps != null)
-            {
-                foreach (var prop in includeProps)
-                {
-                    query = query.Include(prop);
-                }
-            }
-
-            query = tracked ? query : query.AsNoTracking();
-
-            query = ignoreQueryFilter ? query.IgnoreQueryFilters() : query;
-
-            return query;
         }
 
-        public T? GetOne(Expression<Func<T, object>>[]? includeProps = null,
-                         Expression<Func<T, bool>>? expression = null,
-                         bool tracked = true,
-                         bool ignoreQueryFilter = false)
-        {
-            IQueryable<T> query = dbSet;
+        query = tracked ? query : query.AsNoTracking();
 
-            if (expression != null)
-                query = query.Where(expression);
+        query = ignoreQueryFilter ? query.IgnoreQueryFilters() : query;
 
-            if (includeProps != null)
-                foreach (var prop in includeProps)
-                    query = query.Include(prop);
+        return query;
+    }
 
-            query = tracked ? query : query.AsNoTracking();
+    public T? GetOne(Expression<Func<T, object>>[]? includeProps = null,
+                     Expression<Func<T, bool>>? expression = null,
+                     bool tracked = true,
+                     bool ignoreQueryFilter = false)
+    {
+        IQueryable<T> query = dbSet;
 
-            query = ignoreQueryFilter ? query.IgnoreQueryFilters() : query;
+        if (expression != null)
+            query = query.Where(expression);
 
-            return query.FirstOrDefault();
-        }
+        if (includeProps != null)
+            foreach (var prop in includeProps)
+                query = query.Include(prop);
 
-        public IQueryable<TResult>? GetAllWithSelect<TResult>(Expression<Func<T, TResult>> selector,
-                                                              Expression<Func<T, object>>[]? includeProps = null,
-                                                              Expression<Func<T, bool>>? expression = null,
-                                                              bool tracked = true,
-                                                              bool ignoreQueryFilter = false)
-        {
-            IQueryable<T> query = dbSet;
+        query = tracked ? query : query.AsNoTracking();
 
-            if (expression != null)
-                query = query.Where(expression);
+        query = ignoreQueryFilter ? query.IgnoreQueryFilters() : query;
 
-            if (includeProps != null)
-                foreach (var prop in includeProps)
-                    query = query.Include(prop);
+        return query.FirstOrDefault();
+    }
 
-            query = tracked ? query : query.AsNoTracking();
+    public IQueryable<TResult>? GetAllWithSelect<TResult>(Expression<Func<T, TResult>> selector,
+                                                          Expression<Func<T, object>>[]? includeProps = null,
+                                                          Expression<Func<T, bool>>? expression = null,
+                                                          bool tracked = true,
+                                                          bool ignoreQueryFilter = false)
+    {
+        IQueryable<T> query = dbSet;
 
-            query = ignoreQueryFilter ? query.IgnoreQueryFilters() : query;
+        if (expression != null)
+            query = query.Where(expression);
 
-            return query.Select(selector);
-        }
+        if (includeProps != null)
+            foreach (var prop in includeProps)
+                query = query.Include(prop);
 
-        public TResult? GetOneWithSelect<TResult>(Expression<Func<T, TResult>> selector,
-                                                             Expression<Func<T, object>>[]? includeProps = null,
-                                                             Expression<Func<T, bool>>? expression = null,
-                                                             bool tracked = true,
-                                                             bool ignoreQueryFilter = false)
-        {
-            IQueryable<T> query = dbSet;
+        query = tracked ? query : query.AsNoTracking();
 
-            if (expression != null)
-                query = query.Where(expression);
+        query = ignoreQueryFilter ? query.IgnoreQueryFilters() : query;
 
-            if (includeProps != null)
-                foreach (var prop in includeProps)
-                    query = query.Include(prop);
+        return query.Select(selector);
+    }
 
-            query = tracked ? query : query.AsNoTracking();
+    public TResult? GetOneWithSelect<TResult>(Expression<Func<T, TResult>> selector,
+                                                         Expression<Func<T, object>>[]? includeProps = null,
+                                                         Expression<Func<T, bool>>? expression = null,
+                                                         bool tracked = true,
+                                                         bool ignoreQueryFilter = false)
+    {
+        IQueryable<T> query = dbSet;
 
-            query = ignoreQueryFilter ? query.IgnoreQueryFilters() : query;
+        if (expression != null)
+            query = query.Where(expression);
 
-            return query.Select(selector).FirstOrDefault();
-        }       
-    } 
-}
+        if (includeProps != null)
+            foreach (var prop in includeProps)
+                query = query.Include(prop);
+
+        query = tracked ? query : query.AsNoTracking();
+
+        query = ignoreQueryFilter ? query.IgnoreQueryFilters() : query;
+
+        return query.Select(selector).FirstOrDefault();
+    }       
+} 

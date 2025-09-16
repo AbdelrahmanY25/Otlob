@@ -13,3 +13,5 @@ D:\My_Projects\Talabat Project\Otlob\RepositoryPatternWithUOW.Core\obj\Debug\net
 D:\My_Projects\Talabat Project\Otlob\RepositoryPatternWithUOW.Core\obj\Debug\net9.0\refint\Otlob.Core.dll
 D:\My_Projects\Talabat Project\Otlob\RepositoryPatternWithUOW.Core\obj\Debug\net9.0\Otlob.Core.pdb
 D:\My_Projects\Talabat Project\Otlob\RepositoryPatternWithUOW.Core\obj\Debug\net9.0\ref\Otlob.Core.dll
+D:\My_Projects\Talabat Project\Otlob\RepositoryPatternWithUOW.Core\obj\Debug\net9.0\Otlob.Core.sourcelink.json
+D:\My_Projects\Talabat Project\Otlob\RepositoryPatternWithUOW.Core\obj\Debug\net9.0\EFCoreSqlServerNetTopologySuite.cs

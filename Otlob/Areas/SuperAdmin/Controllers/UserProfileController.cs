@@ -1,111 +1,68 @@
-﻿namespace Otlob.Areas.SuperAdmin.Controllers
+﻿namespace Otlob.Areas.SuperAdmin.Controllers;
+
+[Area(SD.superAdminRole), Authorize(Roles = SD.superAdminRole)]
+public class UserProfileController(IUserProfileService userProfileService, IDataProtectionProvider dataProtectionProvider) : Controller
 {
-    [Area("SuperAdmin"), Authorize(Roles = SD.superAdminRole)]
-    public class UserProfileController : Controller
+    private readonly IUserProfileService _userProfileService = userProfileService;
+    private readonly IDataProtector _dataProtector = dataProtectionProvider.CreateProtector("SecureData");
+
+    public async Task<IActionResult> UserProfile(string Id)
     {
-        private readonly IImageService imageService;
-        private readonly IUserServices userServices;
-        private readonly IDataProtector dataProtector;
-        private readonly UserManager<ApplicationUser> userManager;
-
-        public UserProfileController(IImageService imageService,
-                                     IUserServices userServices,
-                                     UserManager<ApplicationUser> userManager,
-                                     IDataProtectionProvider dataProtectionProvider)
+        if (Id is null)
         {
-            this.userManager = userManager;
-            this.imageService = imageService;
-            this.userServices = userServices;
-            dataProtector = dataProtectionProvider.CreateProtector("SecureData");
+            TempData["Error"] = "User ID session timeout or notfound.";
+            return RedirectToAction("Index", "Home", new { Area = SD.superAdminRole });
         }
 
-        public IActionResult UserProfile(string Id)
+        var result = await _userProfileService.GetUserProfileVmDetails(_dataProtector.Unprotect(Id));
+
+        if (result.IsFailure)
         {
-            if (Id is null)
-            {
-                TempData["Error"] = "User ID session timeout or notfound.";
-                return RedirectToAction("Index", "Home", new { Area = "SuperAdmin" });
-            }
-
-            ProfileVM userProfileDetails = userServices.GetUserProfileVmDetails(dataProtector.Unprotect(Id));
-
-            if (userProfileDetails is null)
-            {
-                return NotFound("User profile not found.");
-            }
-
-            HttpContext.Session.SetString("userId", Id);
-            
-            return View(userProfileDetails);
+            return NotFound("User profile not found.");
         }
 
-        [HttpPost, ValidateAntiForgeryToken]
-        public async Task<IActionResult> UserProfile(ProfileVM profileVM)
+        HttpContext.Session.SetString("userId", Id);
+        
+        return View(result.Value);
+    }
+
+    [HttpPost, ValidateAntiForgeryToken]
+    public async Task<IActionResult> UserProfile(ProfileVM profileVM)
+    {
+        if (!ModelState.IsValid)
         {
-            if (!ModelState.IsValid)
-            {
-                return View(profileVM);
-            }
-
-            string? userId = dataProtector.Unprotect(HttpContext.Session.GetString("userId")!);
-
-            if (userId is null)
-            {
-                TempData["Error"] = "User ID session timeout or notfound.";
-                return RedirectToAction("Index", "Home", new { Area = "SuperAdmin" });
-            }
-            
-            ApplicationUser user = userServices.UpdateUserProfile(profileVM, userId);
-            
-            var updateUserInfo = await userManager.UpdateAsync(user);
-                                                    
-            if (updateUserInfo.Succeeded)
-            {
-                TempData["Success"] = "Your profile info updated successfully.";
-                return RedirectToAction("UserProfile", new { userId });
-            }
-
-            foreach (var errorInfo in updateUserInfo.Errors)
-            {
-                ModelState.AddModelError("", errorInfo.Description);
-            }
-
             return View(profileVM);
         }
 
-        [HttpPost, ValidateAntiForgeryToken]
-        public IActionResult UserProfilePicture(IFormFile image)
+        string? userId = _dataProtector.Unprotect(HttpContext.Session.GetString("userId")!);
+
+        Result updateResult = await _userProfileService.UpdateUserProfileAsync(profileVM, userId);
+                                                            
+        if (updateResult.IsFailure)
         {
-            string? userId = dataProtector.Unprotect(HttpContext.Session.GetString("userId")!);
-
-            if (userId is null)
-            {
-                TempData["Error"] = "User ID session timeout or notfound.";
-                return RedirectToAction("Index", "Home", new { Area = "SuperAdmin" });
-            }
-
-            var isImageUploaded = imageService.UploadImage(image!);
-
-            if (!isImageUploaded.IsSuccess)
-            {
-                TempData["Error"] = isImageUploaded.Message!;
-                return RedirectToAction("UserProfile", new { Id = HttpContext.Session.GetString("userId")! });
-            }
-
-            ApplicationUser? user = userManager.FindByIdAsync(userId).GetAwaiter().GetResult();
-            
-            var isOldImageDeleted = imageService.DeleteOldImageIfExist(user!.Image);
-
-            if (!isOldImageDeleted.IsSuccess)
-            {
-                TempData["Error"] = isOldImageDeleted.Message;
-                return RedirectToAction("UserProfile", new { Id = HttpContext.Session.GetString("userId")! });
-            }
-
-            userServices.UpdateUserImage(user!, isImageUploaded.ImageUrl);
-
-            TempData["Success"] = "Your profile picture updated successfully.";
-            return RedirectToAction("UserProfile", new { Id = HttpContext.Session.GetString("userId")! });
+            TempData["Error"] = updateResult.Error.Description;
+            return RedirectToAction(nameof(UserProfile), new { userId });
         }
+
+        TempData["Success"] = "profile info updated successfully.";
+
+        return RedirectToAction(nameof(UserProfile), new { userId });
+    }
+
+    [HttpPost, ValidateAntiForgeryToken]
+    public async Task<IActionResult> UserProfilePicture(IFormFile image)
+    {
+        string? userId = _dataProtector.Unprotect(HttpContext.Session.GetString("userId")!);
+
+        var UpdateRpofilePictureResult = await _userProfileService.UpdateUserProfilePictureAsync(userId, image);
+
+        if (UpdateRpofilePictureResult.IsFailure)
+        {
+            TempData["Error"] = UpdateRpofilePictureResult.Error.Description!;
+            return RedirectToAction(nameof(UserProfile), new { Id = HttpContext.Session.GetString("userId")! });
+        }            
+        
+        TempData["Success"] = "Profile picture updated successfully.";
+        return RedirectToAction(nameof(UserProfile), new { Id = HttpContext.Session.GetString("userId")! });
     }
 }

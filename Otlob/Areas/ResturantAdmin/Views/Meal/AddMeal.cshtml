@@ -1,4 +1,5 @@
-﻿@model MealVm
+﻿@using Otlob.Core.Contracts.ViewModel
+@model MealVm
 
 <h4>Meal</h4>
 <hr />
@@ -51,7 +52,7 @@
             <div class="form-group mb-3">
                 <label asp-for="Category" class="control-label"></label>
                 <select asp-for="Category" class="form-control">
-                    @foreach(var category in Enum.GetNames(typeof(MealCategory))) 
+                    @foreach(var category in Enum.GetNames(typeof(MenuCategory))) 
                     {
                         <option>@category</option>
                     }

@@ -2,22 +2,24 @@
 {
     public class OrderedMealsService : IOrderedMealsService
     {
-        private readonly IUnitOfWorkRepository unitOfWorkRepository;
+        private readonly IMapper mapper;
         private readonly IEncryptionService encryptionService;
+        private readonly IUnitOfWorkRepository unitOfWorkRepository;
 
-        public OrderedMealsService(IUnitOfWorkRepository unitOfWorkRepository, IEncryptionService encryptionService)
+        public OrderedMealsService(IUnitOfWorkRepository unitOfWorkRepository, IEncryptionService encryptionService, IMapper mapper)
         {
-            this.unitOfWorkRepository = unitOfWorkRepository;
             this.encryptionService = encryptionService;
+            this.mapper = mapper;
+            this.unitOfWorkRepository = unitOfWorkRepository;
         }
 
-        public OrderedMeals? GetOrderedMealById(int orderedMealId) => unitOfWorkRepository.OrderedMeals.GetOne(expression: o => o.Id == orderedMealId);
+        public CartDetails? GetOrderedMealById(int orderedMealId) => unitOfWorkRepository.CartDetails.GetOne(expression: o => o.Id == orderedMealId);
 
-        public OrderedMeals? GetMealFromCart(int mealId) => unitOfWorkRepository.OrderedMeals.GetOne(expression: o => o.MealId == mealId);
+        public CartDetails? GetMealFromCart(int mealId) => unitOfWorkRepository.CartDetails.GetOne(expression: o => o.MealId == mealId);
 
-        public OrderedMeals AddOrderedMeals(OrderedMealsVM orderedMealsVM, Cart userCart)
+        public CartDetails AddOrderedMeals(OrderedMealsVM orderedMealsVM, Cart userCart)
         {
-            OrderedMeals mealInOrder = new OrderedMeals
+            CartDetails mealInOrder = new CartDetails
             {
                 CartId = userCart.Id,
                 MealId = orderedMealsVM.MealId,
@@ -25,7 +27,7 @@
                 Quantity = orderedMealsVM.Quantity
             };
 
-            unitOfWorkRepository.OrderedMeals.Create(mealInOrder);
+            unitOfWorkRepository.CartDetails.Create(mealInOrder);
             unitOfWorkRepository.SaveChanges();
 
             return mealInOrder;
@@ -34,10 +36,10 @@
         public IEnumerable<OrderedMealsVM> GetOrderedMealsVMToView(int cartId)
         {
             var orderedMeals = unitOfWorkRepository
-                               .OrderedMeals
+                               .CartDetails
                                .GetAllWithSelect
                                 (
-                                    selector: o => new OrderedMeals
+                                    selector: o => new CartDetails
                                     {
                                         Id = o.Id,
                                         PricePerMeal = o.PricePerMeal,
@@ -48,18 +50,18 @@
                                     tracked: false
                                 );
 
-            var orderedMealsVM = OrderedMealsVM.MappToOrderedMealsVMCollection(orderedMeals);
+            IEnumerable<OrderedMealsVM> orderedMealsVM = mapper.Map<IEnumerable<OrderedMealsVM>>(orderedMeals);
 
             return orderedMealsVM;
         }
 
-        public IEnumerable<OrderedMeals> GetOrderedMealsWithMealsDetails(int cartId)
+        public IEnumerable<CartDetails> GetOrderedMealsWithMealsDetails(int cartId)
         {
             var orderedMeals = unitOfWorkRepository
-                               .OrderedMeals
+                               .CartDetails
                                .GetAllWithSelect
                                 (
-                                    selector: o => new OrderedMeals
+                                    selector: o => new CartDetails
                                     {
                                         Id = o.Id,
                                         PricePerMeal = o.PricePerMeal,
@@ -73,13 +75,13 @@
             return orderedMeals!;
         }
 
-        public IEnumerable<OrderedMeals> GetOrderedMealsDetails(int cartId)
+        public IEnumerable<CartDetails> GetOrderedMealsDetails(int cartId)
         {
             var orderedMeals = unitOfWorkRepository
-                               .OrderedMeals
+                               .CartDetails
                                .GetAllWithSelect
                                 (
-                                    selector: o => new OrderedMeals
+                                    selector: o => new CartDetails
                                     {
                                         PricePerMeal = o.PricePerMeal,
                                         Quantity = o.Quantity,
@@ -92,10 +94,10 @@
             return orderedMeals!.ToList();
         }
 
-        public bool AddQuantityToOrderedMeals(OrderedMeals orderedMeal, OrderedMealsVM orderedMealsVM)
+        public bool AddQuantityToOrderedMeals(CartDetails orderedMeal, OrderedMealsVM orderedMealsVM)
         {
             orderedMeal.Quantity += orderedMealsVM.Quantity;
-            unitOfWorkRepository.OrderedMeals.Edit(orderedMeal);
+            unitOfWorkRepository.CartDetails.Edit(orderedMeal);
             unitOfWorkRepository.SaveChanges();
 
             return true;
@@ -105,7 +107,7 @@
         {
             int orderMealId = encryptionService.DecryptId(id);
 
-            OrderedMeals? selectedOrderMeal = GetOrderedMealById(orderMealId);
+            CartDetails? selectedOrderMeal = GetOrderedMealById(orderMealId);
 
             if (selectedOrderMeal is null ||( mealQuantity != MealQuantity.Increase && mealQuantity != MealQuantity.Decrease))
             {
@@ -126,30 +128,30 @@
                 return new MealQuantityResult { Status = HandleMealQuantityProcess.DeleteMeal };
             }
 
-            unitOfWorkRepository.OrderedMeals.Edit(selectedOrderMeal);
+            unitOfWorkRepository.CartDetails.Edit(selectedOrderMeal);
             unitOfWorkRepository.SaveChanges();
 
             return new MealQuantityResult { Status = HandleMealQuantityProcess.Success};
         }
 
-        public OrderedMeals DeleteOrderedMeal(string id)
+        public CartDetails DeleteOrderedMeal(string id)
         {
             int orderedMealId = encryptionService.DecryptId(id);
 
-            OrderedMeals selectedOrderMeal = GetOrderedMealById(orderedMealId)!;
+            CartDetails selectedOrderMeal = GetOrderedMealById(orderedMealId)!;
 
-            unitOfWorkRepository.OrderedMeals.HardDelete(selectedOrderMeal);
+            unitOfWorkRepository.CartDetails.HardDelete(selectedOrderMeal);
             unitOfWorkRepository.SaveChanges();
 
             return selectedOrderMeal;            
         }
 
-        public bool ThereIsAnyMealsInCart(OrderedMeals selectedOrderMeal) =>
-            unitOfWorkRepository.OrderedMeals.IsExist(expression: c => c.CartId == selectedOrderMeal.CartId);
+        public bool ThereIsAnyMealsInCart(CartDetails selectedOrderMeal) =>
+            unitOfWorkRepository.CartDetails.IsExist(expression: c => c.CartId == selectedOrderMeal.CartId);
 
         public bool CheckWhenUserAddAnotherMeal(OrderedMealsVM orderedMealsVM, Cart usercart)
         {
-            OrderedMeals? anotherMealInOrder = GetMealFromCart(orderedMealsVM.MealId);
+            CartDetails? anotherMealInOrder = GetMealFromCart(orderedMealsVM.MealId);
 
             if (anotherMealInOrder is null)
             {
@@ -165,7 +167,7 @@
 
         public decimal CalculateTotalMealsPrice(int cartId)
         {
-            decimal totalMealsPrice = unitOfWorkRepository.OrderedMeals.Get(expression: o => o.CartId == cartId, tracked: false)!
+            decimal totalMealsPrice = unitOfWorkRepository.CartDetails.Get(expression: o => o.CartId == cartId, tracked: false)!
             .Sum(o => (o.Meal.Price * o.Quantity));
 
             return totalMealsPrice;

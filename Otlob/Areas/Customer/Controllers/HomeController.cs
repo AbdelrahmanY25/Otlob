@@ -1,66 +1,59 @@
-namespace Otlob.Areas.Customer.Controllers
+namespace Otlob.Areas.Customer.Controllers;
+
+[Area(SD.customer)]
+public class HomeController(ILogger<HomeController> logger, IRestaurantService restaurantService,
+                      IMealService mealService, IDataProtectionProvider dataProtectionProvider) : Controller
 {
-    [Area("Customer")]
-    public class HomeController : Controller
+    private readonly ILogger<HomeController> _logger = logger;
+    private readonly IRestaurantService _restaurantService = restaurantService;
+    private readonly IMealService _mealService = mealService;
+    private readonly IDataProtector _dataProtector = dataProtectionProvider.CreateProtector("SecureData");
+
+    public IActionResult Index(Category? filter = null)
     {
-        private readonly ILogger<HomeController> logger;
-        private readonly IRestaurantService restaurantService;
-        private readonly IMealService mealService;
-        private readonly IDataProtector dataProtector;
+        var restaurants = _restaurantService.GetAllRestaurants(filter);
 
-        public HomeController(ILogger<HomeController> logger,
-                              IRestaurantService restaurantService,
-                              IMealService mealService,
-                              IDataProtectionProvider dataProtectionProvider)
+        if (restaurants is null)
         {
-            this.logger = logger;
-            this.restaurantService = restaurantService;
-            this.mealService = mealService;
-            dataProtector = dataProtectionProvider.CreateProtector("SecureData");
+            return View("NotFound");
         }
 
-        public IActionResult Index(RestaurantCategory? filter = null)
+        return View(restaurants);
+    }
+
+    public IActionResult Details(string? id, string? filter = null)
+    {
+        if (id.IsNullOrEmpty())
         {
-            var restaurants = restaurantService.GetAllRestaurantsJustMainInfo(filter);
-           
-            return View(restaurants);
+            return RedirectToAction("Index");
         }
 
-        public IActionResult Details(string? id, string? filter = null)
+        int restaurantlId = int.Parse(_dataProtector.Unprotect(id!));
+
+        var result = _mealService.GetMealsDetails(restaurantlId);
+        var meals = result.Value;
+
+
+        if (result.IsFailure)
         {
-            if (id.IsNullOrEmpty())
-            {
-                return RedirectToAction("Index");
-            }
-
-            int restaurantlId = int.Parse(dataProtector.Unprotect(id!));
-
-            var meals = mealService.ViewAllMealsVm(restaurantlId);
-
-            if (meals is null)
-            {
-                return NotFound();
-            }
-
-            if (filter is not null)
-            {
-                meals = mealService.MealCategoryFilter(meals, filter);
-            }
-
-            ViewBag.ResId = id;
-
-            return View(meals);
-        }
-      
-        public IActionResult Privacy()
-        {
-            return View();
+            return RedirectToAction("Index");
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        if (filter is not null)
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            meals = _mealService.MealCategoryFilter(result.Value, filter);
         }
+
+        ViewBag.ResId = id;
+
+        return View(meals);
+    }
+  
+    public IActionResult Privacy() => View();
+
+    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+    public IActionResult Error()
+    {
+        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
 }

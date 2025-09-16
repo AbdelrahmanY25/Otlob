@@ -1,14 +1,18 @@
-﻿namespace Otlob.Areas.Customer.Services.Interfaces
+﻿namespace Otlob.IServices;
+
+public interface IAddressService
 {
-    public interface IAddressService
-    {
-        IQueryable<AddressVM>? GetUserAddressies(string userId);
-        AddressVM? GetOneAddress(int addressId);
-        string? AddAddress(AddressVM addressVM, string userId);
-        bool AddUserAddress(string customerAddres, string userId);
-        string? UpdateAddress(AddressVM addressVM, string userId, int addressId);
-        bool DeleteAddress(int addressId);
-        bool IsAddressExist(string userId, AddressVM addressVM);
-        bool IsUserHasAnyAddress(string userId);
-    }
+    Task<Result<IQueryable<AddressResponse>>?> GetUserAddressies();
+    
+    Task<Result> AddAddress(AddressRequest request);
+    
+    Result<AddressResponse> GetOneAddress(string id);
+    
+    Task<Result> UpdateAddress(AddressRequest request);
+    
+    Result DeleteAddress(string id);
+    
+    bool IsAddressExist(string userId, string customerAddress);
+    
+    bool IsUserHasAnyAddresses(string userId);
 }

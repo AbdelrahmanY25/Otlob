@@ -1,0 +1,221 @@
+﻿:root {
+    --light-gray: #f8f8f8;
+    --input-border: #ccc;
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+a {
+    text-decoration: none;
+    color: white;
+    transition: var(--main-transition);
+}
+
+.profile {
+    box-shadow: var(--shadow);
+    padding: 30px;
+    display: flex;
+    flex-wrap: wrap;
+    background: white;
+    margin: 30px auto;
+    max-width: 1000px;
+    border-radius: 12px;
+}
+
+.profile .info {
+    width: 100%;
+}
+
+.profile .info .home {
+    font-size: 14px;
+    text-align: start;
+    margin-bottom: 10px;
+}
+
+.profile .info .home a {
+    margin-right: 10px;
+    color: var(--primary-color);
+}
+
+.profile .info .home a:hover,
+.profile .info .home span:last-child {
+    color: var(--secondary-color);
+}
+
+.profile .info h2 {
+    color: var(--primary-color);
+    font-size: 28px;
+    margin: 10px 0 20px;
+    font-weight: 600;
+}
+
+.profile .line {
+    margin: 0 auto 20px;
+    height: 1px;
+    background-color: #eee;
+    width: 100%;
+}
+
+.profile .links {
+    width: 100%;
+    max-width: 200px;
+    border-right: 1px solid var(--secondary-color);
+    display: flex;
+    flex-direction: column;
+    padding-right: 20px;
+    margin-right: 30px;
+}
+
+.profile .links a {
+    padding: 12px;
+    border-radius: 6px;
+    font-size: 15px;
+    color: var(--primary-color);
+    background-color: var(--light-gray);
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.profile .links a.active {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.profile .links a:hover:not(.active) {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+form {
+    flex: 1;
+    padding: 20px 30px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+    position: relative;
+}
+
+form .field {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+form .field label {
+    font-size: 14px;
+    color: #444;
+}
+
+form .field input,
+form .field select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--input-border);
+    border-radius: 6px;
+    outline: none;
+    transition: border-color var(--main-transition);
+}
+
+form .field input:focus,
+form .field select:focus {
+    border-color: var(--secondary-color);
+}
+
+form button {
+    background-color: var(--primary-color);
+    border: none;
+    color: white;
+    padding: 12px 20px;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    width: 100%;
+    max-width: 250px;
+    margin-top: 20px;
+    transition: var(--main-transition);
+}
+
+form button:hover {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+form .pic {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 auto 30px;
+    position: relative;
+}
+
+form .pic img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+form .edit-icon {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background: #fff;
+    padding: 2px;
+    border-radius: 50%;
+    box-shadow: 0 0 5px rgba(0,0,0,0.2);
+}
+
+
+form .hidden-file-input {
+    display: none;
+}
+
+.edit-icon {
+    position: absolute;
+    right: -10px;
+    bottom: -10px;
+    font-size: 20px;
+    background-color: white;
+    border-radius: 50%;
+    padding: 5px;
+    box-shadow: var(--shadow);
+    cursor: pointer;
+    color: var(--primary-color);
+    transition: var(--main-transition);
+}
+
+.edit-icon:hover {
+    color: var(--secondary-color);
+}
+
+@media (max-width: 768px) {
+    .profile {
+        flex-direction: column;
+        padding: 20px;
+    }
+
+    .profile .links {
+        flex-direction: row;
+        flex-wrap: wrap;
+        border-right: none;
+        margin-bottom: 20px;
+    }
+
+    .profile .links a {
+        flex: 1;
+        margin: 5px;
+    }
+
+    form {
+        padding: 20px;
+    }
+
+    form .pic {
+        position: static;
+        margin: 0 auto 20px;
+    }
+
+    form button {
+        width: 100%;
+    }
+}

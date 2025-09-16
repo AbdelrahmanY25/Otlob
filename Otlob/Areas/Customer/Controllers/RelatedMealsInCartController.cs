@@ -32,13 +32,13 @@
 
         public IActionResult DeleteOrderedMeal(string id)
         {
-            OrderedMeals selectedOrderMeal = orderedMealsService.DeleteOrderedMeal(id);
+            CartDetails selectedOrderMeal = orderedMealsService.DeleteOrderedMeal(id);
 
             bool isMealsExistInCart = orderedMealsService.ThereIsAnyMealsInCart(selectedOrderMeal);
 
             if (selectedOrderMeal is null || !isMealsExistInCart)
             {
-                cartService.DeleteCart(selectedOrderMeal.CartId);
+                cartService.DeleteCart(selectedOrderMeal!.CartId);
             }
 
             return RedirectToAction("Cart", "Cart");

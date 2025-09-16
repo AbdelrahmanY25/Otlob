@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="Otlob/Otlob.csproj" />
+  <Project Path="RepositoryPatternWithUOW.Core/Otlob.Core.csproj" />
+  <Project Path="RepositoryPatternWithUOW.EF/Otlob.EF.csproj" />
+  <Project Path="Utility/Utility.csproj" />
+</Solution>

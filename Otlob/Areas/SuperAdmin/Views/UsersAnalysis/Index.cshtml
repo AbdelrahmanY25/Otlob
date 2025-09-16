@@ -1,0 +1,38 @@
+﻿@using Otlob.Core.Contracts.ViewModel
+@model UsersAnalysisVM
+
+<link rel="stylesheet" href="~/css/usersAnalysis.css" />
+
+<div class="dashboard-stats">
+    <div class="stat-card customers">
+        <div class="stat-icon">
+            <i class="bi bi-people-fill"></i>
+        </div>
+        <div class="stat-info">
+            <div class="stat-label">Customers</div>
+            <a asp-controller="Users" asp-action="Customers" class="stat-value count-up" data-target="@Model.CustomersCount">0</a>
+        </div>
+    </div>
+
+    <div class="stat-card partners">
+        <div class="stat-icon">
+            <i class="bi bi-shop"></i>
+        </div>
+        <div class="stat-info">
+            <div class="stat-label">Partners</div>
+            <a asp-controller="Users" asp-action="Partners" class="stat-value count-up" data-target="@Model.PartnersCount">0</a>
+        </div>
+    </div>
+
+    <div class="stat-card total">
+        <div class="stat-icon">
+            <i class="bi bi-person-lines-fill"></i>
+        </div>
+        <div class="stat-info">
+            <div class="stat-label">Total Users</div>
+            <a asp-controller="Users" asp-action="Index" class="stat-value count-up" data-target="@(Model.CustomersCount + Model.PartnersCount)">0</a>
+        </div>
+    </div>
+</div>
+
+<script src="~/js/usersAnalysis.js"></script>

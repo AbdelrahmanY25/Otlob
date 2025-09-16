@@ -1,7 +1,7 @@
 ﻿@model RestaurantVM
 
 <div>
-    <a class="btn btn-primary mb-2" asp-action=@(Model.AcctiveStatus == AcctiveStatus.Unaccepted ? "ResturatnRequist" : "ActiveResturatns") asp-controller="Restaurants">←</a>   
+    <a class="btn btn-primary mb-2" asp-action=@(Model.AcctiveStatus == AcctiveStatus.UnAccepted ? "ResturatnRequist" : "ActiveResturatns") asp-controller="Restaurants">←</a>   
 </div>
 
 
@@ -47,7 +47,7 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.DeliveryDuration)
         </dd>
-        @if (Model.AcctiveStatus == AcctiveStatus.Unaccepted) 
+        @if (Model.AcctiveStatus == AcctiveStatus.UnAccepted) 
         {
             <dt class = "col-sm-2">
                 @Html.DisplayNameFor(model => model.AcctiveStatus)

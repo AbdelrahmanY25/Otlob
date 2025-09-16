@@ -1,256 +1,130 @@
-﻿using Otlob.Core.ViewModel;
+﻿namespace Otlob.Areas.Customer.Controllers;
 
-namespace Otlob.Areas.Customer.Controllers
+[Area(SD.customer)]
+public class AccountController(ISendEmailsToUsersService sendEmailsToUsersService, UserManager<ApplicationUser> userManager,
+                               IAuthService authService) : Controller
 {
-    [Area("Customer")]
-    public class AccountController : Controller
+    private readonly ISendEmailsToUsersService _sendEmailsToUsersService = sendEmailsToUsersService;
+    private readonly UserManager<ApplicationUser> _userManager = userManager;
+    private readonly IAuthService _authService = authService;
+
+    public IActionResult Register() => View();
+
+    [HttpPost, ValidateAntiForgeryToken]
+    public async Task<IActionResult> Register(ApplicationUserVM userVM)
     {
-        private readonly UserManager<ApplicationUser> userManager;
-        private readonly SignInManager<ApplicationUser> signInManager;
-        private readonly RoleManager<IdentityRole> roleManager;
-        private readonly IImageService imageService;
-        private readonly IUserServices userServices;
-        private readonly IAddressService addressService;
-
-        public AccountController(UserManager<ApplicationUser> userManager,
-                                 SignInManager<ApplicationUser> signInManager,
-                                 RoleManager<IdentityRole> roleManager,
-                                 IImageService imageService,
-                                 IUserServices userServices,
-                                 IAddressService addressService)
+        if (!ModelState.IsValid)
         {
-            this.userManager = userManager;
-            this.signInManager = signInManager;
-            this.roleManager = roleManager;
-            this.imageService = imageService;
-            this.userServices = userServices;
-            this.addressService = addressService;
+            return View(userVM);
         }
 
-        public async Task<IActionResult> Register()
+        var result = await _authService.RegisterAsync(userVM, [SD.customer]);
+
+        if (result.IsFailure)
         {
-            if (roleManager.Roles.IsNullOrEmpty())
-            {
-                await roleManager.CreateAsync(new(SD.superAdminRole));
-                await roleManager.CreateAsync(new(SD.restaurantAdmin));
-                await roleManager.CreateAsync(new(SD.customer));
-            }
-            return View();
-        }
-
-        [HttpPost, ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register(ApplicationUserlVM userVM)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View(userVM);
-            }
-
-            var applicatioUser = new ApplicationUser { UserName = userVM.UserName, Email = userVM.Email, PhoneNumber = userVM.PhoneNumber };
-
-            var result = await userManager.CreateAsync(applicatioUser, userVM.Password);                
-                
-            if (result.Succeeded)
-            {
-                await userManager.AddToRoleAsync(applicatioUser, SD.customer);
-
-                var userAddress = addressService.AddUserAddress(userVM.Address, applicatioUser.Id);
-                  
-                if (!userAddress)
-                {
-                    return View(userVM);
-                }
-
-                await signInManager.SignInAsync(applicatioUser, isPersistent: false);
-
-                return RedirectToAction("Index", "Home");
-            }
-            else
-            {
-                foreach (var error in result.Errors)
-                {
-                    ModelState.AddModelError("", error.Description);
-                }
-
-                return View(userVM);
-            }            
-        }
-
-        public IActionResult Login()
-        {
-            signInManager.SignOutAsync();
-            return View();
-        }
-
-        [HttpPost, ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(LoginVM loginVM)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View(loginVM);
-            }
-
-            var user = await userManager.FindByEmailAsync(loginVM.Email);
-
-            var finalResult = await userManager.CheckPasswordAsync(user!, loginVM.Password);
-
-            if (finalResult)
-            {              
-                await userManager.ResetAccessFailedCountAsync(user!);
-                var claims = AddUserClaims(user!);
-                await signInManager.SignInWithClaimsAsync(user!, loginVM.RememberMe, claims);
-                return await CheckOnUserRoll(user!);
-            }
-            else
-            {                
-                await userManager.AccessFailedAsync(user!);             
-                ModelState.AddModelError("", "There is invalid user name or password");
-                return View(loginVM);
-            }                
-        }
-
-        private async Task<IActionResult> CheckOnUserRoll(ApplicationUser user)
-        {
-            if (await userManager.IsInRoleAsync(user, SD.superAdminRole))
-            {
-                return RedirectToAction("Index", "Home", new { Area = "SuperAdmin" });
-            }
-            else if (await userManager.IsInRoleAsync(user, SD.restaurantAdmin))
-            {
-                return RedirectToAction("Index", "Home", new { Area = "ResturantAdmin" });
-            }
-            else
-            {
-                return RedirectToAction("Index", "Home", new { Area = "Customer" });
-            }
-        }
-
-        private List<Claim> AddUserClaims(ApplicationUser user)
-        {
-            List<Claim> claims = new();
-            claims.Add(new Claim(SD.restaurantId, user.RestaurantId.ToString()));
-            if (user.Image is not null)
-                claims.Add(new Claim(SD.userImageProfile, user.Image!));
-
-            return claims;
-        }
-
-        public IActionResult UserProfile()
-        {
-            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
-
-            ProfileVM userProfileDetails = userServices.GetUserProfileVmDetails(userId);
-
-            if (userProfileDetails is null)
-            {
-                return RedirectToAction("Login");
-            }
-
-            return View(userProfileDetails);
-        }
-
-        [HttpPost, ValidateAntiForgeryToken]
-        public async Task<IActionResult> UserProfile(ProfileVM profileVM)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View(profileVM);
-            }
-
-            ApplicationUser? user = await userManager.GetUserAsync(User);
-
-            if (user is null)
-            {
-                return RedirectToAction("Login");
-            }
-
-            user = userServices.UpdateUserInfo(user, profileVM);
-
-            var updateUserInfo = await userManager.UpdateAsync(user);
-
-            if (updateUserInfo.Succeeded)
-            {
-                TempData["Success"] = "Your profile info updated successfully.";
-                return RedirectToAction("UserProfile");
-            }
+            ModelState.AddModelError(result.Error.Code, result.Error.Description);
             
-            foreach (var errorInfo in updateUserInfo.Errors)
-            {
-                ModelState.AddModelError("", errorInfo.Description);
-            }
-
-            return View(profileVM);                       
+            return View(userVM);
         }
 
-        [HttpPost, ValidateAntiForgeryToken]
-        public async Task<IActionResult> UserProfilePicture(IFormFile image)
+        return RedirectToAction("Index", "Home", new { Area = SD.customer });
+    }
+
+    public async Task<IActionResult> Login()
+    {
+        await _authService.LogOutAsync();
+
+        return View();
+    }
+
+    [HttpPost, ValidateAntiForgeryToken]
+    public async Task<IActionResult> Login(LoginVM loginVM)
+    {
+        if (!ModelState.IsValid)
         {
-            ApplicationUser? user = await userManager.GetUserAsync(User);
-
-            if (user is null)
-            {
-                return RedirectToAction("Login");
-            }
-
-            var isImageUploaded = imageService.UploadImage(image!);
-
-            if (!isImageUploaded.IsSuccess)
-            {                
-                TempData["Error"] = isImageUploaded.Message!;
-                return RedirectToAction("UserProfile");
-            }
-
-            var isOldImageDeleted = imageService.DeleteOldImageIfExist(user.Image!);
-
-            if (!isOldImageDeleted.IsSuccess)
-            {
-                TempData["Error"] = isOldImageDeleted.Message!;
-                return RedirectToAction("UserProfile");
-            }
-
-            userServices.UpdateUserImage(user!, isImageUploaded.ImageUrl);
-
-            TempData["Success"] = "Your profile picture updated successfully.";
-            return RedirectToAction("UserProfile");        
+            return View(loginVM);
         }
 
-        public IActionResult ChangePassword() => View();
+        var result = await _authService.LoginAsync(loginVM);
 
-
-        [HttpPost, ValidateAntiForgeryToken]
-        public async Task<IActionResult> ChangePassword(ChangePasswordVM passwordVM)
+        if (result.IsFailure)
         {
-            var user = await userManager.GetUserAsync(User);
-
-            if (user is null)
-            {
-                ModelState.AddModelError("", "There is no user");
-                RedirectToAction("Index", "Home");
-            }
-
-            var result = await userManager.CheckPasswordAsync(user!, passwordVM.OldPassword);
-
-            if (!result || passwordVM.OldPassword == passwordVM.NewPassword)
-            {
-                ModelState.AddModelError("", "Wrond Password Entered");
-                return View();
-            }
-
-            var finalRes = await userManager.ChangePasswordAsync(user!, passwordVM.OldPassword, passwordVM.NewPassword);
-
-            if (finalRes.Succeeded)
-            {
-                TempData["Success"] = "Your Password updated successfully.";
-                return RedirectToAction("Profile");
-            }
-
-            return View();
-        }      
-       
-        public IActionResult Logout()
-        {
-            signInManager.SignOutAsync();
-            return RedirectToAction("Login");
+            ModelState.AddModelError(result.Error.Code, result.Error.Description!);
+            return View(loginVM);
         }
+
+        return RedirectToAction("Index", "Home", new { Area = result.Value! });
+    }
+    
+    public IActionResult ForgetPassword() => View();
+
+    [HttpPost, ValidateAntiForgeryToken]
+    public async Task<IActionResult> ForgetPassword(ForgetPasswordVM forgetPasswordVM)
+    {
+        if (!ModelState.IsValid)
+        {
+            return View(forgetPasswordVM);
+        }
+
+        ApplicationUser user = (await _userManager.FindByEmailAsync(forgetPasswordVM.Email))!;
+           
+        var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+
+        var callbackUrl = Url.Action(nameof(ResetPassword), "Account",
+                new { token, email = forgetPasswordVM.Email }, Request.Scheme);
+
+        BackgroundJob.Enqueue(() => _sendEmailsToUsersService.WhenForgetHisPasswordAsync(callbackUrl!, user, forgetPasswordVM));
+
+        return RedirectToAction(nameof(ForgetPasswordConfirmation));
+    }
+
+    public IActionResult ForgetPasswordConfirmation() => View();
+
+    public IActionResult ResetPassword(string token, string email) => View(new ResetPasswordVM { Email = email, Token = token });
+
+    [HttpPost, ValidateAntiForgeryToken]
+    public async Task<IActionResult> ResetPassword(ResetPasswordVM model)
+    {
+        if (!ModelState.IsValid)
+        {
+            return View(model);
+        }
+            
+        Result result = await _authService.ResetPasswordAsync(model);
+
+        if (result.IsFailure)
+        {
+            ModelState.AddModelError(result.Error.Code, result.Error.Description!);
+            return View(model);
+        }
+
+        return RedirectToAction(nameof(Login));
+    }
+
+    [Authorize]
+    public IActionResult ChangePassword() => View();
+
+    [Authorize]
+    [HttpPost, ValidateAntiForgeryToken]
+    public async Task<IActionResult> ChangePassword(ChangePasswordVM passwordVM)
+    {
+        var result = await _authService.ChangePasswordAsync(passwordVM);
+
+        if (result.IsFailure)
+        {
+            ModelState.AddModelError(result.Error.Code, result.Error.Description!);
+            return View(passwordVM);
+        }
+            
+        TempData["Success"] = result.Value;
+        return RedirectToAction("UserProfile", "UserProfile");           
+    }
+
+    [Authorize]
+    public async Task<IActionResult> Logout()
+    {
+        await _authService.LogOutAsync();
+        return RedirectToAction(nameof(Login));
     }
 }
+

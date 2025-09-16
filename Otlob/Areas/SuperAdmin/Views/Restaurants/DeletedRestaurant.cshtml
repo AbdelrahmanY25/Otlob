@@ -6,7 +6,7 @@
         {
             <div class="card">
                 <div class="image">
-                    <img alt="ResturantLogo" src="@(item.Image is not null ? item.Image : "~/images/Default.jpg")" />                    
+                    <img alt="ResturantLogo" src="/images/@(item.Image is not null ? item.Image : "Default.jpg")" />
                 </div>
                 <div class="text">
                     <h3>@item.Name</h3>

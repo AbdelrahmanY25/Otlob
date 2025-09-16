@@ -1,10 +1,10 @@
-﻿namespace Otlob.Core.IServices
+﻿namespace Otlob.IServices
 {
     public interface ICartService
     {
         Cart? GetCartById(string cartId);
         Cart? GetUserCart(string userId, int restaurantId);
-        CartVM? GetUserCartToView(string userId);
+        Task<CartVM?> GetUserCartToView(string userId);
         Cart? AddCart(string userId, int restaurantId);
         bool DeleteCart(int id);
         bool IsCartHasItems(string userId);

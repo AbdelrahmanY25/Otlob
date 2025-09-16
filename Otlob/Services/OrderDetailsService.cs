@@ -2,23 +2,23 @@
 {
     public class OrderDetailsService : IOrderDetailsService
     {
-        private readonly IUnitOfWorkRepository unitOfWorkRepository;
+        private readonly IMapper mapper;
         private readonly IOrderedMealsService orderedMealsService;
-        private readonly IDataProtector dataProtector;
+        private readonly IUnitOfWorkRepository unitOfWorkRepository;
 
-        public OrderDetailsService(IUnitOfWorkRepository unitOfWorkRepository,
-                                   IOrderedMealsService orderedMealsService,
+        public OrderDetailsService(IMapper mapper,
                                    ICartService cartService,
-                                   IDataProtectionProvider dataProtectionProvider)
+                                   IUnitOfWorkRepository unitOfWorkRepository,
+                                   IOrderedMealsService orderedMealsService)
         {
-            this.unitOfWorkRepository = unitOfWorkRepository;
+            this.mapper = mapper;
             this.orderedMealsService = orderedMealsService;
-            dataProtector = dataProtectionProvider.CreateProtector("SecureData");
+            this.unitOfWorkRepository = unitOfWorkRepository;
         }
 
         public ICollection<OrderDetails> AddOrderDetails(int cartId)
         {
-            IEnumerable<OrderedMeals> ordredMeals = orderedMealsService.GetOrderedMealsDetails(cartId);
+            IEnumerable<CartDetails> ordredMeals = orderedMealsService.GetOrderedMealsDetails(cartId);
 
             if (ordredMeals is null)
             {
@@ -42,20 +42,18 @@
             return orderDetailsList;
         }
 
-        public IQueryable<OrderDetails>? GetOrderDetailsToViewPage(string id)
+        public OrderDetailsViewModel GetOrderDetailsToViewPage(Order order)
         {
-            int orderId = int.Parse(dataProtector.Unprotect(id));
-
             var meals = unitOfWorkRepository
                          .OrderDetails
                          .GetAllWithSelect(
-                             expression: m => m.OrderId == orderId,
+                             expression: od => od.OrderId == order.Id,
                              tracked: false,
                              selector: od => new OrderDetails
                              {
                                  MealPrice = od.MealPrice,
                                  MealQuantity = od.MealQuantity,
-                                 TotalPrice = od.TotalPrice,
+                                 TotalPrice = od.TotalPrice,                                 
                                  Meal = new Meal
                                  {
                                      Name = od.Meal.Name,
@@ -64,7 +62,18 @@
                              }
                          );
 
-            return meals;
+            if (meals is null) 
+            { 
+                return null!;
+            }
+
+            OrderDetailsViewModel orderDetailsVM = new();
+
+            mapper.Map(order, orderDetailsVM);
+
+            orderDetailsVM.Meals = meals!;
+
+            return orderDetailsVM;
         }
     }
 }

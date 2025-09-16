@@ -1,4 +1,5 @@
-﻿@model OrderDetailsViewModel
+﻿@using Otlob.Core.Contracts.ViewModel
+@model OrderDetailsViewModel
 
 <a class="btn btn-warning" href="/ResturantAdmin/Orders/@(Model.OrderStatus == OrderStatus.Delivered ? "DeliveredOrders" : "Index")">Back to resturant orders</a>
 

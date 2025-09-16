@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Otlob.EF")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+baf37ff10e62017ee8e7948278f336a998c1e840")]
 [assembly: System.Reflection.AssemblyProductAttribute("Otlob.EF")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Otlob.EF")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

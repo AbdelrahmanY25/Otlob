@@ -1,15 +1,12 @@
-﻿namespace Otlob.Core.IServices
+﻿namespace Otlob.IServices;
+
+public interface IUserServices
 {
-    public interface IUserServices
-    {
-        IQueryable<ApplicationUser>? GetAllUsers(Expression<Func<ApplicationUser, bool>>? query = null);
-        void ChangeBlockUserStatus(string userId, bool blockstatus);
-        ApplicationUser UpdateUserInfo(ApplicationUser user, ProfileVM profileVM);
-        ApplicationUser UpdateUserProfile(ProfileVM profileVM, string userId);
-        ProfileVM GetUserProfileVmDetails(string userId);
-        ApplicationUser? GetUserDataToPartialview(string userId);
-        int GetUserRestaurantId(string userId);
-        string? GetUserIdByRestaurantId(int restaurantId);
-        void UpdateUserImage(ApplicationUser user, string image);
-    }
+    IQueryable<ApplicationUser>? GetAllUsers(Expression<Func<ApplicationUser, bool>>? query = null);
+    
+    int GetCustomersCount();
+    
+    Task<Result> ToggleUserBlockStatusAsync(string userId);   
+    
+    Task<Result<ApplicationUser>> GetUserContactInfo(string userId);    
 }

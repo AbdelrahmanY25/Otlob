@@ -1,4 +1,4 @@
-﻿@model ApplicationUserlVM
+﻿@model ApplicationUserVM
 
 @section FormStyle {
     <partial name="_FormStylePartial"></partial>
@@ -8,42 +8,32 @@
     ViewData["Title"] = "Register";
 }
 
+<section class="form-section">
+    <img src="~/Illustrations/Sign up-rafiki.svg" alt="Alternate Text" />
 
-<form asp-action="Register" class="loginform">
-    <h2>Create an account</h2>
-    <div asp-validation-summary="All" class="text-danger"></div>
-    <div>
-        <input asp-for="UserName"/>
-    </div>
-    <div>
-        <input asp-for="Email" />
-    </div>
-    <div>
-        <input asp-for="Password" placeholder="Password" />
-    </div>
-    <div>
-        <input asp-for="ConfirmPassword" placeholder="Confirm Password" />
-    </div>
-    <div>
-        <input asp-for="Address" placeholder="Address" />
-    </div>
-    <div>
-        <input asp-for="PhoneNumber" placeholder="Phone Number" />
-    </div>
-    <div>
-        <button type="submit">Create your account</button>
-    </div>
-    <div class="social-login">
-    <a href="/ExternalLogin/Google" class="social-button google">
-        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/google/google-original.svg" alt="Google" />
-        Sign up with Google
-    </a>   
-    <a href="/ExternalLogin/Microsoft" class="social-button microsoft">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg" alt="Microsoft" />
-        Sign up with Microsoft
-    </a>
-</div>
-</form>
+    <form asp-action="Register" class="loginform">
+        <h2>Create an account</h2>
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <div>
+            <input asp-for="UserName" placeholder="User Name" />
+        </div>
+        <div>
+            <input asp-for="Email" placeholder="Email" />
+        </div>
+        <div>
+            <input type="password" asp-for="Password" placeholder="Password" />
+        </div>
+        <div>
+            <input type="password" asp-for="ConfirmPassword" placeholder="Confirm Password" />
+        </div>
+        <div>
+            <input asp-for="PhoneNumber" placeholder="Phone Number" />
+        </div>
+        <div>
+            <button type="submit">Create your account</button>
+        </div>
+    </form>
+</section>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial"></partial>

@@ -3,36 +3,40 @@
   "WorkspaceRootPath": "D:\\My_Projects\\Otlob\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{D640FB36-1719-48B8-B41E-BE4D95F57950}|Otlob\\Otlob.csproj|d:\\my_projects\\otlob\\otlob\\areas\\superadmin\\views\\ordersstatus\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{D640FB36-1719-48B8-B41E-BE4D95F57950}|Otlob\\Otlob.csproj|solutionrelative:otlob\\areas\\superadmin\\views\\ordersstatus\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{D640FB36-1719-48B8-B41E-BE4D95F57950}|Otlob\\Otlob.csproj|d:\\my_projects\\otlob\\otlob\\otlob.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{D640FB36-1719-48B8-B41E-BE4D95F57950}|Otlob\\Otlob.csproj|solutionrelative:otlob\\otlob.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{D640FB36-1719-48B8-B41E-BE4D95F57950}|Otlob\\Otlob.csproj|d:\\my_projects\\otlob\\otlob\\services\\paginationservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D640FB36-1719-48B8-B41E-BE4D95F57950}|Otlob\\Otlob.csproj|solutionrelative:otlob\\services\\paginationservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{D640FB36-1719-48B8-B41E-BE4D95F57950}|Otlob\\Otlob.csproj|d:\\my_projects\\otlob\\otlob\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D640FB36-1719-48B8-B41E-BE4D95F57950}|Otlob\\Otlob.csproj|solutionrelative:otlob\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{D640FB36-1719-48B8-B41E-BE4D95F57950}|Otlob\\Otlob.csproj|d:\\my_projects\\otlob\\otlob\\areas\\superadmin\\controllers\\ordersstatuscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D640FB36-1719-48B8-B41E-BE4D95F57950}|Otlob\\Otlob.csproj|solutionrelative:otlob\\areas\\superadmin\\controllers\\ordersstatuscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{D640FB36-1719-48B8-B41E-BE4D95F57950}|Otlob\\Otlob.csproj|d:\\my_projects\\otlob\\otlob\\globalusing.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D640FB36-1719-48B8-B41E-BE4D95F57950}|Otlob\\Otlob.csproj|solutionrelative:otlob\\globalusing.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{D640FB36-1719-48B8-B41E-BE4D95F57950}|Otlob\\Otlob.csproj|d:\\my_projects\\otlob\\otlob\\services\\orderservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{D640FB36-1719-48B8-B41E-BE4D95F57950}|Otlob\\Otlob.csproj|solutionrelative:otlob\\services\\orderservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{D640FB36-1719-48B8-B41E-BE4D95F57950}|Otlob\\Otlob.csproj|d:\\my_projects\\otlob\\otlob\\areas\\superadmin\\controllers\\ordersstatuscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D640FB36-1719-48B8-B41E-BE4D95F57950}|Otlob\\Otlob.csproj|solutionrelative:otlob\\areas\\superadmin\\controllers\\ordersstatuscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{D640FB36-1719-48B8-B41E-BE4D95F57950}|Otlob\\Otlob.csproj|d:\\my_projects\\otlob\\otlob\\areas\\superadmin\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{D640FB36-1719-48B8-B41E-BE4D95F57950}|Otlob\\Otlob.csproj|solutionrelative:otlob\\areas\\superadmin\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{D640FB36-1719-48B8-B41E-BE4D95F57950}|Otlob\\Otlob.csproj|d:\\my_projects\\otlob\\otlob\\iservices\\iorderservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D640FB36-1719-48B8-B41E-BE4D95F57950}|Otlob\\Otlob.csproj|solutionrelative:otlob\\iservices\\iorderservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F015EB82-DF67-4074-920E-222E131A6250}|RepositoryPatternWithUOW.Core\\Otlob.Core.csproj|d:\\my_projects\\otlob\\repositorypatternwithuow.core\\ibaserepository\\ibaserepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F015EB82-DF67-4074-920E-222E131A6250}|RepositoryPatternWithUOW.Core\\Otlob.Core.csproj|solutionrelative:repositorypatternwithuow.core\\ibaserepository\\ibaserepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{19A7C118-36E0-4ADC-AD5B-FB8B6CFB1BB9}|RepositoryPatternWithUOW.EF\\Otlob.EF.csproj|d:\\my_projects\\otlob\\repositorypatternwithuow.ef\\baserepository\\baserepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{19A7C118-36E0-4ADC-AD5B-FB8B6CFB1BB9}|RepositoryPatternWithUOW.EF\\Otlob.EF.csproj|solutionrelative:repositorypatternwithuow.ef\\baserepository\\baserepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F015EB82-DF67-4074-920E-222E131A6250}|RepositoryPatternWithUOW.Core\\Otlob.Core.csproj|d:\\my_projects\\otlob\\repositorypatternwithuow.core\\ibaserepository\\ibaserepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F015EB82-DF67-4074-920E-222E131A6250}|RepositoryPatternWithUOW.Core\\Otlob.Core.csproj|solutionrelative:repositorypatternwithuow.core\\ibaserepository\\ibaserepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{D640FB36-1719-48B8-B41E-BE4D95F57950}|Otlob\\Otlob.csproj|d:\\my_projects\\otlob\\otlob\\iservices\\iorderservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D640FB36-1719-48B8-B41E-BE4D95F57950}|Otlob\\Otlob.csproj|solutionrelative:otlob\\iservices\\iorderservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -42,7 +46,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Bookmark",
@@ -53,52 +57,70 @@
               "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
             },
             {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c64b9c2-e352-428e-a56d-0ace190b99a6}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "GlobalUsing.cs",
+              "DocumentMoniker": "D:\\My_Projects\\Otlob\\Otlob\\GlobalUsing.cs",
+              "RelativeDocumentMoniker": "Otlob\\GlobalUsing.cs",
+              "ToolTip": "D:\\My_Projects\\Otlob\\Otlob\\GlobalUsing.cs",
+              "RelativeToolTip": "Otlob\\GlobalUsing.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAAbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-28T15:29:30.19Z",
+              "EditorCaption": ""
+            },
+            {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "D:\\My_Projects\\Otlob\\Otlob\\Areas\\SuperAdmin\\Views\\OrdersStatus\\Index.cshtml",
-              "RelativeDocumentMoniker": "Otlob\\Areas\\SuperAdmin\\Views\\OrdersStatus\\Index.cshtml",
-              "ToolTip": "D:\\My_Projects\\Otlob\\Otlob\\Areas\\SuperAdmin\\Views\\OrdersStatus\\Index.cshtml",
-              "RelativeToolTip": "Otlob\\Areas\\SuperAdmin\\Views\\OrdersStatus\\Index.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAIQAAAAjAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-07-04T21:27:39.87Z",
+              "Title": "Otlob",
+              "DocumentMoniker": "D:\\My_Projects\\Otlob\\Otlob\\Otlob.csproj",
+              "RelativeDocumentMoniker": "Otlob\\Otlob.csproj",
+              "ToolTip": "D:\\My_Projects\\Otlob\\Otlob\\Otlob.csproj",
+              "RelativeToolTip": "Otlob\\Otlob.csproj",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAABMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-08-28T15:20:48.541Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "PaginationService.cs",
-              "DocumentMoniker": "D:\\My_Projects\\Otlob\\Otlob\\Services\\PaginationService.cs",
-              "RelativeDocumentMoniker": "Otlob\\Services\\PaginationService.cs",
-              "ToolTip": "D:\\My_Projects\\Otlob\\Otlob\\Services\\PaginationService.cs",
-              "RelativeToolTip": "Otlob\\Services\\PaginationService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAA2AAAAAAAAAA==",
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\My_Projects\\Otlob\\Otlob\\Program.cs",
+              "RelativeDocumentMoniker": "Otlob\\Program.cs",
+              "ToolTip": "D:\\My_Projects\\Otlob\\Otlob\\Program.cs",
+              "RelativeToolTip": "Otlob\\Program.cs",
+              "ViewState": "AgIAABYAAAAAAAAAAAA2wDcAAABLAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-04T21:25:29.029Z",
+              "WhenOpened": "2025-08-28T15:18:53.263Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 8,
               "Title": "IOrderService.cs",
               "DocumentMoniker": "D:\\My_Projects\\Otlob\\Otlob\\IServices\\IOrderService.cs",
               "RelativeDocumentMoniker": "Otlob\\IServices\\IOrderService.cs",
               "ToolTip": "D:\\My_Projects\\Otlob\\Otlob\\IServices\\IOrderService.cs",
               "RelativeToolTip": "Otlob\\IServices\\IOrderService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAATAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAA1AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-04T16:45:12.565Z"
+              "WhenOpened": "2025-07-04T16:45:12.565Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
               "Title": "OrdersStatusController.cs",
               "DocumentMoniker": "D:\\My_Projects\\Otlob\\Otlob\\Areas\\SuperAdmin\\Controllers\\OrdersStatusController.cs",
               "RelativeDocumentMoniker": "Otlob\\Areas\\SuperAdmin\\Controllers\\OrdersStatusController.cs",
               "ToolTip": "D:\\My_Projects\\Otlob\\Otlob\\Areas\\SuperAdmin\\Controllers\\OrdersStatusController.cs",
               "RelativeToolTip": "Otlob\\Areas\\SuperAdmin\\Controllers\\OrdersStatusController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACYAAACGAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-07-04T16:41:04.866Z",
               "EditorCaption": ""
@@ -111,46 +133,49 @@
               "RelativeDocumentMoniker": "Otlob\\Services\\OrderService.cs",
               "ToolTip": "D:\\My_Projects\\Otlob\\Otlob\\Services\\OrderService.cs",
               "RelativeToolTip": "Otlob\\Services\\OrderService.cs",
-              "ViewState": "AgIAAMoAAAAAAAAAAADwv+IAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAZAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-07-04T16:18:51.018Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "HomeController.cs",
               "DocumentMoniker": "D:\\My_Projects\\Otlob\\Otlob\\Areas\\SuperAdmin\\Controllers\\HomeController.cs",
               "RelativeDocumentMoniker": "Otlob\\Areas\\SuperAdmin\\Controllers\\HomeController.cs",
               "ToolTip": "D:\\My_Projects\\Otlob\\Otlob\\Areas\\SuperAdmin\\Controllers\\HomeController.cs",
               "RelativeToolTip": "Otlob\\Areas\\SuperAdmin\\Controllers\\HomeController.cs",
-              "ViewState": "AgIAABEAAAAAAAAAAAAiwCYAAAAwAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAtAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-04T16:18:30.834Z"
+              "WhenOpened": "2025-07-04T16:18:30.834Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 6,
               "Title": "IBaseRepository.cs",
               "DocumentMoniker": "D:\\My_Projects\\Otlob\\RepositoryPatternWithUOW.Core\\IBaseRepository\\IBaseRepository.cs",
               "RelativeDocumentMoniker": "RepositoryPatternWithUOW.Core\\IBaseRepository\\IBaseRepository.cs",
               "ToolTip": "D:\\My_Projects\\Otlob\\RepositoryPatternWithUOW.Core\\IBaseRepository\\IBaseRepository.cs",
               "RelativeToolTip": "RepositoryPatternWithUOW.Core\\IBaseRepository\\IBaseRepository.cs",
-              "ViewState": "AgIAAAQAAAAAAAAAAAA1wBoAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAjAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-04T15:55:11.364Z"
+              "WhenOpened": "2025-07-04T15:55:11.364Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "BaseRepository.cs",
               "DocumentMoniker": "D:\\My_Projects\\Otlob\\RepositoryPatternWithUOW.EF\\BaseRepository\\BaseRepository.cs",
               "RelativeDocumentMoniker": "RepositoryPatternWithUOW.EF\\BaseRepository\\BaseRepository.cs",
               "ToolTip": "D:\\My_Projects\\Otlob\\RepositoryPatternWithUOW.EF\\BaseRepository\\BaseRepository.cs",
               "RelativeToolTip": "RepositoryPatternWithUOW.EF\\BaseRepository\\BaseRepository.cs",
-              "ViewState": "AgIAADkAAAAAAAAAAAAAAEcAAABAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAiAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-04T15:51:04.112Z"
+              "WhenOpened": "2025-07-04T15:51:04.112Z",
+              "EditorCaption": ""
             }
           ]
         }

@@ -1,43 +1,108 @@
-﻿@model RegistResturantVM
+﻿@model ApplicationUserVM
 
 @section FormStyle {
     <partial name="_FormStylePartial"></partial>
+    <partial name="_NotificationPartial"></partial>
 }
 
+<link rel="stylesheet" href="~/css/BecomeAParter.css" />
 
-<form asp-action="BecomeaPartner" class="loginform">
-    <h2>Create a resturant account</h2>
-    <div asp-validation-summary="All" class="text-danger"></div>
-    <div>
-        <input asp-for="ResName"/>
-    </div>
-    <div>
-        <input asp-for="ResUserName"/>
-    </div>
-    <div>
-        <input asp-for="ResEmail"/>
-    </div>
-    <div>
-        <input asp-for="ResAddress"/>
-    </div>
-    <div>
-        <input asp-for="ResPhone"/>
-    </div>
-    <div>
-        <input asp-for="Password"/>
-    </div>
-    <div>
-        <input asp-for="ConfirmPassword"/>
-    </div>
-    <div>
-        <textarea asp-for="Description"></textarea>
+<div class="mainSection">
+    <section class="hero-section">
+        <section class="form-section">        
+            <div class="text">
+                <img src="~/Illustrations/Partnership-pana.svg"/>
+                <h2>Join Our Restaurants Network</h2>
+                <p>Partner with us to reach thousands of hungry customers and grow your business with our proven delivery platform</p>
+            </div>
+            <form asp-action="BecomeAPartner" class="loginform">
+                <h2>Create a restaurant account</h2>
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div>
+                    <input asp-for="UserName" placeholder="User Name" />
+                </div>
+                <div>
+                    <input type="email" asp-for="Email" placeholder="Personal Email" />
+                </div>
+                <div>
+                    <input type="password" asp-for="Password" placeholder="Password" />
+                </div>
+                <div>
+                    <input type="password" asp-for="ConfirmPassword" placeholder="Confirm Password" />
+                </div>
+                <div>
+                    <input asp-for="PhoneNumber" placeholder="Personal Mobile Number" />
+                </div>
+                <div>
+                    <button type="submit">Create your account</button>
+                </div>
+            </form>
+        </section>
+    </section>
+
+
+
+    <section class="benefits-section">
+        <div class="container">
+            <h2 class="benefits-title">Why you should <span>partner with us</span></h2>
+
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-icon">🍕</div>
+                    <h3>Reach more customers</h3>
+                    <p>We have thousands of hungry customers in your area waiting to order from you and we'll help you deliver their food faster.</p>
+                </div>
+
+                <div class="benefit-card">
+                    <div class="benefit-icon">💰</div>
+                    <h3>Earn more money</h3>
+                    <p>We'll help you serve more hungry customers without adding more chairs to your restaurant and we'll make sure you get paid promptly.</p>
+                </div>
+
+                <div class="benefit-card">
+                    <div class="benefit-icon">📈</div>
+                    <h3>Grow your business</h3>
+                    <p>Increase sales, reach more customers or market your business better. We deliver ways to grow your business because when you succeed, we do too.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="container">
+        <section class="process-section">
+                <h2 class="process-title">How we'll <span>work together</span></h2>
+
+                <div class="process-steps">
+                    <div class="process-step">
+                        <div class="step-icon">📱</div>
+                        <h4>The Customer Orders</h4>
+                        <p>The customer places an order through the <span style="color: var(--primary-color)"><b>otlob</b></span> app.</p>
+                    </div>
+
+                    <div class="process-step">
+                        <div class="step-icon">👨‍🍳</div>
+                        <h4>You Prepare</h4>
+                        <p>You will receive a notification to start preparing the order.</p>
+                    </div>
+
+                    <div class="process-step">
+                        <div class="step-icon">🛵</div>
+                        <h4>You Deliver</h4>
+                        <p>pick up the order and deliver it to the customer.</p>
+                    </div>
+
+                    <div class="process-step">
+                        <div class="step-icon">📊</div>
+                        <h4>Watch Your Business Grow</h4>
+                        <p>Track your sales, monitor orders, invest in marketing and more in your personal restaurant portal.</p>
+                    </div>
+                </div>
+        </section>
     </div>
 
-    <div>
-        <button type="submit">Create your account</button>
-    </div>
-</form>
+    <partial name="_FooterPartial"></partial>
+</div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <partial name="_ValidationScriptsPartial"></partial>
 }

@@ -1,94 +1,109 @@
-﻿@{
+﻿@using Otlob.Core.Contracts.ViewModel
+@model OrdersAnalysisVM
+
+@{      
     ViewData["Title"] = "Super Admin Home Page";
-    var orderStatusPercentages = ViewBag.OrderStatusPercentages as Dictionary<string, decimal>;
+
+    var ordersAnalytics = Json.Serialize(Model.ordersOverLastTwelveMonths);
 }
 
-<div class="ordersData">
-    <div class="card p-4 shadow-sm">
-        <h5 class="text-center">Order Status Overview</h5>
-        <canvas id="orderStatusChart" style="max-height: 400px;"></canvas>
-    </div>
-</div> 
+<link rel="stylesheet" href="~/css/OrdersAnalysis.css" asp-append-version="true" />
 
-<div class="ordersData">
-    <div class="flex orders users">
-        <a class="icon" asp-controller="Users" asp-action="Index"><i class="bi bi-person"></i></a>      
-       <div class="dd">
-            <a asp-controller="Users" asp-action="Customers">Customers: @ViewBag.Users</a>
-            <a asp-controller="Users" asp-action="Partners">Partners: @ViewBag.Partners</a>
-       </div>
+<div class="header">
+    <h3>📊 Orders Analytics Dashboard</h3>
+</div>
+
+<div class="stats-grid">
+    <div class="stat-cards">
+        <div class="stat-value" id="totalOrders">0</div>
+        <div class="stat-label">Total Orders</div>
+    </div>
+    <div class="stat-cards">
+        <div class="stat-value" id="totalRevenue">EGP0</div>
+        <div class="stat-label">Total Revenue</div>
+    </div>
+    <div class="stat-cards">
+        <div class="stat-value" id="avgOrderValue">EGP0</div>
+        <div class="stat-label">Average Order Value</div>
+    </div>
+    <div class="stat-cards">
+        <div class="stat-value" id="bestMonth">-</div>
+        <div class="stat-label">Best Month</div>
     </div>
 </div>
 
+<div class="charts-container">
+    <div class="chart-wrapper">
+        <div class="chart-title">Monthly Orders</div>
+        <canvas id="ordersChart"></canvas>
+    </div>
+
+    <div class="chart-wrapper">
+        <div class="chart-title">Monthly Revenue</div>
+        <canvas id="revenueChart"></canvas>
+    </div>
+</div>
+
+<div class="table-container">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <h2 style="color: #2c3e50; margin: 0;">📋 Detailed Monthly Breakdown</h2>
+        <div class="export-icons">
+            <button class="export-btn" id="exportExcel" title="Export to Excel">
+                <img src="~/images/icons/sheet.png" alt="Export to Excel" />
+            </button>           
+        </div>
+    </div>
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Month</th>
+                <th>Total Orders</th>
+                <th>Total Revenue</th>
+                <th>Average Order Value</th>
+                <th>Growth Rate</th>
+            </tr>
+        </thead>
+        <tbody id="dataTableBody">
+        </tbody>
+    </table>
+</div>
+
+<div class="ordersData">
+    <div class="card p-4 shadow-sm">
+        <h6 class="text-center">Order Status Overview</h6>
+        <div class="chart-container">
+            <canvas id="orderStatusChart"></canvas>
+        </div>
+        <div class="chart-controls">
+            <button class="control-btn active" onclick="toggleChartType('doughnut')">Doughnut</button>
+            <button class="control-btn" onclick="toggleChartType('pie')">Pie</button>
+            <button class="control-btn" onclick="toggleChartType('bar')">Bar</button>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    const orderStatusData = {
+        @foreach (var item in Model.ordersStatusPercentages!)
+        {
+            <text>"@item.Key": @item.Value,</text>
+        }
+    };
+
+    const sampleData = @ordersAnalytics;        
+</script>
+
+
 @section Scripts {
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>  
-
     <script>
-        const orderStatusData = {
-            @foreach (var item in orderStatusPercentages!)
-            {
-                <text>"@item.Key": @item.Value,</text>
-            }
-        };
-
-        const statusColors = {
-            Pending: '#f1c40f',
-            Preparing: '#3498db',
-            Shipped: '#e74c3c',
-            Delivered: '#2ecc71'
-        };
-
-        const labels = Object.keys(orderStatusData);
-        const values = Object.values(orderStatusData);
-        const backgroundColors = labels.map(label => statusColors[label]);
-
-                const ctx = document.getElementById("orderStatusChart").getContext("2d");
-
-        new Chart(ctx, {
-            type: 'pie',
-            data: {
-                labels: labels,
-                datasets: [{
-                    data: values,
-                    backgroundColor: backgroundColors,
-                    borderColor: '#ffffff',
-                    borderWidth: 0,
-                    hoverOffset: 5,
-                    spacing: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                cutout: '65%',
-                plugins: {
-                    legend: {
-                        display: true,
-                        position: 'top',
-                        labels: {
-                            usePointStyle: true,
-                            boxWidth: 15,
-                            padding: 20
-                        }
-                    },
-                    tooltip: {
-                        callbacks: {
-                            label: function (context) {
-                                return `${context.label}: ${context.parsed}%`;
-                            }
-                        }
-                    }
-                },
-
-                onClick: (event, elements) => {
-                    if (elements.length > 0) {
-                        const index = elements[0].index;
-                        const status = labels[index];
-                        window.location.href = `SuperAdmin/OrdersStatus/Index?status=${status}`;
-                    }
-                }
-            }
-        });
+      document.getElementById('exportExcel')
+        .addEventListener('click', function() {
+            window.location.href = '@Url.Action("ExportOrdersOverLastTwelveMonthExcel", "Reports")';
+      });     
     </script>
 
+    <script src="~/js/OrdersAnalysis.js"></script>
     <partial name="_NotificationPartial"></partial>
 }

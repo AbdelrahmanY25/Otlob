@@ -1,205 +1,56 @@
-﻿<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
-    <link rel="stylesheet" href="/css/dashboard.css">
-    <style>
-        :root {
-            --primary-color: #F04335;
-            --secondary-color: #dd968c;
-            --success-color: #05a437;
-            --main-transition: 0.3s;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        a {
-            text-decoration: none;
-            color: #fff;
-        }
-
-        body {
-            font-family: 'Cairo', sans-serif;
-        }
-
-        .dashboard-wrapper {
-            display: flex;
-        }
-
-        body.sidebar-closed .content {
-            margin-left: 0;
-        }
-
-        .sidebar {
-            width: 250px;
-            min-height: 100vh;
-            background-color: var(--primary-color);
-            color: #fff;
-            padding: 20px;
-            position: fixed;
-            top: 60px;
-            left: 0;
-            transition: transform var(--main-transition) ease;
-            z-index: 1000;
-        }
-
-        .sidebar.hidden {
-            transform: translateX(-100%);
-        }
-
-        .toggle-btn {            
-            cursor: pointer;           
-        }
-
-        .logo {
-            font-size: 22px;
-            font-weight: bold;
-            margin-bottom: 20px;
-        }
-
-        .menu {
-            list-style: none;
-        }
-
-        .menu-item {
-            display: flex;
-            align-items: center;
-            padding: 12px 15px;
-            border-radius: 8px;
-            margin-bottom: 10px;
-            font-size: 15px;
-            transition: background var(--main-transition);
-        }
-
-        .menu-item i {
-            margin-right: 10px;
-        }
-
-        .menu-item:hover,
-        .menu-item.active {
-            background-color: var(--secondary-color);
-        }
-
-        @@media (max-width: 768px) {
-            .sidebar {
-                transform: translateX(-100%);
-            }
-
-            .sidebar.show {
-                transform: translateX(0);
-            }
-        }
-    </style>
-</head>
-<body>
-    <div class="dashboard-wrapper">
-        <div class="sidebar" id="sidebar">
-            <div class="logo">Otlob</div>
-            <ul class="menu">
-                @if(User.IsInRole(SD.superAdminRole)) {
-                    <li class="menu-item">
-                        <i class="icon">🏠</i>
-                        <a asp-area="SuperAdmin" asp-controller="Home" asp-action="Index">Home</a>
-                    </li>
-                    <li class="menu-item">
-                        <i class="icon">AR</i>
-                        <a asp-area="SuperAdmin" asp-controller="Restaurants" asp-action="ActiveResturatns">Active Restaurants</a>
-                    </li>
-                    <li class="menu-item">
-                        <i class="icon">RR</i>
-                        <a asp-area="SuperAdmin" asp-controller="Restaurants" asp-action="ResturatnRequist">Restaurant Requests</a>
-                    </li>
-                    <li class="menu-item">
-                        <i class="icon">DR</i>
-                        <a asp-area="SuperAdmin" asp-controller="Restaurants" asp-action="DeletedRestaurant">Deleted Restaurants</a>
-                    </li>
-                     <li class="menu-item">
-                        <i class="icon">AA</i>
-                        <a asp-area="SuperAdmin" asp-controller="Register" asp-action="RegistSuperAdmin">Add Admin Account</a>
-                    </li>
-                     <li class="menu-item">
-                        <i class="icon">PA</i>
-                        <a asp-area="SuperAdmin" asp-controller="Register" asp-action="RegistResturant">Add Partner Account</a>
-                    </li>
-
-                    <li class="menu-item">
-                        <i class="icon">💬</i>
-                        <a asp-action="UserComplaints" asp-controller="Complaint">Complaints</a>
-                    </li>
-                }
-                <li class="menu-item">
-                    <i class="icon">📊</i>
-                    <span>Analytics</span>
-                </li>
-                <li class="menu-item">
-                    <i class="icon">👥</i>
-                    <span>Teams</span>
-                </li>
-                <li class="menu-item">
-                    <i class="icon">⚙️</i>
-                    <span>Settings</span>
-                </li>
-            </ul>
-        </div>
+﻿@if (User.IsInRole(SD.superAdminRole))
+{
+    <div class="sidebar" id="sidebar">
+        <div class="logo">Otlob</div>
+        <ul class="menu">
+            <li class="menu-item">
+                <a asp-area="SuperAdmin" asp-controller="Home" asp-action="Index">🏠</a>
+            </li>
+            <li class="menu-item">
+                <a asp-area="SuperAdmin" asp-controller="UsersAnalysis" asp-action="Index">UA</a>
+            </li>
+            <li class="menu-item">
+                <a asp-area="SuperAdmin" asp-controller="Restaurants" asp-action="ActiveResturatns">AR</a>
+            </li>
+            <li class="menu-item">
+                <a asp-area="SuperAdmin" asp-controller="Restaurants" asp-action="ResturatnRequist">RR</a>
+            </li>
+            <li class="menu-item">
+                <a asp-area="SuperAdmin" asp-controller="Restaurants" asp-action="DeletedRestaurant">DR</a>
+            </li>
+            <li class="menu-item">
+                <a asp-area="SuperAdmin" asp-controller="Register" asp-action="RegistSuperAdmin">AAA</a>
+            </li>
+            <li class="menu-item">
+                <a asp-area="SuperAdmin" asp-controller="Register" asp-action="BecomeAPartner">APC</a>
+            </li>
+            <li class="menu-item">
+                <a asp-action="UserComplaints" asp-controller="Complaint">C</a>
+            </li>           
+        </ul>
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const sidebar = document.querySelector('.sidebar');
-            const toggleBtn = document.querySelector('#sidebarToggle');
-            const body = document.body;
-
-            // Read sidebar state from localStorage
-            const isSidebarOpen = localStorage.getItem('sidebarOpen') === 'true';
-
-            if (!isSidebarOpen) {
-                sidebar.classList.add('hidden');
-                body.classList.add('sidebar-closed');
+        (function() {
+            function isMobile() {
+                return window.innerWidth <= 991;
             }
 
-            toggleBtn.addEventListener('click', () => {
-                sidebar.classList.toggle('hidden');
-                body.classList.toggle('sidebar-closed');
+            const savedState = localStorage.getItem('sidebarOpen');
+            const shouldBeOpen = savedState === 'true';
 
-                // Save state in localStorage
-                const isNowOpen = !sidebar.classList.contains('hidden');
-                localStorage.setItem('sidebarOpen', isNowOpen);
-            });
-        });
-
-        function toggleSidebar() {
-            document.getElementById('sidebar').classList.toggle('hidden');
-        }
-
-        document.querySelectorAll('.menu-item').forEach(item => {
-            item.addEventListener('click', function () {
-                // Remove 'active' from all items
-                document.querySelectorAll('.menu-item').forEach(el => el.classList.remove('active'));
-                // Add 'active' to clicked item
-                this.classList.add('active');
-                // Optionally store the active link to restore later
-                localStorage.setItem('activeLink', this.innerText.trim());
-            });
-        });
-
-        // On page load, restore active link
-        document.addEventListener('DOMContentLoaded', () => {
-            const savedLink = localStorage.getItem('activeLink');
-            if (savedLink) {
-                document.querySelectorAll('.menu-item').forEach(item => {
-                    if (item.innerText.trim() === savedLink) {
-                        item.classList.add('active');
-                    }
-                });
+            if (!isMobile() && shouldBeOpen) {
+                document.body.classList.add('sidebar-open');
+                document.body.classList.remove('sidebar-closed');
+            } else if (!isMobile()) {
+                document.body.classList.add('sidebar-closed');
+                document.body.classList.remove('sidebar-open');
             }
-        });
 
+            document.body.classList.add('sidebar-initialized');
+        })();
     </script>
-</body>
-</html>
+
+    <script src="~/js/sidebar.js" asp-append-version="true"></script>
+    <link rel="stylesheet" href="~/css/sidebar.css" asp-append-version="true" />
+}

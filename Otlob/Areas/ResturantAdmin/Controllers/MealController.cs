@@ -1,181 +1,188 @@
-﻿namespace Otlob.Areas.ResturantAdmin.Controllers
+﻿using Otlob.Abstractions;
+
+namespace Otlob.Areas.ResturantAdmin.Controllers;
+
+[Area(SD.restaurantAdmin)]
+public class MealController(IMealService mealService, IImageService imageService,
+                      IDataProtectionProvider dataProtectionProvider, IMealPriceHistoryService mealPriceHistoryService, IAuthService authService) : Controller
 {
-    [Area("ResturantAdmin")]
-    public class MealController : Controller
+    private readonly IMealService _mealService = mealService;
+    private readonly IImageService _imageService = imageService;
+    private readonly IDataProtector _dataProtector = dataProtectionProvider.CreateProtector("SecureData");
+    private readonly IMealPriceHistoryService _mealPriceHistoryService = mealPriceHistoryService;
+    private readonly IAuthService _authService = authService;
+
+    public IActionResult Index()
     {
-        private readonly IMealService mealService;
-        private readonly IImageService imageService;
-        private readonly IDataProtector dataProtector;
-        private readonly IMealPriceHistoryService mealPriceHistoryService;
+        int restaurantId = int.Parse(User.FindFirstValue(SD.restaurantId)!);
+        
+        var result = _mealService.GetMealsByRestaurantId(restaurantId);
 
-        public MealController(IMealService mealService,
-                              IImageService imageService,
-                              IDataProtectionProvider dataProtectionProvider,
-                              IMealPriceHistoryService mealPriceHistoryService)
+        if (result.IsFailure)
         {
-            this.mealService = mealService;
-            this.imageService = imageService;
-            this.mealPriceHistoryService = mealPriceHistoryService;
-            this.dataProtector = dataProtectionProvider.CreateProtector("SecureData");
+            _authService.LogOutAsync();
         }
 
-        public IActionResult Index()
+        return View(result.Value);
+    }
+
+    public IActionResult AddMeal() => View();
+
+    [HttpPost, ValidateAntiForgeryToken]
+    public IActionResult AddMeal(MealVm mealVM, IFormFile image)
+    {
+        if (!ModelState.IsValid)
         {
-            string? userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            if (userId is null)
-            {
-                return RedirectToAction("Login", "Account", new { Area = "Customer" });
-            }
-
-            int restaurantId = int.Parse(User.FindFirstValue(SD.restaurantId)!);
-            var mealsVM = mealService.ViewMealsVmToRestaurantAdminSummary(restaurantId);
-
-            return View(mealsVM);
-        }
-
-        public IActionResult AddMeal() => View();
-
-        [HttpPost, ValidateAntiForgeryToken]
-        public IActionResult AddMeal(MealVm mealVM, IFormFile image)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View(mealVM);                
-            }
-
-            string? userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            if (userId is null)
-            {
-                return RedirectToAction("Login", "Account", new { Area = "Customer" });
-            }
-
-            int restaurantId = int.Parse(User.FindFirstValue(SD.restaurantId)!);
-
-            var isMealadded = mealService.AddMeal(mealVM, restaurantId, image);
-
-            if (isMealadded is string)
-            {
-                ModelState.AddModelError("", isMealadded);
-                return View(mealVM);
-            }
-
-            return BackToMealsView("Your New Meal Added Successfully");                            
-        }
-
-        public IActionResult MealDetails(string id)
-        {
-            int mealId = int.Parse(dataProtector.Unprotect(id));
-
-            var mealVM = mealService.GetMealVM(mealId);
-
-            HttpContext.Session.SetString("MealId", dataProtector.Protect(mealId.ToString()));
-
             return View(mealVM);
         }
 
-        [HttpPost, ValidateAntiForgeryToken]
-        public IActionResult MealDetails(MealVm mealVM)
+        string? userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+        if (userId is null)
         {
-            int mealId = int.Parse(dataProtector.Unprotect(HttpContext.Session.GetString("MealId")!));
-
-            if (!ModelState.IsValid)
-            {
-                return View(mealVM);
-            }
-
-            string isMealAdded = mealService.EditMeal(mealVM, mealId);
-
-            if (isMealAdded is string)
-            {
-                TempData["Error"] = isMealAdded;
-                return View(mealVM);
-            }
-
-            return BackToMealsView("Your Old Meal Updated Successfully");
+            return RedirectToAction("Login", "Account", new { Area = "Customer" });
         }
 
-        [HttpPost, ValidateAntiForgeryToken]
-        public IActionResult MealImage(IFormFile image)
+        int restaurantId = int.Parse(User.FindFirstValue(SD.restaurantId)!);
+
+        Result isMealadded = _mealService.AddMeal(mealVM, restaurantId, image);
+
+        if (isMealadded.IsFailure)
         {
-            int mealId = int.Parse(dataProtector.Unprotect(HttpContext.Session.GetString("MealId")!));
+            ModelState.AddModelError("", isMealadded.Error.Description);
+            return View(mealVM);
+        }
 
-            var isImageUpdated = imageService.UploadImage(image);
+        return BackToMealsView("Meal Added Succefully");
+    }
 
-            if (!isImageUpdated.IsSuccess)
-            {
-                TempData["Error"] = isImageUpdated.Message;
-                return RedirectToAction("MealDetails", new { id = dataProtector.Protect(mealId.ToString()) });
-            }
+    public IActionResult MealDetails(string id)
+    {
+        int mealId = int.Parse(_dataProtector.Unprotect(id));
 
-            Meal meal = mealService.GetMealImageById(mealId);
-            
-            var isOldImageDeleted = imageService.DeleteOldImageIfExist(meal.Image);
+        var result = _mealService.GetMealVM(mealId);
 
-            if (!isOldImageDeleted.IsSuccess)
-            {
-                TempData["Error"] = isOldImageDeleted.Message;
-                return RedirectToAction("MealDetails", new { id = dataProtector.Protect(mealId.ToString()) });
-            }
+        if (result.IsFailure)
+        {
+            TempData["Error"] = result.Error.Description;
+            return RedirectToAction("Index", "Home", new { Area = SD.restaurantAdmin });
+        }
 
-            mealService.UpdateMealImage(meal, isImageUpdated.ImageUrl);
+        HttpContext.Session.SetString("MealId", _dataProtector.Protect(mealId.ToString()));
 
+        return View(result.Value);
+    }
+
+    [HttpPost, ValidateAntiForgeryToken]
+    public IActionResult MealDetails(MealVm mealVM)
+    {
+        if (!ModelState.IsValid)
+        {
+            return View(mealVM);
+        }
+
+        int mealId = int.Parse(_dataProtector.Unprotect(HttpContext.Session.GetString("MealId")!));
+
+        Result isMealAdded = _mealService.EditMeal(mealVM, mealId);
+
+        if (isMealAdded.IsFailure)
+        {
+            TempData["Error"] = isMealAdded.Error.Description;
+            return View(mealVM);
+        }
+
+        return BackToMealsView("Meal updated succefully");
+    }
+
+    [HttpPost, ValidateAntiForgeryToken]
+    public IActionResult MealImage(IFormFile image)
+    {
+        int mealId = int.Parse(_dataProtector.Unprotect(HttpContext!.Session.GetString("MealId")!));
+
+        Result changeMealImageResult = _mealService.ChangeMealImage(image, mealId);
+
+        if (changeMealImageResult.IsSuccess)
+        {
             TempData["Success"] = "Meal image Updated successfully";
-            return RedirectToAction("MealDetails", new { id = dataProtector.Protect(mealId.ToString()) });
+            return RedirectToAction("MealDetails", new { id = _dataProtector.Protect(mealId.ToString()) });
         }
 
-        public IActionResult MealPriceHistoryDetails(string id)
+        if (changeMealImageResult.Error.Equals(MealErrors.MealNotFound))
         {
-            int mealId = int.Parse(dataProtector.Unprotect(id));
-
-            var mealPriceHistories = mealPriceHistoryService.GetMealPriceHistories(mealId);
-
-            return View(mealPriceHistories);
+            TempData["Error"] = changeMealImageResult.Error.Description;
+            return RedirectToAction("Index", "Home");
         }
 
-        public IActionResult DeletedMeals()
+        TempData["Error"] = changeMealImageResult.Error.Description;
+        return RedirectToAction("MealDetails", new { id = _dataProtector.Protect(mealId.ToString()) });
+        
+    }
+
+    public IActionResult MealPriceHistoryDetails(string id)
+    {
+        int mealId = int.Parse(_dataProtector.Unprotect(id));
+
+        var mealPriceHistories = _mealPriceHistoryService.GetMealPriceHistories(mealId);
+
+        return View(mealPriceHistories);
+    }
+
+    public IActionResult DeletedMeals()
+    {
+        string? userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+        if (userId is null)
         {
-            string? userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            if (userId is null)
-            {
-                return RedirectToAction("Login", "Account", new { Area = "Customer" });
-            }
-
-            int restaurantId = int.Parse(User.FindFirstValue(SD.restaurantId)!);
-
-            IQueryable<MealVm> mealsVM = mealService.GetDeletedMeals(restaurantId);
-
-            if (mealsVM.IsNullOrEmpty())
-            {
-                TempData["Error"] = "There is no deleted meals";
-                return RedirectToAction("Index", "Home");
-            }
-
-            return View(mealsVM);
+            return RedirectToAction("Login", "Account", new { Area = "Customer" });
         }
 
-        [HttpPost, ValidateAntiForgeryToken]
-        public IActionResult DeleteMeal(string id)
+        int restaurantId = int.Parse(User.FindFirstValue(SD.restaurantId)!);
+
+        var result = _mealService.GetDeletedMeals(restaurantId);
+
+        if (result.IsFailure)
         {
-            int mealId = int.Parse(dataProtector.Unprotect(id));
-            mealService.DeleteMeal(mealId);
-            return RedirectToAction("Index");
+            TempData["Error"] = result.Error.Description;
+            return RedirectToAction("Index", "Home");
         }
 
-        public IActionResult UnDeleteMeal(string id)
+        return View(result.Value);
+    }
+
+    [HttpPost, ValidateAntiForgeryToken]
+    public IActionResult DeleteMeal(string id)
+    {
+        int mealId = int.Parse(_dataProtector.Unprotect(id));
+
+        var result = _mealService.DeleteMeal(mealId);
+
+        if (result.IsFailure)
         {
-            int mealId = int.Parse(dataProtector.Unprotect(id));
-            mealService.UnDeleteMeal(mealId);
-
-            return RedirectToAction("DeletedMeals");
+            TempData["Error"] = result.Error.Description;
+            return RedirectToAction("Index", "Home");
         }
 
-        private IActionResult BackToMealsView(string msg)
+        return RedirectToAction("Index");
+    }
+
+    public IActionResult UnDeleteMeal(string id)
+    {
+        int mealId = int.Parse(_dataProtector.Unprotect(id));
+        
+        var result = _mealService.UnDeleteMeal(mealId);
+
+        if (result.IsFailure)
         {
-            TempData["Success"] = msg;
-            return RedirectToAction("Index");
+            TempData["Error"] = result.Error.Description;
+            return RedirectToAction("Index", "Home");
         }
+
+        return RedirectToAction("DeletedMeals");
+    }
+
+    private RedirectToActionResult BackToMealsView(string msg)
+    {
+        TempData["Success"] = msg;
+        return RedirectToAction("Index");
     }
 }

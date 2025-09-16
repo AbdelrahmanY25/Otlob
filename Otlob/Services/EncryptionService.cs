@@ -1,15 +1,8 @@
-﻿namespace Otlob.Core.Services
+﻿namespace Otlob.Services
 {
     public class EncryptionService : IEncryptionService
     {
-        private const int theSecretNumber = 897599;
-
-        //private Random _theRandomSecretNumber;
-
-        //public EncryptionService()
-        //{
-        //    _theRandomSecretNumber = new Random();
-        //}
+        private const int theSecretNumber = 8_975_099;
 
         public string EncryptId(int id)
         {

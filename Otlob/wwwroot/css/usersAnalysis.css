@@ -1,0 +1,65 @@
+﻿.dashboard-stats {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 25px;
+    margin: 15px 0;
+}
+
+.stat-card {
+    flex: 1 1 250px;
+    background-color: #f4f4f4;
+    border-radius: 16px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    transition: transform 0.3s ease;
+}
+
+    .stat-card:hover {
+        transform: translateY(-5px);
+    }
+
+.stat-icon {
+    font-size: 48px;
+    color: #fff;
+    border-radius: 50%;
+    width: 70px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 20px;
+}
+
+.stat-info {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.stat-label {
+    font-size: 16px;
+    color: #777;
+    font-weight: 500;
+}
+
+.stat-value {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    text-decoration: none;
+}
+
+.stat-card.customers .stat-icon {
+    background-color: #4CAF50;
+}
+
+.stat-card.partners .stat-icon {
+    background-color: #2196F3;
+}
+
+.stat-card.total .stat-icon {
+    background-color: #FF9800;
+}

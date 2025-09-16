@@ -1,12 +1,14 @@
-﻿namespace Otlob.Areas.Customer.Controllers
+﻿using Otlob.Core.Contracts.ViewModel;
+
+namespace Otlob.Areas.Customer.Controllers
 {
     [Area("Customer")]
     public class OrdersHistoryController : Controller
     {
-        private readonly IOrderDetailsService orderDetailsService;
         private readonly IOrderService orderService;
-        private readonly UserManager<ApplicationUser> userManager;
         private readonly IPaginationService paginationService;
+        private readonly IOrderDetailsService orderDetailsService;
+        private readonly UserManager<ApplicationUser> userManager;
 
         private const int pageSize = 5;
 
@@ -37,26 +39,23 @@
             return View(viewModel);
         }
 
-        public ActionResult OrderDetails(string id)
+        public IActionResult OrderDetails(string id)
         {
-            Order? order = orderService.GetOrderPaymentDetails(id);
+            Order order = orderService.GetOrderPaymentDetails(id)!;
 
             if (order is null)
             {
-                return NotFound();
+                return View("NoOrderDetails");
             }
 
-            IQueryable<OrderDetails>? meals = orderDetailsService.GetOrderDetailsToViewPage(id);
+            OrderDetailsViewModel orderDetailsVM = orderDetailsService.GetOrderDetailsToViewPage(order);
 
-            var orderDetails = new OrderDetailsViewModel
+            if (orderDetailsVM is null)
             {
-                PaymentMethod = order.Method,
-                Meals = meals!,
-                SubPrice = order.TotalMealsPrice,
-                DeliveryFee = order.TotalTaxPrice
-            };
+                return View("NoOrderDetails");
+            }
 
-            return View(orderDetails);
+            return View(orderDetailsVM);
         }
     }
 }

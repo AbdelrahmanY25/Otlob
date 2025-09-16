@@ -7,8 +7,8 @@
         <title>@ViewData["Title"] - Otlob</title>
 
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-        <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
         <link rel="stylesheet" href="~/Otlob.styles.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 
         @await RenderSectionAsync("FormStyle", required: false)
         @await RenderSectionAsync("Profile", required: false)
@@ -25,18 +25,9 @@
         <div class="container">
             <main role="main" class="pb-3 main">
                 @RenderBody()
-                @if(User.IsInRole(SD.superAdminRole)) 
-                {
-                    <partial name="_DashboardPartial "></partial>
-                }
+                <partial name="_DashboardPartial "></partial>
             </main>
         </div>
-
-        <footer class="border-top footer">
-            <div class="container">
-                &copy; 2025 - Otlob
-            </div>
-        </footer>
 
         <script src="~/lib/jquery/dist/jquery.min.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

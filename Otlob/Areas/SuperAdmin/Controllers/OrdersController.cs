@@ -1,4 +1,7 @@
-﻿namespace Otlob.Areas.SuperAdmin.Controllers
+﻿using Otlob.Core.Contracts.ViewModel;
+using Utility.Consts;
+
+namespace Otlob.Areas.SuperAdmin.Controllers
 {
     [Area("SuperAdmin"), Authorize(Roles = SD.superAdminRole)]
     public class OrdersController : Controller
@@ -6,7 +9,7 @@
         private readonly IOrderService orderService;
         private readonly IOrderDetailsService orderDetailsService;
 
-        public OrdersController(IOrderService orderService, IOrderDetailsService orderDetailsService)
+        public OrdersController(IOrderDetailsService orderDetailsService, IOrderService orderService)
         {
             this.orderService = orderService;
             this.orderDetailsService = orderDetailsService;
@@ -14,24 +17,21 @@
 
         public IActionResult Details(string id)
         {
-            Order? order = orderService.GetOrderPaymentDetails(id);
+            Order order = orderService.GetOrderPaymentDetails(id)!;
 
             if (order is null)
             {
-                return NotFound();
+                return View("NoOrderDetails");
             }
 
-            IQueryable<OrderDetails>? meals = orderDetailsService.GetOrderDetailsToViewPage(id);
+            OrderDetailsViewModel orderDetailsVM = orderDetailsService.GetOrderDetailsToViewPage(order);
 
-            var orderDetails = new OrderDetailsViewModel
+            if (orderDetailsVM is null)
             {
-                PaymentMethod = order.Method,
-                Meals = meals!,
-                SubPrice = order.TotalMealsPrice,
-                DeliveryFee = order.TotalTaxPrice
-            };
+                return View("NoOrderDetails");
+            }
 
-            return View(orderDetails);
+            return View(orderDetailsVM);
         }
     }
 }

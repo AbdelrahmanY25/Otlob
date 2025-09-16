@@ -1,62 +1,49 @@
-﻿namespace Otlob.Areas.SuperAdmin.Controllers
+﻿namespace Otlob.Areas.SuperAdmin.Controllers;
+
+[Area(SD.superAdminRole), Authorize(Roles = SD.superAdminRole)]
+public class UsersController(IUserServices userServices, IPaginationService paginationService) : Controller
 {
-    [Area("SuperAdmin"), Authorize(Roles = SD.superAdminRole)]
-    public class UsersController : Controller
+    private readonly IUserServices _userServices = userServices;
+    private readonly IPaginationService _paginationService = paginationService;
+
+    private const int _pageSize = 10;
+
+    public IActionResult Index(int currentPageNumber = 1)
     {
-        private readonly IUserServices userServices;
-        private readonly IPaginationService paginationService;
+        string? currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-        private const int pageSize = 10;
+        var users = _userServices.GetAllUsers(u => u.Id != currentUserId)!;
 
-        public UsersController(IUserServices userServices, IPaginationService paginationService)
-        {
-            this.userServices = userServices;
-            this.paginationService = paginationService;
-        }
+        PaginationVM<ApplicationUser> viewModel = _paginationService.PaginateItems(users, _pageSize, currentPageNumber);
 
-        public IActionResult Index(int currentPageNumber = 1)
-        {
-            string? currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        return View(viewModel);
+    }
 
-            var users = userServices.GetAllUsers(u => u.Id != currentUserId)!;
+    public IActionResult Customers(int currentPageNumber = 1)
+    {
+        string? currentUserId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
 
-            PaginationVM<ApplicationUser> viewModel = paginationService.PaginateItems(users, pageSize, currentPageNumber);
+        var customers = _userServices.GetAllUsers(u => u.Id != currentUserId)!;
 
-            return View(viewModel);
-        }
+        PaginationVM<ApplicationUser> viewModel = _paginationService.PaginateItems(customers, _pageSize, currentPageNumber);
 
-        public IActionResult Customers(int currentPageNumber = 1)
-        {
-            string? currentUserId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+        return View("Index", viewModel);
+    }
 
-            var customers = userServices.GetAllUsers(u => u.RestaurantId == 0 && u.Id != currentUserId)!;
+    //public IActionResult Partners(int currentPageNumber = 1)
+    //{
+    //    var partners = _userServices.GetAllUsers(u => u.RestaurantId != 0)!;
 
-            PaginationVM<ApplicationUser> viewModel = paginationService.PaginateItems(customers, pageSize, currentPageNumber);
+    //    PaginationVM<ApplicationUser> viewModel = _paginationService.PaginateItems(partners, _pageSize, currentPageNumber);
 
-            return View("Index", viewModel);
-        }
+    //    return View("Index", viewModel);
+    //}
 
-        public IActionResult Partners(int currentPageNumber = 1)
-        {
-            var partners = userServices.GetAllUsers(u => u.RestaurantId != 0)!;
+    [HttpPost]
+    public async Task<IActionResult> ToggleUserBlockStatus(string id)
+    {
+        var result = await _userServices.ToggleUserBlockStatusAsync(id);
 
-            PaginationVM<ApplicationUser> viewModel = paginationService.PaginateItems(partners, pageSize, currentPageNumber);
-
-            return View("Index", viewModel);
-        }
-
-        [HttpPost]
-        public IActionResult BlockUser(string id)
-        {
-            userServices.ChangeBlockUserStatus(id, false);
-            return Ok();
-        }
-
-        [HttpPost]
-        public IActionResult UnBlockUser(string id)
-        {
-            userServices.ChangeBlockUserStatus(id, true);
-            return Ok();
-        }
+        return result.IsSuccess ? Ok() : BadRequest();
     }
 }

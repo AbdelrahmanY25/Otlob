@@ -1,33 +1,51 @@
-﻿@model IQueryable<AddressVM>
+﻿@model IQueryable<AddressResponse>
 
-<a class="btn btn-primary mybtn" asp-action="AddAddress">Create New</a>
+<link href="~/css/savedAddresses.css" rel="stylesheet" />
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Your Address
-            </th>
-            <th>
-                Actions
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-    @foreach (var item in Model) 
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.CustomerAddress)
-            </td>
-            <td>
-                <a class="btn btn-success" asp-action="UpdateAddress" asp-route-id="@item.Key">Update Address</a>
-                <a class="btn btn-danger" asp-action="DeleteAddress" data-bs-toggle="modal" data-bs-target="#deleteModal" data-categoryid="@item.Key">Delete Address</a>
-            </td>
-        </tr>
-    }
-    </tbody>
-</table>
+<div class="addresses-container">
+    <div class="header-section">
+        <h1 class="page-title">
+            <i class="fas fa-map-marker-alt me-2"></i>
+            My Addresses
+        </h1>
+        <a class="add-address-btn" asp-action="AddAddress">
+            <i class="fas fa-plus"></i>
+        </a>
+    </div>
+
+    <div class="addresses-grid">
+        @if (Model != null && Model.Any())
+        {
+            @foreach (var item in Model)
+            {
+                <div class="address-card" onclick="window.location.href='@Url.Action("UpdateAddress", new { id = item.Key })'">
+                    <div class="address-content">
+                        <div class="address-info">                           
+                            <div class="address-text">
+                                @Html.DisplayFor(modelItem => item.CustomerAddress)
+                            </div>
+                        </div>
+                        <button type="button" class="delete-btn"
+                                data-bs-toggle="modal"
+                                data-bs-target="#deleteModal"
+                                data-categoryid="@item.Key"
+                                onclick="event.stopPropagation()">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="empty-state">
+                <i class="fas fa-map-marker-alt"></i>
+                <h3>No Addresses Found</h3>
+                <p>You haven't added any addresses yet. Click the button above to add your first address!</p>
+            </div>
+        }
+    </div>
+</div>
 
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
     <div class="modal-dialog">

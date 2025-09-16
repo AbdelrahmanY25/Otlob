@@ -1,70 +1,78 @@
-﻿namespace Otlob.Areas.SuperAdmin.Controllers
+﻿namespace Otlob.Areas.SuperAdmin.Controllers;
+
+[Area(SD.superAdminRole), Authorize(Roles = SD.superAdminRole)]
+public class RestaurantsController(IRestaurantService restaurantService, IDataProtectionProvider dataProtectionProvider) : Controller
 {
-    [Area("SuperAdmin"), Authorize(Roles = SD.superAdminRole)]
-    public class RestaurantsController : Controller
+    private readonly IRestaurantService _restaurantService = restaurantService;
+    private readonly IDataProtector _dataProtector = dataProtectionProvider.CreateProtector("SecureData");
+
+    public IActionResult ResturatnRequist()
     {
-        private readonly IRestaurantService restaurantService;
-        private readonly IDataProtector dataProtector;
+        var resturantsVM = _restaurantService.GetAllRestaurants(filter: null, statuses: [AcctiveStatus.UnAccepted]);
 
-
-        public RestaurantsController(IRestaurantService restaurantService,
-                                     IDataProtectionProvider dataProtectionProvider)
+        if (resturantsVM is null)
         {
-            this.restaurantService = restaurantService;
-            dataProtector = dataProtectionProvider.CreateProtector("SecureData");
+            TempData["Error"] = "There is no resturant requist";
+            return RedirectToAction("Index", "Home", new { Area = SD.superAdminRole } );
         }
 
-        public IActionResult ResturatnRequist()
-        {
-            var resturantsVM = restaurantService.GetAllRestaurantsJustMainInfo(filter: null, statuses: [AcctiveStatus.Unaccepted]);
+        return View(resturantsVM);
+    }
 
-            return View(resturantsVM);
+    public IActionResult ActiveResturatns()
+    {
+        AcctiveStatus[] acceptedStatuses = [AcctiveStatus.Acctive, AcctiveStatus.Warning, AcctiveStatus.Block];
+
+        var resturantsVM = _restaurantService.GetAllRestaurants(filter: null, statuses: acceptedStatuses);
+
+        if (resturantsVM is null)
+        {
+            TempData["Error"] = "There is no resturant requist";
+            return RedirectToAction("Index", "Home", new { Area = SD.superAdminRole });
         }
 
-        public IActionResult ActiveResturatns()
+        return View(resturantsVM);
+    }
+
+    public IActionResult ResturantDetails(string id)
+    {
+        int restaurantId = int.Parse(_dataProtector.Unprotect(id));
+
+        var result = _restaurantService.GetRestaurantDetailsById(restaurantId);
+
+        if(result.IsFailure)
         {
-            AcctiveStatus[] acceptedStatuses = [AcctiveStatus.Acctive, AcctiveStatus.Warning, AcctiveStatus.Block];
-
-            var resturantsVM = restaurantService.GetAllRestaurantsJustMainInfo(filter: null, statuses: acceptedStatuses);
-
-            return View(resturantsVM);
+            TempData["Error"] = result.Error.Description;
+            return RedirectToAction("Index", "Home", new { Area = SD.superAdminRole });
         }
 
-        public IActionResult DeletedRestaurant()
+        return View(result.Value);
+    }
+
+    public IActionResult DeletedRestaurant()
+    {
+        var restaurants = _restaurantService.GetDeletedRestaurants();
+
+        if (restaurants is null)
         {
-            var restaurants = restaurantService.GetDeletedRestaurants();
-
-            if (restaurants.IsNullOrEmpty())
-            {
-                TempData["Error"] = "There is no deleted restaurants";
-                return RedirectToAction("Index", "Home");
-            }
-
-            return View(restaurants);
+            TempData["Error"] = "There is no deleted restaurants";
+            return RedirectToAction("Index", "Home", new { Area = SD.superAdminRole });
         }
 
-        public IActionResult ResturantDetails(string id)
-        {
-            int restaurantId = int.Parse(dataProtector.Unprotect(id));
-            RestaurantVM resturnatVM = restaurantService.GetRestaurantVMDetailsById(restaurantId);
+        return View(restaurants);
+    }
 
-            resturnatVM.UserId = dataProtector.Protect(resturnatVM.UserId!);
+    public async Task<IActionResult> DeleteRestaurant(string id)
+    {
+        await _restaurantService.DelteRestaurant(id);
+        TempData["Success"] = "Restaurant Deleted Successfully";
+        return RedirectToAction(nameof(ActiveResturatns));
+    }
 
-            return View(resturnatVM);
-        }
-
-        public IActionResult DeleteRestaurant(string id)
-        {
-            restaurantService.DelteRestaurant(id);
-            TempData["Success"] = "Restaurant Deleted Successfully";
-            return RedirectToAction("ActiveResturatns");
-        }
-
-        public IActionResult UnDeleteRestaurant(string id)
-        {
-            restaurantService.UnDelteRestaurant(id);
-            TempData["Success"] = "Restaurant UnDeleted Successfully";
-            return RedirectToAction("ActiveResturatns");
-        }
+    public async Task<IActionResult> UnDeleteRestaurant(string id)
+    {
+        await _restaurantService.UnDelteRestaurant(id);
+        TempData["Success"] = "Restaurant UnDeleted Successfully";
+        return RedirectToAction(nameof(ActiveResturatns));
     }
 }

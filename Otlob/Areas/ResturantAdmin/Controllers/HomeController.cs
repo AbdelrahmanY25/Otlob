@@ -1,30 +1,22 @@
-﻿namespace Otlob.Areas.ResturantAdmin.Controllers
+﻿namespace Otlob.Areas.ResturantAdmin.Controllers;
+
+[Area(SD.restaurantAdmin)]
+[Authorize(Roles = SD.restaurantAdmin)]
+public class HomeController(IRestaurantService restaurantService) : Controller
 {
-    public class HomeController : Controller
-    {
-        private readonly IRestaurantService restaurantService;
+    private readonly IRestaurantService restaurantService = restaurantService;
 
-        public HomeController(IRestaurantService restaurantService)
+    public IActionResult Index()
+    {        
+        int restaurantId = int.Parse(User.FindFirstValue(SD.restaurantId)!);       
+
+        var result = restaurantService.GetRestaurant(restaurantId);
+      
+        if (result.IsFailure)
         {
-            this.restaurantService = restaurantService;
+            return RedirectToAction("Login", "Account", new { Area = SD.customer });
         }
 
-        [Area("ResturantAdmin")]
-        [Authorize(Roles = SD.restaurantAdmin)]
-        public IActionResult Index()
-        {
-            string? userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            if (userId is null)
-            {
-                return RedirectToAction("Login", "Account", new { Area = "Customer" });
-            }
-
-            int restaurantId = int.Parse(User.FindFirstValue(SD.restaurantId)!);
-
-            var restauranVM = restaurantService.GetRestaurantJustMainInfo(restaurantId);
-
-            return View(restauranVM);
-        }
+        return View(result.Value);
     }
 }

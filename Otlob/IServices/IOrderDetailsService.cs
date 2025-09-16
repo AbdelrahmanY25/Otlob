@@ -3,6 +3,6 @@
     public interface IOrderDetailsService
     {
         ICollection<OrderDetails> AddOrderDetails(int cartId);
-        IQueryable<OrderDetails>? GetOrderDetailsToViewPage(string id);
+        OrderDetailsViewModel GetOrderDetailsToViewPage(Order order);
     }
 }

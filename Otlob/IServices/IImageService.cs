@@ -1,8 +1,8 @@
-﻿namespace Otlob.Core.IServices
+﻿namespace Otlob.IServices
 {
     public interface IImageService
     {
-        UploadImageResult UploadImage(IFormFile formFile);
-        UploadImageResult DeleteOldImageIfExist(string? oldImage);
+        Result<string> UploadImage(IFormFile formFile);
+        Result<string> DeleteImageIfExist(string? oldImage);
     }
 }

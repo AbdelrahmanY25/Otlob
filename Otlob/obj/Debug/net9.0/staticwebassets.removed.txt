@@ -1,4 +1,2 @@
-D:\My_Projects\Talabat Project\Otlob\Otlob\wwwroot\images\a2a3dc51-07c8-4e53-abd8-afffececb466.JPG
-D:\My_Projects\Talabat Project\Otlob\Otlob\wwwroot\images\b20ef2d6-0802-4b7a-b045-fc519d81619d.jpg
-D:\My_Projects\Talabat Project\Otlob\Otlob\wwwroot\images\c127f101-b903-4281-bcd2-1d8753777756.jpg
-D:\My_Projects\Talabat Project\Otlob\Otlob\wwwroot\images\e20e2c9b-1634-452d-8587-801a765560ef.JPG
+D:\My_Projects\Talabat Project\Otlob\Otlob\wwwroot\js\HomePage.js
+D:\My_Projects\Talabat Project\Otlob\Otlob\wwwroot\css\homePage.css

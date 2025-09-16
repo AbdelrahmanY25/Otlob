@@ -20,27 +20,27 @@
     <div asp-validation-summary="All" class="text-danger mb-5"></div>
     <div class="field">
         <label asp-for="Email"></label>
-        <input asp-for="Email" value="@Model.Email" />
+        <input asp-for="Email" value="@Model.Email" placeholder="Email"/>
     </div>
 
     <div class="field">
         <label asp-for="FirstName">First Name</label>
-        <input asp-for="FirstName" value="@Model.FirstName" />
+        <input asp-for="FirstName" value="@Model.FirstName" placeholder="Firs Name" />
     </div>
 
     <div class="field">
         <label asp-for="LastName">Last Name</label>
-        <input asp-for="LastName" value="@Model.LastName" />
+        <input asp-for="LastName" value="@Model.LastName" placeholder="Last Name" />
     </div>
 
     <div class="field">
         <label asp-for="PhoneNumber">Phone Number</label>
-        <input asp-for="PhoneNumber" value="@Model.PhoneNumber" />
+        <input asp-for="PhoneNumber" value="@Model.PhoneNumber" placeholder="Phone Number" />
     </div>
 
     <div class="field">
         <label asp-for="BirthDate">Date of Birth</label>
-        <input type="date" asp-for="BirthDate" value="@(Model.BirthDate.HasValue ? Model.BirthDate.Value.ToString("yyyy-MM-dd") : null)" />
+        <input type="date" asp-for="BirthDate" value="@(Model.BirthDate.HasValue? Model.BirthDate.Value.ToString("yyyy-MM-dd") : null)" placeholder="Date Of Birth" />
     </div>
 
     <div class="field">

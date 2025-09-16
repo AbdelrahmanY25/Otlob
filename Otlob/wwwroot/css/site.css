@@ -7,8 +7,14 @@ html {
     --secondary-color: #dd968c;
     --seccuss-color: #05a437;
     --main-transition: 0.2s;
+    --navbar-height: 60px;
 }
 
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
 html {
     scroll-behavior: smooth;
@@ -18,12 +24,13 @@ body {
     font-family: 'Cairo', sans-serif;
     background-color: #fffaf7;
     margin: 0;
-    margin-bottom: 100px;
     padding: 0;
+    margin-bottom: 100px;
 }
 
 .navbar {
     background-color: #fff;
+    height: var(--navbar-height);
 }
 
 a {
@@ -46,9 +53,14 @@ ul {
     padding-right: 15px;
     margin-left: auto;
     margin-right: auto;
+    margin-top: 20px;
 }
 
-/* Small */
+.main {
+    transition: margin-left var(--main-transition) ease;
+    min-height: calc(100vh - var(--navbar-height));
+}
+
 @media (max-width: 768px) {
     .articles .container .card .text h3,
     .articles .container .menue .text h3 {
@@ -61,18 +73,18 @@ ul {
     }
 }
 
-/* Medium */
 @media(min-width: 992px) {
     .container {
         width: 970px;
     }
 }
-/* Large */
+
 @media(min-width: 1200px) {
     .container {
         width: 1170px;
     }
 }
+
 @media (min-width: 768px) {
   html {
     font-size: 16px;
@@ -160,8 +172,6 @@ html {
     font-weight: bold;
 }
 
-/* start Menue style */
-
 .menue {
     position: relative;
     display: flex;
@@ -238,286 +248,6 @@ html {
     margin-right: 15px;
 }
 
-.ordersData {
-    display: flex;
-    justify-content: space-between;
-    gap: 10px;
-    margin-bottom: 50px;
-}
-
-.orders {
-    background-color: #878583;
-    color: #ffff;
-    min-width: 150px;
-    max-width: fit-content;
-    min-height: 150px;
-    max-height: fit-content;
-    border-radius: 20px;    
-    margin-bottom: 40px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 30px;
-    padding: 10px;
-}
-
-.orders span {
-    background-color: #bcb4b0;
-    padding: 8px;
-    border-radius: 12px;
-}
-
-.price {
-    background-color: #0ac2d9;
-}
-
-.price span {
-    background-color: #84c7c1;
-}
-
-.complaints {
-    background-color: rgb(185 31 30);
-}
-
-.complaints span {
-    background-color: rgb(223 62 61);
-}
-
-.users {
-    background-color: #e0583d;
-    box-shadow: 0 4px 6px var(--secondary-color);
-}
-
-.users,
-.ordersStatus {
-    min-width: fit-content;
-    cursor: pointer;
-}
-
-.users a {
-    background-color: #f28570;
-    background-color: #f28570;
-    padding: 8px;
-    border-radius: 12px;
-}
-
-.users a.icon {
-    font-size: 90px;
-    width: 70%;
-    display: flex;
-    text-align: center;
-    justify-content: center;    
-}
-
-.users .dd,
-.ordersStatus .dd,
-.fund .dd {
-    display: flex;
-    text-align: center;
-    justify-content: center;
-    flex-direction: column;
-    width: 200px;
-    margin-left: 25px;
-    gap: 15px;
-    height: 100%;
-}
-
-.users .dd a {
-    min-width: 180px;
-    font-size: 20px;   
-}
-
-/* Orders Dashboard */
-.ordersData .ordersStatus {
-    background-color: #eee;
-}
-.ordersData .ordersStatus .pending,
-.ordersData .ordersStatus .preparing,
-.ordersData .ordersStatus .shipped {
-    border-radius: 50%;
-    width: 151px;
-    border: 20px solid;
-    transition: var(--main-transition);
-
-}
-.ordersData .ordersStatus .pending {
-    border-color: var(--secondary-color);   
-    border-left-color: transparent;
-    font-size: 22px;
-    a {
-        color: var(--secondary-color);
-      }
-}
-
-.ordersData .ordersStatus .preparing {
-    border-color: #0ac2d9;
-    border-left-color: transparent;
-    border-right-color: transparent;
-    border-bottom-color: transparent;
-    font-size: 22px;
-    a {
-        color: #0ac2d9;
-      }
-}
-
-.ordersData .ordersStatus .shipped {
-    border-color: #09d449;
-    border-left-color: transparent;
-    border-right-color: transparent;
-    border-bottom-color: transparent;
-    font-size: 22px;
-    a {
-        color: #09d449;
-      }
-}
-
-.ordersData .ordersStatus .pending:hover,
-.ordersData .ordersStatus .preparing:hover,
-.ordersData .ordersStatus .shipped:hover {
-    transform: scale(1.1);
-}
-
-/* Sales Dashboard */
-
-.ordersData .fund {
-    background-color: #041a46;
-    flex-direction: column;
-    gap: 25px;
-}
-
-.ordersData .fund form {
-    margin-bottom: 15px;
-}
-.ordersData .fund form input:first-child {
-    font-size: 18px;
-    width: 250px;
-    padding: 6px 12px;
-    border-radius: 8px;
-    outline: none;
-    border: none;
-    color: var(--primary-color);
-}
-
-.ordersData .fund form input[type='submit'] {
-    font-size: 18px;
-    padding: 6px 12px;
-    border-radius: 8px;
-    width: 100px;
-    outline: none;
-    border: none;
-    background-color: var(--primary-color);
-    color: #fff;
-}
-
-.ordersData .fund .fd {
-    display: flex;
-    align-items: center;
-    gap: 30px;
-}
-
-.fund .dd {
-    flex-direction: row;
-    align-items: center;
-}
-
-.fund .fd .dd .ico {
-    width: 6px;
-    height: 6px;
-    border-radius: 0;
-    padding: 6px;
-}
-
-.fund .fd .dd.nOfOrders .ico {
-    background-color: #0ac2d9;
-}
-
-.fund .fd .dd.sales .ico {
-    background-color: var(--secondary-color);
-}
-
-.fund .fd .dd.netProfit .ico {
-    background-color: #09d449;
-}
-
-.fund .fd .dd .ico + span {
-    padding: 0 8px;
-    background-color: #1d4f98;
-    box-shadow: 0 4px 20px rgb(88 63 63 / 77%);
-    position: relative;
-    min-width: fit-content;
-}
-
-.fund .fd .dd .ico + span::before {
-    content: 'Sales';
-    position: absolute;
-    top: -50%;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 100%;
-    height: 20px;
-    font-size: 14px;
-    letter-spacing: 2px;
-}
-
-.fund .fd .dd.nOfOrders .ico + span::before {
-    content: 'Orders';
-}
-
-.fund .fd .dd.netProfit .ico + span::before {
-    content: 'Net Profit';
-} 
-
-/* Users Dashboard */
-.ordersData .orders.usersStatus {
-    flex-direction: column;
-    font-size: 15px;
-    font-weight: bold;
-    background-color: #d8d2d2;
-    position: relative;
-    min-width: 600px;
-    align-items: flex-start;
-    gap: 50px;
-}
-
-.ordersData .orders.usersStatus::before,
-.ordersData .orders.usersStatus::after {
-    content: '';
-    position: absolute;
-    height: 15px;
-    left: 75px;
-    border-radius: 5px;
-}
-
-.ordersData .orders.usersStatus::before {    
-    bottom: 32px;
-    background-color: var(--primary-color);
-}
-
-.ordersData .orders.usersStatus::after {   
-    top: 32px;
-    background-color: #09d449;
-}
-
-.ordersData .orders.usersStatus .active {
-    color: #09d449;
-}
-
-.ordersData .orders.usersStatus .unactive {
-    color: var(--primary-color);
-}
-
-.ordersData .orders.usersStatus .ud span {
-    position: absolute;
-    background-color: #f7f7f7;
-    right: -115px;
-    padding: 0;
-    box-shadow: none;
-}
-
-.ordersData .orders.usersStatus .ud.active span {
-    
-}
-
 .label {
     background-color: #09b13e;
     color: #fff;
@@ -544,10 +274,10 @@ html {
 
 .icons {
     display: flex;
-    flex-wrap: wrap; /* Allows wrapping when screen width is smaller */
-    justify-content: center; /* Centers icons horizontally */
-    gap: 10px; /* Adds space between icons */
-    margin: 20px auto; /* Centers the icons div and adjusts spacing */
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin: 20px auto;
     padding: 10px;
 }
 
@@ -583,17 +313,16 @@ html {
     transform: scale(1.1);
 }
 
-/* Media queries for responsiveness */
 @media (max-width: 768px) {
     .icons img {
-        max-width: 60px; /* Slightly smaller icons for tablets */
+        max-width: 60px;
         max-height: 60px;
     }
 }
 
 @media (max-width: 576px) {
     .icons img {
-        max-width: 50px; /* Smaller icons for mobile devices */
+        max-width: 50px;
         max-height: 50px;
     }
 }
@@ -617,7 +346,6 @@ html {
     background-color: orangered;
 }
 
-/* Modal Card Styling */
 #deleteModal .modal-dialog {
     max-width: 400px;
     margin: auto;
@@ -662,7 +390,6 @@ html {
     margin-bottom: 15px;
 }
 
-/* Form Styling */
 #deleteForm {
     width: 100%;
 }
@@ -702,14 +429,12 @@ html {
     background-color: var(--secondary-color);
 }
 
-/* Mobile Optimization */
 @media (max-width: 768px) {
     #deleteModal .modal-dialog {
         max-width: 90%;
     }
 }
 
-/* Offers Section */
 .offers {
     background-color: #fff;
     padding: 20px;
@@ -786,17 +511,15 @@ html {
 .btn-modern {
     border-radius: 0.5rem;
     padding: 0.5rem 1rem;
-    transition: none; /* remove default focus animation */
+    transition: none; 
 }
 
-/* remove focus outline/glow */
 .btn-modern:focus,
 .btn-modern:focus-visible {
     outline: none !important;
     box-shadow: none !important;
 }
 
-/* remove border on outline buttons */
 .btn-outline-primary,
 .btn-outline-success {
     border: none !important;

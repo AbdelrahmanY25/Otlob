@@ -1,23 +1,17 @@
-﻿namespace Otlob.Areas.SuperAdmin.Controllers
+﻿namespace Otlob.Areas.SuperAdmin.Controllers;
+
+[Area(SD.superAdminRole)]
+public class RestaurantStatusController(IRestauranStatusService restauranStatusService) : Controller
 {
-    [Area("SuperAdmin")]
-    public class RestaurantStatusController : Controller
+    private readonly IRestauranStatusService _restauranStatusService = restauranStatusService;
+
+    public IActionResult ChangeRestaurantStatus(string id, AcctiveStatus status)
     {
-        private readonly IRestaurantService restaurantService;
+        Result isStatusChanged = _restauranStatusService.ChangeRestauranStatus(id, status);
 
-        public RestaurantStatusController(IRestaurantService restaurantService)
-        {
-            this.restaurantService = restaurantService;
-        }
+        TempData[isStatusChanged.IsSuccess ? "Success" : "Error"] =
+            isStatusChanged.IsSuccess ? "The resturant status has been changed" : "Try agin change status";
 
-        public IActionResult ChangeRestaurantStatus(string id, AcctiveStatus status)
-        {
-            bool isStatusChanged = restaurantService.ChangeRestauranStatus(id, status);
-
-            TempData[isStatusChanged ? "Success" : "Error"] =
-                isStatusChanged ? "The resturant status has been changed" : "Try agin change status";
-
-            return RedirectToAction("ActiveResturatns", "Restaurants");
-        }
+        return RedirectToAction("ActiveResturatns", "Restaurants", new { Area = SD.superAdminRole });
     }
 }

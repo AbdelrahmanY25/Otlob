@@ -1,32 +1,56 @@
-﻿namespace Otlob.Areas.Customer.Controllers
+﻿namespace Otlob.Areas.Customer.Controllers;
+
+[Area(SD.customer)]
+public class BecomeAPartnerController(IAuthService authService, IAddPartnerService addPartnerService, IDataProtectionProvider dataProtectionProvider) : Controller
 {
-    [Area("Customer")]
-    public class BecomeaPartnerController : Controller
+    private readonly IAuthService _authService = authService;
+    private readonly IAddPartnerService _addPartnerService = addPartnerService;
+    private readonly IDataProtector _dataProtector = dataProtectionProvider.CreateProtector("SecureData");
+
+    public IActionResult BecomeAPartner() => View();
+
+    [HttpPost, ValidateAntiForgeryToken]
+    public async Task<IActionResult> BecomeAPartner(ApplicationUserVM userVM)
     {
-        private readonly IRegisterService registerService;
-
-        public BecomeaPartnerController(IRegisterService registerService)
+        if (!ModelState.IsValid)
         {
-            this.registerService = registerService;
+            return View(userVM);
         }
 
-        public IActionResult BecomeaPartner() => View();
+        var result = await _authService.RegisterAsync(userVM, [SD.restaurantAdmin]);
 
-        [HttpPost, ValidateAntiForgeryToken]
-        public async Task<IActionResult> BecomeaPartner(RegistResturantVM registresturantVM)
+        if (result.IsFailure)
         {
-            if (!ModelState.IsValid)
-            {
-                return View(registresturantVM);
-            }
-
-            if (!await registerService.RegisterRestaurant(registresturantVM))
-            {
-                return View(registresturantVM);
-            }
-
-            TempData["Success"] = "Resturant Account Created Succefully";
-            return RedirectToAction("Index", "Home");
+            ModelState.AddModelError(result.Error.Code, result.Error.Description);
+            return View(userVM);
         }
+
+        return RedirectToAction(nameof(RegistRestaurantAccount), new { ownerId = _dataProtector.Protect(result.Value!) });
+    }
+
+    public IActionResult RegistRestaurantAccount(string ownerId)
+    {
+        RegistResturantVM resturantVM = new() { OwnerId = ownerId };
+        return View(resturantVM);
+    }
+
+    [HttpPost, ValidateAntiForgeryToken]
+    public async Task<IActionResult> RegistRestaurantAccount(RegistResturantVM registResturantVM)
+    {
+        if (!ModelState.IsValid)
+        {
+            return View(registResturantVM);
+        }
+
+        var result = await _addPartnerService.RegistRestaurant(registResturantVM);
+
+        if (result.IsFailure)
+        {
+            TempData["Error"] = result.Error.Description;
+            return RedirectToAction("Home", "Home", new { Area = SD.otlob });
+        }
+
+        TempData["Success"] = result.Value;
+        return RedirectToAction("Login", "Account", new { Area = SD.customer });
     }
 }

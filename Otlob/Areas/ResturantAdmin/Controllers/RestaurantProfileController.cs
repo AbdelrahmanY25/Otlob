@@ -1,104 +1,61 @@
-﻿namespace Otlob.Areas.Restaurants.Controllers
+﻿namespace Otlob.Areas.ResturantAdmin.Controllers;
+
+[Area(SD.restaurantAdmin),Authorize(Roles = SD.restaurantAdmin)]
+public class RestaurantProfileController(IRestaurantProfileService restaurantProfileService) : Controller
 {
-    [Area("ResturantAdmin"),Authorize(Roles = SD.restaurantAdmin)]
-    public class RestaurantProfileController : Controller
+    private readonly IRestaurantProfileService _restaurantProfileService = restaurantProfileService;
+
+    public IActionResult EditRestaurantProfile()
     {
-        private readonly IImageService imageService;
-        private readonly IUserServices userServices;
-        private readonly IRestaurantService restaurantService;
+        int restaurantId = int.Parse(User.FindFirstValue(SD.restaurantId)!);
 
-        public RestaurantProfileController(IImageService imageService,
-                                           IUserServices userServices,                                           
-                                           IRestaurantService restaurantService)
+        var result = _restaurantProfileService.GetRestaurantProfileDetailsById(restaurantId);
+
+        if (result.IsFailure)
         {
-            this.imageService = imageService;
-            this.userServices = userServices;
-            this.restaurantService = restaurantService;
+            TempData["Error"] = result.Error.Description;
+            return RedirectToAction("Index", "Home", new { area = SD.restaurantAdmin });
         }
-        
-        public IActionResult EditRestaurantProfile()
+
+        return View(result.Value);
+    }
+
+    [HttpPost, ValidateAntiForgeryToken]
+    public IActionResult EditRestaurantProfile(RestaurantVM restaurantVM)
+    {
+        if (!ModelState.IsValid)
         {
-            string? userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            if (userId is null)
-            {
-                return RedirectToAction("Login", "Account", new { Area = "Customer" });
-            }
-
-            int restaurantId = userServices.GetUserRestaurantId(userId);
-
-            RestaurantVM resturantVM = restaurantService.GetRestaurantVMDetailsById(restaurantId);
-
-            return View(resturantVM);
+            return View(restaurantVM);
         }
 
-        [HttpPost, ValidateAntiForgeryToken]
-        public IActionResult EditRestaurantProfile(RestaurantVM restaurantVM)
+        int restaurantId = int.Parse(User.FindFirstValue(SD.restaurantId)!);
+
+        Result updatedResult = _restaurantProfileService.EditRestaurantProfileInfo(restaurantVM, restaurantId)!;
+       
+        if (updatedResult.IsFailure)
         {
-            if (!ModelState.IsValid)
-            {
-                return View(restaurantVM);
-            }
-
-            string? userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
-
-            if (userId is null)
-            {
-                return RedirectToAction("Login", "Account", new { Area = "Customer" });
-            }
-
-            int restaurantId = int.Parse(User.FindFirstValue(SD.restaurantId)!);
-
-            string? isDataUpdated = restaurantService.EditRestaurantProfileInfo(restaurantVM, restaurantId)!;
-           
-            if (isDataUpdated is string)
-            {
-                ModelState.AddModelError("", isDataUpdated);
-                return View(restaurantVM);
-            }
-
-            TempData["Success"] = "Your resturant info updated Successfully";
-
-            return RedirectToAction("EditRestaurantProfile");
+            TempData["Error"] = updatedResult.Error.Description;
+            return RedirectToAction(nameof(EditRestaurantProfile));
         }
 
-        [HttpPost, ValidateAntiForgeryToken]
-        public IActionResult EditRestaurantProfilePicture(IFormFile image)
-        {            
-            string? userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+        TempData["Success"] = "The profile updated succefully";
+        return RedirectToAction(nameof(EditRestaurantProfile));
+    }
 
-            if (userId is null)
-            {
-                return RedirectToAction("Login", "Account", new { Area = "Customer" });
-            }
+    [HttpPost, ValidateAntiForgeryToken]
+    public IActionResult EditRestaurantProfilePicture(IFormFile image)
+    {
+        int restaurantId = int.Parse(User.FindFirstValue(SD.restaurantId)!);
 
-            int restaurantId = int.Parse(User.FindFirstValue(SD.restaurantId)!);
+        Result uploadImageResult = _restaurantProfileService.EditRestaurantProfilePicture(restaurantId, image);
 
-            var isImageUploaded = imageService.UploadImage(image!);
-
-            if (!isImageUploaded.IsSuccess)
-            {
-                TempData["Error"] = isImageUploaded.Message;
-                return RedirectToAction("EditRestaurantProfile");
-            }
-
-            Restaurant restaurant = restaurantService.GetRestaurantImageById(restaurantId);
-            
-            var isOldImageDeleted = imageService.DeleteOldImageIfExist(restaurant.Image);
-
-            if (!isOldImageDeleted.IsSuccess)
-            {
-                TempData["Error"] = isOldImageDeleted.Message;
-                return RedirectToAction("EditRestaurantProfile");
-            }
-
-            restaurantService.UpdateRestaurantImage(restaurant, isImageUploaded.ImageUrl);
-
-            TempData["Success"] = "The resturant profile picture updated Successfully";
-
-            return RedirectToAction("EditRestaurantProfile");
+        if (uploadImageResult.IsFailure)
+        {
+            TempData["Error"] = uploadImageResult.Error.Description;
+            return RedirectToAction(nameof(EditRestaurantProfile));
         }
 
-
+        TempData["Success"] = "profile Image updated successfully";
+        return RedirectToAction(nameof(EditRestaurantProfile));
     }
 }

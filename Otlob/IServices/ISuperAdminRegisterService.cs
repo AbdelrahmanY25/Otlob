@@ -1,4 +1,4 @@
-﻿namespace Otlob.Core.IServices
+﻿namespace Otlob.IServices
 {
     public interface ISuperAdminRegisterService
     {

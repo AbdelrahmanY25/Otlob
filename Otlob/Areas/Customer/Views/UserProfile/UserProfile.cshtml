@@ -1,0 +1,34 @@
+﻿@model ProfileVM
+
+@section Profile {
+    <partial name="_ProfilePartial"></partial>
+}
+
+<div class="profile">
+    <div class="info">
+        <div class="home">
+            <a asp-area="@User.FindFirstValue(ClaimTypes.Role)" asp-controller="Home" asp-action="Index">Home ></a>
+            <a asp-area="@SD.customer" asp-controller="Account" asp-action="UserProfile">Account</a>
+        </div>
+        <h2>My Account</h2>
+    </div>
+    <hr class="line" />
+    <div class="links">
+        <a href="#" class="active">Account Info</a>
+        <a asp-action="SavedAddresses" asp-controller="Address">Saved Addresses</a>
+        <a asp-action="TrackOrders" asp-controller="OrdersHistory">My Orders</a>
+        <a asp-controller="Account" asp-action="ChangePassword">CHANGE PASSWORD</a>
+    </div>
+    <partial name="_FormProfilePartial" model="Model" />
+</div>
+
+<script>
+    function triggerFileInput() {
+        document.getElementById("fileInput").click();
+    }
+</script>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial"></partial>
+    <partial name="_NotificationPartial"></partial>
+}

@@ -1,0 +1,100 @@
+﻿<link href="~/css/homePag.css" rel="stylesheet" />
+
+<div class="mainSection">
+    <section class="hero-section">
+        <div class="hero-content">
+            <h2>Don't Wait Just...</h2>
+            <div class="app-logo">
+                <img src="~/images/Logo/OtlobLogo.jpg" alt="App Logo" class="logo-image">
+            </div>           
+            <div class="search-container">
+                <input type="text" id="searchInput" class="search-input" placeholder="Search for area, street name, landmark..." onkeyup="searchAddress()">
+                <button class="location-btn" onclick="getCurrentLocation()"><i class="fa-solid fa-location-crosshairs"></i></button>
+                <button class="search-btn">Let's go</button>
+                <div id="results" class="results"></div>
+                <span id="error" class="error-msg"></span>
+            </div>
+        </div>
+    </section>
+
+    <section class="main-content">
+        <div class="container">
+            <div class="content-grid">
+            <div class="content-card" onclick="goToUrl('@Url.Action("Index", "Home", new { area = SD.customer })')">
+                    <div class="card-image">
+                        <img src="~/images/landing/pexels-brettjordan-825661.jpg" alt="Alternate Text" />
+                    </div>
+                    <div class="card-content">
+                        <h2>Browse Restaurants</h2>
+                        <p>Discover amazing restaurants near you. From fast food to fine dining, find exactly what you're craving.</p>
+                        <a asp-area="@SD.customer" asp-controller="Home" asp-action="Index" class="card-btn">Explore Now</a>
+                    </div>
+                </div>
+
+                <div class="content-card" onclick="goToUrl('@Url.Action("BecomeAPartner", "BecomeAPartner", new { area = SD.customer })')">
+                    <div class="card-image">
+                        <img src="~/images/landing/pexels-norma-mortenson-4393668.jpg" alt="Alternate Text" />
+                    </div>
+                    <div class="card-content">
+                        <h2>Become a Partner</h2>
+                        <p>Join our network of restaurant partners and grow your business with our delivery platform.</p>
+                    <a asp-area="@SD.customer" asp-controller="BecomeAPartner" asp-action="BecomeAPartner" class="card-btn">Register Now</a>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <div class="card-image">
+                        <img src="~/images/landing/food.jpg" alt="Alternate Text" />
+                    </div>
+                    <div class="card-content">
+                        <h2>Otlob, Enjoy With Family And Friends</h2>
+                        <p>With otlob we deliver happiness, enjoyness to you not only food and the best order experience.</p>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <div class="card-image">
+                        <img src="~/images/landing/pexels-chanwalrus-958545.jpg" alt="Alternate Text" />
+                    </div>
+                    <div class="card-content">
+                        <h2>You Will Find All What You need</h2>
+                        <p>We're proud to offer a wide selection of cuisines from around the world.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="features-section">
+        <div class="container">
+            <h2 class="features-title">Why Choose Us?</h2>
+            <div class="features-grid">
+                <div class="feature-item">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Fast Delivery</h3>
+                    <p>Get your food delivered in 30 minutes or less</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">🏆</div>
+                    <h3>Quality Assured</h3>
+                    <p>Only the best restaurants and highest quality food</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">💳</div>
+                    <h3>Easy Payment</h3>
+                    <p>Multiple payment options for your convenience</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">📱</div>
+                    <h3>Track Orders</h3>
+                    <p>Real-time tracking of your order from kitchen to doorstep</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <partial name="_FooterPartial"></partial>
+</div>
+
+<script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
+<script src="~/js/HomePag.js"></script>

@@ -1,16 +1,23 @@
-﻿<nav class="navbar navbar-expand-sm navbar-light border-bottom box-shadow mb-3">
-    <div class="container-fluid">        
-        <img id="sidebarToggle" src="~/images/OtlobLogo.jpg" alt="Logo" class="avatar rounded-circle toggle-btn" />
+﻿@inject SignInManager<ApplicationUser> SignInManager
+
+<nav class="navbar navbar-expand-sm navbar-light border-bottom box-shadow mb-3">
+    <div class="container-fluid">
+        <img id="sidebarToggle" src="~/images/Logo/OtlobLogo.jpg" alt="Logo" class="avatar rounded-circle toggle-btn" />
         <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-            <ul class="navbar-nav flex-grow-1">               
-                <li class="nav-item">                        
-                    <a style=" color: #F04335" class="nav-link" asp-area="@User.FindFirstValue(ClaimTypes.Role)" asp-controller="Home" asp-action="Index">Home</a>                    
+            <ul class="navbar-nav flex-grow-1">
+                <li class="nav-item">
+                    <a style="color: #F04335" class="nav-link" asp-area="@SD.otlob" asp-controller="Home" asp-action="Home">Home</a>
                 </li>
+                @if (!SignInManager.IsSignedIn(User))
+                {
+                    <a style="color: #F04335" class="nav-link" asp-area="@SD.customer" asp-controller="BecomeAPartner" asp-action="BecomeAPartner">Become A Partner</a>                    
+                }
                 @if (User.IsInRole(SD.customer))
                 {
-                    <a style=" color: #F04335;" class="nav-link" asp-area="Customer" asp-controller="Cart" asp-action="Cart"><i class="fa-solid fa-cart-shopping"></i></a>                    
+                    <a style="color: #F04335;" class="nav-link" asp-area="@SD.customer" asp-controller="Cart" asp-action="Cart"><i class="fa-solid fa-cart-shopping"></i></a>
                 }
             </ul>
+
             <partial name="_LoginPartial"></partial>
         </div>
     </div>

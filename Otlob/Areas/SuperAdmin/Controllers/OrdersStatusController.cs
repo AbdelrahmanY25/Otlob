@@ -1,63 +1,55 @@
-﻿namespace Otlob.Areas.SuperAdmin.Controllers
+﻿namespace Otlob.Areas.SuperAdmin.Controllers;
+
+[Area(SD.superAdminRole), Authorize(Roles = SD.superAdminRole)]
+public class OrdersStatusController(IOrderService orderService, IPaginationService paginationService, IUserServices userServices) : Controller
 {
-    [Area("SuperAdmin"), Authorize(Roles = SD.superAdminRole)]
-    public class OrdersStatusController : Controller
+    private readonly IOrderService orderService = orderService;
+    private readonly IPaginationService paginationService = paginationService;
+    private readonly IUserServices userServices = userServices;
+    private const int pageSize = 5;
+
+    private readonly OrderStatus[] statuses = { OrderStatus.Pending, OrderStatus.Preparing, OrderStatus.Shipped, OrderStatus.Delivered };
+
+    public IActionResult Index(OrderStatus status, int currentPageNumber = 1)
     {
-        private readonly IOrderService orderService;
-        private readonly IPaginationService paginationService;
-        private readonly IUserServices userServices;
-        private const int pageSize = 5;
-
-        private OrderStatus[] statuses = { OrderStatus.Pending, OrderStatus.Preparing, OrderStatus.Shipped, OrderStatus.Delivered };
-
-        public OrdersStatusController(IOrderService orderService, IPaginationService paginationService, IUserServices userServices)
+        if (!statuses.Contains(status))
         {
-            this.orderService = orderService;
-            this.paginationService = paginationService;
-            this.userServices = userServices;
+            return View("EmptyOrders");
         }
 
-        public IActionResult Index(OrderStatus status, int currentPageNumber = 1)
+        var orders = orderService.GetOrdersDayByStatus(status);
+
+        if (orders.IsNullOrEmpty())
         {
-            if (!statuses.Contains(status))
-            {
-                return View("EmptyOrders");
-            }
-
-            var orders = orderService.GetOrdersDayByStatus(status);
-
-            if (orders.IsNullOrEmpty())
-            {
-                return View("EmptyOrders");
-            }
-
-            return Orders(orders!, status, currentPageNumber);
+            return View("EmptyOrders");
         }
 
-        public IActionResult Orders(IQueryable<RestaurantOrdersVM> orders, OrderStatus status, int currentPageNumber)
-        {                       
-            PaginationVM<RestaurantOrdersVM> viewModel = paginationService.PaginateItems(orders, pageSize, currentPageNumber, status);
+        return Orders(orders!, status, currentPageNumber);
+    }
 
-            return View(viewModel);
-        }
+    public IActionResult Orders(IQueryable<RestaurantOrdersVM> orders, OrderStatus status, int currentPageNumber)
+    {                       
+        PaginationVM<RestaurantOrdersVM> viewModel = paginationService.PaginateItems(orders, pageSize, currentPageNumber, status);
 
-        public IActionResult OrderUserDetailsPartial(string orderId)
+        return View(viewModel);
+    }
+
+    public async Task<IActionResult> OrderUserDetailsPartial(string orderId)
+    {
+        string userId = orderService.GetUserIdByOrderId(orderId);
+
+        if (userId.IsNullOrEmpty())
         {
-            string userId = orderService.GetUserIdByOrderId(orderId);
-
-            if (userId.IsNullOrEmpty())
-            {
-                return NotFound();
-            }
-
-            ApplicationUser? user = userServices.GetUserDataToPartialview(userId);
-
-            if (user is null)
-            {
-                return NotFound();
-            }
-
-            return PartialView("_UserOrder", user);
+            return NotFound();
         }
+
+        var result = await userServices.GetUserContactInfo(userId);
+
+        if (result.IsFailure)
+        {
+            return NotFound();
+        }
+
+        return PartialView("_UserOrder", result.Value);
     }
 }
