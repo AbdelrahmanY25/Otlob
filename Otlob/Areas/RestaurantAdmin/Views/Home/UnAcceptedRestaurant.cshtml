@@ -1,0 +1,702 @@
+﻿@model PendingRestaurantResponse
+
+@{
+    ViewData["Title"] = "Restaurant Setup Progress";
+    
+    var allProgressStatuses = Enum.GetValues<ProgressStatus>();
+    var totalSteps = allProgressStatuses.Length - 2;
+    
+    var completedSteps = (int)Model.ProgressStatus - 1;
+    if (completedSteps < 0) completedSteps = 0;
+    if (completedSteps > totalSteps) completedSteps = totalSteps;
+    
+    var progressPercentage = totalSteps > 0 ? (int)Math.Round((double)completedSteps / totalSteps * 100) : 0;
+    
+    string GetStepStatus(ProgressStatus stepStatus)
+    {
+        if (Model.ProgressStatus >= stepStatus)
+            return "completed";
+        else if ((int)Model.ProgressStatus == (int)stepStatus - 1)
+            return "current";
+        else
+            return "upcoming";
+    }
+}
+
+<link rel="stylesheet" href="~/css/unAcceptedRestaurantsHome.css" asp-append-version="true"/>
+
+@if (Model.ProgressStatus < ProgressStatus.NationalIdCompleted)
+{
+    <div class="setup-container">
+        <div class="setup-sidebar">
+            <div class="restaurant-info">
+                <img alt="logo" src="~/images/@(Model.Image is not null ? Model.Image : "Default.jpg")" class="restaurant-logo" />
+  
+                <h2 class="restaurant-title">@Model.Name</h2>
+                <p class="setup-subtitle">Registration Progress</p>
+            </div>
+
+            <div class="progress-overview">
+                <div class="progress-stats">
+                    <div class="stat-item">
+                        <span class="stat-value">@completedSteps</span>
+                        <span class="stat-label">Completed</span>
+                    </div>
+                    <div class="stat-divider"></div>
+                    <div class="stat-item">
+                        <span class="stat-value">@(totalSteps - completedSteps)</span>
+                        <span class="stat-label">Remaining</span>
+                    </div>
+                </div>
+                <div class="progress-bar-wrapper">
+                    <div class="progress-bar">
+                        <div class="progress-bar-fill" style="width: @progressPercentage%">
+                            <span class="progress-label">@progressPercentage%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="steps-navigation">
+                @{
+                    var step1Status = GetStepStatus(ProgressStatus.RestaurantProfileCompleted);
+                    var step2Status = GetStepStatus(ProgressStatus.CommercialRegistrationCompleted);
+                    var step3Status = GetStepStatus(ProgressStatus.TradeMarkCompleted);
+                    var step4Status = GetStepStatus(ProgressStatus.VatCertificateCompleted);
+                    var step5Status = GetStepStatus(ProgressStatus.BankAccountCompleted);
+                    var step6Status = GetStepStatus(ProgressStatus.NationalIdCompleted);
+                }
+                
+                <div class="nav-step @step1Status">
+                    <div class="nav-step-icon">
+                        @if (step1Status == "completed")
+                        {
+                            <i class="fas fa-check"></i>
+                        }
+                        else
+                        {
+                            <span>1</span>
+                        }
+                    </div>
+                    <span class="nav-step-title">Restaurant Profile</span>
+                </div>
+
+                <div class="nav-step @step2Status">
+                    <div class="nav-step-icon">
+                        @if (step2Status == "completed")
+                        {
+                            <i class="fas fa-check"></i>
+                        }
+                        else
+                        {
+                            <span>2</span>
+                        }
+                    </div>
+                    <span class="nav-step-title">Commercial Registration</span>
+                </div>
+
+                <div class="nav-step @step3Status">
+                    <div class="nav-step-icon">
+                        @if (step3Status == "completed")
+                        {
+                            <i class="fas fa-check"></i>
+                        }
+                        else
+                        {
+                            <span>3</span>
+                        }
+                    </div>
+                    <span class="nav-step-title">Trade Mark</span>
+                </div>
+
+                <div class="nav-step @step4Status">
+                    <div class="nav-step-icon">
+                        @if (step4Status == "completed")
+                        {
+                            <i class="fas fa-check"></i>
+                        }
+                        else
+                        {
+                            <span>4</span>
+                        }
+                    </div>
+                    <span class="nav-step-title">VAT Certificate</span>
+                </div>
+
+                <div class="nav-step @step5Status">
+                    <div class="nav-step-icon">
+                        @if (step5Status == "completed")
+                        {
+                            <i class="fas fa-check"></i>
+                        }
+                        else
+                        {
+                            <span>5</span>
+                        }
+                    </div>
+                    <span class="nav-step-title">Bank Account</span>
+                </div>
+
+                <div class="nav-step @step6Status">
+                    <div class="nav-step-icon">
+                        @if (step6Status == "completed")
+                        {
+                            <i class="fas fa-check"></i>
+                        }
+                        else
+                        {
+                            <span>6</span>
+                        }
+                    </div>
+                    <span class="nav-step-title">National ID</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="setup-content">
+            <div class="content-header">
+                <h1>Complete Your Registration</h1>
+                <p>Follow the steps below to activate your restaurant account</p>
+            </div>
+
+            <div class="steps-list">
+                <div class="step-item @step1Status">
+                    <div class="step-marker">
+                        @if (step1Status == "completed")
+                        {
+                            <i class="fas fa-check-circle"></i>
+                        }
+                        else if (step1Status == "current")
+                        {
+                            <div class="pulse-dot"></div>
+                        }
+                        else
+                        {
+                            <div class="step-dot"></div>
+                        }
+                    </div>
+                    <div class="step-body">
+                        <div class="step-header-row">
+                            <div class="step-info">
+                                <h3 class="step-name">
+                                    <i class="fas fa-store"></i>
+                                    Restaurant Profile
+                                </h3>
+                                <p class="step-desc">Complete your restaurant's basic information</p>
+                            </div>
+                            <div class="step-badge @step1Status">
+                                @if (step1Status == "completed")
+                                {
+                                    <span>Completed</span>
+                                }
+                                else if (step1Status == "current")
+                                {
+                                    <span>In Progress</span>
+                                }
+                                else
+                                {
+                                    <span>Upcoming</span>
+                                }
+                            </div>
+                        </div>
+                        @if (step1Status == "current")
+                        {
+                            <div class="step-actions">
+                                <a asp-area="@DefaultRoles.RestaurantAdmin" 
+                                   asp-controller="RestaurantProfile"
+                                   asp-action="EditRestaurantProfile"
+                                   class="btn-action">
+                                    <i class="fas fa-arrow-right"></i>
+                                    <span>Continue</span>
+                                </a>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div class="step-item @step2Status">
+                    <div class="step-marker">
+                        @if (step2Status == "completed")
+                        {
+                            <i class="fas fa-check-circle"></i>
+                        }
+                        else if (step2Status == "current")
+                        {
+                            <div class="pulse-dot"></div>
+                        }
+                        else
+                        {
+                            <div class="step-dot"></div>
+                        }
+                    </div>
+                    <div class="step-body">
+                        <div class="step-header-row">
+                            <div class="step-info">
+                                <h3 class="step-name">
+                                    <i class="fas fa-file-contract"></i>
+                                    Commercial Registration
+                                </h3>
+                                <p class="step-desc">Upload your commercial registration document</p>
+                            </div>
+                            <div class="step-badge @step2Status">
+                                @if (step2Status == "completed")
+                                {
+                                    <span>Completed</span>
+                                }
+                                else if (step2Status == "current")
+                                {
+                                    <span>In Progress</span>
+                                }
+                                else
+                                {
+                                    <span>Upcoming</span>
+                                }
+                            </div>
+                        </div>
+                        @if (step2Status == "current")
+                        {
+                            <div class="step-actions">
+                                <a asp-area="@DefaultRoles.RestaurantAdmin" 
+                                   asp-controller="CommercialRegistrations" 
+                                   asp-action="Upload" 
+                                   class="btn-action">
+                                    <i class="fas fa-arrow-right"></i>
+                                    <span>Continue</span>
+                                </a>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div class="step-item @step3Status">
+                    <div class="step-marker">
+                        @if (step3Status == "completed")
+                        {
+                            <i class="fas fa-check-circle"></i>
+                        }
+                        else if (step3Status == "current")
+                        {
+                            <div class="pulse-dot"></div>
+                        }
+                        else
+                        {
+                            <div class="step-dot"></div>
+                        }
+                    </div>
+                    <div class="step-body">
+                        <div class="step-header-row">
+                            <div class="step-info">
+                                <h3 class="step-name">
+                                    <i class="fas fa-trademark"></i>
+                                    Trade Mark Certificate
+                                </h3>
+                                <p class="step-desc">Upload your trademark registration certificate</p>
+                            </div>
+                            <div class="step-badge @step3Status">
+                                @if (step3Status == "completed")
+                                {
+                                    <span>Completed</span>
+                                }
+                                else if (step3Status == "current")
+                                {
+                                    <span>In Progress</span>
+                                }
+                                else
+                                {
+                                    <span>Upcoming</span>
+                                }
+                            </div>
+                        </div>
+                        @if (step3Status == "current")
+                        {
+                            <div class="step-actions">
+                                <a asp-area="@DefaultRoles.RestaurantAdmin" 
+                                   asp-controller="TradeMarks" 
+                                   asp-action="Upload" 
+                                   class="btn-action">
+                                    <i class="fas fa-arrow-right"></i>
+                                    <span>Continue</span>
+                                </a>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div class="step-item @step4Status">
+                    <div class="step-marker">
+                        @if (step4Status == "completed")
+                        {
+                            <i class="fas fa-check-circle"></i>
+                        }
+                        else if (step4Status == "current")
+                        {
+                            <div class="pulse-dot"></div>
+                        }
+                        else
+                        {
+                            <div class="step-dot"></div>
+                        }
+                    </div>
+                    <div class="step-body">
+                        <div class="step-header-row">
+                            <div class="step-info">
+                                <h3 class="step-name">
+                                    <i class="fas fa-receipt"></i>
+                                    VAT Certificate
+                                </h3>
+                                <p class="step-desc">Upload your VAT certificate document</p>
+                            </div>
+                            <div class="step-badge @step4Status">
+                                @if (step4Status == "completed")
+                                {
+                                    <span>Completed</span>
+                                }
+                                else if (step4Status == "current")
+                                {
+                                    <span>In Progress</span>
+                                }
+                                else
+                                {
+                                    <span>Upcoming</span>
+                                }
+                            </div>
+                        </div>
+                        @if (step4Status == "current")
+                        {
+                            <div class="step-actions">
+                                <a asp-area="@DefaultRoles.RestaurantAdmin" 
+                                   asp-controller="Vats" 
+                                   asp-action="Upload" 
+                                   class="btn-action">
+                                    <i class="fas fa-arrow-right"></i>
+                                    <span>Continue</span>
+                                </a>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div class="step-item @step5Status">
+                    <div class="step-marker">
+                        @if (step5Status == "completed")
+                        {
+                            <i class="fas fa-check-circle"></i>
+                        }
+                        else if (step5Status == "current")
+                        {
+                            <div class="pulse-dot"></div>
+                        }
+                        else
+                        {
+                            <div class="step-dot"></div>
+                        }
+                    </div>
+                    <div class="step-body">
+                        <div class="step-header-row">
+                            <div class="step-info">
+                                <h3 class="step-name">
+                                    <i class="fas fa-university"></i>
+                                    Bank Account Details
+                                </h3>
+                                <p class="step-desc">Provide your bank account information for payments</p>
+                            </div>
+                            <div class="step-badge @step5Status">
+                                @if (step5Status == "completed")
+                                {
+                                    <span>Completed</span>
+                                }
+                                else if (step5Status == "current")
+                                {
+                                    <span>In Progress</span>
+                                }
+                                else
+                                {
+                                    <span>Upcoming</span>
+                                }
+                            </div>
+                        </div>
+                        @if (step5Status == "current")
+                        {
+                            <div class="step-actions">
+                                <a asp-area="@DefaultRoles.RestaurantAdmin" 
+                                   asp-controller="BankAccounts" 
+                                   asp-action="Upload" 
+                                   class="btn-action">
+                                    <i class="fas fa-arrow-right"></i>
+                                    <span>Continue</span>
+                                </a>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div class="step-item @step6Status">
+                    <div class="step-marker">
+                        @if (step6Status == "completed")
+                        {
+                            <i class="fas fa-check-circle"></i>
+                        }
+                        else if (step6Status == "current")
+                        {
+                            <div class="pulse-dot"></div>
+                        }
+                        else
+                        {
+                            <div class="step-dot"></div>
+                        }
+                    </div>
+                    <div class="step-body">
+                        <div class="step-header-row">
+                            <div class="step-info">
+                                <h3 class="step-name">
+                                    <i class="fas fa-id-card"></i>
+                                    National ID & Signature
+                                </h3>
+                                <p class="step-desc">Upload your national ID and signature document</p>
+                            </div>
+                            <div class="step-badge @step6Status">
+                                @if (step6Status == "completed")
+                                {
+                                    <span>Completed</span>
+                                }
+                                else if (step6Status == "current")
+                                {
+                                    <span>In Progress</span>
+                                }
+                                else
+                                {
+                                    <span>Upcoming</span>
+                                }
+                            </div>
+                        </div>
+                        @if (step6Status == "current")
+                        {
+                            <div class="step-actions">
+                                <a asp-area="@DefaultRoles.RestaurantAdmin" 
+                                   asp-controller="NationalId" 
+                                   asp-action="Upload" 
+                                   class="btn-action">
+                                    <i class="fas fa-arrow-right"></i>
+                                    <span>Continue</span>
+                                </a>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="documents-review-container">
+        <div class="documents-review-wrapper">
+            <div class="review-header">
+                <div class="review-icon">
+                    <i class="fas fa-file-invoice"></i>
+                </div>
+                <h1 class="review-title">Documents Under Review</h1>
+                <p class="review-subtitle">Your documents have been submitted and are currently being reviewed by our team</p>
+            </div>
+
+            <div class="documents-status-grid">
+                <div class="document-status-card status-@Model.CommertialRegistrationStatuc.ToString().ToLower()">
+                    <div class="doc-status-header">
+                        <div class="doc-status-icon">
+                            <i class="fas fa-file-contract"></i>
+                        </div>
+                        <span class="doc-status-badge @Model.CommertialRegistrationStatuc.ToString().ToLower()">
+                            @if (Model.CommertialRegistrationStatuc == DocumentStatus.Accepted)
+                            {
+                                <i class="fas fa-check-circle"></i>
+                            }
+                            else if (Model.CommertialRegistrationStatuc == DocumentStatus.Rejected)
+                            {
+                                <i class="fas fa-times-circle"></i>
+                            }
+                            else
+                            {
+                                <i class="fas fa-clock"></i>
+                            }
+                            @Model.CommertialRegistrationStatuc
+                        </span>
+                    </div>
+                    <h3 class="doc-status-title">Commercial Registration</h3>
+                    <p class="doc-status-description">
+                        @if (Model.CommertialRegistrationStatuc == DocumentStatus.Accepted)
+                        {
+                            <span>Your commercial registration has been approved</span>
+                        }
+                        else if (Model.CommertialRegistrationStatuc == DocumentStatus.Rejected)
+                        {
+                            <span>Please resubmit your commercial registration document</span>
+                        }
+                        else
+                        {
+                            <span>Document is being reviewed by our team</span>
+                        }
+                    </p>
+                </div>
+
+                <div class="document-status-card status-@Model.TradeMarkStatus.ToString().ToLower()">
+                    <div class="doc-status-header">
+                        <div class="doc-status-icon">
+                            <i class="fas fa-trademark"></i>
+                        </div>
+                        <span class="doc-status-badge @Model.TradeMarkStatus.ToString().ToLower()">
+                            @if (Model.TradeMarkStatus == DocumentStatus.Accepted)
+                            {
+                                <i class="fas fa-check-circle"></i>
+                            }
+                            else if (Model.TradeMarkStatus == DocumentStatus.Rejected)
+                            {
+                                <i class="fas fa-times-circle"></i>
+                            }
+                            else
+                            {
+                                <i class="fas fa-clock"></i>
+                            }
+                            @Model.TradeMarkStatus
+                        </span>
+                    </div>
+                    <h3 class="doc-status-title">Trade Mark Certificate</h3>
+                    <p class="doc-status-description">
+                        @if (Model.TradeMarkStatus == DocumentStatus.Accepted)
+                        {
+                            <span>Your trade mark certificate has been approved</span>
+                        }
+                        else if (Model.TradeMarkStatus == DocumentStatus.Rejected)
+                        {
+                            <span>Please resubmit your trade mark certificate</span>
+                        }
+                        else
+                        {
+                            <span>Document is being reviewed by our team</span>
+                        }
+                    </p>
+                </div>
+
+                <div class="document-status-card status-@Model.VatStatus.ToString().ToLower()">
+                    <div class="doc-status-header">
+                        <div class="doc-status-icon">
+                            <i class="fas fa-receipt"></i>
+                        </div>
+                        <span class="doc-status-badge @Model.VatStatus.ToString().ToLower()">
+                            @if (Model.VatStatus == DocumentStatus.Accepted)
+                            {
+                                <i class="fas fa-check-circle"></i>
+                            }
+                            else if (Model.VatStatus == DocumentStatus.Rejected)
+                            {
+                                <i class="fas fa-times-circle"></i>
+                            }
+                            else
+                            {
+                                <i class="fas fa-clock"></i>
+                            }
+                            @Model.VatStatus
+                        </span>
+                    </div>
+                    <h3 class="doc-status-title">VAT Certificate</h3>
+                    <p class="doc-status-description">
+                        @if (Model.VatStatus == DocumentStatus.Accepted)
+                        {
+                            <span>Your VAT certificate has been approved</span>
+                        }
+                        else if (Model.VatStatus == DocumentStatus.Rejected)
+                        {
+                            <span>Please resubmit your VAT certificate</span>
+                        }
+                        else
+                        {
+                            <span>Document is being reviewed by our team</span>
+                        }
+                    </p>
+                </div>
+
+                <div class="document-status-card status-@Model.BankAccountStatus.ToString().ToLower()">
+                    <div class="doc-status-header">
+                        <div class="doc-status-icon">
+                            <i class="fas fa-university"></i>
+                        </div>
+                        <span class="doc-status-badge @Model.BankAccountStatus.ToString().ToLower()">
+                            @if (Model.BankAccountStatus == DocumentStatus.Accepted)
+                            {
+                                <i class="fas fa-check-circle"></i>
+                            }
+                            else if (Model.BankAccountStatus == DocumentStatus.Rejected)
+                            {
+                                <i class="fas fa-times-circle"></i>
+                            }
+                            else
+                            {
+                                <i class="fas fa-clock"></i>
+                            }
+                            @Model.BankAccountStatus
+                        </span>
+                    </div>
+                    <h3 class="doc-status-title">Bank Account Certificate</h3>
+                    <p class="doc-status-description">
+                        @if (Model.BankAccountStatus == DocumentStatus.Accepted)
+                        {
+                            <span>Your bank account certificate has been approved</span>
+                        }
+                        else if (Model.BankAccountStatus == DocumentStatus.Rejected)
+                        {
+                            <span>Please resubmit your bank account certificate</span>
+                        }
+                        else
+                        {
+                            <span>Document is being reviewed by our team</span>
+                        }
+                    </p>
+                </div>
+
+                <div class="document-status-card status-@Model.NationalIdStatus.ToString().ToLower()">
+                    <div class="doc-status-header">
+                        <div class="doc-status-icon">
+                            <i class="fas fa-id-card"></i>
+                        </div>
+                        <span class="doc-status-badge @Model.NationalIdStatus.ToString().ToLower()">
+                            @if (Model.NationalIdStatus == DocumentStatus.Accepted)
+                            {
+                                <i class="fas fa-check-circle"></i>
+                            }
+                            else if (Model.NationalIdStatus == DocumentStatus.Rejected)
+                            {
+                                <i class="fas fa-times-circle"></i>
+                            }
+                            else
+                            {
+                                <i class="fas fa-clock"></i>
+                            }
+                            @Model.NationalIdStatus
+                        </span>
+                    </div>
+                    <h3 class="doc-status-title">National ID & Signature</h3>
+                    <p class="doc-status-description">
+                        @if (Model.NationalIdStatus == DocumentStatus.Accepted)
+                        {
+                            <span>Your national ID has been approved</span>
+                        }
+                        else if (Model.NationalIdStatus == DocumentStatus.Rejected)
+                        {
+                            <span>Please resubmit your national ID and signature</span>
+                        }
+                        else
+                        {
+                            <span>Document is being reviewed by our team</span>
+                        }
+                    </p>
+                </div>
+            </div>
+
+            <div class="review-footer">
+                <div class="review-info">
+                    <i class="fas fa-info-circle"></i>
+                    <p>We will notify you once all documents have been reviewed. You can check back here anytime to see the status of your documents.</p>
+                </div>               
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    <partial name="_NotificationPartial"></partial>
+    <script src="~/js/unAcceptedRestaurantsHome.js"></script>
+}

@@ -1,10 +1,10 @@
-﻿namespace Otlob.Core.Contracts.ViewModel;
+﻿namespace Otlob.Core.Contracts.Authentication;
 
 public class MealVm
 {
     public int MealVmId { get; set; }
-    public string? Key { get; set; }
     public int RestaurantId { get; set; }
+    public string? Key { get; set; }
 
     [Required, MinLength(3)]
     public string Name { get; set; } = string.Empty;
@@ -22,8 +22,5 @@ public class MealVm
     public bool IsAvailable { get; set; }
     public bool IsNewMeal { get; set; }
     public bool IsTrendingMeal { get; set; }
-    public string? Image { get; set; }
-
-    [Required]
-    public MenuCategory Category { get; set; } = null!;  
+    public string? Image { get; set; } 
 }

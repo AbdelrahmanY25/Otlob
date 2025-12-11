@@ -1,6 +1,4 @@
-﻿using Otlob.Core.Contracts.Address;
-
-namespace Otlob.Core.Contracts.ViewModel;
+﻿namespace Otlob.Core.Contracts.Authentication;
 
 public class CartVM
 {

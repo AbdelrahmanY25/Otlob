@@ -41,7 +41,7 @@ public class AddressEntityTypeConfiguration : IEntityTypeConfiguration<Address>
             );
 
         builder
-            .HasIndex(a => new { a.UserId, a.CustomerAddress })
+            .HasIndex(a => new { a.UserId, a.CustomerAddress, a.StreetName })
             .IsUnique();
     }
 }

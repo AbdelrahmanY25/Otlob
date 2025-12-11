@@ -1,0 +1,484 @@
+﻿@model BranchResponse
+
+@{
+    ViewData["Title"] = "Update Branch";
+}
+
+<link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet" />
+<link href="~/css/addBranch.css" rel="stylesheet" asp-append-version="true" />
+
+<div class="ab-page">
+    <div class="ab-container">
+        <!-- Page Header -->
+        <div class="ab-header">
+            <a asp-action="Branches" class="ab-back-btn">
+                <i class="fas fa-arrow-left"></i>
+            </a>
+            <div class="ab-header-content">
+                <h1>Update Branch</h1>
+                <p>Edit the details for <strong>@Model.Name</strong></p>
+            </div>
+        </div>
+
+        <!-- Main Card -->
+        <div class="ab-card">
+            <div class="ab-card-header">
+                <h2>
+                    <i class="fas fa-edit"></i>
+                    Branch Information
+                </h2>
+            </div>
+
+            <div class="ab-card-body">
+                <form id="branchForm" asp-action="UpdateBranch" asp-route-key="@Model.Key" method="post">
+                    <!-- Validation Summary -->
+                    <div asp-validation-summary="All" class="ab-validation-errors"></div>
+
+                    <!-- Map Section -->
+                    <div class="ab-map-section">
+                        <h3 class="ab-section-title">
+                            <i class="fas fa-map-marked-alt"></i>
+                            Branch Location
+                        </h3>
+
+                        <!-- Address Search -->
+                        <div class="ab-address-wrapper">
+                            <input type="text" 
+                                   id="addressSearch" 
+                                   class="ab-address-input" 
+                                   name="Address"
+                                   value="@Model.Address"
+                                   placeholder="Search for branch address or click on map..."
+                                   autocomplete="off" />
+                            <button type="button" class="ab-gps-btn" onclick="getCurrentLocation()" title="Use current location">
+                                <i class="fas fa-crosshairs"></i>
+                            </button>
+                            <div id="searchResults" class="ab-search-results"></div>
+                        </div>
+
+                        <!-- Map -->
+                        <div class="ab-map-container">
+                            <div class="ab-map-loading" id="mapLoading">
+                                <i class="fas fa-spinner fa-spin"></i>
+                                Loading map...
+                            </div>
+                            <div id="branchMap"></div>
+                        </div>
+
+                        <!-- Location Info -->
+                        <div class="ab-location-info show" id="locationInfo">
+                            <h6>
+                                <i class="fas fa-check-circle"></i>
+                                Current Location
+                            </h6>
+                            <div class="ab-location-details" id="locationDetails">
+                                <strong>📍 @Model.Address</strong>
+                                <small>Coordinates: @Model.LatCode.ToString("F6"), @Model.LonCode.ToString("F6")</small>
+                            </div>
+                        </div>
+
+                        <!-- Hidden coordinates -->
+                        <input type="hidden" id="LonCode" name="LonCode" value="@Model.LonCode" />
+                        <input type="hidden" id="LatCode" name="LatCode" value="@Model.LatCode" />
+                    </div>
+
+                    <!-- Form Fields Section -->
+                    <div class="ab-form-section">
+                        <h3 class="ab-section-title">
+                            <i class="fas fa-info-circle"></i>
+                            Branch Details
+                        </h3>
+
+                        <div class="ab-form-grid">
+                            <!-- Branch Name -->
+                            <div class="ab-form-group">
+                                <label class="ab-form-label">
+                                    <i class="fas fa-store"></i>
+                                    Branch Name
+                                </label>
+                                <input type="text" 
+                                       class="ab-form-input" 
+                                       name="Name" 
+                                       value="@Model.Name"
+                                       placeholder="e.g., Downtown Branch" />
+                            </div>
+
+                            <!-- Delivery Radius -->
+                            <div class="ab-form-group">
+                                <label class="ab-form-label">
+                                    <i class="fas fa-broadcast-tower"></i>
+                                    Delivery Radius
+                                </label>
+                                <div class="ab-radius-wrapper">
+                                    <div class="ab-radius-header">
+                                        <span>Coverage Area</span>
+                                        <div class="ab-radius-value">
+                                            <span id="radiusDisplay">@Model.DeliveryRadiusKm</span>
+                                            <span>km</span>
+                                        </div>
+                                    </div>
+                                    <input type="range" 
+                                           id="radiusSlider"
+                                           class="ab-radius-slider" 
+                                           min="1" 
+                                           max="20" 
+                                           value="@Model.DeliveryRadiusKm"
+                                           oninput="updateRadius(this.value)" />
+                                    <input type="hidden" id="DeliveryRadiusKm" name="DeliveryRadiusKm" value="@Model.DeliveryRadiusKm" />
+                                    <div class="ab-radius-hints">
+                                        <span>1 km</span>
+                                        <span>10 km</span>
+                                        <span>20 km</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Manager Name -->
+                            <div class="ab-form-group">
+                                <label class="ab-form-label">
+                                    <i class="fas fa-user-tie"></i>
+                                    Manager Name
+                                </label>
+                                <input type="text" 
+                                       class="ab-form-input" 
+                                       name="MangerName" 
+                                       value="@Model.MangerName"
+                                       placeholder="Enter manager's full name" />
+                            </div>
+
+                            <!-- Manager Phone -->
+                            <div class="ab-form-group">
+                                <label class="ab-form-label">
+                                    <i class="fas fa-phone-alt"></i>
+                                    Manager Phone
+                                </label>
+                                <input type="tel" 
+                                       class="ab-form-input" 
+                                       name="MangerPhone" 
+                                       value="@Model.MangerPhone"
+                                       placeholder="e.g., +20 123 456 7890" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Submit Buttons -->
+                    <div class="ab-submit-wrapper">
+                        <button type="submit" class="ab-submit-btn">
+                            <i class="fas fa-save"></i>
+                            Save Changes
+                        </button>
+                        <a asp-action="Branches" class="ab-cancel-btn">
+                            <i class="fas fa-times"></i>
+                            Cancel
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
+
+<script>
+    // Mapbox Configuration
+    const MAPBOX_TOKEN = "pk.eyJ1IjoiYWJkZWxyYWhtYW4yNSIsImEiOiJjbWZpN2h0c2kwazVkMmpzYXZjZzYxcjQ1In0.JrBlnVg0YqMqrGqpgj2CnQ";
+    mapboxgl.accessToken = MAPBOX_TOKEN;
+
+    // Get initial coordinates from model
+    const initialLon = @Model.LonCode.ToString(System.Globalization.CultureInfo.InvariantCulture);
+    const initialLat = @Model.LatCode.ToString(System.Globalization.CultureInfo.InvariantCulture);
+    let currentRadius = @Model.DeliveryRadiusKm.ToString(System.Globalization.CultureInfo.InvariantCulture);
+
+    // Initialize map centered on branch location
+    let map = new mapboxgl.Map({
+        container: 'branchMap',
+        style: 'mapbox://styles/mapbox/streets-v12',
+        center: [initialLon, initialLat],
+        zoom: 14,
+        pitch: 45,
+        bearing: -17.6
+    });
+
+    // Add navigation controls
+    map.addControl(new mapboxgl.NavigationControl());
+
+    let marker = null;
+    let searchTimeout = null;
+
+    // Map load event
+    map.on('load', () => {
+        document.getElementById('mapLoading').style.display = 'none';
+        
+        // Add 3D buildings
+        if (map.getSource('composite')) {
+            map.addLayer({
+                'id': '3d-buildings',
+                'source': 'composite',
+                'source-layer': 'building',
+                'filter': ['==', 'extrude', 'true'],
+                'type': 'fill-extrusion',
+                'minzoom': 15,
+                'paint': {
+                    'fill-extrusion-color': '#aaa',
+                    'fill-extrusion-height': ['get', 'height'],
+                    'fill-extrusion-base': ['get', 'min_height'],
+                    'fill-extrusion-opacity': 0.6
+                }
+            });
+        }
+
+        // Add radius circle source
+        map.addSource('radius-circle', {
+            'type': 'geojson',
+            'data': {
+                'type': 'Feature',
+                'geometry': {
+                    'type': 'Polygon',
+                    'coordinates': [[]]
+                }
+            }
+        });
+
+        // Add radius circle layer
+        map.addLayer({
+            'id': 'radius-circle-fill',
+            'type': 'fill',
+            'source': 'radius-circle',
+            'paint': {
+                'fill-color': '#F04335',
+                'fill-opacity': 0.15
+            }
+        });
+
+        map.addLayer({
+            'id': 'radius-circle-line',
+            'type': 'line',
+            'source': 'radius-circle',
+            'paint': {
+                'line-color': '#F04335',
+                'line-width': 2,
+                'line-dasharray': [2, 2]
+            }
+        });
+
+        // Initialize marker at existing location
+        initializeExistingLocation();
+    });
+
+    // Initialize existing branch location
+    function initializeExistingLocation() {
+        if (initialLon && initialLat) {
+            marker = new mapboxgl.Marker({ 
+                color: '#F04335',
+                draggable: true 
+            })
+            .setLngLat([initialLon, initialLat])
+            .addTo(map);
+
+            // Handle marker drag
+            marker.on('dragend', () => {
+                const pos = marker.getLngLat();
+                reverseGeocode(pos.lng, pos.lat);
+            });
+
+            // Draw initial radius circle
+            updateRadiusCircle(initialLon, initialLat);
+        }
+    }
+
+    // Map click event
+    map.on('click', (e) => {
+        const lon = e.lngLat.lng;
+        const lat = e.lngLat.lat;
+        reverseGeocode(lon, lat);
+    });
+
+    // Search address function
+    function searchAddress() {
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(() => {
+            const query = document.getElementById('addressSearch').value;
+            const resultsDiv = document.getElementById('searchResults');
+
+            if (query.length < 3) {
+                resultsDiv.classList.remove('show');
+                return;
+            }
+
+            const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(query)}.json?access_token=${MAPBOX_TOKEN}&autocomplete=true&country=eg&limit=5`;
+
+            fetch(url)
+                .then(res => res.json())
+                .then(data => {
+                    resultsDiv.innerHTML = '';
+                    if (data.features && data.features.length > 0) {
+                        data.features.forEach(item => {
+                            const div = document.createElement('div');
+                            div.className = 'ab-search-item';
+                            div.innerHTML = `<i class="fas fa-map-marker-alt"></i><span>${item.place_name}</span>`;
+                            div.onclick = () => selectAddress(item);
+                            resultsDiv.appendChild(div);
+                        });
+                        resultsDiv.classList.add('show');
+                    } else {
+                        resultsDiv.classList.remove('show');
+                    }
+                })
+                .catch(() => resultsDiv.classList.remove('show'));
+        }, 500);
+    }
+
+    // Select address from search results
+    function selectAddress(item) {
+        document.getElementById('searchResults').classList.remove('show');
+        document.getElementById('addressSearch').value = item.place_name;
+        document.getElementById('LonCode').value = item.center[0];
+        document.getElementById('LatCode').value = item.center[1];
+        
+        updateMarker(item.center[0], item.center[1], item.place_name);
+        map.flyTo({ center: item.center, zoom: 14 });
+    }
+
+    // Get current location
+    function getCurrentLocation() {
+        if (!navigator.geolocation) {
+            alert('Geolocation is not supported by your browser.');
+            return;
+        }
+
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                const lat = position.coords.latitude;
+                const lon = position.coords.longitude;
+                reverseGeocode(lon, lat);
+                map.flyTo({ center: [lon, lat], zoom: 14 });
+            },
+            () => alert('Unable to retrieve your location.')
+        );
+    }
+
+    // Reverse geocode coordinates to address
+    function reverseGeocode(lon, lat) {
+        const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${lon},${lat}.json?access_token=${MAPBOX_TOKEN}&country=eg`;
+
+        fetch(url)
+            .then(res => res.json())
+            .then(data => {
+                let placeName = 'Selected location';
+                if (data.features && data.features.length > 0) {
+                    placeName = data.features[0].place_name;
+                }
+                
+                document.getElementById('addressSearch').value = placeName;
+                document.getElementById('LonCode').value = lon;
+                document.getElementById('LatCode').value = lat;
+                
+                updateMarker(lon, lat, placeName);
+            });
+    }
+
+    // Update marker and radius circle
+    function updateMarker(lon, lat, placeName) {
+        // Update or create marker
+        if (marker) {
+            marker.setLngLat([lon, lat]);
+        } else {
+            marker = new mapboxgl.Marker({ 
+                color: '#F04335',
+                draggable: true 
+            })
+            .setLngLat([lon, lat])
+            .addTo(map);
+
+            // Handle marker drag
+            marker.on('dragend', () => {
+                const pos = marker.getLngLat();
+                reverseGeocode(pos.lng, pos.lat);
+            });
+        }
+
+        // Update radius circle
+        updateRadiusCircle(lon, lat);
+
+        // Update location info
+        document.getElementById('locationDetails').innerHTML = `
+            <strong>📍 ${placeName}</strong>
+            <small>Coordinates: ${lat.toFixed(6)}, ${lon.toFixed(6)}</small>
+        `;
+        document.getElementById('locationInfo').classList.add('show');
+    }
+
+    // Update radius circle on map
+    function updateRadiusCircle(lon, lat) {
+        const radiusInMeters = currentRadius * 1000;
+        const circleCoords = createCircle([lon, lat], radiusInMeters);
+        
+        if (map.getSource('radius-circle')) {
+            map.getSource('radius-circle').setData({
+                'type': 'Feature',
+                'geometry': {
+                    'type': 'Polygon',
+                    'coordinates': [circleCoords]
+                }
+            });
+        }
+    }
+
+    // Create circle coordinates
+    function createCircle(center, radiusInMeters, points = 64) {
+        const coords = [];
+        const km = radiusInMeters / 1000;
+        const distanceX = km / (111.320 * Math.cos(center[1] * Math.PI / 180));
+        const distanceY = km / 110.574;
+
+        for (let i = 0; i < points; i++) {
+            const theta = (i / points) * (2 * Math.PI);
+            const x = center[0] + distanceX * Math.cos(theta);
+            const y = center[1] + distanceY * Math.sin(theta);
+            coords.push([x, y]);
+        }
+        coords.push(coords[0]); // Close the circle
+
+        return coords;
+    }
+
+    // Update radius from slider
+    function updateRadius(value) {
+        currentRadius = parseFloat(value);
+        document.getElementById('radiusDisplay').textContent = value;
+        document.getElementById('DeliveryRadiusKm').value = value;
+
+        // Update circle if marker exists
+        if (marker) {
+            const pos = marker.getLngLat();
+            updateRadiusCircle(pos.lng, pos.lat);
+        }
+    }
+
+    // Event listeners
+    document.getElementById('addressSearch').addEventListener('input', searchAddress);
+
+    // Close search results on outside click
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('.ab-address-wrapper')) {
+            document.getElementById('searchResults').classList.remove('show');
+        }
+    });
+
+    // Form validation before submit
+    document.getElementById('branchForm').addEventListener('submit', (e) => {
+        const lon = document.getElementById('LonCode').value;
+        const lat = document.getElementById('LatCode').value;
+
+        if (!lon || !lat) {
+            e.preventDefault();
+            return false;
+        }
+    });
+</script>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <partial name="_NotificationPartial" />
+}

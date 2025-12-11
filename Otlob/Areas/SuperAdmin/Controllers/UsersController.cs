@@ -1,6 +1,6 @@
 ﻿namespace Otlob.Areas.SuperAdmin.Controllers;
 
-[Area(SD.superAdminRole), Authorize(Roles = SD.superAdminRole)]
+[Area(DefaultRoles.SuperAdmin), Authorize(Roles = DefaultRoles.SuperAdmin)]
 public class UsersController(IUserServices userServices, IPaginationService paginationService) : Controller
 {
     private readonly IUserServices _userServices = userServices;

@@ -1,0 +1,52 @@
+﻿@model ResendEmailConfirmationRequest
+
+@{
+    ViewData["Title"] = "Resend Email Confirmation";
+}
+
+<link href="~/css/authForms.css" rel="stylesheet" asp-append-version="true" />
+<link href="~/css/forgetPassword.css" rel="stylesheet" asp-append-version="true" />
+
+<div class="container">
+    <div class="left-panel">
+        <div class="logo">Otlob<span>.</span></div>
+        <div class="svg-container">
+            <img src="~/Illustrations/Confirmed-pana.svg" alt="">
+        </div>
+        <div class="left-content">
+            <h2>Confirm Your Email</h2>
+            <p>Enter your email address and we'll send you instructions to confirm your email.</p>
+        </div>
+    </div>
+
+    <div class="right-panel">
+        <div class="welcome-text">
+            <h1>Email Confirmation.</h1>
+            <p>now you just need to enter your email and go to your email account to confirm it.</p>
+        </div>
+
+        <form asp-action="ResendEmailConfirmation" class="loginform">
+            <div asp-validation-summary="ModelOnly"></div>
+
+            <div class="form-group">
+                <div class="input-with-icon">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" asp-for="Email" placeholder="Enter your email address" required>
+                </div>
+                <span asp-validation-for="Email" class="input-error-message"></span>
+            </div>
+
+            <button type="submit" class="sign-in-btn">Confirm</button>
+        </form>
+
+        <div class="back-to-login">
+            <a asp-action="Login" asp-controller="Account"><i class="fas fa-arrow-left"></i> Back to Login</a>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial"></partial>
+    <partial name="_NotificationPartial"></partial>
+}

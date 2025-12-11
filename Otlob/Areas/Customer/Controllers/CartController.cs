@@ -1,6 +1,6 @@
 ﻿namespace Otlob.Areas.Customer.Controllers;
 
-[Area(SD.customer)]
+[Area(DefaultRoles.Customer)]
 public class CartController(ICartService cartService, IAddressService addressService) : Controller
 {
     private readonly ICartService _cartService = cartService;

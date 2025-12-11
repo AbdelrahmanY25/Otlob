@@ -1,0 +1,531 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Otlob - Restaurant Partner</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+            padding: 20px 0;
+        }
+
+        .email-container {
+            max-width: 650px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            border: 1px solid #eaeaea;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #F04335 0%, #FF6B5A 100%);
+            padding: 45px 40px;
+            text-align: center;
+            color: white;
+            position: relative;
+        }
+
+        .logo {
+            font-size: 42px;
+            font-weight: 800;
+            margin-bottom: 8px;
+            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .header-subtitle {
+            font-size: 18px;
+            opacity: 0.95;
+            font-weight: 500;
+        }
+
+        .partner-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+        }
+
+        .content {
+            padding: 45px 40px;
+        }
+
+        .greeting {
+            font-size: 32px;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .welcome-banner {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 35px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+            .welcome-banner::before {
+                content: "";
+                position: absolute;
+                top: -50%;
+                left: -50%;
+                width: 200%;
+                height: 200%;
+                background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+            }
+
+            .welcome-banner .icon {
+                font-size: 48px;
+                margin-bottom: 15px;
+                position: relative;
+                z-index: 1;
+            }
+
+            .welcome-banner h2 {
+                font-size: 24px;
+                margin-bottom: 10px;
+                position: relative;
+                z-index: 1;
+            }
+
+            .welcome-banner p {
+                font-size: 16px;
+                opacity: 0.9;
+                position: relative;
+                z-index: 1;
+            }
+
+        .message {
+            font-size: 16px;
+            color: #555;
+            margin-bottom: 30px;
+            line-height: 1.7;
+            text-align: center;
+        }
+
+        .account-info {
+            background: linear-gradient(to right, #f8f9fa 0%, #f0f7ff 100%);
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 35px;
+            border-left: 5px solid #F04335;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.03);
+        }
+
+            .account-info h3 {
+                color: #F04335;
+                margin-bottom: 20px;
+                font-size: 20px;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+            font-size: 15px;
+            color: #555;
+            padding: 8px 0;
+        }
+
+            .info-item:last-child {
+                margin-bottom: 0;
+            }
+
+        .info-icon {
+            margin-right: 12px;
+            font-size: 18px;
+            background: #F04335;
+            color: white;
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .dashboard-preview {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 35px 0;
+            text-align: center;
+            border: 1px dashed #ddd;
+        }
+
+            .dashboard-preview h3 {
+                color: #2c3e50;
+                margin-bottom: 15px;
+                font-size: 20px;
+            }
+
+        .dashboard-image {
+            background: linear-gradient(135deg, #E8F5E8 0%, #F1F8E9 100%);
+            height: 180px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #2E7D32;
+            font-weight: 600;
+            margin: 20px 0;
+            border: 1px solid #C8E6C9;
+        }
+
+        .benefits-section {
+            margin: 35px 0;
+        }
+
+            .benefits-section h3 {
+                text-align: center;
+                color: #2c3e50;
+                margin-bottom: 25px;
+                font-size: 24px;
+            }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .benefit-card {
+            background: white;
+            padding: 25px 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            border-top: 4px solid #F04335;
+            transition: transform 0.3s ease;
+        }
+
+            .benefit-card:hover {
+                transform: translateY(-5px);
+            }
+
+            .benefit-card .benefit-icon {
+                font-size: 40px;
+                margin-bottom: 15px;
+                height: 80px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .benefit-card h4 {
+                color: #F04335;
+                margin-bottom: 10px;
+                font-size: 18px;
+            }
+
+            .benefit-card p {
+                font-size: 14px;
+                color: #666;
+                line-height: 1.6;
+            }
+
+        .action-section {
+            text-align: center;
+            margin: 40px 0 30px;
+        }
+
+        .action-title {
+            font-size: 22px;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 25px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 16px 32px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 16px;
+            text-align: center;
+            transition: all 0.3s ease;
+            min-width: 180px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #F04335 0%, #FF6B5A 100%);
+            color: white;
+            box-shadow: 0 5px 15px rgba(240, 67, 53, 0.3);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #F04335;
+            border: 2px solid #F04335;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .support-section {
+            background: linear-gradient(to right, #fff9e6 0%, #fff3cd 100%);
+            border-left: 5px solid #ffc107;
+            color: #856404;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 35px 0;
+        }
+
+            .support-section h4 {
+                margin-bottom: 12px;
+                color: #F04335;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                font-size: 18px;
+            }
+
+        .support-contact {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 15px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 15px;
+        }
+
+        .divider {
+            height: 2px;
+            background: linear-gradient(90deg, #F04335 0%, #FF6B5A 100%);
+            margin: 35px 0;
+            border-radius: 2px;
+        }
+
+        .footer {
+            background: linear-gradient(to right, #2c3e50 0%, #34495e 100%);
+            padding: 40px;
+            text-align: center;
+            color: #ecf0f1;
+        }
+
+        .footer-text {
+            font-size: 15px;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .footer-links {
+            margin-top: 25px;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+            .footer-links a {
+                color: #ecf0f1;
+                text-decoration: none;
+                font-size: 15px;
+                transition: color 0.3s ease;
+            }
+
+                .footer-links a:hover {
+                    color: #F04335;
+                    text-decoration: underline;
+                }
+
+        @media (max-width: 650px) {
+            .email-container {
+                margin: 0 10px;
+                border-radius: 12px;
+            }
+
+            .header, .content, .footer {
+                padding: 30px 20px;
+            }
+
+            .greeting {
+                font-size: 26px;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .benefits-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                width: 100%;
+                max-width: 280px;
+            }
+
+            .support-contact {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <div class="header">
+            <div class="partner-badge">PARTNER ACCOUNT</div>
+            <div class="logo">Otlob</div>
+            <div class="header-subtitle">Restaurant Partner Platform</div>
+        </div>
+
+        <div class="content">
+            <div class="greeting">Welcome to Otlob, {{RESTAURANT_NAME}}!</div>
+
+            <div class="welcome-banner">
+                <div class="icon">🏪</div>
+                <h2>Your Restaurant Partner Account is Ready!</h2>
+                <p>Start growing your business with Otlob's powerful delivery platform</p>
+            </div>
+
+            <div class="message">
+                Thank you for choosing Otlob as your delivery partner. We're excited to help you reach more customers and grow your business.
+                Your restaurant has been successfully onboarded, and you can now start managing your menu, orders, and deliveries through our partner dashboard.
+            </div>
+
+            <div class="account-info">
+                <h3><span>📋</span> Restaurant Account Details</h3>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="info-icon">🏪</div>
+                        <div><strong>Restaurant:</strong> {{RESTAURANT_NAME}}</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-icon">👤</div>
+                        <div><strong>Owner:</strong> {{OWNER_NAME}}</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-icon">📧</div>
+                        <div><strong>Personal Email:</strong> {{EMAIL}}</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-icon">📱</div>
+                        <div><strong>Personal Phone:</strong> {{PHONE}}</div>
+                    </div>                   
+                </div>
+            </div>            
+
+            <div class="benefits-section">
+                <h3>Partner Benefits</h3>
+                <div class="benefits-grid">
+                    <div class="benefit-card">
+                        <div class="benefit-icon">🚀</div>
+                        <h4>Increased Visibility</h4>
+                        <p>Reach thousands of potential customers in your area through our platform and marketing campaigns.</p>
+                    </div>
+                    <div class="benefit-card">
+                        <div class="benefit-icon">💳</div>
+                        <h4>Secure Payments</h4>
+                        <p>Get paid reliably with our secure payment system. Transparent reporting and timely transfers.</p>
+                    </div>
+                    <div class="benefit-card">
+                        <div class="benefit-icon">📊</div>
+                        <h4>Business Insights</h4>
+                        <p>Access detailed analytics about your orders, customer preferences, and performance metrics.</p>
+                    </div>
+                    <div class="benefit-card">
+                        <div class="benefit-icon">🛡️</div>
+                        <h4>Dedicated Support</h4>
+                        <p>Get assistance from our partner support team for any issues or questions about the platform.</p>
+                    </div>
+                </div>
+            </div>           
+
+            <div class="support-section">
+                <h4><span>🛟</span> Partner Support</h4>
+                <p>Our dedicated partner support team is here to help you succeed. Contact us for any assistance with your account, menu setup, or platform questions.</p>
+                <div class="support-contact">                   
+                    <div class="contact-item">
+                        <span>✉️</span> <strong>Email:</strong> {{SUPPORT_EMAIL}}
+                    </div>
+                    <div class="contact-item">
+                        <span>🕒</span> <strong>Hours:</strong> 24/7 Support
+                    </div>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <div style="text-align: center; color: #666; font-size: 14px; line-height: 1.6;">
+                <p>
+                    <strong>Important:</strong> Please complete your restaurant profile and menu setup within 7 days to activate your listing on our platform.
+                </p>
+            </div>
+        </div>
+
+        <div class="footer">
+            <div class="footer-text">
+                <strong>Otlob Restaurant Partners - Growing Your Business Together</strong><br>
+                Thank you for partnering with us to deliver amazing food experiences.
+            </div>
+
+            <div class="footer-links">
+                <a href="{{PARTNER_PORTAL}}">Partner Portal</a>
+                <a href="{{SUPPORT_CENTER}}">Support Center</a>
+                <a href="{{TERMS_LINK}}">Partner Terms</a>
+                <a href="{{FAQ_LINK}}">FAQ</a>
+            </div>
+
+            <div class="footer-text" style="margin-top: 25px; font-size: 13px; opacity: 0.8;">
+                © 2025 Otlob. All rights reserved.<br>
+                Otlob Partner Services, 123 Business Avenue, City, State 12345
+            </div>
+        </div>
+    </div>
+</body>
+</html>

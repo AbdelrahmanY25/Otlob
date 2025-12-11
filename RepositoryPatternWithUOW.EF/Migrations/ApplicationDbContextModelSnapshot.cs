@@ -18,42 +18,10 @@ namespace Otlob.EF.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.8")
+                .HasAnnotation("ProductVersion", "9.0.9")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsDeleted")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false);
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("NormalizedName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedName")
-                        .IsUnique()
-                        .HasDatabaseName("RoleNameIndex")
-                        .HasFilter("[NormalizedName] IS NOT NULL");
-
-                    b.ToTable("AspNetRoles", (string)null);
-                });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
@@ -160,6 +128,13 @@ namespace Otlob.EF.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = "83524a49-2ad7-4800-ab6b-4d7912c4833b",
+                            RoleId = "8f727b3f-5028-4804-a9ed-f746ed83ab7f"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -236,10 +211,71 @@ namespace Otlob.EF.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId", "CustomerAddress")
+                    b.HasIndex("UserId", "CustomerAddress", "StreetName")
                         .IsUnique();
 
-                    b.ToTable("Addresses");
+                    b.ToTable("Addresses", (string)null);
+                });
+
+            modelBuilder.Entity("Otlob.Core.Entities.ApplicationRole", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDefault")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasDatabaseName("RoleNameIndex")
+                        .HasFilter("[NormalizedName] IS NOT NULL");
+
+                    b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "8f727b3f-5028-4804-a9ed-f746ed83ab7f",
+                            ConcurrencyStamp = "534d6a39-d52f-4b2d-864b-efeafd39df1e",
+                            IsDefault = false,
+                            Name = "SuperAdmin",
+                            NormalizedName = "SUPERADMIN"
+                        },
+                        new
+                        {
+                            Id = "757e63f2-b6d2-44b8-92bf-bbd8e0b18faa",
+                            ConcurrencyStamp = "38922526-75d6-46a4-beb3-aa23e540f8ef",
+                            IsDefault = false,
+                            Name = "RestaurantAdmin",
+                            NormalizedName = "RESTAURANTADMIN"
+                        },
+                        new
+                        {
+                            Id = "ccb604b3-3d5f-43d9-acb2-45deba2252be",
+                            ConcurrencyStamp = "03cfba10-053e-4975-b27e-6f8fa82e22c3",
+                            IsDefault = true,
+                            Name = "Customer",
+                            NormalizedName = "CUSTOMER"
+                        });
                 });
 
             modelBuilder.Entity("Otlob.Core.Entities.ApplicationUser", b =>
@@ -274,7 +310,8 @@ namespace Otlob.EF.Migrations
                         .HasColumnType("VARCHAR");
 
                     b.Property<string>("Image")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
@@ -340,6 +377,26 @@ namespace Otlob.EF.Migrations
                         .IsUnique();
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "83524a49-2ad7-4800-ab6b-4d7912c4833b",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "5b81e95c-681e-44c9-9b6d-26e65c62a2fc",
+                            Email = "justotlob@gmail.com",
+                            EmailConfirmed = true,
+                            FirstName = "Otlob",
+                            LastName = "Admin",
+                            LockoutEnabled = true,
+                            NormalizedEmail = "JUSTOTLOB@GMAIL.COM",
+                            NormalizedUserName = "OTLOB",
+                            PasswordHash = "AQAAAAIAAYagAAAAEMH3iMEhrE3oE9fNO45Vw6VSV0qK25Pdbxjml3y9RB0opyIRfrNJijp6e0VZ3ZxfWg==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "1db72ac7954d419ca8d8e5e64427e951",
+                            TwoFactorEnabled = false,
+                            UserName = "Otlob"
+                        });
                 });
 
             modelBuilder.Entity("Otlob.Core.Entities.BankAccount", b =>
@@ -360,22 +417,22 @@ namespace Otlob.EF.Migrations
                         .HasMaxLength(19)
                         .HasColumnType("nvarchar(19)");
 
-                    b.Property<int>("AccountType")
-                        .HasColumnType("int");
-
-                    b.Property<string>("BankCertificateImage")
+                    b.Property<string>("AccountType")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("BankCertificateIssueDate")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("BankCertificateId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateOnly>("BankCertificateIssueDate")
+                        .HasColumnType("date");
 
                     b.Property<string>("BankName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CreatedById")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("CreatedOn")
@@ -394,14 +451,19 @@ namespace Otlob.EF.Migrations
                     b.Property<int>("RestaurantId")
                         .HasColumnType("int");
 
-                    b.Property<string>("UpdatedById")
+                    b.Property<string>("Status")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UpdatedById")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("UpdatedOn")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("BankCertificateId");
 
                     b.HasIndex("CreatedById");
 
@@ -416,7 +478,7 @@ namespace Otlob.EF.Migrations
                     b.HasIndex("RestaurantId", "Iban")
                         .IsUnique();
 
-                    b.ToTable("BankAccounts");
+                    b.ToTable("BankAccounts", (string)null);
                 });
 
             modelBuilder.Entity("Otlob.Core.Entities.Cart", b =>
@@ -428,7 +490,6 @@ namespace Otlob.EF.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("CreatedById")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("CreatedOn")
@@ -443,7 +504,6 @@ namespace Otlob.EF.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("UpdatedById")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("UpdatedOn")
@@ -463,7 +523,7 @@ namespace Otlob.EF.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Carts");
+                    b.ToTable("Carts", (string)null);
                 });
 
             modelBuilder.Entity("Otlob.Core.Entities.CartDetails", b =>
@@ -497,7 +557,7 @@ namespace Otlob.EF.Migrations
 
                     b.HasIndex("MealId");
 
-                    b.ToTable("CartDetails");
+                    b.ToTable("CartDetails", (string)null);
                 });
 
             modelBuilder.Entity("Otlob.Core.Entities.Category", b =>
@@ -520,7 +580,7 @@ namespace Otlob.EF.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Category");
+                    b.ToTable("Category", (string)null);
 
                     b.HasData(
                         new
@@ -623,19 +683,21 @@ namespace Otlob.EF.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("CertificateRegistration")
+                    b.Property<string>("CertificateRegistrationId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("CreatedById")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("ExpiryDate")
-                        .HasColumnType("datetime2");
+                    b.Property<DateOnly>("DateOfIssuance")
+                        .HasColumnType("date");
+
+                    b.Property<DateOnly>("ExpiryDate")
+                        .HasColumnType("date");
 
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
@@ -650,14 +712,19 @@ namespace Otlob.EF.Migrations
                     b.Property<int>("RestaurantId")
                         .HasColumnType("int");
 
-                    b.Property<string>("UpdatedById")
+                    b.Property<string>("Status")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UpdatedById")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("UpdatedOn")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CertificateRegistrationId");
 
                     b.HasIndex("CreatedById");
 
@@ -669,62 +736,7 @@ namespace Otlob.EF.Migrations
                     b.HasIndex("RestaurantId", "RegistrationNumber")
                         .IsUnique();
 
-                    b.ToTable("CommercialRegistrations");
-                });
-
-            modelBuilder.Entity("Otlob.Core.Entities.Contract", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<decimal>("CommissionRate")
-                        .HasColumnType("decimal(3,2)");
-
-                    b.Property<string>("ContractFile")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CreatedById")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("EndDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDeleted")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false);
-
-                    b.Property<int>("RestaurantId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("UpdatedById")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime>("UpdatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CreatedById");
-
-                    b.HasIndex("RestaurantId")
-                        .IsUnique();
-
-                    b.HasIndex("UpdatedById");
-
-                    b.ToTable("Contracts");
+                    b.ToTable("CommercialRegistrations", (string)null);
                 });
 
             modelBuilder.Entity("Otlob.Core.Entities.Meal", b =>
@@ -739,7 +751,6 @@ namespace Otlob.EF.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("CreatedById")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("CreatedOn")
@@ -783,7 +794,6 @@ namespace Otlob.EF.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("UpdatedById")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("UpdatedOn")
@@ -795,15 +805,14 @@ namespace Otlob.EF.Migrations
 
                     b.HasIndex("CreatedById");
 
-                    b.HasIndex("UpdatedById");
+                    b.HasIndex("RestaurantId");
 
-                    b.HasIndex("RestaurantId", "Name")
-                        .IsUnique();
+                    b.HasIndex("UpdatedById");
 
                     b.HasIndex("Id", "RestaurantId", "CategoryId")
                         .IsUnique();
 
-                    b.ToTable("Meals");
+                    b.ToTable("Meals", (string)null);
                 });
 
             modelBuilder.Entity("Otlob.Core.Entities.MealPriceHistory", b =>
@@ -837,7 +846,7 @@ namespace Otlob.EF.Migrations
 
                     b.HasIndex("StartDate");
 
-                    b.ToTable("MealsPriceHistories");
+                    b.ToTable("MealsPriceHistories", (string)null);
                 });
 
             modelBuilder.Entity("Otlob.Core.Entities.MenuCategory", b =>
@@ -847,10 +856,6 @@ namespace Otlob.EF.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Description")
-                        .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
 
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
@@ -880,20 +885,11 @@ namespace Otlob.EF.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("BackNationalIdImage")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("CreatedById")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("FrontNationalIdImage")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FullName")
                         .IsRequired()
@@ -905,8 +901,12 @@ namespace Otlob.EF.Migrations
                         .HasColumnType("bit")
                         .HasDefaultValue(false);
 
-                    b.Property<DateTime>("NationalIdExpiryDate")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("NationalCardId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateOnly>("NationalIdExpiryDate")
+                        .HasColumnType("date");
 
                     b.Property<string>("NationalIdNumber")
                         .IsRequired()
@@ -916,12 +916,15 @@ namespace Otlob.EF.Migrations
                     b.Property<int>("RestaurantId")
                         .HasColumnType("int");
 
-                    b.Property<string>("SignatureImage")
+                    b.Property<string>("SignatureImageId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Status")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UpdatedById")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("UpdatedOn")
@@ -931,15 +934,19 @@ namespace Otlob.EF.Migrations
 
                     b.HasIndex("CreatedById");
 
+                    b.HasIndex("NationalCardId");
+
                     b.HasIndex("RestaurantId")
                         .IsUnique();
+
+                    b.HasIndex("SignatureImageId");
 
                     b.HasIndex("UpdatedById");
 
                     b.HasIndex("RestaurantId", "NationalIdNumber")
                         .IsUnique();
 
-                    b.ToTable("NationalIds");
+                    b.ToTable("NationalIds", (string)null);
                 });
 
             modelBuilder.Entity("Otlob.Core.Entities.Order", b =>
@@ -1005,7 +1012,7 @@ namespace Otlob.EF.Migrations
 
                     b.HasIndex("Status", "OrderDate");
 
-                    b.ToTable("Orders");
+                    b.ToTable("Orders", (string)null);
                 });
 
             modelBuilder.Entity("Otlob.Core.Entities.OrderDetails", b =>
@@ -1044,7 +1051,7 @@ namespace Otlob.EF.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("OrderDetails");
+                    b.ToTable("OrderDetails", (string)null);
                 });
 
             modelBuilder.Entity("Otlob.Core.Entities.Restaurant", b =>
@@ -1060,13 +1067,18 @@ namespace Otlob.EF.Migrations
                         .HasMaxLength(10)
                         .HasColumnType("VARCHAR");
 
+                    b.Property<string>("AdministratorRole")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("VARCHAR");
+
                     b.Property<string>("BusinessType")
                         .IsRequired()
                         .HasMaxLength(10)
                         .HasColumnType("VARCHAR");
 
-                    b.Property<DateTime>("ClosingTime")
-                        .HasColumnType("datetime2");
+                    b.Property<TimeOnly>("ClosingTime")
+                        .HasColumnType("time");
 
                     b.Property<decimal>("DeliveryDuration")
                         .HasColumnType("decimal(5,2)");
@@ -1085,15 +1097,13 @@ namespace Otlob.EF.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Image")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
                         .HasDefaultValue(false);
-
-                    b.Property<bool>("IsOpen")
-                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -1101,25 +1111,25 @@ namespace Otlob.EF.Migrations
                         .HasColumnType("nvarchar(20)");
 
                     b.Property<int>("NumberOfBranches")
-                        .HasMaxLength(500)
+                        .HasMaxLength(5000)
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("OpeningTime")
-                        .HasColumnType("datetime2");
+                    b.Property<TimeOnly>("OpeningTime")
+                        .HasColumnType("time");
 
                     b.Property<string>("OwnerId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("OwnerRole")
-                        .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("VARCHAR");
-
                     b.Property<string>("Phone")
                         .IsRequired()
                         .HasMaxLength(11)
                         .HasColumnType("nvarchar(11)");
+
+                    b.Property<string>("ProgressStatus")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("VARCHAR");
 
                     b.HasKey("Id");
 
@@ -1134,7 +1144,7 @@ namespace Otlob.EF.Migrations
                     b.HasIndex("Phone")
                         .IsUnique();
 
-                    b.ToTable("Restaurants");
+                    b.ToTable("Restaurants", (string)null);
                 });
 
             modelBuilder.Entity("Otlob.Core.Entities.RestaurantBranch", b =>
@@ -1150,13 +1160,7 @@ namespace Otlob.EF.Migrations
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
 
-                    b.Property<string>("City")
-                        .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
-
                     b.Property<string>("CreatedById")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("CreatedOn")
@@ -1193,7 +1197,6 @@ namespace Otlob.EF.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("UpdatedById")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("UpdatedOn")
@@ -1228,7 +1231,10 @@ namespace Otlob.EF.Migrations
 
                     b.HasIndex("RestaurantId");
 
-                    b.ToTable("RestaurantCategory");
+                    b.HasIndex("CategoryId", "RestaurantId")
+                        .IsUnique();
+
+                    b.ToTable("RestaurantCategory", (string)null);
                 });
 
             modelBuilder.Entity("Otlob.Core.Entities.TempOrder", b =>
@@ -1249,7 +1255,7 @@ namespace Otlob.EF.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("TempOrders");
+                    b.ToTable("TempOrders", (string)null);
                 });
 
             modelBuilder.Entity("Otlob.Core.Entities.TradeMark", b =>
@@ -1261,14 +1267,13 @@ namespace Otlob.EF.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("CreatedById")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("ExpiryDate")
-                        .HasColumnType("datetime2");
+                    b.Property<DateOnly>("ExpiryDate")
+                        .HasColumnType("date");
 
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
@@ -1278,9 +1283,13 @@ namespace Otlob.EF.Migrations
                     b.Property<int>("RestaurantId")
                         .HasColumnType("int");
 
-                    b.Property<string>("TradeMarkCertificate")
+                    b.Property<string>("Status")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TradeMarkCertificateId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("TrademarkName")
                         .IsRequired()
@@ -1293,7 +1302,6 @@ namespace Otlob.EF.Migrations
                         .HasColumnType("nvarchar(10)");
 
                     b.Property<string>("UpdatedById")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("UpdatedOn")
@@ -1306,12 +1314,45 @@ namespace Otlob.EF.Migrations
                     b.HasIndex("RestaurantId")
                         .IsUnique();
 
+                    b.HasIndex("TradeMarkCertificateId");
+
                     b.HasIndex("UpdatedById");
 
                     b.HasIndex("RestaurantId", "TrademarkNumber")
                         .IsUnique();
 
-                    b.ToTable("TradeMarks");
+                    b.ToTable("TradeMarks", (string)null);
+                });
+
+            modelBuilder.Entity("Otlob.Core.Entities.UploadedFile", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ContetntType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FileExtentsion")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FileName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<string>("StoredFileName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("UploadedFiles", (string)null);
                 });
 
             modelBuilder.Entity("Otlob.Core.Entities.VAT", b =>
@@ -1323,7 +1364,6 @@ namespace Otlob.EF.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("CreatedById")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("CreatedOn")
@@ -1337,21 +1377,24 @@ namespace Otlob.EF.Migrations
                     b.Property<int>("RestaurantId")
                         .HasColumnType("int");
 
-                    b.Property<string>("UpdatedById")
+                    b.Property<string>("Status")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UpdatedById")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("UpdatedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("VatCertificateImage")
+                    b.Property<string>("VatCertificateId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("VatNumber")
                         .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                        .HasMaxLength(9)
+                        .HasColumnType("nvarchar(9)");
 
                     b.HasKey("Id");
 
@@ -1362,15 +1405,17 @@ namespace Otlob.EF.Migrations
 
                     b.HasIndex("UpdatedById");
 
+                    b.HasIndex("VatCertificateId");
+
                     b.HasIndex("RestaurantId", "VatNumber")
                         .IsUnique();
 
-                    b.ToTable("Vats");
+                    b.ToTable("Vats", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                    b.HasOne("Otlob.Core.Entities.ApplicationRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -1397,7 +1442,7 @@ namespace Otlob.EF.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                    b.HasOne("Otlob.Core.Entities.ApplicationRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -1432,11 +1477,16 @@ namespace Otlob.EF.Migrations
 
             modelBuilder.Entity("Otlob.Core.Entities.BankAccount", b =>
                 {
+                    b.HasOne("Otlob.Core.Entities.UploadedFile", "BankCertificate")
+                        .WithMany()
+                        .HasForeignKey("BankCertificateId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("Otlob.Core.Entities.ApplicationUser", "CreatedBy")
                         .WithMany()
                         .HasForeignKey("CreatedById")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("Otlob.Core.Entities.Restaurant", "Restaurant")
                         .WithOne("BankAccount")
@@ -1447,8 +1497,9 @@ namespace Otlob.EF.Migrations
                     b.HasOne("Otlob.Core.Entities.ApplicationUser", "UpdatedBy")
                         .WithMany()
                         .HasForeignKey("UpdatedById")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("BankCertificate");
 
                     b.Navigation("CreatedBy");
 
@@ -1462,8 +1513,7 @@ namespace Otlob.EF.Migrations
                     b.HasOne("Otlob.Core.Entities.ApplicationUser", "CreatedBy")
                         .WithMany()
                         .HasForeignKey("CreatedById")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("Otlob.Core.Entities.Restaurant", "Restaurant")
                         .WithMany()
@@ -1474,8 +1524,7 @@ namespace Otlob.EF.Migrations
                     b.HasOne("Otlob.Core.Entities.ApplicationUser", "UpdatedBy")
                         .WithMany()
                         .HasForeignKey("UpdatedById")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("Otlob.Core.Entities.ApplicationUser", "User")
                         .WithMany()
@@ -1513,11 +1562,16 @@ namespace Otlob.EF.Migrations
 
             modelBuilder.Entity("Otlob.Core.Entities.CommercialRegistration", b =>
                 {
+                    b.HasOne("Otlob.Core.Entities.UploadedFile", "CertificateRegistration")
+                        .WithMany()
+                        .HasForeignKey("CertificateRegistrationId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("Otlob.Core.Entities.ApplicationUser", "CreatedBy")
                         .WithMany()
                         .HasForeignKey("CreatedById")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("Otlob.Core.Entities.Restaurant", "Restaurant")
                         .WithOne("CommercialRegistration")
@@ -1528,35 +1582,9 @@ namespace Otlob.EF.Migrations
                     b.HasOne("Otlob.Core.Entities.ApplicationUser", "UpdatedBy")
                         .WithMany()
                         .HasForeignKey("UpdatedById")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
-                    b.Navigation("CreatedBy");
-
-                    b.Navigation("Restaurant");
-
-                    b.Navigation("UpdatedBy");
-                });
-
-            modelBuilder.Entity("Otlob.Core.Entities.Contract", b =>
-                {
-                    b.HasOne("Otlob.Core.Entities.ApplicationUser", "CreatedBy")
-                        .WithMany()
-                        .HasForeignKey("CreatedById")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Otlob.Core.Entities.Restaurant", "Restaurant")
-                        .WithOne("Contract")
-                        .HasForeignKey("Otlob.Core.Entities.Contract", "RestaurantId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Otlob.Core.Entities.ApplicationUser", "UpdatedBy")
-                        .WithMany()
-                        .HasForeignKey("UpdatedById")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                    b.Navigation("CertificateRegistration");
 
                     b.Navigation("CreatedBy");
 
@@ -1576,8 +1604,7 @@ namespace Otlob.EF.Migrations
                     b.HasOne("Otlob.Core.Entities.ApplicationUser", "CreatedBy")
                         .WithMany()
                         .HasForeignKey("CreatedById")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("Otlob.Core.Entities.Restaurant", "Restaurant")
                         .WithMany()
@@ -1588,8 +1615,7 @@ namespace Otlob.EF.Migrations
                     b.HasOne("Otlob.Core.Entities.ApplicationUser", "UpdatedBy")
                         .WithMany()
                         .HasForeignKey("UpdatedById")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Category");
 
@@ -1627,6 +1653,11 @@ namespace Otlob.EF.Migrations
                     b.HasOne("Otlob.Core.Entities.ApplicationUser", "CreatedBy")
                         .WithMany()
                         .HasForeignKey("CreatedById")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("Otlob.Core.Entities.UploadedFile", "NationalCard")
+                        .WithMany()
+                        .HasForeignKey("NationalCardId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -1636,15 +1667,24 @@ namespace Otlob.EF.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("Otlob.Core.Entities.ApplicationUser", "UpdatedBy")
+                    b.HasOne("Otlob.Core.Entities.UploadedFile", "SignatureImage")
                         .WithMany()
-                        .HasForeignKey("UpdatedById")
+                        .HasForeignKey("SignatureImageId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("Otlob.Core.Entities.ApplicationUser", "UpdatedBy")
+                        .WithMany()
+                        .HasForeignKey("UpdatedById")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.Navigation("CreatedBy");
 
+                    b.Navigation("NationalCard");
+
                     b.Navigation("Restaurant");
+
+                    b.Navigation("SignatureImage");
 
                     b.Navigation("UpdatedBy");
                 });
@@ -1703,8 +1743,7 @@ namespace Otlob.EF.Migrations
                     b.HasOne("Otlob.Core.Entities.ApplicationUser", "CreatedBy")
                         .WithMany()
                         .HasForeignKey("CreatedById")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("Otlob.Core.Entities.Restaurant", "Restaurant")
                         .WithMany("RestaurantBranches")
@@ -1715,8 +1754,7 @@ namespace Otlob.EF.Migrations
                     b.HasOne("Otlob.Core.Entities.ApplicationUser", "UpdatedBy")
                         .WithMany()
                         .HasForeignKey("UpdatedById")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("CreatedBy");
 
@@ -1749,8 +1787,7 @@ namespace Otlob.EF.Migrations
                     b.HasOne("Otlob.Core.Entities.ApplicationUser", "CreatedBy")
                         .WithMany()
                         .HasForeignKey("CreatedById")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("Otlob.Core.Entities.Restaurant", "Restaurant")
                         .WithOne("TradeMark")
@@ -1758,15 +1795,22 @@ namespace Otlob.EF.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("Otlob.Core.Entities.UploadedFile", "TradeMarkCertificate")
+                        .WithMany()
+                        .HasForeignKey("TradeMarkCertificateId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("Otlob.Core.Entities.ApplicationUser", "UpdatedBy")
                         .WithMany()
                         .HasForeignKey("UpdatedById")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("CreatedBy");
 
                     b.Navigation("Restaurant");
+
+                    b.Navigation("TradeMarkCertificate");
 
                     b.Navigation("UpdatedBy");
                 });
@@ -1776,8 +1820,7 @@ namespace Otlob.EF.Migrations
                     b.HasOne("Otlob.Core.Entities.ApplicationUser", "CreatedBy")
                         .WithMany()
                         .HasForeignKey("CreatedById")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("Otlob.Core.Entities.Restaurant", "Restaurant")
                         .WithOne("VatCertificate")
@@ -1788,6 +1831,11 @@ namespace Otlob.EF.Migrations
                     b.HasOne("Otlob.Core.Entities.ApplicationUser", "UpdatedBy")
                         .WithMany()
                         .HasForeignKey("UpdatedById")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("Otlob.Core.Entities.UploadedFile", "VatCertificate")
+                        .WithMany()
+                        .HasForeignKey("VatCertificateId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -1796,6 +1844,8 @@ namespace Otlob.EF.Migrations
                     b.Navigation("Restaurant");
 
                     b.Navigation("UpdatedBy");
+
+                    b.Navigation("VatCertificate");
                 });
 
             modelBuilder.Entity("Otlob.Core.Entities.ApplicationUser", b =>
@@ -1836,9 +1886,6 @@ namespace Otlob.EF.Migrations
                         .IsRequired();
 
                     b.Navigation("CommercialRegistration")
-                        .IsRequired();
-
-                    b.Navigation("Contract")
                         .IsRequired();
 
                     b.Navigation("MenueCategories");

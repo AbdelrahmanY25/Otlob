@@ -1,24 +1,69 @@
 ﻿@inject SignInManager<ApplicationUser> SignInManager
 
-<nav class="navbar navbar-expand-sm navbar-light border-bottom box-shadow mb-3">
-    <div class="container-fluid">
-        <img id="sidebarToggle" src="~/images/Logo/OtlobLogo.jpg" alt="Logo" class="avatar rounded-circle toggle-btn" />
-        <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-            <ul class="navbar-nav flex-grow-1">
-                <li class="nav-item">
-                    <a style="color: #F04335" class="nav-link" asp-area="@SD.otlob" asp-controller="Home" asp-action="Home">Home</a>
-                </li>
-                @if (!SignInManager.IsSignedIn(User))
-                {
-                    <a style="color: #F04335" class="nav-link" asp-area="@SD.customer" asp-controller="BecomeAPartner" asp-action="BecomeAPartner">Become A Partner</a>                    
-                }
-                @if (User.IsInRole(SD.customer))
-                {
-                    <a style="color: #F04335;" class="nav-link" asp-area="@SD.customer" asp-controller="Cart" asp-action="Cart"><i class="fa-solid fa-cart-shopping"></i></a>
-                }
-            </ul>
+@{
+    string? userImageProfile = User.FindFirstValue(StaticData.UserImageProfile);
+    bool isUserLogedIn = SignInManager.IsSignedIn(User);
+}
 
-            <partial name="_LoginPartial"></partial>
-        </div>
+<div class="links">
+    @if (!SignInManager.IsSignedIn(User))
+    {
+        <img src="~/images/Logo/OtlobLogo.jpg" class="clickable-logo" style="cursor: pointer;" onclick="window.location.href = '/otlob/Home/Home'" alt="Otlob Logo">
+        <a asp-area="@DefaultRoles.Customer" asp-controller="Home" asp-action="Home">Home</a>
+        <a asp-area="@DefaultRoles.Customer" asp-controller="BecomeAPartner" asp-action="BecomeAPartner">Become A Partner</a>
+    }    
+    @if (SignInManager.IsSignedIn(User))
+    {        
+        @if (User.IsInRole(DefaultRoles.Customer))
+        {
+            <img src="~/images/Logo/OtlobLogo.jpg" class="clickable-logo" style="cursor: pointer;" onclick="window.location.href = '/otlob/Home/Home'" alt="Otlob Logo">
+        }
+        else
+        {
+            <img src="~/images/Logo/OtlobLogo.jpg" class="clickable-logo" alt="Otlob Logo">
+        }
+        <a asp-area="@User.FindFirstValue(ClaimTypes.Role)" asp-controller="Home" asp-action="Index">Home</a>
+        @if (User.IsInRole(DefaultRoles.Customer))
+        {
+            <a asp-area="@DefaultRoles.Customer" asp-controller="Cart" asp-action="Cart"><i class="fa-solid fa-cart-shopping"></i></a>
+        }
+    }     
+</div>
+<div class="menu-container">
+    <div class="burger-icon" onclick="toggleMenu()">
+        <span></span>
+        <span></span>
+        <span></span>
     </div>
-</nav>
+
+    <ul class="dropdown-menu" id="menu">
+        @if (isUserLogedIn)
+        {
+            <li class="nav-item">
+                <img class="avatar rounded-circle" alt="Profile Picture" src="/images/@(userImageProfile is not null ? userImageProfile : "Default.jpg")"/>
+            </li>
+
+            @if (User.FindFirstValue(ClaimTypes.Role) == DefaultRoles.RestaurantAdmin)
+            {
+                <li><a asp-area="@DefaultRoles.RestaurantAdmin" asp-controller="RestaurantProfile" asp-action="EditRestaurantProfile">Your Restaurant Profile</a></li>
+                <li><a asp-area="@DefaultRoles.RestaurantAdmin" asp-controller="RestaurantBusinessDetails" asp-action="BusinessDetails">Your Business Details</a></li>
+            }
+
+            <li><a asp-area=@DefaultRoles.Customer asp-controller="UserProfile" asp-action="UserProfile">Profile</a></li>
+            
+            @if (User.IsInRole(DefaultRoles.Customer))
+            {
+                <li><a asp-area=@DefaultRoles.Customer asp-action="TrackOrders" asp-controller="OrdersHistory">My Orders</a></li>
+                <li><a asp-area=@DefaultRoles.Customer asp-action="SavedAddresses" asp-controller="Address">Saved Addresses</a></li>
+            }
+
+            <li><a asp-area=@DefaultRoles.Customer asp-controller="Account" asp-action="Logout">Logout</a></li>
+        }
+        else
+        {
+            <li><a asp-area=@DefaultRoles.Customer asp-controller="Account" asp-action="Register">Register</a></li>
+            <li><a asp-area=@DefaultRoles.Customer asp-controller="Account" asp-action="Login">Login</a></li>
+            <li><a asp-area=@DefaultRoles.Customer asp-controller="Account" asp-action="ResendEmailConfirmation">Resend email confirmation</a></li>
+        }
+    </ul>
+</div>

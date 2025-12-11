@@ -1,0 +1,53 @@
+﻿@model VatRequest;
+
+<link rel="stylesheet" href="/css/profileAccount.css" asp-append-version="true" />
+
+<div class="profile document">
+    <div class="info">        
+        <h2>Vat</h2>
+    </div>
+
+    <div class="profile-content">
+        <form class="profile-form" asp-action="Upload" enctype="multipart/form-data">        
+            <div asp-validation-summary="All" class="text-danger mb-5"></div>               
+
+            <div class="field">           
+                <label>Vat number</label>
+                <input asp-for="VatNumber" placeholder="Vat number"/>
+            </div>
+
+            <div class="field">
+                <label>Vat certificate</label>
+                <div class="upload-area" id="uploadArea1">
+                    <div class="upload-icon">
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
+                            <path d="M4 2h16c1.1 0 2 .9 2 2v16c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2zm0 2v16h16V4H4zm3 13l2.5-3.5L12 17l2.5-3.5L18 18H6z" />
+                        </svg>
+                    </div>
+                    <div class="upload-text">
+                        Drop your image here, or <span class="browse-link">browse</span>
+                    </div>
+                    <div class="upload-format">Supports: PDF, JPG, JPEG, PNG</div>
+                    <input type="file" name="file" class="hidden-file-input" id="fileInput1" accept=".jpg,.jpeg,.png,.pdf">
+                </div>
+                <div class="file-preview" id="filePreview1">
+                    <svg class="file-preview-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                    </svg>
+                    <span class="file-preview-text" id="fileName1"></span>
+                    <button type="button" class="file-preview-remove" id="removeFile1">×</button>
+                </div>
+            </div>
+
+            <button type="submit">Upload</button>
+        </form>
+    </div>
+</div>
+
+<script src="~/js/uploadFile.js"></script>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial"></partial>
+    <partial name="_NotificationPartial"></partial>
+}

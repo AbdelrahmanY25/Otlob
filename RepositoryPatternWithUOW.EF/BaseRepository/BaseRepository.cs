@@ -63,9 +63,9 @@ public class BaseRepository<T> : IBaseRepository<T> where T : class
         dbSet.Remove(entity);
     }
 
-    public bool IsExist(Expression<Func<T, bool>> expression)
+    public bool IsExist(Expression<Func<T, bool>> expression, bool ignoreQueryFilter = false)
     {
-        return dbSet.AsNoTracking().Any(expression);
+        return ignoreQueryFilter ? dbSet.AsNoTracking().IgnoreQueryFilters().Any(expression) : dbSet.AsNoTracking().Any(expression);
     }
 
     public IQueryable<T>? Get(Expression<Func<T, object>>[]? includeProps = null,

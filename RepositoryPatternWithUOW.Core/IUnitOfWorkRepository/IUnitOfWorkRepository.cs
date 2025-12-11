@@ -12,7 +12,16 @@ public interface IUnitOfWorkRepository : IDisposable
     IBaseRepository<OrderDetails> OrderDetails { get; }
     IBaseRepository<ApplicationUser> Users { get; }
     IBaseRepository<MealPriceHistory> MealsPriceHistories { get; }
+    IBaseRepository<MenuCategory> MealCategories { get; }
     IBaseRepository<TempOrder> TempOrders { get; }
+    IBaseRepository<TradeMark> TradeMarks { get; }
+    IBaseRepository<UploadedFile> UploadedFiles { get; }
+    IBaseRepository<CommercialRegistration> CommercialRegistrations { get; }
+    IBaseRepository<VAT> Vats { get; }
+    IBaseRepository<BankAccount> BankAccounts { get; }
+    IBaseRepository<NationalId> NationalIds { get; }
+    IBaseRepository<RestaurantBranch> RestaurantBranches { get; }
+    IBaseRepository<RestaurantCategory> RestaurantCategories { get; }
 
     void SaveChanges();
 }

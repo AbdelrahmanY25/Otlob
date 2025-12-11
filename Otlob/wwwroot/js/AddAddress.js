@@ -38,19 +38,14 @@ function add3DBuildings() {
 }
 
 map.on('load', () => {
-    console.log('🗺️ Map loaded successfully');
     document.getElementById('mapLoading').style.display = 'none';
 
-    console.log('🧪 Creating test marker to verify functionality...');
     const testMarker = new mapboxgl.Marker({ color: "green" })
         .setLngLat([31.2357, 30.0444])
         .addTo(map);
 
-    console.log('✅ Test marker created - if you see a green marker, markers work!');
-
     setTimeout(() => {
         testMarker.remove();
-        console.log('🗑️ Test marker removed');
     }, 5000);
 
     add3DBuildings();
@@ -89,7 +84,6 @@ function searchAddress() {
                 }
             })
             .catch(error => {
-                console.error('Search error:', error);
                 resultsDiv.classList.remove("show");
             });
     }, 500);

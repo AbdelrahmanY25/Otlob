@@ -1,9 +1,9 @@
-﻿using Otlob.Core.Contracts.ViewModel;
+﻿using Otlob.Core.Contracts.Authentication;
 using Utility.Consts;
 
 namespace Otlob.Areas.SuperAdmin.Controllers
 {
-    [Area("SuperAdmin"), Authorize(Roles = SD.superAdminRole)]
+    [Area("SuperAdmin"), Authorize(Roles = DefaultRoles.SuperAdmin)]
     public class OrdersController : Controller
     {
         private readonly IOrderService orderService;

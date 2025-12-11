@@ -56,11 +56,6 @@ ul {
     margin-top: 20px;
 }
 
-.main {
-    transition: margin-left var(--main-transition) ease;
-    min-height: calc(100vh - var(--navbar-height));
-}
-
 @media (max-width: 768px) {
     .articles .container .card .text h3,
     .articles .container .menue .text h3 {
@@ -233,10 +228,12 @@ html {
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
+
 .card-button i {
     font-size: 25px;
     font-weight: bolder;
 }
+
 .card-button:hover {
     background-color: var(--secondary-color);
 }
@@ -435,54 +432,6 @@ html {
     }
 }
 
-.offers {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    margin-bottom: 30px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-.offers h2 {
-    text-align: center;
-    margin-bottom: 20px;
-    color: var(--primary-color);
-}
-
-.offers-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 40px;
-}
-
-.offer-card {
-    background-color: #f9f9f9;
-    border-radius: 10px;
-    padding: 15px;
-    text-align: center;
-    transition: box-shadow 0.3s ease;
-}
-
-.offer-card img {
-    width: 100%;
-    border-radius: 10px;
-    margin-bottom: 10px;
-}
-
-.offer-card h3 {
-    color: var(--primary-color);
-    font-size: 16px;
-    margin-bottom: 10px;
-}
-
-.offer-card p {
-    color: #555;
-    font-size: 14px;
-}
-
-.offer-card:hover {
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
-}
 .card-modern {
     background: #ffffff;
     border: none;

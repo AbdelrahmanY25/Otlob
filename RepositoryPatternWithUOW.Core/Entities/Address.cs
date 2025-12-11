@@ -6,19 +6,19 @@ public class Address
     public string UserId { get; set; } = string.Empty;
     
     public string CustomerAddress { get; set; } = string.Empty;
-    public Point Location { get; set; } = null!;
+    public Point Location { get; set; } = default!;
     public PlaceType PlaceType { get; set; }
     public string StreetName { get; set; } = string.Empty;
     public string? HouseNumberOrName { get; set; }
     public int? FloorNumber { get; set; }
     public string? CompanyName { get; set; }
 
-    public ApplicationUser User { get; set; } = null!;
+    public ApplicationUser User { get; set; } = default!;
 }
 
 public enum PlaceType
 {
     Apartment = 1,
-    House = 2,
-    Office = 3
+    House,
+    Office
 }

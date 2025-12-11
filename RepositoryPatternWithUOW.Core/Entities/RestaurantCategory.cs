@@ -5,9 +5,6 @@ public class RestaurantCategory
     public int CategoryId { get; set; }
     public int RestaurantId { get; set; }
 
-    [ValidateNever]
-    public Category Category { get; set; } = null!;
-
-    [ValidateNever]
-    public Restaurant Restaurant { get; set; } = null!;
+    public Category Category { get; set; } = default!;
+    public Restaurant Restaurant { get; set; } = default!;
 }

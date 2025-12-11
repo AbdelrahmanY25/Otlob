@@ -11,8 +11,8 @@ public interface IAddressService
     Task<Result> UpdateAddress(AddressRequest request);
     
     Result DeleteAddress(string id);
-    
-    bool IsAddressExist(string userId, string customerAddress);
+        
+    bool IsAddressExist(string userId, AddressRequest request);
     
     bool IsUserHasAnyAddresses(string userId);
 }

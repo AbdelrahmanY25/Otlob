@@ -19,5 +19,9 @@ public class RestaurantCategoryEntityTypeConfiguration : IEntityTypeConfiguratio
 
         builder
             .HasKey(rc => new { rc.CategoryId, rc.RestaurantId });
+
+        builder
+            .HasIndex(rc => new { rc.CategoryId, rc.RestaurantId })
+            .IsUnique();
     }
 }

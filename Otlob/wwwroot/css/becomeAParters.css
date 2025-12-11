@@ -1,0 +1,204 @@
+﻿:root {
+    --background-color: linear-gradient(100deg, #9a5752 25% 25%, #a71905 100%);
+}
+
+.mainSection {
+    position: absolute;
+    left: 0;
+    top: var(--navbar-height);
+    width: 100%;
+}
+
+.hero-section {
+    color: white;
+    text-align: center;
+}
+
+.benefits-section {
+    padding: 80px 0;
+    margin: 10px 0;
+    border-radius: 20px;
+}
+
+.benefits-title {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 60px;
+    color: var(--secondary-color);
+}
+
+.benefits-title span {
+    color: var(--primary-color);
+}
+
+.benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 40px;
+    margin-bottom: 60px;
+}
+
+.benefit-card {
+    text-align: center;
+    padding: 40px 20px;
+    border-radius: 16px;
+    background: var(--primary-color);
+    transition: transform var(--main-transition), box-shadow var(--main-transition);
+}
+
+.benefit-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+}
+
+.benefit-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 20px;
+    background: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    color: white;
+}
+
+.benefit-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    color: white;
+}
+
+.benefit-card p {
+    color: white;
+    line-height: 1.7;
+}
+
+.process-section {
+    background: white;
+    padding: 80px 10px;
+    margin: 40px 0;
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+}
+
+.process-title {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 60px;
+    color: var(--secondary-color);
+}
+
+.process-title span {
+    color: var(--primary-color);
+}
+
+.process-steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 40px;
+}
+
+.process-step {
+    text-align: center;
+    position: relative;
+}
+
+.process-step::after {
+    content: '';
+    position: absolute;
+    top: 40px;
+    right: -20px;
+    width: 40px;
+    height: 2px;
+    background: var(--primary-color);
+    z-index: 1;
+}
+
+.process-step:last-child::after {
+    display: none;
+}
+
+.step-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 20px;
+    background: linear-gradient(135deg, var(--primary-color), #ff6b5a);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    color: white;
+    position: relative;
+    z-index: 2;
+}
+
+.process-step h4 {
+    font-size: 1.3rem;
+    margin-bottom: 15px;
+    color: var(--secondary-color);
+}
+
+.process-step p {
+    color: #666;
+    line-height: 1.7;
+    font-size: 0.95rem;
+}
+
+.input-error-message {
+    color: #d32f2f;
+    min-height: 20px;
+    font-size: 13px;
+    margin: 5px;
+    display: block;
+    text-align: start;
+}
+
+@media (max-width: 768px) {
+    .hero-section h1 {
+        font-size: 2.5rem;
+    }
+
+    .benefits-title,
+    .process-title {
+        font-size: 2rem;
+    }
+
+    .benefits-grid,
+    .process-steps {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+
+    .process-step::after {
+        display: none;
+    }
+
+    .benefits-section,
+    .process-section {
+        padding: 60px 0;
+        margin: 20px;
+        border-radius: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    form.loginform {
+        margin: 40px 20px;
+        padding: 30px 20px;
+    }
+
+    .hero-section {
+        padding: 40px 0 20px;
+    }
+
+    .hero-section h1 {
+        font-size: 2rem;
+    }
+
+    .hero-section p {
+        font-size: 1.1rem;
+    }
+}

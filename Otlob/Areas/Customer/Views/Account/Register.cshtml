@@ -1,39 +1,108 @@
-﻿@model ApplicationUserVM
-
-@section FormStyle {
-    <partial name="_FormStylePartial"></partial>
-}
+﻿@model RegisterRequest
 
 @{
     ViewData["Title"] = "Register";
 }
 
-<section class="form-section">
-    <img src="~/Illustrations/Sign up-rafiki.svg" alt="Alternate Text" />
+<link href="~/css/authForms.css" rel="stylesheet" asp-append-version="true" />
 
-    <form asp-action="Register" class="loginform">
-        <h2>Create an account</h2>
-        <div asp-validation-summary="All" class="text-danger"></div>
-        <div>
-            <input asp-for="UserName" placeholder="User Name" />
+<div class="container">
+    <div class="left-panel">
+        <div class="logo">Otlob<span>.</span></div>
+        <div class="left-content">
+            <h2>Delicious Food Delivered</h2>
+            <p>Order from your favorite restaurants and get your food delivered to your doorstep in minutes.</p>
+            <div class="app-badges">
+                <div class="badge">
+                    <i class="fab fa-apple"></i>
+                    <span>App Store</span>
+                </div>
+                <div class="badge">
+                    <i class="fab fa-google-play"></i>
+                    <span>Play Store</span>
+                </div>
+            </div>
         </div>
-        <div>
-            <input asp-for="Email" placeholder="Email" />
+    </div>
+
+    <div class="right-panel">
+        <div class="welcome-text">
+            <h1>Sign Up</h1>
         </div>
-        <div>
-            <input type="password" asp-for="Password" placeholder="Password" />
+
+        <form asp-action="Register" class="loginform" style="min-height: 540px">
+            <div asp-validation-summary="ModelOnly"></div>
+
+            <div class="form-group">
+                <div class="input-with-icon">
+                    <i class="fas fa-user"></i>
+                    <input type="text" id="username" asp-for="UserName" placeholder="Enter your username">
+                </div>
+			    <span asp-validation-for="UserName" class="input-error-message"></span>
+            </div>
+
+            <div class="form-group">
+                <div class="input-with-icon">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" id="email" asp-for="Email" placeholder="Enter your email">
+                </div>
+			    <span asp-validation-for="Email" class="input-error-message"></span>
+            </div>
+
+            <div class="form-group">
+                <div class="input-with-icon">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="password" asp-for="Password" placeholder="Enter your password">
+                </div>
+                <div id="password-strength-meter">
+                    <div class="password-progress-container">
+                        <div id="password-strength-bar" class="password-progress-bar"></div>
+                    </div>
+                </div>
+			    <span asp-validation-for="Password" class="input-error-message"></span>
+            </div>
+
+            <div class="form-group">
+                <div class="input-with-icon">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="confirmpassword" asp-for="ConfirmPassword" placeholder="Confirm your password">
+                </div>
+			    <span asp-validation-for="ConfirmPassword" class="input-error-message"></span>
+            </div>
+
+            <div class="form-group">
+                <div class="input-with-icon">
+                    <i class="fas fa-phone"></i>
+                    <input type="text" id="phonenumber" asp-for="PhoneNumber" placeholder="Enter your phone number">
+				</div>
+                <span asp-validation-for="PhoneNumber" class="input-error-message"></span>
+			</div>
+
+            <button type="submit" class="sign-in-btn">Sign Up</button>
+        </form>
+
+        <!-- <div class="divider">
+            <span>Or continue with</span>
         </div>
-        <div>
-            <input type="password" asp-for="ConfirmPassword" placeholder="Confirm Password" />
+
+        <div class="social-login">
+            <div class="social-btn">
+                <i class="fab fa-google"></i>
+            </div>
+            <div class="social-btn">
+                <i class="fab fa-microsoft"></i>
+            </div>
+        </div> -->
+
+        <div class="signup-link">
+            confirm your email <a asp-controller="Account" asp-action="ResendEmailConfirmation">Resend email confirmation</a>
         </div>
-        <div>
-            <input asp-for="PhoneNumber" placeholder="Phone Number" />
+
+        <div class="signup-link">
+            have an account? <a asp-action="Login" asp-controller="Account">Sign In</a>
         </div>
-        <div>
-            <button type="submit">Create your account</button>
-        </div>
-    </form>
-</section>
+    </div>
+</div>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial"></partial>

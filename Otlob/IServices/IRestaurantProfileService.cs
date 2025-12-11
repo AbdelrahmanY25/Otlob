@@ -2,9 +2,9 @@
 
 public interface IRestaurantProfileService
 {
-    Result EditRestaurantProfileInfo(RestaurantVM restaurantVM, int restaurantId);
+    Result EditRestaurantProfileInfo(RestaurantProfile request, int restaurantId);
     
-    Result EditRestaurantProfilePicture(int restaurantId, IFormFile image);   
-    
-    Result<RestaurantVM> GetRestaurantProfileDetailsById(int restaurantId);
+    Result EditRestaurantProfilePicture(int restaurantId, IFormFile image);
+
+    Result<RestaurantProfile> GetRestaurantProfileDetailsById(int restaurantId);
 }

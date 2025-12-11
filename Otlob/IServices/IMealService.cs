@@ -2,25 +2,27 @@
 
 public interface IMealService
 {
-    Result<IQueryable<MealVm>> GetMealsByRestaurantId(int restaurantlId);
+    Result<IQueryable<MealResponnse>>? GetAllByRestaurantId(int restaurantlId);
     
     Result<IQueryable<MealVm>> GetMealsDetails(int restaurantlId);
 
-    Result<MealVm> GetMealVM(int MealId);
-        
-    Meal GetMealNameAndImage(int mealId);
+    Result<MealResponnse> GetForUpdate(string key);
+
+    Result Add(int restaurantId, MealRequest request, UploadImageRequest imageRequest);
     
-    Result AddMeal(MealVm mealVM, int restaurantId, IFormFile image);
+    Result Update(MealRequest request, string kry, int restaurantId);
     
-    Result EditMeal(MealVm mealVM, int mealId);
-    
-    Result ChangeMealImage(IFormFile image, int mealId);
+    Result ChangeMealImage(IFormFile image, string key);
 
     Result<IQueryable<MealVm>> GetDeletedMeals(int restaurantId);
 
     Result DeleteMeal(int mealId);
 
     Result UnDeleteMeal(int mealId);
-    
+
+    void DeleteMealsRelatedToCategoryWith(int categoryId);
+
+    void UnDeleteMealsRelatedToCategoryWith(int categoryId);
+
     IQueryable<MealVm> MealCategoryFilter(IQueryable<MealVm> meals, string filter);
 }

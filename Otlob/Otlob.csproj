@@ -22,11 +22,12 @@
 		<PackageReference Include="Hangfire.SqlServer" Version="1.8.21" />
 		<PackageReference Include="LinqKit" Version="1.3.8" />
 		<PackageReference Include="MailKit" Version="4.13.0" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.8">
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.9">
 		  <PrivateAssets>all</PrivateAssets>
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>		
 		<PackageReference Include="MimeKit" Version="4.13.0" />		
+		<PackageReference Include="Serilog.AspNetCore" Version="9.0.0" />		
 		<PackageReference Include="Stripe.net" Version="48.6.0-beta.1" />
 		<PackageReference Include="System.Linq.Dynamic.Core" Version="1.6.7" />
 	</ItemGroup>
@@ -42,6 +43,11 @@
 	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
 	    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
 	  </Content>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Areas\RestaurantAdmin\Views\TradeMarks\" />
+	  <Folder Include="wwwroot\files\" />
 	</ItemGroup>
 	
 </Project>

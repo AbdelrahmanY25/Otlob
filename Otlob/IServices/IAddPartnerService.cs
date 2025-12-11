@@ -2,5 +2,5 @@
 
 public interface IAddPartnerService
 {
-    Task<Result<string>> RegistRestaurant(RegistResturantVM registResturantVM);
+    Task<Result> RegistRestaurant(RegistResturantRequest request);
 }

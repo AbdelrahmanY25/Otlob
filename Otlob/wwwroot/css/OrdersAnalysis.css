@@ -1,4 +1,8 @@
-﻿.ordersData {
+﻿/*.main-content {
+    padding: 20px 40px;
+}
+*/
+.ordersData {
     padding: 20px 0;
     margin-bottom: 50px;
     display: flex;
@@ -202,7 +206,7 @@
 
 /*======================================================*/
 .header {
-    background: linear-gradient(90deg, #F04335, #e16d63);
+    background: var(--primary-color);
     color: white;
     padding: 20px;
     text-align: center;
@@ -284,7 +288,7 @@
 }
 
 .data-table th {
-    background: #F04335;
+    background: var(--primary-color);
     color: white;
     padding: 15px;
     text-align: left;

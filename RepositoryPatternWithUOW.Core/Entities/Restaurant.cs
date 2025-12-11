@@ -10,38 +10,38 @@ public sealed class Restaurant
     public string Phone { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
     public int NumberOfBranches { get; set; } = 1;
-    public decimal DeliveryFee { get; set; }        
+    public decimal DeliveryFee { get; set; }
     public decimal DeliveryDuration { get; set; }
     public AcctiveStatus AcctiveStatus { get; set; } = AcctiveStatus.UnAccepted;
+    public ProgressStatus ProgressStatus { get; set; } = ProgressStatus.Pending;
     public BusinessType BusinessType { get; set; } = BusinessType.Restaurant;
-    public Role OwnerRole { get; set; }
+    public AdministratorRole AdministratorRole { get; set; } = AdministratorRole.Owner;
     public string? Image { get; set; }
-    public DateTime OpeningTime { get; set; }
-    public DateTime ClosingTime { get; set; }
-    public bool IsOpen { get; set; }
-    public bool IsClosed => !IsOpen; 
+    public TimeOnly OpeningTime { get; set; }
+    public TimeOnly ClosingTime { get; set; }
 
-    public ApplicationUser Owner { get; set; } = null!;
+    public bool IsOpen => TimeOnly.FromDateTime(DateTime.Now) >= OpeningTime && TimeOnly.FromDateTime(DateTime.Now) < ClosingTime;
+    public bool IsClosed => !IsOpen;
 
-    public ICollection<RestaurantBranch> RestaurantBranches { get; set; } = null!;
+    public ApplicationUser Owner { get; set; } = default!;
 
-    public ICollection<RestaurantCategory> RestaurantCategories { get; set; } = null!;
+    public ICollection<RestaurantBranch> RestaurantBranches { get; set; } = [];
 
-    public ICollection<MenuCategory> MenueCategories { get; set; } = null!;
+    public ICollection<RestaurantCategory> RestaurantCategories { get; set; } = [];
 
-    public ICollection<Order> Orders { get; set; } = null!;
+    public ICollection<MenuCategory> MenueCategories { get; set; } = [];
 
-    public CommercialRegistration CommercialRegistration { get; set; } = null!;
+    public ICollection<Order> Orders { get; set; } = [];
 
-    public TradeMark TradeMark { get; set; } = null!;
+    public CommercialRegistration CommercialRegistration { get; set; } = default!;
 
-    public NationalId NationalId { get; set; } = null!;
+    public TradeMark TradeMark { get; set; } = default!;
 
-    public BankAccount BankAccount { get; set; } = null!;    
+    public NationalId NationalId { get; set; } = default!;
 
-    public VAT VatCertificate { get; set; } = null!;    
+    public BankAccount BankAccount { get; set; } = default!;    
 
-    public Contract Contract { get; set; } = null!;
+    public VAT VatCertificate { get; set; } = default!;    
 }
 
 public enum AcctiveStatus
@@ -49,7 +49,21 @@ public enum AcctiveStatus
     Acctive,
     Block,
     Warning,
-    UnAccepted
+    Pending,
+    UnAccepted,
+    Rejected
+}
+
+public enum ProgressStatus
+{
+    Pending = 1,
+    RestaurantProfileCompleted,
+    CommercialRegistrationCompleted,
+    TradeMarkCompleted,
+    VatCertificateCompleted,
+    BankAccountCompleted,
+    NationalIdCompleted,
+    Completed
 }
 
 public enum BusinessType
@@ -59,7 +73,7 @@ public enum BusinessType
     StreetFood
 }
 
-public enum Role
+public enum AdministratorRole
 {
     Owner,
     Partner,

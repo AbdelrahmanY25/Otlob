@@ -24,10 +24,14 @@ public class RestaurantEntityTypeConfiguration : IEntityTypeConfiguration<Restau
         builder
             .Property(r => r.Phone)
             .HasMaxLength(11);
-
+        
+        builder
+            .Property(u => u.Image)
+            .HasMaxLength(100);
+        
         builder
             .Property(r => r.NumberOfBranches)
-            .HasMaxLength(500);
+            .HasMaxLength(5000);
 
         builder
             .Property(r => r.Description)
@@ -60,13 +64,22 @@ public class RestaurantEntityTypeConfiguration : IEntityTypeConfiguration<Restau
             .HasMaxLength(10);
 
         builder
-            .Property(r => r.OwnerRole)
+            .Property(r => r.AdministratorRole)
             .HasConversion(
                 r => r.ToString(),
-                r => Enum.Parse<Role>(r)
+                r => Enum.Parse<AdministratorRole>(r)
             )
             .HasColumnType("VARCHAR")
             .HasMaxLength(10);
+
+        builder
+            .Property(r => r.ProgressStatus)
+            .HasConversion(
+                r => r.ToString(),
+                r => Enum.Parse<ProgressStatus>(r)
+            )
+            .HasColumnType("VARCHAR")
+            .HasMaxLength(50);
 
         builder
             .HasIndex(r => r.Email)

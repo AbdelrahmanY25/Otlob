@@ -30,10 +30,6 @@ public class MealEntityTypeConfiguration : IEntityTypeConfiguration<Meal>
 
         builder
             .HasIndex(m => new { m.Id, m.RestaurantId, m.CategoryId })
-            .IsUnique();
-
-        builder
-            .HasIndex(m => new { m.RestaurantId, m.Name })
-            .IsUnique();
+            .IsUnique();       
     }
 }

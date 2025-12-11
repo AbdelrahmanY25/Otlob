@@ -1,0 +1,28 @@
+﻿<partial name="_OrderPartial"></partial>
+
+@section Scripts {
+    <script>
+        $(function () {
+            var detailsUrl = '@Url.Action(
+        "OrderUserDetailsPartial", "Orders", new { area = "RestaurantAdmin" }
+    )';
+
+          $('.view-details').on('click', function () {
+            var orderId      = $(this).data('id'),
+                $placeholder = $(this).closest('.card-modern').find('.orderUserDetails');
+
+            $placeholder.html(
+              '<div class="spinner-border spinner-border-sm" role="status">' +
+                '<span class="visually-hidden">Loading...</span>' +
+              '</div>'
+            );
+
+            $.get(detailsUrl, { orderId: orderId })
+             .done(function (html) { $placeholder.html(html); })
+             .fail(function () {
+               $placeholder.html('<div class="text-danger">Unable to load user details.</div>');
+             });
+          });
+        });
+    </script>
+}

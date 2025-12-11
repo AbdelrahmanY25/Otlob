@@ -32,9 +32,11 @@ public class AddressRequestValidator : AbstractValidator<AddressRequest>
             .IsInEnum();
 
         RuleFor(a => a.LonCode)
-            .NotEmpty();
+            .NotEmpty()
+            .InclusiveBetween(-180.0, 180.0);
 
         RuleFor(a => a.LatCode)
-            .NotEmpty();
+            .NotEmpty()
+            .InclusiveBetween(-90.0, 90.0);
     }
 }

@@ -1,0 +1,482 @@
+.content .main {
+    padding: 20px;
+    background-color: #f8f9fa;
+    min-height: calc(100vh - var(--navbar-height));
+    overflow-y: auto;
+}
+
+.content .main .search {
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.content .main .search input {
+    width: 100%;
+    max-width: 500px;
+    padding: 15px 20px;
+    border: 2px solid #e9ecef;
+    border-radius: 25px;
+    font-size: 16px;
+    outline: none;
+    transition: all var(--main-transition);
+    background-color: white;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.content .main .search input:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 4px 15px rgba(240, 67, 53, 0.2);
+    transform: translateY(-2px);
+}
+
+.content .main .search input::placeholder {
+    color: #6c757d;
+    font-style: italic;
+}
+
+.content .main .icons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin: 20px auto;
+    padding: 10px;
+}
+
+.content .main .icons img {
+    max-width: 70px;
+    max-height: 70px;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 4px 6px var(--secondary-color);
+    transition: var(--main-transition);
+}
+
+.icons img:hover {
+    transform: scale(1.1);
+}
+
+@media (max-width: 768px) {
+    .icons img {
+        max-width: 60px;
+        max-height: 60px;
+    }
+}
+
+@media (max-width: 576px) {
+    .icons img {
+        max-width: 50px;
+        max-height: 50px;
+    }
+}
+
+.container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* ==============================
+   Sidebar Cuisine Filters
+   ============================== */
+.sidebar .cuisine-filters {
+    margin-top: 10px;
+}
+
+.sidebar .cuisine-filters h2 {
+    text-align: center;
+    margin: 0 auto 30px;
+    width: fit-content;
+    color: var(--secondary-color);
+    position: relative;
+}
+
+.sidebar .cuisine-filters h2::before {
+    content: "";
+    position: absolute;
+    bottom: -10px;
+    left: -20px;
+    width: 150%;
+    height: 3px;
+    background-color: var(--primary-color);
+}
+
+.sidebar .cuisine-filters h2::after {
+    content: "";
+    position: absolute;
+    bottom: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+}
+
+.sidebar .cuisine-filters ul {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.sidebar .cuisine-filters li {
+    list-style: none;
+}
+
+.sidebar .cuisine-option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    background-color: #ffffff;
+    border: 1px solid #f0f0f0;
+    border-radius: 10px;
+    transition: background-color var(--main-transition), box-shadow var(--main-transition), transform var(--main-transition);
+    cursor: pointer;
+    user-select: none;
+}
+
+.sidebar .cuisine-option:hover {
+    background-color: rgba(240, 67, 53, 0.06);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+.sidebar .cuisine-checkbox {
+    display: none;
+}
+
+.sidebar .cuisine-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary-color);
+    background-color: rgba(240, 67, 53, 0.08);
+    transition: background-color var(--main-transition), color var(--main-transition), transform var(--main-transition);
+}
+
+.sidebar .cuisine-label {
+    color: #333333;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+/* Checked state */
+.sidebar .cuisine-option .cuisine-checkbox:checked ~ .cuisine-icon {
+    background-color: var(--primary-color);
+    color: #ffffff;
+    transform: scale(1.05);
+}
+
+.sidebar .cuisine-option .cuisine-checkbox:checked ~ .cuisine-label {
+    color: var(--primary-color);
+}
+
+/* Keyboard focus accessibility */
+.sidebar .cuisine-option:has(.cuisine-checkbox:focus-visible) {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+/* ==============================
+   Responsive behavior aligned to sidebar breakpoints
+   ============================== */
+
+/* Tablets / medium screens */
+@media (max-width: 1199px) and (min-width: 768px) {
+    .sidebar .cuisine-option {
+        padding: 8px 10px;
+    }
+    .sidebar .cuisine-icon {
+        width: 30px;
+        height: 30px;
+    }
+    .sidebar .cuisine-label {
+        font-size: 13px;
+    }
+}
+
+/* Small screens where sidebar collapses to 60px icon-only (matches site.css) */
+@media (max-width: 767px) and (min-width: 481px) {
+    .sidebar .cuisine-filters ul {
+        gap: 8px;
+    }
+    .sidebar .cuisine-option {
+        justify-content: center;
+        padding: 8px;
+    }
+    .sidebar .cuisine-label {
+        display: none;
+    }
+    .sidebar .cuisine-icon {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background-color: rgba(240, 67, 53, 0.1);
+    }
+}
+
+/* Extra small screens (480px and below) - sidebar remains left with icon-only */
+@media (max-width: 480px) {
+    .sidebar .cuisine-filters ul {
+        gap: 6px;
+    }
+    .sidebar .cuisine-option {
+        padding: 6px;
+    }
+    .sidebar .cuisine-icon {
+        width: 26px;
+        height: 26px;
+    }
+}
+
+.menue {
+    display: flex;
+    align-items: center;
+    background: white;
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border: 1px solid #f0f0f0;
+}
+
+.menue:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.menue img {
+    width: 60px;
+    height: 60px;
+    border-radius: 8px;
+    object-fit: cover;
+    margin-right: 16px;
+    flex-shrink: 0;
+}
+
+.text {
+    flex: 1;
+    margin-right: 16px;
+}
+
+.text h3 {
+    margin: 0 0 8px 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+    line-height: 1.2;
+}
+
+.text p {
+    margin: 2px 0;
+    font-size: 14px;
+    color: #666;
+    line-height: 1.4;
+}
+
+.card-button {
+    background: #ff4444;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background-color 0.2s ease;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.card-button:hover {
+    background: #e63939;
+    text-decoration: none;
+    color: white;
+}
+
+@media (max-width: 768px) {    
+    .menue {
+        padding: 12px;
+    }
+    
+    .menue img {
+        width: 50px;
+        height: 50px;
+        margin-right: 12px;
+    }
+    
+    .text h3 {
+        font-size: 16px;
+    }
+    
+    .text p {
+        font-size: 13px;
+    }
+    
+    .card-button {
+        padding: 6px 12px;
+        font-size: 13px;
+    }
+}
+
+/* Medium screens (768px to 1199px) */
+@media (max-width: 1199px) and (min-width: 768px) {
+    .content .main {
+        padding: 15px;
+    }        
+
+    .content .main .search input {
+        max-width: 400px;
+        padding: 12px 18px;
+        font-size: 15px;
+    }    
+}
+
+/* Small screens (481px to 767px) */
+@media (max-width: 767px) and (min-width: 481px) {
+    .content .main {
+        padding: 10px;
+    }
+        
+    .content .main .search input {
+        max-width: 100%;
+        padding: 10px 15px;
+        font-size: 14px;
+    }    
+    
+    .content .main .menue {
+        padding: 15px;
+        gap: 15px;
+    }
+    
+    .content .main .menue img {
+        width: 70px;
+        height: 70px;
+    }
+    
+    .content .main .menue .text h3 {
+        font-size: 20px;
+    }
+    
+    .content .main .menue .card-button {
+        padding: 10px 20px;
+        font-size: 14px;
+    }
+}
+
+/* Extra small screens (480px and below) */
+@media (max-width: 480px) {
+    .content .main {
+        padding: 8px;
+    }
+    
+    .content .main .search {
+        margin-bottom: 20px;
+    }
+    
+    .content .main .search input {
+        padding: 12px 15px;
+        font-size: 14px;
+        border-radius: 20px;
+    }    
+    
+    .content .main .menue {
+        padding: 12px;
+        gap: 12px;
+        flex-direction: row;
+    }
+    
+    .content .main .menue img {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .content .main .menue .text h3 {
+        font-size: 18px;
+    }
+    
+    .content .main .menue .text p {
+        font-size: 13px;
+    }
+    
+    .content .main .menue .card-button {
+        padding: 8px 20px;
+        font-size: 13px;
+        margin-top: 5px;
+    }
+}
+
+/* Very small screens (320px and below) */
+@media (max-width: 320px) {
+    .content .main {
+        padding: 5px;
+    }
+    
+    .content .main .container {
+        padding: 0;
+    }   
+    
+    .content .main .menue {
+        padding: 10px;
+        gap: 10px;
+        flex-direction: row;
+    }
+    
+    .content .main .menue img {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .content .main .menue .text h3 {
+        font-size: 16px;
+    }
+    
+    .content .main .menue .text p {
+        font-size: 12px;
+    }
+    
+    .content .main .menue .card-button {
+        padding: 6px 15px;
+        font-size: 12px;
+        margin-top: 3px;
+    }
+}
+
+/* Loading and Animation States */
+.content .main .menue {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Focus states for accessibility */
+.content .main .search input:focus,
+.content .main .icons a:focus,
+.content .main .menue .card-button:focus {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+/* Print styles */
+@media print {
+    .content .main .icons,
+    .content .main .search {
+        display: none;
+    }   
+}

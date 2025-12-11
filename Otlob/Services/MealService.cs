@@ -1,48 +1,49 @@
 ﻿namespace Otlob.Services;
 
-public class MealService(IMapper mapper, IImageService imageService,
-                   IUnitOfWorkRepository unitOfWorkRepository, IDataProtectionProvider dataProtectionProvider,
-                   IMealPriceHistoryService mealPriceHistoryService) : IMealService
+public class MealService(IMapper mapper, IFileService imageService,
+                         IUnitOfWorkRepository unitOfWorkRepository,
+                         IDataProtectionProvider dataProtectionProvider,
+                         IMealPriceHistoryService mealPriceHistoryService, 
+                         IRestaurantService restaurantService) : IMealService
 {
     private readonly IMapper _mapper = mapper;
-    private readonly IImageService _imageService = imageService;
+    private readonly IFileService _imageService = imageService;
+    private readonly IRestaurantService _restaurantService = restaurantService;
     private readonly IUnitOfWorkRepository _unitOfWorkRepository = unitOfWorkRepository;
     private readonly IMealPriceHistoryService _mealPriceHistoryService = mealPriceHistoryService;
     private readonly IDataProtector _dataProtector = dataProtectionProvider.CreateProtector("SecureData");
 
-    public Result<IQueryable<MealVm>> GetMealsByRestaurantId(int restaurantlId)
+    public Result<IQueryable<MealResponnse>>? GetAllByRestaurantId(int restaurantlId)
     {
-        Result validateRestaurantIdResult = IsRestaurantIdExists(restaurantlId);
+        Result IsRestaurantIdExists = _restaurantService.IsRestaurantIdExists(restaurantlId);
 
-        if (validateRestaurantIdResult.IsFailure)
-        {
-            return Result.Failure<IQueryable<MealVm>>(RestaurantErrors.InvalidRestaurantId);
-        }
+        if (IsRestaurantIdExists.IsFailure)
+            return Result.Failure<IQueryable<MealResponnse>>(RestaurantErrors.NotFound);
 
-        IQueryable<MealVm> mealsVM = _unitOfWorkRepository.Meals
+        var response = _unitOfWorkRepository.Meals
             .GetAllWithSelect
              (
                 expression: m => m.RestaurantId == restaurantlId,
                 tracked: false,
-                selector: m => new MealVm
+                selector: m => new MealResponnse
                 {
                     Key = _dataProtector.Protect(m.Id.ToString()),
                     Name = m.Name,
-                    Image = m.Image,
                     Price = m.Price,
+                    Image = m.Image,
                 }
              )!;
 
-        return Result.Success(mealsVM);
+        return Result.Success(response);
     }
 
     public Result<IQueryable<MealVm>> GetMealsDetails(int restaurantId)
     {
-        Result validateRestaurantIdResult = IsRestaurantIdExists(restaurantId);
+        Result validateRestaurantIdResult = _restaurantService.IsRestaurantIdExists(restaurantId);
 
         if (validateRestaurantIdResult.IsFailure)
         {
-            return Result.Failure<IQueryable<MealVm>>(RestaurantErrors.InvalidRestaurantId);
+            return Result.Failure<IQueryable<MealVm>>(RestaurantErrors.NotFound);
         }
 
         IQueryable<MealVm>? mealsVM = _unitOfWorkRepository.Meals
@@ -56,7 +57,6 @@ public class MealService(IMapper mapper, IImageService imageService,
                     Name = m.Name,
                     Image = m.Image,
                     Price = m.Price,
-                    Category = m.Category,
                     NumberOfServings = m.NumberOfServings,
                     IsNewMeal = m.IsNewMeal,
                     IsTrendingMeal = m.IsTrendingMeal,
@@ -67,48 +67,48 @@ public class MealService(IMapper mapper, IImageService imageService,
         return Result.Success(mealsVM)!;
     }
 
-    public Result<MealVm> GetMealVM(int mealId)
+    public Result<MealResponnse> GetForUpdate(string key)
     {
-        Result validateMealIdResult = IsMealIdExists(mealId);
+        int mealId = int.Parse(_dataProtector.Unprotect(key));
 
-        if (validateMealIdResult.IsFailure)
-        {
-            return Result.Failure<MealVm>(MealErrors.MealNotFound);
-        }
+        Result isMealIdExists = IsMealIdExists(mealId);
 
-        var meal = _unitOfWorkRepository.Meals.GetOne(expression: m => m.Id == mealId, ignoreQueryFilter: true);
+        if (isMealIdExists.IsFailure)
+            return Result.Failure<MealResponnse>(MealErrors.MealNotFound);
 
-        return MaptoMealVm(meal!);
+        var meal = _unitOfWorkRepository.Meals
+            .GetOne(expression: m => m.Id == mealId, tracked: false, ignoreQueryFilter: true, includeProps: [m => m.Restaurant.MenueCategories]);
+
+        var response = _mapper.Map<MealResponnse>(meal);
+        response.CategoryKey = _dataProtector.Protect(response.CategoryKey);
+        response.Key = _dataProtector.Protect(response.Key);
+        response.Categories = meal!.Restaurant.MenueCategories
+            .Select(mc => new MenuCategoryResponse
+            {
+                Key = _dataProtector.Protect(mc.Id.ToString()),
+                Name = mc.Name
+            })
+            .AsQueryable();
+
+        return Result.Success(response);
     }
 
-    public Meal GetMealNameAndImage(int mealId) => 
-        _unitOfWorkRepository.Meals
-            .GetOneWithSelect(selector: m => new Meal { Id = m.Id, Name = m.Name, Image = m.Image}, expression: m => m.Id == mealId)!;
-
-    public Result AddMeal(MealVm mealVM, int restaurantId, IFormFile image)
+    public Result Add(int restaurantId, MealRequest request, UploadImageRequest imageRequest)
     {
-        Result validateRestaurantIdResult = IsRestaurantIdExists(restaurantId);
+        // TODO: Handle Exception
+        int categoryId = int.Parse(_dataProtector.Unprotect(request.SelectedCategoryKey));
 
-        if (validateRestaurantIdResult.IsFailure)
-        {
-            return validateRestaurantIdResult;
-        }
+        var result = ValidateMealOnAdd(restaurantId, categoryId, request);
 
-        bool isMealNameExists = _unitOfWorkRepository.Meals.IsExist(m => m.RestaurantId == restaurantId && m.Name == mealVM.Name);
+        if (result.IsFailure)
+            return Result.Failure(result.Error);
 
-        if (isMealNameExists)
-        {
-            return Result.Failure(MealErrors.DoublicatedMealName);
-        }
-
-        var isImageUploaded = _imageService.UploadImage(image)!;
+        var isImageUploaded = _imageService.UploadImage(imageRequest.Image)!;
 
         if (isImageUploaded.IsFailure)
-        {
             return Result.Failure(isImageUploaded.Error);
-        }
 
-        Meal meal = FillMealData(mealVM, restaurantId, isImageUploaded.Value);
+        Meal meal = FillMealData(request, restaurantId, categoryId, isImageUploaded.Value);
 
         _unitOfWorkRepository.Meals.Create(meal);
         _unitOfWorkRepository.SaveChanges();
@@ -118,60 +118,49 @@ public class MealService(IMapper mapper, IImageService imageService,
         return Result.Success();
     }
 
-    public Result EditMeal(MealVm mealVM, int mealId)
+    public Result Update(MealRequest request, string key, int restaurantId)
     {
-        Result validateMealIdResult = IsMealIdExists(mealId);
+        // TODO: Handle Exception
+        int mealId = int.Parse(_dataProtector.Unprotect(key));
+        int categoryId = int.Parse(_dataProtector.Unprotect(request.SelectedCategoryKey));
 
-        if (validateMealIdResult.IsFailure)
-        {
-            return Result.Failure(MealErrors.MealNotFound);
-        }
+        var validMeal = ValidateMealOnUpdate(restaurantId, mealId, categoryId, request);
+
+        if (validMeal.IsFailure)
+            return Result.Failure(validMeal.Error);
 
         Meal oldMeal = _unitOfWorkRepository.Meals.GetOne(expression: m => m.Id == mealId)!;
 
-        if (oldMeal.Price != mealVM.Price)
-        {
-            _mealPriceHistoryService.UpdateMealPriceHistory(mealId, mealVM.Price);
-        }
+        if (oldMeal.Price != request.Price)
+            _mealPriceHistoryService.UpdateMealPriceHistory(mealId, request.Price);
 
-        bool noNewData = ThereIsNewData(mealVM, oldMeal);
+        bool noNewData = ThereIsNewData(request, oldMeal, categoryId);
 
         if (noNewData)
-        {
-            mealVM.Image = oldMeal.Image;
             return Result.Failure(MealErrors.NoNewData);
-        }
+        
+        _mapper.Map(request, oldMeal);
+        oldMeal.CategoryId = categoryId;
 
-        bool isMealNameExists = _unitOfWorkRepository.Meals.IsExist(m => m.Name == mealVM.Name && m.Id != mealId);
-
-        if (isMealNameExists)
-        {
-            return Result.Failure(MealErrors.DoublicatedMealName);
-        }
-
-        _mapper.Map(mealVM, oldMeal);
-
-        _unitOfWorkRepository.Meals.Edit(oldMeal);      
         _unitOfWorkRepository.SaveChanges();
 
         return Result.Success();
     }
 
-    public Result ChangeMealImage(IFormFile image, int mealId)
-    {        
+    public Result ChangeMealImage(IFormFile image, string key)
+    {
+        // TODO: Handle Exception
+        int mealId = int.Parse(_dataProtector.Unprotect(key));
+
         Result validateMealIdResult = IsMealIdExists(mealId);
 
         if (validateMealIdResult.IsFailure)
-        {
-            return Result.Failure(MealErrors.MealNotFound);
-        }
+            return Result.Failure(MealErrors.MealNotFound);        
 
         var uploadImageResult = _imageService.UploadImage(image);
 
         if (uploadImageResult.IsFailure)
-        {
             return uploadImageResult;
-        }
 
         Meal meal = _unitOfWorkRepository
             .Meals
@@ -184,13 +173,7 @@ public class MealService(IMapper mapper, IImageService imageService,
                 }
             )!;
 
-        var isOldImageDeleted = _imageService.DeleteImageIfExist(meal.Image);
-
-        if (isOldImageDeleted.IsFailure)
-        {
-            _imageService.DeleteImageIfExist(uploadImageResult.Value);
-            return isOldImageDeleted;
-        }
+        _imageService.DeleteImageIfExist(meal.Image);
 
         meal.Image = uploadImageResult.Value;
 
@@ -203,11 +186,11 @@ public class MealService(IMapper mapper, IImageService imageService,
 
     public Result<IQueryable<MealVm>> GetDeletedMeals(int restaurantId)
     {
-        Result validateRestaurantIdResult = IsRestaurantIdExists(restaurantId);
+        Result validateRestaurantIdResult = _restaurantService.IsRestaurantIdExists(restaurantId);
 
         if (validateRestaurantIdResult.IsFailure)
         {
-            return Result.Failure<IQueryable<MealVm>>(RestaurantErrors.InvalidRestaurantId);
+            return Result.Failure<IQueryable<MealVm>>(RestaurantErrors.NotFound);
         }
 
         IQueryable<MealVm> mealVms = _unitOfWorkRepository.Meals.GetAllWithSelect
@@ -259,6 +242,16 @@ public class MealService(IMapper mapper, IImageService imageService,
         return Result.Success();
     }
 
+    public void DeleteMealsRelatedToCategoryWith(int categoryId)
+    {
+        _unitOfWorkRepository.Meals.SoftDelete(expression: m => m.CategoryId == categoryId);
+    }
+
+    public void UnDeleteMealsRelatedToCategoryWith(int categoryId)
+    {
+        _unitOfWorkRepository.Meals.UnSoftDelete(expression: m => m.CategoryId == categoryId);
+    }
+
     public IQueryable<MealVm> MealCategoryFilter(IQueryable<MealVm> meals, string filter)
     {
         if (!filter.IsNullOrEmpty() && filter.ToLower() != "all")
@@ -276,20 +269,44 @@ public class MealService(IMapper mapper, IImageService imageService,
     }
 
 
-
-    private Result IsRestaurantIdExists(int restaurantId)
+    private Result ValidateMealOnAdd(int restaurantId, int categoryId, MealRequest request)
     {
-        if (restaurantId <= 0)
-        {
-            return Result.Failure(RestaurantErrors.InvalidRestaurantId);
-        }
+        Result isRestaurantIdExists = _restaurantService.IsRestaurantIdExists(restaurantId);
 
-        bool isRestaurantIdExists = _unitOfWorkRepository.Restaurants.IsExist(expression: r => r.Id == restaurantId);
+        if (isRestaurantIdExists.IsFailure)
+            return Result.Failure(RestaurantErrors.NotFound);
 
-        if (!isRestaurantIdExists)
-        {
-            return Result.Failure(RestaurantErrors.InvalidRestaurantId);
-        }
+        bool isExists = _unitOfWorkRepository.MealCategories.IsExist(mc => mc.Id == categoryId);
+
+        if (!isExists)
+            return Result.Failure(MealCategoriesErrors.NotFound);
+
+        bool isMealNameExists = _unitOfWorkRepository.Meals
+            .IsExist(m => m.RestaurantId == restaurantId && m.Name == request.Name);
+
+        if (isMealNameExists)
+            return Result.Failure(MealErrors.DoublicatedMealName);
+
+        return Result.Success();
+    }
+
+    private Result ValidateMealOnUpdate(int restaurantId, int mealId, int categoryId, MealRequest request)
+    {
+        Result isMealIdExists = IsMealIdExists(mealId);
+
+        if (isMealIdExists.IsFailure)
+            return Result.Failure(MealErrors.MealNotFound);
+
+        bool isExists = _unitOfWorkRepository.MealCategories.IsExist(mc => mc.Id == categoryId);
+
+        if (!isExists)
+            return Result.Failure(MealCategoriesErrors.NotFound);
+
+        bool isMealNameExists = _unitOfWorkRepository.Meals
+            .IsExist(m => m.RestaurantId == restaurantId && m.Name == request.Name && m.Id != mealId);
+
+        if (isMealNameExists)
+            return Result.Failure(MealErrors.DoublicatedMealName);
 
         return Result.Success();
     }
@@ -298,45 +315,35 @@ public class MealService(IMapper mapper, IImageService imageService,
     {
         if (mealId <= 0)
         {
-            return Result.Failure(RestaurantErrors.InvalidRestaurantId);
+            return Result.Failure(RestaurantErrors.NotFound);
         }
 
         bool isRestaurantIdExists = _unitOfWorkRepository.Meals.IsExist(expression: r => r.Id == mealId);
 
         if (!isRestaurantIdExists)
         {
-            return Result.Failure(RestaurantErrors.InvalidRestaurantId);
+            return Result.Failure(RestaurantErrors.NotFound);
         }
 
         return Result.Success();
     }
 
-    private static bool ThereIsNewData(MealVm newMeal, Meal oldMeal)
+    private static bool ThereIsNewData(MealRequest request, Meal oldMeal, int categoryId)
     {
-        return  oldMeal.Name == newMeal.Name && oldMeal.Description == newMeal.Description &&
-                oldMeal.Price == newMeal.Price && oldMeal.NumberOfServings == newMeal.NumberOfServings &&
-                oldMeal.IsAvailable == newMeal.IsAvailable && oldMeal.IsNewMeal == newMeal.IsNewMeal &&
-                oldMeal.IsTrendingMeal == newMeal.IsTrendingMeal && oldMeal.Category == newMeal.Category;
+        return  oldMeal.Name == request.Name && oldMeal.Description == request.Description &&
+                oldMeal.Price == request.Price && oldMeal.NumberOfServings == request.NumberOfServings &&
+                oldMeal.IsAvailable == request.IsAvailable && oldMeal.IsNewMeal == request.IsNewMeal &&
+                oldMeal.IsTrendingMeal == request.IsTrendingMeal && oldMeal.CategoryId == categoryId;
     }
 
-    private Meal FillMealData(MealVm mealVM, int restaurantId, string imageUrl)
+    private Meal FillMealData(MealRequest request, int restaurantId, int categoryId, string imageUrl)
     {
-        Meal newMeal = new();
+        Meal meal = _mapper.Map<Meal>(request);
 
-        _mapper.Map(mealVM, newMeal);
+        meal.RestaurantId = restaurantId;
+        meal.CategoryId = categoryId;
+        meal.Image = imageUrl;
 
-        newMeal.RestaurantId = restaurantId;
-        newMeal.Image = imageUrl;
-
-        return newMeal;
-    }
-
-    private Result<MealVm> MaptoMealVm(Meal meal)
-    {
-        MealVm mealVM = new();
-
-        _mapper.Map(meal, mealVM);
-
-        return Result.Success(mealVM);
+        return meal;
     }
 }

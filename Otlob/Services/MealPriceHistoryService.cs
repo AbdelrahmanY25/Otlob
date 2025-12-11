@@ -6,11 +6,7 @@ public class MealPriceHistoryService(IUnitOfWorkRepository unitOfWorkRepository)
 
     public bool AddMealPriceHistory(int mealId, decimal price)
     {
-        var mealPriceHistory = new MealPriceHistory
-        {
-            MealId = mealId,
-            Price = price
-        };
+        var mealPriceHistory = new MealPriceHistory { MealId = mealId, Price = price };
 
         _unitOfWorkRepository.MealsPriceHistories.Create(mealPriceHistory);
         _unitOfWorkRepository.SaveChanges();

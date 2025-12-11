@@ -12,12 +12,7 @@ public class RestaurantVMValidator : AbstractValidator<RestaurantVM>
         RuleFor(r => r.Description)
             .NotEmpty()
             .Length(10, 200)
-            .Matches(RegexPattern.Address);
-
-        RuleFor(r => r.Address)
-            .NotEmpty()
-            .Length(10, 50)
-            .Matches(RegexPattern.Address);
+            .Matches(RegexPattern.Address);       
 
         RuleFor(r => r.Phone)
             .NotEmpty()

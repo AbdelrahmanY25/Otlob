@@ -1,0 +1,340 @@
+/* Meals Page - Clean Professional Design */
+
+:root {
+    --ml-primary: #F04335;
+    --ml-primary-dark: #d63d30;
+    --ml-primary-light: rgba(240, 67, 53, 0.08);
+    --ml-secondary: #dd968c;
+    --ml-success: #10b981;
+    --ml-text-primary: #1e293b;
+    --ml-text-secondary: #64748b;
+    --ml-text-light: #94a3b8;
+    --ml-bg-page: #f8fafc;
+    --ml-bg-card: #ffffff;
+    --ml-border: #e2e8f0;
+    --ml-shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+    --ml-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    --ml-shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
+    --ml-radius: 16px;
+    --ml-transition: all 0.25s ease;
+}
+
+.ml-page {
+    min-height: 100vh;
+    background: var(--ml-bg-page);
+    padding: 2rem;
+    color: var(--ml-text-primary);
+}
+
+.ml-container {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* ===== Header ===== */
+.ml-header {
+    background: var(--ml-bg-card);
+    padding: 1.5rem 2rem;
+    border-radius: var(--ml-radius);
+    box-shadow: var(--ml-shadow-sm);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+    border: 1px solid var(--ml-border);
+}
+
+.ml-header-info h1 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0;
+    color: var(--ml-text-primary);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.ml-header-info h1 i {
+    color: var(--ml-primary);
+    background: var(--ml-primary-light);
+    padding: 0.5rem;
+    border-radius: 10px;
+    font-size: 1.25rem;
+}
+
+.ml-header-info p {
+    margin: 0.25rem 0 0 3.25rem;
+    color: var(--ml-text-secondary);
+    font-size: 0.9rem;
+}
+
+.ml-add-btn {
+    background: var(--ml-primary);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 10px;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: var(--ml-transition);
+    border: 1px solid transparent;
+}
+
+.ml-add-btn:hover {
+    background: var(--ml-primary-dark);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(240, 67, 53, 0.2);
+    color: white;
+}
+
+/* ===== Table View Layout ===== */
+.ml-table-container {
+    background: var(--ml-bg-card);
+    border-radius: var(--ml-radius);
+    box-shadow: var(--ml-shadow);
+    border: 1px solid var(--ml-border);
+    overflow: hidden;
+}
+
+.ml-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.ml-table th {
+    background: #f8fafc;
+    padding: 1rem 1.5rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--ml-text-secondary);
+    letter-spacing: 0.05em;
+    border-bottom: 1px solid var(--ml-border);
+}
+
+.ml-table td {
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid var(--ml-border);
+    vertical-align: middle;
+}
+
+.ml-table tr:last-child td {
+    border-bottom: none;
+}
+
+.ml-table tr:hover {
+    background: #fdfdfd;
+}
+
+/* Meal Info Column */
+.ml-meal-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.ml-meal-img {
+    width: 48px;
+    height: 48px;
+    border-radius: 10px;
+    object-fit: cover;
+    background: #f1f5f9;
+    border: 1px solid var(--ml-border);
+}
+
+.ml-meal-name {
+    font-weight: 600;
+    color: var(--ml-text-primary);
+    font-size: 0.95rem;
+}
+
+.ml-meal-category {
+    font-size: 0.8rem;
+    color: var(--ml-text-secondary);
+}
+
+/* Price Column */
+.ml-price-badge {
+    background: #f1f5f9;
+    padding: 0.35rem 0.75rem;
+    border-radius: 20px;
+    font-weight: 600;
+    color: var(--ml-text-primary);
+    font-size: 0.9rem;
+    display: inline-block;
+}
+
+/* Actions Column */
+.ml-actions {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: flex-end;
+}
+
+.ml-action-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--ml-text-secondary);
+    transition: var(--ml-transition);
+    border: 1px solid transparent;
+    background: transparent;
+    cursor: pointer;
+}
+
+.ml-action-btn:hover {
+    background: #f1f5f9;
+    color: var(--ml-text-primary);
+}
+
+.ml-action-btn.view:hover {
+    background: #e0f2fe;
+    color: #0284c7;
+}
+
+.ml-action-btn.history:hover {
+    background: #ecfdf5;
+    color: #059669;
+}
+
+.ml-action-btn.delete:hover {
+    background: #fef2f2;
+    color: #dc2626;
+}
+
+/* ===== Empty State ===== */
+.ml-empty {
+    text-align: center;
+    padding: 5rem 2rem;
+    background: var(--ml-bg-card);
+    border-radius: var(--ml-radius);
+    border: 1px dashed var(--ml-border);
+}
+
+.ml-empty-icon {
+    font-size: 3rem;
+    color: var(--ml-text-light);
+    margin-bottom: 1rem;
+    opacity: 0.5;
+}
+
+.ml-empty h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--ml-text-primary);
+    margin: 0 0 0.5rem;
+}
+
+.ml-empty p {
+    color: var(--ml-text-secondary);
+    margin: 0 0 1.5rem;
+}
+
+/* ===== Responsive Mobile Card View ===== */
+.ml-mobile-grid {
+    display: none;
+    gap: 1rem;
+}
+
+.ml-mobile-card {
+    background: var(--ml-bg-card);
+    border: 1px solid var(--ml-border);
+    border-radius: var(--ml-radius);
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.ml-mobile-img {
+    width: 80px;
+    height: 80px;
+    border-radius: 12px;
+    object-fit: cover;
+}
+
+.ml-mobile-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.ml-mobile-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 0.5rem;
+}
+
+.ml-mobile-name {
+    font-weight: 600;
+    color: var(--ml-text-primary);
+    font-size: 1rem;
+    margin-bottom: 0.25rem;
+}
+
+.ml-mobile-price {
+    font-weight: 700;
+    color: var(--ml-primary);
+}
+
+.ml-mobile-actions {
+    display: flex;
+    gap: 0.75rem;
+    border-top: 1px solid var(--ml-border);
+    padding-top: 0.75rem;
+    margin-top: 0.75rem;
+}
+
+.ml-mobile-action {
+    flex: 1;
+    text-align: center;
+    padding: 0.5rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: none;
+    background: #f8fafc;
+    color: var(--ml-text-secondary);
+}
+
+/* Breakpoints */
+@media (max-width: 768px) {
+    .ml-page {
+        padding: 1rem;
+    }
+
+    .ml-header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 1rem;
+        padding: 1.25rem;
+        text-align: center;
+    }
+
+    .ml-header-info h1 {
+        justify-content: center;
+    }
+    
+    .ml-header-info p {
+        margin-left: 0;
+    }
+
+    .ml-add-btn {
+        justify-content: center;
+    }
+
+    .ml-table-container {
+        display: none;
+    }
+
+    .ml-mobile-grid {
+        display: flex;
+        flex-direction: column;
+    }
+}

@@ -1,4 +1,4 @@
-﻿<link href="~/css/homePag.css" rel="stylesheet" />
+﻿<link href="~/css/homepage.css" rel="stylesheet" asp-append-version="true" />
 
 <div class="mainSection">
     <section class="hero-section">
@@ -6,10 +6,10 @@
             <h2>Don't Wait Just...</h2>
             <div class="app-logo">
                 <img src="~/images/Logo/OtlobLogo.jpg" alt="App Logo" class="logo-image">
-            </div>           
+            </div>
             <div class="search-container">
                 <input type="text" id="searchInput" class="search-input" placeholder="Search for area, street name, landmark..." onkeyup="searchAddress()">
-                <button class="location-btn" onclick="getCurrentLocation()"><i class="fa-solid fa-location-crosshairs"></i></button>
+                <button class="location-btn" onclick="getCurrentLocation()"><i class="bi bi-crosshair"></i></button>
                 <button class="search-btn">Let's go</button>
                 <div id="results" class="results"></div>
                 <span id="error" class="error-msg"></span>
@@ -20,25 +20,25 @@
     <section class="main-content">
         <div class="container">
             <div class="content-grid">
-            <div class="content-card" onclick="goToUrl('@Url.Action("Index", "Home", new { area = SD.customer })')">
+                <div class="content-card" onclick="window.location.href='~/Customer/BecomeAPartner/BecomeAPartner">
                     <div class="card-image">
                         <img src="~/images/landing/pexels-brettjordan-825661.jpg" alt="Alternate Text" />
                     </div>
                     <div class="card-content">
                         <h2>Browse Restaurants</h2>
                         <p>Discover amazing restaurants near you. From fast food to fine dining, find exactly what you're craving.</p>
-                        <a asp-area="@SD.customer" asp-controller="Home" asp-action="Index" class="card-btn">Explore Now</a>
+                        <a asp-area="@DefaultRoles.Customer" asp-controller="Home" asp-action="Index" class="card-btn">Explore Now</a>
                     </div>
                 </div>
 
-                <div class="content-card" onclick="goToUrl('@Url.Action("BecomeAPartner", "BecomeAPartner", new { area = SD.customer })')">
+                <div class="content-card" onclick="~/Customer/Home/Index">
                     <div class="card-image">
                         <img src="~/images/landing/pexels-norma-mortenson-4393668.jpg" alt="Alternate Text" />
                     </div>
                     <div class="card-content">
                         <h2>Become a Partner</h2>
                         <p>Join our network of restaurant partners and grow your business with our delivery platform.</p>
-                    <a asp-area="@SD.customer" asp-controller="BecomeAPartner" asp-action="BecomeAPartner" class="card-btn">Register Now</a>
+                        <a asp-area="@DefaultRoles.Customer" asp-controller="BecomeAPartner" asp-action="BecomeAPartner" class="card-btn">Register Now</a>
                     </div>
                 </div>
 
@@ -92,9 +92,9 @@
             </div>
         </div>
     </section>
-    
-    <partial name="_FooterPartial"></partial>
+
+    <partial name="_footerPartial"></partial>
 </div>
 
 <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
-<script src="~/js/HomePag.js"></script>
+<script src="~/js/homePage.js" asp-append-version="true"></script>

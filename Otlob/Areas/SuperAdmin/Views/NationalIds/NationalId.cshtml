@@ -1,0 +1,171 @@
+﻿@model NationalIdResponse
+
+@{
+    ViewData["Title"] = "National ID Document";
+}
+
+<link rel="stylesheet" href="~/css/documents.css" />
+
+<div class="document-page-container">
+    <div class="document-page-wrapper">
+        <div class="document-header">
+            <div class="document-title-section">
+                <a class="back-btn" 
+                   asp-area="SuperAdmin"
+                   asp-controller="Restaurants" 
+                   asp-action="ResturantDetails" 
+                   asp-route-id="@Model.RestaurantId"
+                   title="Back to restaurant">
+                    <i class="fas fa-arrow-left"></i>
+                </a>
+                <div class="document-icon-wrapper">
+                    <i class="fas fa-id-card"></i>
+                </div>
+                <div class="document-title-group">
+                    <h1>National ID & Signature</h1>
+                    <p class="document-subtitle">Document Details & Management</p>
+                </div>
+            </div>
+            <div class="document-status-badge status-@Model.Status.ToString().ToLower()">
+                @if (Model.Status == DocumentStatus.Accepted)
+                {
+                    <i class="fas fa-check-circle"></i>
+                }
+                else if (Model.Status == DocumentStatus.Rejected)
+                {
+                    <i class="fas fa-times-circle"></i>
+                }
+                else
+                {
+                    <i class="fas fa-clock"></i>
+                }
+                @Model.Status
+            </div>
+        </div>
+
+        <div class="document-content-layout">
+            <div class="document-info-card">
+                <div class="document-card-header">
+                    <h2>
+                        <i class="fas fa-info-circle"></i>
+                        Document Information
+                    </h2>
+                </div>
+                <div class="document-card-body">
+                    <div class="document-info-grid">
+                        <div class="doc-info-item">
+                            <span class="doc-info-label">Full Name</span>
+                            <div class="doc-info-value">
+                                <i class="fas fa-user"></i>
+                                @Model.FullName
+                            </div>
+                        </div>
+                        <div class="doc-info-item">
+                            <span class="doc-info-label">National ID Number</span>
+                            <div class="doc-info-value">
+                                <i class="fas fa-hashtag"></i>
+                                @Model.NationalIdNumber
+                            </div>
+                        </div>
+                        <div class="doc-info-item">
+                            <span class="doc-info-label">Expiry Date</span>
+                            <div class="doc-info-value">
+                                <i class="fas fa-calendar-times"></i>
+                                @Model.NationalIdExpiryDate.ToString("MMM dd, yyyy")
+                            </div>
+                        </div>                        
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <div class="file-preview-card">
+                    <h3>
+                        <i class="fas fa-id-card"></i>
+                        National ID Card
+                    </h3>
+                    <div class="file-icon-display">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <div class="file-name-display">
+                        @Model.NationalIdCard.FileName
+                    </div>
+                    <div class="file-actions-group">
+                        <a asp-area="SuperAdmin"
+                           asp-controller="Documents" 
+                           asp-action="Download" 
+                           asp-route-id="@Model.NationalIdCard.Id"
+                           class="btn-file-action btn-download">
+                            <i class="fas fa-download"></i>
+                            Download
+                        </a>
+                    </div>
+                </div>
+
+                <div class="file-preview-card">
+                    <h3>
+                        <i class="fas fa-signature"></i>
+                        Signature Image
+                    </h3>
+                    <div class="file-icon-display">
+                        <i class="fas fa-image"></i>
+                    </div>
+                    <div class="file-name-display">
+                        @Model.SignatureImage.FileName
+                    </div>
+                    <div class="file-actions-group">
+                        <a asp-area="SuperAdmin"
+                           asp-controller="Documents" 
+                           asp-action="Download" 
+                           asp-route-id="@Model.SignatureImage.Id"
+                           class="btn-file-action btn-download">
+                            <i class="fas fa-download"></i>
+                            Download
+                        </a>
+                    </div>
+                </div>
+
+                <div class="status-actions-card">
+                    <h3>
+                        <i class="fas fa-tasks"></i>
+                        Change Status
+                    </h3>
+                    <div class="status-buttons-group">
+                        @foreach (var status in Enum.GetValues<DocumentStatus>())
+                        {
+                            @if (status != Model.Status)
+                            {
+                                <a asp-area="SuperAdmin"
+                                   asp-controller="NationalIds"
+                                   asp-action="ChangeNationalIdDocumentStatus" 
+                                   asp-route-id="@Model.Id"
+                                   asp-route-status="@status"
+                                   asp-route-restaurantId="@Model.RestaurantId"
+                                   class="btn-status-action @(status == DocumentStatus.Accepted ? "btn-accept" : status == DocumentStatus.Rejected ? "btn-reject" : "btn-pending")">
+                                    @if (status == DocumentStatus.Accepted)
+                                    {
+                                        <i class="fas fa-check"></i>
+                                    }
+                                    else if (status == DocumentStatus.Rejected)
+                                    {
+                                        <i class="fas fa-times"></i>
+                                    }
+                                    else
+                                    {
+                                        <i class="fas fa-clock"></i>
+                                    }
+                                    @status.ToString()
+                                </a>
+                            }
+                        }
+                    </div>                    
+                </div>                
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_NotificationPartial"></partial>
+    <script src="~/js/documents.js"></script>
+}

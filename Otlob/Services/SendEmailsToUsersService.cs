@@ -6,71 +6,75 @@ public class SendEmailsToUsersService(IMailService mailService) : ISendEmailsToU
 
     public async Task ConfirmEmailAsync(string callBackUrl, ApplicationUser user)
     {
-        string emailTemplate = await File.ReadAllTextAsync(Path.Combine(Directory.GetCurrentDirectory(),
-            "wwwroot", "templates", "email-confirmation.html"));
-
-        string emailBody = emailTemplate
-            .Replace("{{USERNAME}}", user.UserName ?? "User")
-            .Replace("{{EMAIL}}", user.Email)
-            .Replace("{{RESET_URL}}", HtmlEncoder.Default.Encode(callBackUrl!));
+        string emailBody = await EmailBodyBulder.BuildEmailBodyAsync("email-confirmation",
+        new Dictionary<string, string>
+            {
+                {"{{USERNAME}}", user.UserName ?? "User"},
+                {"{{EMAIL}}", user.Email!},
+                {"{{CONFIRMATION_URL}}", callBackUrl}
+            }
+        );       
 
         await _mailService.SendEmailAsync(user.Email!, "Confirm Your Email - Otlob", emailBody);
     }
 
-    public async Task WhenCreateAccountAsync(ApplicationUser user)
+    public async Task WhenCreateUserAccountAsync(ApplicationUser user)
     {
         const decimal minOrderAmount = 150m;
 
-        string emailTemplate = await File.ReadAllTextAsync(Path.Combine(Directory.GetCurrentDirectory(),
-            "wwwroot", "templates", "create-account.html"));
+        var placeHolders = new Dictionary<string, string>
+        {
+            { "{{USERNAME}}", user.UserName ?? "User" },
+            { "{{EMAIL}}", user.Email! },
+            { "{{PHONE}}", user.PhoneNumber! },
+            { "{{DATE}}", DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss tt") },
+            { "{{MIN_ORDER_AMOUNT}}", minOrderAmount.ToString() }
+        };
 
-        string emailBody = emailTemplate
-            .Replace("{{EMAIL}}", user.Email)
-            .Replace("{{USERNAME}}", user.UserName)
-            .Replace("{{PHONE}}", user.PhoneNumber)
-            .Replace("{{DATE}}", DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss tt"))
-            .Replace("{{MIN_ORDER_AMOUNT}}", minOrderAmount.ToString());
+        string emailBody = await EmailBodyBulder.BuildEmailBodyAsync("create-user-account",placeHolders);
 
         await _mailService.SendEmailAsync(user.Email!, $"Welcome {user.UserName}", emailBody);
     }
 
-
     public async Task WhenCahngeHisPasswordAsync(ApplicationUser user)
     {
-        string emailTemplate = await File.ReadAllTextAsync(Path.Combine(Directory.GetCurrentDirectory(),
-            "wwwroot", "templates", "password-changged-.confirmation.html"));
-
-        string emailBody = emailTemplate
-            .Replace("{{EMAIL}}", user.Email)
-            .Replace("{{USERNAME}}", user.UserName)
-            .Replace("{{DATE}}", DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss tt"));
+        string emailBody = await EmailBodyBulder.BuildEmailBodyAsync("password-changged-confirmation",
+         new Dictionary<string, string>
+             {
+                {"{{USERNAME}}", user.UserName ?? "User"},
+                {"{{EMAIL}}", user.Email!},
+                {"{{DATE}}", DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss tt")}
+             }
+        );
 
         await _mailService.SendEmailAsync(user.Email!, "Your Passwor Was Changed", emailBody);
     }
 
-    public async Task WhenForgetHisPasswordAsync(string callBackUrl, ApplicationUser user, ForgetPasswordVM forgetPasswordVM)
+    public async Task WhenForgetHisPasswordAsync(string callBackUrl, ApplicationUser user)
     {
-        string emailTemplate = await File.ReadAllTextAsync(Path.Combine(Directory.GetCurrentDirectory(),
-            "wwwroot", "templates", "password-reset-email.html"));
+        var placeHolders = new Dictionary<string, string>
+                {
+                    {"{{USERNAME}}", user.UserName ?? "User"},
+                    {"{{EMAIL}}", user.Email!},
+                    {"{{RESET_URL}}", callBackUrl}
+                };
 
-        string emailBody = emailTemplate
-            .Replace("{{USERNAME}}", user.UserName ?? "User")
-            .Replace("{{EMAIL}}", user.Email)
-            .Replace("{{RESET_URL}}", HtmlEncoder.Default.Encode(callBackUrl!));
+        string emailBody = await EmailBodyBulder.BuildEmailBodyAsync("reset-password", placeHolders);        
 
-        await _mailService.SendEmailAsync(forgetPasswordVM.Email, "Reset Your Password - Otlob", emailBody);
+        await _mailService.SendEmailAsync(user.Email!, "Reset Your Password - Otlob", emailBody);
     }
 
-    public void WhenHisOrderIsDelivered(ApplicationUser userCntactInfo, int orderId)
-    {            
-        string emailTemplate = File.ReadAllTextAsync(Path.Combine(Directory.GetCurrentDirectory(),
-            "wwwroot", "templates", "userOrder-delivered-email.html")).GetAwaiter().GetResult();
+    public void WhenHisOrderIsDelivered(ApplicationUser user, int orderId)
+    {
+        string emailBody = EmailBodyBulder.BuildEmailBodyAsync("userOrder-delivered-email",
+            new Dictionary<string, string>
+                {
+                    {"{{USERNAME}}", user.UserName ?? "User"},
+                    {"{{EMAIL}}", user.Email!},
+                    {"{{ORDER_ID}}", orderId.ToString()}
+                }
+            ).GetAwaiter().GetResult();        
 
-        string emailBody = emailTemplate
-            .Replace("{{USERNAME}}", userCntactInfo.UserName)
-            .Replace("{{EMAIL}}", userCntactInfo.Email)
-            .Replace("{{ORDER_ID}}", orderId.ToString());
-
-        _mailService.SendEmailAsync(userCntactInfo.Email!, "Enjoy Your Order - Otlob", emailBody).GetAwaiter().GetResult();
+        _mailService.SendEmailAsync(user.Email!, "Enjoy Your Order - Otlob", emailBody).GetAwaiter().GetResult();
     }
 }

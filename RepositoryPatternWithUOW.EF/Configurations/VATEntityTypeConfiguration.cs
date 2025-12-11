@@ -9,7 +9,14 @@ public class VATEntityTypeConfiguration : IEntityTypeConfiguration<VAT>
 
         builder
             .Property(v => v.VatNumber)
-            .HasMaxLength(20);
+            .HasMaxLength(9);
+
+        builder
+            .Property(v => v.Status)
+            .HasConversion(
+                v => v.ToString(),
+                v => Enum.Parse<DocumentStatus>(v)
+            );
 
         builder
             .HasIndex(tm => new { tm.RestaurantId, tm.VatNumber })

@@ -26,6 +26,6 @@
         void SoftDelete(Expression<Func<T, bool>> expression);
         void UnSoftDelete(Expression<Func<T, bool>> expression);
         void HardDelete(T entity);
-        bool IsExist(Expression<Func<T, bool>> expression);
+        bool IsExist(Expression<Func<T, bool>> expression, bool ignoreQueryFilter = false);
     }
 }

@@ -2,7 +2,7 @@
 
 public interface IUserProfileService
 {
-    Task<Result<ProfileVM>> GetUserProfileVmDetails(string userId);
-    Task<Result> UpdateUserProfileAsync(ProfileVM profileVM, string userId);
+    Task<Result<UserProfile>> GetUserProfileDetails(string userId);
+    Task<Result> UpdateUserProfileAsync(UserProfile request, string userId);
     Task<Result> UpdateUserProfilePictureAsync(string userId, IFormFile image);
 }

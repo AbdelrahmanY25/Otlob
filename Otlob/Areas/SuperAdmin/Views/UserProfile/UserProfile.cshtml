@@ -1,11 +1,8 @@
-﻿@using Otlob.Core.Contracts.ViewModel
-@model ProfileVM
+﻿@model UserProfile
 
 @inject IEncryptionService encryptionService
 
-@section Profile {
-    <partial name="_ProfilePartial"></partial>
-}
+<link rel="stylesheet" href="/css/profileAccount.css" asp-append-version="true" />
 
 <div class="profile">
     <div class="info">

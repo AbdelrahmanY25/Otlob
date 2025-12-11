@@ -1,17 +1,9 @@
-﻿@using Otlob.Core.Contracts.Restaurant
-@model RestaurantVM
+﻿@model RestaurantProfile;
 
-@section Profile {
-    <partial name="_ProfilePartial"></partial>
-}
+<link rel="stylesheet" href="/css/profileAccount.css" asp-append-version="true" />
 
 <div class="profile">
     <div class="info">
-        <div class="home">
-            <a href="/SuperAdmin/Restaurants/ResturantDetails/@Model.Key">Back </a>
-            <span>></span>
-            <span>Account</span>
-        </div>
         <h2>Resturant Account</h2>
     </div>
 
@@ -20,55 +12,44 @@
     <div class="links">
         <a href="#" class="active">Account Info</a>
     </div>
+    <div class="profile-content">
+        <form class="profile-form picture-form" asp-action="EditRestaurantProfilePicture" enctype="multipart/form-data">
+            <div class="pic">
+                <i class="edit-icon" onclick="triggerFileInput()" title="Edit Profile Picture">&#9998;</i>
+                <img id="profilePicture" alt="Profile" src="/images/@(Model.Image is not null ? Model.Image : "Default.jpg")" />
+                <input class="hidden-file-input"
+                       id="fileInput"
+                       type="file"
+                       accept="image/*"
+                       name="image"
+                       asp-for="Image"
+                       onchange="document.getElementById('profilePicture').src = window.URL.createObjectURL(this.files[0]);" />
+            </div>
 
-    <form asp-action="EditRestaurantProfilePicture" enctype="multipart/form-data">
-        <div class="pic">
-            <i class="edit-icon" onclick="triggerFileInput()" title="Edit Profile Picture">&#9998;</i>
-            <img id="profilePicture" alt="Profile" src="/images/@(Model.Image is not null ? Model.Image : "Default.jpg")" />            
-            <input class="hidden-file-input"
-                   id="fileInput"
-                   type="file"
-                   accept="image/*"
-                   name="image"
-                   asp-for="Image"
-                   onchange="document.getElementById('profilePicture').src = window.URL.createObjectURL(this.files[0]);" />
-        </div>
+            <button type="submit">Update Resturan picture</button>
+        </form>
 
-        <button type="submit">Update Resturan picture</button>
-    </form>
+        <form class="profile-form" asp-action="EditRestaurantProfile">
+            <div asp-validation-summary="All" class="text-danger mb-5"></div>
+            <div class="field">
+                <input asp-for="Name" value="@Model.Name" placeholder="Business name" />
+            </div>
 
-    <form asp-action="EditRestaurantProfile">
-        <div asp-validation-summary="All" class="text-danger mb-4"></div>
-        <div class="field">
-            <label asp-for="Name"></label>
-            <input asp-for="Name" value="@Model.Name" />
-        </div>
-        <div class="field">
-            <label asp-for="Address"></label>
-            <input asp-for="Address" value="@Model.Address" />
-        </div>
-        <div class="field">
-            <label asp-for="Email"></label>
-            <input asp-for="Email" value="@Model.Email" />
-        </div>
-        <div class="field">
-            <label asp-for="Phone"></label>
-            <input asp-for="Phone" value="@Model.Phone" />
-        </div>
-        <div class="field">
-            <label asp-for="Description"></label>
-            <input asp-for="Description" value="@Model.Description" />
-        </div>       
-        <div class="field">
-            <label asp-for="DeliveryFee"></label>
-            <input asp-for="DeliveryFee" />
-        </div>
-        <div class="field">
-            <label asp-for="DeliveryDuration"></label>
-            <input asp-for="DeliveryDuration" />
-        </div>
-        <button type="submit">Update Resturan info</button>
-    </form>
+            <div class="field">
+                <input asp-for="Email" value="@Model.Email" placeholder="Business email" />
+            </div>
+
+            <div class="field">
+                <input asp-for="Phone" value="@Model.Phone" placeholder="Phone" />
+            </div>
+
+            <div class="field">
+                <input asp-for="Description" value="@Model.Description" placeholder="Description" />
+            </div>            
+
+            <button type="submit">Update Resturan info</button>
+        </form>
+    </div>
 </div>
 
 <script>
@@ -76,7 +57,6 @@
         document.getElementById("fileInput").click();
     }
 </script>
-
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial"></partial>

@@ -1,6 +1,6 @@
 ﻿namespace Otlob.Areas.SuperAdmin.Controllers;
 
-[Area(SD.superAdminRole), Authorize(Roles = SD.superAdminRole)]
+[Area(DefaultRoles.SuperAdmin), Authorize(Roles = DefaultRoles.SuperAdmin)]
 public class UsersAnalysisController(IUsersAnalysisService usersAnalysisService) : Controller
 {       
     private readonly IUsersAnalysisService _usersAnalysisService = usersAnalysisService;

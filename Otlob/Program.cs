@@ -1,3 +1,5 @@
+using Serilog;
+
 namespace Otlob;
 
 public class Program
@@ -6,7 +8,11 @@ public class Program
     {
         var builder = WebApplication.CreateBuilder(args);
        
-        builder.Services.AddDenpendencies(builder.Configuration);                                                         
+        builder.Services.AddDenpendencies(builder.Configuration);
+
+        builder.Host.UseSerilog((context, configuration) =>
+            configuration.ReadFrom.Configuration(context.Configuration)
+        );
 
         var app = builder.Build();
 
@@ -16,10 +22,6 @@ public class Program
         }
 
         app.UseExceptionHandler("/customer/Home/Error");
-
-        app.UseRateLimittingMiddleware();
-
-        app.UseRequestTimeMiddleware();
 
         app.UseHttpsRedirection();
         
@@ -49,11 +51,13 @@ public class Program
             DarkModeEnabled = true
         });
 
+        app.UseRateLimiter();
+
         app.MapHub<OrdersHub>("/orderHub");
 
         app.MapControllerRoute(
             name: "default",
-            pattern: "{area=Otlob}/{controller=Home}/{action=Home}"
+            pattern: "{area=Customer}/{controller=Home}/{action=Home}"
         );
 
         app.Run();

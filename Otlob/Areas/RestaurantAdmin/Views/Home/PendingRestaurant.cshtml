@@ -1,0 +1,95 @@
+﻿@model PendingRestaurantResponse
+
+@{
+    ViewData["Title"] = "Restaurant Pending Approval";
+}
+
+<link rel="stylesheet" href="~/css/pendingRestaurant.css" asp-append-version="true" />
+
+<div class="pending-restaurant-container">
+    <div class="pending-restaurant-wrapper">
+        <div class="pending-header">
+            <div class="pending-header-icon">
+                <i class="fas fa-hourglass-half"></i>
+            </div>
+            <h1 class="pending-title">Restaurant Pending Approval</h1>
+            <p class="pending-subtitle">Your restaurant is currently under review. While you wait, you can start setting up your branches and menu.</p>
+        </div>
+
+        <div class="pending-status-section">
+            <div class="pending-status-badge">
+                <i class="fas fa-spinner"></i>
+                <span>Pending Review</span>
+            </div>
+        </div>
+
+        <div class="pending-info-message">
+            <i class="fas fa-info-circle"></i>
+            <p>
+                Our team is reviewing your submitted documents. This process usually takes 1-3 business days. 
+                In the meantime, you can add your restaurant branches and create your menu items. 
+                Once approved, your restaurant will be visible to customers immediately.
+            </p>
+        </div>
+
+        <div class="pending-actions-grid">
+            <a asp-area="@DefaultRoles.RestaurantAdmin" 
+               asp-controller="Branches" 
+               asp-action="Branches"
+               class="pending-action-card branches-card">
+                <div class="pending-card-icon branches-icon">
+                    <i class="fas fa-map-marker-alt"></i>
+                </div>
+                <h3 class="pending-card-title">Manage Branches</h3>
+                <p class="pending-card-description">
+                    Add and manage your restaurant branches. Set up locations, addresses, and operating hours for each branch.
+                </p>
+                <span class="pending-card-action">
+                    <i class="fas fa-plus"></i>
+                    Add Branches
+                </span>
+            </a>
+
+            <a asp-area="@DefaultRoles.RestaurantAdmin" 
+               asp-controller="Menu" 
+               asp-action="Menu" 
+               class="pending-action-card meals-card">
+                <div class="pending-card-icon meals-icon">
+                    <i class="fas fa-utensils"></i>
+                </div>
+                <h3 class="pending-card-title">Manage Menu</h3>
+                <p class="pending-card-description">
+                    Create your restaurant menu by adding meals, categories, prices, and descriptions for your dishes.
+                </p>
+                <span class="pending-card-action">
+                    <i class="fas fa-plus"></i>
+                    Add Meals
+                </span>
+            </a>
+        </div>
+
+        <div class="pending-restaurant-info">
+            <img class="pending-restaurant-logo" 
+                 src="/images/@(Model.Image ?? "Default.jpg")" 
+                 alt="@Model.Name Logo"
+                 onerror="this.src='/images/Default.jpg'" />
+            <div class="pending-restaurant-details">
+                <h2 class="pending-restaurant-name">@Model.Name</h2>
+                <div class="pending-restaurant-meta">
+                    <span class="pending-meta-item">
+                        <i class="fas fa-tasks"></i>
+                        Progress: @Model.ProgressStatus
+                    </span>
+                    <span class="pending-meta-item">
+                        <i class="fas fa-info-circle"></i>
+                        Status: @Model.AcctiveStatus
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_NotificationPartial"></partial>
+}

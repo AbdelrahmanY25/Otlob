@@ -1,33 +1,68 @@
 ﻿namespace Otlob.Areas.Customer.Controllers;
 
-[Area(SD.customer)]
-public class AccountController(ISendEmailsToUsersService sendEmailsToUsersService, UserManager<ApplicationUser> userManager,
-                               IAuthService authService) : Controller
+[Area(DefaultRoles.Customer), EnableRateLimiting(RateLimiterPolicy.IpLimit)]
+public class AccountController(IAuthService authService) : Controller
 {
-    private readonly ISendEmailsToUsersService _sendEmailsToUsersService = sendEmailsToUsersService;
-    private readonly UserManager<ApplicationUser> _userManager = userManager;
     private readonly IAuthService _authService = authService;
 
     public IActionResult Register() => View();
 
     [HttpPost, ValidateAntiForgeryToken]
-    public async Task<IActionResult> Register(ApplicationUserVM userVM)
+    public async Task<IActionResult> Register(RegisterRequest request)
     {
         if (!ModelState.IsValid)
         {
-            return View(userVM);
+            return View(request);
         }
 
-        var result = await _authService.RegisterAsync(userVM, [SD.customer]);
+        var result = await _authService.RegisterAsync(request, [DefaultRoles.Customer]);
 
         if (result.IsFailure)
         {
-            ModelState.AddModelError(result.Error.Code, result.Error.Description);
-            
-            return View(userVM);
+            TempData["Error"] = result.Error.Description;
+            return View(request);
         }
 
-        return RedirectToAction("Index", "Home", new { Area = SD.customer });
+        return RedirectToAction(nameof(EmailConfirmation));
+    }
+
+    public IActionResult EmailConfirmation() => View();
+
+    public async Task<IActionResult> ConfirmEmail([FromQuery] ConfirmEmailRequest request)
+    {
+        if (string.IsNullOrWhiteSpace(request.UserId) || string.IsNullOrWhiteSpace(request.Token))
+        {
+            return RedirectToAction(nameof(Login));
+        }
+        var result = await _authService.ConfirmEmailAsync(request);
+
+        if (result.IsFailure)
+        {
+            return RedirectToAction(nameof(Login));
+        }
+
+        return RedirectToAction(nameof(Login));
+    }
+
+    public IActionResult ResendEmailConfirmation() => View();
+
+    [HttpPost, ValidateAntiForgeryToken]
+    public async Task<IActionResult> ResendEmailConfirmation(ResendEmailConfirmationRequest request)
+    {
+        if (!ModelState.IsValid)
+        {
+            return View(request);
+        }
+
+        var result = await _authService.ResendEmailConfirmationAsync(request);
+        
+        if (result.IsFailure)
+        {
+            TempData["Error"] = result.Error.Description;
+            return View(request);
+        }
+
+        return RedirectToAction(nameof(EmailConfirmation));
     }
 
     public async Task<IActionResult> Login()
@@ -38,19 +73,19 @@ public class AccountController(ISendEmailsToUsersService sendEmailsToUsersServic
     }
 
     [HttpPost, ValidateAntiForgeryToken]
-    public async Task<IActionResult> Login(LoginVM loginVM)
+    public async Task<IActionResult> Login(LoginRequest request)
     {
         if (!ModelState.IsValid)
         {
-            return View(loginVM);
+            return View(request);
         }
 
-        var result = await _authService.LoginAsync(loginVM);
+        var result = await _authService.LoginAsync(request);
 
         if (result.IsFailure)
         {
-            ModelState.AddModelError(result.Error.Code, result.Error.Description!);
-            return View(loginVM);
+            TempData["Error"] = result.Error.Description;
+            return View(request);
         }
 
         return RedirectToAction("Index", "Home", new { Area = result.Value! });
@@ -59,43 +94,42 @@ public class AccountController(ISendEmailsToUsersService sendEmailsToUsersServic
     public IActionResult ForgetPassword() => View();
 
     [HttpPost, ValidateAntiForgeryToken]
-    public async Task<IActionResult> ForgetPassword(ForgetPasswordVM forgetPasswordVM)
+    public async Task<IActionResult> ForgetPassword(ForgetPasswordRequest request)
     {
         if (!ModelState.IsValid)
         {
-            return View(forgetPasswordVM);
+            return View(request);
         }
 
-        ApplicationUser user = (await _userManager.FindByEmailAsync(forgetPasswordVM.Email))!;
-           
-        var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+        var result = await _authService.ForgetPasswordAsync(request);
 
-        var callbackUrl = Url.Action(nameof(ResetPassword), "Account",
-                new { token, email = forgetPasswordVM.Email }, Request.Scheme);
-
-        BackgroundJob.Enqueue(() => _sendEmailsToUsersService.WhenForgetHisPasswordAsync(callbackUrl!, user, forgetPasswordVM));
+        if (result.IsFailure)
+        {
+            TempData["Error"] = result.Error.Description;
+            return View(request);
+        }
 
         return RedirectToAction(nameof(ForgetPasswordConfirmation));
     }
 
     public IActionResult ForgetPasswordConfirmation() => View();
 
-    public IActionResult ResetPassword(string token, string email) => View(new ResetPasswordVM { Email = email, Token = token });
+    public IActionResult ResetPassword(string token, string email) => View(new ResetPasswordRequest { Email = email, Token = token });
 
     [HttpPost, ValidateAntiForgeryToken]
-    public async Task<IActionResult> ResetPassword(ResetPasswordVM model)
+    public async Task<IActionResult> ResetPassword(ResetPasswordRequest request)
     {
         if (!ModelState.IsValid)
         {
-            return View(model);
+            return View(request);
         }
             
-        Result result = await _authService.ResetPasswordAsync(model);
+        Result result = await _authService.ResetPasswordAsync(request);
 
         if (result.IsFailure)
         {
-            ModelState.AddModelError(result.Error.Code, result.Error.Description!);
-            return View(model);
+            TempData["Error"] = result.Error.Description;
+            return View(request);
         }
 
         return RedirectToAction(nameof(Login));
@@ -106,18 +140,18 @@ public class AccountController(ISendEmailsToUsersService sendEmailsToUsersServic
 
     [Authorize]
     [HttpPost, ValidateAntiForgeryToken]
-    public async Task<IActionResult> ChangePassword(ChangePasswordVM passwordVM)
+    public async Task<IActionResult> ChangePassword(ChangePasswordRequest request)
     {
-        var result = await _authService.ChangePasswordAsync(passwordVM);
+        var result = await _authService.ChangePasswordAsync(request);
 
         if (result.IsFailure)
         {
-            ModelState.AddModelError(result.Error.Code, result.Error.Description!);
-            return View(passwordVM);
+            TempData["Error"] = result.Error.Description;
+            return View(request);
         }
             
-        TempData["Success"] = result.Value;
-        return RedirectToAction("UserProfile", "UserProfile");           
+        TempData["Success"] = "Your password updated succefully";
+        return RedirectToAction("UserProfile", "UserProfile");         
     }
 
     [Authorize]

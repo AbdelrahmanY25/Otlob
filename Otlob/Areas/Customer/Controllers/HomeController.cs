@@ -1,6 +1,6 @@
 namespace Otlob.Areas.Customer.Controllers;
 
-[Area(SD.customer)]
+[Area(DefaultRoles.Customer), EnableRateLimiting(RateLimiterPolicy.IpLimit)]
 public class HomeController(ILogger<HomeController> logger, IRestaurantService restaurantService,
                       IMealService mealService, IDataProtectionProvider dataProtectionProvider) : Controller
 {
@@ -8,6 +8,8 @@ public class HomeController(ILogger<HomeController> logger, IRestaurantService r
     private readonly IRestaurantService _restaurantService = restaurantService;
     private readonly IMealService _mealService = mealService;
     private readonly IDataProtector _dataProtector = dataProtectionProvider.CreateProtector("SecureData");
+
+    public IActionResult Home() => View("HomePage");
 
     public IActionResult Index(Category? filter = null)
     {

@@ -1,34 +1,19 @@
 ﻿namespace Otlob.Services;
 
-public class UserProfileService(UserManager<ApplicationUser> userManager, IMapper mapper,
-                                IImageService imageService, IUnitOfWorkRepository unitOfWorkRepository) : IUserProfileService
+public class UserProfileService(UserManager<ApplicationUser> userManager, IFileService imageService) : IUserProfileService
 {
-    private readonly IMapper _mapper = mapper;
-    private readonly IImageService _imageService = imageService;
+    private readonly IFileService _imageService = imageService;
     private readonly UserManager<ApplicationUser> _userManager = userManager;
-    private readonly IUnitOfWorkRepository _unitOfWorkRepository = unitOfWorkRepository;
 
-    public async Task<Result<ProfileVM>> GetUserProfileVmDetails(string userId)
+    public async Task<Result<UserProfile>> GetUserProfileDetails(string userId)
     {
-        if (userId is null)
-        {
-            return Result.Failure<ProfileVM>(AuthenticationErrors.InvalidUser);
-        }
-
-        bool isUserIdExist = await _userManager.Users.AnyAsync(u => u.Id == userId);
-
-        if (!isUserIdExist)
-        {
-            return Result.Failure<ProfileVM>(AuthenticationErrors.InvalidUser);
-        }
-
-        ProfileVM userProfile = _unitOfWorkRepository.Users
-           .GetOneWithSelect
-            (
-                expression: u => u.Id == userId,
-                tracked: false,
-                selector: u => new ProfileVM
+        UserProfile response = await _userManager.Users
+            .Where(u => u.Id == userId)
+            .AsNoTracking()
+            .Select(
+                u => new UserProfile
                 {
+                    UserName = u.UserName!,
                     Email = u.Email!,
                     FirstName = u.FirstName,
                     LastName = u.LastName,
@@ -37,77 +22,49 @@ public class UserProfileService(UserManager<ApplicationUser> userManager, IMappe
                     PhoneNumber = u.PhoneNumber!,
                     Image = u.Image
                 }
-            )!;
+             )
+            .SingleAsync();
 
-        return Result.Success(userProfile);
+        return Result.Success(response);
     }
 
-    public async Task<Result> UpdateUserProfileAsync(ProfileVM profileVM, string userId)
+    public async Task<Result> UpdateUserProfileAsync(UserProfile request, string userId)
     {
-        if (userId is null)
+        Result isValidPhone = await ValidateUserProfileForUpdateAsync(request, userId);
+        
+        if (isValidPhone.IsFailure)
         {
-            return Result.Failure(AuthenticationErrors.InvalidUser);
+            return isValidPhone;
         }
 
-        bool isUserIdExist = await _userManager.Users.AnyAsync(u => u.Id == userId);
-
-        if (!isUserIdExist)
-        {
-            return Result.Failure(AuthenticationErrors.InvalidUser);
-        }
-
-        ApplicationUser user = (await _userManager.FindByIdAsync(userId))!;
-
-        bool noChanges = ThereIsNewData(user!, profileVM);
-
-        if (noChanges)
-        {
-            return Result.Failure(AuthenticationErrors.NoNewData);
-        }
-
-        Result validData = await ValidateOnUserData(user, profileVM);
-
-        if (validData.IsFailure)
-        {
-            return validData;
-        }
-
-        _mapper.Map(profileVM, user);
-
-        var updateResult = await _userManager.UpdateAsync(user!);
-
-        if (!updateResult.Succeeded)
-        {
-            return Result.Failure(AuthenticationErrors.InvalidRegistration(string.Join(", ", updateResult.Errors.Select(e => e.Description))));
-        }
+        await _userManager.Users
+            .Where(u => u.Id == userId)
+            .ExecuteUpdateAsync(s =>
+                s.SetProperty(u => u.FirstName, request.FirstName)
+                   .SetProperty(u => u.LastName, request.LastName)
+                   .SetProperty(u => u.PhoneNumber, request.PhoneNumber)
+                   .SetProperty(u => u.BirthDate, request.BirthDate)
+                   .SetProperty(u => u.Gender, request.Gender)
+            );
 
         return Result.Success();
-    }
+    }    
 
     public async Task<Result> UpdateUserProfilePictureAsync(string userId, IFormFile image)
     {
-        if (userId is null)
-        {
-            return Result.Failure(AuthenticationErrors.InvalidUser);
-        }
-
-        bool isUserIdExist = await _userManager.Users.AnyAsync(u => u.Id == userId);
-
-        if (!isUserIdExist)
-        {
-            return Result.Failure(AuthenticationErrors.InvalidUser);
-        }
-
-        var isImageUploaded = _imageService.UploadImage(image!);
+       var isImageUploaded = _imageService.UploadImage(image!);
 
         if (isImageUploaded.IsFailure)
         {
             return isImageUploaded;
         }
 
-        ApplicationUser user = (await _userManager.FindByIdAsync(userId))!;
+        string? userImage = await _userManager.Users
+            .Where(u => u.Id == userId)
+            .Select(u => u.Image!)
+            .FirstOrDefaultAsync();
 
-        var isOldImageDeleted = _imageService.DeleteImageIfExist(user.Image!);
+        var isOldImageDeleted = _imageService.DeleteImageIfExist(userImage);
 
         if (isOldImageDeleted.IsFailure)
         {
@@ -115,31 +72,22 @@ public class UserProfileService(UserManager<ApplicationUser> userManager, IMappe
             return isOldImageDeleted;
         }
 
-        user.Image = isImageUploaded.Value;
-
-        _unitOfWorkRepository.Users.ModifyProperty(user, u => u.Image!);
-
-        _unitOfWorkRepository.SaveChanges();
+        await _userManager.Users
+            .Where(u => u.Id == userId)
+            .ExecuteUpdateAsync(s =>
+                s.SetProperty(u => u.Image, isImageUploaded.Value)
+            );
 
         return Result.Success(isImageUploaded.Value);
     }
 
-
-    private static bool ThereIsNewData(ApplicationUser user, ProfileVM profileVM)
+    private async Task<Result> ValidateUserProfileForUpdateAsync(UserProfile request, string userId)
     {
-        return profileVM.Email == user.Email && profileVM.FirstName == user.FirstName &&
-                profileVM.LastName == user.LastName && profileVM.Gender == user.Gender &&
-                profileVM.PhoneNumber == user.PhoneNumber && profileVM.BirthDate == user.BirthDate;
-    }
+        bool isPhoneNumberExists = await _userManager.Users
+                    .AnyAsync(u => u.PhoneNumber == request.PhoneNumber && u.Id != userId);
 
-    private async Task<Result> ValidateOnUserData(ApplicationUser user, ProfileVM profileVM)
-    {
-        bool isEmailExist = await _userManager.Users.AnyAsync(u => u.Email == profileVM.Email);
-
-        if (isEmailExist && user!.Email != profileVM.Email)
-        {
-            return Result.Failure(AuthenticationErrors.InvalidUserEmail(profileVM.Email));
-        }
+        if (isPhoneNumberExists)
+            return Result.Failure(AuthenticationErrors.DoublicatedPhoneNumber);
 
         return Result.Success();
     }

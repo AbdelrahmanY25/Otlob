@@ -1,61 +1,48 @@
-﻿using Otlob.Core.Contracts.ViewModel;
+﻿namespace Otlob.Areas.Customer.Controllers;
 
-namespace Otlob.Areas.Customer.Controllers
+[Area(DefaultRoles.Customer), Authorize(Roles = DefaultRoles.Customer)]
+public class OrdersHistoryController(IOrderDetailsService orderDetailsService, IOrderService orderService,
+                               UserManager<ApplicationUser> userManager, IPaginationService paginationService) : Controller
 {
-    [Area("Customer")]
-    public class OrdersHistoryController : Controller
+    private readonly IOrderService orderService = orderService;
+    private readonly IPaginationService paginationService = paginationService;
+    private readonly IOrderDetailsService orderDetailsService = orderDetailsService;
+    private readonly UserManager<ApplicationUser> userManager = userManager;
+
+    private const int pageSize = 5;
+
+    public ActionResult TrackOrders(int currentPageNumber = 1)
     {
-        private readonly IOrderService orderService;
-        private readonly IPaginationService paginationService;
-        private readonly IOrderDetailsService orderDetailsService;
-        private readonly UserManager<ApplicationUser> userManager;
+        string? userId = userManager.GetUserId(User);
 
-        private const int pageSize = 5;
-
-        public OrdersHistoryController(IOrderDetailsService orderDetailsService,
-                                       IOrderService orderService,
-                                       UserManager<ApplicationUser> userManager,
-                                       IPaginationService paginationService)
+        if (userId is null)
         {
-            this.orderDetailsService = orderDetailsService;
-            this.orderService = orderService;
-            this.userManager = userManager;
-            this.paginationService = paginationService;
+            return RedirectToAction("Login", "Account");
         }
 
-        public ActionResult TrackOrders(int currentPageNumber = 1)
+        var orders = orderService.GetUserTrackedOrders(userId);
+
+        PaginationVM<TrackOrderVM> viewModel = paginationService.PaginateItems(orders!, pageSize, currentPageNumber);
+
+        return View(viewModel);
+    }
+
+    public IActionResult OrderDetails(string id)
+    {
+        Order order = orderService.GetOrderPaymentDetails(id)!;
+
+        if (order is null)
         {
-            string? userId = userManager.GetUserId(User);
-
-            if (userId is null)
-            {
-                return RedirectToAction("Login", "Account");
-            }
-
-            var orders = orderService.GetUserTrackedOrders(userId);
-
-            PaginationVM<TrackOrderVM> viewModel = paginationService.PaginateItems(orders!, pageSize, currentPageNumber);
-
-            return View(viewModel);
+            return View("NoOrderDetails");
         }
 
-        public IActionResult OrderDetails(string id)
+        OrderDetailsViewModel orderDetailsVM = orderDetailsService.GetOrderDetailsToViewPage(order);
+
+        if (orderDetailsVM is null)
         {
-            Order order = orderService.GetOrderPaymentDetails(id)!;
-
-            if (order is null)
-            {
-                return View("NoOrderDetails");
-            }
-
-            OrderDetailsViewModel orderDetailsVM = orderDetailsService.GetOrderDetailsToViewPage(order);
-
-            if (orderDetailsVM is null)
-            {
-                return View("NoOrderDetails");
-            }
-
-            return View(orderDetailsVM);
+            return View("NoOrderDetails");
         }
+
+        return View(orderDetailsVM);
     }
 }

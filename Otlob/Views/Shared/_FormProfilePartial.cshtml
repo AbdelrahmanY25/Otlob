@@ -1,54 +1,53 @@
-﻿@model ProfileVM
+﻿@model UserProfile
 
-<form asp-action="UserProfilePicture" enctype="multipart/form-data">
-    <div class="pic">
-        <i class="edit-icon" onclick="triggerFileInput()" title="Edit Profile Picture">&#9998;</i>
-        <img id="profilePicture" alt="Profile" src="/images/@(Model.Image is not null ? Model.Image : "Default.jpg")" />
-        <input class="hidden-file-input"
-               id="fileInput"
-               type="file"
-               accept="image/*"
-               asp-for="Image"
-               name="image"
-               onchange="document.getElementById('profilePicture').src = window.URL.createObjectURL(this.files[0]);" />
-    </div>
+<div class="profile-content">
+    <form class="profile-form picture-form" asp-action="UserProfilePicture" enctype="multipart/form-data">
+        <div class="pic">
+            <i class="edit-icon" onclick="triggerFileInput()" title="Edit Profile Picture">&#9998;</i>
+            <img id="profilePicture" alt="Profile" src="/images/@(Model.Image is not null ? Model.Image : "Default.jpg")" />
+            <input class="hidden-file-input"
+                   id="fileInput"
+                   type="file"
+                   accept="image/*"
+                   asp-for="Image"
+                   name="image"
+                   onchange="document.getElementById('profilePicture').src = window.URL.createObjectURL(this.files[0]);" />
+        </div>
+        <button type="submit">Update Picture</button>
+    </form>
 
-    <button type="submit">Update</button>
-</form>
+    <form class="profile-form" asp-action="UserProfile">
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <div class="field">
+			<label>User Name: @Model.UserName</label>
+        </div>
 
-<form asp-action="UserProfile">    
-    <div asp-validation-summary="All" class="text-danger mb-5"></div>
-    <div class="field">
-        <label asp-for="Email"></label>
-        <input asp-for="Email" value="@Model.Email" placeholder="Email"/>
-    </div>
+        <div class="field">
+			<label>Email: @Model.Email</label>
+        </div>
 
-    <div class="field">
-        <label asp-for="FirstName">First Name</label>
-        <input asp-for="FirstName" value="@Model.FirstName" placeholder="Firs Name" />
-    </div>
+        <div class="field">
+            <input asp-for="FirstName" value="@Model.FirstName" placeholder="First Name" />
+        </div>
 
-    <div class="field">
-        <label asp-for="LastName">Last Name</label>
-        <input asp-for="LastName" value="@Model.LastName" placeholder="Last Name" />
-    </div>
+        <div class="field">
+            <input asp-for="LastName" value="@Model.LastName" placeholder="Last Name" />
+        </div>
 
-    <div class="field">
-        <label asp-for="PhoneNumber">Phone Number</label>
-        <input asp-for="PhoneNumber" value="@Model.PhoneNumber" placeholder="Phone Number" />
-    </div>
+        <div class="field">
+            <input asp-for="PhoneNumber" value="@Model.PhoneNumber" placeholder="Phone Number" />
+        </div>
 
-    <div class="field">
-        <label asp-for="BirthDate">Date of Birth</label>
-        <input type="date" asp-for="BirthDate" value="@(Model.BirthDate.HasValue? Model.BirthDate.Value.ToString("yyyy-MM-dd") : null)" placeholder="Date Of Birth" />
-    </div>
+        <div class="field">
+            <input type="date" asp-for="BirthDate" value="@(Model.BirthDate.HasValue? Model.BirthDate.Value:"yyyy-MM-dd") : null)" placeholder="Date Of Birth" />
+        </div>
 
-    <div class="field">
-        <label asp-for="Gender"></label>
-        <select asp-for="Gender">
-            <option>@Gender.Male</option>
-            <option>@Gender.Female</option>
-        </select>
-    </div>
-    <button type="submit">Update</button>
-</form>
+        <div class="field">
+            <select asp-for="Gender">
+                <option>@Gender.Male</option>
+                <option>@Gender.Female</option>
+            </select>
+        </div>
+        <button type="submit">Update Profile</button>
+    </form>
+</div>

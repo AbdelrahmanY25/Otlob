@@ -2,10 +2,20 @@
 {
     public interface IAuthService
     {
-        Task<Result<string>> RegisterAsync(ApplicationUserVM userVM, List<string> roles);
-        Task<Result<string>> LoginAsync(LoginVM loginVM);
-        Task<Result> ResetPasswordAsync(ResetPasswordVM model);
-        Task<Result<string>> ChangePasswordAsync(ChangePasswordVM changePsswordVM);
+        Task<Result> RegisterAsync(RegisterRequest request, List<string> roles);
+        
+        Task<Result> ConfirmEmailAsync(ConfirmEmailRequest request);
+
+        Task<Result> ResendEmailConfirmationAsync(ResendEmailConfirmationRequest request);
+
+        Task<Result<string>> LoginAsync(LoginRequest loginVM);
+        
+        Task<Result> ForgetPasswordAsync(ForgetPasswordRequest request);
+        
+        Task<Result> ResetPasswordAsync(ResetPasswordRequest request);
+        
+        Task<Result> ChangePasswordAsync(ChangePasswordRequest changePsswordVM);
+        
         Task LogOutAsync();
     }
 }

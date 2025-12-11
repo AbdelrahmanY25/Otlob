@@ -1,7 +1,9 @@
 ﻿@model IQueryable<MealVm>
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "meals";
 }
+
+<link href="~/css/site.css" rel="stylesheet" asp-append-version="true"/>
 
 <div class="articles" id="articles">
     <form class="search" action="" method="post">
@@ -42,7 +44,6 @@
                 <div class="text">
                     <h3>@item.Name</h3>
                     <p id="mealPrice-@count" data-mealPrice="@item.Price">Price: <span>@item.Price.ToString("0.00") L.E</span></p>
-                    <p>Category: @item.Category</p>
                     <p >Enough To: @item.NumberOfServings</p>
                 </div>
                 <a class="card-button" id="logo" data-count="@count" data-logo="/images/@item.Image"

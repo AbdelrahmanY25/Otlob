@@ -1,22 +1,16 @@
 ﻿namespace Otlob.Areas.SuperAdmin.Controllers;
 
-[Area(SD.superAdminRole), Authorize(Roles = SD.superAdminRole)]
-public class RestaurantsController(IRestaurantService restaurantService, IDataProtectionProvider dataProtectionProvider) : Controller
+[Area(DefaultRoles.SuperAdmin), Authorize(Roles = DefaultRoles.SuperAdmin)]
+[EnableRateLimiting(RateLimiterPolicy.IpLimit)]
+public class RestaurantsController(IRestaurantService restaurantService) : Controller
 {
     private readonly IRestaurantService _restaurantService = restaurantService;
-    private readonly IDataProtector _dataProtector = dataProtectionProvider.CreateProtector("SecureData");
 
-    public IActionResult ResturatnRequist()
+    public IActionResult UnAcceptedRestaurants()
     {
-        var resturantsVM = _restaurantService.GetAllRestaurants(filter: null, statuses: [AcctiveStatus.UnAccepted]);
+        var response = _restaurantService.GetUnAcceptedAndPendingRestaurants();
 
-        if (resturantsVM is null)
-        {
-            TempData["Error"] = "There is no resturant requist";
-            return RedirectToAction("Index", "Home", new { Area = SD.superAdminRole } );
-        }
-
-        return View(resturantsVM);
+        return View(response);
     }
 
     public IActionResult ActiveResturatns()
@@ -28,22 +22,20 @@ public class RestaurantsController(IRestaurantService restaurantService, IDataPr
         if (resturantsVM is null)
         {
             TempData["Error"] = "There is no resturant requist";
-            return RedirectToAction("Index", "Home", new { Area = SD.superAdminRole });
+            return RedirectToAction("Index", "Home", new { Area = DefaultRoles.SuperAdmin });
         }
 
         return View(resturantsVM);
     }
 
     public IActionResult ResturantDetails(string id)
-    {
-        int restaurantId = int.Parse(_dataProtector.Unprotect(id));
-
-        var result = _restaurantService.GetRestaurantDetailsById(restaurantId);
+    {        
+        var result = _restaurantService.GetRestaurantDetailsById(id);
 
         if(result.IsFailure)
         {
             TempData["Error"] = result.Error.Description;
-            return RedirectToAction("Index", "Home", new { Area = SD.superAdminRole });
+            return RedirectToAction("Index", "Home", new { Area = DefaultRoles.SuperAdmin });
         }
 
         return View(result.Value);
@@ -56,7 +48,7 @@ public class RestaurantsController(IRestaurantService restaurantService, IDataPr
         if (restaurants is null)
         {
             TempData["Error"] = "There is no deleted restaurants";
-            return RedirectToAction("Index", "Home", new { Area = SD.superAdminRole });
+            return RedirectToAction("Index", "Home", new { Area = DefaultRoles.SuperAdmin });
         }
 
         return View(restaurants);

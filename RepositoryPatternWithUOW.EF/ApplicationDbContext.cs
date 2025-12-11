@@ -1,6 +1,7 @@
 ﻿namespace Otlob.EF;
 
-public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IHttpContextAccessor httpContextAccessor) : IdentityDbContext<ApplicationUser>(options)
+public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IHttpContextAccessor httpContextAccessor) :
+    IdentityDbContext<ApplicationUser, ApplicationRole, string>(options)
 {
     private readonly IHttpContextAccessor _httpContextAccessor = httpContextAccessor;
 
@@ -9,7 +10,6 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
     public DbSet<CartDetails> CartDetails { get; set; }
     public DbSet<Cart> Carts { get; set; }
     public DbSet<CommercialRegistration> CommercialRegistrations { get; set; }
-    public DbSet<Contract> Contracts { get; set; }
     public DbSet<MealPriceHistory> MealsPriceHistories { get; set; }
     public DbSet<Meal> Meals { get; set; }
     public DbSet<NationalId> NationalIds { get; set; }
@@ -18,6 +18,7 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
     public DbSet<Restaurant> Restaurants { get; set; }
     public DbSet<TempOrder> TempOrders { get; set; }
     public DbSet<TradeMark> TradeMarks { get; set; }
+    public DbSet<UploadedFile> UploadedFiles { get; set; }
     public DbSet<VAT> Vats { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -48,11 +49,10 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
     public override int SaveChanges()
     {
         var entries = ChangeTracker.Entries<AuditEntity>();
+        var currentUserId = _httpContextAccessor.HttpContext!.User.GetUserId();
 
         foreach (var entry in entries)
         {
-            var currentUserId = _httpContextAccessor.HttpContext!.User.FindFirstValue(ClaimTypes.NameIdentifier)!;
-
             if (entry.State == EntityState.Added)
             {
                 entry.Property(x => x.CreatedById).CurrentValue = currentUserId;

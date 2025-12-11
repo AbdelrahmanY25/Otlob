@@ -6,6 +6,5 @@ public class Category
 
     public string Name { get; set; } = string.Empty;
 
-    [ValidateNever]
-    public ICollection<RestaurantCategory> RestaurantCategory { get; set; } = null!;
+    public ICollection<RestaurantCategory> RestaurantCategory { get; set; } = [];
 }

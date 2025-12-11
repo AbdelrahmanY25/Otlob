@@ -20,6 +20,27 @@ public class BankAccountEntityTypeConfiguration : IEntityTypeConfiguration<BankA
             .HasMaxLength(29);
 
         builder
+            .Property(ba => ba.BankName)
+            .HasConversion(
+                ba => ba.ToString(),
+                ba => Enum.Parse<EgyptianBanks>(ba)
+            );
+
+        builder
+            .Property(ba => ba.AccountType)
+            .HasConversion(
+                ba => ba.ToString(),
+                ba => Enum.Parse<AccountType>(ba)
+            );
+
+        builder
+            .Property(ba => ba.Status)
+            .HasConversion(
+                ba => ba.ToString(),
+                ba => Enum.Parse<DocumentStatus>(ba)
+            );
+
+        builder
             .HasIndex(ba => new { ba.RestaurantId, ba.AccountNumber })
             .IsUnique();
 

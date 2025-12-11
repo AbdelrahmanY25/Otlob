@@ -1,52 +1,49 @@
-﻿namespace Otlob.Areas.Customer.Controllers;
+﻿using Otlob.Core.Contracts.Files;
 
-[Area(SD.customer), Authorize]
+namespace Otlob.Areas.Customer.Controllers;
+
+[Area(DefaultRoles.Customer), Authorize]
 public class UserProfileController(IUserProfileService userProfileService) : Controller
 {
     private readonly IUserProfileService _userProfileService = userProfileService;
 
     public async Task<IActionResult> UserProfile()
     {
-        string userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+        string userId = User.GetUserId();
 
-        var result = await _userProfileService.GetUserProfileVmDetails(userId);
-
-        if (result.IsFailure)
-        {
-            return RedirectToAction("Login", "Account");
-        }
+        var result = await _userProfileService.GetUserProfileDetails(userId);
 
         return View(result.Value);
     }
 
     [HttpPost, ValidateAntiForgeryToken]
-    public async Task<IActionResult> UserProfile(ProfileVM profileVM)
+    public async Task<IActionResult> UserProfile(UserProfile request)
     {
         if (!ModelState.IsValid)
         {
-            return View(profileVM);
+            return View(request);
         }
 
-        string userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+        string userId = User.GetUserId();
 
-        Result updateResult = await _userProfileService.UpdateUserProfileAsync(profileVM, userId);
-
-        if (updateResult.IsFailure)
-        {
-            TempData["Error"] = updateResult.Error.Description;
-            return RedirectToAction(nameof(UserProfile));
-        }
+        Result updateResult = await _userProfileService.UpdateUserProfileAsync(request, userId);
 
         TempData["Success"] = "Your profile info updated successfully.";
         return RedirectToAction(nameof(UserProfile));
     }
 
     [HttpPost, ValidateAntiForgeryToken]
-    public async Task<IActionResult> UserProfilePicture(IFormFile image)
+    public async Task<IActionResult> UserProfilePicture(UploadImageRequest request)
     {
-        string userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+        if (!ModelState.IsValid)
+        {
+            TempData["Error"] = ModelState.Values.SelectMany(v => v.Errors).FirstOrDefault()?.ErrorMessage;
+            return RedirectToAction(nameof(UserProfile));
+        }
 
-        var UpdateRpofilePictureResult = await _userProfileService.UpdateUserProfilePictureAsync(userId, image);
+        string userId = User.GetUserId();
+
+        var UpdateRpofilePictureResult = await _userProfileService.UpdateUserProfilePictureAsync(userId, request.Image);
 
         if (UpdateRpofilePictureResult.IsFailure)
         {

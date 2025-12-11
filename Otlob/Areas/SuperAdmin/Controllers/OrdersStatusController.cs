@@ -1,6 +1,6 @@
 ﻿namespace Otlob.Areas.SuperAdmin.Controllers;
 
-[Area(SD.superAdminRole), Authorize(Roles = SD.superAdminRole)]
+[Area(DefaultRoles.SuperAdmin), Authorize(Roles = DefaultRoles.SuperAdmin)]
 public class OrdersStatusController(IOrderService orderService, IPaginationService paginationService, IUserServices userServices) : Controller
 {
     private readonly IOrderService orderService = orderService;

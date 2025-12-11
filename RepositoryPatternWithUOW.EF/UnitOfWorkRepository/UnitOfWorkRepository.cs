@@ -14,7 +14,16 @@ public class UnitOfWorkRepository(ApplicationDbContext applicationDbContext) : I
     private IBaseRepository<OrderDetails> _orderDetails = default!;
     private IBaseRepository<ApplicationUser> _users = default!;
     private IBaseRepository<MealPriceHistory> _mealsPriceHistories = default!;
+    private IBaseRepository<MenuCategory> _mealCategories = default!;
     private IBaseRepository<TempOrder> _tempOrders = default!;
+    private IBaseRepository<TradeMark> _tradeMarks = default!;
+    private IBaseRepository<UploadedFile> _uploadedFiles = default!;
+    private IBaseRepository<CommercialRegistration> _commercialRegistrations = default!;
+    private IBaseRepository<VAT> _vats = default!;
+    private IBaseRepository<BankAccount> _bankAccounts = default!;
+    private IBaseRepository<NationalId> _nationalIds = default!;
+    private IBaseRepository<RestaurantBranch> _restaurantBranches = default!;
+    private IBaseRepository<RestaurantCategory> _restaurantCategorys = default!;
 
 
     public IBaseRepository<Meal> Meals 
@@ -117,6 +126,15 @@ public class UnitOfWorkRepository(ApplicationDbContext applicationDbContext) : I
         }
     }
 
+    public IBaseRepository<MenuCategory> MealCategories
+    {
+        get
+        {
+            _mealCategories ??= new BaseRepository<MenuCategory>(_context);
+            return _mealCategories;
+        }
+    }
+    
     public IBaseRepository<TempOrder> TempOrders
     { 
         get 
@@ -125,6 +143,78 @@ public class UnitOfWorkRepository(ApplicationDbContext applicationDbContext) : I
             _tempOrders ??= new BaseRepository<TempOrder>(_context);
 
             return _tempOrders;
+        }
+    }
+
+    public IBaseRepository<UploadedFile> UploadedFiles
+    {
+        get
+        {
+            _uploadedFiles ??= new BaseRepository<UploadedFile>(_context);
+            return _uploadedFiles;
+        }
+    }
+
+    public IBaseRepository<CommercialRegistration> CommercialRegistrations
+    {
+        get
+        {
+            _commercialRegistrations ??= new BaseRepository<CommercialRegistration>(_context);
+            return _commercialRegistrations;
+        }
+    }
+
+    public IBaseRepository<TradeMark> TradeMarks
+    {
+        get
+        {
+            _tradeMarks ??= new BaseRepository<TradeMark>(_context);
+            return _tradeMarks;
+        }
+    }
+
+    public IBaseRepository<VAT> Vats
+    {
+        get
+        {
+            _vats ??= new BaseRepository<VAT>(_context);
+            return _vats;
+        }
+    }
+
+    public IBaseRepository<BankAccount> BankAccounts
+    {
+        get
+        {
+            _bankAccounts ??= new BaseRepository<BankAccount>(_context);
+            return _bankAccounts;
+        }
+    }
+
+    public IBaseRepository<NationalId> NationalIds
+    {
+        get
+        {
+            _nationalIds ??= new BaseRepository<NationalId>(_context);
+            return _nationalIds;
+        }
+    }
+
+    public IBaseRepository<RestaurantBranch> RestaurantBranches
+    {
+        get
+        {
+            _restaurantBranches ??= new BaseRepository<RestaurantBranch>(_context);
+            return _restaurantBranches;
+        }
+    }
+
+    public IBaseRepository<RestaurantCategory> RestaurantCategories
+    {
+        get
+        {
+            _restaurantCategorys ??= new BaseRepository<RestaurantCategory>(_context);
+            return _restaurantCategorys;
         }
     }
 

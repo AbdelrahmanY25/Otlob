@@ -1,6 +1,6 @@
 ﻿namespace Otlob.Areas.Customer.Controllers;
 
-[Area(SD.customer)]
+[Area(DefaultRoles.Customer)]
 public class OrderController(ICartService cartService, IOrderService orderService,
                        IOrderedMealsService orderedMealsService, ITempOrderService tempOrderService) : Controller
 {

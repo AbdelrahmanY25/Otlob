@@ -16,6 +16,13 @@ public class TradeMarkEntityTypeConfiguration : IEntityTypeConfiguration<TradeMa
             .HasMaxLength(10);
 
         builder
+            .Property(tm => tm.Status)
+            .HasConversion(
+                tm => tm.ToString(),
+                tm => Enum.Parse<DocumentStatus>(tm)
+            );
+
+        builder
             .HasIndex(tm => new { tm.RestaurantId, tm.TrademarkNumber })
             .IsUnique();
     }

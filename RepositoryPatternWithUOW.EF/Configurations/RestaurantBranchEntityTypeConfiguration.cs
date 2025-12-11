@@ -19,10 +19,6 @@ public class RestaurantBranchEntityTypeConfiguration : IEntityTypeConfiguration<
             .HasMaxLength(150);
 
         builder
-            .Property(b => b.City)
-            .HasMaxLength(30);
-
-        builder
             .Property(b => b.MangerName)
             .HasMaxLength(50);
 

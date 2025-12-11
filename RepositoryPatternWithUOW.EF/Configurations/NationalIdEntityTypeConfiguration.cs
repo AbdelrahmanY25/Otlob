@@ -16,6 +16,13 @@ public class NationalIdEntityTypeConfiguration : IEntityTypeConfiguration<Nation
             .HasMaxLength(100);
 
         builder
+            .Property(nid => nid.Status)
+            .HasConversion(
+                nid => nid.ToString(),
+                nid => Enum.Parse<DocumentStatus>(nid)
+            );
+
+        builder
             .HasIndex(nid => new { nid.RestaurantId, nid.NationalIdNumber })
             .IsUnique();
     }

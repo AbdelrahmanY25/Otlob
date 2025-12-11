@@ -1,6 +1,6 @@
 ﻿namespace Otlob.Areas.Customer.Controllers;
 
-[Area(SD.customer), Authorize]
+[Area(DefaultRoles.Customer), Authorize]
 public class AddressController(IAddressService addressService) : Controller
 {
     private readonly IAddressService _addressService = addressService;
@@ -11,7 +11,7 @@ public class AddressController(IAddressService addressService) : Controller
 
         if (result!.IsFailure)
         {
-            return RedirectToAction("Login", "Account", new { Area = SD.customer });
+            return RedirectToAction("Login", "Account", new { Area = DefaultRoles.Customer });
         }
 
         return View(result!.Value);
@@ -35,7 +35,7 @@ public class AddressController(IAddressService addressService) : Controller
         }
 
         return theResultOfAddingAddress.Error.Equals(AuthenticationErrors.InvalidUser) ? 
-                    RedirectToAction("Login", "Account", new { Area = SD.customer }) :
+                    RedirectToAction("Login", "Account", new { Area = DefaultRoles.Customer }) :
                     BackToIndexAddressPage(theResultOfAddingAddress.Error.Description, true);
     }        
     
@@ -56,7 +56,7 @@ public class AddressController(IAddressService addressService) : Controller
     {
         if (!ModelState.IsValid)
         {
-            return View();
+            return View(request);
         }
         
         Result updateResult = await _addressService.UpdateAddress(request);
@@ -67,7 +67,7 @@ public class AddressController(IAddressService addressService) : Controller
         }
 
         return updateResult.Error.Equals(AuthenticationErrors.InvalidUser) ?
-                    RedirectToAction("Login", "Account", new { area = SD.customer }) :
+                    RedirectToAction("Login", "Account", new { area = DefaultRoles.Customer }) :
                     BackToIndexAddressPage(updateResult.Error.Description, true);
 
     }

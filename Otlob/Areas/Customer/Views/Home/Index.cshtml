@@ -1,45 +1,26 @@
 ﻿@model IQueryable<RestaurantVM>
 
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Restaurants";
 }
 
+<link href="~/css/site.css" rel="stylesheet" asp-append-version="true"/>
+
 <div class="articles" id="articles">
-    <div class="offers">
-        <h2>Special Offers</h2>
-        <div class="offers-container">
-            <div class="offer-card">
-                <img src="/images/landing/add4.png" alt="Offer 1">
-                <h3>50% Off Burgers</h3>
-                <p>Available at selected restaurants.</p>
-            </div>
-            <div class="offer-card">
-                <img src="/images/icons/IMG-20241218-WA0004.jpg" alt="Offer 2">
-                <h3>Buy 1 Pizza, Get 1 Free</h3>
-                <p>Valid for this week only!</p>
-            </div>
-            <div class="offer-card">
-                <img src="/images/icons/IMG-20241218-WA0007.jpg" alt="Offer 3">
-                <h3>Free Delivery</h3>
-                <p>On orders above 100 L.E.</p>
-            </div>
-        </div>
-    </div>
+        <form class="search" action="" method="Get">
+            <input type="text" id="searchBar" placeholder="Enter Restaurant Name" name="query" />
+        </form>
 
-    <form class="search" action="" method="Get">
-        <input type="text" id="searchBar" placeholder="Enter Restaurant Name" name="query" />
-    </form>
-
-    <div class="icons">       
-        <a asp-action="Index" asp-route-filter="burger"><img src="/images/icons/burger.png" alt="Burger" /></a>
-        <a asp-action="Index" asp-route-filter="pizza"><img src="/images/icons/pizza.png" alt="Pizza" /></a>
-        <a asp-action="Index" asp-route-filter="shawarma"><img src="/images/icons/shawrma.png" alt="Shawarma" /></a>
-        <a asp-action="Index" asp-route-filter="sandwich"><img src="/images/icons/sandwich.png" alt="Sandwich" /></a>
-        <a asp-action="Index" asp-route-filter="grill"><img src="/images/icons/grill.jpg" alt="Grill" /></a>
-        <a asp-action="Index" asp-route-filter="dessert"><img src="/images/icons/cookies.png" alt="Dessert" /></a>
-        <a asp-action="Index" asp-route-filter="koshary"><img src="/images/icons/koshary.jpg" alt="Koshary" /></a>
-        <a asp-action="Index" asp-route-filter="all"><img src="/images/icons/all.png" alt="All" /></a> 
-    </div>    
+        <div class="icons">       
+            <a asp-action="Index" asp-route-filter="burger"><img src="/images/icons/burger.png" alt="Burger" /></a>
+            <a asp-action="Index" asp-route-filter="pizza"><img src="/images/icons/pizza.png" alt="Pizza" /></a>
+            <a asp-action="Index" asp-route-filter="shawarma"><img src="/images/icons/shawrma.png" alt="Shawarma" /></a>
+            <a asp-action="Index" asp-route-filter="sandwich"><img src="/images/icons/sandwich.png" alt="Sandwich" /></a>
+            <a asp-action="Index" asp-route-filter="grill"><img src="/images/icons/grill.jpg" alt="Grill" /></a>
+            <a asp-action="Index" asp-route-filter="dessert"><img src="/images/icons/cookies.png" alt="Dessert" /></a>
+            <a asp-action="Index" asp-route-filter="koshary"><img src="/images/icons/koshary.jpg" alt="Koshary" /></a>
+            <a asp-action="Index" asp-route-filter="all"><img src="/images/icons/all.png" alt="All" /></a> 
+        </div>    
 
     <div class="container">
         @foreach (var item in Model)
@@ -53,7 +34,6 @@
                 </div>               
                                
                 <a class="card-button" asp-action="Details" asp-route-id="@item.Key">Menue</a>
-
             </div>
         }
     </div>

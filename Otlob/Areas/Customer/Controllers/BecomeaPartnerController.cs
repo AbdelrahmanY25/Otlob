@@ -1,56 +1,51 @@
 ﻿namespace Otlob.Areas.Customer.Controllers;
 
-[Area(SD.customer)]
-public class BecomeAPartnerController(IAuthService authService, IAddPartnerService addPartnerService, IDataProtectionProvider dataProtectionProvider) : Controller
+[Area(DefaultRoles.Customer)]
+public class BecomeAPartnerController(IAuthService authService, IAddPartnerService addPartnerService) : Controller
 {
     private readonly IAuthService _authService = authService;
     private readonly IAddPartnerService _addPartnerService = addPartnerService;
-    private readonly IDataProtector _dataProtector = dataProtectionProvider.CreateProtector("SecureData");
 
     public IActionResult BecomeAPartner() => View();
 
     [HttpPost, ValidateAntiForgeryToken]
-    public async Task<IActionResult> BecomeAPartner(ApplicationUserVM userVM)
+    public async Task<IActionResult> BecomeAPartner(RegisterRequest request)
     {
         if (!ModelState.IsValid)
         {
-            return View(userVM);
+            return View(request);
         }
 
-        var result = await _authService.RegisterAsync(userVM, [SD.restaurantAdmin]);
-
-        if (result.IsFailure)
-        {
-            ModelState.AddModelError(result.Error.Code, result.Error.Description);
-            return View(userVM);
-        }
-
-        return RedirectToAction(nameof(RegistRestaurantAccount), new { ownerId = _dataProtector.Protect(result.Value!) });
-    }
-
-    public IActionResult RegistRestaurantAccount(string ownerId)
-    {
-        RegistResturantVM resturantVM = new() { OwnerId = ownerId };
-        return View(resturantVM);
-    }
-
-    [HttpPost, ValidateAntiForgeryToken]
-    public async Task<IActionResult> RegistRestaurantAccount(RegistResturantVM registResturantVM)
-    {
-        if (!ModelState.IsValid)
-        {
-            return View(registResturantVM);
-        }
-
-        var result = await _addPartnerService.RegistRestaurant(registResturantVM);
+        var result = await _authService.RegisterAsync(request, [DefaultRoles.RestaurantAdmin]);
 
         if (result.IsFailure)
         {
             TempData["Error"] = result.Error.Description;
-            return RedirectToAction("Home", "Home", new { Area = SD.otlob });
+            return View(request);
         }
 
-        TempData["Success"] = result.Value;
-        return RedirectToAction("Login", "Account", new { Area = SD.customer });
+        return RedirectToAction(nameof(RegistRestaurantAccount), new { ownerEmail = request.Email });
     }
+
+    public IActionResult RegistRestaurantAccount(string ownerEmail) => View(new RegistResturantRequest { OwnerEmail = ownerEmail});
+
+    [HttpPost, ValidateAntiForgeryToken]
+    public async Task<IActionResult> RegistRestaurantAccount(RegistResturantRequest request)
+    {
+        if (!ModelState.IsValid)
+        {
+            return View(request);
+        }
+
+        var result = await _addPartnerService.RegistRestaurant(request);
+
+        if (result.IsFailure)
+        {
+            TempData["Error"] = result.Error.Description;
+            return View(request);
+        }
+
+        TempData["Success"] = "Your Resturant Account Created Succefully Now Confirm Your Personal Email";
+        return RedirectToAction("EmailConfirmation", "Account");
+    }   
 }

@@ -1,6 +1,6 @@
 ﻿namespace Otlob.Areas.SuperAdmin.Controllers;
 
-[Area(SD.superAdminRole), Authorize(Roles = SD.superAdminRole)]
+[Area(DefaultRoles.SuperAdmin), Authorize(Roles = DefaultRoles.SuperAdmin)]
 public class UserProfileController(IUserProfileService userProfileService, IDataProtectionProvider dataProtectionProvider) : Controller
 {
     private readonly IUserProfileService _userProfileService = userProfileService;
@@ -11,10 +11,10 @@ public class UserProfileController(IUserProfileService userProfileService, IData
         if (Id is null)
         {
             TempData["Error"] = "User ID session timeout or notfound.";
-            return RedirectToAction("Index", "Home", new { Area = SD.superAdminRole });
+            return RedirectToAction("Index", "Home", new { Area = DefaultRoles.SuperAdmin });
         }
 
-        var result = await _userProfileService.GetUserProfileVmDetails(_dataProtector.Unprotect(Id));
+        var result = await _userProfileService.GetUserProfileDetails(_dataProtector.Unprotect(Id));
 
         if (result.IsFailure)
         {
@@ -27,16 +27,16 @@ public class UserProfileController(IUserProfileService userProfileService, IData
     }
 
     [HttpPost, ValidateAntiForgeryToken]
-    public async Task<IActionResult> UserProfile(ProfileVM profileVM)
+    public async Task<IActionResult> UserProfile(UserProfile request)
     {
         if (!ModelState.IsValid)
         {
-            return View(profileVM);
+            return View(request);
         }
 
         string? userId = _dataProtector.Unprotect(HttpContext.Session.GetString("userId")!);
 
-        Result updateResult = await _userProfileService.UpdateUserProfileAsync(profileVM, userId);
+        Result updateResult = await _userProfileService.UpdateUserProfileAsync(request, userId);
                                                             
         if (updateResult.IsFailure)
         {
@@ -50,11 +50,11 @@ public class UserProfileController(IUserProfileService userProfileService, IData
     }
 
     [HttpPost, ValidateAntiForgeryToken]
-    public async Task<IActionResult> UserProfilePicture(IFormFile image)
+    public async Task<IActionResult> UserProfilePicture(UploadImageRequest request)
     {
         string? userId = _dataProtector.Unprotect(HttpContext.Session.GetString("userId")!);
 
-        var UpdateRpofilePictureResult = await _userProfileService.UpdateUserProfilePictureAsync(userId, image);
+        var UpdateRpofilePictureResult = await _userProfileService.UpdateUserProfilePictureAsync(userId, request.Image);
 
         if (UpdateRpofilePictureResult.IsFailure)
         {

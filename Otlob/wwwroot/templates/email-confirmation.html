@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reset Your Password - Otlob</title>
+    <title>Confirm Your Email - Otlob</title>
     <style>
         * {
             margin: 0;
@@ -16,6 +16,7 @@
             line-height: 1.6;
             color: #333;
             background-color: #f4f4f4;
+            padding: 20px 0;
         }
 
         .email-container {
@@ -72,11 +73,11 @@
             border-left: 4px solid #F04335;
         }
 
-        .user-info h3 {
-            color: #F04335;
-            margin-bottom: 10px;
-            font-size: 18px;
-        }
+            .user-info h3 {
+                color: #F04335;
+                margin-bottom: 10px;
+                font-size: 18px;
+            }
 
         .user-detail {
             display: flex;
@@ -86,16 +87,16 @@
             color: #666;
         }
 
-        .user-detail:last-child {
-            margin-bottom: 0;
-        }
+            .user-detail:last-child {
+                margin-bottom: 0;
+            }
 
         .icon {
             margin-right: 10px;
             font-size: 16px;
         }
 
-        .reset-button {
+        .confirm-button {
             display: inline-block;
             background: linear-gradient(135deg, #F04335 0%, #dd968c 100%);
             color: white;
@@ -110,19 +111,15 @@
             margin-bottom: 30px;
         }
 
-        .reset-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(240, 67, 53, 0.4);
-        }
+            .confirm-button:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 6px 20px rgba(240, 67, 53, 0.4);
+            }
 
         .button-container {
             text-align: center;
             margin: 30px 0;
         }
-
-            .button-container a {
-                color: #fefeff;
-            }
 
         .security-notice {
             background-color: #fff3cd;
@@ -163,16 +160,16 @@
             margin-top: 20px;
         }
 
-        .footer-links a {
-            color: #F04335;
-            text-decoration: none;
-            margin: 0 15px;
-            font-size: 14px;
-        }
+            .footer-links a {
+                color: #F04335;
+                text-decoration: none;
+                margin: 0 15px;
+                font-size: 14px;
+            }
 
-        .footer-links a:hover {
-            text-decoration: underline;
-        }
+                .footer-links a:hover {
+                    text-decoration: underline;
+                }
 
         .divider {
             height: 2px;
@@ -194,7 +191,7 @@
                 font-size: 20px;
             }
 
-            .reset-button {
+            .confirm-button {
                 padding: 14px 28px;
                 font-size: 14px;
             }
@@ -209,10 +206,10 @@
         </div>
 
         <div class="content">
-            <div class="greeting">Hello, {{USERNAME}}!</div>
+            <div class="greeting">Welcome to Otlob, {{USERNAME}}!</div>
 
-            <div class="message">               
-                Click the button below to confirm your email.
+            <div class="message">
+                Thank you for creating an account with Otlob! To complete your registration, please confirm your email address by clicking the button below.
             </div>
 
             <div class="user-info">
@@ -228,12 +225,12 @@
             </div>
 
             <div class="button-container">
-                <a href="{{RESET_URL}}" class="reset-button">Reset Your Password</a>
+                <a href="{{CONFIRMATION_URL}}" class="confirm-button">Confirm Your Email</a>
             </div>
 
             <div class="security-notice">
                 <h4>🔒 Security Notice</h4>
-                <p>This password reset link will expire in 24 hours for your security. If you didn't request this password reset, please ignore this email or contact our support team.</p>
+                <p>This confirmation link will expire in 24 hours for your security. If you didn't create an account with Otlob, please ignore this email or contact our support team.</p>
             </div>
 
             <div class="divider"></div>
@@ -241,14 +238,14 @@
             <div class="alternative-text">
                 <strong>Having trouble with the button?</strong><br>
                 Copy and paste this link into your browser:<br>
-                <a href="{{RESET_URL}}" style="color: #F04335; word-break: break-all;">{{RESET_URL}}</a>
+                <a href="{{CONFIRMATION_URL}}" style="color: #F04335; word-break: break-all;">{{CONFIRMATION_URL}}</a>
             </div>
         </div>
 
         <div class="footer">
             <div class="footer-text">
                 <strong>Otlob - Delivering Happiness</strong><br>
-                This email was sent to {{EMAIL}} because you requested a password reset.
+                This email was sent to {{EMAIL}} as part of your account registration process.
             </div>
 
             <div class="footer-links">

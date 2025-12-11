@@ -1,11 +1,8 @@
-﻿@model ApplicationUserVM
+﻿@model RegisterRequest
 
-@section FormStyle {
-    <partial name="_FormStylePartial"></partial>
-    <partial name="_NotificationPartial"></partial>
-}
-
-<link rel="stylesheet" href="~/css/BecomeAParter.css" />
+<link href="~/css/forms.css" rel="stylesheet" asp-append-version="true"/>
+<link rel="stylesheet" href="~/css/becomeAParters.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/css/footer.css" asp-append-version="true" />
 
 <div class="mainSection">
     <section class="hero-section">
@@ -15,32 +12,65 @@
                 <h2>Join Our Restaurants Network</h2>
                 <p>Partner with us to reach thousands of hungry customers and grow your business with our proven delivery platform</p>
             </div>
-            <form asp-action="BecomeAPartner" class="loginform">
-                <h2>Create a restaurant account</h2>
-                <div asp-validation-summary="All" class="text-danger"></div>
-                <div>
-                    <input asp-for="UserName" placeholder="User Name" />
+
+            <div class="right-panel">
+                <div class="welcome-text">
+                    <h1>Create Restaurant Admin Account</h1>
                 </div>
-                <div>
-                    <input type="email" asp-for="Email" placeholder="Personal Email" />
-                </div>
-                <div>
-                    <input type="password" asp-for="Password" placeholder="Password" />
-                </div>
-                <div>
-                    <input type="password" asp-for="ConfirmPassword" placeholder="Confirm Password" />
-                </div>
-                <div>
-                    <input asp-for="PhoneNumber" placeholder="Personal Mobile Number" />
-                </div>
-                <div>
-                    <button type="submit">Create your account</button>
-                </div>
-            </form>
+                <form asp-action="BecomeAPartner" style="min-height: 540px">
+					<div asp-validation-summary="ModelOnly"></div>
+                    <div class="form-group">
+                        <div class="input-with-icon">
+                            <i class="fas fa-user"></i>
+                            <input type="text" asp-for="UserName" placeholder="Enter your username">
+                        </div>
+						<span asp-validation-for="UserName" class="input-error-message"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="input-with-icon">
+                            <i class="fas fa-envelope"></i>
+                            <input type="email" asp-for="Email" placeholder="Enter your personal email">
+                        </div>
+						<span asp-validation-for="Email" class="input-error-message"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="input-with-icon">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" id="password" asp-for="Password" placeholder="Enter your password">
+                        </div>
+                        <div id="password-strength-meter" style="display: none;">
+                            <div class="password-progress-container">
+                                <div id="password-strength-bar" class="password-progress-bar"></div>
+                            </div>
+                        </div>
+						<span asp-validation-for="Password" class="input-error-message"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="input-with-icon">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" asp-for="ConfirmPassword" placeholder="Confirm your password">
+                        </div>
+						<span asp-validation-for="ConfirmPassword" class="input-error-message"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="input-with-icon">
+                            <i class="fas fa-lock"></i>
+                            <input asp-for="PhoneNumber" placeholder="Personal Mobile Number" />
+                        </div>
+						<span asp-validation-for="PhoneNumber" class="input-error-message"></span>
+                    </div>
+
+                    <button type="submit" class="sign-in-btn">Sign Up</button>
+                </form>
+
+                <span> or - <a asp-area="@DefaultRoles.Customer" asp-controller="" asp-action="">Continue your Registration</a></span>
+            </div>
         </section>
     </section>
-
-
 
     <section class="benefits-section">
         <div class="container">
@@ -100,9 +130,10 @@
         </section>
     </div>
 
-    <partial name="_FooterPartial"></partial>
+    <partial name="_footerPartial"></partial>
 </div>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial"></partial>
+    <partial name="_NotificationPartial"></partial>
 }

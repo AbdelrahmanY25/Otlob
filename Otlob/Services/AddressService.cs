@@ -4,13 +4,13 @@ public class AddressService(IUnitOfWorkRepository unitOfWorkRepository, IDataPro
                             UserManager<ApplicationUser> userManager, IHttpContextAccessor httpContextAccessor) : IAddressService
 {
     private readonly UserManager<ApplicationUser> _userManager = userManager;
-    private readonly IUnitOfWorkRepository _unitOfWorkRepository = unitOfWorkRepository;
     private readonly IHttpContextAccessor _httpContextAccessor = httpContextAccessor;
+    private readonly IUnitOfWorkRepository _unitOfWorkRepository = unitOfWorkRepository;
     private readonly IDataProtector _dataProtector = dataProtectionProvider.CreateProtector("SecureData");
 
     public async Task<Result<IQueryable<AddressResponse>>?> GetUserAddressies()
     {
-        string userId = _httpContextAccessor.HttpContext!.User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+        string userId = _httpContextAccessor.HttpContext!.User.GetUserId();
 
         var validateUserIdResult = await ValidateUserId(userId);
 
@@ -33,34 +33,6 @@ public class AddressService(IUnitOfWorkRepository unitOfWorkRepository, IDataPro
 
         return Result.Success(userAddressies);
     }
-
-    public async Task<Result> AddAddress(AddressRequest request)
-    {
-        string userId = _httpContextAccessor.HttpContext!.User.FindFirstValue(ClaimTypes.NameIdentifier)!;
-
-        var validateUserIdResult = await ValidateUserId(userId);
-
-        if (validateUserIdResult!.IsFailure)
-        {
-            return validateUserIdResult;
-        }
-
-        if (IsAddressExist(userId, request.CustomerAddress))
-        {
-            return Result.Failure(AddressErrors.ExisteddAddress);
-        }
-
-        Address address = new();
-
-        address.MapToAddress(request);
-
-        address.UserId = userId;
-
-        _unitOfWorkRepository.Addresses.Create(address);
-        _unitOfWorkRepository.SaveChanges();
-
-        return Result.Success();
-    }    
     
     public Result<AddressResponse> GetOneAddress(string id)
     {
@@ -78,7 +50,7 @@ public class AddressService(IUnitOfWorkRepository unitOfWorkRepository, IDataPro
             return Result.Failure<AddressResponse>(AddressErrors.InvalidAddress);
         }
 
-        AddressResponse addressVM = _unitOfWorkRepository
+        AddressResponse response = _unitOfWorkRepository
                                 .Addresses
                                 .GetOneWithSelect(
                                     expression: a => a.Id == addressId,
@@ -97,12 +69,40 @@ public class AddressService(IUnitOfWorkRepository unitOfWorkRepository, IDataPro
 
         _httpContextAccessor.HttpContext!.Session.SetString("AddressId", id);
 
-        return Result.Success(addressVM);
+        return Result.Success(response);
     }
 
+    public async Task<Result> AddAddress(AddressRequest request)
+    {
+        string userId = _httpContextAccessor.HttpContext!.User.GetUserId();
+
+        var validateUserIdResult = await ValidateUserId(userId);
+
+        if (validateUserIdResult!.IsFailure)
+        {
+            return validateUserIdResult;
+        }
+
+        if (IsAddressExist(userId, request))
+        {
+            return Result.Failure(AddressErrors.ExistedAddress);
+        }
+
+        Address address = new();
+
+        request.MapToAddress(address);
+
+        address.UserId = userId;
+
+        _unitOfWorkRepository.Addresses.Create(address);
+        _unitOfWorkRepository.SaveChanges();
+
+        return Result.Success();
+    }    
+    
     public async Task<Result> UpdateAddress(AddressRequest request)
     {
-        string userId = _httpContextAccessor.HttpContext!.User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+        string userId = _httpContextAccessor.HttpContext!.User.GetUserId();
 
         var validateUserIdResult = await ValidateUserId(userId);
 
@@ -129,14 +129,8 @@ public class AddressService(IUnitOfWorkRepository unitOfWorkRepository, IDataPro
 
         Address oldAddress = _unitOfWorkRepository.Addresses.GetOne(expression: add => add.Id == addressId)!;
 
-        if (oldAddress!.CustomerAddress == request.CustomerAddress)
-        {
-            return Result.Failure(AddressErrors.ExisteddAddress);
-        }
+        request.MapToAddress(oldAddress);
 
-        oldAddress.MapToAddress(request);
-
-        _unitOfWorkRepository.Addresses.Edit(oldAddress);
         _unitOfWorkRepository.SaveChanges();
 
         return Result.Success();
@@ -158,17 +152,33 @@ public class AddressService(IUnitOfWorkRepository unitOfWorkRepository, IDataPro
             return Result.Failure(AddressErrors.InvalidAddress);
         }
 
-        _unitOfWorkRepository.Addresses.SoftDelete(expression: add => add.Id == addressId);
+        _unitOfWorkRepository.Addresses.HardDelete(_unitOfWorkRepository.Addresses.GetOne(expression: add => add.Id == addressId)!);
         _unitOfWorkRepository.SaveChanges();
 
         return Result.Success();
     }
 
-    public bool IsAddressExist(string userId, string customerAddress)
-    {           
+    // TODO: Refactor this method to reduce complexity
+    public bool IsAddressExist(string userId, AddressRequest request)
+    {
         return _unitOfWorkRepository
             .Addresses
-            .IsExist(expression: add => add.UserId == userId && add.CustomerAddress == customerAddress);
+            .IsExist(
+                add => add.UserId == userId &&
+                add.CustomerAddress == request.CustomerAddress &&
+                add.StreetName == request.StreetName &&
+                add.FloorNumber == request.FloorNumber &&
+                add.HouseNumberOrName == request.HouseNumberOrName &&
+                add.CompanyName == request.CompanyName &&
+                add.PlaceType == request.PlaceType
+            ) ||
+            _unitOfWorkRepository
+                .Addresses
+                .IsExist(
+                    add => add.UserId == userId &&
+                    add.CustomerAddress == request.CustomerAddress &&
+                    add.StreetName == request.StreetName                      
+                );
     }
 
     public bool IsUserHasAnyAddresses(string userId)

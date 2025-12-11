@@ -7,11 +7,10 @@ public sealed class RestaurantBranch : AuditEntity
 
     public string Name { get; set; } = string.Empty;
     public string Address { get; set; } = string.Empty;
-    public string City { get; set; } = string.Empty;
-    public Point Location { get; set; } = null!;
+    public Point Location { get; set; } = default!;
     public double DeliveryRadiusKm { get; set; }
     public string MangerName { get; set; } = string.Empty;
     public string MangerPhone { get; set; } = string.Empty;
 
-    public Restaurant Restaurant { get; set; } = null!;
+    public Restaurant Restaurant { get; set; } = default!;
 }

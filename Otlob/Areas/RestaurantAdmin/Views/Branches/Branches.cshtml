@@ -1,0 +1,171 @@
+﻿@model IQueryable<BranchResponse>
+
+@{
+    ViewData["Title"] = "Branches";
+    var branches = Model.ToList();
+    var branchCount = branches.Count;
+}
+
+<link rel="stylesheet" href="~/css/branches.css" asp-append-version="true" />
+
+<div class="br-page">
+    <div class="br-container">
+        <div class="br-header">
+            <div class="br-header-left">
+                <div class="br-header-icon">
+                    <i class="fas fa-map-marker-alt"></i>
+                </div>
+                <div class="br-header-content">
+                    <h1>Restaurant Branches</h1>
+                    <p>Manage your restaurant locations and delivery zones</p>
+                </div>
+            </div>
+            <a asp-action="AddBranch" class="br-add-btn">
+                <i class="fas fa-plus"></i>
+                Add New Branch
+            </a>
+        </div>
+
+        @if (branchCount > 0)
+        {
+            <div class="br-stats-bar">
+                <div class="br-stat-item">
+                    <div class="br-stat-icon total">
+                        <i class="fas fa-store"></i>
+                    </div>
+                    <div class="br-stat-info">
+                        <h4>@branchCount</h4>
+                        <span>Total Branches</span>
+                    </div>
+                </div>
+            </div>
+        }
+
+        <div class="br-grid">
+            @if (branchCount > 0)
+            {
+                @foreach (var branch in branches)
+                {
+                    <div class="br-card">
+                        <a asp-action="UpdateBranch" asp-route-key="@branch.Key" class="br-card-link">
+                            <div class="br-card-header">
+                                <div class="br-card-icon">
+                                    <i class="fas fa-store-alt"></i>
+                                </div>
+                                <div class="br-card-title-group">
+                                    <h3 class="br-card-title">@branch.Name</h3>
+                                    <div class="br-card-address">
+                                        <i class="fas fa-map-pin"></i>
+                                        <span>@branch.Address</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="br-card-body">
+                                <div class="br-card-info-grid">
+                                    <div class="br-info-item">
+                                        <div class="br-info-icon radius">
+                                            <i class="fas fa-broadcast-tower"></i>
+                                        </div>
+                                        <div class="br-info-content">
+                                            <div class="br-info-label">Delivery Radius</div>
+                                            <div class="br-info-value">@branch.DeliveryRadiusKm km</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="br-info-item">
+                                        <div class="br-info-icon manager">
+                                            <i class="fas fa-user-tie"></i>
+                                        </div>
+                                        <div class="br-info-content">
+                                            <div class="br-info-label">Manager</div>
+                                            <div class="br-info-value">@branch.MangerName</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="br-info-item" style="grid-column: 1 / -1;">
+                                        <div class="br-info-icon phone">
+                                            <i class="fas fa-phone-alt"></i>
+                                        </div>
+                                        <div class="br-info-content">
+                                            <div class="br-info-label">Manager Phone</div>
+                                            <div class="br-info-value">@branch.MangerPhone</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+
+                        <div class="br-card-footer">
+                            <span class="br-card-badge">
+                                <i class="fas fa-check-circle"></i>
+                                Active
+                            </span>
+                            <div class="br-card-actions">
+                                <a asp-action="UpdateBranch" asp-route-key="@branch.Key" class="br-card-action">
+                                    Edit Branch
+                                    <i class="fas fa-arrow-right"></i>
+                                </a>
+                                <button type="button" class="br-delete-btn" data-bs-toggle="modal" data-bs-target="#deleteBranchModal"
+                                        data-key="@branch.Key" data-name="@branch.Name" title="Delete branch">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="br-empty">
+                    <div class="br-empty-icon">
+                        <i class="fas fa-map-marked-alt"></i>
+                    </div>
+                    <h2>No Branches Yet</h2>
+                    <p>Start by adding your first branch location to expand your restaurant's reach.</p>
+                    <a asp-action="AddBranch" class="br-empty-btn">
+                        <i class="fas fa-plus"></i>
+                        Add Your First Branch
+                    </a>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_NotificationPartial" />
+
+    <div class="modal fade" id="deleteBranchModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header rd-modal-header">
+                    <h5 class="modal-title">Delete Branch</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="mb-2">Are you sure you want to delete branch <strong id="deleteBranchName"></strong>?</p>
+                    <p class="text-muted">This action cannot be undone and all related data will be removed.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <a id="confirmDeleteBtn" class="btn btn-danger">Yes, Delete</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var deleteModal = document.getElementById('deleteBranchModal');
+        deleteModal.addEventListener('show.bs.modal', function (event) {
+            var button = event.relatedTarget;
+            var key = button.getAttribute('data-key');
+            var name = button.getAttribute('data-name');
+
+            document.getElementById('deleteBranchName').textContent = name;
+
+            var confirmBtn = document.getElementById('confirmDeleteBtn');
+            confirmBtn.setAttribute('href', '/RestaurantAdmin/Branches/Delete?key=' + encodeURIComponent(key));
+        });
+    </script>
+}

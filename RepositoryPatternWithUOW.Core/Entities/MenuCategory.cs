@@ -6,8 +6,7 @@ public class MenuCategory
     public int RestaurantId { get; set; }
 
     public string Name { get; set; } = string.Empty;
-    public string? Description { get; set; }
 
-    public Restaurant Restaurant { get; set; } = null!;
-    public ICollection<Meal> Meals { get; set; } = null!;
+    public Restaurant Restaurant { get; set; } = default!;
+    public ICollection<Meal> Meals { get; set; } = [];
 }

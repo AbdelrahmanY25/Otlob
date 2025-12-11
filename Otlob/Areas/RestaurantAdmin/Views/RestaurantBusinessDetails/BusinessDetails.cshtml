@@ -1,0 +1,406 @@
+﻿@model RestaurantBusinessInfo
+
+@{
+    ViewData["Title"] = "Business Details";
+}
+
+<link rel="stylesheet" href="/css/profileAccount.css" asp-append-version="true" />
+
+<div class="profile">
+    <div class="info">
+        <h2>Business Details</h2>
+    </div>
+
+    <hr class="line" />
+
+    <div class="links">
+        <a href="#" class="active">Business Info</a>
+    </div>
+
+    <div class="profile-content">
+        <form class="profile-form" asp-action="Update" method="post">
+            <div asp-validation-summary="All" class="text-danger mb-5"></div>
+
+            <div class="form-section-title">
+                <i class="fas fa-truck"></i>
+                Delivery Settings
+            </div>
+
+            <div class="form-row">
+                <div class="field">
+                    <label asp-for="DeliveryFee">Delivery Fee</label>
+                    <input asp-for="DeliveryFee" type="number" step="0.01" min="0" placeholder="Enter delivery fee" />
+                </div>
+
+                <div class="field">
+                    <label asp-for="DeliveryDurationTime">Delivery Duration (minutes)</label>
+                    <input asp-for="DeliveryDurationTime" type="number" min="1" placeholder="Enter delivery time" />
+                </div>
+            </div>
+
+            <div class="form-section-title">
+                <i class="fas fa-clock"></i>
+                Operating Hours
+            </div>
+
+            <div class="form-row">
+                <div class="field">
+                    <label asp-for="OpeningTime">Opening Time</label>
+                    <input asp-for="OpeningTime" type="time" />
+                </div>
+
+                <div class="field">
+                    <label asp-for="ClosingTime">Closing Time</label>
+                    <input asp-for="ClosingTime" type="time" />
+                </div>
+            </div>
+
+            <div class="form-section-title">
+                <i class="fas fa-briefcase"></i>
+                Business Information
+            </div>
+
+            <div class="form-row">
+                <div class="field">
+                    <label asp-for="BusinessType">Business Type</label>
+                    <select asp-for="BusinessType" asp-items="Html.GetEnumSelectList<BusinessType>()"></select>
+                </div>
+
+                <div class="field">
+                    <label asp-for="AdministratorRole">Administrator Role</label>
+                    <select asp-for="AdministratorRole" asp-items="Html.GetEnumSelectList<AdministratorRole>()"></select>
+                </div>
+            </div>
+
+            <div class="form-section-title">
+                <i class="fas fa-tags"></i>
+                Restaurant Categories
+            </div>
+
+            <div class="category-selector-container">
+                <label class="category-selector-label">
+                    Select Categories
+                    <span class="max-hint">Max 3</span>
+                </label>
+
+                <div class="selected-categories" id="selectedCategories">
+                    @if (Model.RestaurantCategories != null && Model.RestaurantCategories.Any())
+                    {
+                        @foreach (var category in Model.RestaurantCategories)
+                        {
+                            <div class="category-tag" data-id="@category.Id">
+                                <span>@category.Name</span>
+                                <button type="button" class="remove-tag" onclick="removeCategory(@category.Id)">×</button>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <span class="selected-categories-placeholder">No categories selected</span>
+                    }
+                </div>
+
+                <div class="category-dropdown-wrapper">
+                    <div class="category-dropdown-trigger" id="dropdownTrigger" onclick="toggleDropdown()">
+                        <span class="dropdown-trigger-text" id="triggerText">Select categories...</span>
+                        <span class="dropdown-trigger-icon"><i class="fas fa-chevron-down"></i></span>
+                    </div>
+
+                    <div class="category-dropdown-menu" id="dropdownMenu">
+                        <div class="dropdown-search">
+                            <input type="text" id="categorySearch" placeholder="🔍 Search categories..." oninput="filterCategories()" />
+                        </div>
+                        <div class="dropdown-options-wrapper">
+                            <div class="dropdown-options" id="dropdownOptions">
+                                @if (Model.AllCategories != null)
+                                {
+                                    @foreach (var category in Model.AllCategories)
+                                    {
+                                        var isSelected = Model.RestaurantCategories?.Any(c => c.Id == category.Id) ?? false;
+                                        <div class="dropdown-option @(isSelected ? "selected" : "")" 
+                                             data-id="@category.Id" 
+                                             data-name="@category.Name"
+                                             onclick="toggleCategory(@category.Id, '@category.Name')">
+                                            <div class="option-icon">
+                                                <i class="fas fa-utensils"></i>
+                                            </div>
+                                            <span class="option-text">@category.Name</span>
+                                            <div class="option-check">✓</div>
+                                        </div>
+                                    }
+                                }
+                            </div>
+                            <div class="dropdown-empty" id="dropdownEmpty" style="display: none;">
+                                <i class="fas fa-search"></i>
+                                No categories found
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="category-hidden-inputs" id="categoryInputs">
+                    @if (Model.RestaurantCategories != null)
+                    {
+                        @foreach (var category in Model.RestaurantCategories)
+                        {
+                            <input type="hidden" name="SelectedCategoryIds" value="@category.Id" />
+                        }
+                    }
+                </div>
+            </div>
+            
+            <div class="field">
+                <label asp-for="NumberOfBranches">Number of Branches</label>
+                <input asp-for="NumberOfBranches" type="number" min="1" max="500" placeholder="Enter number of branches" />
+            </div>
+
+
+            <button type="submit">Update Business Details</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <partial name="_NotificationPartial" />
+
+    <script>
+        // State management
+        const maxCategories = 3;
+        let selectedCategories = [];
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load initial selected categories
+            const initialTags = document.querySelectorAll('.category-tag');
+            initialTags.forEach(tag => {
+                const nameSpan = tag.querySelector('span');
+                if (nameSpan) {
+                    selectedCategories.push({
+                        id: parseInt(tag.dataset.id),
+                        name: nameSpan.textContent
+                    });
+                }
+            });
+
+            updateUI();
+
+            // Close dropdown when clicking outside
+            document.addEventListener('click', function(e) {
+                const wrapper = document.querySelector('.category-dropdown-wrapper');
+                const menu = document.getElementById('dropdownMenu');
+                if (wrapper && !wrapper.contains(e.target) && !menu.contains(e.target)) {
+                    closeDropdown();
+                }
+            });
+
+            // Prevent form submission on Enter in search
+            document.getElementById('categorySearch').addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                }
+            });
+
+            // Handle window scroll and resize - reposition dropdown
+            window.addEventListener('scroll', repositionDropdown, true);
+            window.addEventListener('resize', repositionDropdown);
+        });
+
+        // Position dropdown relative to trigger
+        function positionDropdown() {
+            const trigger = document.getElementById('dropdownTrigger');
+            const menu = document.getElementById('dropdownMenu');
+            const rect = trigger.getBoundingClientRect();
+            
+            // Calculate position
+            const top = rect.bottom + 8;
+            const left = rect.left;
+            const width = rect.width;
+            
+            // Check if dropdown would go below viewport
+            const viewportHeight = window.innerHeight;
+            const menuHeight = 350; // max-height of dropdown
+            
+            if (top + menuHeight > viewportHeight && rect.top > menuHeight) {
+                // Position above the trigger
+                menu.style.top = (rect.top - menuHeight - 8) + 'px';
+            } else {
+                // Position below the trigger
+                menu.style.top = top + 'px';
+            }
+            
+            menu.style.left = left + 'px';
+            menu.style.width = width + 'px';
+        }
+
+        function repositionDropdown() {
+            const menu = document.getElementById('dropdownMenu');
+            if (menu.classList.contains('open')) {
+                positionDropdown();
+            }
+        }
+
+        // Toggle dropdown visibility
+        function toggleDropdown() {
+            const trigger = document.getElementById('dropdownTrigger');
+            const menu = document.getElementById('dropdownMenu');
+
+            if (trigger.classList.contains('disabled')) {
+                return; // Don't open if disabled (max reached)
+            }
+
+            const isOpen = menu.classList.contains('open');
+            
+            if (isOpen) {
+                closeDropdown();
+            } else {
+                // Position and show dropdown
+                positionDropdown();
+                trigger.classList.add('active');
+                menu.classList.add('open');
+                
+                // Focus search input
+                setTimeout(() => {
+                    document.getElementById('categorySearch').focus();
+                }, 100);
+            }
+        }
+
+        function closeDropdown() {
+            document.getElementById('dropdownTrigger').classList.remove('active');
+            document.getElementById('dropdownMenu').classList.remove('open');
+            document.getElementById('categorySearch').value = '';
+            filterCategories(); // Reset filter
+        }
+
+        // Toggle category selection
+        function toggleCategory(id, name) {
+            event.stopPropagation(); // Prevent dropdown from closing
+            
+            const index = selectedCategories.findIndex(c => c.id === id);
+
+            if (index > -1) {
+                // Remove if already selected
+                selectedCategories.splice(index, 1);
+            } else {
+                // Add if not at max
+                if (selectedCategories.length < maxCategories) {
+                    selectedCategories.push({ id, name });
+                } else {
+                    return; // Don't add if at max
+                }
+            }
+
+            updateUI();
+            
+            // Close dropdown if max reached
+            if (selectedCategories.length >= maxCategories) {
+                closeDropdown();
+            }
+        }
+
+        // Remove category from selection
+        function removeCategory(id) {
+            event.stopPropagation();
+            selectedCategories = selectedCategories.filter(c => c.id !== id);
+            updateUI();
+        }
+
+        // Filter categories in dropdown
+        function filterCategories() {
+            const searchValue = document.getElementById('categorySearch').value.toLowerCase();
+            const options = document.querySelectorAll('.dropdown-option');
+            let visibleCount = 0;
+
+            options.forEach(option => {
+                const name = option.dataset.name.toLowerCase();
+                if (name.includes(searchValue)) {
+                    option.style.display = 'flex';
+                    visibleCount++;
+                } else {
+                    option.style.display = 'none';
+                }
+            });
+
+            document.getElementById('dropdownEmpty').style.display = visibleCount === 0 ? 'block' : 'none';
+        }
+
+        // Update all UI elements
+        function updateUI() {
+            updateSelectedTags();
+            updateDropdownOptions();
+            updateHiddenInputs();
+            updateTriggerState();
+        }
+
+        // Update the selected tags display
+        function updateSelectedTags() {
+            const container = document.getElementById('selectedCategories');
+            container.innerHTML = '';
+
+            if (selectedCategories.length === 0) {
+                const placeholder = document.createElement('span');
+                placeholder.className = 'selected-categories-placeholder';
+                placeholder.textContent = 'No categories selected';
+                container.appendChild(placeholder);
+                container.classList.remove('has-items');
+            } else {
+                selectedCategories.forEach(cat => {
+                    const tag = document.createElement('div');
+                    tag.className = 'category-tag';
+                    tag.dataset.id = cat.id;
+                    tag.innerHTML = `
+                        <span>${cat.name}</span>
+                        <button type="button" class="remove-tag" onclick="removeCategory(${cat.id})">×</button>
+                    `;
+                    container.appendChild(tag);
+                });
+                container.classList.add('has-items');
+            }
+        }
+
+        // Update dropdown options state
+        function updateDropdownOptions() {
+            const options = document.querySelectorAll('.dropdown-option');
+            const atMax = selectedCategories.length >= maxCategories;
+
+            options.forEach(option => {
+                const id = parseInt(option.dataset.id);
+                const isSelected = selectedCategories.some(c => c.id === id);
+
+                option.classList.toggle('selected', isSelected);
+                option.classList.toggle('disabled', !isSelected && atMax);
+            });
+        }
+
+        // Update hidden inputs for form submission
+        function updateHiddenInputs() {
+            const container = document.getElementById('categoryInputs');
+            container.innerHTML = '';
+
+            selectedCategories.forEach(cat => {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = 'SelectedCategoryIds';
+                input.value = cat.id;
+                container.appendChild(input);
+            });
+        }
+
+        // Update trigger button state
+        function updateTriggerState() {
+            const trigger = document.getElementById('dropdownTrigger');
+            const triggerText = document.getElementById('triggerText');
+            const atMax = selectedCategories.length >= maxCategories;
+
+            trigger.classList.toggle('disabled', atMax);
+
+            if (atMax) {
+                triggerText.textContent = '✓ Maximum categories selected';
+            } else {
+                const remaining = maxCategories - selectedCategories.length;
+                triggerText.textContent = `Select categories (${remaining} remaining)...`;
+            }
+        }
+    </script>
+}

@@ -22,12 +22,17 @@ public class RestauranStatusService(IUnitOfWorkRepository unitOfWorkRepository, 
 
         if (restaurant is null)
         {
-            return Result.Failure(RestaurantErrors.InvalidRestaurantId);
+            return Result.Failure(RestaurantErrors.NotFound);
         }
 
         restaurant.AcctiveStatus = status;
         _unitOfWorkRepository.Restaurants.ModifyProperty(restaurant, r => r.AcctiveStatus);
         _unitOfWorkRepository.SaveChanges();
+
+        //TODO: Send an Email to Owner about Status Change
+        //      if pending he ready to add his meals and branches
+        //      if accepted he now on production start to gain money
+        //      if rejected inform him about the rejection
 
         return Result.Success();
     }

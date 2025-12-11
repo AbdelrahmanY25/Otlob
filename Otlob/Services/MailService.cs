@@ -1,36 +1,35 @@
-﻿namespace Otlob.Services
+﻿using Utility.Consts;
+
+namespace Otlob.Services;
+
+public class MailService(IOptions<MailSettings> mailSettings) : IMailService
 {
-    public class MailService : IMailService
+    private readonly MailSettings mailSettings = mailSettings.Value;
+
+    public async Task SendEmailAsync(string mailTo, string subject, string body)
     {
-        private readonly MailSettings mailSettings;
-
-        public MailService(IOptions<MailSettings> mailSettings)
+        var email = new MimeMessage()
         {
-            this.mailSettings = mailSettings.Value;
-        }
+            Sender = MailboxAddress.Parse(mailSettings.Email),
+            Subject = subject,
+        };
 
-        public async Task SendEmailAsync(string mailTo, string subject, string body)
+        email.To.Add(MailboxAddress.Parse(mailTo));
+
+        var builder = new BodyBuilder
         {
-            var email = new MimeMessage()
-            {
-                Sender = MailboxAddress.Parse(mailSettings.Email),
-                Subject = subject,
-            };
+            HtmlBody = body
+        };
 
-            email.To.Add(MailboxAddress.Parse(mailTo));
+        email.Body = builder.ToMessageBody();
+        email.From.Add(new MailboxAddress(mailSettings.DisplayName, mailSettings.Email));
 
-            var builder = new BodyBuilder();
+        using var smtp = new SmtpClient();
+        smtp.Connect(mailSettings.Host, mailSettings.Port, SecureSocketOptions.StartTls);
+        smtp.Authenticate(mailSettings.Email, mailSettings.Password);
 
-            builder.HtmlBody = body;
-            email.Body = builder.ToMessageBody();
-            email.From.Add(new MailboxAddress(mailSettings.DisplayName, mailSettings.Email));
+        await smtp.SendAsync(email);
 
-            using var smtp = new SmtpClient();
-            smtp.Connect(mailSettings.Host, mailSettings.Port, SecureSocketOptions.SslOnConnect);
-            smtp.Authenticate(mailSettings.Email, mailSettings.Password);
-
-            await smtp.SendAsync(email);
-            smtp.Disconnect(true);            
-        }
+        smtp.Disconnect(true);
     }
 }

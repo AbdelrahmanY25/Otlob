@@ -1,52 +1,46 @@
-﻿namespace Otlob.Services
+﻿namespace Otlob.Services;
+
+public class ExportReeportsAsExcelService(IOrdersAnalysisService ordersAnalysisService) : IExportReeportsAsExcelService
 {
-    public class ExportReeportsAsExcelService : IExportReeportsAsExcelService
+    private readonly IOrdersAnalysisService ordersAnalysisService = ordersAnalysisService;
+
+    public byte[] ExportOrdersOverLastTwelveMonth()
     {
-        private readonly IOrdersAnalysisService ordersAnalysisService;
+        var ordersOverLastTwelveMonth = ordersAnalysisService.GetOrdersOverLastTwelveMonth().ToList();
 
-        public ExportReeportsAsExcelService(IOrdersAnalysisService ordersAnalysisService)
+        DataTable dataTable = new DataTable("OrdersOverLastTwelveMonth");
+
+        dataTable.Columns.AddRange(
+            [
+                new DataColumn("Month", typeof(string)),
+                new DataColumn("Total Orders", typeof(int)),
+                new DataColumn("Total Revenue", typeof(string)),
+                new DataColumn("Average Order Value", typeof(string))
+            ]
+        );
+
+        string[] months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+        foreach (var order in ordersOverLastTwelveMonth)
         {
-            this.ordersAnalysisService = ordersAnalysisService;
+            DataRow row = dataTable.NewRow();
+
+            row["Month"] = $"{months[order.Month - 1]} {order.Year}";
+            row["Total Orders"] = order.TotalOrders;
+            row["Total Revenue"] = $"{order.TotalRevenue} EGP";
+            row["Average Order Value"] = order.TotalOrders > 0 ? $"{Math.Round(order.TotalRevenue / order.TotalOrders, 2)} EGP" : $"{0} EGP";
+            
+            dataTable.Rows.Add(row);
         }
 
-        public byte[] ExportOrdersOverLastTwelveMonth()
-        {
-            var ordersOverLastTwelveMonth = ordersAnalysisService.GetOrdersOverLastTwelveMonth().ToList();
+        using XLWorkbook workbook = new XLWorkbook();
+        workbook.Worksheets.Add(dataTable);
 
-            DataTable dataTable = new DataTable("OrdersOverLastTwelveMonth");
+        using MemoryStream stream = new MemoryStream();
+        workbook.SaveAs(stream);
 
-            dataTable.Columns.AddRange(
-                [
-                    new DataColumn("Month", typeof(string)),
-                    new DataColumn("Total Orders", typeof(int)),
-                    new DataColumn("Total Revenue", typeof(string)),
-                    new DataColumn("Average Order Value", typeof(string))
-                ]
-            );
+        byte[] content = stream.ToArray();
 
-            string[] months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-
-            foreach (var order in ordersOverLastTwelveMonth)
-            {
-                DataRow row = dataTable.NewRow();
-
-                row["Month"] = $"{months[order.Month - 1]} {order.Year}";
-                row["Total Orders"] = order.TotalOrders;
-                row["Total Revenue"] = $"{order.TotalRevenue} EGP";
-                row["Average Order Value"] = order.TotalOrders > 0 ? $"{Math.Round(order.TotalRevenue / order.TotalOrders, 2)} EGP" : $"{0} EGP";
-                
-                dataTable.Rows.Add(row);
-            }
-
-            using XLWorkbook workbook = new XLWorkbook();
-            workbook.Worksheets.Add(dataTable);
-
-            using MemoryStream stream = new MemoryStream();
-            workbook.SaveAs(stream);
-
-            byte[] content = stream.ToArray();
-
-            return content;
-        }
+        return content;
     }
 }

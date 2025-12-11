@@ -1,13 +1,13 @@
 ﻿namespace Otlob.Areas.SuperAdmin.Controllers;
 
-[Area(SD.superAdminRole)]
+[Area(DefaultRoles.SuperAdmin)]
 public class RestaurantMealsController(IMealService mealService,
-                                IImageService imageService,
+                                IFileService imageService,
                                  IDataProtectionProvider dataProtectionProvider,
                                  IMealPriceHistoryService mealPriceHistoryService) : Controller
 {
     private readonly IMealService _mealService = mealService;
-    private readonly IImageService _imageService = imageService;
+    private readonly IFileService _imageService = imageService;
     private readonly IDataProtector _dataProtector = dataProtectionProvider.CreateProtector("SecureData");
     private readonly IMealPriceHistoryService _mealPriceHistoryService = mealPriceHistoryService;
 
@@ -15,14 +15,14 @@ public class RestaurantMealsController(IMealService mealService,
     {
         int restaurantId = int.Parse(_dataProtector.Unprotect(id));
         
-        HttpContext.Session.SetString("restaurantId", _dataProtector.Protect(restaurantId.ToString()));
+        HttpContext.Session.SetString(StaticData.RestaurantId, id);
         
-        var result = _mealService.GetMealsByRestaurantId(restaurantId);
+        var result = _mealService.GetAllByRestaurantId(restaurantId);
         
-        if (result.IsFailure)
+        if (result!.IsFailure)
         {
             TempData["Error"] = result.Error.Description;
-            return RedirectToAction("Index", "Home", new { Area = SD.superAdminRole });
+            return RedirectToAction("Index", "Home", new { Area = DefaultRoles.SuperAdmin });
         }
 
         return View(result.Value);
@@ -30,94 +30,92 @@ public class RestaurantMealsController(IMealService mealService,
 
     public IActionResult AddMeal() => View();
 
-    [HttpPost, ValidateAntiForgeryToken]
-    public IActionResult AddMeal(MealVm mealVM, IFormFile image)
+    //[HttpPost, ValidateAntiForgeryToken]
+    //public IActionResult AddMeal(MealVm mealVM, IFormFile image)
+    //{
+    //    if (!ModelState.IsValid)
+    //    {
+    //        return View(mealVM);
+    //    }
+
+    //    int restaurantId = int.Parse(_dataProtector.Unprotect(HttpContext.Session.GetString(StaticData.RestaurantId)!));
+
+    //    Result isMealAdded = _mealService.Add(mealVM, restaurantId, image);
+
+    //    if (isMealAdded.IsFailure)
+    //    {
+    //        ModelState.AddModelError("", isMealAdded.Error.Description);
+    //        return View(mealVM);
+    //    }
+
+    //    return RedirectToAction(nameof(RestaurantMeals), new { id = HttpContext.Session.GetString(StaticData.RestaurantId) });
+    //}
+
+    public IActionResult MealDetails(string key)
     {
-        if (!ModelState.IsValid)
-        {
-            return View(mealVM);
-        }
-
-        int restaurantId = int.Parse(_dataProtector.Unprotect(HttpContext.Session.GetString("restaurantId")!));
-
-        Result isMealAdded = _mealService.AddMeal(mealVM, restaurantId, image);
-
-        if (isMealAdded.IsFailure)
-        {
-            ModelState.AddModelError("", isMealAdded.Error.Description);
-            return View(mealVM);
-        }
-
-        return RedirectToAction(nameof(RestaurantMeals), new { id = _dataProtector.Protect(restaurantId.ToString()) });
-    }
-
-    public IActionResult MealDetails(string id)
-    {
-        int mealId = int.Parse(_dataProtector.Unprotect(id));
-
-        var result = _mealService.GetMealVM(mealId);
+        var result = _mealService.GetForUpdate(key);
         
         if (result.IsFailure)
         {
             TempData["Error"] = result.Error.Description;
-            return RedirectToAction("Index", "Home", new { Area = SD.superAdminRole });
+            return RedirectToAction("Index", "Home", new { Area = DefaultRoles.SuperAdmin });
         }
 
-        HttpContext.Session.SetString("MealId", _dataProtector.Protect(mealId.ToString()));
+        HttpContext.Session.SetString(StaticData.MealId, key);
 
         return View(result.Value);
     }
 
-    [HttpPost, ValidateAntiForgeryToken]
-    public IActionResult MealDetails(MealVm mealVM)
-    {
-        if (!ModelState.IsValid)
-        {
-            return View(mealVM);
-        }
+    //[HttpPost, ValidateAntiForgeryToken]
+    //public IActionResult MealDetails(MealVm mealVM)
+    //{
+    //    if (!ModelState.IsValid)
+    //    {
+    //        return View(mealVM);
+    //    }
 
-        int mealId = int.Parse(_dataProtector.Unprotect(HttpContext.Session.GetString("MealId")!));
+    //    int mealId = int.Parse(_dataProtector.Unprotect(HttpContext.Session.GetString(StaticData.MealId)!));
 
-        Result isMealAdded = _mealService.EditMeal(mealVM, mealId);
+    //    Result isMealAdded = _mealService.Update(mealVM, mealId);
 
-        if (isMealAdded.IsSuccess)
-        {
-            TempData["Success"] = "Meal updated successfully";
-            return RedirectToAction("MealDetails", new { id = _dataProtector.Protect(mealId.ToString()) });
-        }
+    //    if (isMealAdded.IsSuccess)
+    //    {
+    //        TempData["Success"] = "Meal updated successfully";
+    //        return RedirectToAction("MealDetails", new { id = _dataProtector.Protect(mealId.ToString()) });
+    //    }
 
-        if (isMealAdded.Error.Equals(MealErrors.MealNotFound))
-        {
-            TempData["Error"] = isMealAdded.Error.Description;
-            return RedirectToAction("Index", "Home", new { Area = SD.superAdminRole });
-        }
+    //    if (isMealAdded.Error.Equals(MealErrors.MealNotFound))
+    //    {
+    //        TempData["Error"] = isMealAdded.Error.Description;
+    //        return RedirectToAction("Index", "Home", new { Area = DefaultRoles.SuperAdmin });
+    //    }
 
-        TempData["Error"] = isMealAdded.Error.Description;
-        return View(mealVM);
-    }
+    //    TempData["Error"] = isMealAdded.Error.Description;
+    //    return View(mealVM);
+    //}
 
-    [HttpPost, ValidateAntiForgeryToken]
-    public IActionResult MealImage(IFormFile image)
-    {
-        int mealId = int.Parse(_dataProtector.Unprotect(HttpContext!.Session.GetString("MealId")!));
+    //[HttpPost, ValidateAntiForgeryToken]
+    //public IActionResult MealImage(IFormFile image)
+    //{
+    //    int mealId = int.Parse(_dataProtector.Unprotect(HttpContext!.Session.GetString(StaticData.MealId)!));
 
-        Result changeMealImageResult = _mealService.ChangeMealImage(image, mealId);
+    //    Result changeMealImageResult = _mealService.ChangeMealImage(image, mealId);
 
-        if (changeMealImageResult.IsSuccess)
-        {
-            TempData["Success"] = "Meal image Updated successfully";
-            return RedirectToAction("MealDetails", new { id = _dataProtector.Protect(mealId.ToString()) });
-        }
+    //    if (changeMealImageResult.IsSuccess)
+    //    {
+    //        TempData["Success"] = "Meal image Updated successfully";
+    //        return RedirectToAction("MealDetails", new { id = _dataProtector.Protect(mealId.ToString()) });
+    //    }
 
-        if (changeMealImageResult.Error.Equals(MealErrors.MealNotFound))
-        {
-            TempData["Error"] = changeMealImageResult.Error.Description;
-            return RedirectToAction("Index", "Home");
-        }
+    //    if (changeMealImageResult.Error.Equals(MealErrors.MealNotFound))
+    //    {
+    //        TempData["Error"] = changeMealImageResult.Error.Description;
+    //        return RedirectToAction("Index", "Home");
+    //    }
 
-        TempData["Error"] = changeMealImageResult.Error.Description;
-        return RedirectToAction("MealDetails", new { id = _dataProtector.Protect(mealId.ToString()) });
-    }
+    //    TempData["Error"] = changeMealImageResult.Error.Description;
+    //    return RedirectToAction("MealDetails", new { id = _dataProtector.Protect(mealId.ToString()) });
+    //}
 
     public IActionResult MealPriceHistoryDetails(string id)
     {
@@ -132,7 +130,7 @@ public class RestaurantMealsController(IMealService mealService,
     {
         int restaurantId = int.Parse(_dataProtector.Unprotect(id));
 
-        HttpContext.Session.SetString("restaurantId", _dataProtector.Protect(restaurantId.ToString()));
+        HttpContext.Session.SetString(StaticData.RestaurantId, _dataProtector.Protect(restaurantId.ToString()));
 
         var result = _mealService.GetDeletedMeals(restaurantId);
 
@@ -158,7 +156,7 @@ public class RestaurantMealsController(IMealService mealService,
             return RedirectToAction("Index", "Home");
         }
 
-        int restaurantId = (int.Parse(_dataProtector.Unprotect(HttpContext.Session.GetString("restaurantId")!)));
+        int restaurantId = (int.Parse(_dataProtector.Unprotect(HttpContext.Session.GetString(StaticData.RestaurantId)!)));
 
         return RedirectToAction("RestaurantMeals", "RestaurantMeals", new { id = _dataProtector.Protect(restaurantId.ToString()) });
     }
@@ -175,7 +173,7 @@ public class RestaurantMealsController(IMealService mealService,
             return RedirectToAction("Index", "Home");
         }
 
-        int restaurantId = int.Parse(_dataProtector.Unprotect(HttpContext.Session.GetString("restaurantId")!));
+        int restaurantId = int.Parse(_dataProtector.Unprotect(HttpContext.Session.GetString(StaticData.RestaurantId)!));
 
         return RedirectToAction("RestaurantDeletedMeals", "RestaurantMeals", new { id = _dataProtector.Protect(restaurantId.ToString()   ) });
     }

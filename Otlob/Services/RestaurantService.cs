@@ -1,31 +1,17 @@
 ﻿namespace Otlob.Services;
 
 public class RestaurantService(IDataProtectionProvider dataProtectionProvider, IUnitOfWorkRepository unitOfWorkRepository,
-                               UserManager<ApplicationUser> userManager) : IRestaurantService
+                               UserManager<ApplicationUser> userManager, IMapper mapper,
+                               IHttpContextAccessor httpContextAccessor, IRestaurantProgressStatus restaurantProgressStatus,
+                               IRestaurantCategoriesService restaurantCategoriesService) : IRestaurantService
 {
-    private readonly IDataProtector _dataProtector = dataProtectionProvider.CreateProtector("SecureData");
-    private readonly IUnitOfWorkRepository _unitOfWorkRepository = unitOfWorkRepository;
+    private readonly IMapper _mapper = mapper;
     private readonly UserManager<ApplicationUser> _userManager = userManager;
-
-    public async Task<Result<int>> GetRestaurantIdByUserId(string userId)
-    {
-        var validateUserId = await ValidateUserId(userId);
-
-        if (validateUserId.IsFailure)
-        {
-            return Result.Failure<int>(AuthenticationErrors.InvalidUser);
-        }
-
-        int restaurantId = _unitOfWorkRepository
-            .Restaurants
-            .GetOneWithSelect(
-                expression: r => r.OwnerId == userId,
-                tracked: false,
-                selector: r => r.Id
-            );
-
-        return Result.Success(restaurantId);
-    }
+    private readonly IHttpContextAccessor _httpContextAccessor = httpContextAccessor;
+    private readonly IUnitOfWorkRepository _unitOfWorkRepository = unitOfWorkRepository;
+    private readonly IRestaurantProgressStatus _restaurantProgressStatus = restaurantProgressStatus;
+    private readonly IRestaurantCategoriesService _restaurantCategoriesService = restaurantCategoriesService;
+    private readonly IDataProtector _dataProtector = dataProtectionProvider.CreateProtector("SecureData");
 
     public Result<RestaurantVM> GetRestaurant(int restaurantId)
     {
@@ -33,7 +19,7 @@ public class RestaurantService(IDataProtectionProvider dataProtectionProvider, I
 
         if (result.IsFailure)
         {
-            return Result.Failure<RestaurantVM>(RestaurantErrors.InvalidRestaurantId);
+            return Result.Failure<RestaurantVM>(RestaurantErrors.NotFound);
         }
 
         RestaurantVM restaurantsVM = _unitOfWorkRepository.Restaurants
@@ -44,7 +30,6 @@ public class RestaurantService(IDataProtectionProvider dataProtectionProvider, I
                 selector: r => new RestaurantVM
                 {
                     Name = r.Name!,
-                    DeliveryFee = r.DeliveryFee,
                     AcctiveStatus = r.AcctiveStatus,
                     Image = r.Image,
                 }
@@ -79,37 +64,110 @@ public class RestaurantService(IDataProtectionProvider dataProtectionProvider, I
         return restaurantsVM!;
     }
 
-    public Result<RestaurantVM> GetRestaurantDetailsById(int restaurantId)
+    public IQueryable<PendingRestaurantResponse>? GetUnAcceptedAndPendingRestaurants()
     {
+        var response = _unitOfWorkRepository.Restaurants
+            .GetAllWithSelect(
+                expression: r => r.AcctiveStatus == AcctiveStatus.UnAccepted || r.AcctiveStatus == AcctiveStatus.Pending,
+                tracked: false,
+                selector: r => new PendingRestaurantResponse
+                {
+                    Key = _dataProtector.Protect(r.Id.ToString()),
+                    Name = r.Name,
+                    Image = r.Image,
+                    AcctiveStatus= r.AcctiveStatus,
+                    ProgressStatus = r.ProgressStatus
+                }
+            );
+
+        return response;
+    }
+
+    public PendingRestaurantResponse GetUnAcceptedRestaurant()
+    {
+        int restaurantId = int.Parse(_httpContextAccessor.HttpContext!.User.FindFirstValue(StaticData.RestaurantId)!);
+
+        ProgressStatus progressStatus = _restaurantProgressStatus.GetRestaurantProgressStatus(restaurantId);
+
+        if (progressStatus >= ProgressStatus.NationalIdCompleted)
+        {
+            return _unitOfWorkRepository.Restaurants
+                .GetOneWithSelect(
+                    expression: r => r.Id == restaurantId && r.AcctiveStatus == AcctiveStatus.UnAccepted,
+                    tracked: false,
+                    selector: r => new PendingRestaurantResponse
+                    {
+                        ProgressStatus = r.ProgressStatus,
+                        CommertialRegistrationStatuc = r.CommercialRegistration.Status,
+                        TradeMarkStatus = r.TradeMark.Status,
+                        VatStatus = r.VatCertificate.Status,
+                        BankAccountStatus = r.BankAccount.Status,
+                        NationalIdStatus = r.NationalId.Status
+                    }
+                )!;
+        }
+
+        return _unitOfWorkRepository.Restaurants
+                .GetOneWithSelect(
+                    expression: r => r.Id == restaurantId && r.AcctiveStatus == AcctiveStatus.UnAccepted,
+                    tracked: false,
+                    selector: r => new PendingRestaurantResponse
+                    {
+                        Key = _dataProtector.Protect(r.Id.ToString()),
+                        Name = r.Name,
+                        Image = r.Image,
+                        ProgressStatus = r.ProgressStatus
+                    }
+                )!;
+    }
+
+    public PendingRestaurantResponse GetPendingRestaurant()
+    {
+        int restaurantId = int.Parse(_httpContextAccessor.HttpContext!.User.FindFirstValue(StaticData.RestaurantId)!);
+
+        var response = _unitOfWorkRepository.Restaurants
+            .GetOneWithSelect(
+                expression: r => r.Id == restaurantId && r.AcctiveStatus == AcctiveStatus.Pending,
+                tracked: false,
+                selector: r => new PendingRestaurantResponse
+                {
+                    Key = _dataProtector.Protect(restaurantId.ToString()),
+                    Name = r.Name,
+                    Image = r.Image,
+                    AcctiveStatus = r.AcctiveStatus,
+                    ProgressStatus = r.ProgressStatus
+                }
+            )!;
+
+        return response;
+    }
+
+    public Result<RestaurantDetailsResponse> GetRestaurantDetailsById(string id)
+    {
+        //TODO: Handle Exception
+        int restaurantId = int.Parse(_dataProtector.Unprotect(id));
+
         Result result = IsRestaurantIdExists(restaurantId);
 
         if (result.IsFailure)
         {
-            return Result.Failure<RestaurantVM>(RestaurantErrors.InvalidRestaurantId);
+            return Result.Failure<RestaurantDetailsResponse>(RestaurantErrors.NotFound);
         }
 
-        var restaurantsVM = _unitOfWorkRepository.Restaurants
-            .GetOneWithSelect
+        var restaurant = _unitOfWorkRepository.Restaurants
+            .GetOne
              (
                 expression: r => r.Id == restaurantId,
                 tracked: false,
-                ignoreQueryFilter: true,
-                selector: r => new RestaurantVM
-                {
-                    Key = _dataProtector.Protect(r.Id.ToString()),
-                    Name = r.Name!,
-                    Phone = r.Phone!,
-                    Email = r.Email!,
-                    Description = r.Description!,
-                    DeliveryDuration = r.DeliveryDuration,
-                    DeliveryFee = r.DeliveryFee,
-                    AcctiveStatus = r.AcctiveStatus,
-                    Image = r.Image,
-                    UserId = _dataProtector.Protect(r.OwnerId)
-                }
+                ignoreQueryFilter: true
              )!;
 
-        return Result.Success(restaurantsVM);
+        var response = _mapper.Map<RestaurantDetailsResponse>(restaurant);
+        response.Key = _dataProtector.Protect(restaurant.Id.ToString());
+        response.OwnerId = _dataProtector.Protect(restaurant.OwnerId);
+        response.Categories = [.. _restaurantCategoriesService.GetCategoriesByRestaurantId(restaurantId)!];
+
+        return Result.Success(response);
     }       
 
     public IQueryable<RestaurantVM>? GetDeletedRestaurants()
@@ -138,6 +196,7 @@ public class RestaurantService(IDataProtectionProvider dataProtectionProvider, I
 
     public async Task<bool> DelteRestaurant(string id)
     {
+        // TODO: Handle Exception
         int restaurantId = int.Parse(_dataProtector.Unprotect(id));
 
         _unitOfWorkRepository.Orders.SoftDelete(o => o.RestaurantId == restaurantId);
@@ -190,7 +249,44 @@ public class RestaurantService(IDataProtectionProvider dataProtectionProvider, I
         return true;
     }
 
+    public AcctiveStatus GetRestaurantStatusById(int restaurantId)
+    {
+        return _unitOfWorkRepository.Restaurants
+            .GetOneWithSelect(
+                expression: r => r.Id == restaurantId,
+                tracked: false,
+                selector: r => r.AcctiveStatus
+            );
+    }
 
+    public Result IsRestaurantIdExists(int restaurantId)
+    {
+        if  (restaurantId <= 0)
+        {
+            return Result.Failure(RestaurantErrors.NotFound);
+        }
+
+        bool isRestaurantIdExists = _unitOfWorkRepository.Restaurants.IsExist(expression: r => r.Id == restaurantId);
+
+        if (!isRestaurantIdExists)
+        {
+            return Result.Failure(RestaurantErrors.NotFound);
+        }
+
+        return Result.Success();
+    }    
+
+    public int HowManyBranchesExistForRestaurant(int restaurantId)
+    {
+        int totalBranches = _unitOfWorkRepository.Restaurants
+            .GetOneWithSelect(
+                expression: r => r.Id == restaurantId,
+                tracked: false,
+                selector: r => r.NumberOfBranches
+            );
+
+        return totalBranches;
+    }
 
     private static Expression<Func<Restaurant, bool>> RestaurantsStatusFilter(AcctiveStatus[]? statuses = null)
     {
@@ -201,38 +297,4 @@ public class RestaurantService(IDataProtectionProvider dataProtectionProvider, I
 
         return r => statuses.Contains(r.AcctiveStatus);
     }
-
-    private async Task<Result> ValidateUserId(string userId)
-    {
-        if (userId is null)
-        {
-            return Result.Failure(AuthenticationErrors.InvalidUser);
-        }
-
-        bool isUserIdExists = await _userManager.Users.AnyAsync(u => u.Id == userId);
-
-        if (!isUserIdExists)
-        {
-            return Result.Failure(AuthenticationErrors.InvalidUser);
-        }
-
-        return Result.Success();
-    }
-
-    private Result IsRestaurantIdExists(int restaurantId)
-    {
-        if  (restaurantId <= 0)
-        {
-            return Result.Failure(RestaurantErrors.InvalidRestaurantId);
-        }
-
-        bool isRestaurantIdExists = _unitOfWorkRepository.Restaurants.IsExist(expression: r => r.Id == restaurantId);
-
-        if (!isRestaurantIdExists)
-        {
-            return Result.Failure(RestaurantErrors.InvalidRestaurantId);
-        }
-
-        return Result.Success();
-    }    
 }

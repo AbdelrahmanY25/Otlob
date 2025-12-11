@@ -1,4 +1,4 @@
-﻿namespace Otlob.Core.Contracts.ViewModel;
+﻿namespace Otlob.Core.Contracts.Authentication;
 
 public class OrderedMealsVM
 {
