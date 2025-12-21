@@ -1,6 +1,7 @@
 ﻿global using Otlob.Core.Contracts.Authentication;
 global using Otlob.Core.Contracts.MenuCategory;
 global using Otlob.Core.Mapping.MappingProfile;
+global using Otlob.Core.Contracts.MealVarients;
 global using Otlob.Core.IUnitOfWorkRepository;
 global using Otlob.Core.Mapping.ManualMapping;
 global using Otlob.Core.Contracts.Restaurant;
@@ -13,6 +14,7 @@ global using Otlob.Core.Contracts.Meal;
 global using Otlob.Core.Contracts.User;
 global using Otlob.Services.Results;
 global using Otlob.Core.Extensions;
+global using Otlob.Core.Contracts;
 global using Otlob.Core.Entities;
 global using Otlob.Abstractions;
 global using Otlob.Core.Hubs;

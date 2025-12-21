@@ -1,0 +1,12 @@
+D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Utility\bin\Release\net9.0\win-x86\Utility.deps.json
+D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Utility\bin\Release\net9.0\win-x86\Utility.dll
+D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Utility\bin\Release\net9.0\win-x86\Utility.pdb
+D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Utility\obj\Release\net9.0\win-x86\Utility.GeneratedMSBuildEditorConfig.editorconfig
+D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Utility\obj\Release\net9.0\win-x86\Utility.AssemblyInfoInputs.cache
+D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Utility\obj\Release\net9.0\win-x86\Utility.AssemblyInfo.cs
+D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Utility\obj\Release\net9.0\win-x86\Utility.csproj.CoreCompileInputs.cache
+D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Utility\obj\Release\net9.0\win-x86\Utility.sourcelink.json
+D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Utility\obj\Release\net9.0\win-x86\Utility.dll
+D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Utility\obj\Release\net9.0\win-x86\refint\Utility.dll
+D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Utility\obj\Release\net9.0\win-x86\Utility.pdb
+D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Utility\obj\Release\net9.0\win-x86\ref\Utility.dll

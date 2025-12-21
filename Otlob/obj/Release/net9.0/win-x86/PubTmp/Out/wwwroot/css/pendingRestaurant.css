@@ -1,0 +1,476 @@
+/* Pending Restaurant Page - Professional Design */
+
+:root {
+    --pending-primary-color: #F04335;
+    --pending-secondary-color: #dd968c;
+    --pending-success-color: #05a437;
+    --pending-warning-color: #ffb300;
+    --pending-text-primary: #1f2937;
+    --pending-text-secondary: #6b7280;
+    --pending-bg-light: #f3f4f6;
+    --pending-border-color: #e5e7eb;
+    --pending-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --pending-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --pending-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ===== Container ===== */
+.pending-restaurant-container {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+    padding: 40px 20px;
+}
+
+.pending-restaurant-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+/* ===== Header Section ===== */
+.pending-header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.pending-header-icon {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 24px;
+    background: linear-gradient(135deg, var(--pending-primary-color), var(--pending-secondary-color));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 10px 25px rgba(240, 67, 53, 0.3);
+    animation: pulse-icon 2s ease-in-out infinite;
+}
+
+@keyframes pulse-icon {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 10px 25px rgba(240, 67, 53, 0.3);
+    }
+    50% {
+        transform: scale(1.05);
+        box-shadow: 0 15px 35px rgba(240, 67, 53, 0.4);
+    }
+}
+
+.pending-header-icon i {
+    font-size: 48px;
+    color: white;
+}
+
+.pending-title {
+    font-size: 36px;
+    font-weight: 800;
+    color: var(--pending-text-primary);
+    margin: 0 0 12px;
+}
+
+.pending-subtitle {
+    font-size: 18px;
+    color: var(--pending-text-secondary);
+    margin: 0;
+    line-height: 1.6;
+}
+
+/* ===== Status Badge ===== */
+.pending-status-section {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 40px;
+}
+
+.pending-status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 24px;
+    background: linear-gradient(135deg, rgba(255, 179, 0, 0.15), rgba(255, 179, 0, 0.1));
+    color: #d68400;
+    border: 2px solid rgba(255, 179, 0, 0.3);
+    border-radius: 50px;
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.pending-status-badge i {
+    font-size: 18px;
+    animation: rotate-icon 2s linear infinite;
+}
+
+@keyframes rotate-icon {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ===== Info Message ===== */
+.pending-info-message {
+    background: white;
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 40px;
+    box-shadow: var(--pending-shadow);
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    border-left: 4px solid var(--pending-warning-color);
+}
+
+.pending-info-message i {
+    font-size: 24px;
+    color: var(--pending-warning-color);
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.pending-info-message p {
+    font-size: 15px;
+    color: var(--pending-text-primary);
+    line-height: 1.7;
+    margin: 0;
+}
+
+/* ===== Action Cards Grid ===== */
+.pending-actions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+/* ===== Action Card ===== */
+.pending-action-card {
+    background: white;
+    border-radius: 20px;
+    padding: 40px 30px;
+    text-align: center;
+    box-shadow: var(--pending-shadow);
+    transition: var(--pending-transition);
+    position: relative;
+    overflow: hidden;
+    text-decoration: none;
+    display: block;
+    border: 2px solid transparent;
+}
+
+.pending-action-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    background: linear-gradient(90deg, var(--pending-primary-color), var(--pending-secondary-color));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s ease;
+}
+
+.pending-action-card:hover {
+    transform: translateY(-10px);
+    box-shadow: var(--pending-shadow-lg);
+    border-color: rgba(240, 67, 53, 0.2);
+}
+
+.pending-action-card:hover::before {
+    transform: scaleX(1);
+}
+
+.pending-card-icon {
+    width: 90px;
+    height: 90px;
+    margin: 0 auto 24px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--pending-transition);
+}
+
+.pending-action-card:hover .pending-card-icon {
+    transform: scale(1.1) rotate(-5deg);
+}
+
+.pending-card-icon.branches-icon {
+    background: linear-gradient(135deg, rgba(13, 110, 253, 0.15), rgba(13, 110, 253, 0.1));
+    border: 2px solid rgba(13, 110, 253, 0.2);
+}
+
+.pending-card-icon.branches-icon i {
+    font-size: 40px;
+    color: #0d6efd;
+}
+
+.pending-card-icon.meals-icon {
+    background: linear-gradient(135deg, rgba(5, 164, 55, 0.15), rgba(5, 164, 55, 0.1));
+    border: 2px solid rgba(5, 164, 55, 0.2);
+}
+
+.pending-card-icon.meals-icon i {
+    font-size: 40px;
+    color: var(--pending-success-color);
+}
+
+.pending-card-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--pending-text-primary);
+    margin: 0 0 12px;
+}
+
+.pending-card-description {
+    font-size: 15px;
+    color: var(--pending-text-secondary);
+    line-height: 1.6;
+    margin: 0 0 24px;
+}
+
+.pending-card-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 28px;
+    border-radius: 50px;
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: var(--pending-transition);
+}
+
+.pending-action-card.branches-card .pending-card-action {
+    background: linear-gradient(135deg, #0d6efd, #0b5ed7);
+    color: white;
+}
+
+.pending-action-card.branches-card:hover .pending-card-action {
+    box-shadow: 0 6px 20px rgba(13, 110, 253, 0.4);
+    transform: translateY(-2px);
+}
+
+.pending-action-card.meals-card .pending-card-action {
+    background: linear-gradient(135deg, var(--pending-success-color), #048f36);
+    color: white;
+}
+
+.pending-action-card.meals-card:hover .pending-card-action {
+    box-shadow: 0 6px 20px rgba(5, 164, 55, 0.4);
+    transform: translateY(-2px);
+}
+
+/* ===== Restaurant Info Card ===== */
+.pending-restaurant-info {
+    background: white;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: var(--pending-shadow);
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.pending-restaurant-logo {
+    width: 80px;
+    height: 80px;
+    border-radius: 16px;
+    object-fit: cover;
+    border: 3px solid var(--pending-border-color);
+    flex-shrink: 0;
+}
+
+.pending-restaurant-details {
+    flex: 1;
+}
+
+.pending-restaurant-name {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--pending-text-primary);
+    margin: 0 0 8px;
+}
+
+.pending-restaurant-meta {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.pending-meta-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+    color: var(--pending-text-secondary);
+}
+
+.pending-meta-item i {
+    color: var(--pending-primary-color);
+}
+
+/* ===== Responsive Design ===== */
+@media (max-width: 768px) {
+    .pending-restaurant-container {
+        padding: 30px 15px;
+    }
+
+    .pending-header-icon {
+        width: 80px;
+        height: 80px;
+    }
+
+    .pending-header-icon i {
+        font-size: 40px;
+    }
+
+    .pending-title {
+        font-size: 28px;
+    }
+
+    .pending-subtitle {
+        font-size: 16px;
+    }
+
+    .pending-actions-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .pending-action-card {
+        padding: 30px 24px;
+    }
+
+    .pending-card-icon {
+        width: 80px;
+        height: 80px;
+    }
+
+    .pending-card-icon i {
+        font-size: 36px !important;
+    }
+
+    .pending-card-title {
+        font-size: 20px;
+    }
+
+    .pending-info-message {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .pending-restaurant-info {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .pending-restaurant-meta {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .pending-restaurant-container {
+        padding: 20px 10px;
+    }
+
+    .pending-header-icon {
+        width: 70px;
+        height: 70px;
+    }
+
+    .pending-header-icon i {
+        font-size: 32px;
+    }
+
+    .pending-title {
+        font-size: 24px;
+    }
+
+    .pending-subtitle {
+        font-size: 14px;
+    }
+
+    .pending-status-badge {
+        font-size: 12px;
+        padding: 10px 20px;
+    }
+
+    .pending-action-card {
+        padding: 24px 20px;
+    }
+
+    .pending-card-icon {
+        width: 70px;
+        height: 70px;
+    }
+
+    .pending-card-icon i {
+        font-size: 32px !important;
+    }
+
+    .pending-card-title {
+        font-size: 18px;
+    }
+
+    .pending-card-description {
+        font-size: 14px;
+    }
+
+    .pending-card-action {
+        padding: 10px 24px;
+        font-size: 13px;
+    }
+
+    .pending-restaurant-logo {
+        width: 70px;
+        height: 70px;
+    }
+
+    .pending-restaurant-name {
+        font-size: 18px;
+    }
+}
+
+/* ===== Animations ===== */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.pending-header {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+.pending-status-section {
+    animation: fadeInUp 0.6s ease-out 0.1s both;
+}
+
+.pending-info-message {
+    animation: fadeInUp 0.6s ease-out 0.2s both;
+}
+
+.pending-action-card:nth-child(1) {
+    animation: fadeInUp 0.6s ease-out 0.3s both;
+}
+
+.pending-action-card:nth-child(2) {
+    animation: fadeInUp 0.6s ease-out 0.4s both;
+}
+
+.pending-restaurant-info {
+    animation: fadeInUp 0.6s ease-out 0.5s both;
+}

@@ -24,7 +24,7 @@ public class AddPartnerService(IUnitOfWorkRepository unitOfWorkRepository, IMapp
         Restaurant restaurant = _mapper.Map<Restaurant>(request);
         restaurant.OwnerId = owner.Id;
 
-        _unitOfWorkRepository.Restaurants.Create(restaurant);
+        _unitOfWorkRepository.Restaurants.Add(restaurant);
         _unitOfWorkRepository.SaveChanges();
 
         return Result.Success();

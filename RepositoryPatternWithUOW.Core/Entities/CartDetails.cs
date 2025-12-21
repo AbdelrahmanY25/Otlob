@@ -4,7 +4,7 @@ public class CartDetails
 {
     public int Id { get; set; }
     public int CartId { get; set; }
-    public int MealId { get; set; }
+    public string MealId { get; set; } = string.Empty;
     public int Quantity { get; set; }
     public decimal PricePerMeal { get; set; }
 

@@ -1,4 +1,4 @@
-﻿@model IQueryable<MealVm>
+﻿@model IQueryable<MealResponse>
 @{
     ViewData["Title"] = "meals";
 }
@@ -47,7 +47,7 @@
                     <p >Enough To: @item.NumberOfServings</p>
                 </div>
                 <a class="card-button" id="logo" data-count="@count" data-logo="/images/@item.Image"
-                   data-bs-toggle="modal" data-bs-target="#deleteModal" data-categoryid="@item.MealVmId"
+                   data-bs-toggle="modal" data-bs-target="#deleteModal" data-categoryid="@item.Key"
                    data-categoryname="@item.Name" data-resturantid="@ViewBag.ResId"><i class="bi bi-plus"></i>
                </a>
             </div>

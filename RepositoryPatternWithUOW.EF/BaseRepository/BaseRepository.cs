@@ -1,25 +1,21 @@
-﻿namespace Otlob.EF.BaseRepository;
+﻿using System.Threading.Tasks;
 
-public class BaseRepository<T> : IBaseRepository<T> where T : class
+namespace Otlob.EF.BaseRepository;
+
+public class BaseRepository<T>(ApplicationDbContext context) : IBaseRepository<T> where T : class
 {
-    private readonly ApplicationDbContext context;
+    private readonly ApplicationDbContext context = context ?? throw new ArgumentNullException(nameof(context));
 
-    private readonly DbSet<T> dbSet;
+    private readonly DbSet<T> dbSet = context.Set<T>();
 
-    public BaseRepository(ApplicationDbContext context)
-    {
-        this.context = context ?? throw new ArgumentNullException(nameof(context));
-        dbSet = context.Set<T>();
-    }
-
-    public void Create(T entity)
+    public void Add(T entity)
     {
         dbSet.Add(entity);
     }
 
-    public void CreateRange(IEnumerable<T> entities)
+    public async Task AddRangeAsync(IEnumerable<T> entities)
     {
-        dbSet.AddRange(entities);
+        await dbSet.AddRangeAsync(entities);
     }
 
     public void Edit(T entity)
@@ -60,7 +56,12 @@ public class BaseRepository<T> : IBaseRepository<T> where T : class
 
     public void HardDelete(T entity)
     {
-        dbSet.Remove(entity);
+        dbSet.Remove(entity);        
+    }
+
+    public void HardDeleteRange(IEnumerable<T> entities)
+    {
+        dbSet.RemoveRange(entities);
     }
 
     public bool IsExist(Expression<Func<T, bool>> expression, bool ignoreQueryFilter = false)

@@ -1,21 +1,17 @@
 ﻿namespace Otlob.Areas.RestaurantAdmin.Controllers;
 
 [Area(DefaultRoles.RestaurantAdmin), Authorize(Roles = DefaultRoles.RestaurantAdmin)]
-public class MealsController(IMealService mealService, IMenuCategoryService menuCategoryService,
-                             IDataProtectionProvider dataProtectionProvider) : Controller
+public class MealsController(IMealService mealService, IMealCategoryService menuCategoryService) : Controller
 {
     private readonly IMealService _mealService = mealService;
-    private readonly IMenuCategoryService _menuCategoryService = menuCategoryService;
-    private readonly IDataProtector _dataProtector = dataProtectionProvider.CreateProtector("SecureData");
+    private readonly IMealCategoryService _menuCategoryService = menuCategoryService;
 
-    public IActionResult Index()
-    {
-        int restaurantId = int.Parse(User.FindFirstValue(StaticData.RestaurantId)!);
-        
-        var mealsResult = _mealService.GetAllByRestaurantId(restaurantId)!;       
+    //public IActionResult Index()
+    //{        
+    //    var mealsResult = _mealService.GetAllByRestaurantId(int.Parse(User.FindFirstValue(StaticData.RestaurantId)!))!;       
 
-        return View(mealsResult.Value);
-    }
+    //    return View(mealsResult.Value);
+    //}
 
     public IActionResult Add()
     {
@@ -35,16 +31,17 @@ public class MealsController(IMealService mealService, IMenuCategoryService menu
     }
 
     [HttpPost, ValidateAntiForgeryToken]
-    public IActionResult Add(MealRequest request, UploadImageRequest imageRequest)
+    public async Task<IActionResult> Add(MealRequest request, UploadImageRequest imageRequest)
     {
         if (!ModelState.IsValid)
         {
-            return View(request);
+            TempData["Error"] = ModelState.Values.SelectMany(v => v.Errors).First().ErrorMessage;
+            return RedirectToAction(nameof(Add));
         }
 
         int restaurantId = int.Parse(User.FindFirstValue(StaticData.RestaurantId)!);
 
-        Result result = _mealService.Add(restaurantId, request, imageRequest);
+        Result result = await _mealService.AddAsync(restaurantId, request, imageRequest);
 
         if (result.IsFailure)
         {
@@ -62,16 +59,14 @@ public class MealsController(IMealService mealService, IMenuCategoryService menu
         if (resultResponse.IsFailure)
         {
             TempData["Error"] = resultResponse.Error.Description;
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Menu", "Menu");
         }
-
-        int restaurantId = int.Parse(User.FindFirstValue(StaticData.RestaurantId)!);
 
         return View(resultResponse.Value);
     }
 
     [HttpPost, ValidateAntiForgeryToken]
-    public IActionResult Update(MealRequest request, string key)
+    public async Task<IActionResult> Update(MealRequest request, string key)
     {
         if (!ModelState.IsValid)
         {
@@ -81,7 +76,7 @@ public class MealsController(IMealService mealService, IMenuCategoryService menu
 
         int restaurantId = int.Parse(User.FindFirstValue(StaticData.RestaurantId)!);
 
-        Result isMealAdded = _mealService.Update(request, key, restaurantId);
+        Result isMealAdded = await _mealService.UpdateAsync(request, key, restaurantId);
 
         if (isMealAdded.IsFailure)
         {
@@ -89,13 +84,14 @@ public class MealsController(IMealService mealService, IMenuCategoryService menu
             return RedirectToAction(nameof(Update), new { key });
         }
 
-        return BackToMealsView("Meal updated succefully");
+        TempData["Success"] = "Meal updated succefully";
+        return RedirectToAction(nameof(Update), new { key });
     }
 
     [HttpPost, ValidateAntiForgeryToken]
     public IActionResult UpdateImage(UploadImageRequest imageRequest, string key)
     {        
-        Result changeMealImageResult = _mealService.ChangeMealImage(imageRequest.Image, key);
+        Result changeMealImageResult = _mealService.UpdateMealImage(imageRequest, key);
 
         if (changeMealImageResult.IsFailure)
         {
@@ -107,15 +103,8 @@ public class MealsController(IMealService mealService, IMenuCategoryService menu
         return RedirectToAction(nameof(Update), new { key });
     }
 
-    public IActionResult DeletedMeals()
+    public IActionResult Deleted()
     {
-        string? userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-        if (userId is null)
-        {
-            return RedirectToAction("Login", "Account", new { Area = "Customer" });
-        }
-
         int restaurantId = int.Parse(User.FindFirstValue(StaticData.RestaurantId)!);
 
         var result = _mealService.GetDeletedMeals(restaurantId);
@@ -130,39 +119,30 @@ public class MealsController(IMealService mealService, IMenuCategoryService menu
     }
 
     [HttpPost, ValidateAntiForgeryToken]
-    public IActionResult DeleteMeal(string id)
+    public IActionResult Delete(string id)
     {
-        int mealId = int.Parse(_dataProtector.Unprotect(id));
-
-        var result = _mealService.DeleteMeal(mealId);
+        var result = _mealService.DeleteMeal(id);
 
         if (result.IsFailure)
-        {
             TempData["Error"] = result.Error.Description;
-            return RedirectToAction("Index", "Home");
-        }
 
-        return RedirectToAction("Index");
+        return RedirectToAction("Menu", "Menu");
     }
 
-    public IActionResult UnDeleteMeal(string id)
-    {
-        int mealId = int.Parse(_dataProtector.Unprotect(id));
-        
-        var result = _mealService.UnDeleteMeal(mealId);
+    [HttpPost, ValidateAntiForgeryToken]
+    public IActionResult UnDelete(string id)
+    {        
+        var result = _mealService.UnDeleteMeal(id);
 
         if (result.IsFailure)
-        {
             TempData["Error"] = result.Error.Description;
-            return RedirectToAction("Index", "Home");
-        }
 
-        return RedirectToAction("DeletedMeals");
+        return RedirectToAction(nameof(Deleted));
     }
 
     private RedirectToActionResult BackToMealsView(string msg)
     {
         TempData["Success"] = msg;
-        return RedirectToAction(nameof(Index));
+        return RedirectToAction("Menu", "Menu");
     }
 }

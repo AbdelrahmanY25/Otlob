@@ -1,0 +1,346 @@
+﻿@model MealResponse
+
+<link rel="stylesheet" href="~/css/addMeal.css" asp-append-version="true" />
+
+<div class="am-page">
+    <div class="am-container">
+        <form asp-controller="Meals" asp-action="Update" asp-route-key="@Model.Key" enctype="multipart/form-data" id="mealForm" method="post">
+            <div asp-validation-summary="All" class="am-validation-errors" style="display:none;" role="alert" aria-live="assertive"></div>
+
+            <div class="am-header-actions">
+                <div class="am-header-title">
+                    <a asp-controller="Menu" asp-action="Menu" asp-route-restaurantKey="@ViewBag.ResKey" class="am-back-link">
+                        <i class="fas fa-arrow-left"></i>
+                    </a>
+                    <h1>Edit Meal</h1>
+                </div>
+                <div class="am-actions">
+                    <a asp-controller="Menu" asp-action="Menu" asp-route-restaurantKey="@ViewBag.ResKey" class="am-btn-secondary">Discard</a>
+                    <button type="submit" class="am-btn-primary" id="submitBtn">Save</button>
+                </div>
+            </div>
+
+            <div class="am-layout-grid">
+                <!-- Main Content Column -->
+                <div class="am-main-column">
+
+                    <!-- General Info Card -->
+                    <div class="am-card">
+                        <div class="am-card-body">
+                            <div class="am-form-group">
+                                <label asp-for="Name" class="am-label">Title</label>
+                                <input asp-for="Name" class="am-input" value="@Model.Name" placeholder="e.g. Short sleeve t-shirt" />
+                            </div>
+                            <div class="am-form-group">
+                                <label asp-for="Description" class="am-label">Description</label>
+                                <textarea asp-for="Description" class="am-textarea" placeholder="Describe your meal...">@Model.Description</textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Media Card -->
+                    <div class="am-card">
+                        <div class="am-card-header">
+                            <h2>Media</h2>
+                        </div>
+                        <div class="am-card-body">
+                            <div class="am-media-upload-area @(Model.Image != null ? "has-image" : "")" id="mediaUploadArea" onclick="triggerMealImageUpload(event)">
+                                <input class="am-file-input"
+                                       id="imageFileInput"
+                                       type="file"
+                                       accept="image/*"
+                                       onchange="previewMealImage(this)" />
+                                <div class="am-media-preview" id="mediaPreview">
+                                    <img id="mealLogo" src="/images/@(Model.Image ?? "Default.jpg")" alt="Meal Image" />
+                                    <button type="button" class="am-remove-preview-btn" id="removePreviewBtn" onclick="removeSelectedImage(event)" title="Remove">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                                <div class="am-media-placeholder">
+                                    <div class="am-upload-btn">Change Image</div>
+                                    <span>Accepts an image</span>
+                                </div>
+                                <div class="am-media-actions">
+                                    <button type="button" class="am-update-image-btn" id="updateImageBtn" onclick="submitImageUpdate(event)">
+                                        <i class="fas fa-upload"></i> Update Image
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pricing Card -->
+                    <div class="am-card">
+                        <div class="am-card-header">
+                            <h2>Pricing</h2>
+                        </div>
+                        <div class="am-card-body">
+                            <div class="am-form-row">
+                                <div class="am-form-group">
+                                    <label asp-for="Price" class="am-label">Price</label>
+                                    <div class="am-input-wrapper">
+                                        <span class="am-currency-symbol">EGP</span>
+                                        <input asp-for="Price" type="number" step="0.01" min="0" class="am-input" value="@Model.Price" placeholder="0.00" />
+                                    </div>
+                                </div>
+                                <div class="am-form-group">
+                                    <label asp-for="NumberOfServings" class="am-label">Servings</label>
+                                    <input asp-for="NumberOfServings" type="number" min="1" max="50" class="am-input" value="@Model.NumberOfServings" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Variants / Option Groups Card -->
+                    <div class="am-card">
+                        <div class="am-card-header">
+                            <h2>Variants</h2>
+                        </div>
+                        <div class="am-card-body">
+                            <div class="am-variants-toggle">
+                                <label class="am-checkbox-wrapper">
+                                    @if (Model.HasOptionGroup)
+                                    {
+                                        <input type="checkbox" asp-for="HasOptionGroup" id="hasOptionGroupCheckbox" checked />
+                                    }
+                                    else
+                                    {
+                                        <input type="checkbox" asp-for="HasOptionGroup" id="hasOptionGroupCheckbox" />
+                                    }
+
+                                    <span class="am-checkbox-label">This meal has options, like size</span>
+                                </label>
+                            </div>
+
+                            <div id="optionGroupsContainer" class="am-options-container" style="display: @(Model.HasOptionGroup ? "block" : "none");">
+                                <div class="am-divider"></div>
+                                <div id="groupsList">
+                                    @if (Model.HasOptionGroup)
+                                    {
+                                        var groupIndex = 0;
+                                        foreach (var group in Model.OptionGroups!)
+                                        {
+                                            <div class="am-option-group-card" id="group-@groupIndex" data-group-index="@groupIndex" data-group-id="@group.Id">
+                                                <div class="am-group-header-row">
+                                                    <div class="am-form-group flex-grow">
+                                                        <label class="am-label">Option Name</label>
+                                                        <input name="OptionGroups[@groupIndex].Id" type="hidden" value="@group.Id" />
+                                                        <input name="OptionGroups[@groupIndex].Name"
+                                                               class="am-input group-name-input"
+                                                               value="@group.Name"
+                                                               placeholder="e.g. Size"
+                                                               oninput="validateForm()"
+                                                               required />
+                                                    </div>
+                                                    <button type="button" class="am-btn-icon-danger" onclick="removeGroup(@groupIndex)" title="Remove">
+                                                        <i class="fas fa-trash-alt"></i>
+                                                    </button>
+                                                </div>
+
+                                                <div class="am-group-values-section">
+                                                    <label class="am-label">Option Values</label>
+                                                    <div class="am-option-items-container" id="items-container-@groupIndex">
+                                                        @if (group.OptionItems != null && group.OptionItems.Any())
+                                                        {
+                                                            var itemIndex = 0;
+                                                            foreach (var item in group.OptionItems)
+                                                            {
+                                                                <div class="am-option-item-row" id="item-@groupIndex-@itemIndex" data-item-id="@item.Id">
+                                                                    <div class="am-form-group flex-grow">
+                                                                        <input name="OptionGroups[@groupIndex].OptionItems[@itemIndex].Id" type="hidden" value="@item.Id" />
+                                                                        <input name="OptionGroups[@groupIndex].OptionItems[@itemIndex].ExistingImage" type="hidden" value="@item.Image" />
+                                                                        <input name="OptionGroups[@groupIndex].OptionItems[@itemIndex].Name"
+                                                                               class="am-input"
+                                                                               value="@item.Name"
+                                                                               placeholder="Value (e.g. Small)"
+                                                                               oninput="validateForm()"
+                                                                               required />
+                                                                    </div>
+                                                                    <div class="am-form-group w-medium">
+                                                                        <div class="am-input-wrapper">
+                                                                            <span class="am-currency-symbol">EGP</span>
+                                                                            <input type="number"
+                                                                                   step="0.01"
+                                                                                   min="0"
+                                                                                   name="OptionGroups[@groupIndex].OptionItems[@itemIndex].Price"
+                                                                                   class="am-input"
+                                                                                   placeholder="0.00"
+                                                                                   value="@item.Price"
+                                                                                   oninput="validateForm()"
+                                                                                   required />
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="am-item-actions">
+                                                                        <label class="am-popular-toggle @(item.IsPobular ? "is-popular" : "")" title="Mark as Popular" onclick="togglePopular(this)">
+                                                                            <input type="checkbox"
+                                                                                   name="OptionGroups[@groupIndex].OptionItems[@itemIndex].IsPobular"
+                                                                                   value="true"
+                                                                                   @(item.IsPobular ? "checked" : "") />
+                                                                            <i class="fas fa-fire popular-icon"></i>
+                                                                            <span class="popular-text">Popular</span>
+                                                                        </label>
+                                                                        <div class="am-mini-upload @(!string.IsNullOrEmpty(item.Image) ? "has-image" : "")" onclick="triggerItemImageUpload(@groupIndex, @itemIndex)">
+                                                                            <label class="am-icon-btn" title="Upload Image">
+                                                                                <i class="fas fa-image"></i>
+                                                                            </label>
+                                                                            <input type="file"
+                                                                                   name="OptionGroups[@groupIndex].OptionItems[@itemIndex].ImageRequest.Image"
+                                                                                   id="item-image-@groupIndex-@itemIndex"
+                                                                                   class="am-hidden-input"
+                                                                                   accept="image/*"
+                                                                                   onchange="previewItemImage(@groupIndex, @itemIndex, this)" />
+                                                                            @if (!string.IsNullOrEmpty(item.Image))
+                                                                            {
+                                                                                <img id="item-preview-@groupIndex-@itemIndex" src="/images/@item.Image" class="am-mini-preview" />
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                <img id="item-preview-@groupIndex-@itemIndex" src="" class="am-mini-preview" style="display:none;" />
+                                                                            }
+                                                                        </div>
+                                                                        <button type="button" class="am-btn-icon-subtle" onclick="removeItem(@groupIndex, @itemIndex)" title="Remove">
+                                                                            <i class="fas fa-times"></i>
+                                                                        </button>
+                                                                    </div>
+                                                                    <input type="hidden"
+                                                                           name="OptionGroups[@groupIndex].OptionItems[@itemIndex].DisplayOrder"
+                                                                           value="@(itemIndex + 1)" />
+                                                                </div>
+                                                                itemIndex++;
+                                                            }
+                                                        }
+                                                    </div>
+                                                    <div class="am-add-item-wrapper">
+                                                        <button type="button" class="am-btn-link am-add-item-btn" onclick="addOptionItem(@groupIndex)">
+                                                            <i class="fas fa-plus"></i> Add value
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <input type="hidden" name="OptionGroups[@groupIndex].DisplayOrder" value="@(groupIndex + 1)" />
+                                            </div>
+                                            groupIndex++;
+                                        }
+                                    }
+                                </div>
+                                <button type="button" class="am-btn-link am-add-group-btn" onclick="addOptionGroup()">
+                                    <i class="fas fa-plus-circle"></i> Add another option
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sidebar Column -->
+                <div class="am-sidebar-column">
+
+                    <!-- Status Card -->
+                    <div class="am-card">
+                        <div class="am-card-header">
+                            <h2>Status</h2>
+                        </div>
+                        <div class="am-card-body">
+                            <div class="am-form-group">
+                                <label class="am-label">Product Status</label>
+                                <select asp-for="IsAvailable" class="am-select">
+                                    @if (Model.IsAvailable)
+                                    {
+                                        <option value="true" selected>Active</option>
+                                        <option value="false">Draft</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="true">Active</option>
+                                        <option value="false" selected>Draft</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="am-divider"></div>
+                            <div class="am-status-toggles">
+                                <label class="am-checkbox-wrapper">
+                                    @if (Model.IsNewMeal)
+                                    {
+                                        <input asp-for="IsNewMeal" type="checkbox" checked />
+                                    }
+                                    else
+                                    {
+                                        <input asp-for="IsNewMeal" type="checkbox" />
+                                    }
+                                    <span class="am-checkbox-label">Mark as New</span>
+                                </label>
+                                <label class="am-checkbox-wrapper">
+                                    @if (Model.IsTrendingMeal)
+                                    {
+                                        <input asp-for="IsTrendingMeal" type="checkbox" checked />
+                                    }
+                                    else
+                                    {
+                                        <input asp-for="IsTrendingMeal" type="checkbox" />
+                                    }
+                                    <span class="am-checkbox-label">Mark as Trending</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Organization Card -->
+                    <div class="am-card">
+                        <div class="am-card-header">
+                            <h2>Meal organization</h2>
+                        </div>
+                        <div class="am-card-body">
+                            <div class="am-form-group">
+                                <label class="am-label">Category</label>
+                                <select name="SelectedCategoryKey" class="am-select">
+                                    <option value="" disabled>Choose a category...</option>
+                                    @foreach (var category in Model.Categories!)
+                                    {
+                                        @if (category.Key == Model.CategoryKey)
+                                        {
+                                            <option value="@category.Key" selected>@category.Name</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@category.Key">@category.Name</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </form>
+
+        <!-- Hidden form for image update only (must be outside the main form) -->
+        <form asp-controller="Meals" asp-action="UpdateImage" asp-route-key="@Model.Key"
+              enctype="multipart/form-data" id="imageUpdateForm" method="post" style="display:none;">
+            @Html.AntiForgeryToken()
+            <input type="file" name="imageRequest.Image" id="hiddenImageInput" />
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <partial name="_NotificationPartial" />
+
+    <script>
+        // Initialize counters based on existing data (Razor-dependent)
+        let groupIndex = @(Model.OptionGroups?.Count() ?? 0);
+        let itemIndexes = {};
+
+        // Initialize item indexes for existing groups (Razor-dependent)
+        @if (Model.OptionGroups != null && Model.OptionGroups.Any())
+        {
+                var gIdx = 0;
+                foreach (var group in Model.OptionGroups)
+                {
+                        <text>itemIndexes[@gIdx] = @(group.OptionItems?.Count() ?? 0);</text>
+                        gIdx++;
+                }
+        }
+    </script>
+
+    <script src="~/js/updateMeal.js" asp-append-version="true"></script>
+}

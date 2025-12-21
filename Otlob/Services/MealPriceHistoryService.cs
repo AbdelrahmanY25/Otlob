@@ -4,18 +4,15 @@ public class MealPriceHistoryService(IUnitOfWorkRepository unitOfWorkRepository)
 {
     private readonly IUnitOfWorkRepository _unitOfWorkRepository = unitOfWorkRepository;
 
-    public bool AddMealPriceHistory(int mealId, decimal price)
+    public void AddMealPriceHistory(string mealId, decimal price)
     {
         var mealPriceHistory = new MealPriceHistory { MealId = mealId, Price = price };
 
-        _unitOfWorkRepository.MealsPriceHistories.Create(mealPriceHistory);
-        _unitOfWorkRepository.SaveChanges();
-
-        return true;
+        _unitOfWorkRepository.MealsPriceHistories.Add(mealPriceHistory);
     }
 
-    public IQueryable<MealPriceHistoryVM>? GetMealPriceHistories(int mealId)
-    {
+    public IQueryable<MealPriceHistoryVM>? GetMealPriceHistories(string mealId)
+    {        
         var mealPH = _unitOfWorkRepository.MealsPriceHistories.GetAllWithSelect
         (
             selector: mph => new MealPriceHistoryVM
@@ -36,7 +33,7 @@ public class MealPriceHistoryService(IUnitOfWorkRepository unitOfWorkRepository)
         return mealPH;
     }
 
-    public bool UpdateMealPriceHistory(int mealId, decimal price)
+    public void UpdateMealPriceHistory(string mealId, decimal price)
     {
         MealPriceHistory? oldMealPriciesHistory = _unitOfWorkRepository.MealsPriceHistories
              .Get(expression: m => m.MealId == mealId)!
@@ -44,14 +41,10 @@ public class MealPriceHistoryService(IUnitOfWorkRepository unitOfWorkRepository)
              .FirstOrDefault();
 
         if (oldMealPriciesHistory is not null)
-        {
             oldMealPriciesHistory.EndDate = DateTime.Now;
-        }
 
         _unitOfWorkRepository.MealsPriceHistories.Edit(oldMealPriciesHistory!);
 
         AddMealPriceHistory(mealId, price);
-
-        return true;
     }
 }

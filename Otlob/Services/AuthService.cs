@@ -121,16 +121,12 @@ public class AuthService(IMapper mapper, SignInManager<ApplicationUser> signInMa
         var result = await IsValidUser(request.Email);
 
         if (result.IsFailure)
-        {
-            return Result.Success();
-        }
+            return result;
 
         var user = await _userManager.FindByEmailAsync(request.Email);
 
         if (!user!.EmailConfirmed)
-        {
             return Result.Failure(AuthenticationErrors.NoEmailConfirmed);
-        }
         
         var token = await _userManager.GeneratePasswordResetTokenAsync(user!);
 
@@ -304,9 +300,7 @@ public class AuthService(IMapper mapper, SignInManager<ApplicationUser> signInMa
         bool isEmailExists = await _userManager.Users.AnyAsync(u => u.Email == email);
 
         if (!isEmailExists)
-        {
             return Result.Failure(AuthenticationErrors.InvalidCredentials);
-        }
 
         var user = await _userManager.Users
           .AsNoTracking()

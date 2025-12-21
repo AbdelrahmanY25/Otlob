@@ -70,7 +70,7 @@ public class VatService(IUnitOfWorkRepository unitOfWorkRepository, IFileService
 
         var vat = _mapper.Map<VAT>((request, restaurantId, certificateId));
 
-        _unitOfWorkRepository.Vats.Create(vat);
+        _unitOfWorkRepository.Vats.Add(vat);
 
         _restaurantProgressStatus.ChangeRestaurantProgressStatus(restaurantId, ProgressStatus.VatCertificateCompleted);
 

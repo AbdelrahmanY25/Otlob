@@ -214,7 +214,7 @@ namespace Otlob.EF.Migrations
                     b.HasIndex("UserId", "CustomerAddress", "StreetName")
                         .IsUnique();
 
-                    b.ToTable("Addresses", (string)null);
+                    b.ToTable("Addresses");
                 });
 
             modelBuilder.Entity("Otlob.Core.Entities.ApplicationRole", b =>
@@ -478,7 +478,7 @@ namespace Otlob.EF.Migrations
                     b.HasIndex("RestaurantId", "Iban")
                         .IsUnique();
 
-                    b.ToTable("BankAccounts", (string)null);
+                    b.ToTable("BankAccounts");
                 });
 
             modelBuilder.Entity("Otlob.Core.Entities.Cart", b =>
@@ -523,7 +523,7 @@ namespace Otlob.EF.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Carts", (string)null);
+                    b.ToTable("Carts");
                 });
 
             modelBuilder.Entity("Otlob.Core.Entities.CartDetails", b =>
@@ -542,8 +542,9 @@ namespace Otlob.EF.Migrations
                         .HasColumnType("bit")
                         .HasDefaultValue(false);
 
-                    b.Property<int>("MealId")
-                        .HasColumnType("int");
+                    b.Property<string>("MealId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<decimal>("PricePerMeal")
                         .HasColumnType("decimal(8,2)");
@@ -557,7 +558,7 @@ namespace Otlob.EF.Migrations
 
                     b.HasIndex("MealId");
 
-                    b.ToTable("CartDetails", (string)null);
+                    b.ToTable("CartDetails");
                 });
 
             modelBuilder.Entity("Otlob.Core.Entities.Category", b =>
@@ -580,7 +581,7 @@ namespace Otlob.EF.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Category", (string)null);
+                    b.ToTable("Category");
 
                     b.HasData(
                         new
@@ -736,16 +737,13 @@ namespace Otlob.EF.Migrations
                     b.HasIndex("RestaurantId", "RegistrationNumber")
                         .IsUnique();
 
-                    b.ToTable("CommercialRegistrations", (string)null);
+                    b.ToTable("CommercialRegistrations");
                 });
 
             modelBuilder.Entity("Otlob.Core.Entities.Meal", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
@@ -758,8 +756,13 @@ namespace Otlob.EF.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("HasAddOn")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("HasOptionGroup")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Image")
                         .HasColumnType("nvarchar(max)");
@@ -812,7 +815,106 @@ namespace Otlob.EF.Migrations
                     b.HasIndex("Id", "RestaurantId", "CategoryId")
                         .IsUnique();
 
-                    b.ToTable("Meals", (string)null);
+                    b.ToTable("Meals");
+                });
+
+            modelBuilder.Entity("Otlob.Core.Entities.MealAddOn", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Image")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<string>("MealId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MealId");
+
+                    b.ToTable("MealAddOns");
+                });
+
+            modelBuilder.Entity("Otlob.Core.Entities.MealOptionGroup", b =>
+                {
+                    b.Property<string>("MealOptionGroupId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("DisplayOrder")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<string>("MealId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("MealOptionGroupId");
+
+                    b.HasIndex("MealId");
+
+                    b.ToTable("MealOptionGroups");
+                });
+
+            modelBuilder.Entity("Otlob.Core.Entities.MealOptionItem", b =>
+                {
+                    b.Property<string>("MealOptionItemId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("DisplayOrder")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Image")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<bool>("IsPobular")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.Property<string>("OptionGroupId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(8,2)");
+
+                    b.HasKey("MealOptionItemId");
+
+                    b.HasIndex("OptionGroupId");
+
+                    b.ToTable("MealOptionItems");
                 });
 
             modelBuilder.Entity("Otlob.Core.Entities.MealPriceHistory", b =>
@@ -831,8 +933,9 @@ namespace Otlob.EF.Migrations
                         .HasColumnType("bit")
                         .HasDefaultValue(false);
 
-                    b.Property<int>("MealId")
-                        .HasColumnType("int");
+                    b.Property<string>("MealId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(8,2)");
@@ -846,7 +949,7 @@ namespace Otlob.EF.Migrations
 
                     b.HasIndex("StartDate");
 
-                    b.ToTable("MealsPriceHistories", (string)null);
+                    b.ToTable("MealsPriceHistories");
                 });
 
             modelBuilder.Entity("Otlob.Core.Entities.MenuCategory", b =>
@@ -946,7 +1049,7 @@ namespace Otlob.EF.Migrations
                     b.HasIndex("RestaurantId", "NationalIdNumber")
                         .IsUnique();
 
-                    b.ToTable("NationalIds", (string)null);
+                    b.ToTable("NationalIds");
                 });
 
             modelBuilder.Entity("Otlob.Core.Entities.Order", b =>
@@ -1012,7 +1115,7 @@ namespace Otlob.EF.Migrations
 
                     b.HasIndex("Status", "OrderDate");
 
-                    b.ToTable("Orders", (string)null);
+                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("Otlob.Core.Entities.OrderDetails", b =>
@@ -1028,8 +1131,9 @@ namespace Otlob.EF.Migrations
                         .HasColumnType("bit")
                         .HasDefaultValue(false);
 
-                    b.Property<int>("MealId")
-                        .HasColumnType("int");
+                    b.Property<string>("MealId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<decimal>("MealPrice")
                         .HasColumnType("decimal(8,2)");
@@ -1051,7 +1155,7 @@ namespace Otlob.EF.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("OrderDetails", (string)null);
+                    b.ToTable("OrderDetails");
                 });
 
             modelBuilder.Entity("Otlob.Core.Entities.Restaurant", b =>
@@ -1144,7 +1248,7 @@ namespace Otlob.EF.Migrations
                     b.HasIndex("Phone")
                         .IsUnique();
 
-                    b.ToTable("Restaurants", (string)null);
+                    b.ToTable("Restaurants");
                 });
 
             modelBuilder.Entity("Otlob.Core.Entities.RestaurantBranch", b =>
@@ -1234,7 +1338,7 @@ namespace Otlob.EF.Migrations
                     b.HasIndex("CategoryId", "RestaurantId")
                         .IsUnique();
 
-                    b.ToTable("RestaurantCategory", (string)null);
+                    b.ToTable("RestaurantCategory");
                 });
 
             modelBuilder.Entity("Otlob.Core.Entities.TempOrder", b =>
@@ -1255,7 +1359,7 @@ namespace Otlob.EF.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("TempOrders", (string)null);
+                    b.ToTable("TempOrders");
                 });
 
             modelBuilder.Entity("Otlob.Core.Entities.TradeMark", b =>
@@ -1321,7 +1425,7 @@ namespace Otlob.EF.Migrations
                     b.HasIndex("RestaurantId", "TrademarkNumber")
                         .IsUnique();
 
-                    b.ToTable("TradeMarks", (string)null);
+                    b.ToTable("TradeMarks");
                 });
 
             modelBuilder.Entity("Otlob.Core.Entities.UploadedFile", b =>
@@ -1352,7 +1456,7 @@ namespace Otlob.EF.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("UploadedFiles", (string)null);
+                    b.ToTable("UploadedFiles");
                 });
 
             modelBuilder.Entity("Otlob.Core.Entities.VAT", b =>
@@ -1410,7 +1514,7 @@ namespace Otlob.EF.Migrations
                     b.HasIndex("RestaurantId", "VatNumber")
                         .IsUnique();
 
-                    b.ToTable("Vats", (string)null);
+                    b.ToTable("Vats");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -1624,6 +1728,39 @@ namespace Otlob.EF.Migrations
                     b.Navigation("Restaurant");
 
                     b.Navigation("UpdatedBy");
+                });
+
+            modelBuilder.Entity("Otlob.Core.Entities.MealAddOn", b =>
+                {
+                    b.HasOne("Otlob.Core.Entities.Meal", "Meal")
+                        .WithMany("AddOns")
+                        .HasForeignKey("MealId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Meal");
+                });
+
+            modelBuilder.Entity("Otlob.Core.Entities.MealOptionGroup", b =>
+                {
+                    b.HasOne("Otlob.Core.Entities.Meal", "Meal")
+                        .WithMany("OptionGroups")
+                        .HasForeignKey("MealId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Meal");
+                });
+
+            modelBuilder.Entity("Otlob.Core.Entities.MealOptionItem", b =>
+                {
+                    b.HasOne("Otlob.Core.Entities.MealOptionGroup", "OptionGroup")
+                        .WithMany("OptionItems")
+                        .HasForeignKey("OptionGroupId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("OptionGroup");
                 });
 
             modelBuilder.Entity("Otlob.Core.Entities.MealPriceHistory", b =>
@@ -1867,7 +2004,16 @@ namespace Otlob.EF.Migrations
 
             modelBuilder.Entity("Otlob.Core.Entities.Meal", b =>
                 {
+                    b.Navigation("AddOns");
+
                     b.Navigation("MealPriceHistories");
+
+                    b.Navigation("OptionGroups");
+                });
+
+            modelBuilder.Entity("Otlob.Core.Entities.MealOptionGroup", b =>
+                {
+                    b.Navigation("OptionItems");
                 });
 
             modelBuilder.Entity("Otlob.Core.Entities.MenuCategory", b =>

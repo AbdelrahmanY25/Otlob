@@ -13,43 +13,29 @@ public class HomeController(ILogger<HomeController> logger, IRestaurantService r
 
     public IActionResult Index(Category? filter = null)
     {
-        var restaurants = _restaurantService.GetAllRestaurants(filter);
-
-        if (restaurants is null)
-        {
-            return View("NotFound");
-        }
+        var restaurants = _restaurantService.GetAcctiveRestaurants();
 
         return View(restaurants);
     }
 
-    public IActionResult Details(string? id, string? filter = null)
-    {
-        if (id.IsNullOrEmpty())
-        {
-            return RedirectToAction("Index");
-        }
+    //public IActionResult Details(string id, string? filter = null)
+    //{      
+    //    var result = _mealService.GetMealsDetails(id);
 
-        int restaurantlId = int.Parse(_dataProtector.Unprotect(id!));
+    //    if (result.IsFailure)
+    //    {
+    //        return RedirectToAction("Index");
+    //    }
 
-        var result = _mealService.GetMealsDetails(restaurantlId);
-        var meals = result.Value;
+    //    //if (filter is not null)
+    //    //{
+    //    //    meals = _mealService.MealCategoryFilter(result.Value, filter);
+    //    //}
 
+    //    ViewBag.ResId = id;
 
-        if (result.IsFailure)
-        {
-            return RedirectToAction("Index");
-        }
-
-        if (filter is not null)
-        {
-            meals = _mealService.MealCategoryFilter(result.Value, filter);
-        }
-
-        ViewBag.ResId = id;
-
-        return View(meals);
-    }
+    //    return View(result.Value);
+    //}
   
     public IActionResult Privacy() => View();
 

@@ -3,7 +3,7 @@
 @inject IEncryptionService encryptionService;
 
 @{
-    string encrypteedCart = encryptionService.EncryptId(Model.CartVMId);
+    string encrypteedCart = encryptionService.Encrypt(Model.CartVMId);
 }
 
 <style>
@@ -184,7 +184,7 @@
         <div class="meal-list mx-auto">
             @foreach (var item in Model.Meals)
             {
-                string encId = encryptionService.EncryptId(item.Id);
+                string encId = encryptionService.Encrypt(item.Id);
 
                 <div class="card meal-card p-3 border-0 shadow-sm">
                     <div class="d-flex align-items-center">

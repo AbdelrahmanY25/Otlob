@@ -1,14 +1,9 @@
 ﻿namespace Otlob.Areas.SuperAdmin.Controllers;
 
 [Area(DefaultRoles.SuperAdmin), Authorize(Roles = DefaultRoles.SuperAdmin)]
-public class HomeController : Controller
+public class HomeController(IOrdersAnalysisService ordersAnalysisService) : Controller
 {        
-    private readonly IOrdersAnalysisService ordersAnalysisService;
-
-    public HomeController(IOrdersAnalysisService ordersAnalysisService)        
-    {
-        this.ordersAnalysisService = ordersAnalysisService;
-    }
+    private readonly IOrdersAnalysisService ordersAnalysisService = ordersAnalysisService;
 
     public IActionResult Index()
     {

@@ -1,6 +1,7 @@
 ﻿namespace Otlob.Services;
 
-public class RestauranStatusService(IUnitOfWorkRepository unitOfWorkRepository, IDataProtectionProvider dataProtectionProvider) : IRestauranStatusService
+public class RestauranStatusService(IUnitOfWorkRepository unitOfWorkRepository,
+                                    IDataProtectionProvider dataProtectionProvider) : IRestauranStatusService
 {
     private readonly IUnitOfWorkRepository _unitOfWorkRepository = unitOfWorkRepository;
     private readonly IDataProtector _dataProtector = dataProtectionProvider.CreateProtector("SecureData");
@@ -21,9 +22,7 @@ public class RestauranStatusService(IUnitOfWorkRepository unitOfWorkRepository, 
             );
 
         if (restaurant is null)
-        {
             return Result.Failure(RestaurantErrors.NotFound);
-        }
 
         restaurant.AcctiveStatus = status;
         _unitOfWorkRepository.Restaurants.ModifyProperty(restaurant, r => r.AcctiveStatus);

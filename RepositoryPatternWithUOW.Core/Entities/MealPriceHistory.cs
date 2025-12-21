@@ -3,7 +3,7 @@
 public class MealPriceHistory
 {
     public int Id { get; set; }
-    public int MealId { get; set; }
+    public string MealId { get; set; } = string.Empty;
 
     public decimal Price { get; set; }
     public DateTime StartDate { get; set; } = DateTime.Now;

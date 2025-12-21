@@ -78,7 +78,7 @@ public class OrderService : IOrderService
             return false;
         }
 
-        unitOfWorkRepository.Orders.Create(order);
+        unitOfWorkRepository.Orders.Add(order);
 
         return SaveOrder(order, cartId);
     }

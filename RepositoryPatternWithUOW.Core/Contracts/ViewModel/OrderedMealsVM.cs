@@ -3,7 +3,7 @@
 public class OrderedMealsVM
 {
     public int Id { get; set; }
-    public int MealId { get; set; }
+    public string MealId { get; set; } = string.Empty;
     public int CartId { get; set; }
 
     [Required,Range(1, 99)]

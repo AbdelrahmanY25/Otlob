@@ -15,7 +15,7 @@
 
         public CartDetails? GetOrderedMealById(int orderedMealId) => unitOfWorkRepository.CartDetails.GetOne(expression: o => o.Id == orderedMealId);
 
-        public CartDetails? GetMealFromCart(int mealId) => unitOfWorkRepository.CartDetails.GetOne(expression: o => o.MealId == mealId);
+        public CartDetails? GetMealFromCart(string mealId) => unitOfWorkRepository.CartDetails.GetOne(expression: o => o.MealId == mealId);
 
         public CartDetails AddOrderedMeals(OrderedMealsVM orderedMealsVM, Cart userCart)
         {
@@ -27,7 +27,7 @@
                 Quantity = orderedMealsVM.Quantity
             };
 
-            unitOfWorkRepository.CartDetails.Create(mealInOrder);
+            unitOfWorkRepository.CartDetails.Add(mealInOrder);
             unitOfWorkRepository.SaveChanges();
 
             return mealInOrder;
@@ -105,7 +105,7 @@
 
         public MealQuantityResult EditOrderedMealsQuantity(string id, MealQuantity mealQuantity)
         {
-            int orderMealId = encryptionService.DecryptId(id);
+            int orderMealId = encryptionService.Decrypt(id);
 
             CartDetails? selectedOrderMeal = GetOrderedMealById(orderMealId);
 
@@ -136,7 +136,7 @@
 
         public CartDetails DeleteOrderedMeal(string id)
         {
-            int orderedMealId = encryptionService.DecryptId(id);
+            int orderedMealId = encryptionService.Decrypt(id);
 
             CartDetails selectedOrderMeal = GetOrderedMealById(orderedMealId)!;
 

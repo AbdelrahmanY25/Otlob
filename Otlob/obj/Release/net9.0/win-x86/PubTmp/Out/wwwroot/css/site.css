@@ -1,0 +1,479 @@
+html {
+  font-size: 14px;
+}
+
+:root {
+    --primary-color: #F04335;
+    --secondary-color: #dd968c;
+    --seccuss-color: #05a437;
+    --main-transition: 0.2s;
+    --navbar-height: 60px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Cairo', sans-serif;
+    background-color: #fffaf7;
+    margin: 0;
+    padding: 0;
+    margin-bottom: 100px;
+}
+
+.navbar {
+    background-color: #fff;
+    height: var(--navbar-height);
+}
+
+a {
+    text-decoration: none;
+    color: #ffff;
+}
+
+a:hover {
+    color: #ffff;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.container {
+    padding-left: 15px;
+    padding-right: 15px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+}
+
+@media (max-width: 768px) {
+    .articles .container .card .text h3,
+    .articles .container .menue .text h3 {
+        font-size: 1.2rem;
+    }
+
+    .articles .container .card .text p,
+    .articles .container .menue .text p {
+        font-size: 0.9rem;
+    }
+}
+
+@media(min-width: 992px) {
+    .container {
+        width: 970px;
+    }
+}
+
+@media(min-width: 1200px) {
+    .container {
+        width: 1170px;
+    }
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+.articles {
+    padding-top: var(--section-padding);
+    padding-bottom: var(--section-padding);
+}
+
+.articles .container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 40px;
+}
+
+.articles .container .card,
+.articles .container .menue {
+    background-color: #fff;
+    transition: all 0.3s ease;
+}
+
+.articles .container .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.articles .container .card img {
+    max-width: 100%;
+}
+
+.articles .container .card .text {
+    padding: 20px;
+    border-bottom: 1px solid #e6e6e7;
+}
+
+.articles .container .card .text h3 {
+    font-size: 1.5rem;
+    color: #333;
+}
+
+.price {
+    padding: 5px 10px;
+    border-radius: 3px;
+    font-weight: bold;
+}
+
+.articles .container .card .text p {
+    margin: 10px 0 0 0;
+    line-height: 1.5;
+    color: #777
+}
+.articles .container .card .text .add {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: var(--seccuss-color);
+    color: #ffff;
+    font-weight: bold;
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+.articles .container .card .read {
+    display: flex;
+    padding: 20px;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--primary-color);
+}
+
+.articles .container .card .read a {
+    color: #fff;
+    font-weight: bold;
+}
+
+.menue {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background-color: #fff;
+    border-radius: 16px;
+    box-shadow: 0 4px 6px var(--secondary-color);
+    padding: 16px;
+    width: 320px;
+    gap: 16px;
+    cursor: pointer;
+}
+
+.menue .image {
+    display: flex;
+    flex-direction: column;
+}
+
+.menue img {
+    width: 100px;
+    height: 100px;
+    border-radius: 12px;
+    object-fit: cover;
+}
+
+.menue .text {
+    flex-grow: 1;
+}
+
+.menue .text h3 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+.menue .text p {
+    margin: 8px 0;
+    font-size: 12px;
+    color: #777;
+    font-weight: bold;
+}
+
+.card-button {
+    position: absolute;
+    bottom: 20px;
+    right: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    border: none;
+    background-color: var(--primary-color);
+    color: white;
+    font-size: 12px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.card-button i {
+    font-size: 25px;
+    font-weight: bolder;
+}
+
+.card-button:hover {
+    background-color: var(--secondary-color);
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    margin-right: 15px;
+}
+
+.label {
+    background-color: #09b13e;
+    color: #fff;
+    margin-left: 10px;
+    padding: 5px 12px;
+    border-radius: 6px;
+    font-weight: bold;
+}
+
+.search {
+    margin: 10px auto;
+    display: flex;
+    gap: 10px;
+    max-width: 50%;
+}
+
+.search input {
+    width: 100%;
+    border: 1px solid var(--primary-color);
+    outline: none;
+    padding: 10px 15px;
+    border-radius: 15px;
+}
+
+.icons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin: 20px auto;
+    padding: 10px;
+}
+
+.icons form {
+    display: inline-block;
+    margin: 0;
+}
+
+.icons .fMeals {
+    background-color: var(--primary-color);
+    border-radius: 15px;
+    padding: 4px 8px;
+    border: none;
+    cursor: pointer;
+    font-size: inherit;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    transition: var(--main-transition);
+}
+
+.icons img {
+    max-width: 70px;
+    max-height: 70px;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 4px 6px var(--secondary-color);
+    transition: var(--main-transition);
+}
+
+.icons img:hover,
+.icons .fMeals:hover {
+    transform: scale(1.1);
+}
+
+@media (max-width: 768px) {
+    .icons img {
+        max-width: 60px;
+        max-height: 60px;
+    }
+}
+
+@media (max-width: 576px) {
+    .icons img {
+        max-width: 50px;
+        max-height: 50px;
+    }
+}
+
+.meal {
+    margin-bottom: 15px;
+    color: #fff;
+    margin-left: 10px;
+    padding: 2px;
+    border-radius: 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.meal.new {
+    background-color: #d7be39;
+}
+
+.meal.trend {
+    background-color: orangered;
+}
+
+#deleteModal .modal-dialog {
+    max-width: 400px;
+    margin: auto;
+    border-radius: 15px;
+}
+
+.modal-content {
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+}
+
+.modal-header {
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 15px;
+    text-align: center;
+    border-bottom: none;
+}
+
+.modal-title {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.modal-body {
+    padding: 20px;
+    background-color: #f8f9fa;
+}
+
+.modal-body-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.modal-image img {
+    max-width: 80%;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 15px;
+}
+
+#deleteForm {
+    width: 100%;
+}
+
+#deleteForm .form-label {
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+#deleteForm .form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 8px;
+    outline: none;
+    font-size: 14px;
+}
+
+#deleteForm .form-control:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 5px rgba(192, 40, 16, 0.2);
+}
+
+#deleteForm button {
+    width: 100%;
+    padding: 10px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+#deleteForm button:hover {
+    background-color: var(--secondary-color);
+}
+
+@media (max-width: 768px) {
+    #deleteModal .modal-dialog {
+        max-width: 90%;
+    }
+}
+
+.card-modern {
+    background: #ffffff;
+    border: none;
+    border-radius: 1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
+}
+.card-modern:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+.card-header-modern {
+    background: #f7f9fc;
+    padding: 1rem 1.5rem;
+    border-bottom: none;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+.card-body-modern {
+    padding: 1.5rem;
+    color: #495057;
+}
+
+.btn-modern {
+    border-radius: 0.5rem;
+    padding: 0.5rem 1rem;
+    transition: none; 
+}
+
+.btn-modern:focus,
+.btn-modern:focus-visible {
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+.btn-outline-primary,
+.btn-outline-success {
+    border: none !important;
+}
+
+.orderUserDetails {
+    min-height: 1rem;
+}

@@ -8,7 +8,7 @@ public class UploadFileRequestValidator : AbstractValidator<UploadFileRequest>
            .NotNull()
            .SetValidator(new FileSizeValidator())
            .SetValidator(new FileNameValidator())
-           .SetValidator(new FileSignatureValidator())
+           .SetValidator(new FileSignatureForFilesValidator())
            .Must(i => FileSettings.AllowedFileExtensions.Contains(Path.GetExtension(i.FileName), StringComparer.InvariantCultureIgnoreCase))
            .WithMessage($"File extension is not allowed. Allowed extensions are: {string.Join(", ", FileSettings.AllowedFileExtensions)}")
            .When(x => x.File is not null);

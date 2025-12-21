@@ -1,4 +1,5 @@
-﻿using Stripe;
+﻿using Otlob.Core.Entities;
+using Stripe;
 using System.Threading.RateLimiting;
 
 namespace Otlob
@@ -158,9 +159,12 @@ namespace Otlob
             services.AddScoped<IExportReeportsAsExcelService, ExportReeportsAsExcelService>();
             services.AddScoped<IFileService, Services.FileService>();
             services.AddScoped<IMailService, MailService>();
-            services.AddScoped<IMealPriceHistoryService, MealPriceHistoryService>();
+            services.AddScoped<IMealCategoryService, MealCategoryService>();
+            services.AddScoped<IMealOptionGroupService, MealOptionGroupService>();
+            services.AddScoped<IMealOptionItemService, MealOptionItemService>();
             services.AddScoped<IMealService, MealService>();
-            services.AddScoped<IMenuCategoryService, MenuCategoryService>();
+            services.AddScoped<IMealPriceHistoryService, MealPriceHistoryService>();
+            services.AddScoped<IMenuService, MenuService>();
             services.AddScoped<INationalIdService, NationalIdService>();
             services.AddScoped<IOrdersAnalysisService, OrdersAnalysisService>();
             services.AddScoped<IOrderDetailsService, OrderDetailsService>();

@@ -1,0 +1,330 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Order Has Been Delivered - Otlob</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f4f4f4;
+        }
+
+        .email-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            background: linear-gradient(135deg, #F04335 0%, #dd968c 100%);
+            padding: 40px 30px;
+            text-align: center;
+            color: white;
+        }
+
+        .logo {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .header-subtitle {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 40px 30px;
+        }
+
+        .greeting {
+            font-size: 24px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .delivery-status {
+            background: linear-gradient(135deg, #4CAF50 0%, #81C784 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 16px rgba(76, 175, 80, 0.3);
+        }
+
+        .delivery-status .icon {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+
+        .delivery-status h2 {
+            font-size: 22px;
+            margin-bottom: 8px;
+        }
+
+        .delivery-status .time {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .message {
+            font-size: 16px;
+            color: #555;
+            margin-bottom: 30px;
+            line-height: 1.8;
+            text-align: center;
+        }
+
+        .order-info {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            border-left: 4px solid #F04335;
+        }
+
+        .order-info h3 {
+            color: #F04335;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        .order-detail {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .order-detail:last-child {
+            margin-bottom: 0;
+        }
+
+        .icon {
+            margin-right: 10px;
+            font-size: 16px;
+        }
+
+        .enjoy-meal {
+            background: linear-gradient(135deg, #FF9800 0%, #FFB74D 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 10px;
+            text-align: center;
+            margin: 30px 0;
+            box-shadow: 0 4px 16px rgba(255, 152, 0, 0.3);
+        }
+
+        .enjoy-meal .meal-icon {
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+
+        .enjoy-meal h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .enjoy-meal p {
+            font-size: 16px;
+            opacity: 0.95;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 14px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #F04335 0%, #dd968c 100%);
+            color: white;
+            box-shadow: 0 4px 16px rgba(240, 67, 53, 0.3);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #F04335;
+            border: 2px solid #F04335;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 6px 20px rgba(240, 67, 53, 0.4);
+        }
+
+        .gratitude-section {
+            background-color: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .gratitude-section h4 {
+            margin-bottom: 10px;
+            color: #F04335;
+            font-size: 18px;
+        }
+
+        .gratitude-section p {
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        .footer {
+            background-color: #f8f9fa;
+            padding: 30px;
+            text-align: center;
+            border-top: 1px solid #eee;
+        }
+
+        .footer-text {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        .footer-links {
+            margin-top: 20px;
+        }
+
+        .footer-links a {
+            color: #F04335;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 14px;
+        }
+
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+
+        .divider {
+            height: 2px;
+            background: linear-gradient(90deg, #F04335 0%, #dd968c 100%);
+            margin: 30px 0;
+        }
+
+        @media (max-width: 600px) {
+            .email-container {
+                margin: 0;
+                border-radius: 0;
+            }
+
+            .header, .content, .footer {
+                padding: 20px;
+            }
+
+            .greeting {
+                font-size: 20px;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                width: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <div class="header">
+            <div class="logo">Otlob</div>
+            <div class="header-subtitle">Your favorite food delivery service</div>
+        </div>
+
+        <div class="content">
+            <div class="greeting">Hello, {{USERNAME}}! 🎉</div>
+
+            <div class="message">
+                Great news! Your delicious order has just arrived at your doorstep.
+                We hope you're as excited as we are about your meal!
+            </div>
+
+            <div class="delivery-status">
+                <div class="icon">📦</div>
+                <h2>Order Delivered Successfully!</h2>
+            </div>
+
+            <div class="enjoy-meal">
+                <div class="meal-icon">🍽️</div>
+                <h3>Enjoy Your Meal!</h3>
+                <p>Dig in and savor every bite. Your satisfaction is our greatest reward!</p>
+            </div>
+
+            <div class="gratitude-section">
+                <h4>🙏 Thank You for Choosing Otlob!</h4>
+                <p>
+                    We're absolutely delighted that you chose Otlob for your food delivery needs!
+                    Your trust in our service means the world to us. Every order you place helps us
+                    continue bringing happiness to your doorstep, one delicious meal at a time.
+                </p>
+            </div>
+
+            <div class="divider"></div>
+
+            <div style="text-align: center; color: #666; font-size: 14px;">
+                <p><strong>Need help with your order?</strong></p>
+                <p>Our customer support team is here to assist you 24/7</p>
+            </div>
+        </div>
+
+        <div class="footer">
+            <div class="footer-text">
+                <strong>Otlob - Delivering Happiness</strong><br>
+                This email was sent to {{EMAIL}} regarding your order {{ORDER_ID}}.
+            </div>
+
+            <div class="footer-links">
+                <a href="#">Help Center</a>
+                <a href="#">Contact Support</a>
+                <a href="#">About Us</a>
+            </div>
+
+            <div class="footer-text" style="margin-top: 20px; font-size: 12px;">
+                © 2025 Otlob. All rights reserved.<br>
+                Keep enjoying great food with Otlob!
+            </div>
+        </div>
+    </div>
+</body>
+</html>

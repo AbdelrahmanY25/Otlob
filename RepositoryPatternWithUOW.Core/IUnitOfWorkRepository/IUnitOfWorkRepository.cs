@@ -4,13 +4,16 @@ public interface IUnitOfWorkRepository : IDisposable
 {
     IBaseRepository<Category> Categories { get; }
     IBaseRepository<Restaurant> Restaurants { get; }
-    IBaseRepository<Meal> Meals { get; }
     IBaseRepository<Address> Addresses { get; }
     IBaseRepository<Order> Orders { get; }
     IBaseRepository<CartDetails> CartDetails { get; }
     IBaseRepository<Cart> Carts { get; }
     IBaseRepository<OrderDetails> OrderDetails { get; }
     IBaseRepository<ApplicationUser> Users { get; }
+    IBaseRepository<MealAddOn> MealAddOns { get; }
+    IBaseRepository<MealOptionGroup> MealOptionGroups { get; }
+    IBaseRepository<MealOptionItem> MealOptionItems { get; }
+    IBaseRepository<Meal> Meals { get; }
     IBaseRepository<MealPriceHistory> MealsPriceHistories { get; }
     IBaseRepository<MenuCategory> MealCategories { get; }
     IBaseRepository<TempOrder> TempOrders { get; }

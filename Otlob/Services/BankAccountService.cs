@@ -76,7 +76,7 @@ public class BankAccountService(IUnitOfWorkRepository unitOfWorkRepository, IFil
 
         var banckAccount = _mapper.Map<BankAccount>((request, restaurantId, certificateId));
 
-        _unitOfWorkRepository.BankAccounts.Create(banckAccount);
+        _unitOfWorkRepository.BankAccounts.Add(banckAccount);
 
         _restaurantProgressStatus.ChangeRestaurantProgressStatus(restaurantId, ProgressStatus.BankAccountCompleted);
 

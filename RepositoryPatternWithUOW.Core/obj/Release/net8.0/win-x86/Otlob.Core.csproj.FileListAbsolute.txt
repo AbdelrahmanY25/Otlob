@@ -13,3 +13,6 @@ D:\My_Projects\Talabat Project\Otlob\RepositoryPatternWithUOW.Core\obj\Release\n
 D:\My_Projects\Talabat Project\Otlob\RepositoryPatternWithUOW.Core\obj\Release\net8.0\win-x86\refint\Otlob.Core.dll
 D:\My_Projects\Talabat Project\Otlob\RepositoryPatternWithUOW.Core\obj\Release\net8.0\win-x86\Otlob.Core.pdb
 D:\My_Projects\Talabat Project\Otlob\RepositoryPatternWithUOW.Core\obj\Release\net8.0\win-x86\ref\Otlob.Core.dll
+D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\RepositoryPatternWithUOW.Core\obj\Release\net8.0\win-x86\Otlob.Core.dll
+D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\RepositoryPatternWithUOW.Core\obj\Release\net8.0\win-x86\refint\Otlob.Core.dll
+D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\RepositoryPatternWithUOW.Core\obj\Release\net8.0\win-x86\Otlob.Core.pdb

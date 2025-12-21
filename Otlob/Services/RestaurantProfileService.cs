@@ -85,11 +85,11 @@ public class RestaurantProfileService(IUnitOfWorkRepository unitOfWorkRepository
 
         Restaurant restaurant = GetRestaurantImageById(restaurantId);
 
-        var isOldImageDeleted = _imageService.DeleteImageIfExist(restaurant.Image);
+        var isOldImageDeleted = _imageService.DeleteImage(restaurant.Image);
 
         if (isOldImageDeleted.IsFailure)
         {
-            _imageService.DeleteImageIfExist(isImageUploaded.Value);
+            _imageService.DeleteImage(isImageUploaded.Value);
             return isOldImageDeleted;
         }
 

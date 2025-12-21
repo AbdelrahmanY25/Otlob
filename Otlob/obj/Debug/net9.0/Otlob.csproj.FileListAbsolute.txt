@@ -858,7 +858,6 @@ D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\obj\
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\obj\Debug\net9.0\staticwebassets.development.json
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\obj\Debug\net9.0\staticwebassets.build.endpoints.json
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\obj\Debug\net9.0\swae.build.ex.cache
-D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\obj\Debug\net9.0\Otlob.csproj.Up2Date
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\obj\Debug\net9.0\Otlob.dll
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\obj\Debug\net9.0\refint\Otlob.dll
@@ -884,7 +883,6 @@ D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\obj\
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\obj\Debug\net9.0\compressed\a005t2wxzd-{0}-t60zy6lqwf-t60zy6lqwf.gz
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\obj\Debug\net9.0\compressed\h7tz5yg1br-{0}-hhbn5b84uc-hhbn5b84uc.gz
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\obj\Debug\net9.0\compressed\hqhr3rifq2-{0}-16d2wv8fxi-16d2wv8fxi.gz
-D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\obj\Debug\net9.0\compressed\dmh3sxl6fo-{0}-akuze1782e-akuze1782e.gz
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\obj\Debug\net9.0\compressed\zupik7bhek-{0}-x9pyi6sjd3-x9pyi6sjd3.gz
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\obj\Debug\net9.0\compressed\6rt4uvalqh-{0}-s3x9k3ip64-s3x9k3ip64.gz
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\obj\Debug\net9.0\compressed\om8c6aaaes-{0}-05lvdrtkp6-05lvdrtkp6.gz
@@ -899,7 +897,15 @@ D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\obj\
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\obj\Debug\net9.0\compressed\tratehc42z-{0}-h1yhq2ugeb-h1yhq2ugeb.gz
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\obj\Debug\net9.0\compressed\ecglq1kh4s-{0}-cy1absg1bd-cy1absg1bd.gz
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\obj\Debug\net9.0\compressed\wk4q0i6ta6-{0}-yklasayvgr-yklasayvgr.gz
-D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\obj\Debug\net9.0\compressed\j7txfphs7l-{0}-xkvxkfkptw-xkvxkfkptw.gz
-D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\obj\Debug\net9.0\compressed\l9sbef2vuk-{0}-igh1bd2rlv-igh1bd2rlv.gz
-D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\obj\Debug\net9.0\compressed\b7ncari9ps-{0}-leiftxkasl-leiftxkasl.gz
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\obj\Debug\net9.0\compressed\rdnfpzd4a0-{0}-yjgobue7po-yjgobue7po.gz
+D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\obj\Debug\net9.0\compressed\j7txfphs7l-{0}-10q0fjl44n-10q0fjl44n.gz
+D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\obj\Debug\net9.0\compressed\l9sbef2vuk-{0}-7mpij73c1k-7mpij73c1k.gz
+D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\obj\Debug\net9.0\compressed\bldtrmmlu2-{0}-4hom7p2iz1-4hom7p2iz1.gz
+D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt
+D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\obj\Debug\net9.0\compressed\anl05ik2us-{0}-dmxmvskpgv-dmxmvskpgv.gz
+D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\obj\Debug\net9.0\compressed\dmh3sxl6fo-{0}-j3li4397kz-j3li4397kz.gz
+D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\bin\Debug\net9.0\libman.json
+D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\bin\Debug\net9.0\Z.EntityFramework.Extensions.EFCore.dll
+D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\obj\Debug\net9.0\compressed\b7ncari9ps-{0}-vyvwj38wnk-vyvwj38wnk.gz
+D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\obj\Debug\net9.0\compressed\05gibdzzp7-{0}-no1cif3g2w-no1cif3g2w.gz
+D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\obj\Debug\net9.0\compressed\4my0a0aqbk-{0}-0tt60e2y8j-0tt60e2y8j.gz

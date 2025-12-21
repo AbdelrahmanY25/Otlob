@@ -88,7 +88,7 @@ public class NationalIdService(IUnitOfWorkRepository unitOfWorkRepository, IHttp
             RestaurantId = restaurantId
         };
 
-        _unitOfWorkRepository.NationalIds.Create(nationalId);
+        _unitOfWorkRepository.NationalIds.Add(nationalId);
 
         _restaurantProgressStatus.ChangeRestaurantProgressStatus(restaurantId, ProgressStatus.NationalIdCompleted);
 

@@ -3,7 +3,7 @@
 @inject IEncryptionService encryptionService
 
 @{  
-    string encryptedId = encryptionService.EncryptId(Model.Id);
+    string encryptedId = encryptionService.Encrypt(Model.Id);
     var user = Model.User;
 }
 

@@ -3,7 +3,7 @@
     public interface IOrderedMealsService
     {
         CartDetails? GetOrderedMealById(int orderedMealId);
-        CartDetails? GetMealFromCart(int mealId);
+        CartDetails? GetMealFromCart(string mealId);
         CartDetails AddOrderedMeals(OrderedMealsVM orderedMealsVM, Cart userCart);
         IEnumerable<CartDetails> GetOrderedMealsDetails(int cartId);
         IEnumerable<CartDetails> GetOrderedMealsWithMealsDetails(int cartId);

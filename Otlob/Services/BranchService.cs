@@ -90,7 +90,7 @@ public class BranchService(IUnitOfWorkRepository unitOfWorkRepository, IRestaura
         request.MapToRestaurantBranch(restaurantBranch);
         restaurantBranch.RestaurantId = restaurantId;
 
-        _unitOfWorkRepository.RestaurantBranches.Create(restaurantBranch);
+        _unitOfWorkRepository.RestaurantBranches.Add(restaurantBranch);
         _unitOfWorkRepository.SaveChanges();
 
         return Result.Success();
@@ -168,21 +168,18 @@ public class BranchService(IUnitOfWorkRepository unitOfWorkRepository, IRestaura
         int totalBranches = GetRestaurantBranchesCountByRestaurantId(restaurantId);
 
         if (totalBranches >= restaurantBranches)
-        {
             return Result.Failure(BranchErrors.ExceedAllowedBranchesCount);
-        }
 
         return Result.Success();
     }
 
     private Result IsBranchIdExists(int branchId)
     {
-        var isExist = _unitOfWorkRepository.RestaurantBranches.IsExist(rb => rb.Id == branchId);
+        var isExist = _unitOfWorkRepository.RestaurantBranches
+            .IsExist(rb => rb.Id == branchId, ignoreQueryFilter: true);
         
         if (!isExist)
-        {
             return Result.Failure(BranchErrors.NotFound);
-        }
 
         return Result.Success();
     }

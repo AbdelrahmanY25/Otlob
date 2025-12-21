@@ -1,165 +1,153 @@
-﻿@model IQueryable<RestaurantVM>
+﻿@model IQueryable<AcctiveRestaurantResponse>
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+@{
+    ViewData["Title"] = "Acctive Restaurant Approvals";
+    var restaurantsList = Model.ToList();
+    var totalCount = restaurantsList.Count;
+}
 
-<style>
-    .table thead th {
-        vertical-align: middle;
-    }
+    <link rel="stylesheet" href="~/css/pendingRestaurants.css" asp-append-version="true" />
 
-    .restaurant-avatar {
-        width: 40px;
-        height: 40px;
-        object-fit: cover;
-        margin-right: 10px;
-    }
-
-    @@media (max-width: 768px) {
-        .table-responsive-stack td, .table-responsive-stack th {
-            display: block;
-            width: 100%;
-        }
-
-        .table-responsive-stack thead {
-            display: none;
-        }
-
-        .table-responsive-stack tr {
-            display: block;
-            margin-bottom: 1rem;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
-            border-radius: 0.5rem;
-            padding: 1rem;
-            background-color: #fff;
-        }
-
-        .table-responsive-stack td::before {
-            font-weight: bold;
-            display: block;
-            margin-bottom: 0.5rem;
-        }
-    }
-
-    .btn:focus,
-    .btn:active,
-    .btn:focus-visible {
-        box-shadow: none !important;
-        outline: none !important;
-    }
-</style>
-
-<table class="table table-bordered table-hover align-middle text-center">
-    <thead class="table-light">
-        <tr>
-            <th class="text-success">Our Restaurant Partners</th>
-            <th>Status</th>
-            <th>Details</th>
-            <th>Change Status</th>
-            <th>Delete</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    <div class="d-flex gap-2 align-items-center">
-                        <img class="avatar rounded-circle" alt="Restaurant Logo" src="/images/@(item.Image is not null ? item.Image : "Default.jpg")" />
-                        <span class="fw-semibold">@item.Name</span>
+    <div class="pr-page">
+        <div class="pr-container">
+            <!-- Header Section -->
+            <div class="pr-header">
+                <div class="pr-header-content">
+                    <div class="pr-header-icon">
+                        <i class="fas fa-store-alt"></i>
                     </div>
-                </td>
+                    <div class="pr-header-text">
+                        <h3>Accepted Restaurant</h3>
+                    </div>
+                </div>
+                @if (totalCount > 0)
+                {
+                    <div class="pr-header-stats">
+                        <span class="pr-stat-count">@totalCount</span>
+                    </div>
+                }
+            </div>
 
-                <td>
-                    <div class="d-flex align-items-center">
-                        @if (item.AcctiveStatus == AcctiveStatus.Acctive)
-                        {
-                            <span class="badge bg-success">@item.AcctiveStatus</span>
-                        }
-                        else if (item.AcctiveStatus == AcctiveStatus.Warning)
-                        {
-                            <span class="badge bg-warning text-dark">@item.AcctiveStatus</span>
-                        }
-                        else if (item.AcctiveStatus == AcctiveStatus.Block)
-                        {
-                            <span class="badge bg-danger">@item.AcctiveStatus</span>
-                        }
+            @if (totalCount > 0)
+            {
+                <!-- Search Bar -->
+                <div class="pr-search-wrapper">
+                    <div class="pr-search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text"
+                               id="restaurantSearch"
+                               placeholder="Search by name..."
+                               aria-label="Search restaurants" />
                     </div>
-                </td>
-                <td>
-                    <div class="d-flex align-items-center">
-                        <a class="btn btn-sm btn-outline-success"
-                           asp-controller="Restaurants"
-                           asp-action="ResturantDetails"
-                           asp-route-id="@item.Key">
-                            <i class="bi bi-info-circle"></i> Details
-                        </a>
-                    </div>
-                </td>
+                </div>
 
-                <td>
-                    <div class="d-flex flex-wrap gap-2 align-items-center w-100">
-                        @if (item.AcctiveStatus == AcctiveStatus.Warning)
-                        {
-                            <a class="btn btn-sm btn-secondary"
-                               asp-controller="RestaurantStatus"
-                               asp-action="ChangeRestaurantStatus"
-                               asp-route-id="@item.Key"
-                               asp-route-status="@AcctiveStatus.Acctive">Unwarn</a>
-                            <a class="btn btn-sm btn-danger"
-                               asp-controller="RestaurantStatus"
-                               asp-action="ChangeRestaurantStatus"
-                               asp-route-id="@item.Key"
-                               asp-route-status="@AcctiveStatus.Block">Block</a>
-                        }
-                        else if (item.AcctiveStatus == AcctiveStatus.Block)
-                        {
-                            <a class="btn btn-sm btn-warning"
-                               asp-controller="RestaurantStatus"
-                               asp-action="ChangeRestaurantStatus"
-                               asp-route-id="@item.Key"
-                               asp-route-status="@AcctiveStatus.Warning">Warn</a>
-                            <a class="btn btn-sm btn-secondary"
-                               asp-controller="RestaurantStatus"
-                               asp-action="ChangeRestaurantStatus"
-                               asp-route-id="@item.Key"
-                               asp-route-status="@AcctiveStatus.Acctive">Unblock</a>
-                        }
-                        else
-                        {
-                            <a class="btn btn-sm btn-warning"
-                               asp-controller="RestaurantStatus"
-                               asp-action="ChangeRestaurantStatus"
-                               asp-route-id="@item.Key"
-                               asp-route-status="@AcctiveStatus.Warning">Warn</a>
-                            <a class="btn btn-sm btn-danger"
-                               asp-controller="RestaurantStatus"
-                               asp-action="ChangeRestaurantStatus"
-                               asp-route-id="@item.Key"
-                               asp-route-status="@AcctiveStatus.Block">Block</a>
-                        }
-                        <a class="btn btn-sm btn-info"
-                           asp-controller="RestaurantStatus"
-                           asp-action="ChangeRestaurantStatus"
-                           asp-route-id="@item.Key"
-                           asp-route-status="@AcctiveStatus.UnAccepted">Un Accept</a>
-                    </div>
-                </td>
+                <!-- Restaurants Table -->
+                <div class="pr-table-wrapper">
+                    <table class="pr-table">
+                        <thead>
+                            <tr>
+                                <th>Restaurant</th>
+                                <th>Status</th>
+                                <th class="pr-action-col">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var restaurant in restaurantsList)
+                            {
+                                <tr class="pr-table-row" data-search-terms="@(restaurant.Name.ToLower())">
+                                    <td data-label="Restaurant">
+                                        <div class="pr-restaurant-info">
+                                            <img src="/images/@(restaurant.Image ?? "Default.jpg")"
+                                                 alt="@restaurant.Name"
+                                                 class="pr-restaurant-logo"
+                                                 onerror="this.src='/images/Default.jpg'"
+                                                 loading="lazy" />
+                                            <div class="pr-restaurant-name">
+                                                @restaurant.Name
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td data-label="Status">
+                                        <span class="pr-status-badge pr-status-@restaurant.Status.ToString().ToLower()">
+                                            @restaurant.Status
+                                        </span>
+                                    </td>
+                                    <td data-label="Actions" class="pr-action-col">
+                                        <a asp-action="ResturantDetails"
+                                           asp-route-id="@restaurant.Key"
+                                           class="pr-btn pr-btn-primary">
+                                            <i class="fas fa-eye"></i>
+                                            <span>Details</span>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
 
-                <td>
-                    <div class="d-flex align-items-center">
-                        <a class="btn btn-sm btn-outline-danger"
-                           asp-controller="Restaurants"
-                           asp-action="DeleteRestaurant"
-                           asp-route-id="@item.Key">
-                            <i class="bi bi-trash"></i> Delete
-                        </a>
+                <!-- No Results State -->
+                <div class="pr-no-results" style="display: none;">
+                    <div class="pr-empty-icon">
+                        <i class="fas fa-search"></i>
                     </div>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+                    <h3>No restaurants found</h3>
+                    <p>Try adjusting your search terms</p>
+                </div>
+            }
+            else
+            {
+                <!-- Empty State -->
+                <div class="pr-empty">
+                    <div class="pr-empty-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <h3>All Caught Up!</h3>
+                    <p>There are no restaurant yet.</p>
+                </div>
+            }
+        </div>
+    </div>
 
 @section Scripts {
-    <partial name="_NotificationPartial"></partial>
+        <partial name="_NotificationPartial" />
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const searchInput = document.getElementById('restaurantSearch');
+                const tableRows = document.querySelectorAll('.pr-table-row');
+                const noResults = document.querySelector('.pr-no-results');
+                const tableWrapper = document.querySelector('.pr-table-wrapper');
+
+                if (searchInput) {
+                    searchInput.addEventListener('input', function() {
+                        const searchTerm = this.value.toLowerCase().trim();
+                        let visibleCount = 0;
+
+                        tableRows.forEach(row => {
+                            const searchTerms = row.getAttribute('data-search-terms');
+                            if (searchTerms.includes(searchTerm)) {
+                                row.style.display = '';
+                                visibleCount++;
+                            } else {
+                                row.style.display = 'none';
+                            }
+                        });
+
+                        if (tableWrapper) {
+                            tableWrapper.style.display = visibleCount > 0 ? '' : 'none';
+                        }
+                        if (noResults) {
+                            noResults.style.display = visibleCount === 0 ? 'flex' : 'none';
+                        }
+                    });
+
+                    document.addEventListener('keydown', function(e) {
+                        if (e.ctrlKey && e.key === 'k') {
+                            e.preventDefault();
+                            searchInput.focus();
+                        }
+                    });
+                }
+            });
+        </script>
 }

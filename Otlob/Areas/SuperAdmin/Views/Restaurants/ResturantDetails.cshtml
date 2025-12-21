@@ -340,12 +340,12 @@
                         <div class="rd-action-header">
                             <h3 class="rd-action-title">
                                 <i class="fas fa-utensils"></i>
-                                Menu Categories Management
+                                Menu Management
                             </h3>
                         </div>
                         <div class="rd-action-body">
-                            <a class="rd-btn rd-btn-primary" asp-controller="Menu" asp-action="Menu" asp-route-key="@Model.Key">
-                                <i class="fas fa-list-alt"></i> Categories
+                            <a class="rd-btn rd-btn-primary" asp-controller="Menu" asp-action="Menu" asp-route-restaurantKey="@Model.Key">
+                                <i class="fas fa-list-alt"></i> Menu
                             </a>                            
                         </div>
                     </div>
@@ -359,10 +359,10 @@
                             </h3>
                         </div>
                         <div class="rd-action-body">
-                            <a class="rd-btn rd-btn-primary" asp-controller="RestaurantMeals" asp-action="RestaurantMeals" asp-route-id="@Model.Key">
+                          @*   <a class="rd-btn rd-btn-primary" asp-controller="Meals" asp-action="Index" asp-route-id="@Model.Key">
                                 <i class="fas fa-list-alt"></i> View Meals
-                            </a>
-                            <a class="rd-btn rd-btn-secondary" asp-controller="RestaurantMeals" asp-action="RestaurantDeletedMeals" asp-route-id="@Model.Key">
+                            </a> *@
+                            <a class="rd-btn rd-btn-secondary" asp-controller="Meals" asp-action="Deleted" asp-route-id="@Model.Key">
                                 <i class="fas fa-trash-restore"></i> Deleted Meals
                             </a>
                         </div>

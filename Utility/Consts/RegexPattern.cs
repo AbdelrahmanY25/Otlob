@@ -18,5 +18,5 @@ public static class RegexPattern
     public const string MenuCategoryName = @"^[a-zA-Z\u0600-\u06FF0-9 _]{3,15}$";
     
     public const string MealName = @"^[a-zA-Z\u0600-\u06FF0-9 _]{3,25}$";
-    public const string MealDescription = @"^[a-zA-Z0-9\u0600-\u06FF ,.\-]{10,100}$";
+    public const string MealDescription = @"^[A-Za-z\u0600-\u06FF][\s\S]{9,500}$";
 }

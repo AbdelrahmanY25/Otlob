@@ -1,28 +1,23 @@
-﻿namespace Otlob.IServices;
+﻿
+namespace Otlob.IServices;
 
 public interface IMealService
 {
-    Result<IQueryable<MealResponnse>>? GetAllByRestaurantId(int restaurantlId);
+    Result<IQueryable<MealResponse>>? GetAllByRestaurantId(int restaurantlId);
+
+    Result<IQueryable<MealResponse>>? GetAllByCategoryId(int categoryId);
+
+    Result<MealResponse> GetForUpdate(string key);
+
+    Task<Result> AddAsync(int restaurantId, MealRequest request, UploadImageRequest imageRequest);
+
+    Task<Result> UpdateAsync(MealRequest request, string mealId, int restaurantId);
     
-    Result<IQueryable<MealVm>> GetMealsDetails(int restaurantlId);
+    Result UpdateMealImage(UploadImageRequest imageRequest, string key);
 
-    Result<MealResponnse> GetForUpdate(string key);
+    Result<IQueryable<MealResponse>> GetDeletedMeals(int restaurantId);
 
-    Result Add(int restaurantId, MealRequest request, UploadImageRequest imageRequest);
-    
-    Result Update(MealRequest request, string kry, int restaurantId);
-    
-    Result ChangeMealImage(IFormFile image, string key);
+    Result DeleteMeal(string id);
 
-    Result<IQueryable<MealVm>> GetDeletedMeals(int restaurantId);
-
-    Result DeleteMeal(int mealId);
-
-    Result UnDeleteMeal(int mealId);
-
-    void DeleteMealsRelatedToCategoryWith(int categoryId);
-
-    void UnDeleteMealsRelatedToCategoryWith(int categoryId);
-
-    IQueryable<MealVm> MealCategoryFilter(IQueryable<MealVm> meals, string filter);
+    Result UnDeleteMeal(string id);
 }

@@ -7,14 +7,21 @@ public class FileSignatureValidator : AbstractValidator<IFormFile>
         RuleFor(f => f)
             .Must(f =>
             {
-                BinaryReader binaryReader = new(f.OpenReadStream());
-                var bytes = binaryReader.ReadBytes(2);
+                using var stream = f.OpenReadStream();
+                using var reader = new BinaryReader(stream);
+                
+                // Read first 4 bytes for better signature detection
+                var bytes = reader.ReadBytes(Math.Min(4, (int)stream.Length));
+                
+                if (bytes.Length < 2)
+                    return false;
 
                 var fileSignature = BitConverter.ToString(bytes);
 
-                return !FileSettings.BlockedSignatures.Contains(fileSignature);
+                // Validate it's an allowed image type
+                return FileSettings.AllowedImageSignatures.Any(allowed => fileSignature.StartsWith(allowed));
             })
-            .WithMessage("File type is not allowed.")
+            .WithMessage("File type is not allowed or signature is invalid.")
             .When(x => x is not null);
     }
 }

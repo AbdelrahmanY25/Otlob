@@ -58,11 +58,6 @@ public class RestaurantProfileController(IRestaurantProfileService restaurantPro
     [HttpPost, ValidateAntiForgeryToken]
     public IActionResult EditRestaurantProfilePicture(UploadImageRequest request)
     {
-        if (!ModelState.IsValid)
-        {
-            return View(request);
-        }
-
         string? restaruantKey = HttpContext.Session.GetString(StaticData.RestaurantId);
 
         if (string.IsNullOrEmpty(restaruantKey))
@@ -73,6 +68,12 @@ public class RestaurantProfileController(IRestaurantProfileService restaurantPro
 
         // TODO: Handle Exception for unprotect
         int restaurantId = int.Parse(_dataProtector.Unprotect(restaruantKey));
+
+        if (!ModelState.IsValid)
+        {
+            TempData["Error"] = ModelState.Values.SelectMany(v => v.Errors).FirstOrDefault()?.ErrorMessage;
+            return RedirectToAction(nameof(EditRestaurantProfile), new { id = restaruantKey });
+        }               
 
         Result uploadImageResult = _restaurantProfileService.EditRestaurantProfilePicture(restaurantId, request.Image);
 

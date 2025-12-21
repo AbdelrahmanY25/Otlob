@@ -1,6 +1,4 @@
-﻿using Otlob.Core.Contracts.Restaurant;
-
-namespace Otlob.Services;
+﻿namespace Otlob.Services;
 
 public class CartService(IUnitOfWorkRepository unitOfWorkRepository, IRestaurantService restaurantService,
                   IDataProtectionProvider dataProtectionProvider, IOrderedMealsService orderedMealsService,
@@ -15,7 +13,7 @@ public class CartService(IUnitOfWorkRepository unitOfWorkRepository, IRestaurant
 
     public Cart? GetCartById(string id)
     {
-        int cartId = encryptionService.DecryptId(id);
+        int cartId = encryptionService.Decrypt(id);
 
         Cart? userCart = unitOfWorkRepository
             .Carts.GetOneWithSelect
@@ -67,8 +65,6 @@ public class CartService(IUnitOfWorkRepository unitOfWorkRepository, IRestaurant
         if (meals is null)
             return null;
 
-
-
         var restaurantIdResult = restaurantService.GetRestaurant(cartVM.RestaurantId);
 
         if (restaurantIdResult.IsFailure)
@@ -102,7 +98,7 @@ public class CartService(IUnitOfWorkRepository unitOfWorkRepository, IRestaurant
             UserId = userId
         };
 
-        unitOfWorkRepository.Carts.Create(cart);
+        unitOfWorkRepository.Carts.Add(cart);
         unitOfWorkRepository.SaveChanges();
 
         return cart;

@@ -15,17 +15,9 @@ public class RestaurantsController(IRestaurantService restaurantService) : Contr
 
     public IActionResult ActiveResturatns()
     {
-        AcctiveStatus[] acceptedStatuses = [AcctiveStatus.Acctive, AcctiveStatus.Warning, AcctiveStatus.Block];
+        var response = _restaurantService.GetAcctiveRestaurants();
 
-        var resturantsVM = _restaurantService.GetAllRestaurants(filter: null, statuses: acceptedStatuses);
-
-        if (resturantsVM is null)
-        {
-            TempData["Error"] = "There is no resturant requist";
-            return RedirectToAction("Index", "Home", new { Area = DefaultRoles.SuperAdmin });
-        }
-
-        return View(resturantsVM);
+        return View(response);
     }
 
     public IActionResult ResturantDetails(string id)

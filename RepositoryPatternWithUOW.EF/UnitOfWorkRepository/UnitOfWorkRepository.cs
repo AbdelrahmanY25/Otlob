@@ -4,7 +4,7 @@ public class UnitOfWorkRepository(ApplicationDbContext applicationDbContext) : I
 {
     private readonly ApplicationDbContext _context = applicationDbContext;
 
-    private IBaseRepository<Meal> _meals = default!;
+    private IBaseRepository<ApplicationUser> _users = default!;
     private IBaseRepository<Order> _orders = default!;
     private IBaseRepository<Category> _categories = default!;
     private IBaseRepository<Restaurant> _restaurants = default!;
@@ -12,7 +12,10 @@ public class UnitOfWorkRepository(ApplicationDbContext applicationDbContext) : I
     private IBaseRepository<CartDetails> _cartDetails = default!;
     private IBaseRepository<Cart> _carts = default!;
     private IBaseRepository<OrderDetails> _orderDetails = default!;
-    private IBaseRepository<ApplicationUser> _users = default!;
+    private IBaseRepository<MealAddOn> _mealAddOn = default!;
+    private IBaseRepository<MealOptionGroup> _mealOptionGroups = default!;
+    private IBaseRepository<MealOptionItem> _mealOptionItems = default!;
+    private IBaseRepository<Meal> _meals = default!;
     private IBaseRepository<MealPriceHistory> _mealsPriceHistories = default!;
     private IBaseRepository<MenuCategory> _mealCategories = default!;
     private IBaseRepository<TempOrder> _tempOrders = default!;
@@ -113,6 +116,33 @@ public class UnitOfWorkRepository(ApplicationDbContext applicationDbContext) : I
             _users ??= new BaseRepository<ApplicationUser>(_context);
             
             return _users;
+        }
+    }
+
+    public IBaseRepository<MealAddOn> MealAddOns
+    { 
+        get 
+        {
+            _mealAddOn ??= new BaseRepository<MealAddOn>(_context);
+            return _mealAddOn;
+        }
+    }
+
+    public IBaseRepository<MealOptionGroup> MealOptionGroups
+    { 
+        get 
+        {
+            _mealOptionGroups ??= new BaseRepository<MealOptionGroup>(_context);
+            return _mealOptionGroups;
+        }
+    }
+
+    public IBaseRepository<MealOptionItem> MealOptionItems
+    { 
+        get 
+        {
+            _mealOptionItems ??= new BaseRepository<MealOptionItem>(_context);
+            return _mealOptionItems;
         }
     }
 

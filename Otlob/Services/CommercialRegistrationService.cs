@@ -73,7 +73,7 @@ public class CommercialRegistrationService(IUnitOfWorkRepository unitOfWorkRepos
 
         var commercialRegistration = _mapper.Map<CommercialRegistration>((request, restaurantId, certificateId));
 
-        _unitOfWorkRepository.CommercialRegistrations.Create(commercialRegistration);
+        _unitOfWorkRepository.CommercialRegistrations.Add(commercialRegistration);
 
         _restaurantProgressStatus.ChangeRestaurantProgressStatus(restaurantId, ProgressStatus.CommercialRegistrationCompleted);
 

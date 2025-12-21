@@ -1,11 +1,16 @@
 ﻿global using Otlob.Core.Contracts.Authentication;
 global using Otlob.Core.Contracts.MenuCategory;
+global using Otlob.Core.Contracts.MealVarients;
 global using Otlob.Core.Contracts.Restaurant;
 global using Otlob.Core.Contracts.Address;
 global using Otlob.Core.Contracts.Files;
+global using Otlob.Core.Contracts.Meal;
 global using Otlob.EF.IBaseRepository;
 global using Otlob.Core.Entities;
 global using Utility.Enums;
+global using Otlob.Core.Contracts.User;
+global using Otlob.Core.Contracts.Branch;
+global using Otlob.Core.Contracts.Documents;
 
 
 

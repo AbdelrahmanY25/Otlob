@@ -1,8 +1,10 @@
 ﻿namespace Otlob.Services;
 
-public class RestaurantService(IDataProtectionProvider dataProtectionProvider, IUnitOfWorkRepository unitOfWorkRepository,
+public class RestaurantService(IUnitOfWorkRepository unitOfWorkRepository,
+                               IDataProtectionProvider dataProtectionProvider,
                                UserManager<ApplicationUser> userManager, IMapper mapper,
-                               IHttpContextAccessor httpContextAccessor, IRestaurantProgressStatus restaurantProgressStatus,
+                               IHttpContextAccessor httpContextAccessor, 
+                               IRestaurantProgressStatus restaurantProgressStatus,
                                IRestaurantCategoriesService restaurantCategoriesService) : IRestaurantService
 {
     private readonly IMapper _mapper = mapper;
@@ -18,9 +20,7 @@ public class RestaurantService(IDataProtectionProvider dataProtectionProvider, I
         Result result = IsRestaurantIdExists(restaurantId);
 
         if (result.IsFailure)
-        {
             return Result.Failure<RestaurantVM>(RestaurantErrors.NotFound);
-        }
 
         RestaurantVM restaurantsVM = _unitOfWorkRepository.Restaurants
             .GetOneWithSelect
@@ -38,28 +38,23 @@ public class RestaurantService(IDataProtectionProvider dataProtectionProvider, I
         return Result.Success(restaurantsVM);
     }
 
-    public IQueryable<RestaurantVM>? GetAllRestaurants(Category? filter = null, AcctiveStatus[]? statuses = null)
+    public IQueryable<AcctiveRestaurantResponse>? GetAcctiveRestaurants()
     {
-        var statusFilter = RestaurantsStatusFilter(statuses);
-
-        var combineFilters = PredicateBuilder.New<Restaurant>(true)     
-            .And(statusFilter);
-        
         var restaurantsVM = _unitOfWorkRepository.Restaurants
             .GetAllWithSelect
              (
-                expression: combineFilters,
+                expression: r => r.AcctiveStatus == AcctiveStatus.Acctive || 
+                                 r.AcctiveStatus == AcctiveStatus.Warning ||
+                                 r.AcctiveStatus == AcctiveStatus.Block,
                 tracked: false,
-                selector: r => new RestaurantVM
+                selector: r => new AcctiveRestaurantResponse
                 {
-                    Name = r.Name!,
                     Key = _dataProtector.Protect(r.Id.ToString()),
+                    Name = r.Name!,
                     Image = r.Image,
-                    AcctiveStatus = r.AcctiveStatus,
-                    DeliveryFee = r.DeliveryFee,
-                    DeliveryDuration = r.DeliveryDuration,
+                    Status = r.AcctiveStatus
                 }
-             );
+             ); ;
 
         return restaurantsVM!;
     }
@@ -168,7 +163,7 @@ public class RestaurantService(IDataProtectionProvider dataProtectionProvider, I
         response.Categories = [.. _restaurantCategoriesService.GetCategoriesByRestaurantId(restaurantId)!];
 
         return Result.Success(response);
-    }       
+    }
 
     public IQueryable<RestaurantVM>? GetDeletedRestaurants()
     {
@@ -200,9 +195,9 @@ public class RestaurantService(IDataProtectionProvider dataProtectionProvider, I
         int restaurantId = int.Parse(_dataProtector.Unprotect(id));
 
         _unitOfWorkRepository.Orders.SoftDelete(o => o.RestaurantId == restaurantId);
-        
+
         _unitOfWorkRepository.Meals.SoftDelete(expression: m => m.RestaurantId == restaurantId);
-        
+
         _unitOfWorkRepository.Restaurants.SoftDelete(r => r.Id == restaurantId);
 
         string ownerId = _unitOfWorkRepository.Restaurants
@@ -210,7 +205,7 @@ public class RestaurantService(IDataProtectionProvider dataProtectionProvider, I
                 expression: r => r.Id == restaurantId,
                 ignoreQueryFilter: true,
                 tracked: false,
-                selector: r => r.OwnerId 
+                selector: r => r.OwnerId
             )!;
 
         ApplicationUser? theOwner = await _userManager.FindByIdAsync(ownerId);
@@ -227,9 +222,9 @@ public class RestaurantService(IDataProtectionProvider dataProtectionProvider, I
         int restaurantId = int.Parse(_dataProtector.Unprotect(id));
 
         _unitOfWorkRepository.Orders.UnSoftDelete(o => o.RestaurantId == restaurantId);
-        
+
         _unitOfWorkRepository.Meals.UnSoftDelete(expression: m => m.RestaurantId == restaurantId);
-        
+
         _unitOfWorkRepository.Restaurants.UnSoftDelete(r => r.Id == restaurantId);
 
         string ownerId = _unitOfWorkRepository.Restaurants
@@ -261,17 +256,11 @@ public class RestaurantService(IDataProtectionProvider dataProtectionProvider, I
 
     public Result IsRestaurantIdExists(int restaurantId)
     {
-        if  (restaurantId <= 0)
-        {
-            return Result.Failure(RestaurantErrors.NotFound);
-        }
-
-        bool isRestaurantIdExists = _unitOfWorkRepository.Restaurants.IsExist(expression: r => r.Id == restaurantId);
+        bool isRestaurantIdExists = _unitOfWorkRepository.Restaurants
+            .IsExist(expression: r => r.Id == restaurantId, ignoreQueryFilter: true);
 
         if (!isRestaurantIdExists)
-        {
             return Result.Failure(RestaurantErrors.NotFound);
-        }
 
         return Result.Success();
     }    
@@ -286,15 +275,5 @@ public class RestaurantService(IDataProtectionProvider dataProtectionProvider, I
             );
 
         return totalBranches;
-    }
-
-    private static Expression<Func<Restaurant, bool>> RestaurantsStatusFilter(AcctiveStatus[]? statuses = null)
-    {
-        if (statuses is null || statuses.Length == 0)
-        {
-            return r => r.AcctiveStatus == AcctiveStatus.Acctive || r.AcctiveStatus == AcctiveStatus.Warning;
-        }
-
-        return r => statuses.Contains(r.AcctiveStatus);
     }
 }

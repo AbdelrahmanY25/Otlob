@@ -11,7 +11,7 @@
                 OrderData = JsonConvert.SerializeObject(order),
             };
 
-            unitOfWorkRepository.TempOrders.Create(tempOrder);
+            unitOfWorkRepository.TempOrders.Add(tempOrder);
             unitOfWorkRepository.SaveChanges();
 
             BackgroundJob.Schedule(() => RemoveTempOrderAfterTwentyMinsFromCreationAsABackGroundTask(tempOrder.Id), TimeSpan.FromMinutes(20));

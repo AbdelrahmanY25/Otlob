@@ -1,6 +1,4 @@
-﻿using Utility.Consts;
-
-namespace Otlob.Services;
+﻿namespace Otlob.Services;
 
 public class MailService(IOptions<MailSettings> mailSettings) : IMailService
 {
@@ -25,7 +23,8 @@ public class MailService(IOptions<MailSettings> mailSettings) : IMailService
         email.From.Add(new MailboxAddress(mailSettings.DisplayName, mailSettings.Email));
 
         using var smtp = new SmtpClient();
-        smtp.Connect(mailSettings.Host, mailSettings.Port, SecureSocketOptions.StartTls);
+        smtp.Connect(mailSettings.Host, mailSettings.Port, SecureSocketOptions.SslOnConnect);// for Production
+        // smtp.Connect(mailSettings.Host, mailSettings.Port, SecureSocketOptions.StartTls);// for Development
         smtp.Authenticate(mailSettings.Email, mailSettings.Password);
 
         await smtp.SendAsync(email);

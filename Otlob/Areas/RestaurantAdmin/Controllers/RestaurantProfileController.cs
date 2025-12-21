@@ -45,6 +45,11 @@ public class RestaurantProfileController(IRestaurantProfileService restaurantPro
     [HttpPost, ValidateAntiForgeryToken]
     public IActionResult EditRestaurantProfilePicture(UploadImageRequest request)
     {
+        if (!ModelState.IsValid)
+        {
+            TempData["Error"] = ModelState.Values.SelectMany(v => v.Errors).FirstOrDefault()?.ErrorMessage;
+            return RedirectToAction(nameof(EditRestaurantProfile));
+        }
         int restaurantId = int.Parse(User.FindFirstValue(StaticData.RestaurantId)!);
 
         Result uploadImageResult = _restaurantProfileService.EditRestaurantProfilePicture(restaurantId, request.Image);

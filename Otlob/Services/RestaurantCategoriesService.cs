@@ -34,7 +34,7 @@ public class RestaurantCategoriesService(IUnitOfWorkRepository unitOfWorkReposit
         foreach (var categoryId in categoriesIds)
         {
             RestaurantCategory restaurantCategory = new() { CategoryId = categoryId, RestaurantId = restaurantId };
-            _unitOfWorkRepository.RestaurantCategories.Create(restaurantCategory);
+            _unitOfWorkRepository.RestaurantCategories.Add(restaurantCategory);
         }
     }
 }

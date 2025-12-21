@@ -1,4 +1,4 @@
-﻿@model IQueryable<MealResponnse>
+﻿@model IQueryable<MealResponse>
 
 <link rel="stylesheet" href="~/css/meals.css" asp-append-version="true" />
 
@@ -97,7 +97,7 @@
                                 <a asp-action="Update" asp-route-id="@item.Key" class="ml-mobile-action" style="color: #0284c7;">
                                     <i class="fas fa-eye"></i> Details
                                 </a>
-                                <a asp-action="MealPriceHistoryDetails" asp-route-id="@item.Key" class="ml-mobile-action" style="color: #059669;">
+                                <a asp-controller="MealPrices" asp-action="PricesHistory" asp-route-id="@item.Key" class="ml-mobile-action" style="color: #059669;">
                                     <i class="fas fa-history"></i> History
                                 </a>
                                 <a href="#" 

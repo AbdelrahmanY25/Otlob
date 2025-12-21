@@ -1,0 +1,594 @@
+html {
+    font-size: 14px;
+}
+
+:root {
+    --primary-color: #F04335;
+    --secondary-color: #dd968c;
+    --seccuss-color: #05a437;
+    --main-transition: all 0.3s ease;
+    --navbar-height: 60px;
+    --text: #333333;
+    --white: #ffffff;
+    --shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    --background-color: linear-gradient(100deg, #9a5752 25% 25%, #a71905 100%);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+body {
+    display: block;
+    font-family: 'Cairo', sans-serif;
+    background-color: #f1f5f9;
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    text-decoration: none;
+    color: #ffff;
+}
+
+a:hover {
+    color: #ffff;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.page {
+    display: flex;
+    min-height: 100vh;
+    background-color: #f1f5f9;
+}
+
+/*start sidebar*/
+.sidebar {
+    background: white;
+    width: 250px;
+    z-index: 1000;
+    height: auto;
+    box-shadow: 0 0 10px #ddd;
+    padding: 20px;
+    position: relative;
+    transition: all 0.3s ease;
+    overflow-x: hidden;
+}
+
+.sidebar .links {
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    padding: 5px;
+}
+
+.sidebar h3 {
+    text-align: center;
+    font-size: 32px;
+    font-weight: 800;
+    margin-bottom: 50px;
+    color: var(--primary-color);
+}
+
+.sidebar ul li:not(:last-child) {
+    border-bottom: 1px solid #f1f1f1;
+}
+
+.sidebar ul li a {
+    text-align: center;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    gap: 10px;
+    border-radius: 5px;
+    color: var(--primary-color);
+    transition: all 0.2s ease;
+}
+
+.sidebar ul li a i,
+.sidebar ul li a span{
+    font-size: 16px;
+}
+
+.sidebar ul li a:hover {
+    /*background-color: var(--primary-color);
+    color: white;*/
+    border-left: 4px solid var(--primary-color);
+}
+/*end sidebar*/
+
+.content {
+    overflow: hidden;
+    width: 100%;
+    flex: 1;
+    transition: all 0.3s ease;
+}
+
+.content .navbar {
+    background-color: #fff;
+    width: 100%;
+    height: 60px;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.content .navbar .links {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+}
+
+.content .navbar .links img {
+    max-width: 50px;
+    max-height: 50px;
+    cursor: pointer;
+    border-radius: 50%;
+    object-fit: cover;
+    transition: transform 0.2s ease;
+}
+
+.content .navbar .links img:hover {
+    transform: scale(1.05);
+}
+
+.content .navbar .links a {
+    color: var(--primary-color);
+    padding: 8px 12px;
+    font-size: 16px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    border-radius: 4px;
+}
+
+.content .navbar .links a:hover {
+    background-color: rgba(240, 67, 53, 0.1);
+    transform: translateY(-1px);
+}
+
+.menu-container {
+    padding: 10px 0;
+    z-index: 1100;
+    display: flex;
+    align-items: center;
+}
+
+.burger-icon {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 30px;
+    height: 22px;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+}
+
+.burger-icon:hover {
+    background-color: rgba(192, 40, 16, 0.1);
+}
+
+.burger-icon span {
+    display: block;
+    height: 3px;
+    width: 100%;
+    background-color: #C02810;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+    transform-origin: center;
+}
+
+.burger-icon.active span:nth-child(1) {
+    transform: rotate(45deg) translate(6px, 6px);
+}
+
+.burger-icon.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.burger-icon.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(6px, -6px);
+}
+
+.dropdown-menu {
+    display: none;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    padding: 10px 0;
+    min-width: 220px;
+    max-width: 90vw;
+    list-style: none;
+    z-index: 9999;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+}
+
+.dropdown-menu.show {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.dropdown-menu li {
+    width: 100%;
+    text-align: left;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+}
+
+.dropdown-menu li a {
+    display: block;
+    padding: 12px 20px;
+    color: #333;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    border-radius: 5px;
+    position: relative;
+}
+
+.dropdown-menu li a:hover {
+    background-color: #F04335;
+    color: white;
+    transform: translateX(1px);
+}
+
+.dropdown-menu li img {
+    display: block;
+    margin: 0 auto 10px auto;
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2px solid #F04335;
+    transition: transform 0.2s ease;
+}
+
+.dropdown-menu li img:hover {
+    transform: scale(1.05);
+}
+
+body:not(.page) .dropdown-menu {
+    z-index: 10000;
+    top: 60px;
+    right: 20px;
+    left: auto;
+    width: auto;
+    min-width: 220px;
+    max-width: 90vw;
+}
+
+.content .main {
+    width: 100%;
+    height: 100%;
+    padding: 20px 40px;
+}
+
+@media (max-width: 768px) {
+    .dropdown-menu {
+        right: -10px;
+        min-width: 200px;
+        max-width: calc(100vw - 20px);
+    }
+    
+    body:not(.page) .dropdown-menu {
+        right: 10px;
+        top: 60px;
+    }
+}
+
+@media (max-width: 480px) {
+    .dropdown-menu {
+        width: 80px;
+    }
+
+    .dropdown-menu li a {
+        padding: 15px 20px;
+        text-align: center;
+        font-size: 16px;
+        border-bottom: 1px solid #f0f0f0;
+    }
+    
+    .dropdown-menu li:last-child a {
+        border-bottom: none;
+    }
+    
+    .dropdown-menu li img {
+        width: 50px;
+        height: 50px;
+        margin-bottom: 10px;
+    }
+    
+    body:not(.page) .dropdown-menu {    
+        top: 50px;
+        right: 10px;
+        left: 10px;
+        width: auto;
+        min-width: auto;
+        max-width: none;
+        border-radius: 10px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .content .navbar {
+        padding: 8px 32px;
+    }
+    
+    .content .navbar .links a {
+        font-size: 18px;
+        padding: 10px 16px;
+    }
+}
+
+@media (max-width: 1199px) and (min-width: 768px) {
+    .sidebar {
+        width: 200px;
+        min-width: 200px;
+    }
+    
+    .content {
+        flex: 1;
+    }
+    
+    .content .navbar {
+        padding: 8px 20px;
+        height: 55px;
+    }
+        
+    .content .navbar .links img {
+        max-width: 45px;
+        max-height: 45px;
+    }
+    
+    .content .navbar .links a {
+        font-size: 15px;
+        padding: 6px 10px;
+    }
+    
+    .burger-icon {
+        width: 28px;
+        height: 20px;
+    }
+    
+    .burger-icon span {
+        height: 2.5px;
+    }
+    
+}
+
+@media (max-width: 767px) and (min-width: 481px) {
+    .sidebar {
+        width: 60px;
+        min-width: 60px;
+        padding: 10px 5px;
+    }
+    
+    .sidebar h3 {
+        font-size: 14px;
+        margin-bottom: 30px;
+        text-orientation: mixed;
+    }
+    
+    .sidebar ul li a {
+        padding: 8px 5px;
+        justify-content: center;
+        margin-bottom: 5px;
+    }
+    
+    .sidebar ul li a span {
+        display: none;
+    }
+    
+    .sidebar ul li a i {
+        font-size: 16px;
+    }
+    
+    .content {
+        flex: 1;
+    }
+    
+    .content .navbar {
+        padding: 8px 16px;
+        height: 50px;
+    }        
+    
+    .content .navbar .links img {
+        max-width: 40px;
+        max-height: 40px;
+    }
+    
+    .content .navbar .links a {
+        font-size: 14px;
+        padding: 6px 8px;
+    }
+    
+    .burger-icon {
+        width: 25px;
+        height: 18px;
+    }
+    
+    .burger-icon span {
+        height: 2px;
+    }
+    
+}
+
+@media (max-width: 480px) {
+    .page {
+        flex-direction: row;
+    }
+    
+    .sidebar {
+        width: 50px;
+        min-width: 50px;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 10px 5px;
+        overflow-x: hidden;
+    }
+    
+    .sidebar h3 {
+        font-size: 12px;
+        margin-bottom: 20px;
+        text-orientation: mixed;
+        white-space: nowrap;
+    }
+    
+    .sidebar ul {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        margin: 0;
+        padding: 0;
+        width: 100%;
+    }
+    
+    .sidebar ul li {
+        margin-bottom: 0;
+        width: 100%;
+    }
+    
+    .sidebar ul li a {
+        padding: 8px;
+        margin-bottom: 0;
+        min-width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        justify-content: center;
+    }
+    
+    .sidebar ul li a span {
+        display: none;
+    }
+    
+    .sidebar ul li a i {
+        font-size: 16px;
+    }
+    
+    .content {
+        flex: 1;
+    }
+    
+    .content .navbar {
+        padding: 8px 12px;
+        height: 50px;
+        flex-wrap: wrap;
+    }
+    
+    .content .navbar .links img {
+        max-width: 35px;
+        max-height: 35px;
+    }
+    
+    .content .navbar .links a {
+        font-size: 13px;
+        padding: 4px 6px;
+        white-space: nowrap;
+    }
+    
+    .menu-container {
+        padding: 5px 0;
+    }
+    
+    .burger-icon {
+        width: 22px;
+        height: 16px;
+    }
+    
+    .burger-icon span {
+        height: 2px;
+    }
+    
+}
+
+@media (max-width: 320px) {
+    .sidebar {
+        width: 45px;
+        min-width: 45px;
+        height: 100vh;
+        padding: 8px 3px;
+    }
+    
+    .sidebar h3 {
+        font-size: 10px;
+        margin-bottom: 15px;
+    }
+    
+    .sidebar ul li a {
+        padding: 6px;
+        min-width: 30px;
+        height: 30px;
+    }
+    
+    .sidebar ul li a i {
+        font-size: 14px;
+    }
+    
+    .content .navbar .links a {
+        font-size: 12px;
+        padding: 3px 4px;
+    }
+    
+    .content .navbar .links img {
+        max-width: 30px;
+        max-height: 30px;
+    }
+    
+    .burger-icon {
+        width: 20px;
+        height: 14px;
+    }
+    
+}
+
+@media (max-width: 1024px) and (min-width: 768px) {
+    .sidebar {
+        width: 180px;
+        min-width: 180px;
+    }
+    
+    .sidebar h3 {
+        font-size: 16px;
+        margin-bottom: 40px;
+    }
+    
+    .sidebar ul li a {
+        padding: 8px;
+        font-size: 14px;
+    }
+    
+    .sidebar ul li a i {
+        font-size: 16px;
+    }
+    
+    .sidebar ul li a span {
+        font-size: 14px;
+    }
+}

@@ -94,7 +94,7 @@ public class AddressService(IUnitOfWorkRepository unitOfWorkRepository, IDataPro
 
         address.UserId = userId;
 
-        _unitOfWorkRepository.Addresses.Create(address);
+        _unitOfWorkRepository.Addresses.Add(address);
         _unitOfWorkRepository.SaveChanges();
 
         return Result.Success();

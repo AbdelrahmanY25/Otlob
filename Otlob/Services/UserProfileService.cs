@@ -25,6 +25,9 @@ public class UserProfileService(UserManager<ApplicationUser> userManager, IFileS
              )
             .SingleAsync();
 
+        if (response is null)
+            return Result.Failure<UserProfile>(AuthenticationErrors.InvalidUser);
+
         return Result.Success(response);
     }
 
@@ -33,9 +36,7 @@ public class UserProfileService(UserManager<ApplicationUser> userManager, IFileS
         Result isValidPhone = await ValidateUserProfileForUpdateAsync(request, userId);
         
         if (isValidPhone.IsFailure)
-        {
-            return isValidPhone;
-        }
+            return Result.Failure(AuthenticationErrors.DoublicatedPhoneNumber);
 
         await _userManager.Users
             .Where(u => u.Id == userId)
@@ -64,11 +65,11 @@ public class UserProfileService(UserManager<ApplicationUser> userManager, IFileS
             .Select(u => u.Image!)
             .FirstOrDefaultAsync();
 
-        var isOldImageDeleted = _imageService.DeleteImageIfExist(userImage);
+        var isOldImageDeleted = _imageService.DeleteImage(userImage);
 
         if (isOldImageDeleted.IsFailure)
         {
-            _imageService.DeleteImageIfExist(isImageUploaded.Value);
+            _imageService.DeleteImage(isImageUploaded.Value);
             return isOldImageDeleted;
         }
 

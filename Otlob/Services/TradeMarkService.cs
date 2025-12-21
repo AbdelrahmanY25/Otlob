@@ -80,7 +80,7 @@ public class TradeMarkService(IUnitOfWorkRepository unitOfWorkRepository, IFileS
 
         var tradeMark = _mapper.Map<TradeMark>((request, restaurantId, certificateId));
 
-        _unitOfWorkRepository.TradeMarks.Create(tradeMark);
+        _unitOfWorkRepository.TradeMarks.Add(tradeMark);
 
         _restaurantProgressStatus.ChangeRestaurantProgressStatus(restaurantId, ProgressStatus.TradeMarkCompleted);
 

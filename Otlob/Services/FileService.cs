@@ -17,7 +17,7 @@ public  class FileService(IWebHostEnvironment webHostEnvironment, IUnitOfWorkRep
     {
         var uploadFile = await SaveFileAsync(file);
 
-        _unitOfWorkRepository.UploadedFiles.Create(uploadFile);
+        _unitOfWorkRepository.UploadedFiles.Add(uploadFile);
 
         return uploadFile.Id;
     }
@@ -38,12 +38,10 @@ public  class FileService(IWebHostEnvironment webHostEnvironment, IUnitOfWorkRep
         return (memoryStream.ToArray(), file.ContetntType, file.FileName);
     }
 
-    public Result<string> DeleteImageIfExist(string? oldImage)
+    public Result<string> DeleteImage(string? oldImage)
     {
         if (oldImage is null)
-        {
-            return Result.Success("Nice to upload your first image");
-        }
+            return Result.Success("Nice, you upload the first image");
 
         string imagePath = Path.Combine(_imagePath, oldImage!);
 
@@ -54,7 +52,22 @@ public  class FileService(IWebHostEnvironment webHostEnvironment, IUnitOfWorkRep
         }
 
         return Result.Failure<string>(ImageErrors.InvalidImagePath);
-    }        
+    }
+
+    public Result DeleteManyImages(IEnumerable<string> oldImages)
+    {
+        foreach (var oldImage in oldImages)
+        {
+            string imagePath = Path.Combine(_imagePath, oldImage);
+            
+            if (File.Exists(imagePath))
+            {
+                File.Delete(imagePath);
+            }
+        }
+        
+        return Result.Success();
+    }
 
     private Result<string> SaveImage(IFormFile image)
     {

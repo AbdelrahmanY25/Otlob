@@ -2,101 +2,81 @@
 
 public class MealService(IMapper mapper, IFileService imageService,
                          IUnitOfWorkRepository unitOfWorkRepository,
-                         IDataProtectionProvider dataProtectionProvider,
+                         IRestaurantService restaurantService,
+                         IEncryptionService encryptionService,
                          IMealPriceHistoryService mealPriceHistoryService, 
-                         IRestaurantService restaurantService) : IMealService
+                         IMealOptionGroupService optionGroupService) : IMealService
 {
     private readonly IMapper _mapper = mapper;
     private readonly IFileService _imageService = imageService;
     private readonly IRestaurantService _restaurantService = restaurantService;
+    private readonly IEncryptionService _encryptionService = encryptionService;
+    private readonly IMealOptionGroupService _optionGroupService = optionGroupService;
     private readonly IUnitOfWorkRepository _unitOfWorkRepository = unitOfWorkRepository;
     private readonly IMealPriceHistoryService _mealPriceHistoryService = mealPriceHistoryService;
-    private readonly IDataProtector _dataProtector = dataProtectionProvider.CreateProtector("SecureData");
 
-    public Result<IQueryable<MealResponnse>>? GetAllByRestaurantId(int restaurantlId)
+    public Result<IQueryable<MealResponse>>? GetAllByRestaurantId(int restaurantlId)
     {
-        Result IsRestaurantIdExists = _restaurantService.IsRestaurantIdExists(restaurantlId);
-
-        if (IsRestaurantIdExists.IsFailure)
-            return Result.Failure<IQueryable<MealResponnse>>(RestaurantErrors.NotFound);
-
         var response = _unitOfWorkRepository.Meals
             .GetAllWithSelect
              (
                 expression: m => m.RestaurantId == restaurantlId,
                 tracked: false,
-                selector: m => new MealResponnse
+                selector: m => new MealResponse
                 {
-                    Key = _dataProtector.Protect(m.Id.ToString()),
+                    Key = m.Id,
                     Name = m.Name,
                     Price = m.Price,
                     Image = m.Image,
                 }
              )!;
 
+        if (response is null)
+            return Result.Failure<IQueryable<MealResponse>>(RestaurantErrors.NotFound);
+
         return Result.Success(response);
     }
 
-    public Result<IQueryable<MealVm>> GetMealsDetails(int restaurantId)
+    public Result<IQueryable<MealResponse>>? GetAllByCategoryId(int categoryId)
     {
-        Result validateRestaurantIdResult = _restaurantService.IsRestaurantIdExists(restaurantId);
-
-        if (validateRestaurantIdResult.IsFailure)
-        {
-            return Result.Failure<IQueryable<MealVm>>(RestaurantErrors.NotFound);
-        }
-
-        IQueryable<MealVm>? mealsVM = _unitOfWorkRepository.Meals
+        var response = _unitOfWorkRepository.Meals
             .GetAllWithSelect
              (
-                expression: m => m.RestaurantId == restaurantId && m.IsAvailable,
+                expression: m => m.CategoryId == categoryId,
                 tracked: false,
-                selector: m => new MealVm
+                selector: m => new MealResponse
                 {
-                    MealVmId = m.Id,
+                    Key = m.Id,
                     Name = m.Name,
-                    Image = m.Image,
                     Price = m.Price,
-                    NumberOfServings = m.NumberOfServings,
-                    IsNewMeal = m.IsNewMeal,
-                    IsTrendingMeal = m.IsTrendingMeal,
-                    Description = m.Description
+                    Image = m.Image,
                 }
-             );
+             )!;
 
-        return Result.Success(mealsVM)!;
-    }
+        if (response is null)
+            return Result.Failure<IQueryable<MealResponse>>(MealCategoriesErrors.NotFound);
 
-    public Result<MealResponnse> GetForUpdate(string key)
-    {
-        int mealId = int.Parse(_dataProtector.Unprotect(key));
 
-        Result isMealIdExists = IsMealIdExists(mealId);
+        return Result.Success(response);
+    }   
 
-        if (isMealIdExists.IsFailure)
-            return Result.Failure<MealResponnse>(MealErrors.MealNotFound);
-
+    public Result<MealResponse> GetForUpdate(string mealId)
+    {        
         var meal = _unitOfWorkRepository.Meals
-            .GetOne(expression: m => m.Id == mealId, tracked: false, ignoreQueryFilter: true, includeProps: [m => m.Restaurant.MenueCategories]);
+            .GetOne(expression: m => m.Id == mealId, tracked: false, ignoreQueryFilter: true);
 
-        var response = _mapper.Map<MealResponnse>(meal);
-        response.CategoryKey = _dataProtector.Protect(response.CategoryKey);
-        response.Key = _dataProtector.Protect(response.Key);
-        response.Categories = meal!.Restaurant.MenueCategories
-            .Select(mc => new MenuCategoryResponse
-            {
-                Key = _dataProtector.Protect(mc.Id.ToString()),
-                Name = mc.Name
-            })
-            .AsQueryable();
+        if (meal is null)
+            return Result.Failure<MealResponse>(MealErrors.MealNotFound);
+        
+        var response = FillResponseData(meal!);
 
         return Result.Success(response);
     }
 
-    public Result Add(int restaurantId, MealRequest request, UploadImageRequest imageRequest)
+    public async Task<Result> AddAsync(int restaurantId, MealRequest request, UploadImageRequest imageRequest)
     {
         // TODO: Handle Exception
-        int categoryId = int.Parse(_dataProtector.Unprotect(request.SelectedCategoryKey));
+        int categoryId = _encryptionService.Decrypt(request.SelectedCategoryKey);
 
         var result = ValidateMealOnAdd(restaurantId, categoryId, request);
 
@@ -110,34 +90,54 @@ public class MealService(IMapper mapper, IFileService imageService,
 
         Meal meal = FillMealData(request, restaurantId, categoryId, isImageUploaded.Value);
 
-        _unitOfWorkRepository.Meals.Create(meal);
-        _unitOfWorkRepository.SaveChanges();
+
+        // Add meal option groups and items if exist
+        if (request.HasOptionGroup && request.OptionGroups is not null)
+        {
+            var addOptionsResult = await _optionGroupService.Add(request.OptionGroups, meal.Id);
+            
+            if (addOptionsResult.IsFailure)
+                return Result.Failure(addOptionsResult.Error);
+        }
+
+        // add AddOns if exist
 
         _mealPriceHistoryService.AddMealPriceHistory(meal.Id, meal.Price);
 
+        _unitOfWorkRepository.Meals.Add(meal);  
+        
+        _unitOfWorkRepository.SaveChanges();
+        
         return Result.Success();
     }
 
-    public Result Update(MealRequest request, string key, int restaurantId)
+    public async Task<Result> UpdateAsync(MealRequest request, string mealId, int restaurantId)
     {
         // TODO: Handle Exception
-        int mealId = int.Parse(_dataProtector.Unprotect(key));
-        int categoryId = int.Parse(_dataProtector.Unprotect(request.SelectedCategoryKey));
+        int categoryId = _encryptionService.Decrypt(request.SelectedCategoryKey);
 
         var validMeal = ValidateMealOnUpdate(restaurantId, mealId, categoryId, request);
 
         if (validMeal.IsFailure)
             return Result.Failure(validMeal.Error);
 
-        Meal oldMeal = _unitOfWorkRepository.Meals.GetOne(expression: m => m.Id == mealId)!;
+        Meal oldMeal = _unitOfWorkRepository.Meals.GetOne(expression: m => m.Id == mealId)!;       
+
+        // update meal options and items
+        if ((!request.HasOptionGroup && oldMeal.HasOptionGroup) ||
+            (request.HasOptionGroup && !oldMeal.HasOptionGroup) ||
+            (request.HasOptionGroup && oldMeal.HasOptionGroup))
+        {
+            var updateOptionsResult = await _optionGroupService.Update(request.OptionGroups!, mealId);
+            
+            if (updateOptionsResult.IsFailure)
+                return Result.Failure(updateOptionsResult.Error);
+        }
+
+        // update AddOns if exist
 
         if (oldMeal.Price != request.Price)
             _mealPriceHistoryService.UpdateMealPriceHistory(mealId, request.Price);
-
-        bool noNewData = ThereIsNewData(request, oldMeal, categoryId);
-
-        if (noNewData)
-            return Result.Failure(MealErrors.NoNewData);
         
         _mapper.Map(request, oldMeal);
         oldMeal.CategoryId = categoryId;
@@ -147,21 +147,118 @@ public class MealService(IMapper mapper, IFileService imageService,
         return Result.Success();
     }
 
-    public Result ChangeMealImage(IFormFile image, string key)
+    public Result UpdateMealImage(UploadImageRequest imageRequest, string mealId)
     {
-        // TODO: Handle Exception
-        int mealId = int.Parse(_dataProtector.Unprotect(key));
-
         Result validateMealIdResult = IsMealIdExists(mealId);
 
         if (validateMealIdResult.IsFailure)
-            return Result.Failure(MealErrors.MealNotFound);        
+                return Result.Failure(MealErrors.MealNotFound);        
 
-        var uploadImageResult = _imageService.UploadImage(image);
+        var uploadImageResult = _imageService.UploadImage(imageRequest.Image);
 
         if (uploadImageResult.IsFailure)
-            return uploadImageResult;
+                return uploadImageResult;
 
+        Meal meal = GetMealImageById(mealId);
+
+        _imageService.DeleteImage(meal.Image);
+
+        meal.Image = uploadImageResult.Value;
+
+        _unitOfWorkRepository.Meals.ModifyProperty(meal, r => r.Image!);
+
+        _unitOfWorkRepository.SaveChanges();
+
+        return Result.Success();
+    }    
+
+    public Result<IQueryable<MealResponse>> GetDeletedMeals(int restaurantId)
+    {
+        var response = _unitOfWorkRepository.Meals
+            .GetAllWithSelect
+             (
+                expression: m => m.RestaurantId == restaurantId && EFCore.Property<bool>(m, "IsDeleted"),
+                tracked: false,
+                ignoreQueryFilter: true,
+                selector: m => new MealResponse
+                {
+                    Key = m.Id,
+                    Name = m.Name,
+                    Image = m.Image,
+                    Price = m.Price,
+                }
+             )!;
+
+        if (response is null)
+            return Result.Failure<IQueryable<MealResponse>>(RestaurantErrors.NotFound);
+
+
+        return Result.Success(response);
+    }
+
+    public Result DeleteMeal(string mealId)
+    {
+        Result validateMealIdResult = IsMealIdExists(mealId);
+
+        if (validateMealIdResult.IsFailure)
+            return Result.Failure(MealErrors.MealNotFound);
+
+        var mealOptionGroupIds = _unitOfWorkRepository.MealOptionGroups
+            .GetAllWithSelect
+             (
+                expression: og => og.MealId == mealId,
+                tracked: false,
+                selector: og => og.MealOptionGroupId
+             )!
+             .ToList();
+        
+        if (mealOptionGroupIds.Count > 0)
+        {
+            _unitOfWorkRepository.MealOptionItems.SoftDelete(expression: oi => mealOptionGroupIds.Contains(oi.OptionGroupId));
+            _unitOfWorkRepository.MealOptionGroups.SoftDelete(expression: og => og.MealId == mealId);
+        }
+
+        _unitOfWorkRepository.Meals.SoftDelete(expression: m => m.Id == mealId);
+        
+        _unitOfWorkRepository.SaveChanges();
+        
+        return Result.Success();
+    }
+
+    public Result UnDeleteMeal(string mealId)
+    {        
+        Result validateMealIdResult = IsMealIdExists(mealId);
+
+        if (validateMealIdResult.IsFailure)
+            return Result.Failure(MealErrors.MealNotFound);
+
+        var mealOptionGroupIds = _unitOfWorkRepository.MealOptionGroups
+            .GetAllWithSelect
+             (
+                expression: og => og.MealId == mealId,
+                tracked: false,
+                ignoreQueryFilter: true,
+                selector: og => og.MealOptionGroupId
+             )!
+             .ToList();
+
+        if (mealOptionGroupIds.Count > 0)
+        {
+            _unitOfWorkRepository.MealOptionItems.UnSoftDelete(expression: oi => mealOptionGroupIds.Contains(oi.OptionGroupId));
+            _unitOfWorkRepository.MealOptionGroups.UnSoftDelete(expression: og => og.MealId == mealId);
+        }
+
+        _unitOfWorkRepository.Meals.UnSoftDelete(expression: m => m.Id == mealId);
+        
+        _unitOfWorkRepository.SaveChanges();
+        
+        return Result.Success();
+    }
+
+
+
+    private Meal GetMealImageById(string mealId)
+    {
         Meal meal = _unitOfWorkRepository
             .Meals
             .GetOneWithSelect(
@@ -173,102 +270,9 @@ public class MealService(IMapper mapper, IFileService imageService,
                 }
             )!;
 
-        _imageService.DeleteImageIfExist(meal.Image);
-
-        meal.Image = uploadImageResult.Value;
-
-        _unitOfWorkRepository.Meals.ModifyProperty(meal, r => r.Image!);
-
-        _unitOfWorkRepository.SaveChanges();
-
-        return Result.Success();
-    }    
-
-    public Result<IQueryable<MealVm>> GetDeletedMeals(int restaurantId)
-    {
-        Result validateRestaurantIdResult = _restaurantService.IsRestaurantIdExists(restaurantId);
-
-        if (validateRestaurantIdResult.IsFailure)
-        {
-            return Result.Failure<IQueryable<MealVm>>(RestaurantErrors.NotFound);
-        }
-
-        IQueryable<MealVm> mealVms = _unitOfWorkRepository.Meals.GetAllWithSelect
-             (
-                expression: m => m.RestaurantId == restaurantId && EFCore.Property<bool>(m, "IsDeleted"),
-                tracked: false,
-                ignoreQueryFilter: true,
-                selector: m => new MealVm
-                {
-                    Key = _dataProtector.Protect(m.Id.ToString()),
-                    Name = m.Name,
-                    Image = m.Image,
-                    Price = m.Price,                        
-                }
-             )!;
-
-        return Result.Success(mealVms);
+        return meal;
     }
-
-    public Result DeleteMeal(int mealId)
-    {
-        Result validateMealIdResult = IsMealIdExists(mealId);
-
-        if (validateMealIdResult.IsFailure)
-        {
-            return Result.Failure(MealErrors.MealNotFound);
-        }
-
-        _unitOfWorkRepository.Meals.SoftDelete(expression: m => m.Id == mealId);
-        
-        _unitOfWorkRepository.SaveChanges();
-        
-        return Result.Success();
-    }
-
-    public Result UnDeleteMeal(int mealId)
-    {
-        Result validateMealIdResult = IsMealIdExists(mealId);
-
-        if (validateMealIdResult.IsFailure)
-        {
-            return Result.Failure(MealErrors.MealNotFound);
-        }
-
-        _unitOfWorkRepository.Meals.UnSoftDelete(expression: m => m.Id == mealId);
-        
-        _unitOfWorkRepository.SaveChanges();
-        
-        return Result.Success();
-    }
-
-    public void DeleteMealsRelatedToCategoryWith(int categoryId)
-    {
-        _unitOfWorkRepository.Meals.SoftDelete(expression: m => m.CategoryId == categoryId);
-    }
-
-    public void UnDeleteMealsRelatedToCategoryWith(int categoryId)
-    {
-        _unitOfWorkRepository.Meals.UnSoftDelete(expression: m => m.CategoryId == categoryId);
-    }
-
-    public IQueryable<MealVm> MealCategoryFilter(IQueryable<MealVm> meals, string filter)
-    {
-        if (!filter.IsNullOrEmpty() && filter.ToLower() != "all")
-        {
-            meals = filter.ToLower() switch
-            {
-                "new" => meals.Where(m => m.IsNewMeal),
-                "trend" => meals.Where(m => m.IsTrendingMeal),                   
-                "bakeries" => meals.Where(m => m.Description.Contains("Bakeries")),
-                "drink" => meals.Where(m => m.Description.Contains("Drink")),
-                _ => meals
-            };
-        }
-        return meals;
-    }
-
-
+    
     private Result ValidateMealOnAdd(int restaurantId, int categoryId, MealRequest request)
     {
         Result isRestaurantIdExists = _restaurantService.IsRestaurantIdExists(restaurantId);
@@ -276,13 +280,13 @@ public class MealService(IMapper mapper, IFileService imageService,
         if (isRestaurantIdExists.IsFailure)
             return Result.Failure(RestaurantErrors.NotFound);
 
-        bool isExists = _unitOfWorkRepository.MealCategories.IsExist(mc => mc.Id == categoryId);
+        bool isCategoryIdExists = _unitOfWorkRepository.MealCategories.IsExist(mc => mc.Id == categoryId);
 
-        if (!isExists)
+        if (!isCategoryIdExists)
             return Result.Failure(MealCategoriesErrors.NotFound);
 
         bool isMealNameExists = _unitOfWorkRepository.Meals
-            .IsExist(m => m.RestaurantId == restaurantId && m.Name == request.Name);
+            .IsExist(m => m.RestaurantId == restaurantId && m.Name == request.Name, ignoreQueryFilter: true);
 
         if (isMealNameExists)
             return Result.Failure(MealErrors.DoublicatedMealName);
@@ -290,20 +294,20 @@ public class MealService(IMapper mapper, IFileService imageService,
         return Result.Success();
     }
 
-    private Result ValidateMealOnUpdate(int restaurantId, int mealId, int categoryId, MealRequest request)
+    private Result ValidateMealOnUpdate(int restaurantId, string mealId, int categoryId, MealRequest request)
     {
         Result isMealIdExists = IsMealIdExists(mealId);
 
         if (isMealIdExists.IsFailure)
             return Result.Failure(MealErrors.MealNotFound);
 
-        bool isExists = _unitOfWorkRepository.MealCategories.IsExist(mc => mc.Id == categoryId);
+        bool isCategoryIdExists = _unitOfWorkRepository.MealCategories.IsExist(mc => mc.Id == categoryId);
 
-        if (!isExists)
+        if (!isCategoryIdExists)
             return Result.Failure(MealCategoriesErrors.NotFound);
 
         bool isMealNameExists = _unitOfWorkRepository.Meals
-            .IsExist(m => m.RestaurantId == restaurantId && m.Name == request.Name && m.Id != mealId);
+            .IsExist(m => m.RestaurantId == restaurantId && m.Name == request.Name && m.Id != mealId, ignoreQueryFilter: true);
 
         if (isMealNameExists)
             return Result.Failure(MealErrors.DoublicatedMealName);
@@ -311,19 +315,12 @@ public class MealService(IMapper mapper, IFileService imageService,
         return Result.Success();
     }
 
-    private Result IsMealIdExists(int mealId)
+    private Result IsMealIdExists(string mealId)
     {
-        if (mealId <= 0)
-        {
-            return Result.Failure(RestaurantErrors.NotFound);
-        }
+        bool ismealIdExists = _unitOfWorkRepository.Meals.IsExist(expression: r => r.Id == mealId, ignoreQueryFilter: true);
 
-        bool isRestaurantIdExists = _unitOfWorkRepository.Meals.IsExist(expression: r => r.Id == mealId);
-
-        if (!isRestaurantIdExists)
-        {
+        if (!ismealIdExists)
             return Result.Failure(RestaurantErrors.NotFound);
-        }
 
         return Result.Success();
     }
@@ -331,9 +328,9 @@ public class MealService(IMapper mapper, IFileService imageService,
     private static bool ThereIsNewData(MealRequest request, Meal oldMeal, int categoryId)
     {
         return  oldMeal.Name == request.Name && oldMeal.Description == request.Description &&
-                oldMeal.Price == request.Price && oldMeal.NumberOfServings == request.NumberOfServings &&
-                oldMeal.IsAvailable == request.IsAvailable && oldMeal.IsNewMeal == request.IsNewMeal &&
-                oldMeal.IsTrendingMeal == request.IsTrendingMeal && oldMeal.CategoryId == categoryId;
+                oldMeal.Price == request.Price && oldMeal.IsAvailable == request.IsAvailable && 
+                oldMeal.IsNewMeal == request.IsNewMeal && oldMeal.IsTrendingMeal == request.IsTrendingMeal &&
+                oldMeal.CategoryId == categoryId && oldMeal.NumberOfServings == request.NumberOfServings;
     }
 
     private Meal FillMealData(MealRequest request, int restaurantId, int categoryId, string imageUrl)
@@ -345,5 +342,58 @@ public class MealService(IMapper mapper, IFileService imageService,
         meal.Image = imageUrl;
 
         return meal;
+    }
+
+    private MealResponse FillResponseData(Meal meal)
+    {
+        var response = _mapper.Map<MealResponse>(meal);
+        response.CategoryKey = _encryptionService.Encrypt(meal!.CategoryId);
+
+        response.Categories = _unitOfWorkRepository.MealCategories
+            .GetAllWithSelect
+             (
+                expression: mc => mc.RestaurantId == meal.RestaurantId,
+                tracked: false,
+                selector: mc => new MenuCategoryResponse
+                {
+                    Key = _encryptionService.Encrypt(mc.Id),
+                    Name = mc.Name
+                }
+             );
+
+        response.OptionGroups = _unitOfWorkRepository.MealOptionGroups
+            .GetAllWithSelect
+             (
+                expression: og => og.MealId == meal.Id,
+                tracked: false,
+                selector: og => new OptionGroupResponse
+                {
+                    Id = og.MealOptionGroupId,
+                    Name = og.Name,
+                    DisplayOrder = og.DisplayOrder,
+                    OptionItems = og.OptionItems.Select(oi => new OptionItemResponse
+                    {
+                        Id = oi.MealOptionItemId,
+                        Name = oi.Name,
+                        Price = oi.Price,
+                        Image = oi.Image,
+                        DisplayOrder = oi.DisplayOrder,
+                        IsPobular = oi.IsPobular
+                    })                    
+                }
+             )!;
+
+        if (response.OptionGroups.Any())
+        {
+            response.OptionGroups = response.OptionGroups
+                .Select(og =>
+                {
+                    og.OptionItems = og.OptionItems.OrderBy(oi => oi.DisplayOrder);
+                    return og;
+                })
+                .OrderBy(og => og.DisplayOrder);
+        }
+
+        return response;
     }
 }
