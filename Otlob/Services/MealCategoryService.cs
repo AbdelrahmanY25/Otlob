@@ -1,19 +1,14 @@
 ﻿namespace Otlob.Services;
 
-public class MealCategoryService(IUnitOfWorkRepository unitOfWorkRepository, IRestaurantService restaurantService,
-                                 IEncryptionService encryptionService) : IMealCategoryService
+public class MealCategoryService(IUnitOfWorkRepository unitOfWorkRepository, IEncryptionService encryptionService,
+                                 IMealService mealService) : IMealCategoryService
 {
-    private readonly IRestaurantService _restaurantService = restaurantService;
+    private readonly IMealService _mealService = mealService;
     private readonly IEncryptionService _encryptionService = encryptionService;
     private readonly IUnitOfWorkRepository _unitOfWorkRepository = unitOfWorkRepository;
 
     public Result<IQueryable<MenuCategoryResponse>>? GetAllByRestaurantId(int restaurantId)
-    {
-        var isRestaurantIdExistsResult = _restaurantService.IsRestaurantIdExists(restaurantId);
-
-        if (isRestaurantIdExistsResult.IsFailure)
-            return Result.Failure<IQueryable<MenuCategoryResponse>>(RestaurantErrors.NotFound);
-
+    {     
         var response = _unitOfWorkRepository.MealCategories
             .GetAllWithSelect(
                 expression: mc => mc.RestaurantId == restaurantId,
@@ -26,6 +21,9 @@ public class MealCategoryService(IUnitOfWorkRepository unitOfWorkRepository, IRe
                 }
             )!;
 
+        if (response is null)
+            return Result.Failure<IQueryable<MenuCategoryResponse>>(RestaurantErrors.NotFound);
+        
         return Result.Success(response);
     }
 
@@ -48,9 +46,9 @@ public class MealCategoryService(IUnitOfWorkRepository unitOfWorkRepository, IRe
 
     public Result Add(int restaurantId, MenuCategoryRequest request)
     {
-        var isRestaurantIdExistsResult = _restaurantService.IsRestaurantIdExists(restaurantId);
+        bool isRestaurantIdExists = _unitOfWorkRepository.Restaurants.IsExist(r => r.Id == restaurantId);
 
-        if (isRestaurantIdExistsResult.IsFailure)
+        if (!isRestaurantIdExists)
             return Result.Failure<IQueryable<MenuCategoryRequest>>(RestaurantErrors.NotFound);
 
         var isCategoryNameexists = IsCategoryNameExistsOnAdd(restaurantId, request);
@@ -100,8 +98,10 @@ public class MealCategoryService(IUnitOfWorkRepository unitOfWorkRepository, IRe
         if (categoryIdExistsResult.IsFailure)
             return Result.Failure(MealCategoriesErrors.NotFound);
         
-        _unitOfWorkRepository.Meals.SoftDelete(expression: m => m.CategoryId == categoryId);
+        _mealService.DeleteManyMealsByCategoryId(categoryId);
+
         _unitOfWorkRepository.MealCategories.SoftDelete(mc => mc.Id == categoryId);
+        
         _unitOfWorkRepository.SaveChanges();
         
         return Result.Success();
@@ -117,8 +117,10 @@ public class MealCategoryService(IUnitOfWorkRepository unitOfWorkRepository, IRe
         if (categoryIdExistsResult.IsFailure)
             return Result.Failure(MealCategoriesErrors.NotFound);
 
-        _unitOfWorkRepository.Meals.UnSoftDelete(expression: m => m.CategoryId == categoryId);
+        _mealService.UnDeleteManyMealsByCategoryId(categoryId);
+        
         _unitOfWorkRepository.MealCategories.UnSoftDelete(mc => mc.Id == categoryId);
+        
         _unitOfWorkRepository.SaveChanges();
         
         return Result.Success();

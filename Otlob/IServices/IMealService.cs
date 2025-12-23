@@ -20,4 +20,8 @@ public interface IMealService
     Result DeleteMeal(string id);
 
     Result UnDeleteMeal(string id);
+
+    Result DeleteManyMealsByCategoryId(int categoryId);
+    
+    Result UnDeleteManyMealsByCategoryId(int categoryId);
 }

@@ -16,6 +16,7 @@ public interface IUnitOfWorkRepository : IDisposable
     IBaseRepository<Meal> Meals { get; }
     IBaseRepository<MealPriceHistory> MealsPriceHistories { get; }
     IBaseRepository<MenuCategory> MealCategories { get; }
+    IBaseRepository<ManyMealManyAddOn> ManyMealManyAddOns { get; }
     IBaseRepository<TempOrder> TempOrders { get; }
     IBaseRepository<TradeMark> TradeMarks { get; }
     IBaseRepository<UploadedFile> UploadedFiles { get; }

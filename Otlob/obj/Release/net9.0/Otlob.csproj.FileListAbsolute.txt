@@ -336,8 +336,6 @@ D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\obj\
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\obj\Release\net9.0\scopedcss\bundle\Otlob.styles.css
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\obj\Release\net9.0\scopedcss\projectbundle\Otlob.bundle.scp.css
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\obj\Release\net9.0\compressed\cvzttrtgmg-{0}-gfi952cjlu-gfi952cjlu.gz
-D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\obj\Release\net9.0\compressed\rdnfpzd4a0-{0}-yjgobue7po-yjgobue7po.gz
-D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\obj\Release\net9.0\compressed\b7ncari9ps-{0}-leiftxkasl-leiftxkasl.gz
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\obj\Release\net9.0\compressed\2v12sw8i39-{0}-pc0pa761wn-pc0pa761wn.gz
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\obj\Release\net9.0\compressed\s9ezmjz4cs-{0}-13c66wjdib-13c66wjdib.gz
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\obj\Release\net9.0\compressed\17oif24lpe-{0}-w1rvlbp2xw-w1rvlbp2xw.gz
@@ -349,7 +347,6 @@ D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\obj\
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\obj\Release\net9.0\compressed\50k63she6y-{0}-7qlqflldwk-7qlqflldwk.gz
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\obj\Release\net9.0\compressed\bv9ityjn5r-{0}-dn4saaql0r-dn4saaql0r.gz
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\obj\Release\net9.0\compressed\l9sbef2vuk-{0}-7mpij73c1k-7mpij73c1k.gz
-D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\obj\Release\net9.0\compressed\j7txfphs7l-{0}-10q0fjl44n-10q0fjl44n.gz
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\obj\Release\net9.0\compressed\5k00hl22oh-{0}-4f38dyv51x-4f38dyv51x.gz
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\obj\Release\net9.0\compressed\zilne0gdqc-{0}-icibkvoost-icibkvoost.gz
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\obj\Release\net9.0\compressed\rx5ez3tnyh-{0}-71v2jd6yyw-71v2jd6yyw.gz
@@ -464,3 +461,9 @@ D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\obj\
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\obj\Release\net9.0\compressed\anl05ik2us-{0}-dmxmvskpgv-dmxmvskpgv.gz
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\obj\Release\net9.0\compressed\dmh3sxl6fo-{0}-j3li4397kz-j3li4397kz.gz
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\bin\Release\net9.0\libman.json
+D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\bin\Release\net9.0\Z.EntityFramework.Extensions.EFCore.dll
+D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\obj\Release\net9.0\compressed\rdnfpzd4a0-{0}-aoym8ys0q5-aoym8ys0q5.gz
+D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\obj\Release\net9.0\compressed\b7ncari9ps-{0}-wb6jlh75zx-wb6jlh75zx.gz
+D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\obj\Release\net9.0\compressed\j7txfphs7l-{0}-5wlv178dqm-5wlv178dqm.gz
+D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\obj\Release\net9.0\compressed\4my0a0aqbk-{0}-fhal2iayo9-fhal2iayo9.gz
+D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\obj\Release\net9.0\compressed\05gibdzzp7-{0}-vem4pwsk26-vem4pwsk26.gz

@@ -73,7 +73,14 @@
                                     <label asp-for="Price" class="am-label">Price</label>
                                     <div class="am-input-wrapper">
                                         <span class="am-currency-symbol">EGP</span>
-                                        <input asp-for="Price" type="number" step="0.01"  min="0" class="am-input" placeholder="0.00" />
+                                        <input asp-for="Price" type="number" step="0.01"  min="0" class="am-input" placeholder="0.00" value="0.00" />
+                                    </div>
+                                </div>
+                                <div class="am-form-group">
+                                    <label asp-for="OfferPrice" class="am-label">Offer Price <span class="am-label-hint">(Optional)</span></label>
+                                    <div class="am-input-wrapper">
+                                        <span class="am-currency-symbol">EGP</span>
+                                        <input asp-for="OfferPrice" type="number" step="0.01" min="0" class="am-input am-input-offer" placeholder="0.00" value="0.00" />
                                     </div>
                                 </div>
                                 <div class="am-form-group">
@@ -84,6 +91,7 @@
                         </div>
                     </div>
 
+                    <!-- Variants Card -->
                     <div class="am-card">
                         <div class="am-card-header">
                             <h2>Variants</h2>
@@ -102,6 +110,46 @@
                                 <button type="button" class="am-btn-link am-add-group-btn" onclick="addOptionGroup()">
                                     <i class="fas fa-plus-circle"></i> Add another option
                                 </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Add-ons Card -->
+                    <div class="am-card">
+                        <div class="am-card-header">
+                            <h2>Add-ons</h2>
+                        </div>
+                        <div class="am-card-body">
+                            <div class="am-variants-toggle">
+                                <label class="am-checkbox-wrapper">
+                                    <input asp-for="HasAddOns" type="checkbox" id="hasAddOnsCheckbox" onchange="toggleAddOnsSection()" />
+                                    <span class="am-checkbox-label">This meal has add-ons customers can choose</span>
+                                </label>
+                            </div>
+
+                            <div id="addOnsContainer" class="am-addons-container" style="display: none;">
+                                <div class="am-divider"></div>
+                                @if (Model.AddOns != null && Model.AddOns.Any())
+                                {
+                                    <div class="am-addons-grid" id="addOnsGrid">
+                                        @foreach (var addon in Model.AddOns)
+                                        {
+                                            <label class="am-addon-select-card" onclick="toggleAddonCard(this)">
+                                                <input type="checkbox" name="SelectedAddOns" value="@addon.Key" />
+                                                <img src="/images/@(addon.Image ?? "Default.jpg")" alt="@addon.Name" class="am-addon-card-img" />
+                                                <span class="am-addon-card-name">@addon.Name</span>
+                                                <span class="am-addon-card-price">@addon.Price.ToString("0.00") EGP</span>
+                                            </label>
+                                        }
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="am-addons-empty">
+                                        <i class="fas fa-puzzle-piece"></i>
+                                        <p>No add-ons available. Create add-ons from the Menu page first.</p>
+                                    </div>
+                                }
                             </div>
                         </div>
                     </div>

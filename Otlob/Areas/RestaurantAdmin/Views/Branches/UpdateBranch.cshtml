@@ -9,109 +9,107 @@
 
 <div class="ab-page">
     <div class="ab-container">
-        <!-- Page Header -->
-        <div class="ab-header">
-            <a asp-action="Branches" class="ab-back-btn">
-                <i class="fas fa-arrow-left"></i>
-            </a>
-            <div class="ab-header-content">
-                <h1>Update Branch</h1>
-                <p>Edit the details for <strong>@Model.Name</strong></p>
+        <form id="branchForm" asp-action="UpdateBranch" asp-route-key="@Model.Key" method="post">
+            <div asp-validation-summary="All" class="ab-validation-errors" style="display:none;"></div>
+
+            <!-- Header Actions -->
+            <div class="ab-header-actions">
+                <div class="ab-header-title">
+                    <a asp-action="Branches" class="ab-back-link">
+                        <i class="fas fa-arrow-left"></i>
+                    </a>
+                    <h1>Edit Branch</h1>
+                </div>
+                <div class="ab-actions">
+                    <a asp-action="Branches" class="ab-btn-secondary">Discard</a>
+                    <button type="submit" class="ab-btn-primary">
+                        <i class="fas fa-save"></i> Save
+                    </button>
+                </div>
             </div>
-        </div>
 
-        <!-- Main Card -->
-        <div class="ab-card">
-            <div class="ab-card-header">
-                <h2>
-                    <i class="fas fa-edit"></i>
-                    Branch Information
-                </h2>
-            </div>
-
-            <div class="ab-card-body">
-                <form id="branchForm" asp-action="UpdateBranch" asp-route-key="@Model.Key" method="post">
-                    <!-- Validation Summary -->
-                    <div asp-validation-summary="All" class="ab-validation-errors"></div>
-
-                    <!-- Map Section -->
-                    <div class="ab-map-section">
-                        <h3 class="ab-section-title">
-                            <i class="fas fa-map-marked-alt"></i>
-                            Branch Location
-                        </h3>
-
-                        <!-- Address Search -->
-                        <div class="ab-address-wrapper">
-                            <input type="text" 
-                                   id="addressSearch" 
-                                   class="ab-address-input" 
-                                   name="Address"
-                                   value="@Model.Address"
-                                   placeholder="Search for branch address or click on map..."
-                                   autocomplete="off" />
-                            <button type="button" class="ab-gps-btn" onclick="getCurrentLocation()" title="Use current location">
-                                <i class="fas fa-crosshairs"></i>
-                            </button>
-                            <div id="searchResults" class="ab-search-results"></div>
+            <div class="ab-layout-grid">
+                <!-- Main Content Column -->
+                <div class="ab-main-column">
+                    
+                    <!-- Branch Details Card -->
+                    <div class="ab-card">
+                        <div class="ab-card-header">
+                            <h2><i class="fas fa-store"></i> Branch Details</h2>
                         </div>
-
-                        <!-- Map -->
-                        <div class="ab-map-container">
-                            <div class="ab-map-loading" id="mapLoading">
-                                <i class="fas fa-spinner fa-spin"></i>
-                                Loading map...
+                        <div class="ab-card-body">
+                            <div class="ab-form-group">
+                                <label class="ab-label">Branch Name</label>
+                                <input type="text" class="ab-input" name="Name" value="@Model.Name" placeholder="e.g., Downtown Branch" />
                             </div>
-                            <div id="branchMap"></div>
-                        </div>
-
-                        <!-- Location Info -->
-                        <div class="ab-location-info show" id="locationInfo">
-                            <h6>
-                                <i class="fas fa-check-circle"></i>
-                                Current Location
-                            </h6>
-                            <div class="ab-location-details" id="locationDetails">
-                                <strong>📍 @Model.Address</strong>
-                                <small>Coordinates: @Model.LatCode.ToString("F6"), @Model.LonCode.ToString("F6")</small>
+                            <div class="ab-form-group">
+                                <label class="ab-label">Manager Name</label>
+                                <input type="text" class="ab-input" name="MangerName" value="@Model.MangerName" placeholder="Enter manager's full name" />
+                            </div>
+                            <div class="ab-form-group">
+                                <label class="ab-label">Manager Phone</label>
+                                <input type="tel" class="ab-input" name="MangerPhone" value="@Model.MangerPhone" placeholder="e.g., +20 123 456 7890" />
                             </div>
                         </div>
-
-                        <!-- Hidden coordinates -->
-                        <input type="hidden" id="LonCode" name="LonCode" value="@Model.LonCode" />
-                        <input type="hidden" id="LatCode" name="LatCode" value="@Model.LatCode" />
                     </div>
 
-                    <!-- Form Fields Section -->
-                    <div class="ab-form-section">
-                        <h3 class="ab-section-title">
-                            <i class="fas fa-info-circle"></i>
-                            Branch Details
-                        </h3>
-
-                        <div class="ab-form-grid">
-                            <!-- Branch Name -->
-                            <div class="ab-form-group">
-                                <label class="ab-form-label">
-                                    <i class="fas fa-store"></i>
-                                    Branch Name
-                                </label>
+                    <!-- Location Card -->
+                    <div class="ab-card">
+                        <div class="ab-card-header">
+                            <h2><i class="fas fa-map-marked-alt"></i> Location</h2>
+                        </div>
+                        <div class="ab-card-body">
+                            <div class="ab-address-wrapper">
                                 <input type="text" 
-                                       class="ab-form-input" 
-                                       name="Name" 
-                                       value="@Model.Name"
-                                       placeholder="e.g., Downtown Branch" />
+                                       id="addressSearch" 
+                                       class="ab-input" 
+                                       name="Address"
+                                       value="@Model.Address"
+                                       placeholder="Search for branch address or click on map..."
+                                       autocomplete="off" 
+                                       style="padding-right: 40px;" />
+                                <button type="button" class="ab-gps-btn" onclick="getCurrentLocation()" title="Use current location">
+                                    <i class="fas fa-crosshairs"></i>
+                                </button>
+                                <div id="searchResults" class="ab-search-results"></div>
                             </div>
 
-                            <!-- Delivery Radius -->
+                            <div class="ab-map-container">
+                                <div class="ab-map-loading" id="mapLoading">
+                                    <i class="fas fa-spinner fa-spin"></i>
+                                    <span>Loading map...</span>
+                                </div>
+                                <div id="branchMap"></div>
+                            </div>
+
+                            <div class="ab-location-info show" id="locationInfo">
+                                <h6><i class="fas fa-check-circle"></i> Current Location</h6>
+                                <div class="ab-location-details" id="locationDetails">
+                                    <strong>📍 @Model.Address</strong>
+                                    <small>Coordinates: @Model.LatCode.ToString("F6"), @Model.LonCode.ToString("F6")</small>
+                                </div>
+                            </div>
+
+                            <input type="hidden" id="LonCode" name="LonCode" value="@Model.LonCode" />
+                            <input type="hidden" id="LatCode" name="LatCode" value="@Model.LatCode" />
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sidebar Column -->
+                <div class="ab-sidebar-column">
+                    
+                    <!-- Delivery Settings Card -->
+                    <div class="ab-card">
+                        <div class="ab-card-header">
+                            <h2><i class="fas fa-broadcast-tower"></i> Delivery Settings</h2>
+                        </div>
+                        <div class="ab-card-body">
                             <div class="ab-form-group">
-                                <label class="ab-form-label">
-                                    <i class="fas fa-broadcast-tower"></i>
-                                    Delivery Radius
-                                </label>
+                                <label class="ab-label">Delivery Radius</label>
                                 <div class="ab-radius-wrapper">
                                     <div class="ab-radius-header">
-                                        <span>Coverage Area</span>
+                                        <span style="font-size:13px; color:#6d7175;">Coverage Area</span>
                                         <div class="ab-radius-value">
                                             <span id="radiusDisplay">@Model.DeliveryRadiusKm</span>
                                             <span>km</span>
@@ -132,49 +130,12 @@
                                     </div>
                                 </div>
                             </div>
-
-                            <!-- Manager Name -->
-                            <div class="ab-form-group">
-                                <label class="ab-form-label">
-                                    <i class="fas fa-user-tie"></i>
-                                    Manager Name
-                                </label>
-                                <input type="text" 
-                                       class="ab-form-input" 
-                                       name="MangerName" 
-                                       value="@Model.MangerName"
-                                       placeholder="Enter manager's full name" />
-                            </div>
-
-                            <!-- Manager Phone -->
-                            <div class="ab-form-group">
-                                <label class="ab-form-label">
-                                    <i class="fas fa-phone-alt"></i>
-                                    Manager Phone
-                                </label>
-                                <input type="tel" 
-                                       class="ab-form-input" 
-                                       name="MangerPhone" 
-                                       value="@Model.MangerPhone"
-                                       placeholder="e.g., +20 123 456 7890" />
-                            </div>
                         </div>
                     </div>
 
-                    <!-- Submit Buttons -->
-                    <div class="ab-submit-wrapper">
-                        <button type="submit" class="ab-submit-btn">
-                            <i class="fas fa-save"></i>
-                            Save Changes
-                        </button>
-                        <a asp-action="Branches" class="ab-cancel-btn">
-                            <i class="fas fa-times"></i>
-                            Cancel
-                        </a>
-                    </div>
-                </form>
+                </div>
             </div>
-        </div>
+        </form>
     </div>
 </div>
 

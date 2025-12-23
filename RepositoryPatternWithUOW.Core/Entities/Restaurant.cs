@@ -30,6 +30,8 @@ public sealed class Restaurant
     public ICollection<RestaurantCategory> RestaurantCategories { get; set; } = [];
 
     public ICollection<MenuCategory> MenueCategories { get; set; } = [];
+    
+    public ICollection<MealAddOn> MealAddOns { get; set; } = [];
 
     public ICollection<Order> Orders { get; set; } = [];
 

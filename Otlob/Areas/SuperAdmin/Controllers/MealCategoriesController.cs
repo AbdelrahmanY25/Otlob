@@ -9,21 +9,21 @@ public class MealCategoriesController(IMealCategoryService mealCategoryService, 
     [HttpPost, ValidateAntiForgeryToken]
     public IActionResult Add(MenuCategoryRequest request)
     {
-        string id = HttpContext.Session.GetString(StaticData.RestaurantId)!;
+        string restaurantKey = HttpContext.Session.GetString(StaticData.RestaurantId)!;
 
-        if (string.IsNullOrEmpty(id))
+        if (string.IsNullOrEmpty(restaurantKey))
         {
             TempData["Error"] = "The session time out try again.";
             return RedirectToAction("index", "Home", new { Area = DefaultRoles.SuperAdmin });
         }
 
         // TODO: Handle Exception
-        int restaurantId = int.Parse(_dataProtector.Unprotect(id));
+        int restaurantId = int.Parse(_dataProtector.Unprotect(restaurantKey));
         
         if (!ModelState.IsValid)
         {
             TempData["Error"] = ModelState.FirstOrDefault().Value?.Errors.FirstOrDefault()?.ErrorMessage;
-            return RedirectToAction("Menu", "Menu", new { key = id });
+            return RedirectToAction("Menu", "Menu", new { restaurantKey });
         }
 
         var result = _mealCategoryService.Add(restaurantId, request);
@@ -31,18 +31,18 @@ public class MealCategoriesController(IMealCategoryService mealCategoryService, 
         if (result.IsFailure)
         {
             TempData["Error"] = result.Error.Description;
-            return RedirectToAction("Menu", "Menu", new { key = id });
+            return RedirectToAction("Menu", "Menu", new { restaurantKey });
         }
 
-        return RedirectToAction("Menu", "Menu", new { key = id });
+        return RedirectToAction("Menu", "Menu", new { restaurantKey });
     }
 
     [HttpPost, ValidateAntiForgeryToken]
     public IActionResult Update(string key, MenuCategoryRequest request)
     {
-        string id = HttpContext.Session.GetString(StaticData.RestaurantId)!;
+        string restaurantKey = HttpContext.Session.GetString(StaticData.RestaurantId)!;
 
-        if (string.IsNullOrEmpty(id))
+        if (string.IsNullOrEmpty(restaurantKey))
         {
             TempData["Error"] = "The session time out try again.";
             return RedirectToAction("index", "Home", new { Area = DefaultRoles.SuperAdmin });
@@ -51,7 +51,7 @@ public class MealCategoriesController(IMealCategoryService mealCategoryService, 
         if (!ModelState.IsValid)
         {
             TempData["Error"] = ModelState.FirstOrDefault().Value?.Errors.FirstOrDefault()?.ErrorMessage;
-            return RedirectToAction("Menu", "Menu", new { key = id });
+            return RedirectToAction("Menu", "Menu", new { restaurantKey });
         }
 
         var result = _mealCategoryService.Update(key, request);
@@ -59,17 +59,17 @@ public class MealCategoriesController(IMealCategoryService mealCategoryService, 
         if (result.IsFailure)
         {
             TempData["Error"] = result.Error.Description;
-            return RedirectToAction("Menu", "Menu", new { key = id });
+            return RedirectToAction("Menu", "Menu", new { restaurantKey });
         }
 
-        return RedirectToAction("Menu", "Menu", new { key = id });
+        return RedirectToAction("Menu", "Menu", new { restaurantKey });
     }
 
     public IActionResult Delete(string key)
     {
-        string id = HttpContext.Session.GetString(StaticData.RestaurantId)!;
+        string restaurantKey = HttpContext.Session.GetString(StaticData.RestaurantId)!;
 
-        if (string.IsNullOrEmpty(id))
+        if (string.IsNullOrEmpty(restaurantKey))
         {
             TempData["Error"] = "The session time out try again.";
             return RedirectToAction("index", "Home", new { Area = DefaultRoles.SuperAdmin });
@@ -80,9 +80,9 @@ public class MealCategoriesController(IMealCategoryService mealCategoryService, 
         if (reult.IsFailure)
         {
             TempData["Error"] = reult.Error.Description;
-            return RedirectToAction("Menu", "Menu", new { key = id });
+            return RedirectToAction("Menu", "Menu", new { restaurantKey });
         }
 
-        return RedirectToAction("Menu", "Menu", new { key = id });
+        return RedirectToAction("Menu", "Menu", new { restaurantKey });
     }
 }

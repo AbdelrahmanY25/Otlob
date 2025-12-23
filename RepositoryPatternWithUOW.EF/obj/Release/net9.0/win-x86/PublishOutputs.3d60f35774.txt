@@ -90,6 +90,7 @@ D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Repository
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\RepositoryPatternWithUOW.EF\bin\Release\net8.0\publish\win-x86\System.Reflection.MetadataLoadContext.dll
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\RepositoryPatternWithUOW.EF\bin\Release\net8.0\publish\win-x86\System.Runtime.Caching.dll
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\RepositoryPatternWithUOW.EF\bin\Release\net8.0\publish\win-x86\System.Security.Cryptography.ProtectedData.dll
+D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\RepositoryPatternWithUOW.EF\bin\Release\net8.0\publish\win-x86\Z.EntityFramework.Extensions.EFCore.dll
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\RepositoryPatternWithUOW.EF\bin\Release\net8.0\publish\win-x86\af\Humanizer.resources.dll
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\RepositoryPatternWithUOW.EF\bin\Release\net8.0\publish\win-x86\ar\Humanizer.resources.dll
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\RepositoryPatternWithUOW.EF\bin\Release\net8.0\publish\win-x86\az\Humanizer.resources.dll

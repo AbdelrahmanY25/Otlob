@@ -2,10 +2,12 @@
 
 [Area(DefaultRoles.SuperAdmin), Authorize(Roles = DefaultRoles.SuperAdmin)]
 public class MealsController(IMealService mealService, IMealCategoryService menuCategoryService, 
+                             IMealAddOnService mealAddOnService,
                              IDataProtectionProvider dataProtectionProvider) : Controller
 {
     private readonly IMealService _mealService = mealService;
     private readonly IMealCategoryService _menuCategoryService = menuCategoryService;
+    private readonly IMealAddOnService _mealAddOnService = mealAddOnService;
     private readonly IDataProtector _dataProtector = dataProtectionProvider.CreateProtector("SecureData");
 
     //public IActionResult Index(string id)
@@ -33,8 +35,9 @@ public class MealsController(IMealService mealService, IMealCategoryService menu
             return RedirectToAction("Index", "Home", new { Area = DefaultRoles.RestaurantAdmin });
         }
 
-                                                                        // TODO: Handle Exception
-        var categoriesResult = _menuCategoryService.GetAllByRestaurantId(int.Parse(_dataProtector.Unprotect(restaurantKey)));
+                                                    // TODO: Handle Exception
+        int restaurantId = int.Parse(_dataProtector.Unprotect(restaurantKey));
+        var categoriesResult = _menuCategoryService.GetAllByRestaurantId(restaurantId);
 
         if (categoriesResult!.IsFailure)
         {
@@ -42,7 +45,16 @@ public class MealsController(IMealService mealService, IMealCategoryService menu
             return RedirectToAction("Index", "Home", new { Area = DefaultRoles.RestaurantAdmin });
         }
 
-        MealRequest request = new() { Categories = categoriesResult.Value };
+        // Get all add-ons for the restaurant
+        var addOnsResult = _mealAddOnService.GetAllByRestaurantId(restaurantId);
+
+        if (addOnsResult.IsFailure)
+        {
+            TempData["Error"] = addOnsResult.Error.Description;
+            return RedirectToAction("Index", "Home", new { Area = DefaultRoles.RestaurantAdmin });
+        }
+
+        MealRequest request = new() { Categories = categoriesResult.Value, AddOns = addOnsResult.Value };
         ViewBag.ResKey = restaurantKey;
         
         return View(request);
@@ -94,9 +106,9 @@ public class MealsController(IMealService mealService, IMealCategoryService menu
             TempData["Error"] = result.Error.Description;
             return RedirectToAction("Index", "Home", new { Area = DefaultRoles.SuperAdmin });
         }
-        
+
         ViewBag.ResKey = restaurantKey;
-        
+
         return View(result.Value);
     }
 

@@ -7,7 +7,7 @@ public class MealOptionItemService(IUnitOfWorkRepository unitOfWorkRepository,
     private readonly IFileService _fileService = fileService;
     private readonly IUnitOfWorkRepository _unitOfWorkRepository = unitOfWorkRepository;
 
-    public async Task<Result> Add(IEnumerable<OptionItemRequest> requests, string optionGroupId)
+    public async Task<Result> AddAsync(IEnumerable<OptionItemRequest> requests, string optionGroupId)
     {
         List<MealOptionItem> optionItems = [];
         

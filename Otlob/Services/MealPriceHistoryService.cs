@@ -6,9 +6,7 @@ public class MealPriceHistoryService(IUnitOfWorkRepository unitOfWorkRepository)
 
     public void AddMealPriceHistory(string mealId, decimal price)
     {
-        var mealPriceHistory = new MealPriceHistory { MealId = mealId, Price = price };
-
-        _unitOfWorkRepository.MealsPriceHistories.Add(mealPriceHistory);
+        _unitOfWorkRepository.MealsPriceHistories.Add(new() { MealId = mealId, Price = price });
     }
 
     public IQueryable<MealPriceHistoryVM>? GetMealPriceHistories(string mealId)

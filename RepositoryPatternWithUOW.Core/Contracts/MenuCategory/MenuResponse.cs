@@ -2,7 +2,6 @@
 
 public class MenuResponse
 {
-    public string CategoryKey { get; init; } = string.Empty;
-    public string CategoryName { get; init; } = string.Empty;
-    public IEnumerable<MealResponse> Meals { get; init; } = default!;
+   public IEnumerable<CategoriesWithMealsResponse> CategoriesWithMeals { get; init; } = default!;
+    public IEnumerable<AddOnResponse> AddOns { get; init; } = default!;
 }

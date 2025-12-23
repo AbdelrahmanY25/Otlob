@@ -1,10 +1,12 @@
 ﻿namespace Otlob.Areas.RestaurantAdmin.Controllers;
 
 [Area(DefaultRoles.RestaurantAdmin), Authorize(Roles = DefaultRoles.RestaurantAdmin)]
-public class MealsController(IMealService mealService, IMealCategoryService menuCategoryService) : Controller
+public class MealsController(IMealService mealService, IMealCategoryService menuCategoryService,
+                             IMealAddOnService mealAddOnService) : Controller
 {
     private readonly IMealService _mealService = mealService;
     private readonly IMealCategoryService _menuCategoryService = menuCategoryService;
+    private readonly IMealAddOnService _mealAddOnService = mealAddOnService;
 
     //public IActionResult Index()
     //{        
@@ -17,6 +19,7 @@ public class MealsController(IMealService mealService, IMealCategoryService menu
     {
         int restaurantId = int.Parse(User.FindFirstValue(StaticData.RestaurantId)!);
 
+        // get all categories for the restaurant
         var categoriesResult = _menuCategoryService.GetAllByRestaurantId(restaurantId);
 
         if (categoriesResult!.IsFailure)
@@ -25,7 +28,16 @@ public class MealsController(IMealService mealService, IMealCategoryService menu
             return RedirectToAction("Index", "Home", new { Area = DefaultRoles.RestaurantAdmin });
         }
 
-        MealRequest request = new() { Categories = categoriesResult.Value };
+        // get all AddOns for the restaurant
+        var addOnsResult = _mealAddOnService.GetAllByRestaurantId(restaurantId);
+
+        if (addOnsResult.IsFailure)
+        {
+            TempData["Error"] = addOnsResult.Error.Description;
+            return RedirectToAction("Index", "Home", new { Area = DefaultRoles.RestaurantAdmin });
+        }
+
+        MealRequest request = new() { Categories = categoriesResult.Value, AddOns = addOnsResult.Value };
 
         return View(request);
     }

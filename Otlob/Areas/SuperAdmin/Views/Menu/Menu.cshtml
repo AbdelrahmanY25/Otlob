@@ -1,8 +1,9 @@
-﻿@model IEnumerable<IGrouping<string, MenuResponse>>
+﻿@model (IEnumerable<IGrouping<string, MenuResponse>> Categories, IEnumerable<AddOnResponse> AddOns)
 
 @{
     ViewData["Title"] = "Menu Management";
-    var categories = Model.ToList();
+    var categories = Model.Item1.ToList();
+    var addOns = Model.Item2.ToList();
 }
 
 <link rel="stylesheet" href="~/css/menu.css" asp-append-version="true" />
@@ -16,12 +17,12 @@
                 </div>
                 <div class="mc-header-content">
                     <h1>Menu Management</h1>
-                    <p>Manage your categories and meals</p>
+                    <p>Manage your categories, meals, and add-ons</p>
                 </div>
             </div>
-            @if (categories.Any())
-            {
-                <div class="mc-header-actions">
+            <div class="mc-header-actions">
+                @if (categories.Any())
+                {
                     <button type="button" class="mc-control-btn" onclick="expandAll()">
                         <i class="fas fa-chevron-down"></i>
                         Expand All
@@ -30,21 +31,16 @@
                         <i class="fas fa-chevron-up"></i>
                         Collapse All
                     </button>
-                    <button type="button" class="mc-add-btn" data-bs-toggle="modal" data-bs-target="#addModal">
-                        <i class="fas fa-plus"></i>
-                        Add Category
-                    </button>
-                </div>
-            }
-            else
-            {
-                <div class="mc-header-actions">
-                    <button type="button" class="mc-add-btn" data-bs-toggle="modal" data-bs-target="#addModal">
-                        <i class="fas fa-plus"></i>
-                        Add Category
-                    </button>
-                </div>
-            }
+                }
+                <a href="#addOnsSection" class="mc-control-btn">
+                    <i class="fas fa-puzzle-piece"></i>
+                    Go to Add-ons
+                </a>
+                <button type="button" class="mc-add-btn" data-bs-toggle="modal" data-bs-target="#addModal">
+                    <i class="fas fa-plus"></i>
+                    Add Category
+                </button>
+            </div>
         </div>
 
         @if (!categories.Any())
@@ -67,6 +63,7 @@
             foreach (var group in categories)
             {
                 var menu = group.First();
+                var category = menu.CategoriesWithMeals.First();
                 <div class="mc-category-section open">
                     <div class="mc-category-header" onclick="toggleCategory(this)">
                         <div class="mc-cat-info">
@@ -75,9 +72,9 @@
                             </div>
                             <div class="mc-cat-title">
                                 <i class="fas fa-bookmark"></i>
-                                @menu.CategoryName
+                                @category.CategoryName
                             </div>
-                            <span class="mc-cat-count">@(menu.Meals?.Count() ?? 0) meals</span>
+                            <span class="mc-cat-count">@(category.Meals?.Count() ?? 0) meals</span>
                         </div>
                         <div class="mc-cat-actions" onclick="event.stopPropagation()">
                             <a asp-controller="Meals" asp-action="Add" class="mc-btn-icon add" title="Add Meal">
@@ -86,16 +83,16 @@
                             <button type="button" class="mc-btn-icon"
                                     data-bs-toggle="modal"
                                     data-bs-target="#editModal"
-                                    data-key="@menu.CategoryKey"
-                                    data-name="@menu.CategoryName"
+                                    data-key="@category.CategoryKey"
+                                    data-name="@category.CategoryName"
                                     title="Edit Category">
                                 <i class="fas fa-edit"></i>
                             </button>
                             <button type="button" class="mc-btn-icon delete"
                                     data-bs-toggle="modal"
                                     data-bs-target="#deleteModal"
-                                    data-key="@menu.CategoryKey"
-                                    data-name="@menu.CategoryName"
+                                    data-key="@category.CategoryKey"
+                                    data-name="@category.CategoryName"
                                     title="Delete Category">
                                 <i class="fas fa-trash"></i>
                             </button>
@@ -113,7 +110,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach (var meal in menu.Meals ?? Enumerable.Empty<MealResponse>())
+                                    @foreach (var meal in category.Meals ?? Enumerable.Empty<MealResponse>())
                                     {
                                         <tr>
                                             <td>
@@ -125,7 +122,17 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                <span class="mc-price-badge">@meal.Price.ToString("0.00") L.E</span>
+                                                @if (meal.OfferPrice > 0)
+                                                {
+                                                    <span class="mc-price-badge">
+                                                        <span style="text-decoration:line-through;color:#9ca3af;margin-right:0.5rem;">@meal.Price.ToString("0.00") L.E</span>
+                                                        <span style="background:#dcfce7;color:#065f46;padding:2px 6px;border-radius:4px;font-weight:600;">@meal.OfferPrice.ToString("0.00") L.E</span>
+                                                    </span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="mc-price-badge">@meal.Price.ToString("0.00") L.E</span>
+                                                }
                                             </td>
                                             <td>
                                                 <div class="mc-meal-actions-row">
@@ -153,7 +160,7 @@
 
                         <!-- Mobile Cards -->
                         <div class="mc-mobile-meals">
-                            @foreach (var meal in menu.Meals ?? Enumerable.Empty<MealResponse>())
+                            @foreach (var meal in category.Meals ?? Enumerable.Empty<MealResponse>())
                             {
                                 <div class="mc-mobile-meal-card">
                                     <img src="/images/@(meal.Image ?? "Default.jpg")" alt="@meal.Name" class="mc-mobile-meal-img" />
@@ -161,7 +168,17 @@
                                         <div class="mc-mobile-meal-header">
                                             <div>
                                                 <div class="mc-mobile-meal-name">@meal.Name</div>
-                                                <span class="mc-price-badge">@meal.Price.ToString("0.00") L.E</span>
+                                                @if (meal.OfferPrice > 0)
+                                                {
+                                                    <span class="mc-price-badge">
+                                                        <span style="text-decoration:line-through;color:#9ca3af;margin-right:0.5rem;">@meal.Price.ToString("0.00") L.E</span>
+                                                        <span style="background:#dcfce7;color:#065f46;padding:2px 6px;border-radius:4px;font-weight:600;">@meal.OfferPrice.ToString("0.00") L.E</span>
+                                                    </span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="mc-price-badge">@meal.Price.ToString("0.00") L.E</span>
+                                                }
                                             </div>
                                         </div>
                                         <div class="mc-mobile-meal-actions">
@@ -188,6 +205,88 @@
                 </div>
             }
         }
+
+        <!-- Add-ons Section -->
+        <div id="addOnsSection" class="mc-category-section open mc-addons-section" style="margin-top: 3rem;">
+            <div class="mc-category-header" onclick="toggleCategory(this)">
+                <div class="mc-cat-info">
+                    <div class="mc-cat-toggle">
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="mc-cat-title" style="color: #b45309;">
+                        <i class="fas fa-puzzle-piece"></i>
+                        Add-ons
+                    </div>
+                    <span class="mc-cat-count" style="background: rgba(255,255,255,0.5);">@addOns.Count() items</span>
+                </div>
+                <div class="mc-cat-actions" onclick="event.stopPropagation()">
+                    <button type="button" class="mc-btn-icon" onclick="expandSection(this)" title="Expand" style="background: white;">
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <button type="button" class="mc-btn-icon" onclick="collapseSection(this)" title="Collapse" style="background: white;">
+                        <i class="fas fa-chevron-up"></i>
+                    </button>
+                    <button type="button" class="mc-btn-icon add" data-bs-toggle="modal" data-bs-target="#addAddOnModal" title="Add Add-on" style="background: white;">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="mc-meals-container" style="background: transparent;">
+                @if (!addOns.Any())
+                {
+                    <div class="text-center py-5 text-muted">
+                        <div class="mc-empty-icon" style="width: 60px; height: 60px; font-size: 1.5rem; margin-bottom: 1rem; background: rgba(253, 230, 138, 0.3); color: #d97706;">
+                            <i class="fas fa-puzzle-piece"></i>
+                        </div>
+                        <p>No add-ons available yet.</p>
+                        <button type="button" class="mc-btn mc-btn-secondary btn-sm mt-2" data-bs-toggle="modal" data-bs-target="#addAddOnModal">
+                            Add First Add-on
+                        </button>
+                    </div>
+                }
+                else
+                {
+                    <div class="mc-addons-grid">
+                        @foreach (var addon in addOns)
+                        {
+                            <div class="mc-addon-card">
+                                <div class="mc-addon-img-wrapper">
+                                    <img src="/images/@(addon.Image ?? "Default.jpg")" alt="@addon.Name" class="mc-addon-img" />
+                                </div>
+                                <div class="mc-addon-body">
+                                    <div class="mc-addon-header">
+                                        <div class="mc-addon-name">@addon.Name</div>
+                                        <div class="mc-addon-price">@addon.Price.ToString("0.00") L.E</div>
+                                    </div>
+                                    <div class="mc-addon-actions">
+                                        <button type="button"
+                                                class="mc-addon-btn edit"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#editAddOnModal"
+                                                data-key="@addon.Key"
+                                                data-name="@addon.Name"
+                                                data-price="@addon.Price.ToString(System.Globalization.CultureInfo.InvariantCulture)"
+                                                title="Edit">
+                                            <i class="fas fa-edit"></i> Edit
+                                        </button>
+                                        <button type="button"
+                                                class="mc-addon-btn delete"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#deleteAddOnModal"
+                                                data-key="@addon.Key"
+                                                data-name="@addon.Name"
+                                                title="Delete">
+                                            <i class="fas fa-trash-alt"></i> Delete
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+        </div>
 
     </div>
 </div>
@@ -311,6 +410,112 @@
     </div>
 </div>
 
+<!-- Add Add-on Modal -->
+<div class="modal fade mc-modal" id="addAddOnModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="fas fa-plus-circle"></i>
+                    Add New Add-on
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form asp-controller="MealAddOns" asp-action="Add" method="post" enctype="multipart/form-data">
+                <div class="modal-body">
+                    <div class="mc-form-group">
+                        <label class="mc-form-label">Add-on Name</label>
+                        <input type="text" name="Name" class="mc-form-input" placeholder="e.g., Extra Cheese" required />
+                    </div>
+                    <div class="mc-form-group">
+                        <label class="mc-form-label">Price (EGP)</label>
+                        <input type="number" name="Price" class="mc-form-input" step="0.01" min="0" placeholder="0.00" required />
+                    </div>
+                    <div class="mc-form-group">
+                        <label class="mc-form-label">Image</label>
+                        <input type="file" name="ImageRequest.image" class="mc-form-input" accept="image/*" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="mc-btn mc-btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="mc-btn mc-btn-primary">
+                        <i class="fas fa-plus"></i>
+                        Add Add-on
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Add-on Modal -->
+<div class="modal fade mc-modal" id="editAddOnModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="fas fa-edit"></i>
+                    Edit Add-on
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form asp-controller="MealAddOns" asp-action="Update" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="key" id="editAddOnKey" />
+                <div class="modal-body">
+                    <div class="mc-form-group">
+                        <label class="mc-form-label">Add-on Name</label>
+                        <input type="text" name="Name" id="editAddOnName" class="mc-form-input" required />
+                    </div>
+                    <div class="mc-form-group">
+                        <label class="mc-form-label">Price (EGP)</label>
+                        <input type="number" name="Price" id="editAddOnPrice" class="mc-form-input" step="0.01" min="0" required />
+                    </div>
+                    <div class="mc-form-group">
+                        <label class="mc-form-label">Change Image (Optional)</label>
+                        <input type="file" name="ImageRequest.Image" class="mc-form-input" accept="image/*" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="mc-btn mc-btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="mc-btn mc-btn-primary">
+                        <i class="fas fa-save"></i>
+                        Save Changes
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Add-on Modal -->
+<div class="modal fade mc-modal" id="deleteAddOnModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header danger">
+                <h5 class="modal-title">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    Delete Add-on
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mc-empty-icon" style="font-size: 2rem; width: 60px; height: 60px; margin-bottom: 1rem;">
+                    <i class="fas fa-trash-alt"></i>
+                </div>
+                <h4 class="text-center mb-2">Delete Add-on?</h4>
+                <div class="text-center text-danger fw-bold mb-3" id="deleteAddOnName" style="font-size: 1.2rem;"></div>
+                <p class="text-center text-muted">Are you sure you want to delete this add-on? This action cannot be undone.</p>
+
+                <form asp-controller="MealAddOns" asp-action="Delete" method="post" class="d-flex gap-2 justify-content-center mt-4">
+                    <input type="hidden" name="key" id="deleteAddOnKey" />
+                    <button type="button" class="mc-btn mc-btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="mc-btn mc-btn-danger">Delete Add-on</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 @section Scripts {
     <partial name="_NotificationPartial" />
 
@@ -329,6 +534,14 @@
             document.querySelectorAll('.mc-category-section').forEach(section => {
                 section.classList.remove('open');
             });
+        }
+
+        function expandSection(btn) {
+            btn.closest('.mc-category-section').classList.add('open');
+        }
+
+        function collapseSection(btn) {
+            btn.closest('.mc-category-section').classList.remove('open');
         }
 
         // Edit Modal
@@ -361,6 +574,27 @@
                 var mealId = button.getAttribute('data-mealid');
                 var input = document.getElementById('mealIdInput');
                 if(input) input.value = mealId;
+            });
+        }
+
+        // Edit Add-on Modal
+        var editAddOnModal = document.getElementById('editAddOnModal');
+        if(editAddOnModal){
+            editAddOnModal.addEventListener('show.bs.modal', function (e) {
+                var btn = e.relatedTarget;
+                document.getElementById('editAddOnKey').value = btn.getAttribute('data-key');
+                document.getElementById('editAddOnName').value = btn.getAttribute('data-name');
+                document.getElementById('editAddOnPrice').value = btn.getAttribute('data-price');
+            });
+        }
+
+        // Delete Add-on Modal
+        var deleteAddOnModal = document.getElementById('deleteAddOnModal');
+        if(deleteAddOnModal){
+            deleteAddOnModal.addEventListener('show.bs.modal', function (e) {
+                var btn = e.relatedTarget;
+                document.getElementById('deleteAddOnKey').value = btn.getAttribute('data-key');
+                document.getElementById('deleteAddOnName').textContent = btn.getAttribute('data-name');
             });
         }
     </script>

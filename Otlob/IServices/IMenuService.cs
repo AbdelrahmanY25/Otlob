@@ -2,5 +2,5 @@
 
 public interface IMenuService
 {
-    Result<IEnumerable<IGrouping<string, MenuResponse>>> GetMenu(int restaurantId);
+    Result<(IEnumerable<IGrouping<string, MenuResponse>>, IEnumerable<AddOnResponse>)> GetMenu(int restaurantId);
 }

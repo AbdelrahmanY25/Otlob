@@ -26,6 +26,10 @@ public class MealEntityTypeConfiguration : IEntityTypeConfiguration<Meal>
         builder
             .Property(m => m.Price)
             .HasColumnType("decimal(8,2)");
+        
+        builder
+            .Property(m => m.OfferPrice)
+            .HasColumnType("decimal(8,2)");
 
         builder
             .HasIndex(m => new { m.Id, m.RestaurantId, m.CategoryId })

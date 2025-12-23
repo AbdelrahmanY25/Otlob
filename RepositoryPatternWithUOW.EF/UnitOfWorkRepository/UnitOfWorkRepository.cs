@@ -18,6 +18,7 @@ public class UnitOfWorkRepository(ApplicationDbContext applicationDbContext) : I
     private IBaseRepository<Meal> _meals = default!;
     private IBaseRepository<MealPriceHistory> _mealsPriceHistories = default!;
     private IBaseRepository<MenuCategory> _mealCategories = default!;
+    private IBaseRepository<ManyMealManyAddOn> _manyMealManyAddOns = default!;
     private IBaseRepository<TempOrder> _tempOrders = default!;
     private IBaseRepository<TradeMark> _tradeMarks = default!;
     private IBaseRepository<UploadedFile> _uploadedFiles = default!;
@@ -165,6 +166,15 @@ public class UnitOfWorkRepository(ApplicationDbContext applicationDbContext) : I
         }
     }
     
+    public IBaseRepository<ManyMealManyAddOn> ManyMealManyAddOns
+    { 
+        get 
+        {
+            _manyMealManyAddOns ??= new BaseRepository<ManyMealManyAddOn>(_context);
+            return _manyMealManyAddOns;
+        }
+    }
+
     public IBaseRepository<TempOrder> TempOrders
     { 
         get 

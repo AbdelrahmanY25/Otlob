@@ -9,7 +9,7 @@ public class MealOptionGroupService(IUnitOfWorkRepository unitOfWorkRepository,
     private readonly IUnitOfWorkRepository _unitOfWorkRepository = unitOfWorkRepository;
     private readonly IMealOptionItemService _mealOptionItemService = mealOptionItemService;
 
-    public async Task<Result> Add(IEnumerable<OptionGroupRequest> request, string mealId)
+    public async Task<Result> AddAsync(IEnumerable<OptionGroupRequest> request, string mealId)
     {
         List<MealOptionGroup> optionGroups = [];
 
@@ -19,7 +19,7 @@ public class MealOptionGroupService(IUnitOfWorkRepository unitOfWorkRepository,
 
             if (item.OptionItems.Count > 0)
             {
-                var addItemsResult = await _mealOptionItemService.Add(item.OptionItems, optionGroup.MealOptionGroupId);
+                var addItemsResult = await _mealOptionItemService.AddAsync(item.OptionItems, optionGroup.MealOptionGroupId);
                 
                 if (addItemsResult.IsFailure)
                     return Result.Failure(addItemsResult.Error);
@@ -35,7 +35,7 @@ public class MealOptionGroupService(IUnitOfWorkRepository unitOfWorkRepository,
         return Result.Success();
     }
 
-    public async Task<Result> Update(IEnumerable<OptionGroupRequest> request, string mealId)
+    public async Task<Result> UpdateAsync(IEnumerable<OptionGroupRequest> request, string mealId)
     {
         var optionGroupsFromDb = _unitOfWorkRepository.MealOptionGroups
             .Get(
@@ -71,7 +71,7 @@ public class MealOptionGroupService(IUnitOfWorkRepository unitOfWorkRepository,
 
         if (request.Any())
         {
-            var addingReult = await Add(request, mealId);
+            var addingReult = await AddAsync(request, mealId);
         
             if (addingReult.IsFailure)
                 return Result.Failure(addingReult.Error);

@@ -13,6 +13,7 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
     public DbSet<MealPriceHistory> MealsPriceHistories { get; set; }
     public DbSet<Meal> Meals { get; set; }
     public DbSet<MealAddOn> MealAddOns { get; set; }
+    public DbSet<ManyMealManyAddOn> ManyMealsManyAddOns { get; set; }
     public DbSet<MealOptionGroup> MealOptionGroups { get; set; }
     public DbSet<MealOptionItem> MealOptionItems { get; set; }
     public DbSet<NationalId> NationalIds { get; set; }

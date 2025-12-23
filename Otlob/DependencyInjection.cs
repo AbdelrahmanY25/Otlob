@@ -163,8 +163,10 @@ namespace Otlob
             services.AddScoped<IMealOptionGroupService, MealOptionGroupService>();
             services.AddScoped<IMealOptionItemService, MealOptionItemService>();
             services.AddScoped<IMealService, MealService>();
+            services.AddScoped<IManyMealsManyAddOnsService, ManyMealsManyAddOnsService>();
             services.AddScoped<IMealPriceHistoryService, MealPriceHistoryService>();
             services.AddScoped<IMenuService, MenuService>();
+            services.AddScoped<IMealAddOnService, MealAddOnService>();
             services.AddScoped<INationalIdService, NationalIdService>();
             services.AddScoped<IOrdersAnalysisService, OrdersAnalysisService>();
             services.AddScoped<IOrderDetailsService, OrderDetailsService>();

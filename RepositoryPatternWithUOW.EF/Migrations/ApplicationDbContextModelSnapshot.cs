@@ -740,6 +740,29 @@ namespace Otlob.EF.Migrations
                     b.ToTable("CommercialRegistrations");
                 });
 
+            modelBuilder.Entity("Otlob.Core.Entities.ManyMealManyAddOn", b =>
+                {
+                    b.Property<string>("MealId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("AddOnId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.HasKey("MealId", "AddOnId");
+
+                    b.HasIndex("AddOnId");
+
+                    b.HasIndex("MealId", "AddOnId")
+                        .IsUnique();
+
+                    b.ToTable("ManyMealsManyAddOns");
+                });
+
             modelBuilder.Entity("Otlob.Core.Entities.Meal", b =>
                 {
                     b.Property<string>("Id")
@@ -790,6 +813,9 @@ namespace Otlob.EF.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("int");
 
+                    b.Property<decimal>("OfferPrice")
+                        .HasColumnType("decimal(8,2)");
+
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(8,2)");
 
@@ -831,10 +857,6 @@ namespace Otlob.EF.Migrations
                         .HasColumnType("bit")
                         .HasDefaultValue(false);
 
-                    b.Property<string>("MealId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -843,9 +865,12 @@ namespace Otlob.EF.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<int>("RestaurantId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("MealId");
+                    b.HasIndex("RestaurantId");
 
                     b.ToTable("MealAddOns");
                 });
@@ -1697,6 +1722,25 @@ namespace Otlob.EF.Migrations
                     b.Navigation("UpdatedBy");
                 });
 
+            modelBuilder.Entity("Otlob.Core.Entities.ManyMealManyAddOn", b =>
+                {
+                    b.HasOne("Otlob.Core.Entities.MealAddOn", "AddOn")
+                        .WithMany("MealAddOns")
+                        .HasForeignKey("AddOnId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Otlob.Core.Entities.Meal", "Meal")
+                        .WithMany("MealAddOns")
+                        .HasForeignKey("MealId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("AddOn");
+
+                    b.Navigation("Meal");
+                });
+
             modelBuilder.Entity("Otlob.Core.Entities.Meal", b =>
                 {
                     b.HasOne("Otlob.Core.Entities.MenuCategory", "Category")
@@ -1732,13 +1776,13 @@ namespace Otlob.EF.Migrations
 
             modelBuilder.Entity("Otlob.Core.Entities.MealAddOn", b =>
                 {
-                    b.HasOne("Otlob.Core.Entities.Meal", "Meal")
-                        .WithMany("AddOns")
-                        .HasForeignKey("MealId")
+                    b.HasOne("Otlob.Core.Entities.Restaurant", "Restaurant")
+                        .WithMany("MealAddOns")
+                        .HasForeignKey("RestaurantId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("Meal");
+                    b.Navigation("Restaurant");
                 });
 
             modelBuilder.Entity("Otlob.Core.Entities.MealOptionGroup", b =>
@@ -2004,11 +2048,16 @@ namespace Otlob.EF.Migrations
 
             modelBuilder.Entity("Otlob.Core.Entities.Meal", b =>
                 {
-                    b.Navigation("AddOns");
+                    b.Navigation("MealAddOns");
 
                     b.Navigation("MealPriceHistories");
 
                     b.Navigation("OptionGroups");
+                });
+
+            modelBuilder.Entity("Otlob.Core.Entities.MealAddOn", b =>
+                {
+                    b.Navigation("MealAddOns");
                 });
 
             modelBuilder.Entity("Otlob.Core.Entities.MealOptionGroup", b =>
@@ -2033,6 +2082,8 @@ namespace Otlob.EF.Migrations
 
                     b.Navigation("CommercialRegistration")
                         .IsRequired();
+
+                    b.Navigation("MealAddOns");
 
                     b.Navigation("MenueCategories");
 

@@ -16,7 +16,7 @@
                 </div>
                 <div class="am-actions">
                     <a asp-controller="Menu" asp-action="Menu" asp-route-restaurantKey="@ViewBag.ResKey" class="am-btn-secondary">Discard</a>
-                    <button type="submit" class="am-btn-primary" id="submitBtn">Save</button>
+                    <button type="submit" class="am-btn-primary" id="submitBtn" style="display:none;">Save</button>
                 </div>
             </div>
 
@@ -29,11 +29,11 @@
                         <div class="am-card-body">
                             <div class="am-form-group">
                                 <label asp-for="Name" class="am-label">Title</label>
-                                <input asp-for="Name" class="am-input" value="@Model.Name" placeholder="e.g. Short sleeve t-shirt" />
+                                <input asp-for="Name" class="am-input" value="@Model.Name" placeholder="e.g. Short sleeve t-shirt" oninput="updateSaveButtonVisibility()" />
                             </div>
                             <div class="am-form-group">
                                 <label asp-for="Description" class="am-label">Description</label>
-                                <textarea asp-for="Description" class="am-textarea" placeholder="Describe your meal...">@Model.Description</textarea>
+                                <textarea asp-for="Description" class="am-textarea" placeholder="Describe your meal..." oninput="updateSaveButtonVisibility()">@Model.Description</textarea>
                             </div>
                         </div>
                     </div>
@@ -80,12 +80,19 @@
                                     <label asp-for="Price" class="am-label">Price</label>
                                     <div class="am-input-wrapper">
                                         <span class="am-currency-symbol">EGP</span>
-                                        <input asp-for="Price" type="number" step="0.01" min="0" class="am-input" value="@Model.Price" placeholder="0.00" />
+                                        <input asp-for="Price" type="number" step="0.01" min="0" class="am-input" value="@Model.Price" placeholder="0.00" oninput="updateSaveButtonVisibility()" />
+                                    </div>
+                                </div>
+                                <div class="am-form-group">
+                                    <label asp-for="OfferPrice" class="am-label">Offer Price <span class="am-label-hint">(Optional)</span></label>
+                                    <div class="am-input-wrapper">
+                                        <span class="am-currency-symbol">EGP</span>
+                                        <input asp-for="OfferPrice" type="number" step="0.01" min="0" class="am-input am-input-offer" value="@Math.Max(Model.OfferPrice, 0)" placeholder="0.00" oninput="updateSaveButtonVisibility()" />
                                     </div>
                                 </div>
                                 <div class="am-form-group">
                                     <label asp-for="NumberOfServings" class="am-label">Servings</label>
-                                    <input asp-for="NumberOfServings" type="number" min="1" max="50" class="am-input" value="@Model.NumberOfServings" />
+                                    <input asp-for="NumberOfServings" type="number" min="1" max="50" class="am-input" value="@Model.NumberOfServings" oninput="updateSaveButtonVisibility()" />
                                 </div>
                             </div>
                         </div>
@@ -101,11 +108,11 @@
                                 <label class="am-checkbox-wrapper">
                                     @if (Model.HasOptionGroup)
                                     {
-                                        <input type="checkbox" asp-for="HasOptionGroup" id="hasOptionGroupCheckbox" checked />
+                                        <input type="checkbox" asp-for="HasOptionGroup" id="hasOptionGroupCheckbox" checked onchange="updateSaveButtonVisibility()" />
                                     }
                                     else
                                     {
-                                        <input type="checkbox" asp-for="HasOptionGroup" id="hasOptionGroupCheckbox" />
+                                        <input type="checkbox" asp-for="HasOptionGroup" id="hasOptionGroupCheckbox" onchange="updateSaveButtonVisibility()" />
                                     }
 
                                     <span class="am-checkbox-label">This meal has options, like size</span>
@@ -228,6 +235,77 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- Add-ons Card -->
+                    @{
+                        var hasAddOns = Model.AddOns is not null && Model.AddOns.Any();
+                    }
+
+                    <div class="am-card">
+                        <div class="am-card-header">
+                            <h2>Add-ons</h2>
+                        </div>
+                        <div class="am-card-body">
+                            <div class="am-variants-toggle">
+                                <label class="am-checkbox-wrapper">
+                                    @if (Model.HasAddOns)
+                                    {
+                                        <input type="checkbox" asp-for="@Model.HasAddOns" id="hasAddOnsCheckbox" checked
+                                               onchange="toggleAddOnsSection(); updateSaveButtonVisibility();" />
+                                    }
+                                    else
+                                    {
+                                        <input type="checkbox" asp-for="@Model.HasAddOns" id="hasAddOnsCheckbox"
+                                               onchange="toggleAddOnsSection(); updateSaveButtonVisibility();" />
+                                    }
+                                    <span class="am-checkbox-label">This meal has add-ons customers can choose</span>
+                                </label>
+                            </div>
+
+                            <div id="addOnsContainer" class="am-addons-container" style="display: @(Model.HasAddOns ? "block" : "none");">
+                                <div class="am-divider"></div>
+                                @if (hasAddOns)
+                                {
+                                    <div class="am-addons-grid" id="addOnsGrid">
+                                        @if (Model.HasAddOns)
+                                        {
+                                            var selectedAddOnKeys = Model.SelectedAddOns!.ToList();
+
+                                            @foreach (var addon in Model.AddOns!)
+                                            {
+                                                var isSelected = selectedAddOnKeys.Contains(addon.Key);
+                                                <label class="am-addon-select-card @(isSelected ? "selected" : "")" onclick="toggleAddonCard(this)">
+                                                    <input type="checkbox" name="SelectedAddOns" value="@addon.Key" @(isSelected ? "checked" : "") />
+                                                    <img src="/images/@(addon.Image ?? "Default.jpg")" alt="@addon.Name" class="am-addon-card-img" />
+                                                    <span class="am-addon-card-name">@addon.Name</span>
+                                                    <span class="am-addon-card-price">@addon.Price.ToString("0.00") EGP</span>
+                                                </label>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            @foreach (var addon in Model.AddOns!)
+                                            {
+                                                <label class="am-addon-select-card" onclick="toggleAddonCard(this)">
+                                                    <input type="checkbox" name="SelectedAddOns" value="@addon.Key" />
+                                                    <img src="/images/@(addon.Image ?? "Default.jpg")" alt="@addon.Name" class="am-addon-card-img" />
+                                                    <span class="am-addon-card-name">@addon.Name</span>
+                                                    <span class="am-addon-card-price">@addon.Price.ToString("0.00") EGP</span>
+                                                </label>
+                                            }
+                                        }
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="am-addons-empty">
+                                        <i class="fas fa-puzzle-piece"></i>
+                                        <p>No add-ons available. Create add-ons from the Menu page first.</p>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Sidebar Column -->
@@ -241,7 +319,7 @@
                         <div class="am-card-body">
                             <div class="am-form-group">
                                 <label class="am-label">Product Status</label>
-                                <select asp-for="IsAvailable" class="am-select">
+                                <select asp-for="IsAvailable" class="am-select" onchange="updateSaveButtonVisibility()">
                                     @if (Model.IsAvailable)
                                     {
                                         <option value="true" selected>Active</option>
@@ -259,22 +337,22 @@
                                 <label class="am-checkbox-wrapper">
                                     @if (Model.IsNewMeal)
                                     {
-                                        <input asp-for="IsNewMeal" type="checkbox" checked />
+                                        <input asp-for="IsNewMeal" type="checkbox" checked onchange="updateSaveButtonVisibility()" />
                                     }
                                     else
                                     {
-                                        <input asp-for="IsNewMeal" type="checkbox" />
+                                        <input asp-for="IsNewMeal" type="checkbox" onchange="updateSaveButtonVisibility()" />
                                     }
                                     <span class="am-checkbox-label">Mark as New</span>
                                 </label>
                                 <label class="am-checkbox-wrapper">
                                     @if (Model.IsTrendingMeal)
                                     {
-                                        <input asp-for="IsTrendingMeal" type="checkbox" checked />
+                                        <input asp-for="IsTrendingMeal" type="checkbox" checked onchange="updateSaveButtonVisibility()" />
                                     }
                                     else
                                     {
-                                        <input asp-for="IsTrendingMeal" type="checkbox" />
+                                        <input asp-for="IsTrendingMeal" type="checkbox" onchange="updateSaveButtonVisibility()" />
                                     }
                                     <span class="am-checkbox-label">Mark as Trending</span>
                                 </label>
@@ -290,7 +368,7 @@
                         <div class="am-card-body">
                             <div class="am-form-group">
                                 <label class="am-label">Category</label>
-                                <select name="SelectedCategoryKey" class="am-select">
+                                <select name="SelectedCategoryKey" class="am-select" onchange="updateSaveButtonVisibility()">
                                     <option value="" disabled>Choose a category...</option>
                                     @foreach (var category in Model.Categories!)
                                     {
@@ -340,6 +418,16 @@
                         gIdx++;
                 }
         }
+
+        // Store initial selected add-ons for change detection
+        var initialSelectedAddOns = [];
+        document.querySelectorAll('#addOnsGrid input[type="checkbox"]:checked').forEach(function(cb) {
+            initialSelectedAddOns.push(cb.value);
+        });
+        initialSelectedAddOns.sort();
+
+        // Store initial HasAddOns checkbox state
+        var initialHasAddOns = document.getElementById('hasAddOnsCheckbox')?.checked || false;
     </script>
 
     <script src="~/js/updateMeal.js" asp-append-version="true"></script>

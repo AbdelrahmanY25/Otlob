@@ -2,6 +2,6 @@
 
 public interface IMealOptionGroupService
 {
-    Task<Result> Add(IEnumerable<OptionGroupRequest> request, string mealId);
-    Task<Result> Update(IEnumerable<OptionGroupRequest> request, string mealId);
+    Task<Result> AddAsync(IEnumerable<OptionGroupRequest> request, string mealId);
+    Task<Result> UpdateAsync(IEnumerable<OptionGroupRequest> request, string mealId);
 }

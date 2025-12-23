@@ -8,20 +8,11 @@
 <div class="links">
     @if (!SignInManager.IsSignedIn(User))
     {
-        <img src="~/images/Logo/OtlobLogo.jpg" class="clickable-logo" style="cursor: pointer;" onclick="window.location.href = '/otlob/Home/Home'" alt="Otlob Logo">
         <a asp-area="@DefaultRoles.Customer" asp-controller="Home" asp-action="Home">Home</a>
         <a asp-area="@DefaultRoles.Customer" asp-controller="BecomeAPartner" asp-action="BecomeAPartner">Become A Partner</a>
     }    
     @if (SignInManager.IsSignedIn(User))
-    {        
-        @if (User.IsInRole(DefaultRoles.Customer))
-        {
-            <img src="~/images/Logo/OtlobLogo.jpg" class="clickable-logo" style="cursor: pointer;" onclick="window.location.href = '/otlob/Home/Home'" alt="Otlob Logo">
-        }
-        else
-        {
-            <img src="~/images/Logo/OtlobLogo.jpg" class="clickable-logo" alt="Otlob Logo">
-        }
+    {
         <a asp-area="@User.FindFirstValue(ClaimTypes.Role)" asp-controller="Home" asp-action="Index">Home</a>
         @if (User.IsInRole(DefaultRoles.Customer))
         {

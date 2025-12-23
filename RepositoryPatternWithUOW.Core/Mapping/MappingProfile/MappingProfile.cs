@@ -1,4 +1,7 @@
-﻿namespace Otlob.Core.Mapping.MappingProfile;
+﻿using Azure.Core;
+using Otlob.Core.Entities;
+
+namespace Otlob.Core.Mapping.MappingProfile;
 
 public class MappingProfile : Profile
 {
@@ -44,11 +47,31 @@ public class MappingProfile : Profile
 
         // Meal
         CreateMap<MealRequest, Meal>()
+            .ForMember(dest => dest.HasAddOn, opt => opt.MapFrom(src => src.HasAddOns))
             .ForMember(dest => dest.OptionGroups, opt => opt.Ignore())
-            .ForMember(dest => dest.AddOns, opt => opt.Ignore());
+            .ForMember(dest => dest.MealAddOns, opt => opt.Ignore());
+
+
+        CreateMap<(int restaurantId, int categoryId, MealRequest request, string imagePath), Meal>()
+            .ForMember(dest => dest.RestaurantId, opt => opt.MapFrom(src => src.restaurantId))
+            .ForMember(dest => dest.CategoryId, opt => opt.MapFrom(src => src.categoryId))
+            .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.request.Name))
+            .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.request.Description))
+            .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.request.Price))
+            .ForMember(dest => dest.OfferPrice, opt => opt.MapFrom(src => src.request.OfferPrice))
+            .ForMember(dest => dest.NumberOfServings, opt => opt.MapFrom(src => src.request.NumberOfServings))
+            .ForMember(dest => dest.IsAvailable, opt => opt.MapFrom(src => src.request.IsAvailable))
+            .ForMember(dest => dest.IsNewMeal, opt => opt.MapFrom(src => src.request.IsNewMeal))
+            .ForMember(dest => dest.IsTrendingMeal, opt => opt.MapFrom(src => src.request.IsTrendingMeal))
+            .ForMember(dest => dest.HasOptionGroup, opt => opt.MapFrom(src => src.request.HasOptionGroup))
+            .ForMember(dest => dest.HasAddOn, opt => opt.MapFrom(src => src.request.HasAddOns))
+            .ForMember(dest => dest.Image, opt => opt.MapFrom(src => src.imagePath))
+            .ForMember(dest => dest.OptionGroups, opt => opt.Ignore())
+            .ForMember(dest => dest.MealAddOns, opt => opt.Ignore());
 
         CreateMap<Meal, MealResponse>()
             .ForMember(dest => dest.Key, opt => opt.MapFrom(src => src.Id))
+            .ForMember(dest => dest.HasAddOns, opt => opt.MapFrom(src => src.HasAddOn))
             .ForMember(dest => dest.OptionGroups, opt => opt.Ignore())
             .ForMember(dest => dest.AddOns, opt => opt.Ignore());
 
@@ -66,6 +89,13 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.DisplayOrder, opt => opt.MapFrom(src => src.request.DisplayOrder))
             .ForMember(dest => dest.IsPobular, opt => opt.MapFrom(src => src.request.IsPobular))
             .ForMember(dest => dest.Image, opt => opt.Ignore());
+
+        // Meal AddOn
+        CreateMap<(int restaurantId, AddOnRequest request, string imagePath), MealAddOn>()
+            .ForMember(dest => dest.RestaurantId, opt => opt.MapFrom(src => src.restaurantId))
+            .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.request.Name))
+            .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.request.Price))
+            .ForMember(dest => dest.Image, opt => opt.MapFrom(src => src.imagePath));
 
         // Order
         CreateMap<Order, OrderDetailsViewModel>()

@@ -19,6 +19,10 @@ public class MealRequestValidator : AbstractValidator<MealRequest>
             .NotEmpty()
             .GreaterThan(0);
 
+        RuleFor(m => m.OfferPrice)
+            .GreaterThanOrEqualTo(0)
+            .LessThan(m => m.Price);
+
         RuleFor(m => m.NumberOfServings)
             .NotEmpty()
             .GreaterThanOrEqualTo(1)
