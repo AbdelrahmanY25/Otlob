@@ -202,7 +202,7 @@ public class BranchService(IUnitOfWorkRepository unitOfWorkRepository, IRestaura
             .IsExist(rb => rb.MangerName == request.MangerName && rb.RestaurantId == restaurantId, ignoreQueryFilter: true);
 
         if (isManagerNameExists)
-            return Result.Failure(BranchErrors.DoublicatedmanagerName);
+            return Result.Failure(BranchErrors.DoublicatedManagerName);
 
         bool isManagerPhoneExists = _unitOfWorkRepository.RestaurantBranches
             .IsExist(rb => rb.MangerPhone == request.MangerPhone, ignoreQueryFilter: true);
@@ -231,7 +231,7 @@ public class BranchService(IUnitOfWorkRepository unitOfWorkRepository, IRestaura
             .IsExist(rb => rb.MangerName == request.MangerName && rb.RestaurantId == restaurantId && rb.Id != branchId, ignoreQueryFilter: true);
 
         if (isManagerNameExists)
-            return Result.Failure(BranchErrors.DoublicatedmanagerName);
+            return Result.Failure(BranchErrors.DoublicatedManagerName);
 
         bool isManagerPhoneExists = _unitOfWorkRepository.RestaurantBranches
             .IsExist(rb => rb.MangerPhone == request.MangerPhone && rb.Id != branchId, ignoreQueryFilter: true);

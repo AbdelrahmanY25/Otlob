@@ -1,11 +1,22 @@
-﻿<div class="card shadow-sm border-0">
-    <div class="card-header text-light py-4" style="background-color: #F04335;">
-        <h5 class="text-center text-white mb-0">Shopping Cart</h5>
+﻿@{
+    ViewData["Title"] = "Empty Cart";
+}
+
+<link rel="stylesheet" href="~/css/cart.css" />
+
+<div class="empty-cart-page">
+    <div class="empty-cart-icon">
+        <i class="bi bi-cart3"></i>
     </div>
-    <div class="card-body">
-        <a asp-action="Index" asp-controller="Home" class="btn btn-outline-secondary btn-sm mb-3">
-            <i class="fa fa-arrow-left"></i> Back To Home
-        </a>
-        <h4 class="text-secondary text-uppercase text-center">No Item Selected</h4>   
-    </div>
+    
+    <h1 class="empty-title">Your Cart is Empty</h1>
+    
+    <p class="empty-text">
+        Looks like you haven't added anything to your cart yet. Discover delicious meals and start ordering!
+    </p>
+    
+    <a asp-controller="Home" asp-action="Index" class="browse-btn">
+        <span>Browse Menu</span>
+        <i class="bi bi-arrow-right"></i>
+    </a>
 </div>

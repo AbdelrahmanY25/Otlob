@@ -1,61 +1,148 @@
 ﻿namespace Otlob.Areas.Customer.Controllers;
 
-[Area(DefaultRoles.Customer)]
-public class CartController(ICartService cartService, IAddressService addressService) : Controller
+[Area(DefaultRoles.Customer), Authorize, EnableRateLimiting(RateLimiterPolicy.IpLimit)]
+public class CartController(ICartService cartService) : Controller
 {
     private readonly ICartService _cartService = cartService;
-    private readonly IAddressService _addressService = addressService;
 
+    [AllowAnonymous]
     [HttpPost, ValidateAntiForgeryToken]
-    public IActionResult AddToCart(OrderedMealsVM orderedMealVM, string resId)
+    public IActionResult Add(CartRequest request, string restaurantKey)
     {
         if (!ModelState.IsValid)
-        {
-            return RedirectToAction("Details", "Home", new { id = resId });
+            return RedirectToAction("Meal", "Menu", new { mealKey = request.MealId });        
+
+        var addToCartResult = _cartService.AddOrUpdateCart(request, restaurantKey);
+
+        if (addToCartResult.IsFailure)
+        {           
+            TempData["Error"] = addToCartResult.Error.Description;
+            return RedirectToAction("Meal", "Menu", new { mealKey = request.MealId });
         }
 
-        string? userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-        if (userId is null)
-        {
-            return RedirectToAction("Login", "Account");
-        }            
-        
-        bool userAddresses = _addressService.IsUserHasAnyAddresses(userId);
-
-        if (!userAddresses)
-        {
-            TempData["Error"] = "Please Add Address First";
-            return RedirectToAction("SavedAddresses", "Address");
-        }
-        
-        bool canAddCart = _cartService.CheckIfCanAddOrderToCart(orderedMealVM, userId, resId);
-
-        if (canAddCart)
-        {
-            return RedirectToAction("Details", "Home", new { id = resId });
-        }
-
-        TempData["Error"] = "Must Order from one Restaurant at a time";
-        return RedirectToAction("Index", "Home");       
+        TempData["Success"] = "Meal added to cart successfully.";
+        return RedirectToAction("Meal", "Menu", new { mealKey = request.MealId });
     }
 
-    public async Task<IActionResult> Cart()
+    public IActionResult Cart()
     {
-        var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+        var cart = _cartService.UserCart();
 
-        if (userId is null)
-        {
+        if (cart is null)
             return View("EmptyCart");
+
+        return View(cart);
+    }
+
+    public IActionResult Delete(int cartId)
+    {
+        var deleteCartResult = _cartService.DeleteUserCart(cartId);
+
+        if (deleteCartResult.IsFailure)
+            TempData["Error"] = deleteCartResult.Error.Description;
+
+        return View("EmptyCart");
+    }
+
+    [HttpPost]
+    public IActionResult Increment(int id)
+    {
+        var result = _cartService.IncrementItem(id);
+        
+        if (result.IsFailure)
+        {
+            if (Request.Headers.XRequestedWith == "XMLHttpRequest")
+            {
+                TempData["Error"] = result.Error.Description;
+                
+                return RedirectToAction(nameof(Cart));
+            }
+            
         }
 
-        var cartVM = await _cartService.GetUserCartToView(userId);
-
-        if (cartVM is null)
+        if(Request.Headers.XRequestedWith == "XMLHttpRequest")
         {
-            return View("EmptyCart");
+            var cart = _cartService.UserCart();
+            var item = cart?.CartDetails.FirstOrDefault(x => x.Id == id);
+            return Json(new { 
+                success = true, 
+                quantity = item?.Quantity, 
+                itemTotal = item?.TotalPrice,
+                cartTotal = cart?.CartDetails.Sum(x => x.TotalPrice),
+                cartCount = cart?.CartDetails.Count()
+            });
         }
-       
-        return View(cartVM);
+            
+        return RedirectToAction(nameof(Cart));
+    }
+
+    [HttpPost]
+    public IActionResult Decrement(int id)
+    {
+        var result = _cartService.DecrementItem(id);
+        
+        if (result.IsFailure)
+        {
+            if (Request.Headers.XRequestedWith == "XMLHttpRequest")
+            {
+                TempData["Error"] = result.Error.Description;
+
+                return RedirectToAction(nameof(Cart));
+            }
+
+        }
+
+        if(Request.Headers.XRequestedWith == "XMLHttpRequest")
+        {
+            var cart = _cartService.UserCart();
+            var item = cart?.CartDetails.FirstOrDefault(x => x.Id == id);
+            bool removed = item == null;
+
+            return Json(new { 
+                success = true, 
+                removed,
+                quantity = item?.Quantity ?? 0, 
+                itemTotal = item?.TotalPrice ?? 0,
+                cartTotal = cart?.CartDetails.Sum(x => x.TotalPrice) ?? 0,
+                cartCount = cart?.CartDetails.Count() ?? 0
+            });
+        }
+
+        return RedirectToAction(nameof(Cart));
+    }
+
+    [HttpPost]
+    public IActionResult Remove(int id)
+    {
+        var result = _cartService.RemoveItem(id);
+        
+        if (result.IsFailure)
+        {
+             if(Request.Headers.XRequestedWith == "XMLHttpRequest")
+            {
+                TempData["Error"] = result.Error.Description;
+
+                return RedirectToAction(nameof(Cart));
+            }
+        }
+        else
+        {
+             if (Request.Headers.XRequestedWith == "XMLHttpRequest")
+             {
+                 var cart = _cartService.UserCart();
+                
+                TempData["Success"] = "Item removed from cart.";
+                
+                return Json(new { 
+                    success = true, 
+                    removed = true,
+                    cartTotal = cart?.CartDetails.Sum(x => x.TotalPrice) ?? 0,
+                    cartCount = cart?.CartDetails.Count() ?? 0
+                });
+             }
+             
+        }
+
+        return RedirectToAction(nameof(Cart));
     }
 }

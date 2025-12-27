@@ -24,7 +24,7 @@ public class RestaurantsController(IRestaurantService restaurantService) : Contr
     {        
         var result = _restaurantService.GetRestaurantDetailsById(id);
 
-        if(result.IsFailure)
+        if (result.IsFailure)
         {
             TempData["Error"] = result.Error.Description;
             return RedirectToAction("Index", "Home", new { Area = DefaultRoles.SuperAdmin });
@@ -33,30 +33,30 @@ public class RestaurantsController(IRestaurantService restaurantService) : Contr
         return View(result.Value);
     }
 
-    public IActionResult DeletedRestaurant()
-    {
-        var restaurants = _restaurantService.GetDeletedRestaurants();
+    //public IActionResult DeletedRestaurant()
+    //{
+    //    var restaurants = _restaurantService.GetDeletedRestaurants();
 
-        if (restaurants is null)
-        {
-            TempData["Error"] = "There is no deleted restaurants";
-            return RedirectToAction("Index", "Home", new { Area = DefaultRoles.SuperAdmin });
-        }
+    //    if (restaurants is null)
+    //    {
+    //        TempData["Error"] = "There is no deleted restaurants";
+    //        return RedirectToAction("Index", "Home", new { Area = DefaultRoles.SuperAdmin });
+    //    }
 
-        return View(restaurants);
-    }
+    //    return View(restaurants);
+    //}
 
-    public async Task<IActionResult> DeleteRestaurant(string id)
-    {
-        await _restaurantService.DelteRestaurant(id);
-        TempData["Success"] = "Restaurant Deleted Successfully";
-        return RedirectToAction(nameof(ActiveResturatns));
-    }
+    //public async Task<IActionResult> DeleteRestaurant(string id)
+    //{
+    //    await _restaurantService.DelteRestaurant(id);
+    //    TempData["Success"] = "Restaurant Deleted Successfully";
+    //    return RedirectToAction(nameof(ActiveResturatns));
+    //}
 
-    public async Task<IActionResult> UnDeleteRestaurant(string id)
-    {
-        await _restaurantService.UnDelteRestaurant(id);
-        TempData["Success"] = "Restaurant UnDeleted Successfully";
-        return RedirectToAction(nameof(ActiveResturatns));
-    }
+    //public async Task<IActionResult> UnDeleteRestaurant(string id)
+    //{
+    //    await _restaurantService.UnDelteRestaurant(id);
+    //    TempData["Success"] = "Restaurant UnDeleted Successfully";
+    //    return RedirectToAction(nameof(ActiveResturatns));
+    //}
 }

@@ -12,36 +12,36 @@
             this.orderedMealsService = orderedMealsService;
         }
 
-        public IActionResult ChangeMealQuantity(string id, MealQuantity type)
-        {
-            MealQuantityResult result = orderedMealsService.EditOrderedMealsQuantity(id, type);
+        //public IActionResult ChangeMealQuantity(string id, MealQuantity type)
+        //{
+        //    MealQuantityResult result = orderedMealsService.EditOrderedMealsQuantity(id, type);
 
-            switch (result.Status)
-            {
-                case HandleMealQuantityProcess.SomeThingWrong:
-                    TempData["Error"] = "Failed to update quantity";
-                    return RedirectToAction("Index", "Home");
+        //    switch (result.Status)
+        //    {
+        //        case HandleMealQuantityProcess.SomeThingWrong:
+        //            TempData["Error"] = "Failed to update quantity";
+        //            return RedirectToAction("Index", "Home");
 
-                case HandleMealQuantityProcess.DeleteMeal:
-                    return DeleteOrderedMeal(id);
+        //        case HandleMealQuantityProcess.DeleteMeal:
+        //            return DeleteOrderedMeal(id);
 
-                default:
-                    return RedirectToAction("Cart", "Cart");
-            }            
-        }
+        //        default:
+        //            return RedirectToAction("Cart", "Cart");
+        //    }            
+        //}
 
-        public IActionResult DeleteOrderedMeal(string id)
-        {
-            CartDetails selectedOrderMeal = orderedMealsService.DeleteOrderedMeal(id);
+        //public IActionResult DeleteOrderedMeal(string id)
+        //{
+        //    CartDetails selectedOrderMeal = orderedMealsService.DeleteOrderedMeal(id);
 
-            bool isMealsExistInCart = orderedMealsService.ThereIsAnyMealsInCart(selectedOrderMeal);
+        //    bool isMealsExistInCart = orderedMealsService.ThereIsAnyMealsInCart(selectedOrderMeal);
 
-            if (selectedOrderMeal is null || !isMealsExistInCart)
-            {
-                cartService.DeleteCart(selectedOrderMeal!.CartId);
-            }
+        //    if (selectedOrderMeal is null || !isMealsExistInCart)
+        //    {
+        //        cartService.DeleteCart(selectedOrderMeal!.CartId);
+        //    }
 
-            return RedirectToAction("Cart", "Cart");
-        }
+        //    return RedirectToAction("Cart", "Cart");
+        //}
     }
 }

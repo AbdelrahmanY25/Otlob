@@ -7,12 +7,15 @@ global using Otlob.Core.Mapping.ManualMapping;
 global using Otlob.Core.Contracts.Restaurant;
 global using Otlob.Core.Contracts.Documents;
 global using Otlob.EF.UnitOfWorkRepository;
+global using Otlob.Core.Contracts.Customer;
 global using Otlob.Core.Contracts.Address;
 global using Otlob.Core.Contracts.Branch;
 global using Otlob.Core.Contracts.Files;
 global using Otlob.Core.Contracts.Meal;
+global using Otlob.Core.Contracts.Cart;
 global using Otlob.Core.Contracts.User;
 global using Otlob.Services.Results;
+global using System.Text.Json.Nodes;
 global using Otlob.Core.Extensions;
 global using Otlob.Core.Contracts;
 global using Otlob.Core.Entities;
@@ -53,7 +56,7 @@ global using Microsoft.AspNetCore.SignalR;
 global using Microsoft.AspNetCore.Mvc;
 
 
-
+global using NetTopologySuite.Geometries;
 global using FluentValidation.AspNetCore;
 global using MailKit.Security;
 global using MailKit.Net.Smtp;

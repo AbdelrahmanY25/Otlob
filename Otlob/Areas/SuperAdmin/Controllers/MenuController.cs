@@ -9,7 +9,7 @@ public class MenuController(IDataProtectionProvider dataProtectionProvider, IMen
     public IActionResult Menu(string restaurantKey)
     {
         // TODO: Handle Exception
-        var response = _menuService.GetMenu(int.Parse(_dataProtector.Unprotect(restaurantKey)));
+        var response = _menuService.MenuForAdmins(int.Parse(_dataProtector.Unprotect(restaurantKey)));
 
         HttpContext.Session.SetString(StaticData.RestaurantId, restaurantKey);
 

@@ -1,14 +1,12 @@
-﻿namespace Otlob.IServices
+﻿namespace Otlob.IServices;
+
+public interface ICartService
 {
-    public interface ICartService
-    {
-        Cart? GetCartById(string cartId);
-        Cart? GetUserCart(string userId, int restaurantId);
-        Task<CartVM?> GetUserCartToView(string userId);
-        Cart? AddCart(string userId, int restaurantId);
-        bool DeleteCart(int id);
-        bool IsCartHasItems(string userId);
-        bool CheckIfCanAddOrderToCart(OrderedMealsVM orderedMealsVM, string userId, string resId);
-        bool AddOrderToCart(OrderedMealsVM orderedMealsVM, string userId, int restaurantId);
-    }
+    Cart? GetCartById(string cartId);
+    CartResponse? UserCart();
+    Result AddOrUpdateCart(CartRequest request, string restaurantKey);
+    Result DeleteUserCart(int cartId);
+    Result IncrementItem(int itemId);
+    Result DecrementItem(int itemId);
+    Result RemoveItem(int itemId);
 }

@@ -1,0 +1,380 @@
+/* Global Styles */
+:root {
+    --primary-color: #ff385d; /* requested primary */
+    --primary-hover: #e0224a; /* slightly darker */
+    --primary-contrast: #ffffff;
+
+    --text-dark: #222428;
+    --text-light: #6b7280;
+    --muted: #9aa0a6;
+    --muted-light: #f4f4f6;
+
+    --bg-light: #f8f9fa;
+    --white: #ffffff;
+    --card-bg: #ffffff;
+
+    --shadow-sm: 0 2px 8px rgba(0,0,0,0.06);
+    --shadow-md: 0 6px 18px rgba(0,0,0,0.12);
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --transition: all 0.3s ease;
+}
+
+body {
+    background-color: var(--bg-light);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: var(--text-dark);
+}
+
+.ch-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Search Section */
+.ch-search-section {
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.ch-search-wrapper {
+    position: relative;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.ch-search-input {
+    width: 100%;
+    padding: 15px 20px 15px 50px;
+    border: 2px solid var(--muted-light);
+    border-radius: 50px;
+    font-size: 1.1rem;
+    transition: var(--transition);
+    outline: none;
+    box-shadow: var(--shadow-sm);
+    background: var(--card-bg);
+}
+
+.ch-search-input:focus {
+    border-color: var(--primary-color);
+    box-shadow: var(--shadow-md);
+}
+
+.ch-search-icon {
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--muted);
+    font-size: 1.2rem;
+}
+
+/* Categories Section */
+.ch-categories-section {
+    margin: 30px auto;
+    overflow: hidden; /* Ensure no scrollbar on parent */
+    max-width: 600px;
+}
+
+.ch-categories-scroll {
+    display: flex;
+    overflow-x: auto;
+    gap: 5px; /* Increased gap */
+    padding: 15px 5px;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE 10+ */
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+}
+
+.ch-categories-scroll::-webkit-scrollbar {
+    display: none; /* Chrome/Safari/Webkit */
+}
+
+.ch-category-item {
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    padding: 15px; /* Increased padding */
+    border-radius: var(--radius-md);
+    transition: var(--transition);
+    min-width: 100px; /* Increased min-width */
+    background: transparent;
+}
+
+.ch-category-item:hover, .ch-category-item.active {
+    background-color: var(--bg-light);
+    color: #ffff;
+    box-shadow: var(--shadow-sm);
+    transform: translateY(-2px);
+}
+
+.ch-category-item.active .ch-cat-name {
+    color: var(--primary-color);
+    font-weight: 700;
+}
+
+.ch-cat-icon {
+    width: 70px; /* Increased size */
+    height: 70px; /* Increased size */
+    object-fit: contain;
+    margin-bottom: 10px;
+    border-radius: 50%;
+    background: var(--card-bg);
+    padding: 12px; /* Increased padding */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.04);
+}
+
+.ch-cat-name {
+    font-size: 1rem; /* Increased font size */
+    color: var(--text-dark);
+    font-weight: 500;
+    text-align: center;
+}
+
+/* Filters Section */
+.ch-filters-section {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 30px;
+    justify-content: center;
+    padding: 10px 12px;
+    border-radius: 12px;
+}
+
+.ch-filter-btn {
+    padding: 8px 16px;
+    border: 1px solid var(--muted-light);
+    background: var(--white);
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    color: var(--text-dark);
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.ch-filter-btn:hover {
+    background-color: rgba(255,56,93,0.06); /* subtle tint of primary */
+    border-color: rgba(255,56,93,0.12);
+}
+
+.ch-filter-btn.active {
+    background-color: var(--primary-color);
+    color: var(--primary-contrast);
+    border-color: var(--primary-color);
+}
+
+/* Restaurants Grid */
+.ch-restaurants-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Slightly wider cards */
+    gap: 25px;
+}
+
+.ch-restaurant-card {
+    display: flex;
+    flex-direction: row;
+    align-items: center; /* Center vertically */
+    gap: 12px;
+    padding: 10px; /* Decreased padding for tighter layout */
+    background: var(--card-bg);
+    border-radius: 16px; /* Slightly smaller radius */
+    overflow: visible; /* Allow shadow */
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    transition: var(--transition);
+    cursor: pointer;
+    position: relative;
+    text-decoration: none;
+    color: inherit;
+    border: 1px solid transparent;
+}
+
+.ch-restaurant-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+    border-color: transparent;
+}
+
+.ch-card-img-wrapper {
+    flex: 0 0 110px; /* Reduced size */
+    height: 110px;
+    overflow: hidden;
+    border-radius: 12px; /* Reduced radius */
+    position: relative;
+}
+
+.ch-card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.ch-restaurant-card:hover .ch-card-img {
+    transform: scale(1.03);
+}
+
+.ch-card-content {
+    flex: 1 1 auto;
+    padding: 0; /* Remove padding as parent has it */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+    min-width: 0; /* Fix flex child overflow */
+}
+
+.ch-res-header { margin-bottom: 6px; }
+
+.ch-res-name { 
+    font-size: 1.02rem; 
+    font-weight: 700; 
+    margin: 0 0 4px 0; 
+    color: var(--text-dark);
+}
+
+.ch-res-tags { 
+    margin-bottom: 8px; 
+    font-size: 0.82rem;
+    color: var(--muted);
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    height: auto;
+    white-space: normal;
+}
+
+.ch-tag {
+    color: var(--muted);
+    background: none;
+    padding: 0;
+}
+
+.ch-tag:not(:last-child):after {
+    content: ",";
+    margin-right: 4px;
+    color: var(--muted);
+}
+
+.ch-res-footer {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+/* Status badge adjustments */
+.ch-status-badge { 
+    left: 8px; 
+    top: 8px; 
+    font-size: 0.65rem;
+    padding: 3px 8px;
+    border-radius: 12px;
+    backdrop-filter: blur(4px);
+}
+
+.ch-meta-item { 
+    padding: 0; 
+    background: none;
+    font-size: 0.9rem;
+    color: var(--text-dark);
+    font-weight: 600;
+}
+
+.ch-meta-item i {
+    color: var(--primary-color);
+    margin-right: 4px;
+    font-size: 0.85rem;
+}
+
+.ch-delivery-fee {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--primary-color); /* brand color for price */
+}
+
+.ch-delivery-fee.free {
+    color: #28a745;
+}
+
+/* Empty State */
+.ch-no-results {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 50px;
+    color: var(--text-light);
+    display: none;
+}
+
+.ch-no-results i {
+    font-size: 3rem;
+    margin-bottom: 15px;
+    color: var(--muted-light);
+}
+
+/* Responsive Breakpoints */
+@media (max-width: 1024px) {
+    .ch-container { padding: 15px; }
+    .ch-restaurants-grid {
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    }
+    .ch-card-img-wrapper { flex: 0 0 100px; height: 100px; }
+    .ch-res-name { font-size: 1rem; }
+}
+
+@media (max-width: 992px) {
+    .ch-restaurants-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .ch-card-img-wrapper { flex: 0 0 96px; height: 96px; }
+    .ch-restaurant-card { padding: 10px; }
+}
+
+@media (max-width: 768px) {
+    .ch-restaurants-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 18px;
+    }
+    .ch-search-input { padding: 12px 20px 12px 45px; }
+    .ch-card-img-wrapper { flex: 0 0 88px; height: 88px; }
+    .ch-res-name { font-size: 0.98rem; }
+}
+
+@media (max-width: 640px) {
+    .ch-filters-section {
+        overflow-x: auto;
+        justify-content: flex-start;
+        padding-bottom: 10px;
+        flex-wrap: nowrap;
+    }
+    .ch-filter-btn { flex: 0 0 auto; }
+    .ch-restaurant-card {
+        flex-direction: column;
+        gap: 8px;
+        padding: 8px;
+    }
+    .ch-card-img-wrapper {
+        flex: 0 0 auto;
+        width: 100%;
+        height: 160px;
+        border-radius: 10px 10px 0 0;
+    }
+    .ch-card-content { padding: 10px; }
+    .ch-res-name { font-size: 1rem; }
+}
+
+@media (max-width: 480px) {
+    .ch-restaurants-grid {
+        grid-template-columns: 1fr;
+    }
+    .ch-card-img-wrapper { height: 160px; }
+    .ch-res-name { font-size: 0.98rem; }
+}

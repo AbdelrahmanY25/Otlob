@@ -487,11 +487,6 @@ function attachNumberValidation(input) {
     if (!input || input.__numberValidationAttached) return;
     input.__numberValidationAttached = true;
 
-    const step = parseFloat(input.getAttribute('step')) || 1;
-    const min = parseFloat(input.getAttribute('min')) || 0;
-    const max = parseFloat(input.getAttribute('max')) || Infinity;
-    const isDecimal = step < 1;
-
     // Prevent invalid characters
     input.addEventListener('keydown', function (e) {
         if (['e', 'E', '+', '-'].includes(e.key)) {
@@ -504,30 +499,17 @@ function attachNumberValidation(input) {
         const raw = this.value;
         if (raw === '') return;
 
-        // For decimal inputs, allow numbers and one decimal point
-        let value = raw;
-        if (isDecimal) {
-            value = value.replace(/[^0-9.]/g, '');
-            // Ensure only one decimal point
-            const parts = value.split('.');
-            if (parts.length > 2) {
-                value = parts[0] + '.' + parts.slice(1).join('');
-            }
-        } else {
-            // For integer inputs, remove everything except digits
-            value = value.replace(/[^0-9]/g, '');
-        }
+        const value = parseFloat(raw);
+        const max = parseFloat(this.getAttribute('max'));
+        const min = parseFloat(this.getAttribute('min')) || 0;
 
-        this.value = value;
-
-        const numValue = parseFloat(value);
-        if (!isNaN(max) && !isNaN(numValue) && numValue > max) {
-            this.value = max.toString();
+        if (!isNaN(max) && !isNaN(value) && value > max) {
+            this.value = max;
             showErrorToast(`Maximum value is ${max}`);
         }
 
-        if (!isNaN(min) && !isNaN(numValue) && numValue < min) {
-            this.value = min.toString();
+        if (!isNaN(min) && !isNaN(value) && value < min) {
+            this.value = min;
             showErrorToast(`Minimum value is ${min}`);
         }
     });
@@ -537,17 +519,17 @@ function attachNumberValidation(input) {
         const raw = this.value;
         if (raw === '') return;
         let value = parseFloat(raw);
-        
-        if (isNaN(value) || value < min) {
-            value = min;
-            this.value = isDecimal ? value.toFixed(2) : value.toString();
-            showErrorToast(`Minimum value is ${min}`);
+        const max = parseFloat(this.getAttribute('max'));
+        const min = parseFloat(this.getAttribute('min')) || 0;
+
+        if (!isNaN(max) && (isNaN(value) || value > max)) {
+            this.value = max;
+            showErrorToast(`Maximum value is ${max}`);
         }
 
-        if (!isNaN(max) && value > max) {
-            value = max;
-            this.value = isDecimal ? value.toFixed(2) : value.toString();
-            showErrorToast(`Maximum value is ${max}`);
+        if (!isNaN(min) && (isNaN(value) || value < min)) {
+            this.value = min;
+            showErrorToast(`Minimum value is ${min}`);
         }
 
         validateForm();

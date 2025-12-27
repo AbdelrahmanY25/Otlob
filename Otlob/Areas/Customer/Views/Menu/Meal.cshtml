@@ -1,0 +1,250 @@
+﻿@model MealResponse
+
+@{
+    ViewData["Title"] = Model.Name;
+    
+    decimal basePrice = Model.OfferPrice > 0 ? Model.OfferPrice : Model.Price;
+    bool hasOffer = Model.OfferPrice > 0;
+    decimal savedAmount = hasOffer ? Model.Price - Model.OfferPrice : 0;
+    
+    bool hasOptionGroups = Model.OptionGroups != null && Model.OptionGroups.Any();
+    bool hasAddOns = Model.AddOns != null && Model.AddOns.Any();
+}
+
+<link href="~/css/mealDetails.css" rel="stylesheet" asp-append-version="true" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+
+<div class="meal-page">
+    <div class="meal-nav">
+        <a class="back-btn" asp-controller="Menu" asp-action="Menu" asp-route-restaurantKey="@Model.RestaurantKey">
+            <i class="fa-solid fa-arrow-left"></i>
+            <span>Back to Menu</span>
+        </a>
+    </div>
+
+    <div class="meal-container">
+        <div class="meal-main">
+            <div class="meal-hero">
+                @if (!string.IsNullOrEmpty(Model.Image))
+                {
+                    <img src="~/images/@Model.Image" alt="@Model.Name" class="meal-hero-img" />
+                }
+                else
+                {
+                    <div class="meal-hero-placeholder">
+                        <i class="fa-solid fa-utensils"></i>
+                    </div>
+                }
+                
+                <!-- Badges -->
+                <div class="meal-badges">
+                    @if (hasOffer)
+                    {
+                        <span class="badge badge-offer">
+                            <i class="fa-solid fa-bolt"></i>
+                            Save EGP @savedAmount.ToString("N2")
+                        </span>
+                    }
+                    @if (Model.IsNewMeal)
+                    {
+                        <span class="badge badge-new">
+                            <i class="fa-solid fa-sparkles"></i> New
+                        </span>
+                    }
+                    @if (Model.IsTrendingMeal)
+                    {
+                        <span class="badge badge-trending">
+                            <i class="fa-solid fa-fire"></i> Trending
+                        </span>
+                    }
+                </div>
+            </div>
+
+            <div class="meal-info-card">
+                <h1 class="meal-title">@Model.Name</h1>
+                
+                @if (!string.IsNullOrEmpty(Model.Description))
+                {
+                    <p class="meal-description">@Model.Description</p>
+                }
+                
+                <div class="meal-meta">
+                    @if (Model.NumberOfServings > 0)
+                    {
+                        <div class="meta-item">
+                            <i class="fa-solid fa-users"></i>
+                            <span>Serves @Model.NumberOfServings</span>
+                        </div>
+                    }
+                </div>
+
+                <div class="price-display">
+                    <div class="price-main">
+                        <span class="price-label">Base Price</span>
+                        <div class="price-values">
+                            <span class="current-price">EGP @basePrice.ToString("N2")</span>
+                            @if (hasOffer)
+                            {
+                                <span class="original-price">EGP @Model.Price.ToString("N2")</span>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="meal-customization">
+            <form id="mealOrderForm" method="post" asp-area="Customer" asp-controller="Cart" asp-action="Add" 
+                  asp-route-restaurantKey="@Model.RestaurantKey" data-base-price="@basePrice"
+                  data-meal-key="@Model.Key" data-restaurant-key="@Model.RestaurantKey" >
+                @Html.AntiForgeryToken()
+
+                <input type="hidden" name="MealId" value="@Model.Key" />
+                <input type="hidden" name="Quantity" id="quantityInput" value="1" />
+                
+                @if (hasOptionGroups)
+                {
+                    <div class="customization-section">
+                        <div class="section-header">
+                            <h2 class="section-title">
+                                <i class="fa-solid fa-sliders"></i>
+                                Customize Your Order
+                            </h2>
+                            <span class="required-badge">Required</span>
+                        </div>
+                        
+                        @foreach (var group in Model.OptionGroups!.OrderBy(g => g.DisplayOrder))
+                        {
+                            var hasImages = group.OptionItems != null && group.OptionItems.Any(i => !string.IsNullOrEmpty(i.Image));
+                            <div class="option-group" data-group-id="@group.Id">
+                                <div class="group-header">
+                                    <h3 class="group-title">@group.Name</h3>
+                                    <span class="selection-hint">Select one option</span>
+                                </div>
+                                
+                                <div class="option-items @(hasImages ? "option-items-grid" : "")">
+                                    @foreach (var item in group.OptionItems!)
+                                    {
+                                        <label class="option-item">
+                                            <input type="radio" 
+                                                   name="OptionGroup_@group.Id" 
+                                                   value="@item.Id"
+                                                   data-price="@item.Price"
+                                                   data-name="@item.Name"
+                                                   data-group-id="@group.Id"
+                                                   class="option-radio"
+                                                   required />
+                                            
+                                            @if (!string.IsNullOrEmpty(item.Image))
+                                            {
+                                                <div class="option-image-container">
+                                                    <img src="~/images/@item.Image" alt="@item.Name" />
+                                                </div>
+                                            }
+
+                                            <div class="option-content">
+                                                <div class="option-info">
+                                                    <span class="option-name">@item.Name</span>
+                                                    @if (item.IsPobular)
+                                                    {
+                                                        <span class="popular-tag" title="Popular"><i class="fa-solid fa-fire"></i> Popular</span>
+                                                    }
+                                                </div>
+                                                @if (item.Price > 0)
+                                                {
+                                                    <span class="option-price">+EGP @item.Price.ToString("N2")</span>
+                                                }
+                                            </div>
+                                            <div class="radio-indicator">
+                                                <div class="radio-dot"></div>
+                                            </div>
+                                        </label>
+                                    }
+                                </div>
+                                
+                                <div class="group-validation-error" style="display: none;">
+                                    <i class="fa-solid fa-exclamation-circle"></i>
+                                    Please select an option
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+
+                @if (hasAddOns)
+                {
+                    <div class="customization-section">
+                        <div class="section-header">
+                            <h2 class="section-title">
+                                <i class="fa-solid fa-plus-circle"></i>
+                                Add Extras
+                            </h2>
+                            <span class="optional-badge">Optional</span>
+                        </div>
+                        
+                        <div class="addons-grid">
+                            @foreach (var addon in Model.AddOns!)
+                            {
+                                <label class="addon-item">
+                                    <input type="checkbox" 
+                                           name="AddOnsIds" 
+                                           value="@addon.Key"
+                                           data-price="@addon.Price"
+                                           data-name="@addon.Name"
+                                           class="addon-checkbox" />
+                                    <div class="addon-content">
+                                        @if (!string.IsNullOrEmpty(addon.Image))
+                                        {
+                                            <div class="addon-image">
+                                                <img src="~/images/@addon.Image" alt="@addon.Name" />
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="addon-image addon-placeholder">
+                                                <i class="fa-solid fa-cookie-bite"></i>
+                                            </div>
+                                        }
+                                        <div class="addon-info">
+                                            <span class="addon-name">@addon.Name</span>
+                                            <span class="addon-price">+EGP @addon.Price.ToString("N2")</span>
+                                        </div>
+                                    </div>
+                                    <div class="checkbox-indicator">
+                                        <i class="fa-solid fa-check"></i>
+                                    </div>
+                                </label>
+                            }
+                        </div>
+                    </div>
+                }
+            </form>
+        </div>
+    </div>
+
+    <div class="sticky-bottom-bar">
+        <div class="bottom-bar-content">
+            <div class="quantity-selector">
+                <button type="button" class="qty-btn qty-decrease" id="decreaseQty">
+                    <i class="fa-solid fa-minus"></i>
+                </button>
+                <span class="qty-value" id="quantityValue">1</span>
+                <button type="button" class="qty-btn qty-increase" id="increaseQty">
+                    <i class="fa-solid fa-plus"></i>
+                </button>
+            </div>
+            
+            <button type="button" class="add-to-cart-btn" id="addToCartBtn">
+                <span class="btn-text">Add to Cart</span>
+                <span class="btn-price" id="totalPriceDisplay">EGP @basePrice.ToString("N2")</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+
+    <script src="~/js/mealDetails.js" asp-append-version="true"></script>
+}

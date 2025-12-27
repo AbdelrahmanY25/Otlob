@@ -8,10 +8,8 @@
 
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
         <link rel="stylesheet" href="~/Otlob.styles.css" asp-append-version="true" />
-        <link href="~/css/newSite.css" rel="stylesheet" asp-append-version="true" />        
+        <link href="~/css/newSite.css" rel="stylesheet" asp-append-version="true" /> 
        
-        @* <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" /> *@
-
         @await RenderSectionAsync("Profile", required: false)
         
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
@@ -20,14 +18,15 @@
     </head>
     <body>               
         <div class="page">
-		    <partial name="_SuperAdminSidebarPartial.cshtml" />
-		    <partial name="_RestaurantAdminSidebarPartila.cshtml" />
+		    <partial name="_SuperAdminSidebarPartial" />
+		    <partial name="_RestaurantAdminSidebarPartila" />
 
             <div class="content">
                 <div class="navbar">
-				    <partial name="_NavBarPartial.cshtml"/>
+				    <partial name="_NavBarPartial"/>
                 </div>
                 <div class="main">
+                    <partial name="_NotificationPartial" />
                     @RenderBody()
                 </div>
             </div>

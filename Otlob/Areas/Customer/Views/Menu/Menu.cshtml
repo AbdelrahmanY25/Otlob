@@ -1,0 +1,191 @@
+﻿@model (IEnumerable<MenuResponse> menu, AcctiveRestaurantResponse restaurant)
+
+@{
+    ViewData["Title"] = "Menu";
+    
+    // Collect categories from the model
+    var categories = Model.menu.Select(m => m.Categories);
+
+    // Get all meals with offers across all categories
+    var allMeals = Model.menu.SelectMany(m => m.Meals ?? Enumerable.Empty<MealResponse>());
+    var offerMeals = allMeals.Where(m => m.OfferPrice > 0)
+                             .OrderByDescending(m => (m.Price - m.OfferPrice) / (m.Price == 0 ? 1 : m.Price) * 100);
+}
+
+<link href="~/css/menuForCustomer.css" rel="stylesheet" asp-append-version="true"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<div class="menu-page-container">
+    <!-- Hero Section -->
+    <!-- Hero Section -->
+    <div class="menu-hero">
+        <div class="hero-content">
+            <div class="restaurant-profile">
+                @if (!string.IsNullOrEmpty(Model.restaurant.Image))
+                {
+                    <div class="restaurant-logo">
+                        <img src="~/images/@Model.restaurant.Image" alt="@Model.restaurant.Name" />
+                    </div>
+                }
+                <div class="restaurant-details">
+                    <h1 class="hero-title">@Model.restaurant.Name</h1>
+                    <div class="restaurant-meta">
+                        <span class="meta-pill">
+                            <i class="fa-regular fa-clock"></i>
+                            @Model.restaurant.DeliveryDuration mins
+                        </span>
+                        <span class="meta-pill">
+                            <i class="fa-solid fa-bicycle"></i>
+                            EGP @Model.restaurant.DeliveryFee.ToString("N2")
+                        </span>
+                    </div>
+                    <p class="hero-subtitle">Discover delicious meals crafted with love for you</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sticky Category Filter -->
+    <div class="category-filter-bar" id="categoryFilterBar">
+        <div class="filter-wrapper">
+            @if (offerMeals.Any())
+            {
+                <button class="category-btn active" data-target="offers-section">
+                    <i class="fa-solid fa-fire"></i>
+                    Offers
+                </button>
+            }
+            @foreach (var categoryData in categories)
+            {
+                <button class="category-btn" data-target="cat-@categoryData.Key">
+                    @categoryData.Name
+                </button>
+            }
+        </div>
+    </div>
+
+    <!-- Offers Section (Horizontal Scroll) -->
+    @if (offerMeals.Any())
+    {
+        <section class="offers-section" id="offers-section">
+            <h2 class="section-heading">Offers</h2>
+            
+            <div class="offers-scroll-container">
+                @foreach (var meal in offerMeals)
+                {
+                    decimal savingAmount = meal.Price - meal.OfferPrice;
+                    
+                    <!-- Vertical Card for Offers -->
+                    <div class="offer-card" 
+                         onclick="window.location.href='@Url.Action("Meal", "Menu", new { area = "Customer", mealKey = meal.Key })'">
+                        
+                        <div class="offer-img-wrapper">
+                            @if (!string.IsNullOrEmpty(meal.Image))
+                            {
+                                <img src="~/images/@meal.Image" alt="@meal.Name" loading="lazy" />
+                            }
+                            <div class="save-badge">
+                                Save EGP @savingAmount.ToString("N2")
+                            </div>
+                            <div class="add-btn-circle">
+                                <i class="fa-solid fa-plus"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="offer-info">
+                            <h3 class="offer-name">@meal.Name</h3>
+                            <div class="offer-pricing">
+                                <span class="price-current">EGP @meal.OfferPrice.ToString("N2")</span>
+                                <span class="price-original">EGP @meal.Price.ToString("N2")</span>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </section>
+    }
+
+    <!-- Menu Categories Content -->
+    <div class="menu-main-content">
+        @foreach (var menuResponse in Model.menu)
+        {
+            var categoryData = menuResponse.Categories;
+            // Get all meals for this category, offers first
+            var allCategoryMeals = (menuResponse.Meals ?? Enumerable.Empty<MealResponse>()).OrderByDescending(m => m.OfferPrice > 0).ToList();
+
+            <div id="cat-@categoryData.Key" class="category-section">
+                <div class="category-header">
+                    <div class="category-title-group">                        
+                        <div>
+                            <h2 class="category-title">
+                                @categoryData.Name 
+                                <span class="meal-count">(@allCategoryMeals.Count)</span>
+                            </h2>
+                        </div>
+                    </div>
+                    <button class="collapse-btn">
+                        <i class="fa-solid fa-chevron-up"></i>
+                    </button>
+                </div>
+                
+                <div class="meals-grid">
+                    @foreach (var meal in allCategoryMeals)
+                    {
+                        bool hasOffer = meal.OfferPrice > 0;
+                        decimal currentPrice = hasOffer ? meal.OfferPrice : meal.Price;
+                        decimal savingAmount = hasOffer ? (meal.Price - meal.OfferPrice) : 0;
+                        int savingPercent = hasOffer ? (int)Math.Round((savingAmount / (meal.Price == 0 ? 1 : meal.Price)) * 100) : 0;
+
+                        <div class="meal-card @(hasOffer ? "is-offer" : "")" 
+                             onclick="window.location.href='@Url.Action("Meal", "Menu", new { area = "Customer", mealKey = meal.Key })'">
+                             
+                            @if (!string.IsNullOrEmpty(meal.Image))
+                            {
+                                <div class="meal-thumb">
+                                    <img src="~/images/@meal.Image" alt="@meal.Name" loading="lazy" />
+                                    @if(hasOffer)
+                                    {
+                                        <div class="offer-badge">
+                                            <i class="fa-solid fa-bolt"></i>
+                                            @savingPercent% OFF
+                                        </div>
+                                    }
+                                    <div class="add-btn">
+                                        <i class="fa-solid fa-plus"></i>
+                                    </div>
+                                </div>
+                            }
+                            
+                            <div class="meal-info">
+                                <h3 class="meal-name">@meal.Name</h3>
+                                <p class="meal-desc">@meal.Description</p>
+                                
+                                <div class="meal-pricing">
+                                    <div class="price-row">
+                                        <span class="price-current">EGP @currentPrice.ToString("N2")</span>
+                                        @if(hasOffer)
+                                        {
+                                            <span class="price-original">EGP @meal.Price.ToString("N2")</span>
+                                        }
+                                    </div>
+                                    @if(hasOffer)
+                                    {
+                                        <div class="saving-tag">
+                                            <i class="fa-solid fa-tag"></i>
+                                            Save EGP @savingAmount.ToString("N2")
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_NotificationPartial"></partial>
+    <script src="~/js/menuForCustomer.js" asp-append-version="true"></script>
+}

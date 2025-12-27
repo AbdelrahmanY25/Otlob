@@ -13,9 +13,9 @@ public record RestaurantVM
 
     public AcctiveStatus AcctiveStatus { get; set; } = AcctiveStatus.UnAccepted;
 
-    [ValidateNever]
+    
     public List<Category> Categories { get; set; } = null!;
 
-    [ValidateNever]
+    
     public string? Image { get; set; }
 }

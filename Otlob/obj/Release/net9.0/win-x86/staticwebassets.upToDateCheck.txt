@@ -1,9 +1,11 @@
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\js\updateMeal.js
+D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\js\cart.js
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\js\uploadFile.js
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\css\site.css
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\css\becomeAParters.css
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\css\restaurants.css
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.rtl.min.css
+D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\js\mealDetails.js
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\css\all.min.css
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.css
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.css
@@ -13,6 +15,7 @@ D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwr
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\js\addMeal.js
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.js
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\css\homePag.css
+D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\images\Logo\otlob-logo.svg
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\css\newSite.css
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\lib\bootstrap\dist\js\bootstrap.min.js
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js
@@ -35,11 +38,11 @@ D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwr
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\templates\reset-password.html
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css.map
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\Illustrations\Mail sent-rafiki.svg
-D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\.well-known\pki-validation\913839000693403B02F770613346135D.txt
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\css\addMeal.css
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\css\pendingRestaurants.css
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\lib\bootstrap\dist\js\bootstrap.js
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\css\homepage.css
+D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\css\menuForCustomer.css
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.rtl.min.css.map
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\css\AddAddresss.css
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\lib\bootstrap\dist\css\bootstrap.rtl.css
@@ -47,6 +50,7 @@ D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwr
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\css\restaurantDetailsPage.css
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\Illustrations\Partnership-pana.svg
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.css.map
+D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\js\customerHome.js
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\css\forgetPassword.css
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\templates\password-changged-confirmation.html
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\Illustrations\Confirmed-pana.svg
@@ -96,9 +100,11 @@ D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwr
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\css\profileAccount.css
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.rtl.css.map
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\js\homePage.js
+D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\css\customerHome.css
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\lib\jquery\dist\jquery.min.map
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.min.css
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\lib\bootstrap\dist\js\bootstrap.esm.min.js.map
+D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\js\menuForCustomer.js
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\lib\jquery\dist\jquery.min.js
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\Illustrations\Investment data-rafiki.svg
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.rtl.css
@@ -107,14 +113,15 @@ D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwr
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\css\branches.css
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\css\unAcceptedRestaurantsHome.css
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\lib\jquery-validation\dist\additional-methods.js
+D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\css\mealDetails.css
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.css.map
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.rtl.min.css
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.min.css.map
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\Illustrations\Error 429-pana.svg
+D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\css\cart.css
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\css\normalize.css
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\Illustrations\Computer login-bro.svg
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\templates\create-user-account.html
-wwwroot\.well-known\pki-validation\913839000693403B02F770613346135D.txt
 wwwroot\Illustrations\500 Internal Server Error-cuate.svg
 wwwroot\Illustrations\Computer login-bro.svg
 wwwroot\Illustrations\Confirmed-pana.svg
@@ -135,14 +142,18 @@ wwwroot\css\all.min.css
 wwwroot\css\authForms.css
 wwwroot\css\becomeAParters.css
 wwwroot\css\branches.css
+wwwroot\css\cart.css
+wwwroot\css\customerHome.css
 wwwroot\css\documents.css
 wwwroot\css\footer.css
 wwwroot\css\forgetPassword.css
 wwwroot\css\forms.css
 wwwroot\css\homePag.css
 wwwroot\css\homepage.css
+wwwroot\css\mealDetails.css
 wwwroot\css\meals.css
 wwwroot\css\menu.css
+wwwroot\css\menuForCustomer.css
 wwwroot\css\newSite.css
 wwwroot\css\normalize.css
 wwwroot\css\passwordConfirmation.css
@@ -183,14 +194,12 @@ wwwroot\images\019b42d2-6b93-7b3d-aef3-b93d9a64f919.jpg
 wwwroot\images\019b42d8-ba7d-7ab0-82e3-434b826b1027.jpg
 wwwroot\images\019b42f0-1d46-766d-bb75-07bd5f96b16c.jpg
 wwwroot\images\019b42f0-1d49-7a3c-ac83-39017584dc40.jpg
-wwwroot\images\019b431e-38e0-7487-a644-d2c6d682e1a6.jpg
 wwwroot\images\019b4326-aaae-7b75-bbc7-807c887c01ad.jpg
 wwwroot\images\019b46cd-c950-71e2-b63b-820447913a85.jpg
 wwwroot\images\019b46e8-9573-7428-90b8-f5b4ce5143e1.jpg
 wwwroot\images\019b471c-9bb7-77ad-abd6-ff3e9189aa3e.jpg
 wwwroot\images\019b4720-dfdc-7b5c-891a-aee83c56150d.jpg
 wwwroot\images\019b4838-b241-7092-95f0-6210c15dcb32.jpg
-wwwroot\images\019b483c-7260-7af4-9a23-836e71592966.JPG
 wwwroot\images\019b4842-58f3-7f2a-b5b3-cecfbc149d51.JPG
 wwwroot\images\019b4846-6e28-7b06-ae37-63e04f6de0f4.jpg
 wwwroot\images\019b4b30-d050-7ecc-acbd-f4860ae6a94f.jpg
@@ -198,23 +207,27 @@ wwwroot\images\019b4b86-e093-75ac-b566-0f316daf227e.jpg
 wwwroot\images\019b4b9a-3134-76ac-ae1d-7fa55aff5fb4.jpg
 wwwroot\images\019b4b9f-fdaf-7f19-8984-d895614bdb44.jpg
 wwwroot\images\019b4ba6-62b1-7abd-a460-16d29313da4d.jpg
+wwwroot\images\019b4d57-29d3-70b6-a9f3-e86ed8c79ad7.jpg
+wwwroot\images\019b4d5d-b74e-7c75-953e-efb382652d2d.png
+wwwroot\images\019b4fcf-8793-74f3-8883-f405e71adbb9.jpg
+wwwroot\images\019b5bc5-534f-7bea-bd6e-d33fa7bcc33c.jpg
+wwwroot\images\019b5bc6-b60d-7e02-9818-4c2d8a3cf0e3.jpg
+wwwroot\images\019b5fab-24b3-792d-8a42-c7596f5ca3c5.jpg
 wwwroot\images\3df3d1c9-7509-4fdb-85e8-5725316b0a99.jpg
 wwwroot\images\Default.jpg
-wwwroot\images\Logo\OtlobLogo.jpg
-wwwroot\images\icons\IMG-20241218-WA0004.jpg
-wwwroot\images\icons\IMG-20241218-WA0007.jpg
-wwwroot\images\icons\Koshary.jpg
-wwwroot\images\icons\all - Copy.png
-wwwroot\images\icons\all.png
+wwwroot\images\Logo\otlob-logo.svg
+wwwroot\images\icons\EgyptionFood.png
+wwwroot\images\icons\FriedChicken.png
+wwwroot\images\icons\HealthyFood.png
+wwwroot\images\icons\ItalianFood.png
+wwwroot\images\icons\Sandwiches.png
 wwwroot\images\icons\burger.png
-wwwroot\images\icons\cookies.png
 wwwroot\images\icons\creditIcon.png
-wwwroot\images\icons\css_sprites.png
-wwwroot\images\icons\grill.jpg
+wwwroot\images\icons\dessert.png
+wwwroot\images\icons\other.png
 wwwroot\images\icons\pdf-file.png
 wwwroot\images\icons\pizza.png
-wwwroot\images\icons\sandwich.png
-wwwroot\images\icons\shawrma.png
+wwwroot\images\icons\shawarma.png
 wwwroot\images\icons\sheet.png
 wwwroot\images\landing\add4.png
 wwwroot\images\landing\ai-generated-8276129.jpg
@@ -231,7 +244,11 @@ wwwroot\images\landing\photo-1414235077428-338989a2e8c0.avif
 wwwroot\js\AddAddress.js
 wwwroot\js\OrdersAnalysis.js
 wwwroot\js\addMeal.js
+wwwroot\js\cart.js
+wwwroot\js\customerHome.js
 wwwroot\js\homePage.js
+wwwroot\js\mealDetails.js
+wwwroot\js\menuForCustomer.js
 wwwroot\js\site.js
 wwwroot\js\unAcceptedRestaurants.js
 wwwroot\js\unAcceptedRestaurantsHome.js

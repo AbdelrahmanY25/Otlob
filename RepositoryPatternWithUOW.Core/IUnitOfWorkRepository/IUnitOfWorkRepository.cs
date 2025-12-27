@@ -1,4 +1,6 @@
-﻿namespace Otlob.Core.IUnitOfWorkRepository;
+﻿using System.Data;
+
+namespace Otlob.Core.IUnitOfWorkRepository;
 
 public interface IUnitOfWorkRepository : IDisposable
 {
@@ -27,5 +29,6 @@ public interface IUnitOfWorkRepository : IDisposable
     IBaseRepository<RestaurantBranch> RestaurantBranches { get; }
     IBaseRepository<RestaurantCategory> RestaurantCategories { get; }
 
+    IDbTransaction BeginTransaction();
     void SaveChanges();
 }

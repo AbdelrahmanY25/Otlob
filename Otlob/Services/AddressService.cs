@@ -1,92 +1,74 @@
 ﻿namespace Otlob.Services;
 
 public class AddressService(IUnitOfWorkRepository unitOfWorkRepository, IDataProtectionProvider dataProtectionProvider,
-                            UserManager<ApplicationUser> userManager, IHttpContextAccessor httpContextAccessor) : IAddressService
+                            IHttpContextAccessor httpContextAccessor) : IAddressService
 {
-    private readonly UserManager<ApplicationUser> _userManager = userManager;
     private readonly IHttpContextAccessor _httpContextAccessor = httpContextAccessor;
     private readonly IUnitOfWorkRepository _unitOfWorkRepository = unitOfWorkRepository;
     private readonly IDataProtector _dataProtector = dataProtectionProvider.CreateProtector("SecureData");
 
-    public async Task<Result<IQueryable<AddressResponse>>?> GetUserAddressies()
+    public IQueryable<AddressResponse>?GetUserAddressies()
     {
         string userId = _httpContextAccessor.HttpContext!.User.GetUserId();
 
-        var validateUserIdResult = await ValidateUserId(userId);
-
-        if (validateUserIdResult.IsFailure)
-        {
-            return Result.Failure<IQueryable<AddressResponse>>(AuthenticationErrors.InvalidUser);
-        }
-
         var userAddressies = _unitOfWorkRepository.Addresses
-                                .GetAllWithSelect
-                                (
-                                    expression: add => add.UserId == userId,
-                                    tracked: false,
-                                    selector: add => new AddressResponse
-                                    {
-                                        Key = _dataProtector.Protect(add.Id.ToString()),
-                                        CustomerAddress = add.CustomerAddress
-                                    }
-                                )!;
+                .GetAllWithSelect
+                (
+                    expression: add => add.UserId == userId,
+                    tracked: false,
+                    selector: add => new AddressResponse
+                    {
+                        Key = _dataProtector.Protect(add.Id.ToString()),
+                        CustomerAddress = add.CustomerAddress,
+                        IsDeliveryAddress = add.IsDeliveryAddress,
+                    }
+                )!;
 
-        return Result.Success(userAddressies);
-    }
-    
-    public Result<AddressResponse> GetOneAddress(string id)
+        return userAddressies;
+    }   
+
+    public Result<AddressResponse> GetForUpdate(string id)
     {
-        if (id is null)
-        {
-            return Result.Failure<AddressResponse>(AddressErrors.InvalidAddress);
-        }
-
+        // TODO: Handle Exception
         int addressId = int.Parse(_dataProtector.Unprotect(id));
 
         var isAddressIdExist = _unitOfWorkRepository.Addresses.IsExist(add => add.Id == addressId);
 
         if (!isAddressIdExist)
-        {
             return Result.Failure<AddressResponse>(AddressErrors.InvalidAddress);
-        }
 
-        AddressResponse response = _unitOfWorkRepository
-                                .Addresses
-                                .GetOneWithSelect(
-                                    expression: a => a.Id == addressId,
-                                    tracked: false,
-                                    selector: add => new AddressResponse
-                                    {
-                                        Key = _dataProtector.Protect(add.Id.ToString()),
-                                        CustomerAddress = add.CustomerAddress,
-                                        PlaceType = add.PlaceType,
-                                        StreetName = add.StreetName,
-                                        FloorNumber = add.FloorNumber,
-                                        HouseNumberOrName = add.HouseNumberOrName,
-                                        CompanyName = add.CompanyName
-                                    }
-                                )!;
+        AddressResponse response = _unitOfWorkRepository.Addresses
+                .GetOneWithSelect(
+                    expression: a => a.Id == addressId,
+                    tracked: false,
+                    selector: add => new AddressResponse
+                    {
+                        Key = _dataProtector.Protect(add.Id.ToString()),
+                        CustomerAddress = add.CustomerAddress,
+                        PlaceType = add.PlaceType,
+                        StreetName = add.StreetName,
+                        FloorNumber = add.FloorNumber,
+                        HouseNumberOrName = add.HouseNumberOrName,
+                        CompanyName = add.CompanyName,
+                        IsDeliveryAddress = add.IsDeliveryAddress,
+                        LonCode = add.Location.X,
+                        LatCode = add.Location.Y
+                    }
+                )!;
 
         _httpContextAccessor.HttpContext!.Session.SetString("AddressId", id);
 
         return Result.Success(response);
     }
 
-    public async Task<Result> AddAddress(AddressRequest request)
+    public Result Add(AddressRequest request)
     {
         string userId = _httpContextAccessor.HttpContext!.User.GetUserId();
 
-        var validateUserIdResult = await ValidateUserId(userId);
-
-        if (validateUserIdResult!.IsFailure)
-        {
-            return validateUserIdResult;
-        }
-
-        if (IsAddressExist(userId, request))
-        {
+        if (ValidateAddressOnAdd(userId, request))
             return Result.Failure(AddressErrors.ExistedAddress);
-        }
+        
+        ManageWhichAddressIsDeliveryAddress(userId, request);
 
         Address address = new();
 
@@ -100,34 +82,32 @@ public class AddressService(IUnitOfWorkRepository unitOfWorkRepository, IDataPro
         return Result.Success();
     }    
     
-    public async Task<Result> UpdateAddress(AddressRequest request)
+    public Result Update(AddressRequest request)
     {
         string userId = _httpContextAccessor.HttpContext!.User.GetUserId();
 
-        var validateUserIdResult = await ValidateUserId(userId);
-
-        if (validateUserIdResult!.IsFailure)
-        {
-            return validateUserIdResult;
-        }
-
         string id = _httpContextAccessor.HttpContext!.Session.GetString("AddressId")!;
 
-        if (id is null)
-        {
-            return Result.Failure(AddressErrors.InvalidAddress);
-        }
+        if (string.IsNullOrEmpty(id))
+            return Result.Failure(SessionErrors.SessionTimeOut);
 
+        // TODO: Handle Exception
         int addressId = int.Parse(_dataProtector.Unprotect(id));
 
         var isAddressIdExist = _unitOfWorkRepository.Addresses.IsExist(add => add.Id == addressId);
 
         if (!isAddressIdExist)
-        {
             return Result.Failure(AddressErrors.InvalidAddress);
-        }
 
-        Address oldAddress = _unitOfWorkRepository.Addresses.GetOne(expression: add => add.Id == addressId)!;
+        bool isValidAddress = ValidateAddressOnUpdate(userId, addressId, request);
+
+        if (isValidAddress)
+            return Result.Failure(AddressErrors.ExistedAddress);
+
+        ManageWhichAddressIsDeliveryAddress(userId, request);
+
+        Address oldAddress = _unitOfWorkRepository.Addresses
+            .GetOne(expression: add => add.Id == addressId)!;
 
         request.MapToAddress(oldAddress);
 
@@ -136,73 +116,77 @@ public class AddressService(IUnitOfWorkRepository unitOfWorkRepository, IDataPro
         return Result.Success();
     }
 
-    public Result DeleteAddress(string id)
+    public Result Delete(string id)
     {
-        if (id is null)
-        {
-            return Result.Failure(AddressErrors.InvalidAddress);
-        }
-
+        // TODO: Handle Exception
         int addressId = int.Parse(_dataProtector.Unprotect(id));
 
         var isAddressIdExists = _unitOfWorkRepository.Addresses.IsExist(add => add.Id == addressId);
 
         if (!isAddressIdExists)
-        {
             return Result.Failure(AddressErrors.InvalidAddress);
-        }
 
-        _unitOfWorkRepository.Addresses.HardDelete(_unitOfWorkRepository.Addresses.GetOne(expression: add => add.Id == addressId)!);
+        _unitOfWorkRepository.Addresses
+            .HardDelete(_unitOfWorkRepository.Addresses.GetOne(expression: add => add.Id == addressId)!);
+        
         _unitOfWorkRepository.SaveChanges();
 
         return Result.Success();
     }
+    
+    public bool HasDeliverAddress(string userId) =>
+        _unitOfWorkRepository.Addresses
+            .IsExist(add => add.UserId == userId && add.IsDeliveryAddress);    
+    
 
-    // TODO: Refactor this method to reduce complexity
-    public bool IsAddressExist(string userId, AddressRequest request)
+    private void ManageWhichAddressIsDeliveryAddress(string userId, AddressRequest request)
     {
-        return _unitOfWorkRepository
-            .Addresses
+        if (request.IsDeliveryAddress)
+        {            
+            if (HasDeliverAddress(userId))
+            {
+                var address = _unitOfWorkRepository.Addresses
+                    .GetOneWithSelect(
+                        expression: add => add.UserId == userId && add.IsDeliveryAddress,
+                        selector: add => new Address {
+                            Id = add.Id,
+                            IsDeliveryAddress = add.IsDeliveryAddress
+                        }
+                    )!;
+
+                address.IsDeliveryAddress = false;
+
+                _unitOfWorkRepository.Addresses.ModifyProperty(address, add => add.IsDeliveryAddress);
+            }
+        }
+    }
+
+    private bool ValidateAddressOnAdd(string userId, AddressRequest request)
+    {
+        return _unitOfWorkRepository.Addresses
             .IsExist(
                 add => add.UserId == userId &&
-                add.CustomerAddress == request.CustomerAddress &&
+                add.PlaceType == request.PlaceType &&
                 add.StreetName == request.StreetName &&
                 add.FloorNumber == request.FloorNumber &&
-                add.HouseNumberOrName == request.HouseNumberOrName &&
                 add.CompanyName == request.CompanyName &&
-                add.PlaceType == request.PlaceType
-            ) ||
-            _unitOfWorkRepository
-                .Addresses
-                .IsExist(
-                    add => add.UserId == userId &&
-                    add.CustomerAddress == request.CustomerAddress &&
-                    add.StreetName == request.StreetName                      
-                );
+                add.CustomerAddress == request.CustomerAddress &&
+                add.HouseNumberOrName == request.HouseNumberOrName
+            );
     }
 
-    public bool IsUserHasAnyAddresses(string userId)
-    {           
-        return _unitOfWorkRepository
-            .Addresses
-            .IsExist(expression: add => add.UserId == userId);
-    }
-
-
-    private async Task<Result> ValidateUserId(string userId)
+    public bool ValidateAddressOnUpdate(string userId, int addressId, AddressRequest request)
     {
-        if (userId is null)
-        {
-            return Result.Failure(AuthenticationErrors.InvalidUser);
-        }
-
-        bool isUserIdExists = await _userManager.Users.AnyAsync(u => u.Id == userId);
-
-        if (!isUserIdExists)
-        {
-            return Result.Failure(AuthenticationErrors.InvalidUser);
-        }
-
-        return Result.Success();
+        return _unitOfWorkRepository.Addresses
+            .IsExist(
+                add => add.UserId == userId &&
+                add.Id != addressId &&
+                add.PlaceType == request.PlaceType &&
+                add.StreetName == request.StreetName &&
+                add.FloorNumber == request.FloorNumber &&
+                add.CompanyName == request.CompanyName &&
+                add.CustomerAddress == request.CustomerAddress &&
+                add.HouseNumberOrName == request.HouseNumberOrName
+            );
     }
 }

@@ -284,3 +284,147 @@ button.save-add {
     display: flex;
     gap: 10px;
 }
+
+/* Delivery Address Checkbox Styling */
+.delivery-address-container {
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+    border: 2px solid #e9ecef;
+    border-radius: 12px;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: all 0.3s ease;
+    margin-top: 1rem;
+}
+
+.delivery-address-container:hover {
+    border-color: var(--primary-color);
+    background: linear-gradient(135deg, #fff5f5 0%, #ffffff 100%);
+}
+
+.delivery-address-label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    flex: 1;
+    margin: 0;
+    font-weight: 500;
+    color: #374151;
+}
+
+.delivery-address-icon {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 18px;
+}
+
+.delivery-address-text {
+    flex: 1;
+}
+
+.delivery-address-text h6 {
+    margin: 0;
+    font-size: 1rem;
+    color: #1f2937;
+    font-weight: 600;
+}
+
+.delivery-address-text small {
+    color: #6b7280;
+    font-size: 0.875rem;
+}
+
+/* Custom Toggle Switch */
+.custom-toggle {
+    position: relative;
+    display: inline-block;
+    width: 52px;
+    height: 28px;
+}
+
+.custom-toggle input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #d1d5db;
+    transition: 0.3s;
+    border-radius: 34px;
+}
+
+.toggle-slider:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: 0.3s;
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.custom-toggle input:checked + .toggle-slider {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+}
+
+.custom-toggle input:focus + .toggle-slider {
+    box-shadow: 0 0 0 3px rgba(240, 67, 53, 0.2);
+}
+
+.custom-toggle input:checked + .toggle-slider:before {
+    transform: translateX(24px);
+}
+
+/* Animation */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.delivery-address-container {
+    animation: slideIn 0.3s ease;
+}
+
+@media (max-width: 576px) {
+    .delivery-address-container {
+        padding: 14px 16px;
+    }
+
+    .delivery-address-icon {
+        width: 36px;
+        height: 36px;
+        font-size: 16px;
+    }
+
+    .delivery-address-text h6 {
+        font-size: 0.95rem;
+    }
+
+    .delivery-address-text small {
+        font-size: 0.8rem;
+    }
+}

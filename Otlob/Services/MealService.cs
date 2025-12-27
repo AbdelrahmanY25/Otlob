@@ -68,7 +68,7 @@ public class MealService(IMapper mapper, IFileService imageService,
             .GetOne(expression: m => m.Id == mealId, tracked: false, ignoreQueryFilter: true);
 
         if (meal is null)
-            return Result.Failure<MealResponse>(MealErrors.MealNotFound);
+            return Result.Failure<MealResponse>(MealErrors.NotFound);
         
         var response = FillResponseData(meal!);
 
@@ -166,7 +166,7 @@ public class MealService(IMapper mapper, IFileService imageService,
         Result validateMealIdResult = IsMealIdExists(mealId);
 
         if (validateMealIdResult.IsFailure)
-                return Result.Failure(MealErrors.MealNotFound);        
+                return Result.Failure(MealErrors.NotFound);        
 
         var uploadImageResult = _imageService.UploadImage(imageRequest.Image);
 
@@ -176,7 +176,7 @@ public class MealService(IMapper mapper, IFileService imageService,
         Meal meal = GetMealImageById(mealId);
 
         if (meal.Image is null)
-            return Result.Failure(MealErrors.MealNotFound);
+            return Result.Failure(MealErrors.NotFound);
 
         _imageService.DeleteImage(meal.Image);
 
@@ -220,7 +220,7 @@ public class MealService(IMapper mapper, IFileService imageService,
         Result validateMealIdResult = IsMealIdExists(mealId);
 
         if (validateMealIdResult.IsFailure)
-            return Result.Failure(MealErrors.MealNotFound);
+            return Result.Failure(MealErrors.NotFound);
 
         var mealOptionGroupIds = _unitOfWorkRepository.MealOptionGroups
             .GetAllWithSelect
@@ -263,7 +263,7 @@ public class MealService(IMapper mapper, IFileService imageService,
         Result validateMealIdResult = IsMealIdExists(mealId);
 
         if (validateMealIdResult.IsFailure)
-            return Result.Failure(MealErrors.MealNotFound);
+            return Result.Failure(MealErrors.NotFound);
 
         var mealOptionGroupIds = _unitOfWorkRepository.MealOptionGroups
             .GetAllWithSelect
@@ -447,7 +447,7 @@ public class MealService(IMapper mapper, IFileService imageService,
         Result isMealIdExists = IsMealIdExists(mealId);
 
         if (isMealIdExists.IsFailure)
-            return Result.Failure(MealErrors.MealNotFound);
+            return Result.Failure(MealErrors.NotFound);
 
         bool isCategoryIdExists = _unitOfWorkRepository.MealCategories.IsExist(mc => mc.Id == categoryId);
 

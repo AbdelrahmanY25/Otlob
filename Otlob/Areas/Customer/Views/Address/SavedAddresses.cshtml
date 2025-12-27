@@ -8,7 +8,7 @@
             <i class="fas fa-map-marker-alt me-2"></i>
             My Addresses
         </h1>
-        <a class="add-address-btn" asp-action="AddAddress">
+        <a class="add-address-btn" asp-action="Add">
             <i class="fas fa-plus"></i>
         </a>
     </div>
@@ -18,12 +18,20 @@
         {
             @foreach (var item in Model)
             {
-                <div class="address-card" onclick="window.location.href='@Url.Action("UpdateAddress", new { id = item.Key })'">
+                <div class="address-card" onclick="window.location.href='@Url.Action("Update", new { id = item.Key })'">
                     <div class="address-content">
                         <div class="address-info">                           
                             <div class="address-text">
                                 @Html.DisplayFor(modelItem => item.CustomerAddress)
                             </div>
+                            @if (item.IsDeliveryAddress)
+                            {
+                                <div class="m-2">
+                                    <span class="delivery-badge">
+                                        <i class="fas fa-check-circle"></i>Delivery Address
+                                    </span>
+                                </div>
+                            }
                         </div>
                         <button type="button" class="delete-btn"
                                 data-bs-toggle="modal"

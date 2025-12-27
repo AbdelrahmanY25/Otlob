@@ -5,43 +5,36 @@ public class AddressController(IAddressService addressService) : Controller
 {
     private readonly IAddressService _addressService = addressService;
 
-    public async Task<IActionResult> SavedAddresses()
+    public IActionResult SavedAddresses()
     {
-        var result = await _addressService.GetUserAddressies();
+        var response = _addressService.GetUserAddressies();
 
-        if (result!.IsFailure)
-        {
-            return RedirectToAction("Login", "Account", new { Area = DefaultRoles.Customer });
-        }
-
-        return View(result!.Value);
+        return View(response);
     }
 
-    public IActionResult AddAddress() => View();
+    public IActionResult Add() => View();
 
     [HttpPost, ValidateAntiForgeryToken]
-    public async Task<IActionResult> AddAddress(AddressRequest request)
+    public IActionResult Add(AddressRequest request)
     {
         if (!ModelState.IsValid) 
         {
             return View(request);
         }
 
-        Result theResultOfAddingAddress = await _addressService.AddAddress(request)!;
+        Result theResultOfAddingAddress = _addressService.Add(request)!;
 
         if (theResultOfAddingAddress.IsSuccess)
-        {
             return BackToIndexAddressPage("Your New Address Added Successfully");
-        }
 
         return theResultOfAddingAddress.Error.Equals(AuthenticationErrors.InvalidUser) ? 
                     RedirectToAction("Login", "Account", new { Area = DefaultRoles.Customer }) :
                     BackToIndexAddressPage(theResultOfAddingAddress.Error.Description, true);
     }        
     
-    public IActionResult UpdateAddress(string id)
+    public IActionResult Update(string id)
     {
-        var result = _addressService.GetOneAddress(id);
+        var result = _addressService.GetForUpdate(id);
 
         if (result.IsFailure)
         {
@@ -52,14 +45,14 @@ public class AddressController(IAddressService addressService) : Controller
     }
 
     [HttpPost, ValidateAntiForgeryToken]
-    public async Task<IActionResult> UpdateAddress(AddressRequest request)
+    public IActionResult Update(AddressRequest request)
     {
         if (!ModelState.IsValid)
         {
             return View(request);
         }
         
-        Result updateResult = await _addressService.UpdateAddress(request);
+        Result updateResult = _addressService.Update(request);
 
         if (updateResult.IsSuccess)
         {
@@ -75,7 +68,7 @@ public class AddressController(IAddressService addressService) : Controller
     [HttpPost, ValidateAntiForgeryToken]
     public IActionResult DeleteAddress(string id)
     {
-        Result deleteAddressResult = _addressService.DeleteAddress(id);
+        Result deleteAddressResult = _addressService.Delete(id);
 
         if (deleteAddressResult.IsSuccess)
         {

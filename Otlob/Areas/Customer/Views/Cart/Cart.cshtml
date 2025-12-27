@@ -1,256 +1,145 @@
-﻿@model CartVM
-
-@inject IEncryptionService encryptionService;
+﻿@model CartResponse
 
 @{
-    string encrypteedCart = encryptionService.Encrypt(Model.CartVMId);
+    ViewData["Title"] = "Shopping Cart";
 }
 
-<style>
-    .custom-dropdown {
-        border: none;
-        padding: 8px;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        position: relative;
-        z-index: 1050;
-        transition: box-shadow 0.3s ease;
-    }
+<link rel="stylesheet" href="~/css/cart.css" />
 
-    .custom-dropdown:focus {
-        outline: none;
-        box-shadow: 0 0 5px rgba(192, 40, 16, 0.5);
-    }
+<div class="cart-page">
+    <div class="cart-container">
+        <div style="margin-bottom: 20px;">
+             <a href="javascript:void(0)" onclick="goBack()" style="display:inline-flex;align-items:center;gap:8px;color:#6b7280;text-decoration:none;font-weight:600;">
+                <i class="bi bi-arrow-left"></i> Back
+            </a>
+        </div>
 
-    .meal-list {
-        max-width: 600px;
-    }
-
-    .meal-card {
-        display: flex;
-        flex-direction: column;
-        margin-bottom: 35px;
-        border-radius: 10px;
-    }
-
-    .meal-image img {
-        width: 80px;
-        height: 80px;
-        border-radius: 12px;
-        object-fit: cover;
-    }
-
-    .meal-details {
-        flex-grow: 1;
-        margin-left: 15px;
-    }
-
-    .custom-btn {
-        border-color: rgb(192, 40, 16);
-        color: rgb(192, 40, 16);
-        transition: background 0.3s ease, color 0.3s ease;
-    }
-
-    .custom-btn:focus {
-        background: rgb(192, 40, 16);
-        color: white;
-    }
-
-    .delete-btn {
-        background-color: rgb(192, 40, 16);
-        border-color: rgb(192, 40, 16);
-        transition: background 0.3s ease;
-    }
-
-    .delete-btn:hover {
-        background: darkred;
-    }
-
-    .notes {
-        max-width: 600px;
-    }
-
-    #orderNotes {
-        width: 100%;
-        height: 150px;
-        outline: none;
-        padding: 10px;
-        border: 1px solid rgb(192, 40, 16);
-        border-radius: 12px;
-    }
-
-    .total-price {
-        color: rgb(192, 40, 16);
-    }
-
-   @@keyframes jump {
-        0% { transform: translateY(0); }
-        50% { transform: translateY(-8px); }
-        100% { transform: translateY(0); }
-    }
-
-    .checkout-btn {
-        background-color: rgb(192, 40, 16);
-        border-color: rgb(192, 40, 16);
-        transition: background 0.3s ease, transform 0.3s ease;
-        animation: jump 0.5s ease-in-out infinite;
-        animation-iteration-count: infinite;
-        animation-delay: 2s;
-        border-radius: 12px;
-        animation-timing-function: ease-in-out;
-    }
-
-    @@keyframes jump-pause {
-        0%, 80% { transform: translateY(0); }
-        40% { transform: translateY(-8px); }
-    }
-
-    .checkout-btn {
-        animation: jump-pause 2.5s ease-in-out infinite;
-    }
-
-    .payment-options {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        margin-block: 20px;
-    }
-
-    .payment-option {
-        display: flex;
-        align-items: center;
-        border: 2px solid #ddd;
-        border-radius: 8px;
-        padding: 12px 16px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-    }
-
-    .payment-option:hover {
-        border-color: rgb(192, 40, 16);
-    }
-
-    .payment-content {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        width: 20%;
-    }
-
-    .payment-icon img {
-        width: 30px;
-        height: 30px;
-    }
-
-    .payment-label {
-        font-size: 16px;
-        font-weight: 500;
-        color: #333;
-    }
-
-    .hidden-radio {
-        display: none;
-    }
-
-    .hidden-radio:checked + .payment-content {
-        border: 2px solid rgb(192, 40, 16);
-        background-color: rgba(192, 40, 16, 0.1);
-        border-radius: 8px;
-    }
-
-    .hidden-radio:checked + .payment-content .payment-label {
-        font-weight: bold;
-        color: rgb(192, 40, 16);
-    }
-</style>
-
-<form asp-action="PlaceOrder" asp-controller="Order">
-    <div class="card-body">
-        <a asp-action="Index" asp-controller="Home" class="btn btn-outline-secondary btn-sm mb-3">
-            <i class="fa fa-arrow-left"></i> Back To Home
-        </a>
-
-        <div class="d-flex gap-3 mb-3">
-            <div class="flex-grow-1">
-                <label for="addressSelect">Select Delivery Address:</label>
-                <select name="UserAddress" id="addressSelect" class="form-select custom-dropdown">
-                    @foreach (var address in Model.Addresses)
-                    {
-                        <option>@address.CustomerAddress</option>
-                    }
-                </select>
+        <div class="cart-header">
+            <h1 class="cart-title">My Cart</h1>
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <span class="cart-count" id="cart-count">@Model.CartDetails.Count() items</span>
+                <button type="button" 
+                        class="btn btn-link text-danger p-0" 
+                        style="font-size: 1.2rem; border: none; background: none; cursor: pointer;" 
+                        title="Delete Cart"
+                        data-bs-toggle="modal" 
+                        data-bs-target="#deleteCartModal">
+                    <i class="bi bi-trash"></i>
+                </button>
             </div>
         </div>
 
-        <div class="meal-list mx-auto">
-            @foreach (var item in Model.Meals)
+        <div class="cart-items">
+            @foreach (var item in Model.CartDetails)
             {
-                string encId = encryptionService.Encrypt(item.Id);
-
-                <div class="card meal-card p-3 border-0 shadow-sm">
-                    <div class="d-flex align-items-center">
-                        <div class="meal-image">
-                            <img class="rounded img-fluid" src="/images/@(item.Image is not null ? item.Image : "Default.jpg")">
+                <div class="cart-item" id="cart-item-@item.Id">
+                    @if (!string.IsNullOrEmpty(item.MealImage))
+                    {
+                        <img src="~/images/@item.MealImage" alt="@item.MealName" class="item-image" />
+                    }
+                    else
+                    {
+                        <div class="item-image" style="display:flex;align-items:center;justify-content:center;color:#ccc;">
+                            <i class="bi bi-image" style="font-size:2rem;"></i>
                         </div>
+                    }
 
-                        <div class="meal-details">
-                            <h6 class="fw-bold text-secondary">@item.MealName</h6>
-                            <p class="text-muted small">@item.MealDescription</p>
-                            <p class="text-muted small">X @item.Quantity</p>
+                    <div class="item-content">
+                        <span class="item-name">@item.MealName</span>
+                        
+                        @{
+                            string description = "";
+                            try {
+                                var node = JsonNode.Parse(item.MealDeteils);
+                                var opts = node?["items"]?.AsArray().Select(x => x?["Name"]?.GetValue<string>()).Where(s => !string.IsNullOrEmpty(s));
+                                var adds = node?["addOns"]?.AsArray().Select(x => x?["Name"]?.GetValue<string>()).Where(s => !string.IsNullOrEmpty(s));
+                                
+                                var combined = new List<string>();
+                                if(opts!=null) combined.AddRange(opts!);
+                                if(adds!=null) combined.AddRange(adds!);
+                                description = string.Join(", ", combined);
+                            } catch {}
+                        }
+                        
+                        @if (!string.IsNullOrWhiteSpace(description))
+                        {
+                            <p class="item-details">@description</p>
+                        }
 
-                            <div class="d-flex justify-content-between align-items-center">
-                                <span class="fw-semibold">@((item.Quantity * item.PricePerMeal).ToString("0.00")) L.E</span>
-                                <div class="btn-group">
-                                    <a class="btn btn-outline-danger btn-sm custom-btn" asp-controller="RelatedMealsInCart" asp-action="ChangeMealQuantity" asp-route-id="@encId" asp-route-type="@MealQuantity.Increase">
-                                        <i class="fa fa-plus"></i>
-                                    </a>
-                                    <a class="btn btn-outline-danger btn-sm custom-btn" asp-controller="RelatedMealsInCart" asp-action="ChangeMealQuantity" asp-route-id="@encId" asp-route-type="@MealQuantity.Decrease">
-                                        <i class="fa fa-minus"></i>
-                                    </a>
-                                </div>
-                                <a class="btn btn-danger btn-sm delete-btn" asp-controller="RelatedMealsInCart" asp-action="DeleteOrderedMeal" asp-route-id="@encId">
-                                    <i class="fa fa-trash"></i>
-                                </a>
-                            </div>
-                        </div>
+                        @if (item.TotalPrice > 0)
+                        {
+                            <div class="item-price" id="item-price-@item.Id">@item.TotalPrice.ToString("N2") L.E</div>
+                        }
                     </div>
-                </div>
+
+                    <div class="qty-controls">
+                        @if (item.Quantity == 1)
+                        {
+                            <button type="button" class="qty-btn trash ajax-cart-btn" 
+                                    data-action="decrease" 
+                                    data-id="@item.Id" 
+                                    data-url="@Url.Action("Remove", "Cart", new { area = "Customer", id = item.Id })"
+                                    title="Remove Item">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        }
+                        else
+                        {
+                            <button type="button" class="qty-btn ajax-cart-btn" 
+                                    data-action="decrease" 
+                                    data-id="@item.Id" 
+                                    data-url="@Url.Action("Decrement", "Cart", new { area = "Customer", id = item.Id })"
+                                    title="Decrease Quantity">
+                                <i class="bi bi-dash"></i>
+                            </button>
+                        }
+                        
+                        <span class="qty-val" id="qty-val-@item.Id">@item.Quantity</span>
+
+                        <button type="button" class="qty-btn ajax-cart-btn" 
+                                data-action="increase" 
+                                data-id="@item.Id" 
+                                data-url="@Url.Action("Increment", "Cart", new { area = "Customer", id = item.Id })"
+                                title="Increase Quantity">
+                            <i class="bi bi-plus"></i>
+                        </button>
+                    </div>
+                    </div>
             }
         </div>
-      
-        <div class="notes mx-auto">
-            <label for="paymentMethod" class="form-label fw-bold">Select your payment method</label>
-            <div class="payment-options">
-                @foreach (var method in Enum.GetNames(typeof(PaymentMethod)))
-                {
-                    <label class="payment-option">
-                        <input type="radio" name="Method" id="@method" value="@method" class="hidden-radio" />
-                        <div class="payment-content">
-                            <div class="payment-icon">
-                                @if (method == "Credit")
-                                {
-                                    <img src="/images/icons/creditIcon.png" alt="Credit Card" />
-                                }
-                                else if (method == "Cash")
-                                {
-                                    <i class="fa-solid fa-money-bill-wave"></i>
-                                }
-                            </div>
-                            <span class="payment-label">@method</span>
-                        </div>
-                    </label>
-                }
-            </div>
 
-            <label for="orderNotes" class="form-label">Special Instructions (Optional):</label>
-            <textarea name="Notes" id="orderNotes" placeholder="Add special instructions for your order..."></textarea>
+        <div class="cart-summary">
+            <div style="display:flex; justify-content:space-between; margin-bottom:10px; font-weight:700; font-size:1.2rem; color:var(--c-text-main);">
+                <span>Total</span>
+                <span id="cart-total-price">@Model.CartDetails.Sum(x => x.TotalPrice).ToString("N2") L.E</span>
+            </div>
+            <a href="#" class="checkout-btn">Proceed to Checkout</a>
         </div>
     </div>
+</div>
 
-    <div class="card-footer text-center bg-light border-0">
-        <h6 class="text-secondary">Delivery Fee: @Model.RestaurantDeliveryFee.ToString("0.00") L.E</h6>
-        <h6 class="text-secondary">Sub Total: @Model.TotalMealsPrice.ToString("0.00") L.E</h6>
-        <h5 class="fw-bold total-price">Total: @Model.TotalPrice.ToString("0.00") L.E</h5>
-
-        <input type="submit" value="Checkout" asp-action="PlaceOrder" asp-controller="Order" asp-route-id="@encrypteedCart" class="btn checkout-btn text-white mt-3 w-50 py-2" />
+<!-- Delete Cart Confirmation Modal -->
+<div class="modal fade" id="deleteCartModal" tabindex="-1" aria-labelledby="deleteCartModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header border-0">
+                <h5 class="modal-title" id="deleteCartModalLabel">
+                    <i class="bi bi-exclamation-triangle text-danger me-2"></i>Delete Cart
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p class="mb-0">Are you sure you want to delete the entire cart? This action cannot be undone.</p>
+            </div>
+            <div class="modal-footer border-0">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <a href="@Url.Action("Delete", "Cart", new { area = "Customer", cartId = Model.Id })" 
+                   class="btn btn-danger">
+                    <i class="bi bi-trash me-1"></i>Delete Cart
+                </a>
+            </div>
+        </div>
     </div>
-</form>
+</div>
+
+<script src="@Url.Content("~/js/cart.js")" defer></script>

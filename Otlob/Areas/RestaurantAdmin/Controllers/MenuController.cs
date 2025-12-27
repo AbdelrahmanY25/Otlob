@@ -7,7 +7,7 @@ public class MenuController(IMenuService menuService) : Controller
 
     public IActionResult Menu()
     {
-        var response = _menuService.GetMenu(int.Parse(User.FindFirstValue(StaticData.RestaurantId)!));
+        var response = _menuService.MenuForAdmins(int.Parse(User.FindFirstValue(StaticData.RestaurantId)!));
 
         if (response.IsFailure)
         {
@@ -15,6 +15,6 @@ public class MenuController(IMenuService menuService) : Controller
             return RedirectToAction("Index", "Home", new { Area = DefaultRoles.RestaurantAdmin });
         }
 
-        return View(response!.Value);
+        return View(response.Value);
     }
 }

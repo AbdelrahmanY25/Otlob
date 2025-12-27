@@ -233,13 +233,42 @@ document.addEventListener('DOMContentLoaded', function () {
 
 function togglePlaceFields() {
     let type = document.getElementById("PlaceType").value;
-    document.querySelectorAll(".place-fields").forEach(el => el.style.display = "none");
 
+    // Get all the field containers
+    const placeSpecificFields = document.getElementById("placeSpecificFields");
+    const apartmentHouseFields = document.getElementById("apartmentHouseFields");
+    const apartmentOfficeFloorField = document.getElementById("apartmentOfficeFloorField");
+    const officeCompanyField = document.getElementById("officeCompanyField");
+
+    // Safety check
+    if (!placeSpecificFields) return;
+
+    // Hide all sub-fields first
+    if (apartmentHouseFields) apartmentHouseFields.style.display = "none";
+    if (apartmentOfficeFloorField) apartmentOfficeFloorField.style.display = "none";
+    if (officeCompanyField) officeCompanyField.style.display = "none";
+
+    // Show the main container and appropriate fields based on type
     if (type === "Apartment") {
-        document.getElementById("apartmentFields").style.display = "block";
+        placeSpecificFields.style.display = "block";
+        if (apartmentHouseFields) apartmentHouseFields.style.display = "flex"; // House Number/Name
+        if (apartmentOfficeFloorField) apartmentOfficeFloorField.style.display = "block"; // Floor Number
     } else if (type === "House") {
-        document.getElementById("houseFields").style.display = "block";
+        placeSpecificFields.style.display = "block";
+        if (apartmentHouseFields) apartmentHouseFields.style.display = "flex"; // House Number/Name only
     } else if (type === "Office") {
-        document.getElementById("officeFields").style.display = "block";
+        placeSpecificFields.style.display = "block";
+        if (officeCompanyField) officeCompanyField.style.display = "block"; // Company Name
+        if (apartmentOfficeFloorField) apartmentOfficeFloorField.style.display = "block"; // Floor Number
+    } else {
+        placeSpecificFields.style.display = "none";
     }
 }
+
+// Ensure togglePlaceFields is called on page load
+document.addEventListener('DOMContentLoaded', function () {
+    const placeTypeSelect = document.getElementById('PlaceType');
+    if (placeTypeSelect && placeTypeSelect.value) {
+        togglePlaceFields();
+    }
+});

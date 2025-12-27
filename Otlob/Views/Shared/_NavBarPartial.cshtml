@@ -6,20 +6,25 @@
 }
 
 <div class="links">
-    @if (!SignInManager.IsSignedIn(User))
+    @if (!isUserLogedIn)
     {
         <a asp-area="@DefaultRoles.Customer" asp-controller="Home" asp-action="Home">Home</a>
         <a asp-area="@DefaultRoles.Customer" asp-controller="BecomeAPartner" asp-action="BecomeAPartner">Become A Partner</a>
     }    
-    @if (SignInManager.IsSignedIn(User))
+    @if (isUserLogedIn)
     {
         <a asp-area="@User.FindFirstValue(ClaimTypes.Role)" asp-controller="Home" asp-action="Index">Home</a>
+        
         @if (User.IsInRole(DefaultRoles.Customer))
         {
             <a asp-area="@DefaultRoles.Customer" asp-controller="Cart" asp-action="Cart"><i class="fa-solid fa-cart-shopping"></i></a>
         }
     }     
 </div>
+<div class="nav-logo-container" >
+    <img src="~/images/Logo/otlob-logo.svg" alt="Otlob" />
+</div>
+
 <div class="menu-container">
     <div class="burger-icon" onclick="toggleMenu()">
         <span></span>

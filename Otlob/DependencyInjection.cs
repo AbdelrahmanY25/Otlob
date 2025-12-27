@@ -1,5 +1,4 @@
-﻿using Otlob.Core.Entities;
-using Stripe;
+﻿using Stripe;
 using System.Threading.RateLimiting;
 
 namespace Otlob
@@ -76,7 +75,7 @@ namespace Otlob
             {
                 options.UseSqlServer(
                     configuration.GetConnectionString("DefaultConnection"),
-                    x => x.UseNetTopologySuite()
+                    x => x.UseNetTopologySuite()                    
                 );
             });
 
@@ -155,6 +154,7 @@ namespace Otlob
             services.AddScoped<IBankAccountService, Otlob.Services.BankAccountService>();
             services.AddScoped<IBranchService, BranchService>();
             services.AddScoped<ICartService, CartService>();
+            services.AddScoped<ICustomerSercice, CustomerSercice>();
             services.AddScoped<IEncryptionService, EncryptionService>();
             services.AddScoped<IExportReeportsAsExcelService, ExportReeportsAsExcelService>();
             services.AddScoped<IFileService, Services.FileService>();

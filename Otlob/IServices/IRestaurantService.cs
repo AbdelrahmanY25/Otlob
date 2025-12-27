@@ -14,11 +14,11 @@ public interface IRestaurantService
 
     Result<RestaurantDetailsResponse> GetRestaurantDetailsById(string id);      
     
-    IQueryable<RestaurantVM>? GetDeletedRestaurants();
+    //IQueryable<RestaurantVM>? GetDeletedRestaurants();
     
-    Task<bool> DelteRestaurant(string id);
+    //Task<bool> DelteRestaurant(string id);
     
-    Task<bool> UnDelteRestaurant(string id);
+    //Task<bool> UnDelteRestaurant(string id);
 
     AcctiveStatus GetRestaurantStatusById(int restaurantId);
     

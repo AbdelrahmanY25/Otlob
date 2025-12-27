@@ -33,14 +33,14 @@ public class OrderEntityTypeConfiguration : IEntityTypeConfiguration<Order>
             .Property(o => o.Method)
             .HasConversion(
                 o => o.ToString(),
-                o => (PaymentMethod)Enum.Parse(typeof(PaymentMethod), o)
+                o => Enum.Parse<PaymentMethod>(o)
             );
 
         builder
             .Property(o => o.Status)
             .HasConversion(
                 o => o.ToString(),
-                o => (OrderStatus)Enum.Parse(typeof(OrderStatus), o)
+                o => Enum.Parse<OrderStatus>(o)
             );
 
         builder

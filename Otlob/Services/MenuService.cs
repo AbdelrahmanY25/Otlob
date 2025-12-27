@@ -1,58 +1,155 @@
 ﻿namespace Otlob.Services;
 
-public class MenuService(IUnitOfWorkRepository unitOfWorkRepository, IEncryptionService encryptionService) : IMenuService
+public class MenuService(IUnitOfWorkRepository unitOfWorkRepository, IEncryptionService encryptionService, IDataProtectionProvider dataProtectionProvider) : IMenuService
 {
     private readonly IEncryptionService _encryptionService = encryptionService;
     private readonly IUnitOfWorkRepository _unitOfWorkRepository = unitOfWorkRepository;
+    private readonly IDataProtector _dataProtector = dataProtectionProvider.CreateProtector("SecureData");
 
-    public Result<(IEnumerable<IGrouping<string, MenuResponse>>, IEnumerable<AddOnResponse>)> GetMenu(int restaurantId)
+    public Result<(IEnumerable<MenuResponse> menu, AcctiveRestaurantResponse restaurant)> MenuForCustomer(int restaurantId)
+    {
+        var menuResult = GetMenu(restaurantId, true);
+
+        if (menuResult.IsFailure)
+            return Result.Failure<(IEnumerable<MenuResponse>, AcctiveRestaurantResponse)>(menuResult.Error!);
+        
+        var restaurant = _unitOfWorkRepository.Restaurants.
+            GetOneWithSelect(
+                expression: r => r.Id == restaurantId,
+                tracked: false,
+                selector: r => new AcctiveRestaurantResponse
+                {
+                    Name = r.Name,
+                    Image = r.Image,
+                    DeliveryFee = r.DeliveryFee,
+                    DeliveryDuration = r.DeliveryDuration,
+                }
+            );
+
+        return Result.Success((menuResult.Value!, restaurant!));
+    }
+
+    public Result<(IEnumerable<MenuResponse> menu, IEnumerable<AddOnResponse> addOns)> MenuForAdmins(int restaurantId)
+    {
+        
+        var menuResult = GetMenu(restaurantId);
+
+        if (menuResult.IsFailure)
+            return Result.Failure<(IEnumerable<MenuResponse>, IEnumerable<AddOnResponse>)>(menuResult.Error!);
+
+        var addOns = _unitOfWorkRepository.MealAddOns
+            .GetAllWithSelect(
+                expression: ao => ao.RestaurantId == restaurantId,
+                tracked: false,
+                selector: ao => new AddOnResponse
+                {
+                    Key = ao.Id,
+                    Name = ao.Name,
+                    Image = ao.Image,
+                    Price = ao.Price
+                }
+            )!
+            .AsEnumerable();
+
+        return Result.Success((menuResult.Value!, addOns!));
+    }
+
+    public Result<MealResponse> GetMeal(string mealId)
+    {
+        bool isMealIdExists = _unitOfWorkRepository.Meals.IsExist(m => m.Id == mealId && m.IsAvailable);
+
+        if (!isMealIdExists)
+            return Result.Failure<MealResponse>(MealErrors.NotFound);
+
+        var meal = _unitOfWorkRepository.Meals
+            .GetOneWithSelect(
+                expression: m => m.Id == mealId && m.IsAvailable,
+                tracked: false,
+                selector: m => new MealResponse
+                {
+                    Key = m.Id,
+                    RestaurantKey = _dataProtector.Protect(m.RestaurantId.ToString()),
+                    Name = m.Name,
+                    Image = m.Image,
+                    Price = m.Price,
+                    OfferPrice = m.OfferPrice,
+                    Description = m.Description,
+                    IsNewMeal = m.IsNewMeal,
+                    IsTrendingMeal = m.IsTrendingMeal,
+                    NumberOfServings = m.NumberOfServings,
+                    HasOptionGroup = m.HasOptionGroup,
+                    AddOns = m.MealAddOns.Select(mao => mao.AddOn)
+                        .Select(ao => new AddOnResponse
+                        {
+                            Key = ao.Id,
+                            Name = ao.Name,
+                            Image = ao.Image,
+                            Price = ao.Price
+                        })
+                }
+            );
+
+        if (!meal!.HasOptionGroup)
+            return Result.Success(meal!);
+
+        var mealOptionsWithItems = _unitOfWorkRepository.MealOptionGroups
+             .GetAllWithSelect(
+                 expression: og => og.MealId == mealId,
+                 tracked: false,
+                 selector: og => new OptionGroupResponse
+                 {
+                     Id = og.MealOptionGroupId,
+                     Name = og.Name,
+                     OptionItems = og.OptionItems
+                         .Select(oi => new OptionItemResponse
+                         {
+                             Id = oi.MealOptionItemId,
+                             Name = oi.Name,
+                             Price = oi.Price,
+                             IsPobular = oi.IsPobular,
+                             Image = oi.Image
+                         }).ToList()
+                 }
+             )?.ToList() ?? [];
+
+        meal.OptionGroups = mealOptionsWithItems;
+
+        return Result.Success(meal!);
+    }
+
+    private Result<IEnumerable<MenuResponse>> GetMenu(int restaurantId, bool withAvaliableMeals = false)
     {
         bool isRestaurantIdExists = _unitOfWorkRepository.Restaurants.IsExist(r => r.Id == restaurantId);
 
         if (!isRestaurantIdExists)
-            return Result.Failure<(IEnumerable<IGrouping<string, MenuResponse>>, IEnumerable<AddOnResponse>)>(RestaurantErrors.NotFound);
+            return Result.Failure<IEnumerable<MenuResponse>>(RestaurantErrors.NotFound);
 
-        var restaurant = _unitOfWorkRepository.Restaurants
-            .GetAllWithSelect(
-                expression: r => r.Id == restaurantId,
+        var menu = _unitOfWorkRepository.MealCategories.
+             GetAllWithSelect(
+                expression: mc => mc.RestaurantId == restaurantId,
                 tracked: false,
-                selector: r => new
+                selector: mc => new MenuResponse
                 {
-                    Categories = r.MenueCategories.Select(c => new CategoriesWithMealsResponse
+                    Categories = new MenuCategoryResponse
                     {
-                        CategoryKey = _encryptionService.Encrypt(c.Id),
-                        CategoryName = c.Name,
-                        Meals = c.Meals.Select(m => new MealResponse
-                        {
-                            Key = m.Id,
-                            Name = m.Name,
-                            Description = m.Description,
-                            Price = m.Price,
-                            OfferPrice = m.OfferPrice,
-                            Image = m.Image,
-                        })
-                    }),
-                    AddOns = r.MealAddOns.Select(a => new AddOnResponse
+                        Key = _encryptionService.Encrypt(mc.Id),
+                        Name = mc.Name,
+                    },
+                    Meals = mc.Meals
+                    .Select(m => new MealResponse
                     {
-                        Key = a.Id,
-                        Name = a.Name,
-                        Price = a.Price,
-                        Image = a.Image,
+                        Key = m.Id,
+                        Name = m.Name,
+                        Image = m.Image,
+                        Price = m.Price,
+                        OfferPrice = m.OfferPrice,
+                        IsAvailable = m.IsAvailable
                     })
+                    .Where(m => !withAvaliableMeals || m.IsAvailable)
                 }
-            )!
-            .FirstOrDefault();
+             )!
+             .AsEnumerable();
 
-        // Create MenuResponse for each category
-        var menuResponses = restaurant!.Categories.Select(cat => new MenuResponse
-        {
-            CategoriesWithMeals = [cat],
-            AddOns = restaurant.AddOns
-        });
-
-        // Group by category key (each group will have one item)
-        var groupedByCategory = menuResponses.GroupBy(m => m.CategoriesWithMeals.First().CategoryKey);
-
-        return Result.Success((groupedByCategory, restaurant.AddOns))!;
+        return Result.Success(menu)!;
     }
 }

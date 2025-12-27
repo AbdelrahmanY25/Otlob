@@ -15,13 +15,13 @@ public class Order
     public DateTime OrderDate { get; set; } = DateTime.Now;
     public OrderStatus Status { get; set; } = OrderStatus.Pending;
 
-    [ValidateNever]
+    
     public ApplicationUser User { get; set; } = null!;
 
-    [ValidateNever]
+    
     public Restaurant Restaurant { get; set; } = null!;
 
-    [ValidateNever]
+    
     public ICollection<OrderDetails> MealsInOrder { get; set; } = null!;
 }
 

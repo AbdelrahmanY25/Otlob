@@ -1,42 +1,37 @@
 namespace Otlob.Areas.Customer.Controllers;
 
 [Area(DefaultRoles.Customer), EnableRateLimiting(RateLimiterPolicy.IpLimit)]
-public class HomeController(ILogger<HomeController> logger, IRestaurantService restaurantService,
-                      IMealService mealService, IDataProtectionProvider dataProtectionProvider) : Controller
+public class HomeController(ICustomerSercice customerSercice) : Controller
 {
-    private readonly ILogger<HomeController> _logger = logger;
-    private readonly IRestaurantService _restaurantService = restaurantService;
-    private readonly IMealService _mealService = mealService;
-    private readonly IDataProtector _dataProtector = dataProtectionProvider.CreateProtector("SecureData");
+    private readonly ICustomerSercice _customerSercice = customerSercice;
 
     public IActionResult Home() => View("HomePage");
 
-    public IActionResult Index(Category? filter = null)
-    {
-        var restaurants = _restaurantService.GetAcctiveRestaurants();
+    [Authorize]
+    public IActionResult Index()
+    {        
+        var response = _customerSercice.GetCustomerHomePage();
 
-        return View(restaurants);
+        if (response.IsFailure)
+        {
+            return response.Error.Equals(BranchErrors.NoRestaurantsAvailableInYourArea) ?
+                View("NoBranchesAvaliable") :
+                RedirectToAction("SavedAddresses", "Address", new { Area = DefaultRoles.Customer });
+        }
+
+        return View(response.Value);
+    }
+    
+    public IActionResult Restaurants(double? lat = null, double? lon = null)
+    {        
+        var response = _customerSercice.GetCustomerHomePage(lat, lon);
+
+        if (response.IsFailure)
+            return View("NoBranchesAvaliable");
+
+        return View(nameof(Index), response.Value);
     }
 
-    //public IActionResult Details(string id, string? filter = null)
-    //{      
-    //    var result = _mealService.GetMealsDetails(id);
-
-    //    if (result.IsFailure)
-    //    {
-    //        return RedirectToAction("Index");
-    //    }
-
-    //    //if (filter is not null)
-    //    //{
-    //    //    meals = _mealService.MealCategoryFilter(result.Value, filter);
-    //    //}
-
-    //    ViewBag.ResId = id;
-
-    //    return View(result.Value);
-    //}
-  
     public IActionResult Privacy() => View();
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

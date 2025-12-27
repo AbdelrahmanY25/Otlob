@@ -3,13 +3,70 @@ html {
 }
 
 :root {
-    --primary-color: #F04335;
+    /* =========================
+       NEW DESIGN SYSTEM (from mealDetails.css)
+       ========================= */
+    /* Primary Colors */
+    --primary: #ff385d;
+    --primary-dark: #e02e50;
+    --primary-light: #ff6b81;
+    --primary-glow: rgba(255, 56, 93, 0.15);
+
+    /* Accent Colors */
+    --accent-green: #00b894;
+    --accent-green-light: rgba(0, 184, 148, 0.1);
+    --accent-green-bg: rgba(0, 184, 148, 0.06);
+    --accent-orange: #ff9f43;
+    --accent-yellow: #d4ec14;
+    --accent-orange-light: rgba(255, 159, 67, 0.12);
+
+    /* Neutral Colors */
+    --text-primary: #1a1a2e;
+    --text-secondary: #6b7280;
+    --text-muted: #9ca3af;
+    --text-white: #ffffff;
+
+    /* Background Colors */
+    --bg-primary: #fafafa;
+    --bg-secondary: #ffffff;
+    --bg-tertiary: #f3f4f6;
+    --bg-dark: #1a1a2e;
+
+    /* Business Colors */
+    --business-primary: #1a1a2e;
+    --business-accent: #ffffff;
+    --business-text: #e2e8f0;
+
+    /* Border & Shadow */
+    --border-light: #e5e7eb;
+    --border-hover: #d1d5db;
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 40px rgba(0, 0, 0, 0.15);
+    --shadow-glow: 0 0 20px rgba(255, 56, 93, 0.2);
+
+    /* Radius */
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-xl: 24px;
+    --radius-full: 9999px;
+
+    /* Transitions */
+    --transition-fast: 0.15s ease;
+    --transition-base: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-spring: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+    /* =========================
+       LEGACY COMPATIBILITY
+       ========================= */
+    --primary-color: var(--primary);
     --secondary-color: #dd968c;
     --seccuss-color: #05a437;
     --main-transition: all 0.3s ease;
     --navbar-height: 60px;
-    --text: #333333;
-    --white: #ffffff;
+    --text: var(--text-primary);
+    --white: var(--text-white);
     --shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
     --background-color: linear-gradient(100deg, #9a5752 25% 25%, #a71905 100%);
 }
@@ -104,7 +161,7 @@ ul {
 }
 
 .sidebar ul li a i,
-.sidebar ul li a span{
+.sidebar ul li a span {
     font-size: 16px;
 }
 
@@ -113,6 +170,7 @@ ul {
     color: white;*/
     border-left: 4px solid var(--primary-color);
 }
+
 /*end sidebar*/
 
 .content {
@@ -130,6 +188,7 @@ ul {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    position: relative;
 }
 
 .content .navbar .links {
@@ -159,11 +218,11 @@ ul {
     font-size: 16px;
     font-weight: 500;
     transition: all 0.2s ease;
-    border-radius: 4px;
+    border-radius: 8px;
 }
 
 .content .navbar .links a:hover {
-    background-color: rgba(240, 67, 53, 0.1);
+    background-color: rgb(240 53 81 / 6%);
     transform: translateY(-1px);
 }
 
@@ -194,7 +253,7 @@ ul {
     display: block;
     height: 3px;
     width: 100%;
-    background-color: #C02810;
+    background-color: var(--primary-dark);
     border-radius: 2px;
     transition: all 0.3s ease;
     transform-origin: center;
@@ -212,12 +271,28 @@ ul {
     transform: rotate(-45deg) translate(6px, -6px);
 }
 
+/* Responsive Logo - centered on desktop, adjusts on mobile */
+.nav-logo-container {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1050;
+    transition: all 0.2s ease;
+}
+
+.nav-logo-container img {
+    height: 30px;
+    display: block;
+}
+
+/* Updated Dropdown Menu - Business Theme */
 .dropdown-menu {
     display: none;
     background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-    padding: 10px 0;
+    border-radius: 8px;
+    /* Clean radius */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    padding: 8px 0;
     min-width: 220px;
     max-width: 90vw;
     list-style: none;
@@ -225,6 +300,7 @@ ul {
     opacity: 0;
     transform: translateY(-10px);
     transition: all 0.3s ease;
+    border: 1px solid var(--border-light);
 }
 
 .dropdown-menu.show {
@@ -243,33 +319,37 @@ ul {
 
 .dropdown-menu li a {
     display: block;
-    padding: 12px 20px;
-    color: #333;
+    padding: 10px 20px;
+    color: var(--text-primary);
     text-decoration: none;
     transition: all 0.2s ease;
-    border-radius: 5px;
-    position: relative;
+    border-radius: 0;
+    /* Full width items */
+    font-weight: 500;
 }
 
+/* Hover effect using Business Primary or Brand Primary */
 .dropdown-menu li a:hover {
-    background-color: #F04335;
-    color: white;
-    transform: translateX(1px);
+    background-color: var(--bg-tertiary);
+    color: var(--primary);
+    /* Highlight text instead of full bg for cleaner look */
+    transform: translateX(2px);
 }
 
 .dropdown-menu li img {
     display: block;
-    margin: 0 auto 10px auto;
+    margin: 10px auto;
     width: 60px;
     height: 60px;
     object-fit: cover;
     border-radius: 50%;
-    border: 2px solid #F04335;
+    border: 3px solid var(--bg-tertiary);
     transition: transform 0.2s ease;
 }
 
 .dropdown-menu li img:hover {
     transform: scale(1.05);
+    border-color: var(--primary);
 }
 
 body:not(.page) .dropdown-menu {
@@ -294,7 +374,7 @@ body:not(.page) .dropdown-menu {
         min-width: 200px;
         max-width: calc(100vw - 20px);
     }
-    
+
     body:not(.page) .dropdown-menu {
         right: 10px;
         top: 60px;
@@ -312,18 +392,18 @@ body:not(.page) .dropdown-menu {
         font-size: 16px;
         border-bottom: 1px solid #f0f0f0;
     }
-    
+
     .dropdown-menu li:last-child a {
         border-bottom: none;
     }
-    
+
     .dropdown-menu li img {
         width: 50px;
         height: 50px;
         margin-bottom: 10px;
     }
-    
-    body:not(.page) .dropdown-menu {    
+
+    body:not(.page) .dropdown-menu {
         top: 50px;
         right: 10px;
         left: 10px;
@@ -338,7 +418,7 @@ body:not(.page) .dropdown-menu {
     .content .navbar {
         padding: 8px 32px;
     }
-    
+
     .content .navbar .links a {
         font-size: 18px;
         padding: 10px 16px;
@@ -350,35 +430,35 @@ body:not(.page) .dropdown-menu {
         width: 200px;
         min-width: 200px;
     }
-    
+
     .content {
         flex: 1;
     }
-    
+
     .content .navbar {
         padding: 8px 20px;
         height: 55px;
     }
-        
+
     .content .navbar .links img {
         max-width: 45px;
         max-height: 45px;
     }
-    
+
     .content .navbar .links a {
         font-size: 15px;
         padding: 6px 10px;
     }
-    
+
     .burger-icon {
         width: 28px;
         height: 20px;
     }
-    
+
     .burger-icon span {
         height: 2.5px;
     }
-    
+
 }
 
 @media (max-width: 767px) and (min-width: 481px) {
@@ -387,62 +467,68 @@ body:not(.page) .dropdown-menu {
         min-width: 60px;
         padding: 10px 5px;
     }
-    
+
     .sidebar h3 {
         font-size: 14px;
         margin-bottom: 30px;
         text-orientation: mixed;
     }
-    
+
     .sidebar ul li a {
         padding: 8px 5px;
         justify-content: center;
         margin-bottom: 5px;
     }
-    
+
     .sidebar ul li a span {
         display: none;
     }
-    
+
     .sidebar ul li a i {
         font-size: 16px;
     }
-    
+
     .content {
         flex: 1;
     }
-    
+
     .content .navbar {
         padding: 8px 16px;
         height: 50px;
-    }        
-    
+    }
+
     .content .navbar .links img {
         max-width: 40px;
         max-height: 40px;
     }
-    
+
     .content .navbar .links a {
         font-size: 14px;
         padding: 6px 8px;
     }
-    
+
     .burger-icon {
         width: 25px;
         height: 18px;
     }
-    
+
     .burger-icon span {
         height: 2px;
     }
-    
+
 }
 
 @media (max-width: 480px) {
     .page {
         flex-direction: row;
     }
-    
+
+    /* adjust logo for mobile */
+    .nav-logo-container img {
+        height: 15px;
+        /* Smaller logo on mobile */
+    }
+
     .sidebar {
         width: 50px;
         min-width: 50px;
@@ -453,14 +539,14 @@ body:not(.page) .dropdown-menu {
         padding: 10px 5px;
         overflow-x: hidden;
     }
-    
+
     .sidebar h3 {
         font-size: 12px;
         margin-bottom: 20px;
         text-orientation: mixed;
         white-space: nowrap;
     }
-    
+
     .sidebar ul {
         display: flex;
         flex-direction: column;
@@ -469,12 +555,12 @@ body:not(.page) .dropdown-menu {
         padding: 0;
         width: 100%;
     }
-    
+
     .sidebar ul li {
         margin-bottom: 0;
         width: 100%;
     }
-    
+
     .sidebar ul li a {
         padding: 8px;
         margin-bottom: 0;
@@ -483,49 +569,49 @@ body:not(.page) .dropdown-menu {
         border-radius: 50%;
         justify-content: center;
     }
-    
+
     .sidebar ul li a span {
         display: none;
     }
-    
+
     .sidebar ul li a i {
         font-size: 16px;
     }
-    
+
     .content {
         flex: 1;
     }
-    
+
     .content .navbar {
         padding: 8px 12px;
         height: 50px;
         flex-wrap: wrap;
     }
-    
+
     .content .navbar .links img {
         max-width: 35px;
         max-height: 35px;
     }
-    
+
     .content .navbar .links a {
         font-size: 13px;
         padding: 4px 6px;
         white-space: nowrap;
     }
-    
+
     .menu-container {
         padding: 5px 0;
     }
-    
+
     .burger-icon {
         width: 22px;
         height: 16px;
     }
-    
+
     .burger-icon span {
         height: 2px;
     }
-    
+
 }
 
 @media (max-width: 320px) {
@@ -535,37 +621,37 @@ body:not(.page) .dropdown-menu {
         height: 100vh;
         padding: 8px 3px;
     }
-    
+
     .sidebar h3 {
         font-size: 10px;
         margin-bottom: 15px;
     }
-    
+
     .sidebar ul li a {
         padding: 6px;
         min-width: 30px;
         height: 30px;
     }
-    
+
     .sidebar ul li a i {
         font-size: 14px;
     }
-    
+
     .content .navbar .links a {
         font-size: 12px;
         padding: 3px 4px;
     }
-    
+
     .content .navbar .links img {
         max-width: 30px;
         max-height: 30px;
     }
-    
+
     .burger-icon {
         width: 20px;
         height: 14px;
     }
-    
+
 }
 
 @media (max-width: 1024px) and (min-width: 768px) {
@@ -573,21 +659,21 @@ body:not(.page) .dropdown-menu {
         width: 180px;
         min-width: 180px;
     }
-    
+
     .sidebar h3 {
         font-size: 16px;
         margin-bottom: 40px;
     }
-    
+
     .sidebar ul li a {
         padding: 8px;
         font-size: 14px;
     }
-    
+
     .sidebar ul li a i {
         font-size: 16px;
     }
-    
+
     .sidebar ul li a span {
         font-size: 14px;
     }

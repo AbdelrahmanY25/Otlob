@@ -12,6 +12,7 @@ public class Address
     public string? HouseNumberOrName { get; set; }
     public int? FloorNumber { get; set; }
     public string? CompanyName { get; set; }
+    public bool IsDeliveryAddress { get; set; }
 
     public ApplicationUser User { get; set; } = default!;
 }

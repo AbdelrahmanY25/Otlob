@@ -5,7 +5,6 @@ public class RestaurantBusinessInfoValidator : AbstractValidator<RestaurantBusin
     public RestaurantBusinessInfoValidator()
     {
         RuleFor(r => r.DeliveryFee)
-            .NotEmpty()
             .GreaterThanOrEqualTo(0)
             .LessThanOrEqualTo(500);
 

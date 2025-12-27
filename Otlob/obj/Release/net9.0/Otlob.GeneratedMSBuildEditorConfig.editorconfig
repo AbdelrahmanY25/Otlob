@@ -62,16 +62,16 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQ3VzdG9tZXJcVmlld3NcQWNjb3VudFxSZXNldFBhc3N3b3JkLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/My_Projects/Back End C\# Asp .Net/MVC Projects/Otlob Projects/Otlob/Otlob/Areas/Customer/Views/Address/AddAddress.cshtml]
-build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQ3VzdG9tZXJcVmlld3NcQWRkcmVzc1xBZGRBZGRyZXNzLmNzaHRtbA==
+[D:/My_Projects/Back End C\# Asp .Net/MVC Projects/Otlob Projects/Otlob/Otlob/Areas/Customer/Views/Address/Add.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQ3VzdG9tZXJcVmlld3NcQWRkcmVzc1xBZGQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/My_Projects/Back End C\# Asp .Net/MVC Projects/Otlob Projects/Otlob/Otlob/Areas/Customer/Views/Address/SavedAddresses.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQ3VzdG9tZXJcVmlld3NcQWRkcmVzc1xTYXZlZEFkZHJlc3Nlcy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/My_Projects/Back End C\# Asp .Net/MVC Projects/Otlob Projects/Otlob/Otlob/Areas/Customer/Views/Address/UpdateAddress.cshtml]
-build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQ3VzdG9tZXJcVmlld3NcQWRkcmVzc1xVcGRhdGVBZGRyZXNzLmNzaHRtbA==
+[D:/My_Projects/Back End C\# Asp .Net/MVC Projects/Otlob Projects/Otlob/Otlob/Areas/Customer/Views/Address/Update.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQ3VzdG9tZXJcVmlld3NcQWRkcmVzc1xVcGRhdGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/My_Projects/Back End C\# Asp .Net/MVC Projects/Otlob Projects/Otlob/Otlob/Areas/Customer/Views/BecomeAPartner/BecomeAPartner.cshtml]
@@ -90,16 +90,20 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQ3VzdG9tZXJcVmlld3NcQ2FydFxFbXB0eUNhcnQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/My_Projects/Back End C\# Asp .Net/MVC Projects/Otlob Projects/Otlob/Otlob/Areas/Customer/Views/Home/Details.cshtml]
-build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQ3VzdG9tZXJcVmlld3NcSG9tZVxEZXRhaWxzLmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
 [D:/My_Projects/Back End C\# Asp .Net/MVC Projects/Otlob Projects/Otlob/Otlob/Areas/Customer/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQ3VzdG9tZXJcVmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/My_Projects/Back End C\# Asp .Net/MVC Projects/Otlob Projects/Otlob/Otlob/Areas/Customer/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQ3VzdG9tZXJcVmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/My_Projects/Back End C\# Asp .Net/MVC Projects/Otlob Projects/Otlob/Otlob/Areas/Customer/Views/Menu/Meal.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQ3VzdG9tZXJcVmlld3NcTWVudVxNZWFsLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/My_Projects/Back End C\# Asp .Net/MVC Projects/Otlob Projects/Otlob/Otlob/Areas/Customer/Views/Menu/Menu.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQ3VzdG9tZXJcVmlld3NcTWVudVxNZW51LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/My_Projects/Back End C\# Asp .Net/MVC Projects/Otlob Projects/Otlob/Otlob/Areas/Customer/Views/OrdersHistory/OrderDetails.cshtml]
@@ -144,6 +148,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [D:/My_Projects/Back End C\# Asp .Net/MVC Projects/Otlob Projects/Otlob/Otlob/Areas/RestaurantAdmin/Views/CommercialRegistrations/Upload.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcUmVzdGF1cmFudEFkbWluXFZpZXdzXENvbW1lcmNpYWxSZWdpc3RyYXRpb25zXFVwbG9hZC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/My_Projects/Back End C\# Asp .Net/MVC Projects/Otlob Projects/Otlob/Otlob/Areas/RestaurantAdmin/Views/Home/AcctiveRestaurants.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcUmVzdGF1cmFudEFkbWluXFZpZXdzXEhvbWVcQWNjdGl2ZVJlc3RhdXJhbnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/My_Projects/Back End C\# Asp .Net/MVC Projects/Otlob Projects/Otlob/Otlob/Areas/RestaurantAdmin/Views/Home/PendingRestaurant.cshtml]
@@ -352,6 +360,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [D:/My_Projects/Back End C\# Asp .Net/MVC Projects/Otlob Projects/Otlob/Otlob/Views/Shared/HomePage.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEhvbWVQYWdlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/My_Projects/Back End C\# Asp .Net/MVC Projects/Otlob Projects/Otlob/Otlob/Views/Shared/NoBranchesAvaliable.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXE5vQnJhbmNoZXNBdmFsaWFibGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/My_Projects/Back End C\# Asp .Net/MVC Projects/Otlob Projects/Otlob/Otlob/Views/Shared/NoOrderDetails.cshtml]

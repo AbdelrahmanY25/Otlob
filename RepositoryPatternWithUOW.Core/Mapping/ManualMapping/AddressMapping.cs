@@ -1,6 +1,4 @@
-﻿using Otlob.Core.Contracts.Branch;
-
-namespace Otlob.Core.Mapping.ManualMapping;
+﻿namespace Otlob.Core.Mapping.ManualMapping;
 
 public static class AddressMapping
 {
@@ -14,6 +12,7 @@ public static class AddressMapping
         address.FloorNumber = request.FloorNumber;
         address.HouseNumberOrName = request.HouseNumberOrName;
         address.CompanyName = request.CompanyName;
+        address.IsDeliveryAddress = request.IsDeliveryAddress;
         address.Location = _geometryFactory.CreatePoint(new Coordinate(request.LonCode, request.LatCode));
 
         return address;

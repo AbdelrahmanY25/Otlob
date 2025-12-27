@@ -191,6 +191,9 @@ namespace Otlob.EF.Migrations
                         .HasColumnType("bit")
                         .HasDefaultValue(false);
 
+                    b.Property<bool>("IsDeliveryAddress")
+                        .HasColumnType("bit");
+
                     b.Property<Point>("Location")
                         .IsRequired()
                         .HasColumnType("geography");
@@ -534,6 +537,9 @@ namespace Otlob.EF.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<decimal>("AddOnsPrice")
+                        .HasColumnType("decimal(8,2)");
+
                     b.Property<int>("CartId")
                         .HasColumnType("int");
 
@@ -542,15 +548,27 @@ namespace Otlob.EF.Migrations
                         .HasColumnType("bit")
                         .HasDefaultValue(false);
 
+                    b.Property<decimal>("ItemsPrice")
+                        .HasColumnType("decimal(8,2)");
+
+                    b.Property<string>("MealDeteils")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("MealId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<decimal>("PricePerMeal")
+                    b.Property<decimal>("MealPrice")
                         .HasColumnType("decimal(8,2)");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
+
+                    b.Property<decimal>("TotalPrice")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("decimal(8,2)")
+                        .HasComputedColumnSql("[Quantity] * ([MealPrice] + [ItemsPrice] + [AddOnsPrice])", true);
 
                     b.HasKey("Id");
 

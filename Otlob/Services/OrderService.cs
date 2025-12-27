@@ -69,32 +69,32 @@ public class OrderService : IOrderService
         return order!;
     }
 
-    public bool AddOrder(int cartId, Order order)
-    {
-        order.MealsInOrder = orderDetailsService.AddOrderDetails(cartId);
+    //public bool AddOrder(int cartId, Order order)
+    //{
+    //    order.MealsInOrder = orderDetailsService.AddOrderDetails(cartId);
 
-        if (order.MealsInOrder.IsNullOrEmpty())
-        {
-            return false;
-        }
+    //    if (order.MealsInOrder.IsNullOrEmpty())
+    //    {
+    //        return false;
+    //    }
 
-        unitOfWorkRepository.Orders.Add(order);
+    //    unitOfWorkRepository.Orders.Add(order);
 
-        return SaveOrder(order, cartId);
-    }
+    //    return SaveOrder(order, cartId);
+    //}
 
-    private bool SaveOrder(Order newOrder, int cartId)
-    {
-        bool isUserCartDeleted = cartService.DeleteCart(cartId);
+    //private bool SaveOrder(Order newOrder, int cartId)
+    //{
+    //    bool isUserCartDeleted = cartService.DeleteCart(cartId);
 
-        if (isUserCartDeleted)
-        {
-            //CompleteOrderProceduresController.SendOrderToRestaurant(newOrder, hubContext);
-            return true;
-        }
+    //    if (isUserCartDeleted)
+    //    {
+    //        //CompleteOrderProceduresController.SendOrderToRestaurant(newOrder, hubContext);
+    //        return true;
+    //    }
 
-        return false;
-    }
+    //    return false;
+    //}
 
     public IQueryable<Order>? GetUserOrders(string userId)
     {
@@ -309,5 +309,10 @@ public class OrderService : IOrderService
                 sendEmailsToUsersService.WhenHisOrderIsDelivered(result.Value, order.Id),
                 TimeSpan.FromMinutes(30));
         }
+    }
+
+    public bool AddOrder(int cartId, Order order)
+    {
+        throw new NotImplementedException();
     }
 }

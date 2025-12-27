@@ -1,0 +1,627 @@
+/* menuForCustomer.css - Universal Food App Style */
+
+/* ===== FONTS ===== */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+/* ===== CSS VARIABLES ===== */
+/* CSS Variables are now centralized in newSite.css */
+
+/* ===== RESET & BASE ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* ===== PAGE CONTAINER ===== */
+.menu-page-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 16px 80px;
+    min-height: 100vh;
+}
+
+/* ===== HERO SECTION ===== */
+/* ===== HERO SECTION ===== */
+.menu-hero {
+    background: #ffffff;
+    border-radius: var(--radius-xl);
+    padding: 32px;
+    margin: 20px 0 32px;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-light);
+    position: relative;
+}
+
+/* New Restaurant Profile Layout */
+.restaurant-profile {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.restaurant-logo {
+    width: 100px;
+    height: 100px;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background: var(--bg-tertiary);
+    flex-shrink: 0;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-light);
+}
+
+.restaurant-logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.restaurant-details {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.hero-title {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin: 0;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+}
+
+.restaurant-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.meta-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    background: var(--bg-tertiary);
+    border-radius: var(--radius-full);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+.meta-pill i {
+    color: var(--primary);
+    font-size: 0.9em;
+}
+
+.hero-subtitle {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    font-weight: 400;
+    margin-top: 4px;
+}
+
+@media (max-width: 600px) {
+    .restaurant-profile {
+        flex-direction: column;
+        text-align: center;
+        gap: 16px;
+    }
+
+    .restaurant-meta {
+        justify-content: center;
+    }
+
+    .restaurant-logo {
+        width: 80px;
+        height: 80px;
+    }
+
+    .hero-title {
+        font-size: 1.5rem;
+    }
+}
+
+/* ===== STICKY CATEGORY FILTER BAR ===== */
+.category-filter-bar {
+    position: sticky;
+    width: fit-content;
+    margin: 0 auto;
+    z-index: 1000;
+    padding: 16px 0;
+    margin-bottom: 24px;
+}
+
+.filter-wrapper {
+    display: flex;
+    gap: 10px;
+    padding: 0 4px;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.filter-wrapper::-webkit-scrollbar {
+    display: none;
+}
+
+.category-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 20px;
+    background: var(--bg-secondary);
+    border: 1.5px solid var(--border-light);
+    border-radius: var(--radius-full);
+    font-family: inherit;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: var(--transition-base);
+    position: relative;
+    overflow: hidden;
+}
+
+.category-btn:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+    transform: translateY(-2px);
+}
+
+.category-btn.active {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: var(--text-white);
+    box-shadow: 0 4px 16px rgba(255, 56, 93, 0.35);
+}
+
+.category-btn i {
+    font-size: 0.85rem;
+}
+
+/* ===== OFFERS SECTION (Horizontal Carousel) ===== */
+.offers-section {
+    margin-bottom: 40px;
+    padding: 0 4px;
+}
+
+.offers-scroll-container {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    padding-bottom: 20px;
+    scroll-snap-type: x mandatory;
+    cursor: grab;
+    /* Ensure images don't block drag */
+    user-select: none;
+    -webkit-user-drag: none;
+}
+
+.offers-scroll-container img {
+    pointer-events: none;
+    -webkit-user-drag: none;
+}
+
+.offers-scroll-container:active {
+    cursor: grabbing;
+}
+
+/* Custom Scrollbar for Desktop */
+.offers-scroll-container::-webkit-scrollbar {
+    height: 6px;
+    display: block;
+    /* Show scrollbar on desktop */
+}
+
+.offers-scroll-container::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.offers-scroll-container::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+.offers-scroll-container::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 768px) {
+    .offers-scroll-container::-webkit-scrollbar {
+        display: none;
+        /* Hide on mobile/tablet where touch works */
+    }
+}
+
+.offer-card {
+    min-width: 250px;
+    width: 280px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    scroll-snap-align: start;
+    cursor: pointer;
+    background-color: #fff;
+    border-radius: var(--radius-lg);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    padding: 25px;
+    transition: transform 0.2s ease;
+}
+
+.offer-img-wrapper {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    margin-bottom: 12px;
+    background: var(--bg-tertiary);
+}
+
+.offer-img-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Save Badge (Top Left) */
+.save-badge {
+    position: absolute;
+    top: 6px;
+    left: 7px;
+    background-color: #d4ec14;
+    /* Lime green from image */
+    color: #000;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 4px 8px;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 2;
+}
+
+/* Add Button (Bottom Right of Image) */
+.add-btn-circle {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    width: 40px;
+    height: 40px;
+    background-color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary);
+    /* Orange color */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    font-size: 1.2rem;
+    z-index: 2;
+    transition: transform 0.2s ease;
+}
+
+.add-btn-circle:hover {
+    transform: scale(1.1);
+}
+
+.offer-info {
+    padding: 0 4px;
+}
+
+.offer-name {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 6px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.offer-pricing {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.price-current {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    display: inline-block;
+}
+
+/* Yellow underline effect for current price */
+.offer-pricing .price-current,
+.meal-pricing .price-current {
+    background: linear-gradient(180deg, transparent 65%, #d4ec14 65%);
+    width: fit-content;
+    padding-right: 2px;
+    padding-left: 2px;
+}
+
+.price-original {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    text-decoration: line-through;
+}
+
+
+/* ===== CATEGORY SECTIONS (Grid Layout) ===== */
+.menu-main-content {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.category-section {
+    scroll-margin-top: 100px;
+}
+
+.category-header,
+.section-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    background: var(--bg-secondary);
+    border-radius: var(--radius-lg);
+    margin-bottom: 20px;
+    cursor: pointer;
+    transition: var(--transition-base);
+    border: 1px solid var(--border-light);
+    user-select: none;
+}
+
+.category-header:hover,
+.section-heading:hover {
+    background: var(--bg-tertiary);
+    border-color: var(--border-hover);
+}
+
+.category-title-group {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+
+.category-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: -0.01em;
+}
+
+.meal-count {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    font-weight: 500;
+    margin-left: 8px;
+}
+
+.collapse-btn {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-tertiary);
+    border: none;
+    border-radius: var(--radius-md);
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: var(--transition-base);
+}
+
+.collapse-btn:hover {
+    background: var(--primary-glow);
+    color: var(--primary);
+}
+
+/* ===== MEALS GRID (Original Grid Layout) ===== */
+.meals-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    transition: var(--transition-base);
+}
+
+/* Meal Card - Flex Row (Image Left) */
+.meal-card {
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+    padding: 16px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    cursor: pointer;
+    transition: var(--transition-spring);
+    position: relative;
+    overflow: hidden;
+}
+
+.meal-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--primary);
+}
+
+/* Meal Thumbnail */
+.meal-thumb {
+    width: 110px;
+    height: 110px;
+    flex-shrink: 0;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    position: relative;
+    background: var(--bg-tertiary);
+}
+
+.meal-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Offer Badge on Image */
+.offer-badge {
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    color: var(--text-white);
+    padding: 3px 8px;
+    border-radius: var(--radius-full);
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    box-shadow: 0 2px 8px rgba(0, 184, 148, 0.4);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    z-index: 2;
+}
+
+.add-btn {
+    position: absolute;
+    bottom: 6px;
+    right: 6px;
+    width: 28px;
+    height: 28px;
+    background: var(--primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-white);
+    font-size: 0.8rem;
+    box-shadow: 0 4px 12px rgba(255, 56, 93, 0.4);
+    z-index: 2;
+}
+
+/* Meal Info */
+.meal-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.meal-name {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 6px;
+    line-height: 1.35;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.meal-desc {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    flex-grow: 1;
+    margin-bottom: 12px;
+}
+
+.meal-pricing {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.price-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.saving-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 8px;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    color: #fff;
+    border-radius: var(--radius-full);
+    font-size: 0.7rem;
+    font-weight: 700;
+    width: fit-content;
+}
+
+/* ===== MOBILE RESPONSIVENESS ===== */
+@media (max-width: 768px) {
+    .menu-page-container {
+        padding: 0 12px 60px;
+    }
+
+    .offers-scroll-container {
+        gap: 12px;
+    }
+
+    .offer-card {
+        min-width: 200px;
+        width: 220px;
+    }
+
+    .offer-img-wrapper {
+        height: 160px;
+    }
+
+    .meals-grid {
+        grid-template-columns: 1fr;
+        gap: 14px;
+    }
+
+    .meal-card {
+        padding: 14px;
+    }
+
+    .meal-thumb {
+        width: 90px;
+        height: 90px;
+    }
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.offer-card,
+.meal-card {
+    animation: fadeInUp 0.4s ease-out;
+    animation-fill-mode: both;
+}

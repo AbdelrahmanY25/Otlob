@@ -9,4 +9,7 @@ public class AddressResponse
     public string? HouseNumberOrName { get; set; }
     public int? FloorNumber { get; set; }
     public string? CompanyName { get; set; }
+    public double LonCode { get; init; }
+    public double LatCode { get; init; }
+    public bool IsDeliveryAddress { get; init; }
 }

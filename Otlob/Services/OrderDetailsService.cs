@@ -33,7 +33,7 @@
                 {
                     MealId = meal.MealId,
                     MealQuantity = meal.Quantity,
-                    MealPrice = meal.PricePerMeal
+                    MealPrice = meal.MealPrice
                 };
 
                 orderDetailsList.Add(orderDetails);

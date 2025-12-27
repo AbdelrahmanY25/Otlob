@@ -1,63 +1,114 @@
-﻿@model IQueryable<RestaurantVM>
+﻿@model CustomerHomeResponse
 
 @{
     ViewData["Title"] = "Restaurants";
 }
 
-<link href="~/css/site.css" rel="stylesheet" asp-append-version="true"/>
+<link href="~/css/customerHome.css" rel="stylesheet" asp-append-version="true"/>
 
-<div class="articles" id="articles">
-        <form class="search" action="" method="Get">
-            <input type="text" id="searchBar" placeholder="Enter Restaurant Name" name="query" />
-        </form>
+<div class="ch-container">
+    <!-- Search Section -->
+    <div class="ch-search-section">
+        <div class="ch-search-wrapper">
+            <i class="fas fa-search ch-search-icon"></i>
+            <input type="text" id="searchInput" class="ch-search-input" placeholder="Search for restaurants, cuisines..." />
+        </div>
+    </div>
 
-        <div class="icons">       
-            <a asp-action="Index" asp-route-filter="burger"><img src="/images/icons/burger.png" alt="Burger" /></a>
-            <a asp-action="Index" asp-route-filter="pizza"><img src="/images/icons/pizza.png" alt="Pizza" /></a>
-            <a asp-action="Index" asp-route-filter="shawarma"><img src="/images/icons/shawrma.png" alt="Shawarma" /></a>
-            <a asp-action="Index" asp-route-filter="sandwich"><img src="/images/icons/sandwich.png" alt="Sandwich" /></a>
-            <a asp-action="Index" asp-route-filter="grill"><img src="/images/icons/grill.jpg" alt="Grill" /></a>
-            <a asp-action="Index" asp-route-filter="dessert"><img src="/images/icons/cookies.png" alt="Dessert" /></a>
-            <a asp-action="Index" asp-route-filter="koshary"><img src="/images/icons/koshary.jpg" alt="Koshary" /></a>
-            <a asp-action="Index" asp-route-filter="all"><img src="/images/icons/all.png" alt="All" /></a> 
-        </div>    
+    <!-- Categories Section -->
+    <div class="ch-categories-section">
+        <div class="ch-categories-scroll">
+            @foreach (var category in Model.Categories)
+            {
+                <div class="ch-category-item" data-category="@category">
+                    <img src="/images/icons/@(category).png" alt="@category" class="ch-cat-icon"/>
+                    <span class="ch-cat-name">@category</span>
+                </div>
+            }
+        </div>
+    </div>
 
-    <div class="container">
-        @foreach (var item in Model)
+    <!-- Filters Section -->
+    <div class="ch-filters-section">
+        <button class="ch-filter-btn" data-filter="freeDelivery">
+            <i class="fas fa-tag"></i> Free Delivery
+        </button>
+        <button class="ch-filter-btn" data-filter="fastDelivery">
+            <i class="fas fa-stopwatch"></i> Fast Delivery
+        </button>
+        <button class="ch-filter-btn" data-filter="businessType" data-value="Restaurant">
+            <i class="fas fa-utensils"></i> Restaurant
+        </button>
+        <button class="ch-filter-btn" data-filter="businessType" data-value="StreetFood">
+            <i class="fas fa-hamburger"></i> Street Food
+        </button>
+        <button class="ch-filter-btn" data-filter="businessType" data-value="CloudKitchen">
+            <i class="fas fa-cloud"></i> Cloud Kitchen
+        </button>
+    </div>
+
+    <!-- Restaurants Grid -->
+    <div id="restaurantsGrid" class="ch-restaurants-grid">
+        @foreach (var item in Model.Restaurants)
         {
-            <div class="menue" data-name="@item.Name">
-                <img alt="RestaurantLogo" src="/images/@(item.Image is not null ? item.Image : "Default.jpg")" />
-                <div class="text">
-                    <h3>@item.Name</h3>
-                    <p>Delivery Fee: @item.DeliveryFee.ToString("0.00") L.E</p>
-                    <p>Delivery Time: @item.DeliveryDuration.ToString("0.00") M</p>
-                </div>               
-                               
-                <a class="card-button" asp-action="Details" asp-route-id="@item.Key">Menue</a>
-            </div>
+            <a asp-controller="Menu" asp-action="Menu" asp-route-restaurantKey="@item.Key" class="ch-restaurant-card"
+               data-name="@item.Name"
+               data-categories="@string.Join(",", item.Categories)"
+               data-delivery-fee="@item.DeliveryFee"
+               data-delivery-duration="@item.DeliveryDuration"
+               data-business-type="@item.BusinessType">
+                
+                <div class="ch-card-img-wrapper">
+                    <img src="/images/@(item.Image ?? "Default.jpg")" alt="@item.Name" class="ch-card-img" />
+                    @if (item.IsClosed)
+                    {
+                        <span class="ch-status-badge status-closed">Closed</span>
+                    }
+                    else if (item.Status == AcctiveStatus.Warning)
+                    {
+                        <span class="ch-status-badge status-busy">Busy</span>
+                    }
+                </div>
+                
+                <div class="ch-card-content">
+                    <div>
+                        <div class="ch-res-header">
+                            <h3 class="ch-res-name">@item.Name</h3>
+                        </div>
+                        <div class="ch-res-tags">
+                            @string.Join(", ", item.Categories.Take(3))
+                        </div>
+
+                        <div class="ch-res-footer">
+                            <span class="ch-delivery-fee @(item.DeliveryFee == 0 ? "free" : "")">
+                                @if(item.DeliveryFee == 0)
+                                {
+                                    <span>Free</span>
+                                }
+                                else
+                                {
+                                    <span>@item.DeliveryFee.ToString("0.00") L.E</span>
+                                }
+                            </span>
+                            
+                            <div class="ch-meta-item">
+                                <i class="fas fa-clock"></i> @item.DeliveryDuration.ToString("0") min
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
         }
+        
+        <div id="noResults" class="ch-no-results">
+            <i class="fas fa-search"></i>
+            <h3>No restaurants found</h3>
+            <p>Try adjusting your search or filters</p>
+        </div>
     </div>
 </div>
 
 @section Scripts {
-    <script>
-        document.getElementById('searchBar').addEventListener('input', function () {
-            const query = this.value.toLowerCase();
-            const restaurants = document.querySelectorAll('.menue');
-
-            restaurants.forEach(function (restaurant) {
-                const name = restaurant.getAttribute('data-name').toLowerCase();
-                if (name.includes(query)) {
-                    restaurant.style.display = '';
-                } else {
-                    restaurant.style.display = 'none';
-                }
-            });
-        });
-
-        window.addEventListener('load', function() {
-            window.scrollTo(0, 800);
-        });
-    </script>
     <partial name="_NotificationPartial"></partial>
+    <script src="~/js/customerHome.js" asp-append-version="true"></script>
 }

@@ -8,8 +8,23 @@ public class CartDetailsEntityTypeConfiguration : IEntityTypeConfiguration<CartD
             .HasQueryFilter(om => EFCore.Property<bool>(om, "IsDeleted") == false);
 
         builder
-            .Property(om => om.PricePerMeal)
+            .Property(om => om.MealPrice)
             .HasColumnType("decimal(8,2)");
+
+        builder
+            .Property(om => om.ItemsPrice)
+            .HasColumnType("decimal(8,2)");
+        builder
+            .Property(om => om.AddOnsPrice)
+            .HasColumnType("decimal(8,2)");
+        
+        builder
+            .Property(om => om.TotalPrice)
+            .HasColumnType("decimal(8,2)");
+
+        builder
+            .Property(om => om.TotalPrice)
+            .HasComputedColumnSql("[Quantity] * ([MealPrice] + [ItemsPrice] + [AddOnsPrice])", true);
 
         builder
             .HasIndex(om => om.MealId);

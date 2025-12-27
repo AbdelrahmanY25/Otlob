@@ -1,4 +1,7 @@
-﻿namespace Otlob.EF.UnitOfWorkRepository;
+﻿using System.Data;
+using Microsoft.EntityFrameworkCore.Storage;
+
+namespace Otlob.EF.UnitOfWorkRepository;
 
 public class UnitOfWorkRepository(ApplicationDbContext applicationDbContext) : IUnitOfWorkRepository
 {
@@ -258,13 +261,14 @@ public class UnitOfWorkRepository(ApplicationDbContext applicationDbContext) : I
         }
     }
 
-    public void Dispose()
+    public IDbTransaction BeginTransaction()
     {
-        _context.Dispose();
+        var transaction = _context.Database.BeginTransaction();
+
+        return transaction.GetDbTransaction();
     }
 
-    public void SaveChanges()
-    {
-        _context.SaveChanges();
-    }
+    public void Dispose() => _context.Dispose();
+
+    public void SaveChanges() => _context.SaveChanges();
 }

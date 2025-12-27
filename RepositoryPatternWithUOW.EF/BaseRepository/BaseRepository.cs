@@ -140,10 +140,10 @@ public class BaseRepository<T>(ApplicationDbContext context) : IBaseRepository<T
     }
 
     public TResult? GetOneWithSelect<TResult>(Expression<Func<T, TResult>> selector,
-                                                         Expression<Func<T, object>>[]? includeProps = null,
-                                                         Expression<Func<T, bool>>? expression = null,
-                                                         bool tracked = true,
-                                                         bool ignoreQueryFilter = false)
+                                              Expression<Func<T, object>>[]? includeProps = null,
+                                              Expression<Func<T, bool>>? expression = null,
+                                              bool tracked = true,
+                                              bool ignoreQueryFilter = false)
     {
         IQueryable<T> query = dbSet;
 

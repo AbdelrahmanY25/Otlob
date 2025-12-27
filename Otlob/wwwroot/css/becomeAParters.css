@@ -1,204 +1,302 @@
-﻿:root {
-    --background-color: linear-gradient(100deg, #9a5752 25% 25%, #a71905 100%);
-}
+﻿/* becomeAParters.css - Business B2B Design */
+
+/* Inherits from newSite.css */
 
 .mainSection {
-    position: absolute;
-    left: 0;
-    top: var(--navbar-height);
+    position: relative;
     width: 100%;
 }
 
+/* =========================================
+   HERO SECTION - B2B Landing
+   ========================================= */
 .hero-section {
+    background-color: var(--business-primary);
+    /* #1a1a2e */
+    padding: 80px 20px 100px;
     color: white;
-    text-align: center;
+    position: relative;
+    /* Subtle overlay */
+    background-image: linear-gradient(135deg, rgba(26, 26, 46, 0.95), rgba(40, 40, 70, 0.95));
 }
 
+.hero-section::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    background: var(--bg-primary);
+    clip-path: polygon(0 100%, 100% 100%, 100% 0);
+}
+
+/* =========================================
+   FORM LAYOUT (Uses forms.css mainly, but structure here)
+   ========================================= */
+.form-section {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    /* Align top for better layout */
+    gap: 60px;
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 5;
+}
+
+.form-section .text {
+    flex: 1;
+    max-width: 500px;
+    text-align: left;
+    margin-top: 40px;
+}
+
+.form-section img {
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+    margin-bottom: 30px;
+    filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.2));
+}
+
+.form-section h2 {
+    font-size: 2.8rem;
+    font-weight: 800;
+    margin-bottom: 20px;
+    line-height: 1.2;
+    color: var(--business-accent);
+}
+
+.form-section p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: var(--business-text);
+    opacity: 0.9;
+}
+
+/* =========================================
+   RIGHT PANEL (The Form Container)
+   ========================================= */
+.right-panel {
+    width: 460px;
+    background: white;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+    border-top: 5px solid var(--primary);
+    /* Brand accent */
+}
+
+/* =========================================
+   BENEFITS SECTION
+   ========================================= */
 .benefits-section {
-    padding: 80px 0;
-    margin: 10px 0;
-    border-radius: 20px;
+    padding: 100px 20px;
+    background-color: var(--bg-secondary);
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .benefits-title {
     text-align: center;
     font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--business-primary);
     margin-bottom: 60px;
-    color: var(--secondary-color);
 }
 
 .benefits-title span {
-    color: var(--primary-color);
+    color: var(--primary);
+    position: relative;
 }
 
 .benefits-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
     gap: 40px;
-    margin-bottom: 60px;
 }
 
 .benefit-card {
+    background: white;
+    padding: 40px 30px;
+    border-radius: 12px;
+    border: 1px solid var(--border-light);
     text-align: center;
-    padding: 40px 20px;
-    border-radius: 16px;
-    background: var(--primary-color);
-    transition: transform var(--main-transition), box-shadow var(--main-transition);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .benefit-card:hover {
     transform: translateY(-8px);
-    box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08);
+    border-color: var(--primary);
 }
 
 .benefit-icon {
     width: 80px;
     height: 80px;
-    margin: 0 auto 20px;
-    background: white;
+    background: var(--bg-tertiary);
     border-radius: 50%;
+    /* Circle */
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 2rem;
+    margin: 0 auto 24px;
+    font-size: 2.5rem;
+    transition: background 0.3s ease;
+}
+
+.benefit-card:hover .benefit-icon {
+    background: var(--primary);
     color: white;
+    /* If using font icons */
 }
 
 .benefit-card h3 {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--text-primary);
     margin-bottom: 15px;
-    color: white;
 }
 
 .benefit-card p {
-    color: white;
-    line-height: 1.7;
+    color: var(--text-secondary);
+    line-height: 1.6;
 }
 
+/* =========================================
+   PROCESS SECTION
+   ========================================= */
 .process-section {
-    background: white;
-    padding: 80px 10px;
-    margin: 40px 0;
-    border-radius: 20px;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+    padding: 80px 20px;
+    background-color: white;
+    margin-bottom: 60px;
 }
 
 .process-title {
     text-align: center;
     font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--business-primary);
     margin-bottom: 60px;
-    color: var(--secondary-color);
-}
-
-.process-title span {
-    color: var(--primary-color);
 }
 
 .process-steps {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 40px;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+    position: relative;
+}
+
+/* Connecting line */
+.process-steps::before {
+    content: '';
+    position: absolute;
+    top: 40px;
+    left: 50px;
+    right: 50px;
+    height: 2px;
+    background: var(--border-light);
+    z-index: 0;
+    display: block;
 }
 
 .process-step {
     text-align: center;
     position: relative;
-}
-
-.process-step::after {
-    content: '';
-    position: absolute;
-    top: 40px;
-    right: -20px;
-    width: 40px;
-    height: 2px;
-    background: var(--primary-color);
     z-index: 1;
-}
-
-.process-step:last-child::after {
-    display: none;
+    background: white;
+    /* Mask line behind text */
+    padding: 0 10px;
 }
 
 .step-icon {
     width: 80px;
     height: 80px;
-    margin: 0 auto 20px;
-    background: linear-gradient(135deg, var(--primary-color), #ff6b5a);
+    background: white;
+    border: 2px solid var(--border-light);
     border-radius: 50%;
+    margin: 0 auto 20px;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 2rem;
-    color: white;
-    position: relative;
-    z-index: 2;
+    color: var(--text-primary);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.step-icon.active {
+    border-color: var(--primary);
+    color: var(--primary);
 }
 
 .process-step h4 {
-    font-size: 1.3rem;
-    margin-bottom: 15px;
-    color: var(--secondary-color);
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: var(--text-primary);
 }
 
 .process-step p {
-    color: #666;
-    line-height: 1.7;
     font-size: 0.95rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
 }
 
-.input-error-message {
-    color: #d32f2f;
-    min-height: 20px;
-    font-size: 13px;
-    margin: 5px;
-    display: block;
-    text-align: start;
-}
-
-@media (max-width: 768px) {
-    .hero-section h1 {
-        font-size: 2.5rem;
+/* =========================================
+   RESPONSIVE
+   ========================================= */
+@media (max-width: 1024px) {
+    .form-section {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
     }
 
-    .benefits-title,
-    .process-title {
+    .form-section .text {
+        text-align: center;
+        max-width: 100%;
+        margin-bottom: 40px;
+    }
+
+    .benefits-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .process-steps {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 50px;
+    }
+
+    .process-steps::before {
+        display: none;
+        /* Hide line on tablet */
+    }
+}
+
+@media (max-width: 600px) {
+    .hero-section {
+        padding: 60px 20px 80px;
+    }
+
+    .form-section h2 {
         font-size: 2rem;
     }
 
-    .benefits-grid,
-    .process-steps {
-        grid-template-columns: 1fr;
-        gap: 30px;
-    }
-
-    .process-step::after {
-        display: none;
-    }
-
-    .benefits-section,
-    .process-section {
-        padding: 60px 0;
-        margin: 20px;
-        border-radius: 16px;
-    }
-}
-
-@media (max-width: 480px) {
-    form.loginform {
-        margin: 40px 20px;
+    .right-panel {
+        width: 100%;
         padding: 30px 20px;
     }
 
-    .hero-section {
-        padding: 40px 0 20px;
+    .benefits-grid {
+        grid-template-columns: 1fr;
     }
 
-    .hero-section h1 {
-        font-size: 2rem;
-    }
-
-    .hero-section p {
-        font-size: 1.1rem;
+    .process-steps {
+        grid-template-columns: 1fr;
     }
 }

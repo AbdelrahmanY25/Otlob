@@ -1,9 +1,9 @@
-@model (IEnumerable<IGrouping<string, MenuResponse>> Categories, IEnumerable<AddOnResponse> AddOns)
+@model (IEnumerable<MenuResponse> menu, IEnumerable<AddOnResponse> addOns)
 
 @{
     ViewData["Title"] = "Menu Management";
-    var categories = Model.Item1.ToList();
-    var addOns = Model.Item2.ToList();
+    var categories = Model.menu.Select(m => m.Categories).ToList();
+    var addOns = Model.addOns.ToList();
 }
 
 <link rel="stylesheet" href="~/css/menu.css" asp-append-version="true" />
@@ -60,10 +60,12 @@
         }
         else
         {
-            foreach (var group in categories)
+            foreach (var menuResponse in Model.menu)
             {
-                var menu = group.First();
-                var category = menu.CategoriesWithMeals.First();
+                var categoryData = menuResponse.Categories;
+                // Get all meals for this category, offers first
+                var allCategoryMeals = (menuResponse.Meals ?? Enumerable.Empty<MealResponse>()).OrderByDescending(m => m.OfferPrice > 0).ToList();
+
                 <div class="mc-category-section open">
                     <div class="mc-category-header" onclick="toggleCategory(this)">
                         <div class="mc-cat-info">
@@ -72,9 +74,9 @@
                             </div>
                             <div class="mc-cat-title">
                                 <i class="fas fa-bookmark"></i>
-                                @category.CategoryName
+                                @categoryData.Name
                             </div>
-                            <span class="mc-cat-count">@(category.Meals?.Count() ?? 0) meals</span>
+                            <span class="mc-cat-count">@allCategoryMeals.Count meals</span>
                         </div>
                         <div class="mc-cat-actions" onclick="event.stopPropagation()">
                             <a asp-controller="Meals" asp-action="Add" class="mc-btn-icon add" title="Add Meal">
@@ -83,16 +85,16 @@
                             <button type="button" class="mc-btn-icon"
                                     data-bs-toggle="modal"
                                     data-bs-target="#editModal"
-                                    data-key="@category.CategoryKey"
-                                    data-name="@category.CategoryName"
+                                    data-key="@categoryData.Key"
+                                    data-name="@categoryData.Name"
                                     title="Edit Category">
                                 <i class="fas fa-edit"></i>
                             </button>
                             <button type="button" class="mc-btn-icon delete"
                                     data-bs-toggle="modal"
                                     data-bs-target="#deleteModal"
-                                    data-key="@category.CategoryKey"
-                                    data-name="@category.CategoryName"
+                                    data-key="@categoryData.Key"
+                                    data-name="@categoryData.Name"
                                     title="Delete Category">
                                 <i class="fas fa-trash"></i>
                             </button>
@@ -110,7 +112,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach (var meal in category.Meals ?? Enumerable.Empty<MealResponse>())
+                                    @foreach (var meal in allCategoryMeals)
                                     {
                                         <tr>
                                             <td>
@@ -160,7 +162,7 @@
 
                         <!-- Mobile Cards -->
                         <div class="mc-mobile-meals">
-                            @foreach (var meal in category.Meals ?? Enumerable.Empty<MealResponse>())
+                            @foreach (var meal in allCategoryMeals)
                             {
                                 <div class="mc-mobile-meal-card">
                                     <img src="/images/@(meal.Image ?? "Default.jpg")" alt="@meal.Name" class="mc-mobile-meal-img" />

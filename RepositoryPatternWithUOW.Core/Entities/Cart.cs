@@ -6,12 +6,8 @@ public class Cart : AuditEntity
     public string UserId { get; set; } = string.Empty;
     public int RestaurantId { get; set; }
 
-    [ValidateNever]
-    public ApplicationUser User { get; set; } = null!;
-
-    [ValidateNever]
-    public ICollection<CartDetails> CartDetails { get; set; } = null!;
-
-    [ValidateNever]
-    public Restaurant Restaurant { get; set; } = null!;
+    
+    public ApplicationUser User { get; set; } = default!; 
+    public Restaurant Restaurant { get; set; } = default!;
+    public ICollection<CartDetails> CartDetails { get; set; } = [];
 }

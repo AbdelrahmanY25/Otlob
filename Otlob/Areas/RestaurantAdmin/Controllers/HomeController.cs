@@ -7,10 +7,9 @@ public class HomeController(IRestaurantService restaurantService) : Controller
     private readonly IRestaurantService restaurantService = restaurantService;
 
     public IActionResult Index()
-    {        
-        int restaurantId = int.Parse(User.FindFirstValue(StaticData.RestaurantId)!);
-
-        AcctiveStatus status = restaurantService.GetRestaurantStatusById(restaurantId);
+    {
+        AcctiveStatus status = restaurantService
+            .GetRestaurantStatusById(int.Parse(User.FindFirstValue(StaticData.RestaurantId)!));
 
         switch (status)
         {
@@ -36,19 +35,12 @@ public class HomeController(IRestaurantService restaurantService) : Controller
         return View();
     }
 
-    public IActionResult UnAcceptedRestaurant()
-    {
-        var response = restaurantService.GetUnAcceptedRestaurant();
-
-        return View(response);
-    }
+    public IActionResult UnAcceptedRestaurant() => 
+        View(restaurantService.GetUnAcceptedRestaurant());
     
-    public IActionResult PendingRestaurant()
-    {
-        var response = restaurantService.GetPendingRestaurant();
-
-        return View(response);
-    }
+    
+    public IActionResult PendingRestaurant() => 
+        View(restaurantService.GetPendingRestaurant());
     
     public IActionResult AcctiveRestaurants()
     {

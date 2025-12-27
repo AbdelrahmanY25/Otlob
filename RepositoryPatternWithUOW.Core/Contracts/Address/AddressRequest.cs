@@ -10,4 +10,5 @@ public class AddressRequest
     public string? CompanyName { get; init; }
     public double LonCode { get; init; }
     public double LatCode { get; init; }
+    public bool IsDeliveryAddress { get; init; }
 }

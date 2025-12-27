@@ -5,24 +5,26 @@
 <link rel="stylesheet" href="~/css/footer.css" asp-append-version="true" />
 
 <div class="mainSection">
+    <!-- HERO & REGISTRATION -->
     <section class="hero-section">
         <section class="form-section">        
             <div class="text">
-                <img src="~/Illustrations/Partnership-pana.svg"/>
-                <h2>Join Our Restaurants Network</h2>
-                <p>Partner with us to reach thousands of hungry customers and grow your business with our proven delivery platform</p>
+                <h2>Join Our Restaurant Network</h2>
+                <p>Partner with Otlob to reach thousands of new customers. We handle the delivery, so you can focus on cooking the best food.</p>
             </div>
 
             <div class="right-panel">
                 <div class="welcome-text">
-                    <h1>Create Restaurant Admin Account</h1>
+                    <h1>Create Partner Account</h1>
+                    <p>Start your journey with us today</p>
                 </div>
-                <form asp-action="BecomeAPartner" style="min-height: 540px">
-					<div asp-validation-summary="ModelOnly"></div>
+                <form asp-action="BecomeAPartner">
+					<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    
                     <div class="form-group">
                         <div class="input-with-icon">
                             <i class="fas fa-user"></i>
-                            <input type="text" asp-for="UserName" placeholder="Enter your username">
+                            <input type="text" asp-for="UserName" placeholder="Username">
                         </div>
 						<span asp-validation-for="UserName" class="input-error-message"></span>
                     </div>
@@ -30,7 +32,7 @@
                     <div class="form-group">
                         <div class="input-with-icon">
                             <i class="fas fa-envelope"></i>
-                            <input type="email" asp-for="Email" placeholder="Enter your personal email">
+                            <input type="email" asp-for="Email" placeholder="Business Email Address">
                         </div>
 						<span asp-validation-for="Email" class="input-error-message"></span>
                     </div>
@@ -38,9 +40,9 @@
                     <div class="form-group">
                         <div class="input-with-icon">
                             <i class="fas fa-lock"></i>
-                            <input type="password" id="password" asp-for="Password" placeholder="Enter your password">
+                            <input type="password" id="password" asp-for="Password" placeholder="Create Password">
                         </div>
-                        <div id="password-strength-meter" style="display: none;">
+                        <div id="password-strength-meter">
                             <div class="password-progress-container">
                                 <div id="password-strength-bar" class="password-progress-bar"></div>
                             </div>
@@ -51,80 +53,84 @@
                     <div class="form-group">
                         <div class="input-with-icon">
                             <i class="fas fa-lock"></i>
-                            <input type="password" asp-for="ConfirmPassword" placeholder="Confirm your password">
+                            <input type="password" asp-for="ConfirmPassword" placeholder="Confirm Password">
                         </div>
 						<span asp-validation-for="ConfirmPassword" class="input-error-message"></span>
                     </div>
 
                     <div class="form-group">
                         <div class="input-with-icon">
-                            <i class="fas fa-lock"></i>
-                            <input asp-for="PhoneNumber" placeholder="Personal Mobile Number" />
+                            <i class="fas fa-mobile-alt"></i>
+                            <input asp-for="PhoneNumber" placeholder="Mobile Number" />
                         </div>
 						<span asp-validation-for="PhoneNumber" class="input-error-message"></span>
                     </div>
 
-                    <button type="submit" class="sign-in-btn">Sign Up</button>
+                    <button type="submit" class="sign-in-btn">Create Account</button>
+                    
+                    <div class="form-footer-links">
+                        Already have an account? <a asp-area="@DefaultRoles.Customer" asp-controller="Account" asp-action="Login">Login here</a>
+                    </div>
                 </form>
-
-                <span> or - <a asp-area="@DefaultRoles.Customer" asp-controller="" asp-action="">Continue your Registration</a></span>
             </div>
         </section>
     </section>
 
+    <!-- BENEFITS SECTION -->
     <section class="benefits-section">
         <div class="container">
-            <h2 class="benefits-title">Why you should <span>partner with us</span></h2>
+            <h2 class="benefits-title">Why Partner with <span>Otlob</span>?</h2>
 
             <div class="benefits-grid">
                 <div class="benefit-card">
-                    <div class="benefit-icon">🍕</div>
-                    <h3>Reach more customers</h3>
-                    <p>We have thousands of hungry customers in your area waiting to order from you and we'll help you deliver their food faster.</p>
+                    <div class="benefit-icon"><i class="fas fa-users"></i></div>
+                    <h3>Reach More Customers</h3>
+                    <p>Access thousands of new customers in your area who are looking for food delivery.</p>
                 </div>
 
                 <div class="benefit-card">
-                    <div class="benefit-icon">💰</div>
-                    <h3>Earn more money</h3>
-                    <p>We'll help you serve more hungry customers without adding more chairs to your restaurant and we'll make sure you get paid promptly.</p>
+                    <div class="benefit-icon"><i class="fas fa-chart-line"></i></div>
+                    <h3>Increase Revenue</h3>
+                    <p>Boost your sales without increasing your dining room size. We handle the logistics.</p>
                 </div>
 
                 <div class="benefit-card">
-                    <div class="benefit-icon">📈</div>
-                    <h3>Grow your business</h3>
-                    <p>Increase sales, reach more customers or market your business better. We deliver ways to grow your business because when you succeed, we do too.</p>
+                    <div class="benefit-icon"><i class="fas fa-bullhorn"></i></div>
+                    <h3>Marketing Tools</h3>
+                    <p>Get access to powerful marketing tools to promote your restaurant and offers.</p>
                 </div>
             </div>
         </div>
     </section>
 
+    <!-- PROCESS SECTION -->
     <div class="container">
         <section class="process-section">
-                <h2 class="process-title">How we'll <span>work together</span></h2>
+                <h2 class="process-title">How It <span>Works</span></h2>
 
                 <div class="process-steps">
                     <div class="process-step">
-                        <div class="step-icon">📱</div>
-                        <h4>The Customer Orders</h4>
-                        <p>The customer places an order through the <span style="color: var(--primary-color)"><b>otlob</b></span> app.</p>
+                        <div class="step-icon"><i class="fas fa-mobile-alt"></i></div>
+                        <h4>1. Customer Orders</h4>
+                        <p>A customer places an order via the Otlob app.</p>
                     </div>
 
                     <div class="process-step">
-                        <div class="step-icon">👨‍🍳</div>
-                        <h4>You Prepare</h4>
-                        <p>You will receive a notification to start preparing the order.</p>
+                        <div class="step-icon"><i class="fas fa-utensils"></i></div>
+                        <h4>2. You Prepare</h4>
+                        <p>You accept and prepare the order in your kitchen.</p>
                     </div>
 
                     <div class="process-step">
-                        <div class="step-icon">🛵</div>
-                        <h4>You Deliver</h4>
-                        <p>pick up the order and deliver it to the customer.</p>
+                        <div class="step-icon"><i class="fas fa-motorcycle"></i></div>
+                        <h4>3. We Deliver</h4>
+                        <p>Our rider picks up the order and delivers it fast.</p>
                     </div>
 
                     <div class="process-step">
-                        <div class="step-icon">📊</div>
-                        <h4>Watch Your Business Grow</h4>
-                        <p>Track your sales, monitor orders, invest in marketing and more in your personal restaurant portal.</p>
+                        <div class="step-icon"><i class="fas fa-smile"></i></div>
+                        <h4>4. Grow</h4>
+                        <p>Track your success and watch your business grow.</p>
                     </div>
                 </div>
         </section>

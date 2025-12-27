@@ -4,8 +4,8 @@ internal class ManyMealManyAddOnEntityTypeConfiguration : IEntityTypeConfigurati
 {
     public void Configure(EntityTypeBuilder<ManyMealManyAddOn> builder)
     {
-		builder
-			.HasQueryFilter(e => EFCore.Property<bool>(e, "IsDeleted") == false);
+        builder
+            .HasQueryFilter(e => EFCore.Property<bool>(e, "IsDeleted") == false);
 
         builder
             .HasOne(ma => ma.Meal)

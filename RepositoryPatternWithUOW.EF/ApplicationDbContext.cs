@@ -53,20 +53,26 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
     public override int SaveChanges()
     {
         var entries = ChangeTracker.Entries<AuditEntity>();
-        var currentUserId = _httpContextAccessor.HttpContext!.User.GetUserId();
 
-        foreach (var entry in entries)
-        {
-            if (entry.State == EntityState.Added)
+        var currentUserId = "System";
+
+        var httpContext = _httpContextAccessor.HttpContext;
+
+        if (httpContext is not null)
+            currentUserId = httpContext.User.GetUserId() ?? "System";
+
+            foreach (var entry in entries)
             {
-                entry.Property(x => x.CreatedById).CurrentValue = currentUserId;
+                if (entry.State == EntityState.Added)
+                {
+                    entry.Property(x => x.CreatedById).CurrentValue = currentUserId;
+                }
+                else if (entry.State == EntityState.Modified)
+                {
+                    entry.Property(x => x.UpdatedById).CurrentValue = currentUserId;
+                    entry.Property(x => x.UpdatedOn).CurrentValue = DateTime.Now;
+                }
             }
-            else if (entry.State == EntityState.Modified)
-            {
-                entry.Property(x => x.UpdatedById).CurrentValue = currentUserId;
-                entry.Property(x => x.UpdatedOn).CurrentValue = DateTime.Now;
-            }
-        }
 
         return base.SaveChanges();
     }

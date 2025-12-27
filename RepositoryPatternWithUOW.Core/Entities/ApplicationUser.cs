@@ -8,11 +8,8 @@ public class ApplicationUser : IdentityUser
     public Gender? Gender { get; set; }
     public DateOnly? BirthDate { get; set; }
 
-  [ValidateNever]
-    public ICollection<Address> UserAddress { get; set; } = null!;
-
-    [ValidateNever]
-    public ICollection<Order> Orders { get; set; } = null!;
+    public ICollection<Address> UserAddress { get; set; } = [];
+    public ICollection<Order> Orders { get; set; } = [];
 }
 
 public enum Gender

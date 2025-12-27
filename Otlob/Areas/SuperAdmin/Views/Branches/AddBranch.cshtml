@@ -9,113 +9,115 @@
 
 <div class="ab-page">
     <div class="ab-container">
-        <!-- Page Header -->
-        <div class="ab-header">
-            <div class="ab-header-content">
-                <h1>Add New Branch</h1>
-                <p>Set up a new location for your restaurant</p>
+        <form id="branchForm" asp-action="AddBranch" method="post">
+            <div asp-validation-summary="All" class="ab-validation-errors" style="display:none;"></div>
+
+            <!-- Header Actions -->
+            <div class="ab-header-actions">
+                <div class="ab-header-title">
+                    <a asp-action="Branches" class="ab-back-link">
+                        <i class="fas fa-arrow-left"></i>
+                    </a>
+                    <h1>Add New Branch</h1>
+                </div>
+                <div class="ab-actions">
+                    <a asp-action="Branches" class="ab-btn-secondary">Discard</a>
+                    <button type="submit" class="ab-btn-primary">
+                        <i class="fas fa-save"></i> Save
+                    </button>
+                </div>
             </div>
-        </div>
 
-        <!-- Main Card -->
-        <div class="ab-card">
-            <div class="ab-card-header">
-                <h2>
-                    <i class="fas fa-store-alt"></i>
-                    Branch Information
-                </h2>
-            </div>
+            <div class="ab-layout-grid">
+                <!-- Main Content Column -->
+                <div class="ab-main-column">
 
-            <div class="ab-card-body">
-                <form id="branchForm" asp-action="AddBranch" method="post">
-                    <!-- Validation Summary -->
-                    <div asp-validation-summary="All" class="ab-validation-errors"></div>
-
-                    <!-- Map Section -->
-                    <div class="ab-map-section">
-                        <h3 class="ab-section-title">
-                            <i class="fas fa-map-marked-alt"></i>
-                            Branch Location
-                        </h3>
-
-                        <!-- Address Search -->
-                        <div class="ab-address-wrapper">
-                            <input type="text" 
-                                   id="addressSearch" 
-                                   class="ab-address-input" 
-                                   asp-for="Address"
-                                   placeholder="Search for branch address or click on map..."
-                                   autocomplete="off" />
-                            <button type="button" class="ab-gps-btn" onclick="getCurrentLocation()" title="Use current location">
-                                <i class="fas fa-crosshairs"></i>
-                            </button>
-                            <div id="searchResults" class="ab-search-results"></div>
+                    <!-- Branch Details Card -->
+                    <div class="ab-card">
+                        <div class="ab-card-header">
+                            <h2><i class="fas fa-store"></i> Branch Details</h2>
                         </div>
-
-                        <!-- Map -->
-                        <div class="ab-map-container">
-                            <div class="ab-map-loading" id="mapLoading">
-                                <i class="fas fa-spinner fa-spin"></i>
-                                Loading map...
+                        <div class="ab-card-body">
+                            <div class="ab-form-group">
+                                <label class="ab-label">Branch Name</label>
+                                <input type="text" class="ab-input" asp-for="Name" placeholder="e.g., Downtown Branch" />
                             </div>
-                            <div id="branchMap"></div>
-                        </div>
-
-                        <!-- Location Info -->
-                        <div class="ab-location-info" id="locationInfo">
-                            <h6>
-                                <i class="fas fa-check-circle"></i>
-                                Selected Location
-                            </h6>
-                            <div class="ab-location-details" id="locationDetails">
-                                Click on the map or search for an address
+                            <div class="ab-form-group">
+                                <label class="ab-label">Manager Name</label>
+                                <input type="text" class="ab-input" asp-for="MangerName" placeholder="Enter manager's full name" />
+                            </div>
+                            <div class="ab-form-group">
+                                <label class="ab-label">Manager Phone</label>
+                                <input type="tel" class="ab-input" asp-for="MangerPhone" placeholder="e.g., +20 123 456 7890" />
                             </div>
                         </div>
-
-                        <!-- Hidden coordinates -->
-                        <input type="hidden" id="LonCode" asp-for="LonCode" />
-                        <input type="hidden" id="LatCode" asp-for="LatCode" />
                     </div>
 
-                    <!-- Form Fields Section -->
-                    <div class="ab-form-section">
-                        <h3 class="ab-section-title">
-                            <i class="fas fa-info-circle"></i>
-                            Branch Details
-                        </h3>
-
-                        <div class="ab-form-grid">
-                            <!-- Branch Name -->
-                            <div class="ab-form-group">
-                                <label class="ab-form-label">
-                                    <i class="fas fa-store"></i>
-                                    Branch Name
-                                </label>
-                                <input type="text" 
-                                       class="ab-form-input" 
-                                       asp-for="Name" 
-                                       placeholder="e.g., Downtown Branch" />
+                    <!-- Location Card -->
+                    <div class="ab-card">
+                        <div class="ab-card-header">
+                            <h2><i class="fas fa-map-marked-alt"></i> Location</h2>
+                        </div>
+                        <div class="ab-card-body">
+                            <div class="ab-address-wrapper">
+                                <input type="text"
+                                       id="addressSearch"
+                                       class="ab-input"
+                                       asp-for="Address"
+                                       placeholder="Search for branch address or click on map..."
+                                       autocomplete="off"
+                                       style="padding-right: 40px;" />
+                                <button type="button" class="ab-gps-btn" onclick="getCurrentLocation()" title="Use current location">
+                                    <i class="fas fa-crosshairs"></i>
+                                </button>
+                                <div id="searchResults" class="ab-search-results"></div>
                             </div>
 
-                            <!-- Delivery Radius -->
+                            <div class="ab-map-container">
+                                <div class="ab-map-loading" id="mapLoading">
+                                    <i class="fas fa-spinner fa-spin"></i>
+                                    <span>Loading map...</span>
+                                </div>
+                                <div id="branchMap"></div>
+                            </div>
+
+                            <div class="ab-location-info" id="locationInfo">
+                                <h6><i class="fas fa-check-circle"></i> Selected Location</h6>
+                                <div class="ab-location-details" id="locationDetails">
+                                    Click on the map or search for an address
+                                </div>
+                            </div>
+
+                            <input type="hidden" id="LonCode" asp-for="LonCode" />
+                            <input type="hidden" id="LatCode" asp-for="LatCode" />
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sidebar Column -->
+                <div class="ab-sidebar-column">
+
+                    <!-- Delivery Settings Card -->
+                    <div class="ab-card">
+                        <div class="ab-card-header">
+                            <h2><i class="fas fa-broadcast-tower"></i> Delivery Settings</h2>
+                        </div>
+                        <div class="ab-card-body">
                             <div class="ab-form-group">
-                                <label class="ab-form-label">
-                                    <i class="fas fa-broadcast-tower"></i>
-                                    Delivery Radius
-                                </label>
+                                <label class="ab-label">Delivery Radius</label>
                                 <div class="ab-radius-wrapper">
                                     <div class="ab-radius-header">
-                                        <span>Coverage Area</span>
+                                        <span style="font-size:13px; color:#6d7175;">Coverage Area</span>
                                         <div class="ab-radius-value">
                                             <span id="radiusDisplay">5</span>
                                             <span>km</span>
                                         </div>
                                     </div>
-                                    <input type="range" 
+                                    <input type="range"
                                            id="radiusSlider"
-                                           class="ab-radius-slider" 
-                                           min="1" 
-                                           max="20" 
+                                           class="ab-radius-slider"
+                                           min="1"
+                                           max="20"
                                            value="5"
                                            oninput="updateRadius(this.value)" />
                                     <input type="hidden" id="DeliveryRadiusKm" asp-for="DeliveryRadiusKm" value="5" />
@@ -126,42 +128,12 @@
                                     </div>
                                 </div>
                             </div>
-
-                            <!-- Manager Name -->
-                            <div class="ab-form-group">
-                                <label class="ab-form-label">
-                                    <i class="fas fa-user-tie"></i>
-                                    Manager Name
-                                </label>
-                                <input type="text" 
-                                       class="ab-form-input" 
-                                       asp-for="MangerName" 
-                                       placeholder="Enter manager's full name" />
-                            </div>
-
-                            <!-- Manager Phone -->
-                            <div class="ab-form-group">
-                                <label class="ab-form-label">
-                                    <i class="fas fa-phone-alt"></i>
-                                    Manager Phone
-                                </label>
-                                <input type="tel" 
-                                       class="ab-form-input" 
-                                       asp-for="MangerPhone" 
-                                       placeholder="e.g., +20 123 456 7890" />
-                            </div>
                         </div>
                     </div>
 
-                    <div class="ab-submit-wrapper">
-                        <button type="submit" class="ab-submit-btn">
-                            <i class="fas fa-plus-circle"></i>
-                            Add Branch
-                        </button>
-                    </div>
-                </form>
+                </div>
             </div>
-        </div>
+        </form>
     </div>
 </div>
 
@@ -193,7 +165,7 @@
     // Map load event
     map.on('load', () => {
         document.getElementById('mapLoading').style.display = 'none';
-        
+
         // Add 3D buildings
         if (map.getSource('composite')) {
             map.addLayer({
@@ -295,7 +267,7 @@
         document.getElementById('addressSearch').value = item.place_name;
         document.getElementById('LonCode').value = item.center[0];
         document.getElementById('LatCode').value = item.center[1];
-        
+
         updateMarker(item.center[0], item.center[1], item.place_name);
         map.flyTo({ center: item.center, zoom: 14 });
     }
@@ -328,11 +300,11 @@
                 if (data.features && data.features.length > 0) {
                     placeName = data.features[0].place_name;
                 }
-                
+
                 document.getElementById('addressSearch').value = placeName;
                 document.getElementById('LonCode').value = lon;
                 document.getElementById('LatCode').value = lat;
-                
+
                 updateMarker(lon, lat, placeName);
             });
     }
@@ -343,9 +315,9 @@
         if (marker) {
             marker.setLngLat([lon, lat]);
         } else {
-            marker = new mapboxgl.Marker({ 
+            marker = new mapboxgl.Marker({
                 color: '#F04335',
-                draggable: true 
+                draggable: true
             })
             .setLngLat([lon, lat])
             .addTo(map);
@@ -372,7 +344,7 @@
     function updateRadiusCircle(lon, lat) {
         const radiusInMeters = currentRadius * 1000;
         const circleCoords = createCircle([lon, lat], radiusInMeters);
-        
+
         if (map.getSource('radius-circle')) {
             map.getSource('radius-circle').setData({
                 'type': 'Feature',
@@ -432,6 +404,7 @@
 
         if (!lon || !lat) {
             e.preventDefault();
+            // Show error if needed
             return false;
         }
     });
@@ -439,4 +412,5 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+    <partial name="_NotificationPartial" />
 }

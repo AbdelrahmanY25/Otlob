@@ -23,7 +23,7 @@
             {
                 CartId = userCart.Id,
                 MealId = orderedMealsVM.MealId,
-                PricePerMeal = orderedMealsVM.PricePerMeal,
+                MealPrice = orderedMealsVM.PricePerMeal,
                 Quantity = orderedMealsVM.Quantity
             };
 
@@ -42,7 +42,7 @@
                                     selector: o => new CartDetails
                                     {
                                         Id = o.Id,
-                                        PricePerMeal = o.PricePerMeal,
+                                        MealPrice = o.MealPrice,
                                         Quantity = o.Quantity,
                                         Meal = new Meal { Name = o.Meal.Name, Image = o.Meal.Image, Description = o.Meal.Description }
                                     },
@@ -64,7 +64,7 @@
                                     selector: o => new CartDetails
                                     {
                                         Id = o.Id,
-                                        PricePerMeal = o.PricePerMeal,
+                                        MealPrice = o.MealPrice,
                                         Quantity = o.Quantity,
                                         Meal = new Meal { Name = o.Meal.Name, Price = o.Meal.Price, Description = o.Meal.Description }
                                     },
@@ -83,7 +83,7 @@
                                 (
                                     selector: o => new CartDetails
                                     {
-                                        PricePerMeal = o.PricePerMeal,
+                                        MealPrice = o.MealPrice,
                                         Quantity = o.Quantity,
                                         MealId = o.MealId,
                                     },
