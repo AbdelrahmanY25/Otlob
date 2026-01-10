@@ -9,7 +9,7 @@
 <div class="cart-page">
     <div class="cart-container">
         <div style="margin-bottom: 20px;">
-             <a href="javascript:void(0)" onclick="goBack()" style="display:inline-flex;align-items:center;gap:8px;color:#6b7280;text-decoration:none;font-weight:600;">
+            <a href="@Url.Action("Index", "Home", new { area = "Customer" })" style="display:inline-flex;align-items:center;gap:8px;color:#6b7280;text-decoration:none;font-weight:600;">
                 <i class="bi bi-arrow-left"></i> Back
             </a>
         </div>
@@ -113,7 +113,7 @@
                 <span>Total</span>
                 <span id="cart-total-price">@Model.CartDetails.Sum(x => x.TotalPrice).ToString("N2") L.E</span>
             </div>
-            <a href="#" class="checkout-btn">Proceed to Checkout</a>
+            <a asp-controller="CheckOut" asp-action="CheckOut" class="checkout-btn">Proceed to Checkout</a>
         </div>
     </div>
 </div>

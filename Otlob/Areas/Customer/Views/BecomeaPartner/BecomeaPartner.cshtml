@@ -5,7 +5,6 @@
 <link rel="stylesheet" href="~/css/footer.css" asp-append-version="true" />
 
 <div class="mainSection">
-    <!-- HERO & REGISTRATION -->
     <section class="hero-section">
         <section class="form-section">        
             <div class="text">
@@ -66,8 +65,8 @@
 						<span asp-validation-for="PhoneNumber" class="input-error-message"></span>
                     </div>
 
-                    <button type="submit" class="sign-in-btn">Create Account</button>
-                    
+                    <button type="submit" class="sign-in-btn">Create Account</button>                    
+
                     <div class="form-footer-links">
                         Already have an account? <a asp-area="@DefaultRoles.Customer" asp-controller="Account" asp-action="Login">Login here</a>
                     </div>

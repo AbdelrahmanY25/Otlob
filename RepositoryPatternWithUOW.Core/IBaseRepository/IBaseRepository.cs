@@ -20,7 +20,7 @@
 										   
         void Add(T entity);
         Task AddRangeAsync(IEnumerable<T> entities);
-        void Edit(T entity);
+        void Update(T entity);
         void IgnoreChanges(T entity, Expression<Func<T, object>> navigationProperty);
         void ModifyProperty(T entity, Expression<Func<T, object>> property);
         void SoftDelete(Expression<Func<T, bool>> expression);

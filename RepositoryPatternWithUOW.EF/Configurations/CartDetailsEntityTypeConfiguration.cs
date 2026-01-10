@@ -17,13 +17,10 @@ public class CartDetailsEntityTypeConfiguration : IEntityTypeConfiguration<CartD
         builder
             .Property(om => om.AddOnsPrice)
             .HasColumnType("decimal(8,2)");
-        
-        builder
-            .Property(om => om.TotalPrice)
-            .HasColumnType("decimal(8,2)");
 
         builder
             .Property(om => om.TotalPrice)
+            .HasColumnType("decimal(8,2)")
             .HasComputedColumnSql("[Quantity] * ([MealPrice] + [ItemsPrice] + [AddOnsPrice])", true);
 
         builder

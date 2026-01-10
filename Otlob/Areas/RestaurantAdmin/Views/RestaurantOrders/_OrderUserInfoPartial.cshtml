@@ -1,0 +1,27 @@
+@model OrderUserInfoResponse
+
+<div class="user-info-modal-content">
+    <div class="user-avatar-large">
+        @if (!string.IsNullOrEmpty(Model.UserImage))
+        {
+            <img src="~/images/@Model.UserImage" alt="@Model.UserName">
+        }
+        else
+        {
+            <div class="avatar-placeholder">
+                <i class="bi bi-person"></i>
+            </div>
+        }
+    </div>
+    <div class="user-details">
+        <h4 class="user-name">@Model.UserName</h4>
+        <div class="user-info-row">
+            <i class="bi bi-envelope"></i>
+            <span>@Model.Email</span>
+        </div>
+        <div class="user-info-row">
+            <i class="bi bi-telephone"></i>
+            <span>@Model.PhoneNumber</span>
+        </div>
+    </div>
+</div>

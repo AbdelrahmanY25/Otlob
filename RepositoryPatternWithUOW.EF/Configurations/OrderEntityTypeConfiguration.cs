@@ -14,20 +14,21 @@ public class OrderEntityTypeConfiguration : IEntityTypeConfiguration<Order>
             .HasQueryFilter(o => EFCore.Property<bool>(o, "IsDeleted") == false);
 
         builder
-           .Property(o => o.TotalOrderPrice)
-           .HasColumnType("decimal(8,2)");
-
-        builder
-            .Property(o => o.TotalMealsPrice)
+            .Property(o => o.SubPrice)
             .HasColumnType("decimal(8,2)");
 
         builder
-            .Property(o => o.TotalTaxPrice)
+            .Property(o => o.ServiceFeePrice)
+            .HasColumnType("decimal(5,2)");
+        
+        builder
+            .Property(o => o.DeliveryFee)
             .HasColumnType("decimal(5,2)");
 
         builder
-            .Property(o => o.TotalOrderPrice)
-            .HasComputedColumnSql("[TotalMealsPrice] + [TotalTaxPrice]");
+            .Property(o => o.TotalPrice)
+            .HasColumnType("decimal(8,2)")
+            .HasComputedColumnSql("[SubPrice] + [ServiceFeePrice] + [DeliveryFee]", true);
 
         builder
             .Property(o => o.Method)
@@ -44,16 +45,24 @@ public class OrderEntityTypeConfiguration : IEntityTypeConfiguration<Order>
             );
 
         builder
-            .HasIndex(o => new { o.Status, o.OrderDate });
+            .Property(o => o.CustomerCancelReason)
+            .HasConversion(
+                o => o.ToString(),
+                o => Enum.Parse<CustomerCancelReason>(o)
+            );
+
+        builder
+            .Property(o => o.RestaurantCancelReason)
+            .HasConversion(
+                o => o.ToString(),
+                o => Enum.Parse<RestaurantCancelReason>(o)
+            );
 
         builder
             .HasIndex(o => o.RestaurantId);
 
         builder
             .HasIndex(o => o.OrderDate);
-
-        builder
-            .HasIndex(o => o.TotalOrderPrice);
 
         builder
             .HasIndex(o => o.Status);

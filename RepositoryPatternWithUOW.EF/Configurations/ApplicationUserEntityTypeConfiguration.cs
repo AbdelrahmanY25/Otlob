@@ -5,6 +5,12 @@ public class ApplicationUserEntityTypeConfiguration : IEntityTypeConfiguration<A
     public void Configure(EntityTypeBuilder<ApplicationUser> builder)
     {
         builder
+            .OwnsMany(u => u.RefreshTokens)
+            .ToTable("RefreshTokens")
+            .WithOwner()
+            .HasForeignKey("UserId");
+
+        builder
             .HasQueryFilter(u => EFCore.Property<bool>(u, "IsDeleted") == false);
      
         builder
@@ -22,12 +28,12 @@ public class ApplicationUserEntityTypeConfiguration : IEntityTypeConfiguration<A
         builder
             .Property(u => u.Email)
             .IsRequired()
-            .HasMaxLength(100);                
+            .HasMaxLength(150);                
 
         builder
             .Property(u => u.UserName)
             .IsRequired()   
-            .HasMaxLength(20);
+            .HasMaxLength(150);
         
         builder
             .Property(u => u.Image)

@@ -31,15 +31,12 @@ public class AccountController(IAuthService authService) : Controller
     public async Task<IActionResult> ConfirmEmail([FromQuery] ConfirmEmailRequest request)
     {
         if (string.IsNullOrWhiteSpace(request.UserId) || string.IsNullOrWhiteSpace(request.Token))
-        {
             return RedirectToAction(nameof(Login));
-        }
+
         var result = await _authService.ConfirmEmailAsync(request);
 
         if (result.IsFailure)
-        {
             return RedirectToAction(nameof(Login));
-        }
 
         return RedirectToAction(nameof(Login));
     }
@@ -88,7 +85,7 @@ public class AccountController(IAuthService authService) : Controller
             return View(request);
         }
 
-        return RedirectToAction("Index", "Home", new { Area = result.Value! });
+        return RedirectToAction("Index", "Home", new { Area = result.Value });
     }
     
     public IActionResult ForgetPassword() => View();

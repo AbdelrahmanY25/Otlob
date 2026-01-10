@@ -6,23 +6,24 @@ public class Order
     public string UserId { get; set; } = string.Empty;
     public int RestaurantId { get; set; }
 
-    public string UserAddress { get; set; } = string.Empty;
-    public decimal TotalMealsPrice { get; set; }
-    public decimal TotalTaxPrice { get; set; }
-    public decimal TotalOrderPrice { get; set; }
+    public string CustomerPhoneNumber { get; set; } = string.Empty;
+    public string DeliveryAddress { get; set; } = string.Empty;
+    public Point DeliveryAddressLocation { get; set; } = default!;
+    public decimal SubPrice { get; set; }
+    public decimal DeliveryFee { get; set; }
+    public decimal ServiceFeePrice { get; set; }
+    public decimal TotalPrice { get; }
     public string? Notes { get; set; }
     public PaymentMethod Method {  get; set; }
+    public CustomerCancelReason? CustomerCancelReason { get; set; }
+    public RestaurantCancelReason? RestaurantCancelReason { get; set; }
+
     public DateTime OrderDate { get; set; } = DateTime.Now;
     public OrderStatus Status { get; set; } = OrderStatus.Pending;
-
     
-    public ApplicationUser User { get; set; } = null!;
-
-    
-    public Restaurant Restaurant { get; set; } = null!;
-
-    
-    public ICollection<OrderDetails> MealsInOrder { get; set; } = null!;
+    public ApplicationUser User { get; set; } = default!;
+    public Restaurant Restaurant { get; set; } = default!;
+    public ICollection<OrderDetails> OrderDetails { get; set; } = [];
 }
 
 public enum OrderStatus
@@ -30,7 +31,23 @@ public enum OrderStatus
     Pending,
     Preparing,
     Shipped,
-    Delivered
+    Delivered,
+    Cancelled
+}
+
+public enum CustomerCancelReason
+{
+    ChangedMind,
+    FoundBetterPrice,
+    OrderTookTooLong,
+    Other
+}
+
+public enum RestaurantCancelReason
+{
+    OutOfStock,
+    UnableToFulfillOrder,
+    Other
 }
 
 public enum PaymentMethod

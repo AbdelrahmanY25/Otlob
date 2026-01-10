@@ -63,7 +63,7 @@ public class AddressService(IUnitOfWorkRepository unitOfWorkRepository, IDataPro
 
     public Result Add(AddressRequest request)
     {
-        string userId = _httpContextAccessor.HttpContext!.User.GetUserId();
+        string userId = _httpContextAccessor.HttpContext!.User.GetUserId()!;
 
         if (ValidateAddressOnAdd(userId, request))
             return Result.Failure(AddressErrors.ExistedAddress);
@@ -84,7 +84,7 @@ public class AddressService(IUnitOfWorkRepository unitOfWorkRepository, IDataPro
     
     public Result Update(AddressRequest request)
     {
-        string userId = _httpContextAccessor.HttpContext!.User.GetUserId();
+        string userId = _httpContextAccessor.HttpContext!.User.GetUserId()!;
 
         string id = _httpContextAccessor.HttpContext!.Session.GetString("AddressId")!;
 
@@ -94,7 +94,8 @@ public class AddressService(IUnitOfWorkRepository unitOfWorkRepository, IDataPro
         // TODO: Handle Exception
         int addressId = int.Parse(_dataProtector.Unprotect(id));
 
-        var isAddressIdExist = _unitOfWorkRepository.Addresses.IsExist(add => add.Id == addressId);
+        var isAddressIdExist = _unitOfWorkRepository.Addresses
+            .IsExist(add => add.Id == addressId);
 
         if (!isAddressIdExist)
             return Result.Failure(AddressErrors.InvalidAddress);
@@ -104,10 +105,10 @@ public class AddressService(IUnitOfWorkRepository unitOfWorkRepository, IDataPro
         if (isValidAddress)
             return Result.Failure(AddressErrors.ExistedAddress);
 
-        ManageWhichAddressIsDeliveryAddress(userId, request);
-
         Address oldAddress = _unitOfWorkRepository.Addresses
-            .GetOne(expression: add => add.Id == addressId)!;
+            .GetOne(expression: add => add.Id == addressId && add.UserId == userId)!;
+
+        ManageWhichAddressIsDeliveryAddress(userId, request, addressId);
 
         request.MapToAddress(oldAddress);
 
@@ -133,30 +134,21 @@ public class AddressService(IUnitOfWorkRepository unitOfWorkRepository, IDataPro
 
         return Result.Success();
     }
-    
-    public bool HasDeliverAddress(string userId) =>
-        _unitOfWorkRepository.Addresses
-            .IsExist(add => add.UserId == userId && add.IsDeliveryAddress);    
-    
 
-    private void ManageWhichAddressIsDeliveryAddress(string userId, AddressRequest request)
+    public Address? HasDeliverAddress(string userId, int addressId) =>
+            _unitOfWorkRepository.Addresses
+                 .GetOne(expression: add => add.Id != addressId && add.UserId == userId && add.IsDeliveryAddress);
+
+    private void ManageWhichAddressIsDeliveryAddress(string userId, AddressRequest request, int addressId = 0)
     {
         if (request.IsDeliveryAddress)
-        {            
-            if (HasDeliverAddress(userId))
+        {                        
+            var address = HasDeliverAddress(userId, addressId);
+
+            if (address is not null)
             {
-                var address = _unitOfWorkRepository.Addresses
-                    .GetOneWithSelect(
-                        expression: add => add.UserId == userId && add.IsDeliveryAddress,
-                        selector: add => new Address {
-                            Id = add.Id,
-                            IsDeliveryAddress = add.IsDeliveryAddress
-                        }
-                    )!;
-
                 address.IsDeliveryAddress = false;
-
-                _unitOfWorkRepository.Addresses.ModifyProperty(address, add => add.IsDeliveryAddress);
+                _unitOfWorkRepository.Addresses.ModifyProperty(address, add => add.IsDeliveryAddress);            
             }
         }
     }
@@ -188,5 +180,5 @@ public class AddressService(IUnitOfWorkRepository unitOfWorkRepository, IDataPro
                 add.CustomerAddress == request.CustomerAddress &&
                 add.HouseNumberOrName == request.HouseNumberOrName
             );
-    }
+    }    
 }

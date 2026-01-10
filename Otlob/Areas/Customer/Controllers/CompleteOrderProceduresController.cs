@@ -8,7 +8,7 @@
             var newOrder = new
             {
                 id = order.Id,
-                address = order.UserAddress,
+                address = order.DeliveryAddress,
                 date = order.OrderDate,
                 status = "Pending"
                 //name = user.UserName,

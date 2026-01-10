@@ -1,1 +1,34 @@
-[]
+[
+  {
+    "ContainingType": "Otlob.ApiControllers.AuthController",
+    "Method": "Register",
+    "RelativePath": "Auth/register",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "Otlob.Core.Contracts.MobileApp.Authentication.MobileRegisterRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Otlob.ApiControllers.AuthController",
+    "Method": "ResendConfirmationEmail",
+    "RelativePath": "Auth/resend-email-confirmation",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "Otlob.Core.Contracts.Authentication.ResendEmailConfirmationRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  }
+]

@@ -4,17 +4,48 @@ public class TempOrderService(IUnitOfWorkRepository unitOfWorkRepository) : ITem
 {
     private readonly IUnitOfWorkRepository unitOfWorkRepository = unitOfWorkRepository;
 
+    private static readonly JsonSerializerOptions _jsonOptions = new()
+    {
+        NumberHandling = JsonNumberHandling.AllowNamedFloatingPointLiterals,
+        ReferenceHandler = ReferenceHandler.IgnoreCycles,
+        WriteIndented = false
+    };
+
     public TempOrder AddTempOrder(Order order)
     {
-        TempOrder tempOrder = new TempOrder
+        // Create a serializable representation of the order
+        var orderData = new
         {
-            OrderData = JsonConvert.SerializeObject(order),
+            order.UserId,
+            order.RestaurantId,
+            order.CustomerPhoneNumber,
+            order.DeliveryAddress,
+            DeliveryLocationX = order.DeliveryAddressLocation?.X ?? 0,
+            DeliveryLocationY = order.DeliveryAddressLocation?.Y ?? 0,
+            order.SubPrice,
+            order.DeliveryFee,
+            order.ServiceFeePrice,
+            order.Notes,
+            order.Method,
+            order.OrderDate,
+            order.Status,
+            OrderDetails = order.OrderDetails.Select(m => new
+            {
+                m.MealId,
+                m.MealDetails,
+                m.MealQuantity,
+                m.MealPrice,
+                m.ItemsPrice,
+                m.AddOnsPrice
+            }).ToList()
         };
+
+        TempOrder tempOrder = new() { OrderData = JsonSerializer.Serialize(orderData, _jsonOptions) };
 
         unitOfWorkRepository.TempOrders.Add(tempOrder);
         unitOfWorkRepository.SaveChanges();
 
-        BackgroundJob.Schedule(() => RemoveTempOrderAfterTwentyMinsFromCreationAsABackGroundTask(tempOrder.Id), TimeSpan.FromMinutes(20));
+        BackgroundJob.Schedule(() => RemoveTempOrderAfterTwentyMinsFromCreation(tempOrder.Id), TimeSpan.FromMinutes(20));
         
         return tempOrder;
     }
@@ -24,9 +55,10 @@ public class TempOrderService(IUnitOfWorkRepository unitOfWorkRepository) : ITem
     public void RemoveTempOrder(TempOrder tempOrder)
     {
         unitOfWorkRepository.TempOrders.HardDelete(tempOrder);
+        unitOfWorkRepository.SaveChanges();
     }
 
-    public void RemoveTempOrderAfterTwentyMinsFromCreationAsABackGroundTask(string tempOrderId)
+    public void RemoveTempOrderAfterTwentyMinsFromCreation(string tempOrderId)
     {
         bool isTempOrderStillExist = unitOfWorkRepository.TempOrders.IsExist(to => to.Id == tempOrderId);
 

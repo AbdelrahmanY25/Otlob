@@ -7,7 +7,7 @@ public class MenuCategoryRequestValidator : AbstractValidator<MenuCategoryReques
         RuleFor(x => x.Name)
             .NotEmpty()
             .MinimumLength(3)
-            .MaximumLength(15)
+            .MaximumLength(50)
             .Matches(RegexPattern.MenuCategoryName);
     }
 }

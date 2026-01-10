@@ -28,6 +28,8 @@ public class Program
         app.UseStaticFiles();
 
         app.UseSession();
+        
+        app.UseCors();
 
         app.UseRouting();
         
@@ -50,6 +52,25 @@ public class Program
             DashboardTitle = "Otlob Hangfire Dashboard",
             DarkModeEnabled = true
         });
+
+        // Analytics Recurring Jobs
+        var scopeFactore = app.Services.GetRequiredService<IServiceScopeFactory>();
+        using var scope = scopeFactore.CreateScope();
+        
+        // Admin Analytics
+        var adminDailyAnalyticsService = scope.ServiceProvider.GetRequiredService<IAdminDailyAnalyticsService>();
+        var adminMonthlyAnalyticsService = scope.ServiceProvider.GetRequiredService<IAdminMonthlyAnalyticsService>();
+
+        RecurringJob.AddOrUpdate("AddAdminDailyAnalyticsJob", () => adminDailyAnalyticsService.Add(), Cron.Daily);
+        RecurringJob.AddOrUpdate("AddAdminMonthlyAnalyticsJob", () => adminMonthlyAnalyticsService.Add(), Cron.Monthly);
+
+        // Restaurant Analytics
+        var restaurantMonthlyAnalyticsService = scope.ServiceProvider.GetRequiredService<IRestaurantMonthlyAnalyticsService>();
+        var restaurantDailyAnalyticsService = scope.ServiceProvider.GetRequiredService<IRestaurantDailyAnalyticsService>();
+
+        RecurringJob.AddOrUpdate("AddRestaurantDailyAnalyticsJob", () => restaurantDailyAnalyticsService.AddForAllActiveRestaurants(), Cron.Daily);
+        RecurringJob.AddOrUpdate("AddRestaurantMonthlyAnalyticsJob", () => restaurantMonthlyAnalyticsService.AddForAllActiveRestaurants(), Cron.Monthly);
+
 
         app.UseRateLimiter();
 

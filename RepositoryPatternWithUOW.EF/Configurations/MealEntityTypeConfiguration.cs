@@ -14,7 +14,7 @@ public class MealEntityTypeConfiguration : IEntityTypeConfiguration<Meal>
 
         builder
             .Property(m => m.Name)
-            .HasMaxLength(25);
+            .HasMaxLength(75);
 
         builder
             .Property(m => m.Description);

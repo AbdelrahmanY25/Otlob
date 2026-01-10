@@ -1,0 +1,104 @@
+@model List<OrderHistoryResponse>
+
+@{
+    ViewData["Title"] = "My Orders";
+}
+
+<link rel="stylesheet" href="~/css/ordersHistory.css" />
+
+<div class="orders-page">
+    <div class="orders-container">
+        <a href="@Url.Action("Index", "Home", new { area = "Customer" })" class="back-link">
+            <i class="bi bi-arrow-left"></i> Back to Home
+        </a>
+
+        <div class="page-header">
+            <h1 class="page-title">My Orders</h1>
+        </div>
+
+        @if (Model.Count == 0)
+        {
+            <div class="empty-orders">
+                <i class="bi bi-bag-x"></i>
+                <h3>No orders yet</h3>
+                <p>You haven't placed any orders. Start exploring restaurants!</p>
+                <a href="@Url.Action("Index", "Home", new { area = "Customer" })" class="browse-btn">
+                    Browse Restaurants
+                </a>
+            </div>
+        }
+        else
+        {
+            @foreach (var order in Model)
+            {
+                <div class="order-card">
+                    <a href="@Url.Action("OrderDetails", "OrdersHistory", new { area = "Customer", id = order.Id })" class="order-card-link">
+                        <div class="order-header">
+                            @if (!string.IsNullOrEmpty(order.RestaurantImage))
+                            {
+                                <img src="~/images/@order.RestaurantImage" alt="@order.RestaurantName" class="restaurant-logo" />
+                            }
+                            else
+                            {
+                                <div class="restaurant-logo-placeholder">
+                                    <i class="bi bi-shop"></i>
+                                </div>
+                            }
+                            <div class="order-info">
+                                <h3 class="restaurant-name">@order.RestaurantName</h3>
+                                <div class="order-meta">
+                                    <span><i class="bi bi-calendar3"></i> @order.OrderDate.ToString("MMM dd, yyyy")</span>
+                                    <span><i class="bi bi-clock"></i> @order.OrderDate.ToString("hh:mm tt")</span>
+                                    <span><i class="bi bi-box-seam"></i> @order.ItemsCount items</span>
+                                </div>
+                            </div>
+                            <span class="status-badge status-@order.Status.ToString().ToLower()">
+                                @switch (order.Status)
+                                {
+                                    case OrderStatus.Pending:
+                                        <i class="bi bi-hourglass-split"></i>
+                                        break;
+                                    case OrderStatus.Preparing:
+                                        <i class="bi bi-fire"></i>
+                                        break;
+                                    case OrderStatus.Shipped:
+                                        <i class="bi bi-truck"></i>
+                                        break;
+                                    case OrderStatus.Delivered:
+                                        <i class="bi bi-check-circle"></i>
+                                        break;
+                                    case OrderStatus.Cancelled:
+                                        <i class="bi bi-x-circle"></i>
+                                        break;
+                                }
+                                @order.Status
+                            </span>
+                        </div>
+                        <div class="order-footer">
+                            <div>
+                                <span class="order-total">@order.TotalPrice.ToString("N2") L.E</span>
+                                <span class="payment-method">
+                                    @if (order.PaymentMethod == PaymentMethod.Cash)
+                                    {
+                                        <i class="bi bi-cash"></i>
+                                        <span>Cash</span>
+                                    }
+                                    else
+                                    {
+                                        <i class="bi bi-credit-card"></i>
+                                        <span>Card</span>
+                                    }
+                                </span>
+                            </div>
+                            <span class="view-details">
+                                View Details <i class="bi bi-chevron-right"></i>
+                            </span>
+                        </div>
+                    </a>
+                </div>
+            }
+        }
+    </div>
+</div>
+
+<script src="~/js/ordersHistory.js" defer></script>

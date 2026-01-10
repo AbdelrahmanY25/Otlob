@@ -7,10 +7,14 @@ public class UnitOfWorkRepository(ApplicationDbContext applicationDbContext) : I
 {
     private readonly ApplicationDbContext _context = applicationDbContext;
 
+    private IBaseRepository<AdminDailyAnalytic> _adminDailyAnalytics = default!;
+    private IBaseRepository<AdminMonthlyAnalytic> _adminMonthlyAnalytic = default!;
     private IBaseRepository<ApplicationUser> _users = default!;
     private IBaseRepository<Order> _orders = default!;
     private IBaseRepository<Category> _categories = default!;
     private IBaseRepository<Restaurant> _restaurants = default!;
+    private IBaseRepository<RestaurantDailyAnalytic> _restaurantDailyAnalytics = default!;
+    private IBaseRepository<RestaurantMonthlyAnalytic> _restaurantMonthlyAnalytics = default!;
     private IBaseRepository<Address> _addresses = default!;
     private IBaseRepository<CartDetails> _cartDetails = default!;
     private IBaseRepository<Cart> _carts = default!;
@@ -32,6 +36,42 @@ public class UnitOfWorkRepository(ApplicationDbContext applicationDbContext) : I
     private IBaseRepository<RestaurantBranch> _restaurantBranches = default!;
     private IBaseRepository<RestaurantCategory> _restaurantCategorys = default!;
 
+
+    public IBaseRepository<AdminDailyAnalytic> AdminDailyAnalytics 
+    { 
+        get 
+        {
+            _adminDailyAnalytics ??= new BaseRepository<AdminDailyAnalytic>(_context);
+            return _adminDailyAnalytics;
+        }
+    }
+
+    public IBaseRepository<AdminMonthlyAnalytic> AdminMonthlyAnalytics
+    {
+        get
+        {
+            _adminMonthlyAnalytic ??= new BaseRepository<AdminMonthlyAnalytic>(_context);
+            return _adminMonthlyAnalytic;
+        }
+    }
+
+    public IBaseRepository<RestaurantDailyAnalytic> RestaurantDailyAnalytics
+    {
+        get
+        {
+            _restaurantDailyAnalytics ??= new BaseRepository<RestaurantDailyAnalytic>(_context);
+            return _restaurantDailyAnalytics;
+        }
+    }
+
+    public IBaseRepository<RestaurantMonthlyAnalytic> RestaurantMonthlyAnalytics
+    {
+        get
+        {
+            _restaurantMonthlyAnalytics ??= new BaseRepository<RestaurantMonthlyAnalytic>(_context);
+            return _restaurantMonthlyAnalytics;
+        }
+    }
 
     public IBaseRepository<Meal> Meals 
     { 

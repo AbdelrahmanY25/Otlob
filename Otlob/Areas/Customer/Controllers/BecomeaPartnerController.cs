@@ -12,9 +12,7 @@ public class BecomeAPartnerController(IAuthService authService, IAddPartnerServi
     public async Task<IActionResult> BecomeAPartner(RegisterRequest request)
     {
         if (!ModelState.IsValid)
-        {
             return View(request);
-        }
 
         var result = await _authService.RegisterAsync(request, [DefaultRoles.RestaurantAdmin]);
 

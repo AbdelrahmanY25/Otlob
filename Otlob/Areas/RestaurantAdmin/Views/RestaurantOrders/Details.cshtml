@@ -1,0 +1,304 @@
+@model OrderDetailsResponse
+@using System.Text.Json
+
+@{
+    ViewData["Title"] = "Order Details";
+    var orderKey = (int)ViewBag.OrderKey;
+    var statusClass = Model.Status.ToString().ToLower();
+    
+    var steps = new[] { 
+        (Name: "Pending", Icon: "bi-clock"), 
+        (Name: "Preparing", Icon: "bi-fire"), 
+        (Name: "Shipped", Icon: "bi-truck"), 
+        (Name: "Delivered", Icon: "bi-house-check") 
+    };
+    var currentStepIndex = Model.Status switch
+    {
+        OrderStatus.Pending => 0,
+        OrderStatus.Preparing => 1,
+        OrderStatus.Shipped => 2,
+        OrderStatus.Delivered => 3,
+        _ => -1
+    };
+    var isCancelled = Model.Status == OrderStatus.Cancelled;
+    
+    var nextStatus = Model.Status switch
+    {
+        OrderStatus.Pending => "Preparing",
+        OrderStatus.Preparing => "Shipped",
+        OrderStatus.Shipped => "Delivered",
+        _ => ""
+    };
+}
+
+<link rel="stylesheet" href="~/css/orderDetails.css" asp-append-version="true" />
+
+<!-- Print-only restaurant info -->
+<div class="print-only" style="display: none;">
+    <div class="print-restaurant-name">@Model.RestaurantName</div>
+</div>
+
+<div class="order-details-container">
+    <!-- Header -->
+    <div class="details-header">
+        <div class="header-left">
+            <a href="@Url.Action("InProgress", "RestaurantOrders", new { area = "RestaurantAdmin" })" class="back-btn">
+                <i class="bi bi-arrow-left"></i>
+            </a>
+            <div class="header-info">
+                <h1>Order #@Model.Id</h1>
+                <p>
+                    <i class="bi bi-calendar3"></i> @Model.OrderDate.ToString("MMMM dd, yyyy 'at' hh:mm tt")
+                </p>
+            </div>
+        </div>
+        <div class="header-actions">
+            @if (!isCancelled && Model.Status != OrderStatus.Delivered)
+            {
+                @if (!string.IsNullOrEmpty(nextStatus))
+                {
+                    <button type="button" class="action-btn primary" onclick="updateOrderStatusFromDetails(@orderKey, '@nextStatus', this)">
+                        <i class="bi bi-arrow-right-circle"></i>
+                        @(nextStatus == "Preparing" ? "Start Preparing" : nextStatus == "Shipped" ? "Mark as Shipped" : "Mark as Delivered")
+                    </button>
+                }
+                
+                @if (Model.Status == OrderStatus.Pending || Model.Status == OrderStatus.Preparing)
+                {
+                    <button type="button" class="action-btn danger" onclick="updateOrderStatusFromDetails(@orderKey, 'Cancelled', this)">
+                        <i class="bi bi-x-lg"></i> Cancel Order
+                    </button>
+                }
+            }
+            <button type="button" class="action-btn outline" onclick="printOrder()">
+                <i class="bi bi-printer"></i> Print
+            </button>
+        </div>
+    </div>
+
+    <!-- Status Timeline -->
+    <div class="status-timeline-card">
+        <div class="timeline-header">
+            <h3><i class="bi bi-signpost-split"></i> Order Status</h3>
+            <span class="status-badge @statusClass">@Model.Status</span>
+        </div>
+        
+        @if (!isCancelled)
+        {
+            <div class="status-timeline">
+                @foreach (var (step, index) in steps.Select((s, i) => (s, i)))
+                {
+                    var stepClass = index < currentStepIndex ? "completed" : (index == currentStepIndex ? "active" : "");
+                    <div class="timeline-step @stepClass">
+                        <div class="step-circle">
+                            @if (index < currentStepIndex)
+                            {
+                                <i class="bi bi-check-lg"></i>
+                            }
+                            else
+                            {
+                                <i class="bi @step.Icon"></i>
+                            }
+                        </div>
+                        <div class="step-info">
+                            <p class="step-name">@step.Name</p>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="status-timeline">
+                <div class="timeline-step cancelled">
+                    <div class="step-circle">
+                        <i class="bi bi-x-lg"></i>
+                    </div>
+                    <div class="step-info">
+                        <p class="step-name">Order Cancelled</p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <!-- Main Content Grid -->
+    <div class="details-grid">
+        <!-- Left Column: Order Items -->
+        <div class="details-card">
+            <div class="card-header">
+                <h3><i class="bi bi-basket3"></i> Order Items (@Model.Items.Count)</h3>
+            </div>
+            <div class="card-body">
+                <ul class="order-items-list">
+                    @foreach (var item in Model.Items)
+                    {
+                        var mealDetails = MealDetailsParser.Parse(item.MealDetails);
+                        
+                        <li class="order-item">
+                            <div class="item-image">
+                                @if (!string.IsNullOrEmpty(item.MealImage))
+                                {
+                                    <img src="~/images/@item.MealImage" alt="@item.MealName" class="meal-img">
+                                }
+                                else
+                                {
+                                    <div class="no-image">
+                                        <i class="bi bi-image"></i>
+                                    </div>
+                                }
+                            </div>
+                            <div class="item-info">
+                                <h4 class="item-name">@item.MealName</h4>
+                                
+                                @if (mealDetails != null)
+                                {
+                                    @if (mealDetails.Options.Any())
+                                    {
+                                        <div class="item-options">
+                                            @foreach (var option in mealDetails.Options)
+                                            {
+                                                <span class="option-tag">
+                                                    <i class="bi bi-check-circle"></i>
+                                                    @option.GroupName: @option.ItemName
+                                                    @if (option.Price > 0)
+                                                    {
+                                                        <span class="option-price">(+@option.Price.ToString("N2") L.E)</span>
+                                                    }
+                                                </span>
+                                            }
+                                        </div>
+                                    }
+                                    
+                                    @if (mealDetails.AddOns.Any())
+                                    {
+                                        <div class="item-addons">
+                                            <span class="addons-label"><i class="bi bi-plus-circle"></i> Add-ons:</span>
+                                            @foreach (var addOn in mealDetails.AddOns)
+                                            {
+                                                <span class="addon-tag">
+                                                    @addOn.Name
+                                                    @if (addOn.Quantity > 1)
+                                                    {
+                                                        <span>x@addOn.Quantity</span>
+                                                    }
+                                                    <span class="addon-price">(+@addOn.Price.ToString("N2") L.E)</span>
+                                                </span>
+                                            }
+                                        </div>
+                                    }
+                                }
+                                else if (!string.IsNullOrEmpty(item.MealDetails))
+                                {
+                                    <p class="item-details-text">@item.MealDetails</p>
+                                }
+                                
+                                <div class="item-meta">
+                                    <span><i class="bi bi-x-lg"></i> @item.Quantity</span>
+                                    <span><i class="bi bi-tag"></i> @item.MealPrice.ToString("N2") L.E each</span>
+                                    @if (item.AddOnsPrice > 0)
+                                    {
+                                        <span><i class="bi bi-plus-circle"></i> Add-ons: +@item.AddOnsPrice.ToString("N2") L.E</span>
+                                    }
+                                </div>
+                            </div>
+                            <div class="item-price">
+                                <p class="unit-price">@item.Quantity x @item.MealPrice.ToString("N2")</p>
+                                <p class="total-price">@item.TotalPrice.ToString("N2") L.E</p>
+                            </div>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+
+        <!-- Right Column: Summary & Info -->
+        <div>
+            <!-- Order Summary -->
+            <div class="details-card" style="margin-bottom: 1.5rem;">
+                <div class="card-header">
+                    <h3><i class="bi bi-receipt"></i> Order Summary</h3>
+                </div>
+                <div class="card-body">
+                    <div class="info-row">
+                        <span class="label">Subtotal</span>
+                        <span class="value">@Model.SubTotal.ToString("N2") L.E</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="label">Delivery Fee</span>
+                        <span class="value">@Model.DeliveryFee.ToString("N2") L.E</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="label">Service Fee</span>
+                        <span class="value">@Model.ServiceFee.ToString("N2") L.E</span>
+                    </div>
+                    <div class="info-row total">
+                        <span class="label">Total</span>
+                        <span class="value">@Model.TotalPrice.ToString("N2") L.E</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Payment Info -->
+            <div class="details-card" style="margin-bottom: 1.5rem;">
+                <div class="card-header">
+                    <h3><i class="bi bi-credit-card"></i> Payment</h3>
+                </div>
+                <div class="card-body">
+                    <div class="info-row">
+                        <span class="label">Method</span>
+                        <span class="payment-badge @(Model.PaymentMethod == PaymentMethod.Cash ? "cash" : "credit")">
+                            <i class="bi @(Model.PaymentMethod == PaymentMethod.Cash ? "bi-cash" : "bi-credit-card")"></i>
+                            @Model.PaymentMethod
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Delivery Info -->
+            <div class="details-card" style="margin-bottom: 1.5rem;">
+                <div class="card-header">
+                    <h3><i class="bi bi-geo-alt"></i> Delivery Info</h3>
+                </div>
+                <div class="card-body">
+                    <div class="customer-info">
+                        <div class="customer-avatar">
+                            <i class="bi bi-person"></i>
+                        </div>
+                        <div>
+                            <p class="customer-name">Customer</p>
+                            <p class="customer-phone">
+                                <i class="bi bi-telephone"></i> @Model.CustomerPhoneNumber
+                            </p>
+                        </div>
+                    </div>
+                    <div class="info-row">
+                        <span class="label"><i class="bi bi-house"></i> Address</span>
+                        <span class="value" style="text-align: right; max-width: 60%;">@Model.DeliveryAddress</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Notes -->
+            @if (!string.IsNullOrEmpty(Model.Notes))
+            {
+                <div class="details-card">
+                    <div class="card-header">
+                        <h3><i class="bi bi-sticky"></i> Order Notes</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="notes-content">
+                            @Model.Notes
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@Html.AntiForgeryToken()
+
+@section Scripts {
+    <script src="~/js/orderDetails.js" asp-append-version="true"></script>
+}

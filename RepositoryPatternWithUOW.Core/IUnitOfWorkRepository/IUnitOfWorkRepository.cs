@@ -4,8 +4,12 @@ namespace Otlob.Core.IUnitOfWorkRepository;
 
 public interface IUnitOfWorkRepository : IDisposable
 {
+    IBaseRepository<AdminDailyAnalytic> AdminDailyAnalytics { get; }
+    IBaseRepository<AdminMonthlyAnalytic> AdminMonthlyAnalytics { get; }
     IBaseRepository<Category> Categories { get; }
     IBaseRepository<Restaurant> Restaurants { get; }
+    IBaseRepository<RestaurantDailyAnalytic> RestaurantDailyAnalytics { get; }
+    IBaseRepository<RestaurantMonthlyAnalytic> RestaurantMonthlyAnalytics { get; }
     IBaseRepository<Address> Addresses { get; }
     IBaseRepository<Order> Orders { get; }
     IBaseRepository<CartDetails> CartDetails { get; }

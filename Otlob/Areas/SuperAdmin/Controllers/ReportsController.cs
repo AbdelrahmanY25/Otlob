@@ -1,23 +1,14 @@
 ﻿namespace Otlob.Areas.SuperAdmin.Controllers;
 
-[Area(DefaultRoles.SuperAdmin), Authorize(DefaultRoles.SuperAdmin)]
-public class ReportsController : Controller
+[Area(DefaultRoles.SuperAdmin), Authorize(Roles = DefaultRoles.SuperAdmin)]
+public class ReportsController(IExportReeportsAsExcelService exportReeportsAsExcelService) : Controller
 {
-    private readonly IExportReeportsAsExcelService exportReeportsAsExcelService;
-
-    public ReportsController(IExportReeportsAsExcelService exportReeportsAsExcelService)
-    {
-        this.exportReeportsAsExcelService = exportReeportsAsExcelService;
-    }
+    private readonly IExportReeportsAsExcelService exportReeportsAsExcelService = exportReeportsAsExcelService;
 
     public IActionResult ExportOrdersOverLastTwelveMonthExcel()
     {
-        byte[] content = exportReeportsAsExcelService.ExportOrdersOverLastTwelveMonth();
+        var (content, contentType, fileName) = exportReeportsAsExcelService.ExportOrdersOverLastTwelveMonth();
 
-        return File(
-            content,
-            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-            "OrdersOverLastTwelveMonth.xlsx"
-        );
+        return File(content, contentType, fileName);
     }
 }

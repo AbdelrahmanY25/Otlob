@@ -5,7 +5,7 @@ public class CartDetails
     public int Id { get; set; }
     public int CartId { get; set; }
     public string MealId { get; set; } = string.Empty;
-    public string MealDeteils { get; set; } = string.Empty;
+    public string MealDetails { get; set; } = string.Empty;
     public int Quantity { get; set; }
     public decimal MealPrice { get; set; }
     public decimal ItemsPrice { get; set; }

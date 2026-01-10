@@ -1,48 +1,29 @@
-﻿namespace Otlob.Areas.Customer.Controllers;
+namespace Otlob.Areas.Customer.Controllers;
 
-[Area(DefaultRoles.Customer), Authorize(Roles = DefaultRoles.Customer)]
-public class OrdersHistoryController(IOrderDetailsService orderDetailsService, IOrderService orderService,
-                               UserManager<ApplicationUser> userManager, IPaginationService paginationService) : Controller
+[Area(DefaultRoles.Customer)]
+[Authorize(Roles = DefaultRoles.Customer)]
+public class OrdersHistoryController(ICustomerOrdersService customerOrdersService, IOrderDetailsService orderDetailsService) : Controller
 {
-    private readonly IOrderService orderService = orderService;
-    private readonly IPaginationService paginationService = paginationService;
-    private readonly IOrderDetailsService orderDetailsService = orderDetailsService;
-    private readonly UserManager<ApplicationUser> userManager = userManager;
+    private readonly ICustomerOrdersService _customerOrdersService = customerOrdersService;
+    private readonly IOrderDetailsService _orderDetailsService = orderDetailsService;
 
-    private const int pageSize = 5;
-
-    public ActionResult TrackOrders(int currentPageNumber = 1)
+    public IActionResult Orders()
     {
-        string? userId = userManager.GetUserId(User);
+        var orders = _customerOrdersService.GetUserOrders();
 
-        if (userId is null)
-        {
-            return RedirectToAction("Login", "Account");
-        }
-
-        var orders = orderService.GetUserTrackedOrders(userId);
-
-        PaginationVM<TrackOrderVM> viewModel = paginationService.PaginateItems(orders!, pageSize, currentPageNumber);
-
-        return View(viewModel);
+        return View(orders);
     }
 
-    public IActionResult OrderDetails(string id)
+    public IActionResult OrderDetails(int id)
     {
-        Order order = orderService.GetOrderPaymentDetails(id)!;
+        var result = _orderDetailsService.GetOrderDetails(id);
 
-        if (order is null)
+        if (result.IsFailure)
         {
-            return View("NoOrderDetails");
+            TempData["Error"] = result.Error.Description;
+            return RedirectToAction(nameof(Orders));
         }
 
-        OrderDetailsViewModel orderDetailsVM = orderDetailsService.GetOrderDetailsToViewPage(order);
-
-        if (orderDetailsVM is null)
-        {
-            return View("NoOrderDetails");
-        }
-
-        return View(orderDetailsVM);
+        return View(result.Value);
     }
 }

@@ -107,11 +107,6 @@
           },
           "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.101/PortableRuntimeIdentifierGraph.json"
         }
-      },
-      "runtimes": {
-        "win-x86": {
-          "#import": []
-        }
       }
     },
     "D:\\My_Projects\\Back End C# Asp .Net\\MVC Projects\\Otlob Projects\\Otlob\\RepositoryPatternWithUOW.EF\\Otlob.EF.csproj": {
@@ -231,11 +226,6 @@
           },
           "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.101/PortableRuntimeIdentifierGraph.json"
         }
-      },
-      "runtimes": {
-        "win-x86": {
-          "#import": []
-        }
       }
     },
     "D:\\My_Projects\\Back End C# Asp .Net\\MVC Projects\\Otlob Projects\\Otlob\\Utility\\Utility.csproj": {
@@ -314,11 +304,6 @@
             }
           },
           "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.101/PortableRuntimeIdentifierGraph.json"
-        }
-      },
-      "runtimes": {
-        "win-x86": {
-          "#import": []
         }
       }
     }

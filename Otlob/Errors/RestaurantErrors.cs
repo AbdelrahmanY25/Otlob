@@ -1,4 +1,4 @@
-﻿namespace Otlob.Errors;
+﻿namespace Otlob.ApiErrors;
 
 public static class RestaurantErrors
 {

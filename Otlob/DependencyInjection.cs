@@ -1,5 +1,9 @@
-﻿using Stripe;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Otlob.ApiServices;
+using Otlob.Authentication;
+using Stripe;
 using System.Threading.RateLimiting;
+using Utility.Settings;
 
 namespace Otlob
 {
@@ -15,11 +19,26 @@ namespace Otlob
 
             services.AddCachingSession();
 
+            services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(builder =>
+                {
+                    builder
+                        .AllowAnyOrigin()
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                });
+            });
+
             services.AddHangfireConfiguration(configuration);
 
             services.AddDbContext(configuration);
 
             services.AddIdentityConfigurations();
+
+            services.AddJwtConfig(configuration);
+
+            services.AddExternalAuthentication(configuration);
 
             services.AddAutoMapperConfiguration();
 
@@ -87,7 +106,7 @@ namespace Otlob
             services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
             {
                 options.Password.RequiredLength = 8;
-                options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._";
+                options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@ ";
                 options.User.RequireUniqueEmail = true;
                 options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(10);
                 options.Lockout.MaxFailedAccessAttempts = 4;
@@ -95,6 +114,47 @@ namespace Otlob
             })
            .AddEntityFrameworkStores<ApplicationDbContext>()
            .AddDefaultTokenProviders();
+
+            return services;
+        }
+
+        private static IServiceCollection AddJwtConfig(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddSingleton<IJwtProvider, JwtProvider>();
+
+            JwtOptions jwtOptions = configuration.GetSection(JwtOptions.SectionName).Get<JwtOptions>()!;
+
+            services.AddOptions<JwtOptions>()
+                .BindConfiguration(JwtOptions.SectionName)
+                .ValidateDataAnnotations()
+                .ValidateOnStart();
+
+            services.AddAuthentication()
+            .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
+            {
+                options.SaveToken = true;
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidIssuer = jwtOptions?.Issure,
+                    ValidAudience = jwtOptions?.Audience,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions?.Key!)),
+                };
+            });
+
+            return services;
+        }
+
+        private static IServiceCollection AddExternalAuthentication(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddAuthentication().AddGoogle(googleOptions =>
+            {
+                googleOptions.ClientId = configuration["Authentication:Google:ClientId"]!;
+                googleOptions.ClientSecret = configuration["Authentication:Google:ClientSecret"]!;
+            });
 
             return services;
         }
@@ -149,14 +209,23 @@ namespace Otlob
 
         private static IServiceCollection AddServices(this IServiceCollection services)
         {
+            services.AddScoped<IApiAuthService, ApiAuthService>();
+            
+            
+            
             services.AddScoped<IAddressService, AddressService>();
             services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IAdminDailyAnalyticsService, AdminDailyAnalyticsService>();
+            services.AddScoped<IAdminMonthlyAnalyticsService, AdminMonthlyAnalyticsService>();
             services.AddScoped<IBankAccountService, Otlob.Services.BankAccountService>();
             services.AddScoped<IBranchService, BranchService>();
             services.AddScoped<ICartService, CartService>();
+            services.AddScoped<ICheckOutService, CheckOutService>();
+            services.AddScoped<ICustomerOrdersService, CustomerOrdersService>();
             services.AddScoped<ICustomerSercice, CustomerSercice>();
             services.AddScoped<IEncryptionService, EncryptionService>();
             services.AddScoped<IExportReeportsAsExcelService, ExportReeportsAsExcelService>();
+            services.AddScoped<IExternalLoginService, ExternalLoginService>();
             services.AddScoped<IFileService, Services.FileService>();
             services.AddScoped<IMailService, MailService>();
             services.AddScoped<IMealCategoryService, MealCategoryService>();
@@ -168,15 +237,17 @@ namespace Otlob
             services.AddScoped<IMenuService, MenuService>();
             services.AddScoped<IMealAddOnService, MealAddOnService>();
             services.AddScoped<INationalIdService, NationalIdService>();
-            services.AddScoped<IOrdersAnalysisService, OrdersAnalysisService>();
             services.AddScoped<IOrderDetailsService, OrderDetailsService>();
-            services.AddScoped<IOrderedMealsService, OrderedMealsService>();
             services.AddScoped<IOrderService, Services.OrderService>();
             services.AddScoped<IPaginationService, PaginationService>();
             services.AddScoped<IRestaurantBusinessDetailsService, RestaurantBusinessDetailsService>();
             services.AddScoped<IRestaurantCategoriesService, RestaurantCategoriesService>();
+            services.AddScoped<IRestaurantDailyAnalyticsService, RestaurantDailyAnalyticsService>();
+            services.AddScoped<IRestaurantMonthlyAnalyticsService, RestaurantMonthlyAnalyticsService>();
             services.AddScoped<IRestaurantProfileService, RestaurantProfileService>();
             services.AddScoped<IRestaurantProgressStatus, RestaurantProgressStatus>();
+            services.AddScoped<IRestaurantOrdersService, RestaurantOrdersService>();
+            services.AddScoped<IOrderDetailsService, OrderDetailsService>();
             services.AddScoped<IRestaurantService, RestaurantService>();
             services.AddScoped<IRestauranStatusService, RestauranStatusService>();
             services.AddScoped<IUserProfileService, UserProfileService>();

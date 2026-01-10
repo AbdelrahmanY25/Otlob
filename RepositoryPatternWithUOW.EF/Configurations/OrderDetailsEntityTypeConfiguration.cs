@@ -10,16 +10,21 @@ public class OrderDetailsEntityTypeConfiguration : IEntityTypeConfiguration<Orde
         builder
             .Property(od => od.MealPrice)
             .HasColumnType("decimal(8,2)");
-
+        
         builder
-            .Property(od => od.TotalPrice)
+            .Property(od => od.ItemsPrice)
+            .HasColumnType("decimal(8,2)");
+        
+        builder
+            .Property(od => od.AddOnsPrice)
             .HasColumnType("decimal(8,2)");
 
         builder
-            .HasIndex(od => od.MealId);
-
-        builder
             .Property(od => od.TotalPrice)
-            .HasComputedColumnSql("[MealPrice] * [MealQuantity]");
+            .HasColumnType("decimal(8,2)")
+            .HasComputedColumnSql("[MealQuantity] * ([MealPrice] + [ItemsPrice] + [AddOnsPrice])", true);
+        
+        builder
+            .HasIndex(od => od.MealId);
     }
 }

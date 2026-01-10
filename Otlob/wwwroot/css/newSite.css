@@ -3,10 +3,6 @@ html {
 }
 
 :root {
-    /* =========================
-       NEW DESIGN SYSTEM (from mealDetails.css)
-       ========================= */
-    /* Primary Colors */
     --primary: #ff385d;
     --primary-dark: #e02e50;
     --primary-light: #ff6b81;
@@ -115,63 +111,6 @@ ul {
     min-height: 100vh;
     background-color: #f1f5f9;
 }
-
-/*start sidebar*/
-.sidebar {
-    background: white;
-    width: 250px;
-    z-index: 1000;
-    height: auto;
-    box-shadow: 0 0 10px #ddd;
-    padding: 20px;
-    position: relative;
-    transition: all 0.3s ease;
-    overflow-x: hidden;
-}
-
-.sidebar .links {
-    border-radius: 8px;
-    box-shadow: var(--shadow);
-    padding: 5px;
-}
-
-.sidebar h3 {
-    text-align: center;
-    font-size: 32px;
-    font-weight: 800;
-    margin-bottom: 50px;
-    color: var(--primary-color);
-}
-
-.sidebar ul li:not(:last-child) {
-    border-bottom: 1px solid #f1f1f1;
-}
-
-.sidebar ul li a {
-    text-align: center;
-    margin-bottom: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 10px;
-    gap: 10px;
-    border-radius: 5px;
-    color: var(--primary-color);
-    transition: all 0.2s ease;
-}
-
-.sidebar ul li a i,
-.sidebar ul li a span {
-    font-size: 16px;
-}
-
-.sidebar ul li a:hover {
-    /*background-color: var(--primary-color);
-    color: white;*/
-    border-left: 4px solid var(--primary-color);
-}
-
-/*end sidebar*/
 
 .content {
     overflow: hidden;

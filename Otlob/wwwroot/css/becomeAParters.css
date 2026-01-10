@@ -76,6 +76,47 @@
     opacity: 0.9;
 }
 
+.social-login {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.social-login form {
+    width: 100%;
+    max-width: 300px;
+}
+
+.social-btn {
+    width: 100%;
+    padding: 12px 20px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    border: none;
+    background: white;
+    cursor: pointer;
+    transition: all var(--main-transition);
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.social-btn.google-btn {
+    background-color: black;
+    color: white;
+    border: 2px solid #c5c8cb;
+}
+
+.social-btn i {
+    font-size: 18px;
+}
+
+.social-btn.google-btn i {
+    color: white;
+}
+
 /* =========================================
    RIGHT PANEL (The Form Container)
    ========================================= */

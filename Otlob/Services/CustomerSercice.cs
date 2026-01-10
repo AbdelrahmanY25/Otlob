@@ -44,7 +44,7 @@ public class CustomerSercice(IUnitOfWorkRepository unitOfWorkRepository,
         var branches = _unitOfWorkRepository.RestaurantBranches.
             GetAllWithSelect(
                 expression: b => b.Location             // TODO: change it
-                    .IsWithinDistance(deliveryLocation, 15000),
+                    .IsWithinDistance(deliveryLocation, b.DeliveryRadiusKm * 1000),
                 tracked: false,
                 selector: b => new {
                     b.RestaurantId,
@@ -80,6 +80,9 @@ public class CustomerSercice(IUnitOfWorkRepository unitOfWorkRepository,
                 }
             )!;
 
+        if (restaurants is null || !restaurants.Any())
+            return Result.Failure<CustomerHomeResponse>(BranchErrors.NoRestaurantsAvailableInYourArea);
+
         var response = new CustomerHomeResponse
         {
             Categories = _unitOfWorkRepository.Categories.GetAllWithSelect(selector: c => c.Name)!,
@@ -91,18 +94,27 @@ public class CustomerSercice(IUnitOfWorkRepository unitOfWorkRepository,
 
     private Result<Point> GetUserDeliveryLocation()
     {
-        string userId = _httpContextAccessor.HttpContext!.User.GetUserId();
+        string userId = _httpContextAccessor.HttpContext!.User.GetUserId()!;
 
-        Point userLocation = _unitOfWorkRepository.Addresses
-            .GetOneWithSelect(
+        var userLocation = _unitOfWorkRepository.Addresses
+            .GetAllWithSelect(
                 expression: add => add.UserId == userId,
                 tracked: false,
-                selector: add => add.Location
+                selector: add => new
+                {
+                    add.IsDeliveryAddress,
+                    add.Location
+                }
             )!;
 
         if (userLocation is null)
             return Result.Failure<Point>(AddressErrors.NoAddressExists);
 
-        return Result.Success(userLocation);
+        var deliveryAddress = userLocation.FirstOrDefault(add => add.IsDeliveryAddress);
+
+        if (deliveryAddress is null)
+            return Result.Failure<Point>(AddressErrors.DeliveryAddressNotFound);
+
+        return Result.Success(deliveryAddress.Location);
     }
 }

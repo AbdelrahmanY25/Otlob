@@ -1,79 +1,49 @@
-﻿namespace Otlob.Services
+﻿namespace Otlob.Services;
+
+public class OrderDetailsService(IUnitOfWorkRepository unitOfWorkRepository, IDataProtectionProvider dataProtectionProvider) : IOrderDetailsService
 {
-    public class OrderDetailsService : IOrderDetailsService
+    private readonly IUnitOfWorkRepository _unitOfWorkRepository = unitOfWorkRepository;
+    private readonly IDataProtector _dataProtector = dataProtectionProvider.CreateProtector("SecureData");
+
+
+    public Result<OrderDetailsResponse> GetOrderDetails(int orderId)
     {
-        private readonly IMapper mapper;
-        private readonly IOrderedMealsService orderedMealsService;
-        private readonly IUnitOfWorkRepository unitOfWorkRepository;
-
-        public OrderDetailsService(IMapper mapper,
-                                   ICartService cartService,
-                                   IUnitOfWorkRepository unitOfWorkRepository,
-                                   IOrderedMealsService orderedMealsService)
-        {
-            this.mapper = mapper;
-            this.orderedMealsService = orderedMealsService;
-            this.unitOfWorkRepository = unitOfWorkRepository;
-        }
-
-        public ICollection<OrderDetails> AddOrderDetails(int cartId)
-        {
-            IEnumerable<CartDetails> ordredMeals = orderedMealsService.GetOrderedMealsDetails(cartId);
-
-            if (ordredMeals is null)
-            {
-                return new List<OrderDetails>();
-            }
-
-            List<OrderDetails> orderDetailsList = new List<OrderDetails>();
-
-            foreach (var meal in ordredMeals)
-            {
-                OrderDetails orderDetails = new OrderDetails
+        var order = _unitOfWorkRepository.Orders
+            .GetOneWithSelect(
+                selector: o => new OrderDetailsResponse
                 {
-                    MealId = meal.MealId,
-                    MealQuantity = meal.Quantity,
-                    MealPrice = meal.MealPrice
-                };
+                    Id = o.Id,
+                    RestaurantName = o.Restaurant.Name,
+                    RestaurantImage = o.Restaurant.Image,
+                    OrderDate = o.OrderDate,
+                    Status = o.Status,
+                    PaymentMethod = o.Method,
+                    DeliveryAddress = o.DeliveryAddress,
+                    CustomerPhoneNumber = o.CustomerPhoneNumber,
+                    Notes = o.Notes,
+                    SubTotal = o.SubPrice,
+                    DeliveryFee = o.DeliveryFee,
+                    ServiceFee = o.ServiceFeePrice,
+                    TotalPrice = o.TotalPrice,
+                    Items = o.OrderDetails.Select(od => new OrderItemResponse
+                    {
+                        MealName = od.Meal.Name,
+                        MealImage = od.Meal.Image,
+                        MealDetails = od.MealDetails,
+                        Quantity = od.MealQuantity,
+                        MealPrice = od.MealPrice,
+                        ItemsPrice = od.ItemsPrice,
+                        AddOnsPrice = od.AddOnsPrice,
+                        TotalPrice = od.TotalPrice
+                    }).ToList()
+                },
+                expression: o => o.Id == orderId,
+                tracked: false
+            );
 
-                orderDetailsList.Add(orderDetails);
-            }
+        if (order is null)
+            return Result.Failure<OrderDetailsResponse>(OrderErrors.NotFound);
 
-            return orderDetailsList;
-        }
-
-        public OrderDetailsViewModel GetOrderDetailsToViewPage(Order order)
-        {
-            var meals = unitOfWorkRepository
-                         .OrderDetails
-                         .GetAllWithSelect(
-                             expression: od => od.OrderId == order.Id,
-                             tracked: false,
-                             selector: od => new OrderDetails
-                             {
-                                 MealPrice = od.MealPrice,
-                                 MealQuantity = od.MealQuantity,
-                                 TotalPrice = od.TotalPrice,                                 
-                                 Meal = new Meal
-                                 {
-                                     Name = od.Meal.Name,
-                                     Image = od.Meal.Image
-                                 }
-                             }
-                         );
-
-            if (meals is null) 
-            { 
-                return null!;
-            }
-
-            OrderDetailsViewModel orderDetailsVM = new();
-
-            mapper.Map(order, orderDetailsVM);
-
-            orderDetailsVM.Meals = meals!;
-
-            return orderDetailsVM;
-        }
+        return Result.Success(order);
     }
 }

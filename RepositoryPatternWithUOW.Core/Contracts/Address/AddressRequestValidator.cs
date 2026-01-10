@@ -16,7 +16,7 @@ public class AddressRequestValidator : AbstractValidator<AddressRequest>
 
         RuleFor(a => a.HouseNumberOrName)
             .Matches(RegexPattern.Address)
-            .When(a => !a.HouseNumberOrName.IsNullOrEmpty());
+            .When(a => !string.IsNullOrEmpty(a.HouseNumberOrName));
 
         RuleFor(a => a.FloorNumber)
             .Must(a => a!.Value >= 0 && a.Value <= 100)

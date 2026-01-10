@@ -1,4 +1,4 @@
-﻿namespace Otlob.Errors;
+﻿namespace Otlob.ApiErrors;
 
 public static class CartErrors
 {
@@ -22,4 +22,10 @@ public static class CartErrors
 
     public static readonly Error DeleteFailed = 
         new("Cart.DeleteFailed", "Failed to delete the cart.");
+
+    public static readonly Error CartIsEmpty = 
+        new("Cart.CartIsEmpty", "Your cart is empty. Add items before placing an order.");
+    
+    public static readonly Error MobileNumberRequired = 
+        new("Cart.MobileNumberRequired", "Mobile number is required to proceed with the order.");
 }

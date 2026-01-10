@@ -18,7 +18,7 @@ public class BaseRepository<T>(ApplicationDbContext context) : IBaseRepository<T
         await dbSet.AddRangeAsync(entities);
     }
 
-    public void Edit(T entity)
+    public void Update(T entity)
     {
         dbSet.Update(entity);
     }

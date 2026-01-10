@@ -9,11 +9,11 @@ public class MealPriceHistoryService(IUnitOfWorkRepository unitOfWorkRepository)
         _unitOfWorkRepository.MealsPriceHistories.Add(new() { MealId = mealId, Price = price });
     }
 
-    public IQueryable<MealPriceHistoryVM>? GetMealPriceHistories(string mealId)
+    public IQueryable<MealPriceHistoryResponse>? GetMealPriceHistories(string mealId)
     {        
         var mealPH = _unitOfWorkRepository.MealsPriceHistories.GetAllWithSelect
         (
-            selector: mph => new MealPriceHistoryVM
+            selector: mph => new MealPriceHistoryResponse
             {
                 Price = mph.Price,
                 StartDate = mph.StartDate,
@@ -41,7 +41,7 @@ public class MealPriceHistoryService(IUnitOfWorkRepository unitOfWorkRepository)
         if (oldMealPriciesHistory is not null)
             oldMealPriciesHistory.EndDate = DateTime.Now;
 
-        _unitOfWorkRepository.MealsPriceHistories.Edit(oldMealPriciesHistory!);
+        _unitOfWorkRepository.MealsPriceHistories.Update(oldMealPriciesHistory!);
 
         AddMealPriceHistory(mealId, price);
     }

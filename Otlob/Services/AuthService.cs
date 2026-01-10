@@ -1,9 +1,9 @@
 ﻿namespace Otlob.Services;
 
 public class AuthService(IMapper mapper, SignInManager<ApplicationUser> signInManager,
-                        UserManager<ApplicationUser> userManager, ISendEmailsToUsersService sendEmailsToUsersService,
-                        IHttpContextAccessor httpContextAccessor,
-                        ISendEmailsToPartnersService sendEmailsToPartnersService, IUnitOfWorkRepository unitOfWorkRepository) : IAuthService
+                         UserManager<ApplicationUser> userManager, ISendEmailsToUsersService sendEmailsToUsersService,
+                         IHttpContextAccessor httpContextAccessor,
+                         ISendEmailsToPartnersService sendEmailsToPartnersService, IUnitOfWorkRepository unitOfWorkRepository) : IAuthService
 {
     private readonly IMapper _mapper = mapper;
     private readonly UserManager<ApplicationUser> _userManager = userManager;
@@ -18,25 +18,19 @@ public class AuthService(IMapper mapper, SignInManager<ApplicationUser> signInMa
         var isExists = await IsValidUserData(request);
 
         if (isExists.IsFailure)
-        {
             return Result.Failure(isExists.Error);
-        }
 
         ApplicationUser newUser = _mapper.Map<ApplicationUser>(request);
 
         var result = await _userManager.CreateAsync(newUser, request.Password);
 
         if (!result.Succeeded)
-        {
             return Result.Failure(AuthenticationErrors.InvalidRegistration(string.Join(", ", result.Errors.Select(e => e.Description))));
-        }        
 
         var sendEmailResult = await SendEmailConfirmationAsync(newUser);
 
         if (sendEmailResult.IsFailure)
-        {
             return Result.Failure(sendEmailResult.Error);
-        }
 
         await _userManager.AddToRolesAsync(newUser, roles);
 
@@ -46,14 +40,10 @@ public class AuthService(IMapper mapper, SignInManager<ApplicationUser> signInMa
     public async Task<Result> ConfirmEmailAsync(ConfirmEmailRequest request)
     {        
         if (await _userManager.FindByIdAsync(request.UserId) is not { } user)
-        {
             return Result.Failure(AuthenticationErrors.InvalidUser);
-        }
 
         if (user.EmailConfirmed)
-        {
             return Result.Failure(AuthenticationErrors.DoublicatedConfirmation);
-        }
 
         string token = request.Token;
 
@@ -69,9 +59,7 @@ public class AuthService(IMapper mapper, SignInManager<ApplicationUser> signInMa
         var result = await _userManager.ConfirmEmailAsync(user!, token);
 
         if (!result.Succeeded)
-        {
             return Result.Failure(AuthenticationErrors.InvalidRegistration(string.Join(", ", result.Errors.Select(e => e.Description))));
-        }
 
         await SendWelcomeEmailToUserBasedOnHisRoleAsync(user);        
 
@@ -109,9 +97,9 @@ public class AuthService(IMapper mapper, SignInManager<ApplicationUser> signInMa
                 AuthenticationErrors.NoEmailConfirmed : AuthenticationErrors.InvalidCredentials);
         }        
 
-        var userRole = (await _userManager.GetRolesAsync(user)).FirstOrDefault();
+        var userRole = (await _userManager.GetRolesAsync(user)).First();
 
-        await _signInManager.SignInWithClaimsAsync(user, request.RememberMe, await AddUserClaimsAsync(user, userRole));        
+        await _signInManager.SignInWithClaimsAsync(user, request.RememberMe, await AddUserClaimsAsync(user, userRole));
 
         return Result.Success(userRole)!;
     }
@@ -180,12 +168,7 @@ public class AuthService(IMapper mapper, SignInManager<ApplicationUser> signInMa
 
     public async Task<Result> ChangePasswordAsync(ChangePasswordRequest request)
     {
-        string userId = _httpContextAccessor.HttpContext!.User.GetUserId();
-
-        if (userId.IsNullOrEmpty())
-        {
-            return Result.Failure(AuthenticationErrors.InvalidUser);
-        }
+        string userId = _httpContextAccessor.HttpContext!.User.GetUserId()!;
 
         ApplicationUser? user = await _userManager.FindByIdAsync(userId);
 
@@ -215,9 +198,7 @@ public class AuthService(IMapper mapper, SignInManager<ApplicationUser> signInMa
     private async Task<Result> SendEmailConfirmationAsync(ApplicationUser user)
     {
         if (user.EmailConfirmed)
-        {
             return Result.Failure(AuthenticationErrors.DoublicatedConfirmation);
-        }
 
         string token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
 
@@ -234,9 +215,9 @@ public class AuthService(IMapper mapper, SignInManager<ApplicationUser> signInMa
 
     private async Task SendWelcomeEmailToUserBasedOnHisRoleAsync(ApplicationUser user)
     {
-        string userRole = (await _userManager.GetRolesAsync(user)).FirstOrDefault()!;
+        string userRole = (await _userManager.GetRolesAsync(user)).First();
 
-        if (userRole == DefaultRoles.Customer)
+        if (userRole is DefaultRoles.Customer)
         {
             BackgroundJob.Enqueue(() => _sendEmailsToUsersService.WhenCreateUserAccountAsync(user));
         }
@@ -310,21 +291,17 @@ public class AuthService(IMapper mapper, SignInManager<ApplicationUser> signInMa
               LockoutEnabled = u.LockoutEnabled,
               LockoutEnd = u.LockoutEnd
           })
-          .FirstOrDefaultAsync();
+          .FirstAsync();
 
         bool isUserLockoutEnabled = user!.LockoutEnabled;
 
         if (!isUserLockoutEnabled)
-        {
             return Result.Failure(AuthenticationErrors.LockedOutUser);
-        }
 
         var userLockoutEndDate = user.LockoutEnd;
 
         if (userLockoutEndDate.HasValue && userLockoutEndDate.Value > DateTimeOffset.UtcNow)
-        {
             return Result.Failure(AuthenticationErrors.UserLockoutEndDate(userLockoutEndDate.Value.LocalDateTime));
-        }
 
         return Result.Success();
     }

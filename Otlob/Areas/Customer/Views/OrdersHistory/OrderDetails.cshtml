@@ -1,53 +1,250 @@
-﻿@using Otlob.Core.Contracts.Authentication
-@model OrderDetailsViewModel
+@model OrderDetailsResponse
 
-<div class="btn btn-warning"><a href="/Customer/OrdersHistory/TrackOrders">Back to resturant orders</a></div>
-
-<h3 class="mt-3">Order Summary</h3>
-
-<table class="table table-bordered table-striped dt-responsive nowrap">
-    <thead>
-        <tr class="text-center">
-            <th>
-                Meal
-            </th>
-            <th>Price</th>
-            <th>
-                Quantity
-            </th>
-            <th>
-                Total Price
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.Meals)
+@{
+    ViewData["Title"] = $"Order #{Model.Id}";
+    
+    // Helper to parse meal details JSON
+    string ParseMealDetails(string? mealDetailsJson)
+    {
+        if (string.IsNullOrEmpty(mealDetailsJson)) return string.Empty;
+        
+        try
         {
-            <tr>
-                <td>
-                    <img alt="MealLogo" class="avatar rounded-circle" src="/images/@(item.Meal.Image is not null ? item.Meal.Image : "Default.jpg")" />
-                    @Html.DisplayFor(modelItem => item.Meal.Name)
-                </td>
-                <td class="text-center">
-                    @item.MealPrice L.E
-                </td>
-                <td class="text-center text-success">
-                    X @Html.DisplayFor(modelItem => item.MealQuantity)
-                </td>
-                <td class="text-center">
-                    @item.TotalPrice L.E
-                </td>
-            </tr>
+            var node = System.Text.Json.Nodes.JsonNode.Parse(mealDetailsJson);
+            var items = new List<string>();
+            
+            var itemsArray = node?["items"]?.AsArray();
+            if (itemsArray != null)
+            {
+                foreach (var item in itemsArray)
+                {
+                    var name = item?["Name"]?.GetValue<string>();
+                    if (!string.IsNullOrEmpty(name)) items.Add(name);
+                }
+            }
+            
+            var addOnsArray = node?["addOns"]?.AsArray();
+            if (addOnsArray != null)
+            {
+                foreach (var addon in addOnsArray)
+                {
+                    var name = addon?["Name"]?.GetValue<string>();
+                    if (!string.IsNullOrEmpty(name)) items.Add(name);
+                }
+            }
+            
+            return string.Join(", ", items);
         }
-    </tbody>
-</table>
+        catch
+        {
+            return string.Empty;
+        }
+    }
+    
+    // Get progress width based on status
+    int GetProgressWidth()
+    {
+        return Model.Status switch
+        {
+            OrderStatus.Pending => 0,
+            OrderStatus.Preparing => 33,
+            OrderStatus.Shipped => 66,
+            OrderStatus.Delivered => 100,
+            OrderStatus.Cancelled => 100,
+            _ => 0
+        };
+    }
+}
 
-<div class="text-center">
-    PaymentMethod : @Model.PaymentMethod
+<link rel="stylesheet" href="~/css/ordersHistory.css" />
+
+<div class="order-details-page">
+    <div class="details-container">
+        <a href="@Url.Action("Orders", "OrdersHistory", new { area = "Customer" })" class="back-link">
+            <i class="bi bi-arrow-left"></i> Back to Orders
+        </a>
+
+        <div class="page-header">
+            <h1 class="page-title">Order #@Model.Id</h1>
+        </div>
+
+        <div class="details-card">
+            <!-- Header -->
+            <div class="details-header">
+                <div class="details-restaurant">
+                    @if (!string.IsNullOrEmpty(Model.RestaurantImage))
+                    {
+                        <img src="~/images/@Model.RestaurantImage" alt="@Model.RestaurantName" class="details-restaurant-logo" />
+                    }
+                    else
+                    {
+                        <div class="restaurant-logo-placeholder" style="width:60px; height:60px; border-radius: var(--radius-md);">
+                            <i class="bi bi-shop"></i>
+                        </div>
+                    }
+                    <div class="details-restaurant-info">
+                        <h2>@Model.RestaurantName</h2>
+                        <p>@Model.OrderDate.ToString("MMMM dd, yyyy 'at' hh:mm tt")</p>
+                    </div>
+                </div>
+                <div style="display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;">
+                    <span class="status-badge status-@Model.Status.ToString().ToLower()">
+                        @switch (Model.Status)
+                        {
+                            case OrderStatus.Pending:
+                                <i class="bi bi-hourglass-split"></i>
+                                break;
+                            case OrderStatus.Preparing:
+                                <i class="bi bi-fire"></i>
+                                break;
+                            case OrderStatus.Shipped:
+                                <i class="bi bi-truck"></i>
+                                break;
+                            case OrderStatus.Delivered:
+                                <i class="bi bi-check-circle"></i>
+                                break;
+                            case OrderStatus.Cancelled:
+                                <i class="bi bi-x-circle"></i>
+                                break;
+                        }
+                        @Model.Status
+                    </span>
+                    <span class="payment-method">
+                        @if (Model.PaymentMethod == PaymentMethod.Cash)
+                        {
+                            <i class="bi bi-cash"></i>
+                            <span>Cash on Delivery</span>
+                        }
+                        else
+                        {
+                            <i class="bi bi-credit-card"></i>
+                            <span>Paid by Card</span>
+                        }
+                    </span>
+                </div>
+            </div>
+
+            <!-- Status Progress -->
+            @if (Model.Status != OrderStatus.Cancelled)
+            {
+                <div class="status-progress">
+                    <div class="progress-steps" data-status="@Model.Status">
+                        <div class="progress-line"></div>
+                        <div class="progress-line-fill" style="width: calc(@(GetProgressWidth())% - 30px);"></div>
+                        
+                        <div class="progress-step @(Model.Status >= OrderStatus.Pending ? "completed" : "")" data-step="Pending">
+                            <div class="step-icon">
+                                <i class="bi bi-hourglass-split"></i>
+                            </div>
+                            <span class="step-label">Pending</span>
+                        </div>
+                        
+                        <div class="progress-step @(Model.Status >= OrderStatus.Preparing ? "completed" : "") @(Model.Status == OrderStatus.Preparing ? "active" : "")" data-step="Preparing">
+                            <div class="step-icon">
+                                <i class="bi bi-fire"></i>
+                            </div>
+                            <span class="step-label">Preparing</span>
+                        </div>
+                        
+                        <div class="progress-step @(Model.Status >= OrderStatus.Shipped ? "completed" : "") @(Model.Status == OrderStatus.Shipped ? "active" : "")" data-step="Shipped">
+                            <div class="step-icon">
+                                <i class="bi bi-truck"></i>
+                            </div>
+                            <span class="step-label">On the way</span>
+                        </div>
+                        
+                        <div class="progress-step @(Model.Status == OrderStatus.Delivered ? "completed active" : "")" data-step="Delivered">
+                            <div class="step-icon">
+                                <i class="bi bi-check-circle"></i>
+                            </div>
+                            <span class="step-label">Delivered</span>
+                        </div>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="status-progress" style="background: rgba(239, 68, 68, 0.05);">
+                    <div style="text-align: center; padding: 1rem;">
+                        <i class="bi bi-x-circle" style="font-size: 2rem; color: #ef4444;"></i>
+                        <p style="margin: 0.5rem 0 0; color: #ef4444; font-weight: 600;">This order was cancelled</p>
+                    </div>
+                </div>
+            }
+
+            <!-- Notes -->
+            @if (!string.IsNullOrEmpty(Model.Notes))
+            {
+                <div class="order-notes">
+                    <p><strong><i class="bi bi-sticky me-1"></i> Notes:</strong> @Model.Notes</p>
+                </div>
+            }
+
+            <!-- Order Items -->
+            <div class="order-items">
+                <h3 class="section-title"><i class="bi bi-bag"></i> Order Items</h3>
+                @foreach (var item in Model.Items)
+                {
+                    var details = ParseMealDetails(item.MealDetails);
+                    <div class="item-card">
+                        @if (!string.IsNullOrEmpty(item.MealImage))
+                        {
+                            <img src="~/images/@item.MealImage" alt="@item.MealName" class="item-image" />
+                        }
+                        else
+                        {
+                            <div class="item-image-placeholder">
+                                <i class="bi bi-egg-fried"></i>
+                            </div>
+                        }
+                        <div class="item-info">
+                            <h4 class="item-name">@item.MealName</h4>
+                            @if (!string.IsNullOrEmpty(details))
+                            {
+                                <p class="item-details">@details</p>
+                            }
+                            <span class="item-quantity">Qty: @item.Quantity</span>
+                        </div>
+                        <div class="item-price">@item.TotalPrice.ToString("N2") L.E</div>
+                    </div>
+                }
+            </div>
+
+            <!-- Delivery Info -->
+            <div class="delivery-info">
+                <h3 class="section-title"><i class="bi bi-geo-alt"></i> Delivery Information</h3>
+                <div class="info-row">
+                    <i class="bi bi-house"></i>
+                    <span>@Model.DeliveryAddress</span>
+                </div>
+                <div class="info-row">
+                    <i class="bi bi-telephone"></i>
+                    <span>@Model.CustomerPhoneNumber</span>
+                </div>
+            </div>
+
+            <!-- Order Summary -->
+            <div class="order-summary">
+                <h3 class="section-title"><i class="bi bi-receipt"></i> Order Summary</h3>
+                <div class="summary-row">
+                    <span>Subtotal</span>
+                    <span>@Model.SubTotal.ToString("N2") L.E</span>
+                </div>
+                <div class="summary-row">
+                    <span>Delivery Fee</span>
+                    <span>@Model.DeliveryFee.ToString("N2") L.E</span>
+                </div>
+                <div class="summary-row">
+                    <span>Service Fee</span>
+                    <span>@Model.ServiceFee.ToString("N2") L.E</span>
+                </div>
+                <div class="summary-row total">
+                    <span>Total</span>
+                    <span>@Model.TotalPrice.ToString("N2") L.E</span>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
-<div class="text-center">
-    Sub Price : @Model.SubPrice.ToString("0.00") L.E <br />
-    DeliveryFee : @Model.DeliveryFee.ToString("0.00") L.E <br />
-    Total Price : @(Model.TotalPrice.ToString("0.00")) L.E
-</div>
+<script src="~/js/ordersHistory.js" defer></script>

@@ -3,6 +3,6 @@
 public interface IMealPriceHistoryService
 {
     void AddMealPriceHistory(string mealId, decimal price);
-    IQueryable<MealPriceHistoryVM>? GetMealPriceHistories(string mealId);
+    IQueryable<MealPriceHistoryResponse>? GetMealPriceHistories(string mealId);
     void UpdateMealPriceHistory(string mealId, decimal price);
 }

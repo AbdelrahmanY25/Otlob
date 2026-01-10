@@ -1,11 +1,178 @@
-﻿@* @if (User.IsInRole(DefaultRoles.RestaurantAdmin))
+﻿@{
+    var restaurantIdClaim = User.FindFirst(StaticData.RestaurantId)?.Value;
+    bool isActiveRestaurant = false;
+        
+    if (!string.IsNullOrEmpty(restaurantIdClaim))
+    {
+        var restaurantService = Context.RequestServices.GetRequiredService<IRestaurantService>();
+        var status = restaurantService.GetRestaurantStatusById(int.Parse(restaurantIdClaim));
+        isActiveRestaurant = status == AcctiveStatus.Acctive || status == AcctiveStatus.Warning;
+    }
+}
+
+@if (User.IsInRole(DefaultRoles.RestaurantAdmin))
 {
-    <div class="sidebar">
-        <h3>Otlob</h3>
-        <ul>
-            <li><a href=""><i class="bi bi-bell"></i><span>Courses</span></a></li>
-            <li><a href=""><i class="bi bi-people"></i><span>Friends</span></a></li>
-            <li><a href=""><i class="bi bi-credit-card"></i><span>Plans</span></a></li>
-        </ul>
-    </div>
-} *@
+
+    @if (isActiveRestaurant)
+    {
+        <link href="~/css/adminSite.css" rel="stylesheet" />
+
+        <div class="adm-sidebar-container">
+            <nav class="adm-sidebar">
+                <header>
+                    <div class="image-text">
+                        <span class="image">
+                            <img src="~/images/Logo/otlob-logo.svg" alt="Otlob">
+                        </span>
+
+                        <div class="text header-text">
+                            <span class="name">Otlob</span>
+                            <span class="role">Restaurant Panel</span>
+                        </div>
+                    </div>
+
+                    <i class="bi bi-chevron-right toggle"></i>
+                </header>
+
+                <div class="adm-menu-bar">
+                    <div class="menu">
+                        <ul class="adm-menu-links">
+                            
+                            <!-- Dashboard -->
+                            <li class="adm-nav-link">
+                                <a asp-area="RestaurantAdmin" asp-controller="Home" asp-action="AcctiveRestaurants">
+                                    <i class="bi bi-grid-1x2-fill icon"></i>
+                                    <span class="text nav-text">Dashboard</span>
+                                </a>
+                            </li>
+
+                            <!-- Menu Dropdown -->
+                            <li class="adm-dropdown">
+                                <div class="adm-nav-link adm-dropdown-toggle">
+                                    <a href="javascript:void(0)">
+                                        <i class="bi bi-book icon"></i>
+                                        <span class="text nav-text">Menu</span>
+                                        <i class="bi bi-chevron-down icon chevron"></i>
+                                    </a>
+                                </div>
+                                <ul class="adm-submenu">
+                                    <li class="adm-nav-link">
+                                        <a asp-area="RestaurantAdmin" asp-controller="Menu" asp-action="Menu">
+                                            <i class="bi bi-list-ul icon"></i>
+                                            <span class="text nav-text">All Items</span>
+                                        </a>
+                                    </li>
+                                    <li class="adm-nav-link">
+                                        <a asp-area="RestaurantAdmin" asp-controller="Menu" asp-action="Menu">
+                                            <i class="bi bi-tags icon"></i>
+                                            <span class="text nav-text">Categories</span>
+                                        </a>
+                                    </li>
+                                    <li class="adm-nav-link">
+                                        <a asp-area="RestaurantAdmin" asp-controller="Menu" asp-action="Menu">
+                                            <i class="bi bi-plus-circle icon"></i>
+                                            <span class="text nav-text">Add-ons</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <!-- Branches Dropdown -->
+                            <li class="adm-dropdown">
+                                <div class="adm-nav-link adm-dropdown-toggle">
+                                    <a href="javascript:void(0)">
+                                        <i class="bi bi-geo-alt icon"></i>
+                                        <span class="text nav-text">Branches</span>
+                                        <i class="bi bi-chevron-down icon chevron"></i>
+                                    </a>
+                                </div>
+                                <ul class="adm-submenu">
+                                    <li class="adm-nav-link">
+                                        <a asp-area="RestaurantAdmin" asp-controller="Branches" asp-action="Branches">
+                                            <i class="bi bi-building icon"></i>
+                                            <span class="text nav-text">All Branches</span>
+                                        </a>
+                                    </li>
+                                    <li class="adm-nav-link">
+                                        <a asp-area="RestaurantAdmin" asp-controller="Branches" asp-action="AddBranch">
+                                            <i class="bi bi-plus-circle icon"></i>
+                                            <span class="text nav-text">Add Branch</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <!-- Orders Dropdown -->
+                            <li class="adm-dropdown">
+                                <div class="adm-nav-link adm-dropdown-toggle">
+                                    <a href="javascript:void(0)">
+                                        <i class="bi bi-bag icon"></i>
+                                        <span class="text nav-text">Orders</span>
+                                        <i class="bi bi-chevron-down icon chevron"></i>
+                                    </a>
+                                </div>
+                                <ul class="adm-submenu">
+                                    <li class="adm-nav-link">
+                                        <a asp-area="RestaurantAdmin" asp-controller="RestaurantOrders" asp-action="InProgress">
+                                            <i class="bi bi-clock-history icon"></i>
+                                            <span class="text nav-text">In Progress</span>
+                                        </a>
+                                    </li>
+                                    <li class="adm-nav-link">
+                                        <a asp-area="RestaurantAdmin" asp-controller="RestaurantOrders" asp-action="Delivered">
+                                            <i class="bi bi-check-circle icon"></i>
+                                            <span class="text nav-text">Delivered</span>
+                                        </a>
+                                    </li>
+                                    <li class="adm-nav-link">
+                                        <a asp-area="RestaurantAdmin" asp-controller="RestaurantOrders" asp-action="Cancelled">
+                                            <i class="bi bi-x-circle icon"></i>
+                                            <span class="text nav-text">Cancelled</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <!-- Settings -->
+                            <li class="adm-nav-link">
+                                <a asp-area="RestaurantAdmin" asp-controller="Settings" asp-action="Index">
+                                    <i class="bi bi-gear icon"></i>
+                                    <span class="text nav-text">Settings</span>
+                                </a>
+                            </li>
+
+                        </ul>
+                    </div>
+
+                    <div class="adm-bottom-content">
+                        <div class="adm-user-profile">
+                            @{
+                                string? userImage = User.FindFirst("UserImageProfile")?.Value;
+                                string userName = User.Identity?.Name ?? "Admin";
+                            }
+                            <img src="~/images/@(userImage ?? "default-user.png")" alt="Profile">
+                            <div class="adm-user-details">
+                                <span class="adm-user-name">@userName</span>
+                                <span class="adm-user-role">Super Admin</span>
+                            </div>
+                        </div>
+
+                        <li class="adm-mode">
+                            <div class="sun-moon">
+                                <i class="bi bi-moon moon icon"></i>
+                                <i class="bi bi-sun sun icon"></i>
+                            </div>
+                            <span class="mode-text text adm-mode-text">Dark Mode</span>
+
+                            <div class="adm-toggle-switch">
+                                <span class="adm-switch"></span>
+                            </div>
+                        </li>
+                    </div>
+                </div>
+            </nav>
+        </div>
+
+        <script src="~/js/adminSite.js" asp-append-version="true"></script>
+    }
+}

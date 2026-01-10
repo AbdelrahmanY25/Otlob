@@ -1,6 +1,4 @@
-﻿using JsonSerializer = System.Text.Json.JsonSerializer;
-
-namespace Otlob.Services;
+﻿namespace Otlob.Services;
 
 public class CartService(IUnitOfWorkRepository unitOfWorkRepository, IHttpContextAccessor httpContextAccessor,
                           IEncryptionService encryptionService, IDataProtectionProvider dataProtectionProvider) : ICartService
@@ -9,27 +7,6 @@ public class CartService(IUnitOfWorkRepository unitOfWorkRepository, IHttpContex
     private readonly IHttpContextAccessor _httpContextAccessor = httpContextAccessor;
     private readonly IEncryptionService _encryptionService = encryptionService;
     private readonly IDataProtector _dataProtector = dataProtectionProvider.CreateProtector("SecureData");
-
-    public Cart? GetCartById(string id)
-    {
-        int cartId = _encryptionService.Decrypt(id);
-
-        Cart? userCart = _unitOfWorkRepository
-            .Carts.GetOneWithSelect
-            (
-                selector: c => new Cart
-                {
-                    Id = c.Id,
-                    RestaurantId = c.RestaurantId,
-                    UserId = c.UserId,
-                    Restaurant = new Restaurant { DeliveryFee = c.Restaurant.DeliveryFee }
-                },
-                expression: c => c.Id == cartId,
-                tracked: false
-            );
-
-        return userCart;
-    }
 
     public CartResponse? UserCart()
     {
@@ -49,7 +26,7 @@ public class CartService(IUnitOfWorkRepository unitOfWorkRepository, IHttpContex
                         MealId = cd.MealId,
                         MealName = cd.Meal.Name,
                         MealImage = cd.Meal.Image,
-                        MealDeteils = cd.MealDeteils,
+                        MealDeteils = cd.MealDetails,
                         Quantity = cd.Quantity,
                         MealPrice = cd.MealPrice,
                         ItemsPrice = cd.ItemsPrice,
@@ -153,9 +130,40 @@ public class CartService(IUnitOfWorkRepository unitOfWorkRepository, IHttpContex
 
         return Result.Success();
     }
-        
+
+    public Result Delete(int cartId)
+    {
+        bool isCarttIdExist = _unitOfWorkRepository.Carts
+            .IsExist(c => c.Id == cartId);
+
+        if (!isCarttIdExist)
+            return Result.Failure(CartErrors.NotFound);
+
+        var cartDetails = _unitOfWorkRepository.CartDetails.Get(expression: cd => cd.CartId == cartId)!;
+
+        _unitOfWorkRepository.CartDetails
+            .HardDeleteRange(cartDetails);
+
+        _unitOfWorkRepository.SaveChanges();
+
+        _unitOfWorkRepository.Carts.HardDelete(new() { Id = cartId });
+
+        _unitOfWorkRepository.SaveChanges();
+
+
+        return Result.Success();
+    }
+
+
+
     private Result Add(CartRequest request, int restaurantId, string userId)
     {       
+        bool isUserHasMobileNumber = _unitOfWorkRepository.Users
+            .IsExist(u => u.Id == userId && u.PhoneNumber != null);
+
+        if (!isUserHasMobileNumber)
+            return Result.Failure(CartErrors.MobileNumberRequired);
+
         var validationResult = ValidateCart(request, restaurantId);
 
         if (validationResult.IsFailure)
@@ -204,7 +212,7 @@ public class CartService(IUnitOfWorkRepository unitOfWorkRepository, IHttpContex
             var newMealDetails = JsonSerializer.Serialize(new { items, addOns });
             
             var matchingCartDetails = cart.CartDetails
-                                        .FirstOrDefault(cd => cd.MealId == request.MealId && cd.CartId == cart.Id && cd.MealDeteils == newMealDetails)!;
+                                        .FirstOrDefault(cd => cd.MealId == request.MealId && cd.CartId == cart.Id && cd.MealDetails == newMealDetails)!;
 
             if (matchingCartDetails is not null)
             {
@@ -222,43 +230,7 @@ public class CartService(IUnitOfWorkRepository unitOfWorkRepository, IHttpContex
         CreateCartDetails(cart.Id, request, mealPrice, items, addOns);        
 
         return Result.Success();
-    }
-
-    // TODO: make it private but the background job can't access it
-    public Result Delete(int cartId)
-    {
-        bool isCarttIdExist = _unitOfWorkRepository.Carts
-            .IsExist(c => c.Id == cartId);
-
-        if (!isCarttIdExist)
-            return Result.Failure(CartErrors.NotFound);
-
-        using var transaction = _unitOfWorkRepository.BeginTransaction();
-
-        try
-        {
-            var cartDetails = _unitOfWorkRepository.CartDetails.Get(expression: cd => cd.CartId == cartId)!;
-
-            _unitOfWorkRepository.CartDetails
-                .HardDeleteRange(cartDetails);
-
-            _unitOfWorkRepository.SaveChanges();
-
-            _unitOfWorkRepository.Carts.HardDelete(new() { Id = cartId });
-
-            _unitOfWorkRepository.SaveChanges();
-
-            transaction.Commit();
-
-            return Result.Success();
-
-        }
-        catch (Exception)
-        {
-            transaction.Rollback();
-            return Result.Failure(CartErrors.DeleteFailed);
-        }
-    }
+    }  
 
     private Result<(decimal mealPrice, List<OptionItemResponse> items, List<AddOnResponse> addOns)> ValidateCart(CartRequest request, int restaurantId)
     {
@@ -391,7 +363,7 @@ public class CartService(IUnitOfWorkRepository unitOfWorkRepository, IHttpContex
             MealPrice = mealPrice,
             ItemsPrice = items.Sum(i => i.Price),
             AddOnsPrice = addOns.Sum(a => a.Price),
-            MealDeteils = mealdDeteils
+            MealDetails = mealdDeteils
         };
 
         _unitOfWorkRepository.CartDetails.Add(cartDetails);

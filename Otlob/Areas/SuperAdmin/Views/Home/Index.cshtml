@@ -1,108 +1,259 @@
-﻿@model OrdersAnalysisVM
+﻿@model SuperAdminDashboardResponse
 
-@{      
-    ViewData["Title"] = "Super Admin Home Page";
-
-    var ordersAnalytics = Json.Serialize(Model.ordersOverLastTwelveMonths);
+@{
+    ViewData["Title"] = "Dashboard";
+    
+    // Prepare chart data for JavaScript
+    var monthNames = new[] { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
+    
+    var last12MonthsData = Model.Last12MonthsAnalytics.Select(m => new {
+        month = monthNames[m.Month - 1] + " " + m.Year,
+        sales = m.TotalOrdersSales,
+        revenue = m.TotalOrdersRevenue,
+        count = m.OrdersCount
+    }).ToList();
+    
+    var pieChartData = new {
+        pending = Model.TodayAnalytics?.PendingOrders ?? 0,
+        preparing = Model.TodayAnalytics?.PreparingOrders ?? 0,
+        shipping = Model.TodayAnalytics?.ShippingOrders ?? 0,
+        delivered = Model.TodayAnalytics?.DeliveredOrders ?? 0,
+        cancelled = Model.TodayAnalytics?.CancelledOrders ?? 0
+    };
 }
 
-<link rel="stylesheet" href="~/css/OrdersAnalysis.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/css/superAdminHome.css" asp-append-version="true" />
 
-<div class="header">
-    <h3>📊 Orders Analytics Dashboard</h3>
-</div>
-
-<div class="stats-grid">
-    <div class="stat-cards">
-        <div class="stat-value" id="totalOrders">0</div>
-        <div class="stat-label">Total Orders</div>
-    </div>
-    <div class="stat-cards">
-        <div class="stat-value" id="totalRevenue">EGP0</div>
-        <div class="stat-label">Total Revenue</div>
-    </div>
-    <div class="stat-cards">
-        <div class="stat-value" id="avgOrderValue">EGP0</div>
-        <div class="stat-label">Average Order Value</div>
-    </div>
-    <div class="stat-cards">
-        <div class="stat-value" id="bestMonth">-</div>
-        <div class="stat-label">Best Month</div>
-    </div>
-</div>
-
-<div class="charts-container">
-    <div class="chart-wrapper">
-        <div class="chart-title">Monthly Orders</div>
-        <canvas id="ordersChart"></canvas>
+<div class="dashboard-container">
+    <!-- Header -->
+    <div class="dashboard-header">
+        <h1 class="dashboard-title">Dashboard Overview</h1>
+        <p class="dashboard-subtitle">Welcome back! Here's what's happening with your platform today.</p>
     </div>
 
-    <div class="chart-wrapper">
-        <div class="chart-title">Monthly Revenue</div>
-        <canvas id="revenueChart"></canvas>
+    <!-- Date Picker Section -->
+    <div class="date-picker-section">
+        <span class="date-picker-label"><i class="bi bi-calendar3"></i> Select Date:</span>
+        <input type="date" id="dailyDatePicker" class="date-input" value="@DateTime.UtcNow.ToString("yyyy-MM-dd")" max="@DateTime.UtcNow.ToString("yyyy-MM-dd")">
     </div>
-</div>
 
-<div class="table-container">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-        <h2 style="color: #2c3e50; margin: 0;">📋 Detailed Monthly Breakdown</h2>
-        <div class="export-icons">
-            <button class="export-btn" id="exportExcel" title="Export to Excel">
-                <img src="~/images/icons/sheet.png" alt="Export to Excel" />
-            </button>           
+    <!-- Today's Stats Cards -->
+    <div class="stats-grid">
+        <div class="stat-card orders">
+            <div class="stat-header">
+                <div class="stat-icon">
+                    <i class="bi bi-bag-check"></i>
+                </div>
+            </div>
+            <p class="stat-label">Completed Orders</p>
+            <h3 class="stat-value" id="dailyOrders">@(Model.TodayAnalytics?.CompletedOrdersCount ?? 0)</h3>
+        </div>
+
+        <div class="stat-card sales">
+            <div class="stat-header">
+                <div class="stat-icon">
+                    <i class="bi bi-currency-dollar"></i>
+                </div>
+            </div>
+            <p class="stat-label">Total Sales</p>
+            <h3 class="stat-value" id="dailySales">@((Model.TodayAnalytics?.TotalOrdersSales ?? 0).ToString("N2")) L.E</h3>
+        </div>
+
+        <div class="stat-card revenue">
+            <div class="stat-header">
+                <div class="stat-icon">
+                    <i class="bi bi-graph-up-arrow"></i>
+                </div>
+            </div>
+            <p class="stat-label">Revenue</p>
+            <h3 class="stat-value" id="dailyRevenue">@((Model.TodayAnalytics?.TotalOrdersRevenue ?? 0).ToString("N2")) L.E</h3>
+        </div>
+
+        <div class="stat-card average">
+            <div class="stat-header">
+                <div class="stat-icon">
+                    <i class="bi bi-calculator"></i>
+                </div>
+            </div>
+            <p class="stat-label">Average Order</p>
+            <h3 class="stat-value" id="dailyAverage">@((Model.TodayAnalytics?.AverageOrderPrice ?? 0).ToString("N2")) L.E</h3>
         </div>
     </div>
-    <table class="data-table">
-        <thead>
-            <tr>
-                <th>Month</th>
-                <th>Total Orders</th>
-                <th>Total Revenue</th>
-                <th>Average Order Value</th>
-                <th>Growth Rate</th>
-            </tr>
-        </thead>
-        <tbody id="dataTableBody">
-        </tbody>
-    </table>
-</div>
 
-<div class="ordersData">
-    <div class="card p-4 shadow-sm">
-        <h6 class="text-center">Order Status Overview</h6>
-        <div class="chart-container">
-            <canvas id="orderStatusChart"></canvas>
+    <!-- Orders Status Chart & Current Month Summary -->
+    <div class="charts-row">
+        <!-- Pie Chart - Today's Order Status -->
+        <div class="chart-card">
+            <div class="chart-header">
+                <h3 class="chart-title"><i class="bi bi-pie-chart me-2"></i>Today's Orders Status</h3>
+            </div>
+            <div class="chart-container">
+                @if (Model.TodayAnalytics is not null && (Model.TodayAnalytics.PendingOrders + Model.TodayAnalytics.PreparingOrders + Model.TodayAnalytics.ShippingOrders + Model.TodayAnalytics.DeliveredOrders + Model.TodayAnalytics.CancelledOrders) > 0)
+                {
+                    <canvas id="ordersStatusChart" data-chart-data='@System.Text.Json.JsonSerializer.Serialize(pieChartData)'></canvas>
+                }
+                else
+                {
+                    <div class="no-data">
+                        <i class="bi bi-inbox"></i>
+                        <p>No orders data for today</p>
+                    </div>
+                }
+            </div>
         </div>
-        <div class="chart-controls">
-            <button class="control-btn active" onclick="toggleChartType('doughnut')">Doughnut</button>
-            <button class="control-btn" onclick="toggleChartType('pie')">Pie</button>
-            <button class="control-btn" onclick="toggleChartType('bar')">Bar</button>
+
+        <!-- Current Month & Year Summary -->
+        <div class="chart-card">
+            <div class="chart-header">
+                <h3 class="chart-title"><i class="bi bi-calendar-month me-2"></i>Period Summary</h3>
+            </div>
+            
+            <div class="summary-grid">
+                <!-- Current Month -->
+                <div class="summary-card" style="background: var(--adm-primary-light); border-color: var(--adm-primary);">
+                    <div class="label">This Month Orders</div>
+                    <div class="value" style="color: var(--adm-primary);">@(Model.CurrentMonthAnalytics?.OrdersCount ?? 0)</div>
+                </div>
+                <div class="summary-card" style="background: rgba(16, 185, 129, 0.1); border-color: #10B981;">
+                    <div class="label">This Month Sales</div>
+                    <div class="value" style="color: #10B981;">@((Model.CurrentMonthAnalytics?.TotalOrdersSales ?? 0).ToString("N0")) L.E</div>
+                </div>
+            </div>
+
+            <hr class="section-divider" style="margin: 1rem 0;">
+
+            <div class="summary-grid">
+                <!-- Current Year -->
+                <div class="summary-card" style="background: rgba(245, 158, 11, 0.1); border-color: #F59E0B;">
+                    <div class="label">This Year Orders</div>
+                    <div class="value" style="color: #F59E0B;">@(Model.CurrentYearAnalytics?.OrdersCount ?? 0)</div>
+                </div>
+                <div class="summary-card" style="background: rgba(139, 92, 246, 0.1); border-color: #8B5CF6;">
+                    <div class="label">This Year Revenue</div>
+                    <div class="value" style="color: #8B5CF6;">@((Model.CurrentYearAnalytics?.TotalOrdersRevenue ?? 0).ToString("N0")) L.E</div>
+                </div>
+            </div>
         </div>
     </div>
-</div>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Section: Last 12 Months Analytics -->
+    <hr class="section-divider">
+    
+    <div class="section-header">
+        <h2 class="section-title"><i class="bi bi-bar-chart-line"></i> Last 12 Months Analytics</h2>
+    </div>
 
-<script>
-    const orderStatusData = {
-        @foreach (var item in Model.ordersStatusPercentages!)
+    <!-- Monthly Sales & Orders Charts -->
+    <div class="charts-row">
+        <!-- Sales Curve Chart -->
+        <div class="chart-card">
+            <div class="chart-header">
+                <h3 class="chart-title"><i class="bi bi-graph-up me-2"></i>Monthly Sales Trend</h3>
+            </div>
+            <div class="chart-container">
+                @if (Model.Last12MonthsAnalytics.Any())
+                {
+                    <canvas id="monthlySalesChart" data-chart-data='@System.Text.Json.JsonSerializer.Serialize(last12MonthsData)'></canvas>
+                }
+                else
+                {
+                    <div class="no-data">
+                        <i class="bi bi-graph-up"></i>
+                        <p>No sales data available</p>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <!-- Orders Bar Chart -->
+        <div class="chart-card">
+            <div class="chart-header">
+                <h3 class="chart-title"><i class="bi bi-bar-chart me-2"></i>Monthly Orders Count</h3>
+            </div>
+            <div class="chart-container">
+                @if (Model.Last12MonthsAnalytics.Any())
+                {
+                    <canvas id="monthlyOrdersChart" data-chart-data='@System.Text.Json.JsonSerializer.Serialize(last12MonthsData)'></canvas>
+                }
+                else
+                {
+                    <div class="no-data">
+                        <i class="bi bi-bar-chart"></i>
+                        <p>No orders data available</p>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- Revenue Comparison Chart (Full Width) -->
+    <div class="charts-row">
+        <div class="chart-card full-width">
+            <div class="chart-header">
+                <h3 class="chart-title"><i class="bi bi-cash-stack me-2"></i>Sales vs Revenue Comparison</h3>
+            </div>
+            <div class="chart-container">
+                @if (Model.Last12MonthsAnalytics.Any())
+                {
+                    <canvas id="revenueComparisonChart" data-chart-data='@System.Text.Json.JsonSerializer.Serialize(last12MonthsData)'></canvas>
+                }
+                else
+                {
+                    <div class="no-data">
+                        <i class="bi bi-cash-stack"></i>
+                        <p>No revenue data available</p>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- Monthly Data Table -->
+    <div class="data-table-card">
+        <div class="chart-header">
+            <h3 class="chart-title"><i class="bi bi-table me-2"></i>Monthly Report</h3>
+            <div>
+                <a asp-area="SuperAdmin" asp-controller="Reports" asp-action="ExportOrdersOverLastTwelveMonthExcel" class="chart-btn" title="Export to Excel">
+                    <i class="bi bi-file-earmark-excel-fill" style="font-size:1.2rem;"></i>
+                </a>
+            </div>
+        </div>
+        
+        @if (Model.Last12MonthsAnalytics.Any())
         {
-            <text>"@item.Key": @item.Value,</text>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Month</th>
+                        <th>Orders</th>
+                        <th>Total Sales</th>
+                        <th>Revenue</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var month in Model.Last12MonthsAnalytics.OrderByDescending(m => m.Year).ThenByDescending(m => m.Month))
+                    {
+                        <tr>
+                            <td><strong>@monthNames[month.Month - 1] @month.Year</strong></td>
+                            <td>@month.OrdersCount</td>
+                            <td>@month.TotalOrdersSales.ToString("N2") L.E</td>
+                            <td>@month.TotalOrdersRevenue.ToString("N2") L.E</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
         }
-    };
-
-    const sampleData = @ordersAnalytics;        
-</script>
-
+        else
+        {
+            <div class="no-data">
+                <i class="bi bi-table"></i>
+                <p>No monthly data available</p>
+            </div>
+        }
+    </div>
+</div>
 
 @section Scripts {
-    <script>
-      document.getElementById('exportExcel')
-        .addEventListener('click', function() {
-            window.location.href = '@Url.Action("ExportOrdersOverLastTwelveMonthExcel", "Reports")';
-      });     
-    </script>
-
-    <script src="~/js/OrdersAnalysis.js"></script>
-    <partial name="_NotificationPartial"></partial>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="~/js/superAdminHome.js" asp-append-version="true"></script>
 }

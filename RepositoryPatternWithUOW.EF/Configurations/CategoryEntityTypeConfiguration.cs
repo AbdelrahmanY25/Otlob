@@ -9,7 +9,7 @@ public class CategoryEntityTypeConfiguration : IEntityTypeConfiguration<Category
 
         builder
             .Property(c => c.Name)
-            .HasMaxLength(20);
+            .HasMaxLength(50);
 
         builder.HasData(LoadCategories());
     }

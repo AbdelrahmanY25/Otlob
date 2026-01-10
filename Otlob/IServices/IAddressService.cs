@@ -7,5 +7,5 @@ public interface IAddressService
     Result<AddressResponse> GetForUpdate(string id);    
     Result Update(AddressRequest request);    
     Result Delete(string id);
-    bool HasDeliverAddress(string userId);
+    Address? HasDeliverAddress(string userId, int addressId);
 }

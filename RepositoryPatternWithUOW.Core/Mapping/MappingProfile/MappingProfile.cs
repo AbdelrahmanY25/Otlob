@@ -1,4 +1,6 @@
 ﻿using Azure.Core;
+using Otlob.Core.Contracts.AdminAnalytics;
+using Otlob.Core.Contracts.RestaurantAdminAnalytics;
 using Otlob.Core.Entities;
 
 namespace Otlob.Core.Mapping.MappingProfile;
@@ -20,10 +22,6 @@ public class MappingProfile : Profile
 
         CreateMap<RestaurantProfile, Restaurant>()
             .ForMember(dest => dest.Image, src => src.Ignore());
-
-        CreateMap<RestaurantVM, Restaurant>()
-            .ForMember(dest => dest.Image, src => src.Ignore())
-            .ForMember(dest => dest.AcctiveStatus, src => src.Ignore());
 
        CreateMap<RegistResturantRequest, Restaurant>()
             .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.BrandName))
@@ -96,20 +94,7 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.request.Name))
             .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.request.Price))
             .ForMember(dest => dest.Image, opt => opt.MapFrom(src => src.imagePath));
-
-        // Order
-        CreateMap<Order, OrderDetailsViewModel>()
-            .ForMember(dest => dest.PaymentMethod, opt => opt.MapFrom(src => src.Method))
-            .ForMember(dest => dest.OrderStatus, opt => opt.MapFrom(src => src.Status))
-            .ForMember(dest => dest.SubPrice, opt => opt.MapFrom(src => src.TotalMealsPrice))
-            .ForMember(dest => dest.DeliveryFee, opt => opt.MapFrom(src => src.TotalTaxPrice));
-
-        // Cart
-        CreateMap<CartDetails, OrderedMealsVM>()
-            .ForMember(dest => dest.MealName, opt => opt.MapFrom(src => src.Meal!.Name))
-            .ForMember(dest => dest.MealDescription, opt => opt.MapFrom(src => src.Meal!.Description))
-            .ForMember(dest => dest.Image, opt => opt.MapFrom(src => src.Meal!.Image));
-
+        
         // Certificates
         CreateMap<(CommercialRegistrationRequest request, int restaurantId, string certificateRegistrationId), CommercialRegistration>()
             .ForMember(dest => dest.RegistrationNumber, opt => opt.MapFrom(src => src.request.RegistrationNumber))
@@ -139,5 +124,13 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.BankCertificateIssueDate, opt => opt.MapFrom(src => src.request.BankCertificateIssueDate))
             .ForMember(dest => dest.RestaurantId, opt => opt.MapFrom(src => src.restaurantId))
             .ForMember(dest => dest.BankCertificateId, opt => opt.MapFrom(src => src.bankCertificateId));
+
+        // Admin Daily Analytics
+        CreateMap<AdminDailyAnalytic, AdminDailyAnalyticsResponse>();
+        CreateMap<AdminMonthlyAnalytic, AdminMonthlyAnalyticsResponse>();
+
+        // Restaurant Analytics
+        CreateMap<RestaurantDailyAnalytic, RestaurantDailyAnalyticsResponse>();
+        CreateMap<RestaurantMonthlyAnalytic, RestaurantMonthlyAnalyticsResponse>();
     }
 }

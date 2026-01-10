@@ -1,13 +1,36 @@
 ﻿namespace Otlob.Areas.SuperAdmin.Controllers;
 
 [Area(DefaultRoles.SuperAdmin), Authorize(Roles = DefaultRoles.SuperAdmin)]
-public class HomeController(IOrdersAnalysisService ordersAnalysisService) : Controller
-{        
-    private readonly IOrdersAnalysisService ordersAnalysisService = ordersAnalysisService;
+public class HomeController(IAdminDailyAnalyticsService adminDailyAnalyticsService,
+                            IAdminMonthlyAnalyticsService adminMonthlyAnalyticsService) : Controller
+{
+    private readonly IAdminDailyAnalyticsService _adminDailyAnalyticsService = adminDailyAnalyticsService;
+    private readonly IAdminMonthlyAnalyticsService _adminMonthlyAnalyticsService = adminMonthlyAnalyticsService;
 
     public IActionResult Index()
     {
-        OrdersAnalysisVM ordersAnalysisVM = ordersAnalysisService.OrdersAnalysis();
-        return View(ordersAnalysisVM);
+        var response = new SuperAdminDashboardResponse
+        {
+            TodayAnalytics = _adminDailyAnalyticsService.GetToDay(),
+            CurrentMonthAnalytics = _adminMonthlyAnalyticsService.GetCurrentMonthAnalytics(),
+            CurrentYearAnalytics = _adminMonthlyAnalyticsService.GetCurrentYearAnalytics(),
+            Last12MonthsAnalytics = _adminMonthlyAnalyticsService.GetLastTweleveMonthsAnalytics()
+        };
+
+        return View(response);
+    }
+
+    [HttpGet]
+    public IActionResult GetDailyAnalytics(string date)
+    {
+        if (!DateOnly.TryParse(date, out var parsedDate))
+            return BadRequest("Invalid date format");
+
+        var analytics = _adminDailyAnalyticsService.GetByDate(parsedDate);
+        
+        if (analytics is null)
+            return NotFound("No data for this date");
+
+        return Json(analytics);
     }
 }

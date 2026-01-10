@@ -1,318 +1,496 @@
 ﻿namespace Otlob.Services;
 
-public class OrderService : IOrderService
+public class OrderService(IUnitOfWorkRepository unitOfWorkRepository,
+                          ICartService cartService,
+                          ITempOrderService tempOrderService,
+                          IHttpContextAccessor httpContextAccessor,
+                          IAdminDailyAnalyticsService adminDailyAnalyticsService,
+                          IRestaurantDailyAnalyticsService restaurantDailyAnalyticsService) : IOrderService
 {
-    private readonly ICartService cartService;
-    private readonly IUserServices userServices;
-    private readonly IDataProtector dataProtector;
-    private readonly IHubContext<OrdersHub> hubContext;
-    private readonly IOrderDetailsService orderDetailsService;
-    private readonly IUnitOfWorkRepository unitOfWorkRepository;
-    private readonly ISendEmailsToUsersService sendEmailsToUsersService;
+    private readonly ICartService _cartService = cartService;
+    private readonly ITempOrderService _tempOrderService = tempOrderService;
+    private readonly IHttpContextAccessor _httpContextAccessor = httpContextAccessor;
+    private readonly IUnitOfWorkRepository _unitOfWorkRepository = unitOfWorkRepository;
+    private readonly IAdminDailyAnalyticsService _adminDailyAnalyticsService = adminDailyAnalyticsService;
+    private readonly IRestaurantDailyAnalyticsService _restaurantDailyAnalyticsService = restaurantDailyAnalyticsService;
 
-    public OrderService(ICartService cartService,
-                        IUserServices userServices,
-                        IHubContext<OrdersHub> hubContext,
-                        IOrderDetailsService orderDetailsService,
-                        IUnitOfWorkRepository unitOfWorkRepository,
-                        IDataProtectionProvider dataProtectionProvider,
-                        ISendEmailsToUsersService sendEmailsToUsersService)
-    {
-        this.hubContext = hubContext;
-        this.cartService = cartService;
-        this.userServices = userServices;
-        this.orderDetailsService = orderDetailsService;
-        this.unitOfWorkRepository = unitOfWorkRepository;
-        this.sendEmailsToUsersService = sendEmailsToUsersService;
-        dataProtector = dataProtectionProvider.CreateProtector("SecureData");
+    public async Task<Result> PlaceOrder(PaymentMethod paymentMethod, string? specialNotes = null)
+    {        
+        var prepareOrderDataResult = await PrepareOrderData(paymentMethod, specialNotes);
+
+        if (prepareOrderDataResult.IsFailure)
+            return Result.Failure(prepareOrderDataResult.Error);
+
+        return Result.Success();
     }
 
-    public string GetUserIdByOrderId(string id)
+    public Result<string> CreateStripeSession(string? specialNotes = null)
     {
-        int orderId = int.Parse(dataProtector.Unprotect(id));
+        string userId = _httpContextAccessor.HttpContext!.User.GetUserId()!;
 
-        Order? order = unitOfWorkRepository.Orders
+        // Get cart data with meal names for Stripe display
+        var cartData = _unitOfWorkRepository.Carts
             .GetOneWithSelect(
-                expression: o => o.Id == orderId,
+                expression: c => c.UserId == userId,
                 tracked: false,
-                selector: o => new Order
+                selector: c => new
                 {
-                    UserId = o.UserId,
-                });
+                    c.Id,
+                    c.RestaurantId,
+                    CartDetails = c.CartDetails.Select(cd => new
+                    {
+                        cd.MealId,
+                        MealName = cd.Meal.Name,
+                        cd.MealDetails,
+                        cd.Quantity,
+                        cd.MealPrice,
+                        cd.ItemsPrice,
+                        cd.AddOnsPrice,
+                        cd.TotalPrice
+                    }).ToList()
+                }
+            );
 
-        if (order is null)
+        if (cartData is null || cartData.CartDetails.Count == 0)
+            return Result.Failure<string>(CartErrors.CartIsEmpty);
+
+        // Get restaurant delivery fee
+        var restaurantData = _unitOfWorkRepository.Restaurants
+            .GetOneWithSelect(
+                expression: r => r.Id == cartData.RestaurantId,
+                tracked: false,
+                selector: r => new { r.DeliveryFee }
+            );
+
+        if (restaurantData is null)
+            return Result.Failure<string>(RestaurantErrors.NotFound);
+
+        // Get user delivery address data for the order
+        var userData = _unitOfWorkRepository.Users
+            .GetOneWithSelect(
+                expression: u => u.Id == userId,
+                tracked: false,
+                selector: u => new
+                {
+                    u.PhoneNumber,
+                    Address = u.UserAddress
+                        .Where(a => a.IsDeliveryAddress)
+                        .Select(a => new
+                        {
+                            a.CustomerAddress,
+                            a.Location
+                        })
+                        .FirstOrDefault()
+                }
+            );
+
+        if (userData?.Address is null)
+            return Result.Failure<string>(AddressErrors.NoDeliveryAddress);
+
+        decimal subTotal = cartData.CartDetails.Sum(cd => cd.TotalPrice);
+        decimal serviceFee = subTotal * 0.05m;
+
+        // Create temp order to store data during payment
+        Order tempOrder = new()
+        {
+            UserId = userId,
+            RestaurantId = cartData.RestaurantId,
+            CustomerPhoneNumber = userData.PhoneNumber!,
+            DeliveryAddress = userData.Address.CustomerAddress,
+            DeliveryAddressLocation = userData.Address.Location,
+            SubPrice = subTotal,
+            DeliveryFee = restaurantData.DeliveryFee,
+            ServiceFeePrice = serviceFee,
+            Notes = specialNotes,
+            Method = PaymentMethod.Credit,
+            OrderDate = DateTime.Now,
+            Status = OrderStatus.Pending,
+            OrderDetails = cartData.CartDetails.Select(cd => new OrderDetails
+            {
+                MealId = cd.MealId,
+                MealDetails = cd.MealDetails,
+                MealQuantity = cd.Quantity,
+                MealPrice = cd.MealPrice,
+                ItemsPrice = cd.ItemsPrice,
+                AddOnsPrice = cd.AddOnsPrice
+            }).ToList()
+        };
+
+        // Store temp order for later retrieval after payment
+        TempOrder storedTempOrder = _tempOrderService.AddTempOrder(tempOrder);
+
+        // Build Stripe session
+        var request = _httpContextAccessor.HttpContext!.Request;
+        string baseUrl = $"{request.Scheme}://{request.Host}";
+
+        SessionCreateOptions options = new()
+        {
+            PaymentMethodTypes = ["card"],
+            LineItems = [],
+            Mode = "payment",
+            SuccessUrl = $"{baseUrl}/Customer/Order/FinishPaymentProcess?tempOrderId={storedTempOrder.Id}",
+            CancelUrl = $"{baseUrl}/Customer/CheckOut/CheckOut",
+            Metadata = new Dictionary<string, string>
+            {
+                { "tempOrderId", storedTempOrder.Id },
+                { "userId", userId }
+            }
+        };
+
+        // Add meal items to Stripe
+        foreach (var item in cartData.CartDetails)
+        {
+            string description = BuildMealDescription(item.MealDetails);
+            decimal unitPrice = item.MealPrice + item.ItemsPrice + item.AddOnsPrice;
+
+            options.LineItems.Add(new SessionLineItemOptions
+            {
+                PriceData = new SessionLineItemPriceDataOptions
+                {
+                    Currency = "EGP",
+                    ProductData = new SessionLineItemPriceDataProductDataOptions
+                    {
+                        Name = item.MealName,
+                        Description = string.IsNullOrEmpty(description) ? null : description
+                    },
+                    UnitAmount = (long)Math.Ceiling(unitPrice * 100),
+                },
+                Quantity = item.Quantity,
+            });
+        }
+
+        // Add delivery fee
+        if (restaurantData.DeliveryFee > 0)
+        {
+            options.LineItems.Add(new SessionLineItemOptions
+            {
+                PriceData = new SessionLineItemPriceDataOptions
+                {
+                    Currency = "EGP",
+                    ProductData = new SessionLineItemPriceDataProductDataOptions
+                    {
+                        Name = "Delivery Fee",
+                        Description = "Fee for delivering your order",
+                    },
+                    UnitAmount = (long)Math.Ceiling(restaurantData.DeliveryFee * 100),
+                },
+                Quantity = 1,
+            });
+        }
+
+        // Add service fee
+        if (serviceFee > 0)
+        {
+            options.LineItems.Add(new SessionLineItemOptions
+            {
+                PriceData = new SessionLineItemPriceDataOptions
+                {
+                    Currency = "EGP",
+                    ProductData = new SessionLineItemPriceDataProductDataOptions
+                    {
+                        Name = "Service Fee",
+                        Description = "Platform and support fee",
+                    },
+                    UnitAmount = (long)Math.Ceiling(serviceFee * 100),
+                },
+                Quantity = 1,
+            });
+        }
+
+        try
+        {
+            var service = new SessionService();
+            var session = service.Create(options);
+            return Result.Success(session.Url);
+        }
+        catch
+        {
+            _tempOrderService.RemoveTempOrder(storedTempOrder);
+            return Result.Failure<string>(OrderErrors.StripeSessionFailed);
+        }
+    }
+
+    public async Task<Result> FinishCreditPayment(string tempOrderId)
+    {
+        TempOrder? tempOrder = _tempOrderService.GetTempOrder(tempOrderId);
+
+        if (tempOrder is null)
+            return Result.Failure(OrderErrors.SessionExpired);
+
+        // Deserialize the stored order data
+        var orderData = System.Text.Json.JsonSerializer.Deserialize<TempOrderData>(tempOrder.OrderData!,
+        new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true
+        });
+
+        if (orderData is null)
+            return Result.Failure(OrderErrors.SessionExpired);
+
+        using var transaction = _unitOfWorkRepository.BeginTransaction();
+
+        try
+        {
+            // Get current cart to delete after order
+            var cartId = _unitOfWorkRepository.Carts
+                .GetOneWithSelect(
+                    expression: c => c.UserId == orderData.UserId,
+                    tracked: false,
+                    selector: c => c.Id
+                );
+
+            // Create the order from stored data
+            Order order = new()
+            {
+                UserId = orderData.UserId,
+                RestaurantId = orderData.RestaurantId,
+                CustomerPhoneNumber = orderData.CustomerPhoneNumber,
+                DeliveryAddress = orderData.DeliveryAddress,
+                DeliveryAddressLocation = new Point(orderData.DeliveryLocationX, orderData.DeliveryLocationY) { SRID = 4326 },
+                SubPrice = orderData.SubPrice,
+                DeliveryFee = orderData.DeliveryFee,
+                ServiceFeePrice = orderData.ServiceFeePrice,
+                Notes = orderData.Notes,
+                Method = orderData.Method,
+                OrderDate = orderData.OrderDate,
+                Status = orderData.Status,
+            };
+
+            // Add the order
+            _unitOfWorkRepository.Orders.Add(order);
+            _unitOfWorkRepository.SaveChanges();
+
+            // Create and add order details
+            List<OrderDetails> orderDetailsList = orderData.OrderDetails.Select(m => new OrderDetails
+            {
+                OrderId = order.Id,
+                MealId = m.MealId,
+                MealDetails = m.MealDetails,
+                MealQuantity = m.MealQuantity,
+                MealPrice = m.MealPrice,
+                ItemsPrice = m.ItemsPrice,
+                AddOnsPrice = m.AddOnsPrice
+            }).ToList();
+
+            await _unitOfWorkRepository.OrderDetails.AddRangeAsync(orderDetailsList);
+            _unitOfWorkRepository.SaveChanges();
+
+            // Delete cart
+            if (cartId > 0)
+                _cartService.Delete(cartId);
+
+            // Remove temp order
+            _tempOrderService.RemoveTempOrder(tempOrder);
+
+            // update AdminDailyAnalytic
+            _adminDailyAnalyticsService.InitialUpdate();
+
+            // update RestaurantDailyAnalytic
+            _restaurantDailyAnalyticsService.InitialUpdate(order.RestaurantId);
+
+            transaction.Commit();
+
+            return Result.Success();
+        }
+        catch
+        {
+            transaction.Rollback();
+            return Result.Failure(OrderErrors.AddOrderField);
+        }
+    }
+
+
+
+    private static string BuildMealDescription(string mealDetailsJson)
+    {
+        if (string.IsNullOrEmpty(mealDetailsJson))
+            return string.Empty;
+
+        try
+        {
+            var node = JsonNode.Parse(mealDetailsJson);
+            var items = node?["items"]?.AsArray()
+                .Select(x => x?["Name"]?.GetValue<string>())
+                .Where(s => !string.IsNullOrEmpty(s)) ?? [];
+
+            var addOns = node?["addOns"]?.AsArray()
+                .Select(x => x?["Name"]?.GetValue<string>())
+                .Where(s => !string.IsNullOrEmpty(s)) ?? [];
+
+            var combined = items.Concat(addOns!);
+            return string.Join(", ", combined);
+        }
+        catch
         {
             return string.Empty;
         }
-
-        return order.UserId;
     }
 
-    public Order GetOrderById(int id, int resId)
+    private async Task<Result> PrepareOrderData(PaymentMethod paymentMethod, string? specialNotes = null)
     {
-        Order? order = unitOfWorkRepository.Orders
-            .GetOneWithSelect(
-                expression: o => o.Id == id && o.RestaurantId == resId,
-                tracked: false,
-                selector: o => new Order
-                {
-                    Id = o.Id,
-                    RestaurantId = o.RestaurantId,
-                    OrderDate = o.OrderDate,
-                    Status = o.Status,
-                    Method = o.Method,
-                    TotalMealsPrice = o.TotalMealsPrice,
-                    TotalTaxPrice = o.TotalTaxPrice,
-                    TotalOrderPrice = o.TotalOrderPrice,
-                });
+        string userId = _httpContextAccessor.HttpContext!.User.GetUserId()!;        
 
-        return order!;
+        Cart cartData = GetCartData(userId);
+
+        if (cartData is null || cartData.CartDetails.Count == 0)
+            return Result.Failure(CartErrors.CartIsEmpty);
+
+        Restaurant restaurantData = GetRestaurantData(cartData.RestaurantId);
+        
+        var addOrderResult = await AddOrder(userId, cartData, restaurantData, paymentMethod, specialNotes);
+
+        if (addOrderResult.IsFailure)
+            return Result.Failure(addOrderResult.Error);
+
+        return Result.Success();
     }
 
-    //public bool AddOrder(int cartId, Order order)
-    //{
-    //    order.MealsInOrder = orderDetailsService.AddOrderDetails(cartId);
-
-    //    if (order.MealsInOrder.IsNullOrEmpty())
-    //    {
-    //        return false;
-    //    }
-
-    //    unitOfWorkRepository.Orders.Add(order);
-
-    //    return SaveOrder(order, cartId);
-    //}
-
-    //private bool SaveOrder(Order newOrder, int cartId)
-    //{
-    //    bool isUserCartDeleted = cartService.DeleteCart(cartId);
-
-    //    if (isUserCartDeleted)
-    //    {
-    //        //CompleteOrderProceduresController.SendOrderToRestaurant(newOrder, hubContext);
-    //        return true;
-    //    }
-
-    //    return false;
-    //}
-
-    public IQueryable<Order>? GetUserOrders(string userId)
+    private (string PhoneNumber, string DeliveryAddress, Point DeliveryAddressLocation) GetUserData(string userId)
     {
-        var orders = unitOfWorkRepository
-                     .Orders
-                     .Get(expression: o => o.UserId == userId, tracked: false);
-
-        return orders;
-    }
-
-    public IQueryable<RestaurantOrdersVM>? GetCurrentRestaurantOrders(int id, OrderStatus status, bool exclude)
-    {
-        IQueryable<RestaurantOrdersVM>? restaurantOrdersVM = unitOfWorkRepository.Orders
-            .GetAllWithSelect(expression: o => o.RestaurantId == id && (exclude ? o.Status != status : o.Status == status),
-                selector:
-                    o => new RestaurantOrdersVM
+        var userData = _unitOfWorkRepository.Users
+        .GetOneWithSelect(
+            expression: u => u.Id == userId,
+            tracked: false,
+            selector: u => new 
+            {
+                u.PhoneNumber,
+                Address = u.UserAddress
+                    .Where(a => a.IsDeliveryAddress)
+                    .Select(a => new
                     {
-                        OrderId = o.Id,
-                        Key = dataProtector.Protect(o.Id.ToString()),
-                        RestaurantId = o.RestaurantId,
-                        OrderDate = o.OrderDate,
-                        OrderStatus = o.Status,
-                        PaymentMethod = o.Method,
-                        TotalMealsPrice = o.TotalMealsPrice,
-                        TotalTaxPrice = o.TotalTaxPrice,
-                        TotalOrderPrice = o.TotalOrderPrice,
-                    });
-
-        return restaurantOrdersVM!.OrderByDescending(o => o.OrderDate);
+                        a.CustomerAddress,
+                        a.Location
+                    })
+                    .FirstOrDefault()
+            }
+        )!;
+        
+        return (userData.PhoneNumber!, userData.Address!.CustomerAddress, userData.Address.Location);
     }
 
-    public IQueryable<TrackOrderVM>? GetUserTrackedOrders(string userId)
+    private Cart GetCartData(string userId)
     {
-        var orders = GetUserOrders(userId)!
-            .Select(to => new TrackOrderVM
-            {
-                OrderId = dataProtector.Protect(to.Id.ToString()),
-                OrderDate = to.OrderDate,
-                OrderStatus = to.Status,
-                RestaurantName = to.Restaurant.Name!,
-                RestaurantImage = to.Restaurant.Image
-            }).OrderByDescending(o => o.OrderDate);
-
-        return orders;
-    }
-
-    public Order? GetOrderPaymentDetails(string id)
-    {
-        int orderId = int.Parse(dataProtector.Unprotect(id));
-
-        Order? order = unitOfWorkRepository
-                        .Orders
-                        .GetOneWithSelect(
-                                expression: o => o.Id == orderId,
-                                tracked: false,
-                                selector: o => new Order
-                                {
-                                    Id = o.Id,
-                                    RestaurantId = o.RestaurantId,
-                                    Status = o.Status,
-                                    Method = o.Method,
-                                    TotalMealsPrice = o.TotalMealsPrice,
-                                    TotalTaxPrice = o.TotalTaxPrice
-                                }
-                        );
-
-        if (order is null)
-        {
-            return null;
-        }
-
-        return order;
-    }
-
-    public IQueryable<RestaurantOrdersVM>? GetOrdersDayByStatus(OrderStatus status)
-    {
-        IQueryable<RestaurantOrdersVM>? orders = unitOfWorkRepository
-            .Orders
-            .GetAllWithSelect(
-                expression: o => o.Status == status && o.OrderDate.Date == DateTime.Today.Date,
-                tracked: false,
-                selector: o => new RestaurantOrdersVM
-                {
-                    OrderId = o.Id,
-                    Key = dataProtector.Protect(o.Id.ToString()),
-                    OrderDate = o.OrderDate,
-                    OrderStatus = o.Status,
-                    PaymentMethod = o.Method,
-                    TotalMealsPrice = o.TotalMealsPrice,
-                    TotalTaxPrice = o.TotalTaxPrice,
-                    TotalOrderPrice = o.TotalOrderPrice,
-                    RestaurantName = o.Restaurant.Name!,
-                    RestaurantImage = o.Restaurant.Image
-                }
-            );
-
-        if (orders is not null)
-        {
-            orders = orders.OrderByDescending(o => o.OrderDate);
-        }
-
-        return orders;
-    }
-
-    public IQueryable<Order> GetOrdersByDate(DateTime date)
-    {
-        IQueryable<Order>? orders = unitOfWorkRepository
-            .Orders
-            .Get(
-                expression: o => o.OrderDate.Date == date.Date,
+        var cartData = _unitOfWorkRepository.Carts
+            .GetOne(
+                expression: c => c.UserId == userId,
+                includeProps: [c => c.CartDetails],
                 tracked: false
-            );
+            )!;
 
-        return orders!;
+        return cartData;
     }
 
-    public IQueryable<Order> GetOrdersByStatus(OrderStatus status)
+    private Restaurant GetRestaurantData(int restaurantId)
     {
-        IQueryable<Order> orders = unitOfWorkRepository
-            .Orders
-            .Get(
-                expression: o => o.Status == status,
+        var restaurantData = _unitOfWorkRepository.Restaurants
+            .GetOneWithSelect(expression: r => r.Id == restaurantId,
                 tracked: false,
-                ignoreQueryFilter: true
-            )!;
-
-        return orders!;
-    }
-
-    public IQueryable<IGrouping<OrderStatus, Order>> GroupOrdersDayByStatus()
-    {
-        var orders = GetOrdersByDate(DateTime.Today)
-            .Select(
-                o => new Order
+                selector: r => new Restaurant
                 {
-                    Status = o.Status,
-                }
-            );
-
-        var ordersCount = orders
-            .GroupBy(o => o.Status);
-
-        return ordersCount;
-    }
-
-    public int GetOrdersCountByDate(DateTime OrderDate)
-    {
-        var orders = GetOrdersByDate(OrderDate);
-
-        if (orders is not null)
-        {
-            int ordersCount = orders.Count();
-            return ordersCount;
-        }
-
-        return 0;
-    }
-
-    private Order GetOrderStatus(int orderId)
-    {
-        Order order = unitOfWorkRepository
-            .Orders
-            .GetOneWithSelect(
-                expression: o => o.Id == orderId,
-                selector: o => new Order
-                {
-                    Id = o.Id,
-                    UserId = o.UserId,
-                    Status = o.Status
+                    DeliveryFee = r.DeliveryFee,
                 }
             )!;
 
-        return order!;
+        return restaurantData;
     }
 
-    public async Task ChangeOrderstatus(int orderId)
+    private async Task<Result> AddOrder(string userId, Cart cartData, Restaurant restaurantData, PaymentMethod paymentMethod, string? specialNotes = null)
     {
-        Order order = GetOrderStatus(orderId);
+        (string phoneNumber, string deliveryAddress, Point deliveryAddressLocation) = GetUserData(userId);
 
-        order.Status = GetNextStatus(order);
+        decimal SubPrice = cartData.CartDetails.Select(cd => cd.TotalPrice).Sum();
 
-        unitOfWorkRepository.Orders.ModifyProperty(order, o => o.Status);
-        unitOfWorkRepository.SaveChanges();
+        using var transaction = _unitOfWorkRepository.BeginTransaction();
 
-        await IsOrderReachToDeliveredStatus(order);
-    }
-
-    private static OrderStatus GetNextStatus(Order order)
-    {
-        if (order is not null)
+        try
         {
-            order.Status = order.Status switch
+            Order order = new()
             {
-                OrderStatus.Pending => OrderStatus.Preparing,
-                OrderStatus.Preparing => OrderStatus.Shipped,
-                OrderStatus.Shipped => OrderStatus.Delivered,
-                _ => order.Status
+                UserId = userId,
+                RestaurantId = cartData.RestaurantId,
+                CustomerPhoneNumber = phoneNumber,
+                DeliveryAddress = deliveryAddress,
+                DeliveryAddressLocation = deliveryAddressLocation,
+                SubPrice = SubPrice,
+                DeliveryFee = restaurantData.DeliveryFee,
+                ServiceFeePrice = SubPrice * 0.05m,
+                Notes = specialNotes,
+                Method = paymentMethod,
+                OrderDate = DateTime.Now,
+                Status = OrderStatus.Pending,
             };
 
-            return order.Status;
-        }
-        return OrderStatus.Pending;
-    }
+            _unitOfWorkRepository.Orders.Add(order);
+            _unitOfWorkRepository.SaveChanges();
 
-    private async Task IsOrderReachToDeliveredStatus(Order order)
-    {
-        if (order.Status == OrderStatus.Delivered)
+            List<OrderDetails> ordersDetails = [];
+
+            foreach (var cartDetails in cartData.CartDetails)
+            {
+                OrderDetails orderDetails = new()
+                {
+                    OrderId = order.Id,
+                    MealId = cartDetails.MealId,
+                    MealDetails = cartDetails.MealDetails,
+                    MealQuantity = cartDetails.Quantity,
+                    MealPrice = cartDetails.MealPrice,
+                    ItemsPrice = cartDetails.ItemsPrice,
+                    AddOnsPrice = cartDetails.AddOnsPrice
+                };
+
+                ordersDetails.Add(orderDetails);
+            }
+
+            await _unitOfWorkRepository.OrderDetails.AddRangeAsync(ordersDetails);
+
+            _unitOfWorkRepository.SaveChanges();
+
+            _cartService.Delete(cartData.Id);
+
+            // update AdminDailyAnalytic
+            _adminDailyAnalyticsService.InitialUpdate();
+
+            // update RestaurantDailyAnalytic
+            _restaurantDailyAnalyticsService.InitialUpdate(order.RestaurantId);
+
+            transaction.Commit();
+
+            return Result.Success();
+        }
+        catch
         {
-            var result = await userServices.GetUserContactInfo(order.UserId)!;
+            transaction.Rollback();
 
-            BackgroundJob.Schedule(() =>
-                sendEmailsToUsersService.WhenHisOrderIsDelivered(result.Value, order.Id),
-                TimeSpan.FromMinutes(30));
+            return Result.Failure(OrderErrors.AddOrderField);
         }
     }
 
-    public bool AddOrder(int cartId, Order order)
+    // DTO classes for deserializing temp order data
+    private sealed class TempOrderData
     {
-        throw new NotImplementedException();
+        public string UserId { get; set; } = string.Empty;
+        public int RestaurantId { get; set; }
+        public string CustomerPhoneNumber { get; set; } = string.Empty;
+        public string DeliveryAddress { get; set; } = string.Empty;
+        public double DeliveryLocationX { get; set; }
+        public double DeliveryLocationY { get; set; }
+        public decimal SubPrice { get; set; }
+        public decimal DeliveryFee { get; set; }
+        public decimal ServiceFeePrice { get; set; }
+        public string? Notes { get; set; }
+        public PaymentMethod Method { get; set; }
+        public DateTime OrderDate { get; set; }
+        public OrderStatus Status { get; set; }
+        public List<TempOrderDetailData> OrderDetails { get; set; } = [];
+    }
+
+    private sealed class TempOrderDetailData
+    {
+        public string MealId { get; set; } = string.Empty;
+        public string MealDetails { get; set; } = string.Empty;
+        public int MealQuantity { get; set; }
+        public decimal MealPrice { get; set; }
+        public decimal ItemsPrice { get; set; }
+        public decimal AddOnsPrice { get; set; }
     }
 }

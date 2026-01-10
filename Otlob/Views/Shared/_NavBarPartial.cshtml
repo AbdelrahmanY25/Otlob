@@ -49,7 +49,7 @@
             
             @if (User.IsInRole(DefaultRoles.Customer))
             {
-                <li><a asp-area=@DefaultRoles.Customer asp-action="TrackOrders" asp-controller="OrdersHistory">My Orders</a></li>
+                <li><a asp-area=@DefaultRoles.Customer asp-action="Orders" asp-controller="OrdersHistory">My Orders</a></li>
                 <li><a asp-area=@DefaultRoles.Customer asp-action="SavedAddresses" asp-controller="Address">Saved Addresses</a></li>
             }
 

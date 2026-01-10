@@ -6,6 +6,8 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
     private readonly IHttpContextAccessor _httpContextAccessor = httpContextAccessor;
 
     public DbSet<Address> Addresses { get; set; }
+    public DbSet<AdminDailyAnalytic> AdminDailyAnalytics { get; set; }
+    public DbSet<AdminMonthlyAnalytic> AdminMonthlyAnalytics { get; set; }
     public DbSet<BankAccount> BankAccounts { get; set; }
     public DbSet<CartDetails> CartDetails { get; set; }
     public DbSet<Cart> Carts { get; set; }
@@ -20,6 +22,8 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
     public DbSet<OrderDetails> OrderDetails { get; set; }
     public DbSet<Order> Orders { get; set; }
     public DbSet<Restaurant> Restaurants { get; set; }
+    public DbSet<RestaurantDailyAnalytic> RestaurantDailyAnalytics { get; set; }
+    public DbSet<RestaurantMonthlyAnalytic> RestaurantMonthlyAnalytics { get; set; }
     public DbSet<TempOrder> TempOrders { get; set; }
     public DbSet<TradeMark> TradeMarks { get; set; }
     public DbSet<UploadedFile> UploadedFiles { get; set; }
@@ -40,7 +44,10 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
         }
 
         foreach (var entity in modelBuilder.Model.GetEntityTypes())
-        {               
+        {
+            if (entity.IsOwned())
+                continue;
+
             modelBuilder.Entity(entity.ClrType)
                 .Property<bool>("IsDeleted")
                 .IsRequired()

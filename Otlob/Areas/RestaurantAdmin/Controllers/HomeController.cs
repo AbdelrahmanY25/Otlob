@@ -2,13 +2,17 @@
 
 [Area(DefaultRoles.RestaurantAdmin)]
 [Authorize(Roles = DefaultRoles.RestaurantAdmin), EnableRateLimiting(RateLimiterPolicy.IpLimit)]
-public class HomeController(IRestaurantService restaurantService) : Controller
+public class HomeController(IRestaurantService restaurantService,
+                            IRestaurantDailyAnalyticsService restaurantDailyAnalyticsService,
+                            IRestaurantMonthlyAnalyticsService restaurantMonthlyAnalyticsService) : Controller
 {
-    private readonly IRestaurantService restaurantService = restaurantService;
+    private readonly IRestaurantService _restaurantService = restaurantService;
+    private readonly IRestaurantDailyAnalyticsService _restaurantDailyAnalyticsService = restaurantDailyAnalyticsService;
+    private readonly IRestaurantMonthlyAnalyticsService _restaurantMonthlyAnalyticsService = restaurantMonthlyAnalyticsService;
 
     public IActionResult Index()
     {
-        AcctiveStatus status = restaurantService
+        AcctiveStatus status = _restaurantService
             .GetRestaurantStatusById(int.Parse(User.FindFirstValue(StaticData.RestaurantId)!));
 
         switch (status)
@@ -36,17 +40,40 @@ public class HomeController(IRestaurantService restaurantService) : Controller
     }
 
     public IActionResult UnAcceptedRestaurant() => 
-        View(restaurantService.GetUnAcceptedRestaurant());
+        View(_restaurantService.GetUnAcceptedRestaurant());
     
     
     public IActionResult PendingRestaurant() => 
-        View(restaurantService.GetPendingRestaurant());
+        View(_restaurantService.GetPendingRestaurant());
     
     public IActionResult AcctiveRestaurants()
     {
-        return View();
+        int restaurantId = int.Parse(User.FindFirstValue(StaticData.RestaurantId)!);
+
+        var response = new RestaurantAdminDashboardResponse
+        {
+            TodayAnalytics = _restaurantDailyAnalyticsService.GetToDay(restaurantId),
+            CurrentMonthAnalytics = _restaurantMonthlyAnalyticsService.GetCurrentMonthAnalytics(restaurantId),
+            CurrentYearAnalytics = _restaurantMonthlyAnalyticsService.GetCurrentYearAnalytics(restaurantId),
+            Last12MonthsAnalytics = _restaurantMonthlyAnalyticsService.GetLastTwelveMonthsAnalytics(restaurantId)
+        };
+
+        return View(response);
     }
 
-    //TODO:
-    // Actions for Warning and Blocked restaurants can be added here
+    [HttpGet]
+    public IActionResult GetDailyAnalytics(string date)
+    {
+        int restaurantId = int.Parse(User.FindFirstValue(StaticData.RestaurantId)!);
+
+        if (!DateOnly.TryParse(date, out var parsedDate))
+            return BadRequest("Invalid date format");
+
+        var analytics = _restaurantDailyAnalyticsService.GetByDate(restaurantId, parsedDate);
+        
+        if (analytics is null)
+            return NotFound("No data for this date");
+
+        return Json(analytics);
+    }
 }

@@ -20,7 +20,12 @@ public class BranchesController(IBranchService branchService, IDataProtectionPro
         return View(response);
     }
 
-    public IActionResult AddBranch() => View();
+    public IActionResult AddBranch()
+    {
+        ViewBag.ResKey = HttpContext.Session.GetString(StaticData.RestaurantId);
+
+        return View();
+    }
 
     [HttpPost, ValidateAntiForgeryToken]
     public IActionResult AddBranch(BranchRequest request)
@@ -61,14 +66,13 @@ public class BranchesController(IBranchService branchService, IDataProtectionPro
             string? id = HttpContext.Session.GetString(StaticData.RestaurantId);
 
             if (string.IsNullOrEmpty(id))
-            {
                 return RedirectToAction("index", "Home", new { Area = DefaultRoles.SuperAdmin });
-            }
 
             TempData["Error"] = response.Error.Description;
             return RedirectToAction(nameof(Branches), new { id });
         }
-
+        
+        ViewBag.ResKey = HttpContext.Session.GetString(StaticData.RestaurantId);
         return View(response.Value);
     }
 

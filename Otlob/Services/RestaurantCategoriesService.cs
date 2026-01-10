@@ -21,7 +21,7 @@ public class RestaurantCategoriesService(IUnitOfWorkRepository unitOfWorkReposit
             .Get(expression: rc => rc.RestaurantId == restaurantId)?.ToList();
 
 
-        // TODO: Enhance the performance by Escept linq method
+        // TODO: Enhance the performance by Except linq method
         if (existingCategories != null)
         {
             foreach (var category in existingCategories)

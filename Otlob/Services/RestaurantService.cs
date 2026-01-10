@@ -13,29 +13,6 @@ public class RestaurantService(IUnitOfWorkRepository unitOfWorkRepository,
     private readonly IRestaurantCategoriesService _restaurantCategoriesService = restaurantCategoriesService;
     private readonly IDataProtector _dataProtector = dataProtectionProvider.CreateProtector("SecureData");
 
-    public Result<RestaurantVM> GetRestaurant(int restaurantId)
-    {
-        Result result = IsRestaurantIdExists(restaurantId);
-
-        if (result.IsFailure)
-            return Result.Failure<RestaurantVM>(RestaurantErrors.NotFound);
-
-        RestaurantVM restaurantsVM = _unitOfWorkRepository.Restaurants
-            .GetOneWithSelect
-             (
-                expression: r => r.Id == restaurantId,
-                tracked: false,
-                selector: r => new RestaurantVM
-                {
-                    Name = r.Name!,
-                    AcctiveStatus = r.AcctiveStatus,
-                    Image = r.Image,
-                }
-             )!;
-
-        return Result.Success(restaurantsVM);
-    }
-
     public IQueryable<AcctiveRestaurantResponse>? GetAcctiveRestaurants()
     {
         var response = _unitOfWorkRepository.Restaurants

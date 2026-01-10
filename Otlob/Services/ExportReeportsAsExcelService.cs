@@ -1,23 +1,29 @@
-﻿namespace Otlob.Services;
+﻿using Microsoft.AspNetCore.StaticFiles;
 
-public class ExportReeportsAsExcelService(IOrdersAnalysisService ordersAnalysisService) : IExportReeportsAsExcelService
+namespace Otlob.Services;
+
+public class ExportReeportsAsExcelService(IAdminMonthlyAnalyticsService adminMonthlyAnalyticsService) : IExportReeportsAsExcelService
 {
-    private readonly IOrdersAnalysisService ordersAnalysisService = ordersAnalysisService;
+    private readonly IAdminMonthlyAnalyticsService _adminMonthlyAnalyticsService = adminMonthlyAnalyticsService;
 
-    public byte[] ExportOrdersOverLastTwelveMonth()
+    public (byte[] content, string contentType, string fileName) ExportOrdersOverLastTwelveMonth()
     {
-        var ordersOverLastTwelveMonth = ordersAnalysisService.GetOrdersOverLastTwelveMonth().ToList();
+        var ordersOverLastTwelveMonth = _adminMonthlyAnalyticsService.GetLastTweleveMonthsAnalytics();
 
-        DataTable dataTable = new DataTable("OrdersOverLastTwelveMonth");
+        string fileName = "OrdersOverLastTwelveMonth.xlsx";
 
-        dataTable.Columns.AddRange(
-            [
-                new DataColumn("Month", typeof(string)),
-                new DataColumn("Total Orders", typeof(int)),
-                new DataColumn("Total Revenue", typeof(string)),
-                new DataColumn("Average Order Value", typeof(string))
-            ]
-        );
+        DataTable dataTable = new("OrdersOverLastTwelveMonth");
+
+        dataTable.Columns
+            .AddRange(
+                [
+                    new DataColumn("Year", typeof(string)),
+                    new DataColumn("Month", typeof(string)),
+                    new DataColumn("Total Orders", typeof(int)),
+                    new DataColumn("Orders Sales", typeof(string)),
+                    new DataColumn("Orders Revenue", typeof(string))
+                ]
+            );
 
         string[] months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
@@ -25,22 +31,26 @@ public class ExportReeportsAsExcelService(IOrdersAnalysisService ordersAnalysisS
         {
             DataRow row = dataTable.NewRow();
 
-            row["Month"] = $"{months[order.Month - 1]} {order.Year}";
-            row["Total Orders"] = order.TotalOrders;
-            row["Total Revenue"] = $"{order.TotalRevenue} EGP";
-            row["Average Order Value"] = order.TotalOrders > 0 ? $"{Math.Round(order.TotalRevenue / order.TotalOrders, 2)} EGP" : $"{0} EGP";
-            
+            row["Year"] = $"{ order.Year}";
+            row["Month"] = $"{months[order.Month - 1]}";
+            row["Total Orders"] = order.OrdersCount;
+            row["Orders Sales"] = $"{order.TotalOrdersSales} EGP";
+            row["Orders Revenue"] = $"{order.TotalOrdersRevenue} EGP";
+
             dataTable.Rows.Add(row);
         }
 
-        using XLWorkbook workbook = new XLWorkbook();
+        using XLWorkbook workbook = new();
         workbook.Worksheets.Add(dataTable);
 
-        using MemoryStream stream = new MemoryStream();
+        using MemoryStream stream = new();
         workbook.SaveAs(stream);
 
         byte[] content = stream.ToArray();
 
-        return content;
+        var provider = new FileExtensionContentTypeProvider();
+        provider.TryGetContentType(fileName, out string? contentType);
+
+        return (content, contentType!, fileName);
     }
 }

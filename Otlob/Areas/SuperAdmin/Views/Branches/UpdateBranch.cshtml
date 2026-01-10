@@ -15,13 +15,13 @@
             <!-- Header Actions -->
             <div class="ab-header-actions">
                 <div class="ab-header-title">
-                    <a asp-action="Branches" class="ab-back-link">
+                    <a asp-action="Branches" asp-route-id="@ViewBag.ResKey" class="ab-back-link">
                         <i class="fas fa-arrow-left"></i>
                     </a>
                     <h1>Edit Branch</h1>
                 </div>
                 <div class="ab-actions">
-                    <a asp-action="Branches" class="ab-btn-secondary">Discard</a>
+                    <a asp-action="Branches" asp-route-id="@ViewBag.ResKey" class="ab-btn-secondary">Discard</a>
                     <button type="submit" class="ab-btn-primary">
                         <i class="fas fa-save"></i> Save
                     </button>

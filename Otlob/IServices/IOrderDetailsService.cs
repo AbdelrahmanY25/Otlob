@@ -1,8 +1,6 @@
-﻿namespace Otlob.IServices
+﻿namespace Otlob.IServices;
+
+public interface IOrderDetailsService
 {
-    public interface IOrderDetailsService
-    {
-        ICollection<OrderDetails> AddOrderDetails(int cartId);
-        OrderDetailsViewModel GetOrderDetailsToViewPage(Order order);
-    }
+    Result<OrderDetailsResponse> GetOrderDetails(int orderId);
 }

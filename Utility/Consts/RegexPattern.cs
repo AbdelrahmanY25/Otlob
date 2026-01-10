@@ -15,8 +15,8 @@ public static class RegexPattern
     
     public const string BranchName = @"^(?![,_/@-])[a-zA-Z\u0600-\u06FF0-9 %&_/@=+*\-]{1,50}$";
 
-    public const string MenuCategoryName = @"^[a-zA-Z\u0600-\u06FF0-9 %&_=+*]{3,15}$";
+    public const string MenuCategoryName = @"^[a-zA-Z\u0600-\u06FF0-9 %&_=+*]{3,50}$";
     
-    public const string MealName = @"^[a-zA-Z\u0600-\u06FF0-9 %&_=+*]{3,25}$";
+    public const string MealName = @"^[a-zA-Z\u0600-\u06FF0-9 %&_=+*]{3,75}$";
     public const string MealDescription = @"^[A-Za-z0-9\u0600-\u06FF%&_=+*\-][\s\S]{9,500}$";
 }

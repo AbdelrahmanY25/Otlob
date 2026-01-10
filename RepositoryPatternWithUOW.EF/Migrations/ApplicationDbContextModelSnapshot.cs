@@ -220,6 +220,99 @@ namespace Otlob.EF.Migrations
                     b.ToTable("Addresses");
                 });
 
+            modelBuilder.Entity("Otlob.Core.Entities.AdminDailyAnalytic", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("AverageOrderPrice")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("decimal(9,2)")
+                        .HasComputedColumnSql("CASE WHEN [CompletedOrdersCount] = 0 THEN 0 ELSE ([TotalOrdersSales] / [CompletedOrdersCount]) END", true);
+
+                    b.Property<int>("CancelledOrders")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CompletedOrdersCount")
+                        .HasColumnType("int");
+
+                    b.Property<DateOnly>("Date")
+                        .HasColumnType("date");
+
+                    b.Property<int>("DeliveredOrders")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<int>("PendingOrders")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PreparingOrders")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ShippingOrders")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("TotalOrdersRevenue")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("decimal(9,2)")
+                        .HasComputedColumnSql("([TotalOrdersSales] * 0.05)", true);
+
+                    b.Property<decimal>("TotalOrdersSales")
+                        .HasColumnType("decimal(9,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Date")
+                        .IsUnique();
+
+                    b.ToTable("AdminDailyAnalytics");
+                });
+
+            modelBuilder.Entity("Otlob.Core.Entities.AdminMonthlyAnalytic", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<int>("Month")
+                        .HasColumnType("int");
+
+                    b.Property<int>("OrdersCount")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("TotalOrdersRevenue")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("decimal(10,2)")
+                        .HasComputedColumnSql("([TotalOrdersSales] * 0.05)", true);
+
+                    b.Property<decimal>("TotalOrdersSales")
+                        .HasColumnType("decimal(10,2)");
+
+                    b.Property<int>("Year")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Year", "Month")
+                        .IsUnique();
+
+                    b.ToTable("AdminMonthlyAnalytics");
+                });
+
             modelBuilder.Entity("Otlob.Core.Entities.ApplicationRole", b =>
                 {
                     b.Property<string>("Id")
@@ -298,8 +391,8 @@ namespace Otlob.EF.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
@@ -357,8 +450,8 @@ namespace Otlob.EF.Migrations
 
                     b.Property<string>("UserName")
                         .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
 
                     b.HasKey("Id");
 
@@ -551,7 +644,7 @@ namespace Otlob.EF.Migrations
                     b.Property<decimal>("ItemsPrice")
                         .HasColumnType("decimal(8,2)");
 
-                    b.Property<string>("MealDeteils")
+                    b.Property<string>("MealDetails")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -594,8 +687,8 @@ namespace Otlob.EF.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
@@ -824,8 +917,8 @@ namespace Otlob.EF.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(25)
-                        .HasColumnType("nvarchar(25)");
+                        .HasMaxLength(75)
+                        .HasColumnType("nvarchar(75)");
 
                     b.Property<int>("NumberOfServings")
                         .HasMaxLength(50)
@@ -1010,8 +1103,8 @@ namespace Otlob.EF.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(15)
-                        .HasColumnType("nvarchar(15)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<int>("RestaurantId")
                         .HasColumnType("int");
@@ -1103,6 +1196,24 @@ namespace Otlob.EF.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("CustomerCancelReason")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CustomerPhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DeliveryAddress")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Point>("DeliveryAddressLocation")
+                        .IsRequired()
+                        .HasColumnType("geography");
+
+                    b.Property<decimal>("DeliveryFee")
+                        .HasColumnType("decimal(5,2)");
+
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
@@ -1118,27 +1229,26 @@ namespace Otlob.EF.Migrations
                     b.Property<DateTime>("OrderDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("RestaurantCancelReason")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("RestaurantId")
                         .HasColumnType("int");
+
+                    b.Property<decimal>("ServiceFeePrice")
+                        .HasColumnType("decimal(5,2)");
 
                     b.Property<string>("Status")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<decimal>("TotalMealsPrice")
+                    b.Property<decimal>("SubPrice")
                         .HasColumnType("decimal(8,2)");
 
-                    b.Property<decimal>("TotalOrderPrice")
+                    b.Property<decimal>("TotalPrice")
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("decimal(8,2)")
-                        .HasComputedColumnSql("[TotalMealsPrice] + [TotalTaxPrice]");
-
-                    b.Property<decimal>("TotalTaxPrice")
-                        .HasColumnType("decimal(5,2)");
-
-                    b.Property<string>("UserAddress")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasComputedColumnSql("[SubPrice] + [ServiceFeePrice] + [DeliveryFee]", true);
 
                     b.Property<string>("UserId")
                         .IsRequired()
@@ -1152,11 +1262,7 @@ namespace Otlob.EF.Migrations
 
                     b.HasIndex("Status");
 
-                    b.HasIndex("TotalOrderPrice");
-
                     b.HasIndex("UserId");
-
-                    b.HasIndex("Status", "OrderDate");
 
                     b.ToTable("Orders");
                 });
@@ -1169,10 +1275,20 @@ namespace Otlob.EF.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<decimal>("AddOnsPrice")
+                        .HasColumnType("decimal(8,2)");
+
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
                         .HasDefaultValue(false);
+
+                    b.Property<decimal>("ItemsPrice")
+                        .HasColumnType("decimal(8,2)");
+
+                    b.Property<string>("MealDetails")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("MealId")
                         .IsRequired()
@@ -1190,7 +1306,7 @@ namespace Otlob.EF.Migrations
                     b.Property<decimal>("TotalPrice")
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("decimal(8,2)")
-                        .HasComputedColumnSql("[MealPrice] * [MealQuantity]");
+                        .HasComputedColumnSql("[MealQuantity] * ([MealPrice] + [ItemsPrice] + [AddOnsPrice])", true);
 
                     b.HasKey("Id");
 
@@ -1382,6 +1498,105 @@ namespace Otlob.EF.Migrations
                         .IsUnique();
 
                     b.ToTable("RestaurantCategory");
+                });
+
+            modelBuilder.Entity("Otlob.Core.Entities.RestaurantDailyAnalytic", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("AverageOrderPrice")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("decimal(12,2)")
+                        .HasComputedColumnSql("CASE WHEN [CompletedOrdersCount] = 0 THEN 0 ELSE ([TotalOrdersSales] / [CompletedOrdersCount]) END", true);
+
+                    b.Property<int>("CancelledOrders")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CompletedOrdersCount")
+                        .HasColumnType("int");
+
+                    b.Property<DateOnly>("Date")
+                        .HasColumnType("date");
+
+                    b.Property<int>("DeliveredOrders")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<int>("PendingOrders")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PreparingOrders")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RestaurantId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ShippingOrders")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("TotalOrdersRevenue")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("decimal(12,2)")
+                        .HasComputedColumnSql("([TotalOrdersSales] * 0.05)", true);
+
+                    b.Property<decimal>("TotalOrdersSales")
+                        .HasColumnType("decimal(12,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RestaurantId", "Date")
+                        .IsUnique();
+
+                    b.ToTable("RestaurantDailyAnalytics");
+                });
+
+            modelBuilder.Entity("Otlob.Core.Entities.RestaurantMonthlyAnalytic", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<int>("Month")
+                        .HasColumnType("int");
+
+                    b.Property<int>("OrdersCount")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RestaurantId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("TotalOrdersRevenue")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("decimal(12,2)")
+                        .HasComputedColumnSql("([TotalOrdersSales] * 0.05)", true);
+
+                    b.Property<decimal>("TotalOrdersSales")
+                        .HasColumnType("decimal(12,2)");
+
+                    b.Property<int>("Year")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RestaurantId", "Year", "Month")
+                        .IsUnique();
+
+                    b.ToTable("RestaurantMonthlyAnalytics");
                 });
 
             modelBuilder.Entity("Otlob.Core.Entities.TempOrder", b =>
@@ -1620,6 +1835,43 @@ namespace Otlob.EF.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Otlob.Core.Entities.ApplicationUser", b =>
+                {
+                    b.OwnsMany("Otlob.Core.Entities.RefreshToken", "RefreshTokens", b1 =>
+                        {
+                            b1.Property<string>("UserId")
+                                .HasColumnType("nvarchar(450)");
+
+                            b1.Property<int>("Id")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("int");
+
+                            SqlServerPropertyBuilderExtensions.UseIdentityColumn(b1.Property<int>("Id"));
+
+                            b1.Property<DateTime>("CreatedOn")
+                                .HasColumnType("datetime2");
+
+                            b1.Property<DateTime>("ExpiresOn")
+                                .HasColumnType("datetime2");
+
+                            b1.Property<DateTime?>("RevokedOn")
+                                .HasColumnType("datetime2");
+
+                            b1.Property<string>("Token")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.HasKey("UserId", "Id");
+
+                            b1.ToTable("RefreshTokens", (string)null);
+
+                            b1.WithOwner()
+                                .HasForeignKey("UserId");
+                        });
+
+                    b.Navigation("RefreshTokens");
                 });
 
             modelBuilder.Entity("Otlob.Core.Entities.BankAccount", b =>
@@ -1916,7 +2168,7 @@ namespace Otlob.EF.Migrations
                         .IsRequired();
 
                     b.HasOne("Otlob.Core.Entities.Order", "Order")
-                        .WithMany("MealsInOrder")
+                        .WithMany("OrderDetails")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -1977,6 +2229,28 @@ namespace Otlob.EF.Migrations
                         .IsRequired();
 
                     b.Navigation("Category");
+
+                    b.Navigation("Restaurant");
+                });
+
+            modelBuilder.Entity("Otlob.Core.Entities.RestaurantDailyAnalytic", b =>
+                {
+                    b.HasOne("Otlob.Core.Entities.Restaurant", "Restaurant")
+                        .WithMany()
+                        .HasForeignKey("RestaurantId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Restaurant");
+                });
+
+            modelBuilder.Entity("Otlob.Core.Entities.RestaurantMonthlyAnalytic", b =>
+                {
+                    b.HasOne("Otlob.Core.Entities.Restaurant", "Restaurant")
+                        .WithMany()
+                        .HasForeignKey("RestaurantId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.Navigation("Restaurant");
                 });
@@ -2090,7 +2364,7 @@ namespace Otlob.EF.Migrations
 
             modelBuilder.Entity("Otlob.Core.Entities.Order", b =>
                 {
-                    b.Navigation("MealsInOrder");
+                    b.Navigation("OrderDetails");
                 });
 
             modelBuilder.Entity("Otlob.Core.Entities.Restaurant", b =>

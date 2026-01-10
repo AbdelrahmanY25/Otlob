@@ -1,4 +1,14 @@
-﻿global using Otlob.Core.Contracts.Authentication;
+﻿global using Microsoft.AspNetCore.Authentication.JwtBearer;
+global using Otlob.Core.Contracts.MobileApp.Authentication;
+global using Otlob.ApiServices;
+
+global using JsonSerializer = System.Text.Json.JsonSerializer;
+global using Otlob.Core.Contracts.RestaurantAdminAnalytics;
+global using Otlob.Core.Contracts.OrderDetails;
+global using Otlob.Core.Contracts.RestaurantOrders;
+global using Otlob.Core.Contracts.MealPriceHistory;
+global using Otlob.Core.Contracts.Authentication;
+global using Otlob.Core.Contracts.AdminAnalytics;
 global using Otlob.Core.Contracts.MenuCategory;
 global using Otlob.Core.Mapping.MappingProfile;
 global using Otlob.Core.Contracts.MealVarients;
@@ -8,13 +18,14 @@ global using Otlob.Core.Contracts.Restaurant;
 global using Otlob.Core.Contracts.Documents;
 global using Otlob.EF.UnitOfWorkRepository;
 global using Otlob.Core.Contracts.Customer;
+global using Otlob.Core.Contracts.CheckOut;
 global using Otlob.Core.Contracts.Address;
 global using Otlob.Core.Contracts.Branch;
+global using Otlob.Core.Contracts.OrderDetails;
 global using Otlob.Core.Contracts.Files;
 global using Otlob.Core.Contracts.Meal;
 global using Otlob.Core.Contracts.Cart;
 global using Otlob.Core.Contracts.User;
-global using Otlob.Services.Results;
 global using System.Text.Json.Nodes;
 global using Otlob.Core.Extensions;
 global using Otlob.Core.Contracts;
@@ -23,15 +34,12 @@ global using Otlob.Abstractions;
 global using Otlob.Core.Hubs;
 global using Otlob.IServices;
 global using Otlob.Services;
-global using Otlob.Errors;
+global using Otlob.ApiErrors;
 global using Utility.Consts;
 global using Utility.Helpers;
 global using Otlob.Entities;
 global using Utility.Enums;
 global using Otlob.EF;
-
-
-
 
 global using System.Linq.Expressions;
 global using System.Security.Claims;
@@ -39,8 +47,8 @@ global using System.Diagnostics;
 global using NetTopologySuite;
 global using System.Text;
 global using System.Data;
-
-
+global using System.Text.Json;
+global using System.Text.Json.Serialization;
 
 global using EFCore = Microsoft.EntityFrameworkCore.EF;
 global using Microsoft.AspNetCore.DataProtection;
@@ -54,7 +62,6 @@ global using Microsoft.EntityFrameworkCore;
 global using Microsoft.Extensions.Options;
 global using Microsoft.AspNetCore.SignalR;
 global using Microsoft.AspNetCore.Mvc;
-
 
 global using NetTopologySuite.Geometries;
 global using FluentValidation.AspNetCore;

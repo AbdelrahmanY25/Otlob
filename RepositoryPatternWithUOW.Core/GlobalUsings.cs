@@ -3,6 +3,7 @@ global using Otlob.Core.Contracts.MenuCategory;
 global using Otlob.Core.Contracts.MealVarients;
 global using Otlob.Core.Contracts.Restaurant;
 global using Otlob.Core.Contracts.Address;
+global using Otlob.Core.Contracts.OrderDetails;
 global using Otlob.Core.Contracts.Files;
 global using Otlob.Core.Contracts.Meal;
 global using Otlob.EF.IBaseRepository;

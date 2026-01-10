@@ -17,6 +17,6 @@ public class MenuCategoryEntityTypeConfiguration : IEntityTypeConfiguration<Menu
 
         builder
             .Property(c => c.Name)
-            .HasMaxLength(15);
+            .HasMaxLength(50);
     }
 }

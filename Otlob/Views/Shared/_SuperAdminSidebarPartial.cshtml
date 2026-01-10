@@ -1,15 +1,133 @@
 ﻿@if (User.IsInRole(DefaultRoles.SuperAdmin))
 {
-    <div class="sidebar">
-        <h3>Otlob</h3>
-        <ul class="links">
-            <li><a asp-area="SuperAdmin" asp-controller="Home" asp-action="Index"><i class="bi bi-house-door"></i><span>Home</span></a></li>
-            <li><a asp-area="SuperAdmin" asp-controller="UsersAnalysis" asp-action="Index"><i class="bi bi-people"></i><span>Users</span></a></li>
-            <li><a asp-area="SuperAdmin" asp-controller="Restaurants" asp-action="ActiveResturatns"><i class="bi bi-building"></i><span>Active Resturatns</span></a></li>
-            <li><a asp-area="SuperAdmin" asp-controller="Restaurants" asp-action="UnAcceptedRestaurants"><i class="bi bi-kanban"></i><span>New Resturatns</span></a></li>
-            <li><a asp-area="SuperAdmin" asp-controller="Restaurants" asp-action="DeletedRestaurant"><i class="bi bi-bell"></i><span>Deleted Restaurants</span></a></li>
-            <li><a asp-area="SuperAdmin" asp-controller="Register" asp-action="BecomeAPartner"><i class="bi bi-people"></i><span>Add Restaurant Admin Account</span></a></li>
-            <li><a asp-area="SuperAdmin" asp-controller="Register" asp-action="RegistSuperAdmin"><i class="bi bi-file-earmark"></i><span>Add Super Admin Account</span></a></li>
-        </ul>
+    <link href="~/css/adminSite.css" rel="stylesheet" />
+
+    <div class="adm-sidebar-container">
+        <nav class="adm-sidebar">
+            <header>
+                <div class="image-text">
+                    <span class="image">
+                        @* Assuming logo exists, similar to existing one or just Otlob text *@
+                        <img src="~/images/Logo/otlob-logo.svg" alt="Otlob">
+                    </span>
+
+                    <div class="text header-text">
+                        <span class="name">Otlob</span>
+                        <span class="role">Control Panel</span>
+                    </div>
+                </div>
+
+                <i class="bi bi-chevron-right toggle"></i>
+            </header>
+
+            <div class="adm-menu-bar">
+                <div class="menu">
+                    <ul class="adm-menu-links">
+                        
+                        <!-- Dashboard -->
+                        <li class="adm-nav-link">
+                            <a asp-area="SuperAdmin" asp-controller="Home" asp-action="Index">
+                                <i class="bi bi-grid-1x2-fill icon"></i>
+                                <span class="text nav-text">Dashboard</span>
+                            </a>
+                        </li>
+
+                        <!-- Users -->
+                        <li class="adm-nav-link">
+                            <a asp-area="SuperAdmin" asp-controller="UsersAnalysis" asp-action="Index">
+                                <i class="bi bi-people icon"></i>
+                                <span class="text nav-text">Users</span>
+                            </a>
+                        </li>
+
+                        <!-- Restaurants Dropdown -->
+                        <li class="adm-dropdown">
+                            <div class="adm-nav-link adm-dropdown-toggle">
+                                <a href="javascript:void(0)">
+                                    <i class="bi bi-shop icon"></i>
+                                    <span class="text nav-text">Restaurants</span>
+                                    <i class="bi bi-chevron-down icon chevron"></i>
+                                </a>
+                            </div>
+                            <ul class="adm-submenu">
+                                <li class="adm-nav-link">
+                                    <a asp-area="SuperAdmin" asp-controller="Restaurants" asp-action="ActiveResturatns">
+                                        <i class="bi bi-check-circle icon"></i>
+                                        <span class="text nav-text">Active</span>
+                                    </a>
+                                </li>
+                                <li class="adm-nav-link">
+                                    <a asp-area="SuperAdmin" asp-controller="Restaurants" asp-action="UnAcceptedRestaurants">
+                                        <i class="bi bi-hourglass-split icon"></i>
+                                        <span class="text nav-text">New Requests</span>
+                                    </a>
+                                </li>
+                                <li class="adm-nav-link">
+                                    <a asp-area="SuperAdmin" asp-controller="Restaurants" asp-action="DeletedRestaurant">
+                                        <i class="bi bi-trash icon"></i>
+                                        <span class="text nav-text">Deleted</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <!-- Administration Dropdown -->
+                        <li class="adm-dropdown">
+                            <div class="adm-nav-link adm-dropdown-toggle">
+                                <a href="javascript:void(0)">
+                                    <i class="bi bi-shield-lock icon"></i>
+                                    <span class="text nav-text">Administration</span>
+                                    <i class="bi bi-chevron-down icon chevron"></i>
+                                </a>
+                            </div>
+                            <ul class="adm-submenu">
+                                <li class="adm-nav-link">
+                                    <a asp-area="SuperAdmin" asp-controller="Register" asp-action="BecomeAPartner">
+                                        <i class="bi bi-person-plus icon"></i>
+                                        <span class="text nav-text">Add Partner</span>
+                                    </a>
+                                </li>
+                                <li class="adm-nav-link">
+                                    <a asp-area="SuperAdmin" asp-controller="Register" asp-action="RegistSuperAdmin">
+                                        <i class="bi bi-person-badge icon"></i>
+                                        <span class="text nav-text">Add Super Admin</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+                    </ul>
+                </div>
+
+                <div class="adm-bottom-content">
+                    <div class="adm-user-profile">
+                        @{
+                            string? userImage = User.FindFirst("UserImageProfile")?.Value;
+                            string userName = User.Identity?.Name ?? "Admin";
+                        }
+                        @* Assuming a default image if null *@
+                        <img src="~/images/@(userImage ?? "default-user.png")" alt="Profile">
+                        <div class="adm-user-details">
+                            <span class="adm-user-name">@userName</span>
+                            <span class="adm-user-role">Super Admin</span>
+                        </div>
+                    </div>
+
+                    <li class="adm-mode">
+                        <div class="sun-moon">
+                            <i class="bi bi-moon moon icon"></i>
+                            <i class="bi bi-sun sun icon"></i>
+                        </div>
+                        <span class="mode-text text adm-mode-text">Dark Mode</span>
+
+                        <div class="adm-toggle-switch">
+                            <span class="adm-switch"></span>
+                        </div>
+                    </li>
+                </div>
+            </div>
+        </nav>
     </div>
+
+    <script src="~/js/adminSite.js" asp-append-version="true"></script>
 }

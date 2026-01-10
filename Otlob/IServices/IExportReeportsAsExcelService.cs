@@ -1,7 +1,6 @@
-﻿namespace Otlob.IServices
+﻿namespace Otlob.IServices;
+
+public interface IExportReeportsAsExcelService
 {
-    public interface IExportReeportsAsExcelService
-    {
-        byte[] ExportOrdersOverLastTwelveMonth();
-    }
+    (byte[] content, string contentType, string fileName) ExportOrdersOverLastTwelveMonth();
 }

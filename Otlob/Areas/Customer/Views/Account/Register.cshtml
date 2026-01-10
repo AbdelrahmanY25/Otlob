@@ -30,6 +30,13 @@
             <h1>Sign Up</h1>
         </div>
 
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <div class="alert alert-danger" style="margin-bottom: 20px; border-radius: 12px; background:#fff5f5; border:1px solid #fed7d7; color:#c53030; padding: 12px;">
+                @TempData["ErrorMessage"]
+            </div>
+        }
+
         <form asp-action="Register" class="loginform" style="min-height: 540px">
             <div asp-validation-summary="ModelOnly"></div>
 
@@ -81,18 +88,18 @@
             <button type="submit" class="sign-in-btn">Sign Up</button>
         </form>
 
-        <!-- <div class="divider">
+        <div class="divider">
             <span>Or continue with</span>
         </div>
 
         <div class="social-login">
-            <div class="social-btn">
-                <i class="fab fa-google"></i>
-            </div>
-            <div class="social-btn">
-                <i class="fab fa-microsoft"></i>
-            </div>
-        </div> -->
+            <form asp-area="Customer" asp-controller="ExternalLogins" asp-action="ExternalLogin" asp-route-returnUrl="@ViewData["ReturnUrl"]" method="post">
+                <button type="submit" name="provider" value="Google" class="social-btn google-btn">
+                    <i class="fab fa-google-f"></i>
+                    <span>Google</span>
+                </button>
+            </form>
+        </div>
 
         <div class="signup-link">
             confirm your email <a asp-controller="Account" asp-action="ResendEmailConfirmation">Resend email confirmation</a>

@@ -2,8 +2,6 @@
 
 public interface IRestaurantService
 {    
-    Result<RestaurantVM> GetRestaurant(int restaurantId);
-
     IQueryable<AcctiveRestaurantResponse>? GetAcctiveRestaurants();
 
     IQueryable<PendingRestaurantResponse>? GetUnAcceptedAndPendingRestaurants();

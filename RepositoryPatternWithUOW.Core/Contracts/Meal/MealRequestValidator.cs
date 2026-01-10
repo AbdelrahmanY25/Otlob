@@ -7,7 +7,7 @@ public class MealRequestValidator : AbstractValidator<MealRequest>
         RuleFor(m => m.Name)
             .NotEmpty()
             .MinimumLength(3)
-            .MaximumLength(25)
+            .MaximumLength(75)
             .Matches(RegexPattern.MealName);
 
         RuleFor(m => m.Description)
