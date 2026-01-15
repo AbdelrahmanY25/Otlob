@@ -13,6 +13,10 @@ public class RestaurantBusinessInfoValidator : AbstractValidator<RestaurantBusin
             .GreaterThanOrEqualTo(5)
             .LessThanOrEqualTo(180);
 
+        RuleFor(r => r.MinimumOrderPrice)
+            .NotEmpty()
+            .GreaterThanOrEqualTo(0);
+
         RuleFor(r => r.ClosingTime)
             .Must((request, closingTime) => closingTime >= request.OpeningTime.AddHours(6) || closingTime == request.OpeningTime);
 

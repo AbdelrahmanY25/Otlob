@@ -10,4 +10,5 @@ public class OrderHistoryResponse
     public PaymentMethod PaymentMethod { get; set; }
     public decimal TotalPrice { get; set; }
     public int ItemsCount { get; set; }
+    public bool IsRated { get; set; }
 }

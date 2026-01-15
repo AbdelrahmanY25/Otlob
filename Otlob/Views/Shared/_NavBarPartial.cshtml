@@ -39,21 +39,25 @@
                 <img class="avatar rounded-circle" alt="Profile Picture" src="/images/@(userImageProfile is not null ? userImageProfile : "Default.jpg")"/>
             </li>
 
-            @if (User.FindFirstValue(ClaimTypes.Role) == DefaultRoles.RestaurantAdmin)
-            {
+            @if (User.FindFirstValue(ClaimTypes.Role) == DefaultRoles.RestaurantAdmin) {
                 <li><a asp-area="@DefaultRoles.RestaurantAdmin" asp-controller="RestaurantProfile" asp-action="EditRestaurantProfile">Your Restaurant Profile</a></li>
                 <li><a asp-area="@DefaultRoles.RestaurantAdmin" asp-controller="RestaurantBusinessDetails" asp-action="BusinessDetails">Your Business Details</a></li>
+                <li><a asp-area=@DefaultRoles.RestaurantAdmin asp-controller="Profile" asp-action="Profile">Profile</a></li>
+                <li><a asp-area=@DefaultRoles.RestaurantAdmin asp-controller="Profile" asp-action="Logout">Logout</a></li>
             }
 
-            <li><a asp-area=@DefaultRoles.Customer asp-controller="UserProfile" asp-action="UserProfile">Profile</a></li>
+            @if (User.IsInRole(DefaultRoles.SuperAdmin)) {
+                <li><a asp-area=@DefaultRoles.SuperAdmin asp-controller="Profile" asp-action="Profile">Profile</a></li>
+                <li><a asp-area=@DefaultRoles.SuperAdmin asp-controller="Profile" asp-action="Logout">Logout</a></li>
+            }
             
-            @if (User.IsInRole(DefaultRoles.Customer))
-            {
+            @if (User.IsInRole(DefaultRoles.Customer)) {
+                <li><a asp-area=@DefaultRoles.Customer asp-controller="UserProfile" asp-action="UserProfile">Profile</a></li>
                 <li><a asp-area=@DefaultRoles.Customer asp-action="Orders" asp-controller="OrdersHistory">My Orders</a></li>
-                <li><a asp-area=@DefaultRoles.Customer asp-action="SavedAddresses" asp-controller="Address">Saved Addresses</a></li>
+                <li><a asp-area=@DefaultRoles.Customer asp-action="SavedAddresses" asp-controller="Address">My Addresses</a></li>
+                <li><a asp-area=@DefaultRoles.Customer asp-controller="UserProfile" asp-action="Logout">Logout</a></li>
             }
 
-            <li><a asp-area=@DefaultRoles.Customer asp-controller="Account" asp-action="Logout">Logout</a></li>
         }
         else
         {

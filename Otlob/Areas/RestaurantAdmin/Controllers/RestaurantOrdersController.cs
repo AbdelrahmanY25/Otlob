@@ -4,24 +4,33 @@
 public class RestaurantOrdersController(IRestaurantOrdersService restaurantOrdersService,
                                         IOrderDetailsService orderDetailsService) : Controller
 {
-    private readonly IRestaurantOrdersService _restaurantOrdersService = restaurantOrdersService;
     private readonly IOrderDetailsService _orderDetailsService = orderDetailsService;
+    private readonly IRestaurantOrdersService _restaurantOrdersService = restaurantOrdersService;
 
     public IActionResult InProgress()
     {
-        var orders = _restaurantOrdersService.GetInProgressRestaurantOrders();
+        int restaurantId = int.Parse(User.FindFirstValue(StaticData.RestaurantId)!);
+        
+        var orders = _restaurantOrdersService.GetAllInProgressByRestaurantId(restaurantId);
+        
         return View(orders);
     }
     
     public IActionResult Delivered()
     {
-        var orders = _restaurantOrdersService.GetDeliveredRestaurantOrders();
+        int restaurantId = int.Parse(User.FindFirstValue(StaticData.RestaurantId)!);
+        
+        var orders = _restaurantOrdersService.GetAllDeliveredByRestaurantId(restaurantId);
+        
         return View(orders);
     }
 
     public IActionResult Cancelled()
     {
-        var orders = _restaurantOrdersService.GetCancelledRestaurantOrders();
+        int restaurantId = int.Parse(User.FindFirstValue(StaticData.RestaurantId)!);
+        
+        var orders = _restaurantOrdersService.GetAllCancelledByRestaurantId(restaurantId);
+        
         return View(orders);
     }
     
@@ -43,7 +52,9 @@ public class RestaurantOrdersController(IRestaurantOrdersService restaurantOrder
         if (!Enum.TryParse<OrderStatus>(newStatus, out var status))
             return Json(new { success = false, message = "Invalid status" });
 
-        var result = _restaurantOrdersService.UpdateOrderStatus(orderKey, status);
+        int restaurantId = int.Parse(User.FindFirstValue(StaticData.RestaurantId)!);
+
+        var result = _restaurantOrdersService.UpdateOrderStatus(restaurantId, orderKey, status);
 
         if (result.IsFailure)
             return Json(new { success = false, message = result.Error.Description });
@@ -51,10 +62,26 @@ public class RestaurantOrdersController(IRestaurantOrdersService restaurantOrder
         return Json(new { success = true, message = "Order status updated successfully" });
     }
 
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public IActionResult CancelOrder(int orderId, RestaurantCancelReason reason)
+    {
+        int restaurantId = int.Parse(User.FindFirstValue(StaticData.RestaurantId)!);
+
+        var result = _restaurantOrdersService.CancelOrder(restaurantId, orderId, reason);
+
+        if (result.IsFailure)
+            return Json(new { success = false, message = result.Error.Description });
+
+        return Json(new { success = true, message = "Order cancelled successfully" });
+    }
+
     [HttpGet]
     public IActionResult GetUserInfo(int orderId)
     {
-        var userInfo = _restaurantOrdersService.GetOrderUserInfo(orderId);
+        int restaurantId = int.Parse(User.FindFirstValue(StaticData.RestaurantId)!);
+        
+        var userInfo = _restaurantOrdersService.GetOrderUserInfo(restaurantId, orderId);
 
         if (userInfo is null)
             return NotFound();

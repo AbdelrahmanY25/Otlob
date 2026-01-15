@@ -1,142 +1,224 @@
 ﻿@model CommercialRegistrationResponse
 
 @{
-    ViewData["Title"] = "Commercial Registration Document";
+    ViewData["Title"] = "Commercial Registration";
 }
 
-<link rel="stylesheet" href="~/css/documents.css" />
+<link rel="stylesheet" href="~/css/documents.css" asp-append-version="true" />
 
-<div class="document-page-container">
-    <div class="document-page-wrapper">
-        <div class="document-header">
-            <div class="document-title-section">
-                <a class="back-btn" 
+<div class="doc-page">
+    <!-- Hero Section -->
+    <div class="doc-hero">
+        <div class="doc-hero-content">
+            <div class="doc-hero-top">
+                <a class="doc-back-btn" 
                    asp-area="SuperAdmin"
                    asp-controller="Restaurants" 
                    asp-action="ResturantDetails" 
-                   asp-route-id="@Model.RestaurantId"
-                   title="Back to restaurant">
+                   asp-route-id="@Model.RestaurantId">
                     <i class="fas fa-arrow-left"></i>
+                    Back to Restaurant
                 </a>
-                <div class="document-icon-wrapper">
+                <span class="doc-status-badge status-@Model.DocumentStatus.ToString().ToLower()">
+                    @if (Model.DocumentStatus == DocumentStatus.Accepted)
+                    {
+                        <i class="fas fa-check-circle"></i>
+                    }
+                    else if (Model.DocumentStatus == DocumentStatus.Rejected)
+                    {
+                        <i class="fas fa-times-circle"></i>
+                    }
+                    else
+                    {
+                        <i class="fas fa-clock"></i>
+                    }
+                    @Model.DocumentStatus
+                </span>
+            </div>
+            <div class="doc-hero-main">
+                <div class="doc-icon-wrapper">
                     <i class="fas fa-file-contract"></i>
                 </div>
-                <div class="document-title-group">
-                    <h1>Commercial Registration</h1>
-                    <p class="document-subtitle">Document Details & Management</p>
+                <div class="doc-hero-info">
+                    <h1 class="doc-title">Commercial Registration</h1>
+                    <p class="doc-subtitle">Official business registration certificate for legal verification</p>
                 </div>
             </div>
-            <div class="document-status-badge status-@Model.DocumentStatus.ToString().ToLower()">
-                @if (Model.DocumentStatus == DocumentStatus.Accepted)
-                {
-                    <i class="fas fa-check-circle"></i>
-                }
-                else if (Model.DocumentStatus == DocumentStatus.Rejected)
-                {
-                    <i class="fas fa-times-circle"></i>
-                }
-                else
-                {
-                    <i class="fas fa-clock"></i>
-                }
-                @Model.DocumentStatus
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="doc-main">
+        <!-- Quick Stats -->
+        <div class="doc-quick-stats">
+            <div class="doc-stat-card">
+                <div class="doc-stat-icon primary">
+                    <i class="fas fa-hashtag"></i>
+                </div>
+                <div class="doc-stat-content">
+                    <div class="doc-stat-value">@Model.RegistrationNumber</div>
+                    <div class="doc-stat-label">Registration No.</div>
+                </div>
+            </div>
+            <div class="doc-stat-card">
+                <div class="doc-stat-icon success">
+                    <i class="fas fa-calendar-check"></i>
+                </div>
+                <div class="doc-stat-content">
+                    <div class="doc-stat-value">@Model.DateOfIssuance.ToString("MMM yyyy")</div>
+                    <div class="doc-stat-label">Issued Date</div>
+                </div>
+            </div>
+            <div class="doc-stat-card">
+                <div class="doc-stat-icon @(Model.ExpiryDate > DateOnly.FromDateTime(DateTime.Now) ? "warning" : "danger")">
+                    <i class="fas fa-calendar-times"></i>
+                </div>
+                <div class="doc-stat-content">
+                    <div class="doc-stat-value">@(Model.ExpiryDate.ToDateTime(TimeOnly.MinValue).Subtract(DateTime.Now).Days) days</div>
+                    <div class="doc-stat-label">@(Model.ExpiryDate > DateOnly.FromDateTime(DateTime.Now) ? "Until Expiry" : "Expired")</div>
+                </div>
             </div>
         </div>
 
-        <div class="document-content-layout">
-            <div class="document-info-card">
-                <div class="document-card-header">
-                    <h2>
-                        <i class="fas fa-info-circle"></i>
-                        Document Information
-                    </h2>
+        <div class="doc-content-grid">
+            <!-- Left Column - Info Cards -->
+            <div class="doc-info-column">
+                <!-- Registration Details Card -->
+                <div class="doc-card">
+                    <div class="doc-card-header">
+                        <h2 class="doc-card-title">
+                            <i class="fas fa-info-circle"></i>
+                            Registration Details
+                        </h2>
+                    </div>
+                    <div class="doc-card-body">
+                        <div class="doc-info-grid">
+                            <div class="doc-info-item full-width">
+                                <div class="doc-info-icon">
+                                    <i class="fas fa-hashtag"></i>
+                                </div>
+                                <div class="doc-info-content">
+                                    <span class="doc-info-label">Registration Number</span>
+                                    <div class="doc-info-value">@Model.RegistrationNumber</div>
+                                </div>
+                            </div>
+                            <div class="doc-info-item">
+                                <div class="doc-info-icon">
+                                    <i class="fas fa-calendar-check"></i>
+                                </div>
+                                <div class="doc-info-content">
+                                    <span class="doc-info-label">Date of Issuance</span>
+                                    <div class="doc-info-value">@Model.DateOfIssuance.ToString("MMMM dd, yyyy")</div>
+                                </div>
+                            </div>
+                            <div class="doc-info-item">
+                                <div class="doc-info-icon">
+                                    <i class="fas fa-calendar-times"></i>
+                                </div>
+                                <div class="doc-info-content">
+                                    <span class="doc-info-label">Expiry Date</span>
+                                    <div class="doc-info-value">@Model.ExpiryDate.ToString("MMMM dd, yyyy")</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="document-card-body">
-                    <div class="document-info-grid">
-                        <div class="doc-info-item">
-                            <span class="doc-info-label">Registration Number</span>
-                            <div class="doc-info-value">
-                                <i class="fas fa-hashtag"></i>
-                                @Model.RegistrationNumber
+
+                <!-- Verification Status Card -->
+                <div class="doc-card">
+                    <div class="doc-card-header">
+                        <h2 class="doc-card-title">
+                            <i class="fas fa-clipboard-check"></i>
+                            Verification Status
+                        </h2>
+                    </div>
+                    <div class="doc-card-body">
+                        <div class="doc-info-grid">
+                            <div class="doc-info-item">
+                                <div class="doc-info-icon">
+                                    <i class="fas fa-flag"></i>
+                                </div>
+                                <div class="doc-info-content">
+                                    <span class="doc-info-label">Current Status</span>
+                                    <div class="doc-info-value">@Model.DocumentStatus</div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="doc-info-item">
-                            <span class="doc-info-label">Date Of Issuance</span>
-                            <div class="doc-info-value">
-                                <i class="fas fa-calendar-check"></i>
-                                @Model.DateOfIssuance.ToString("MMM dd, yyyy")
-                            </div>
-                        </div>
-                        <div class="doc-info-item">
-                            <span class="doc-info-label">Expiry Date</span>
-                            <div class="doc-info-value">
-                                <i class="fas fa-calendar-times"></i>
-                                @Model.ExpiryDate.ToString("MMM dd, yyyy")
+                            <div class="doc-info-item">
+                                <div class="doc-info-icon">
+                                    <i class="fas fa-shield-alt"></i>
+                                </div>
+                                <div class="doc-info-content">
+                                    <span class="doc-info-label">Document Validity</span>
+                                    <div class="doc-info-value">@(Model.ExpiryDate > DateOnly.FromDateTime(DateTime.Now) ? "Valid" : "Expired")</div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div>
-                <div class="file-preview-card">
+            <!-- Right Column - Sidebar -->
+            <div class="doc-sidebar">
+                <!-- Certificate File -->
+                <div class="doc-file-card">
                     <h3>
-                        <i class="fas fa-file-pdf"></i>
+                        <i class="fas fa-file-contract"></i>
                         Certificate File
                     </h3>
-                    <div class="file-icon-display">
+                    <div class="doc-file-icon">
                         <i class="fas fa-file-pdf"></i>
                     </div>
-                    <div class="file-name-display">
-                        @Model.CertificateRegistration.FileName
-                    </div>
-                    <div class="file-actions-group">
+                    <div class="doc-file-name">@Model.CertificateRegistration.FileName</div>
+                    <div class="doc-file-actions">
                         <a asp-area="SuperAdmin"
                            asp-controller="Documents" 
                            asp-action="Download" 
                            asp-route-id="@Model.CertificateRegistration.Id"
-                           class="btn-file-action btn-download">
+                           class="doc-btn doc-btn-download">
                             <i class="fas fa-download"></i>
                             Download
                         </a>
                     </div>
                 </div>
 
-                <div class="status-actions-card">
-                    <h3>
-                        <i class="fas fa-tasks"></i>
-                        Change Status
-                    </h3>
-                    <div class="status-buttons-group">
+                <!-- Status Actions Card -->
+                <div class="doc-action-card">
+                    <div class="doc-action-header">
+                        <h3 class="doc-action-title">
+                            <i class="fas fa-sliders-h"></i>
+                            Change Status
+                        </h3>
+                    </div>
+                    <div class="doc-action-body">
                         @foreach (var status in Enum.GetValues<DocumentStatus>())
                         {
-                                @if (status != Model.DocumentStatus)
-                                {
-                                    <a asp-area="SuperAdmin"
-                                       asp-controller="CommercialRegistrations"
-                                       asp-action="ChangeCommercialRegistrationDocumentStatus" 
-                                       asp-route-id="@Model.Id"
-                                       asp-route-status="@status"
-                                       asp-route-restaurantId="@Model.RestaurantId"
-                                       class="btn-status-action @(status == DocumentStatus.Accepted ? "btn-accept" : status == DocumentStatus.Rejected ? "btn-reject" : "btn-pending")">
-                                        @if (status == DocumentStatus.Accepted)
-                                        {
-                                            <i class="fas fa-check"></i>
-                                        }
-                                        else if (status == DocumentStatus.Rejected)
-                                        {
-                                            <i class="fas fa-times"></i>
-                                        }
-                                        else
-                                        {
-                                            <i class="fas fa-clock"></i>
-                                        }
-                                        @status.ToString()
-                                    </a>
-                                }
+                            @if (status != Model.DocumentStatus)
+                            {
+                                <a asp-area="SuperAdmin"
+                                   asp-controller="CommercialRegistrations"
+                                   asp-action="ChangeCommercialRegistrationDocumentStatus" 
+                                   asp-route-id="@Model.Id"
+                                   asp-route-status="@status"
+                                   asp-route-restaurantId="@Model.RestaurantId"
+                                   class="doc-btn-status @(status == DocumentStatus.Accepted ? "doc-btn-accept" : status == DocumentStatus.Rejected ? "doc-btn-reject" : "doc-btn-pending")">
+                                    @if (status == DocumentStatus.Accepted)
+                                    {
+                                        <i class="fas fa-check"></i>
+                                    }
+                                    else if (status == DocumentStatus.Rejected)
+                                    {
+                                        <i class="fas fa-times"></i>
+                                    }
+                                    else
+                                    {
+                                        <i class="fas fa-clock"></i>
+                                    }
+                                    @status.ToString()
+                                </a>
+                            }
                         }
-                    </div>                    
-                </div>                
+                    </div>
+                </div>
             </div>
         </div>
     </div>

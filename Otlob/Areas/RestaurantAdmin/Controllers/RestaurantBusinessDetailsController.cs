@@ -17,9 +17,7 @@ public class RestaurantBusinessDetailsController(IRestaurantBusinessDetailsServi
     public IActionResult Update(RestaurantBusinessInfo request)
     {
         if (!ModelState.IsValid)
-        {
             return View(request); 
-        }
 
         int restaurantId = int.Parse(User.FindFirstValue(StaticData.RestaurantId)!);
         

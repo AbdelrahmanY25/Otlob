@@ -1,0 +1,286 @@
+@model OrderDetailsResponse
+
+@{
+    ViewData["Title"] = $"Order #{Model.Id}";
+    var userId = ViewBag.UserId as string;
+    
+    // Helper to parse meal details JSON
+    string ParseMealDetails(string? mealDetailsJson)
+    {
+        if (string.IsNullOrEmpty(mealDetailsJson)) return string.Empty;
+        
+        try
+        {
+            var node = System.Text.Json.Nodes.JsonNode.Parse(mealDetailsJson);
+            var items = new List<string>();
+            
+            var itemsArray = node?["items"]?.AsArray();
+            if (itemsArray != null)
+            {
+                foreach (var item in itemsArray)
+                {
+                    var name = item?["Name"]?.GetValue<string>();
+                    if (!string.IsNullOrEmpty(name)) items.Add(name);
+                }
+            }
+            
+            var addOnsArray = node?["addOns"]?.AsArray();
+            if (addOnsArray != null)
+            {
+                foreach (var addon in addOnsArray)
+                {
+                    var name = addon?["Name"]?.GetValue<string>();
+                    if (!string.IsNullOrEmpty(name)) items.Add(name);
+                }
+            }
+            
+            return string.Join(", ", items);
+        }
+        catch
+        {
+            return string.Empty;
+        }
+    }
+    
+    // Get progress width based on status
+    int GetProgressWidth()
+    {
+        return Model.Status switch
+        {
+            OrderStatus.Pending => 0,
+            OrderStatus.Preparing => 33,
+            OrderStatus.Shipped => 66,
+            OrderStatus.Delivered => 100,
+            OrderStatus.Cancelled => 100,
+            _ => 0
+        };
+    }
+}
+
+<link href="~/css/adminUserOrders.css" rel="stylesheet" asp-append-version="true" />
+
+<div class="admin-details-page">
+    <div class="admin-details-container">
+        <a asp-action="Orders" asp-route-userId="@userId" class="admin-back-link">
+            <i class="fas fa-arrow-left"></i> Back to Orders
+        </a>
+
+        <div class="admin-page-header">
+            <h1 class="admin-page-title">
+                <i class="fas fa-receipt"></i> Order #@Model.Id
+            </h1>
+        </div>
+
+        <div class="admin-details-card">
+            <!-- Header -->
+            <div class="admin-details-header">
+                <div class="admin-details-restaurant">
+                    @if (!string.IsNullOrEmpty(Model.RestaurantImage))
+                    {
+                        <img src="~/images/@Model.RestaurantImage" alt="@Model.RestaurantName" class="admin-details-restaurant-logo" />
+                    }
+                    else
+                    {
+                        <div class="admin-restaurant-logo-placeholder" style="width:70px; height:70px;">
+                            <i class="fas fa-store"></i>
+                        </div>
+                    }
+                    <div class="admin-details-restaurant-info">
+                        <h2>@Model.RestaurantName</h2>
+                        <p><i class="far fa-calendar-alt"></i> @Model.OrderDate.ToString("MMMM dd, yyyy 'at' hh:mm tt")</p>
+                    </div>
+                </div>
+                <div class="admin-details-badges">
+                    <span class="admin-status-badge admin-status-@Model.Status.ToString().ToLower()">
+                        @switch (Model.Status)
+                        {
+                            case OrderStatus.Pending:
+                                <i class="fas fa-hourglass-half"></i>
+                                break;
+                            case OrderStatus.Preparing:
+                                <i class="fas fa-fire"></i>
+                                break;
+                            case OrderStatus.Shipped:
+                                <i class="fas fa-truck"></i>
+                                break;
+                            case OrderStatus.Delivered:
+                                <i class="fas fa-check-circle"></i>
+                                break;
+                            case OrderStatus.Cancelled:
+                                <i class="fas fa-times-circle"></i>
+                                break;
+                        }
+                        @Model.Status
+                    </span>
+                    <span class="admin-payment-method">
+                        @if (Model.PaymentMethod == PaymentMethod.Cash)
+                        {
+                            <i class="fas fa-money-bill-wave"></i>
+                            <span>Cash on Delivery</span>
+                        }
+                        else
+                        {
+                            <i class="fas fa-credit-card"></i>
+                            <span>Paid by Card</span>
+                        }
+                    </span>
+                </div>
+            </div>
+
+            <!-- Status Progress -->
+            @if (Model.Status != OrderStatus.Cancelled)
+            {
+                <div class="admin-status-progress">
+                    <div class="admin-progress-steps" data-status="@Model.Status">
+                        <div class="admin-progress-line"></div>
+                        <div class="admin-progress-line-fill" style="width: calc(@(GetProgressWidth())% - 35px);"></div>
+                        
+                        <div class="admin-progress-step @(Model.Status >= OrderStatus.Pending ? "completed" : "")" data-step="Pending">
+                            <div class="admin-step-icon">
+                                <i class="fas fa-hourglass-half"></i>
+                            </div>
+                            <span class="admin-step-label">Pending</span>
+                        </div>
+                        
+                        <div class="admin-progress-step @(Model.Status >= OrderStatus.Preparing ? "completed" : "") @(Model.Status == OrderStatus.Preparing ? "active" : "")" data-step="Preparing">
+                            <div class="admin-step-icon">
+                                <i class="fas fa-fire"></i>
+                            </div>
+                            <span class="admin-step-label">Preparing</span>
+                        </div>
+                        
+                        <div class="admin-progress-step @(Model.Status >= OrderStatus.Shipped ? "completed" : "") @(Model.Status == OrderStatus.Shipped ? "active" : "")" data-step="Shipped">
+                            <div class="admin-step-icon">
+                                <i class="fas fa-truck"></i>
+                            </div>
+                            <span class="admin-step-label">On the way</span>
+                        </div>
+                        
+                        <div class="admin-progress-step @(Model.Status == OrderStatus.Delivered ? "completed active" : "")" data-step="Delivered">
+                            <div class="admin-step-icon">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <span class="admin-step-label">Delivered</span>
+                        </div>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="admin-cancelled-status">
+                    <i class="fas fa-times-circle"></i>
+                    <p>This order was cancelled</p>
+                </div>
+            }
+
+            <!-- Notes -->
+            @if (!string.IsNullOrEmpty(Model.Notes))
+            {
+                <div class="admin-order-notes">
+                    <p><strong><i class="fas fa-sticky-note"></i> Notes:</strong> @Model.Notes</p>
+                </div>
+            }
+
+            <!-- Order Items -->
+            <div class="admin-order-items">
+                <h3 class="admin-section-title"><i class="fas fa-shopping-bag"></i> Order Items</h3>
+                @foreach (var item in Model.Items)
+                {
+                    var details = ParseMealDetails(item.MealDetails);
+                    <div class="admin-item-card">
+                        @if (!string.IsNullOrEmpty(item.MealImage))
+                        {
+                            <img src="~/images/@item.MealImage" alt="@item.MealName" class="admin-item-image" />
+                        }
+                        else
+                        {
+                            <div class="admin-item-image-placeholder">
+                                <i class="fas fa-utensils"></i>
+                            </div>
+                        }
+                        <div class="admin-item-info">
+                            <h4 class="admin-item-name">@item.MealName</h4>
+                            @if (!string.IsNullOrEmpty(details))
+                            {
+                                <p class="admin-item-details">@details</p>
+                            }
+                            <span class="admin-item-quantity">Qty: @item.Quantity</span>
+                        </div>
+                        <div class="admin-item-price">@item.TotalPrice.ToString("N2") L.E</div>
+                    </div>
+                }
+            </div>
+
+            <!-- Delivery Info -->
+            <div class="admin-delivery-info">
+                <h3 class="admin-section-title"><i class="fas fa-map-marker-alt"></i> Delivery Information</h3>
+                <div class="admin-info-row">
+                    <i class="fas fa-home"></i>
+                    <span>@Model.DeliveryAddress</span>
+                </div>
+                <div class="admin-info-row">
+                    <i class="fas fa-phone"></i>
+                    <span>@Model.CustomerPhoneNumber</span>
+                </div>
+            </div>
+
+            <!-- Order Summary -->
+            <div class="admin-order-summary">
+                <h3 class="admin-section-title"><i class="fas fa-receipt"></i> Order Summary</h3>
+                <div class="admin-summary-row">
+                    <span>Subtotal</span>
+                    <span>@Model.SubTotal.ToString("N2") L.E</span>
+                </div>
+                <div class="admin-summary-row">
+                    <span>Delivery Fee</span>
+                    <span>@Model.DeliveryFee.ToString("N2") L.E</span>
+                </div>
+                <div class="admin-summary-row">
+                    <span>Service Fee</span>
+                    <span>@Model.ServiceFee.ToString("N2") L.E</span>
+                </div>
+                @if(Model.DiscountAmount > 0)
+                {
+                    <div class="admin-summary-row">
+                        <span>Discount</span>
+                        <span style="color: #059669;">-@Model.DiscountAmount.ToString("N2") L.E</span>
+                    </div>
+                }
+                <div class="admin-summary-row total">
+                    <span>Total</span>
+                    <span>@Model.TotalPrice.ToString("N2") L.E</span>
+                </div>
+            </div>
+
+            @* Rating Section - Only show for delivered orders *@
+            @if (Model.Status == OrderStatus.Delivered)
+            {
+                <div class="admin-rating-section">
+                    <h3 class="admin-section-title"><i class="fas fa-star"></i> Rating</h3>
+                    @if (Model.IsRated)
+                    {
+                        <div class="admin-rating-status rated">
+                            <div class="admin-rating-badge">
+                                <i class="fas fa-star"></i>
+                                <span>This order has been rated</span>
+                            </div>
+                            <a asp-action="ViewRating" asp-route-orderId="@Model.Id" asp-route-userId="@userId" class="admin-view-rating-link">
+                                View Rating <i class="fas fa-chevron-right"></i>
+                            </a>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="admin-rating-status not-rated">
+                            <p><i class="far fa-star"></i> This order has not been rated yet</p>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/adminUserOrders.js" asp-append-version="true"></script>
+}

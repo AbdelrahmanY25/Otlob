@@ -5,6 +5,7 @@ public class RestaurantBusinessInfo
     public string RestaurntKey { get; set; } = string.Empty;
     public decimal DeliveryFee { get; init; }
     public decimal DeliveryDurationTime { get; init; }
+    public decimal MinimumOrderPrice { get; init; }
     public int NumberOfBranches { get; init; }
     public TimeOnly OpeningTime { get; init; }
     public TimeOnly ClosingTime { get; init; }

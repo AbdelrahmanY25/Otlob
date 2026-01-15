@@ -13,6 +13,7 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
     public DbSet<Cart> Carts { get; set; }
     public DbSet<CommercialRegistration> CommercialRegistrations { get; set; }
     public DbSet<MealPriceHistory> MealsPriceHistories { get; set; }
+    public DbSet<MealsAnalytic> MealsAnalytics { get; set; }
     public DbSet<Meal> Meals { get; set; }
     public DbSet<MealAddOn> MealAddOns { get; set; }
     public DbSet<ManyMealManyAddOn> ManyMealsManyAddOns { get; set; }
@@ -22,12 +23,14 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
     public DbSet<OrderDetails> OrderDetails { get; set; }
     public DbSet<Order> Orders { get; set; }
     public DbSet<Restaurant> Restaurants { get; set; }
+    public DbSet<RestaurantRatingAnlytic> RestaurantRatingAnlytics { get; set; }
     public DbSet<RestaurantDailyAnalytic> RestaurantDailyAnalytics { get; set; }
     public DbSet<RestaurantMonthlyAnalytic> RestaurantMonthlyAnalytics { get; set; }
     public DbSet<TempOrder> TempOrders { get; set; }
     public DbSet<TradeMark> TradeMarks { get; set; }
     public DbSet<UploadedFile> UploadedFiles { get; set; }
     public DbSet<VAT> Vats { get; set; }
+    public DbSet<OrderRating> OrderRatings { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -39,9 +42,7 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
             .Where(fk => !fk.IsOwnership);
 
         foreach ( var fk in fKs )
-        {
             fk.DeleteBehavior = DeleteBehavior.Restrict;
-        }
 
         foreach (var entity in modelBuilder.Model.GetEntityTypes())
         {

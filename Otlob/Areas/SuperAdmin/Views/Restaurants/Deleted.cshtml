@@ -1,0 +1,269 @@
+﻿
+@model IQueryable<DeletedRestauraantsResponse>
+
+@{
+    ViewData["Title"] = "Deleted Restaurants";
+    var restaurantsList = Model.ToList();
+    var totalCount = restaurantsList.Count;
+}
+
+    <link rel="stylesheet" href="~/css/pendingRestaurants.css" asp-append-version="true" />
+
+    <div class="pr-page">
+        <div class="pr-container">
+            <!-- Header Section -->
+            <div class="pr-header">
+                <div class="pr-header-content">
+                    <div class="pr-header-icon">
+                        <i class="fas fa-trash-alt"></i>
+                    </div>
+                    <div class="pr-header-text">
+                        <h3>Deleted Restaurants</h3>
+                    </div>
+                </div>
+                @if (totalCount > 0)
+                {
+                    <div class="pr-header-stats">
+                        <span class="pr-stat-count">@totalCount</span>
+                    </div>
+                }
+            </div>
+
+            @if (totalCount > 0)
+            {
+                <!-- Search Bar -->
+                <div class="pr-search-wrapper">
+                    <div class="pr-search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text"
+                               id="restaurantSearch"
+                               placeholder="Search by name..."
+                               aria-label="Search restaurants" />
+                    </div>
+                </div>
+
+                <!-- Restaurants Table -->
+                <div class="pr-table-wrapper">
+                    <table class="pr-table">
+                        <thead>
+                            <tr>
+                                <th>Restaurant</th>
+                                <th>Status</th>
+                                <th class="pr-action-col">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var restaurant in restaurantsList)
+                            {
+                                <tr class="pr-table-row" data-search-terms="@(restaurant.Name.ToLower())">
+                                    <td data-label="Restaurant">
+                                        <div class="pr-restaurant-info">
+                                            <img src="/images/@(restaurant.Image ?? "Default.jpg")"
+                                                 alt="@restaurant.Name"
+                                                 class="pr-restaurant-logo"
+                                                 onerror="this.src='/images/Default.jpg'"
+                                                 loading="lazy" />
+                                            <div class="pr-restaurant-name">
+                                                @restaurant.Name
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td data-label="Status">
+                                        <span class="pr-status-badge pr-status-deleted">
+                                            Deleted
+                                        </span>
+                                    </td>
+                                    <td data-label="Actions" class="pr-action-col">
+                                        <a asp-action="Details"
+                                           asp-route-id="@restaurant.Key"
+                                           asp-route-isAvaliable="false"
+                                           class="pr-btn pr-btn-primary">
+                                            <i class="fas fa-eye"></i>
+                                            <span>Details</span>
+                                        </a>
+                                        <button type="button"
+                                                class="pr-btn pr-btn-success"
+                                                onclick="showRestoreModal('@restaurant.Key', '@restaurant.Name')">
+                                            <i class="fas fa-undo"></i>
+                                            <span>Restore</span>
+                                        </button>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- No Results State -->
+                <div class="pr-no-results" style="display: none;">
+                    <div class="pr-empty-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <h3>No restaurants found</h3>
+                    <p>Try adjusting your search terms</p>
+                </div>
+            }
+            else
+            {
+                <!-- Empty State -->
+                <div class="pr-empty">
+                    <div class="pr-empty-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <h3>No Deleted Restaurants</h3>
+                    <p>There are no deleted restaurants at the moment.</p>
+                </div>
+            }
+        </div>
+    </div>
+
+    <!-- Restore Confirmation Modal -->
+    <div class="restore-modal" id="restoreModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); z-index: 1000; align-items: center; justify-content: center;">
+        <div class="restore-modal-dialog" style="background: white; border-radius: 12px; max-width: 500px; width: 90%; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2); animation: modalSlideIn 0.3s ease;">
+            <div class="restore-modal-header" style="padding: 24px 24px 16px; border-bottom: 1px solid #e5e7eb;">
+                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px;">
+                    <div style="width: 48px; height: 48px; border-radius: 50%; background: #10b981; display: flex; align-items: center; justify-content: center; color: white;">
+                        <i class="fas fa-undo" style="font-size: 20px;"></i>
+                    </div>
+                    <h4 style="margin: 0; font-size: 20px; font-weight: 600; color: #111827;">Restore Restaurant</h4>
+                </div>
+                <button type="button" class="modal-close-btn" onclick="closeRestoreModal()" style="position: absolute; top: 16px; right: 16px; background: none; border: none; font-size: 24px; color: #6b7280; cursor: pointer; padding: 4px; line-height: 1;">
+                    <i class="bi bi-x-lg"></i>
+                </button>
+            </div>
+            <div class="restore-modal-body" style="padding: 24px;">
+                <div style="background: #f0fdf4; border-left: 4px solid #10b981; padding: 16px; border-radius: 8px; margin-bottom: 20px;">
+                    <p style="margin: 0; color: #065f46; font-size: 14px; line-height: 1.6;">
+                        <i class="fas fa-info-circle" style="margin-right: 8px;"></i>
+                        <strong>Restoration Process:</strong>
+                    </p>
+                    <ul style="margin: 12px 0 0 24px; color: #065f46; font-size: 14px; line-height: 1.8;">
+                        <li>Restaurant will be moved back to active status</li>
+                        <li>All restaurant data will be restored</li>
+                        <li>Restaurant admin will be able to access their account</li>
+                        <li>The restaurant will be visible to customers</li>
+                    </ul>
+                </div>
+                <p style="margin: 0 0 8px 0; color: #374151; font-size: 15px;">
+                    Are you sure you want to restore <strong id="restaurantNameDisplay" style="color: #111827;"></strong>?
+                </p>
+                <input type="hidden" id="restaurantKeyToRestore" value="" />
+            </div>
+            <div class="restore-modal-footer" style="padding: 16px 24px; background: #f9fafb; border-top: 1px solid #e5e7eb; display: flex; gap: 12px; justify-content: flex-end; border-radius: 0 0 12px 12px;">
+                <button type="button" class="modal-btn cancel" onclick="closeRestoreModal()" style="padding: 10px 20px; border: 1px solid #d1d5db; background: white; color: #374151; border-radius: 8px; font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.2s;">
+                    <i class="bi bi-x-lg"></i> Cancel
+                </button>
+                <button type="button" class="modal-btn confirm" onclick="confirmRestore()" style="padding: 10px 20px; border: none; background: #10b981; color: white; border-radius: 8px; font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 8px;">
+                    <i class="fas fa-undo"></i> Restore Restaurant
+                </button>
+            </div>
+
+            // Restore Modal Functions
+            function showRestoreModal(restaurantKey, restaurantName) {
+                const modal = document.getElementById('restoreModal');
+                const nameDisplay = document.getElementById('restaurantNameDisplay');
+                const keyInput = document.getElementById('restaurantKeyToRestore');
+                
+                nameDisplay.textContent = restaurantName;
+                keyInput.value = restaurantKey;
+                modal.classList.add('show');
+            }
+
+            function closeRestoreModal() {
+                const modal = document.getElementById('restoreModal');
+                modal.classList.remove('show');
+            }
+
+            function confirmRestore() {
+                const restaurantKey = document.getElementById('restaurantKeyToRestore').value;
+                window.location.href = '@Url.Action("Restore", "Restaurants", new { area = "SuperAdmin" })?restaurantKey=' + encodeURIComponent(restaurantKey);
+            }
+
+            // Close modal on backdrop click
+            document.getElementById('restoreModal')?.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeRestoreModal();
+                }
+            });
+
+            // Close modal with Escape key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && document.getElementById('restoreModal')?.classList.contains('show')) {
+                    closeRestoreModal();
+                }
+            });
+        </div>
+    </div>
+
+    <style>
+        @@keyframes modalSlideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        .restore-modal.show {
+            display: flex !important;
+        }
+        
+        .modal-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+        
+        .modal-btn.cancel:hover {
+            background: #f3f4f6;
+        }
+        
+        .modal-close-btn:hover {
+            color: #111827;
+        }
+    </style>
+
+@section Scripts {
+        <partial name="_NotificationPartial" />
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const searchInput = document.getElementById('restaurantSearch');
+                const tableRows = document.querySelectorAll('.pr-table-row');
+                const noResults = document.querySelector('.pr-no-results');
+                const tableWrapper = document.querySelector('.pr-table-wrapper');
+
+                if (searchInput) {
+                    searchInput.addEventListener('input', function() {
+                        const searchTerm = this.value.toLowerCase().trim();
+                        let visibleCount = 0;
+
+                        tableRows.forEach(row => {
+                            const searchTerms = row.getAttribute('data-search-terms');
+                            if (searchTerms.includes(searchTerm)) {
+                                row.style.display = '';
+                                visibleCount++;
+                            } else {
+                                row.style.display = 'none';
+                            }
+                        });
+
+                        if (tableWrapper) {
+                            tableWrapper.style.display = visibleCount > 0 ? '' : 'none';
+                        }
+                        if (noResults) {
+                            noResults.style.display = visibleCount === 0 ? 'flex' : 'none';
+                        }
+                    });
+
+                    document.addEventListener('keydown', function(e) {
+                        if (e.ctrlKey && e.key === 'k') {
+                            e.preventDefault();
+                            searchInput.focus();
+                        }
+                    });
+                }
+            });
+        </script>
+}

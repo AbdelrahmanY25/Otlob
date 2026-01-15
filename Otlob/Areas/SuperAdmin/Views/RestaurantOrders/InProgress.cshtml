@@ -1,0 +1,338 @@
+@model IEnumerable<RestaurantOrdersResponse>
+
+@{
+    ViewData["Title"] = "Orders In Progress";
+    var ordersCount = Model.Count();
+    string restaurantKey = Model.FirstOrDefault()?.RestaurantId ?? string.Empty;
+    var maxOrderPrice = 0m;
+
+    if(Model.Any())
+    {
+        maxOrderPrice = Model.Max(o => o.TotalAmount);
+    }
+}
+
+<link rel="stylesheet" href="~/css/restaurantOrders.css" asp-append-version="true" />
+
+<div class="orders-container">
+    <!-- Header -->
+    <div class="orders-header">
+        <h1 class="orders-title">
+            <i class="bi bi-clock-history"></i>
+            Orders Management
+            <span class="orders-count">@ordersCount</span>
+        </h1>
+    </div>
+
+    <!-- Tabs -->
+    <div class="orders-tabs">
+        <a href="@Url.Action("InProgress", "RestaurantOrders", new { area = "SuperAdmin", restaurantKey = restaurantKey })" class="orders-tab active">
+            <i class="bi bi-hourglass-split"></i>
+            In Progress
+            <span class="tab-badge">@ordersCount</span>
+        </a>
+        <a href="@Url.Action("Delivered", "RestaurantOrders", new { area = "SuperAdmin", restaurantKey = restaurantKey })" class="orders-tab">
+            <i class="bi bi-check-circle"></i>
+            Delivered
+        </a>
+        <a href="@Url.Action("Cancelled", "RestaurantOrders", new { area = "SuperAdmin", restaurantKey = restaurantKey })" class="orders-tab">
+            <i class="bi bi-x-circle"></i>
+            Cancelled
+        </a>
+    </div>
+
+    <!-- Toolbar with Filters -->
+    <div class="orders-toolbar">
+        <div class="search-box">
+            <i class="bi bi-search"></i>
+            <input type="text" id="searchInput" placeholder="Search by Order ID...">
+        </div>
+        
+        <div class="filter-group">
+            <select class="filter-select" id="statusFilter">
+                <option value="">All Statuses</option>
+                <option value="Pending">Pending</option>
+                <option value="Preparing">Preparing</option>
+                <option value="Shipped">Shipped</option>
+            </select>
+
+            <select class="filter-select" id="paymentFilter">
+                <option value="">All Payments</option>
+                <option value="Cash">Cash</option>
+                <option value="Credit">Credit</option>
+            </select>
+
+            <div class="price-filter">
+                <label>Max Price:</label>
+                <input type="range" class="price-range" id="priceRange" min="0" max="@maxOrderPrice.ToString("0")" value="@maxOrderPrice.ToString("0")">
+                <span class="price-value" id="priceValue">@maxOrderPrice.ToString("N0") L.E</span>
+            </div>
+
+            <button type="button" class="filter-btn" id="resetFilters">
+                <i class="bi bi-arrow-counterclockwise"></i> Reset
+            </button>
+        </div>
+    </div>
+
+    <!-- Orders Grid -->
+    @if (Model.Any())
+    {
+        <div class="orders-grid" id="ordersGrid">
+            @foreach (var order in Model)
+            {
+                var statusClass = order.Status.ToLower();
+                var nextStatus = order.Status switch
+                {
+                    "Pending" => "Preparing",
+                    "Preparing" => "Shipped",
+                    "Shipped" => "Delivered",
+                    _ => ""
+                };
+                var isTopPrice = order.TotalAmount == maxOrderPrice && maxOrderPrice > 0;
+
+                <div class="order-card @(isTopPrice ? "top-price" : "")" 
+                     data-order-id="@order.Id" 
+                     data-status="@order.Status" 
+                     data-payment="@order.PaymentMethod"
+                     data-price="@order.TotalAmount">
+                    
+                    @if (isTopPrice)
+                    {
+                        <span class="top-order-badge">
+                            <i class="bi bi-star-fill"></i> Top Order
+                        </span>
+                    }
+                    
+                    <div class="order-card-header">
+                        <div class="order-info">
+                            <h3 class="order-id">Order #@order.Id</h3>
+                            <p class="order-date">
+                                <i class="bi bi-calendar3"></i>
+                                @order.OrderDate.ToString("MMM dd, yyyy - hh:mm tt")
+                            </p>
+                        </div>
+                        <span class="status-badge @statusClass">@order.Status</span>
+                    </div>
+
+                    <div class="order-card-body">
+                        <!-- Status Progress -->
+                        <div class="status-progress">
+                            @{
+                                var steps = new[] { "Pending", "Preparing", "Shipped", "Delivered" };
+                                var currentIndex = Array.IndexOf(steps, order.Status);
+                            }
+                            @foreach (var (step, index) in steps.Select((s, i) => (s, i)))
+                            {
+                                var stepClass = index < currentIndex ? "completed" : (index == currentIndex ? "active" : "");
+                                <div class="progress-step @stepClass">
+                                    <div class="step-icon">
+                                        @if (index < currentIndex)
+                                        {
+                                            <i class="bi bi-check"></i>
+                                        }
+                                        else
+                                        {
+                                            <i class="bi @(step switch { "Pending" => "bi-clock", "Preparing" => "bi-fire", "Shipped" => "bi-truck", "Delivered" => "bi-house-check", _ => "bi-circle" })"></i>
+                                        }
+                                    </div>
+                                    <span class="step-label">@step</span>
+                                </div>
+                            }
+                        </div>
+
+                        <div class="order-details-row">
+                            <span class="detail-label">
+                                <i class="bi bi-basket"></i> Items
+                            </span>
+                            <span class="detail-value">@order.ItemsCount items</span>
+                        </div>
+
+                        <div class="order-details-row">
+                            <span class="detail-label">
+                                <i class="bi bi-credit-card"></i> Payment
+                            </span>
+                            <span class="detail-value">@order.PaymentMethod</span>
+                        </div>
+
+                        <div class="order-details-row">
+                            <span class="detail-label">
+                                <i class="bi bi-currency-dollar"></i> Total
+                            </span>
+                            <span class="detail-value price">@order.TotalAmount.ToString("N2") L.E</span>
+                        </div>
+                    </div>
+
+                    <div class="order-card-footer">
+                        <button type="button" class="order-btn info icon-only" onclick="showUserInfo(@order.Id)" title="View Customer">
+                            <i class="bi bi-person"></i>
+                        </button>
+
+                        <a href="@Url.Action("Details", "RestaurantOrders", new { area = "SuperAdmin", orderKey = order.Id })" class="order-btn secondary">
+                            <i class="bi bi-eye"></i> Details
+                        </a>
+
+                        @if (!string.IsNullOrEmpty(nextStatus))
+                        {
+                            <button type="button" class="order-btn primary" onclick="updateOrderStatus(@order.Id, '@nextStatus', this)">
+                                <i class="bi bi-arrow-right-circle"></i> @(nextStatus == "Preparing" ? "Prepare" : nextStatus == "Shipped" ? "Ship" : "Deliver")
+                            </button>
+                        }
+
+                        @if (order.Status == "Pending" || order.Status == "Preparing")
+                        {
+                            <button type="button" class="order-btn danger icon-only" onclick="showCancelReasonModal(@order.Id)" title="Cancel Order">
+                                <i class="bi bi-x-lg"></i>
+                            </button>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="empty-state">
+            <i class="bi bi-inbox"></i>
+            <h3>No orders in progress</h3>
+            <p>New orders will appear here when customers place them.</p>
+        </div>
+    }
+</div>
+
+<!-- User Info Modal -->
+<div class="user-info-modal" id="userInfoModal">
+    <div class="user-info-modal-dialog">
+        <div class="user-info-modal-header">
+            <h4><i class="bi bi-person-circle"></i> Customer Info</h4>
+            <button type="button" class="modal-close-btn" onclick="closeUserInfoModal()">
+                <i class="bi bi-x-lg"></i>
+            </button>
+        </div>
+        <div id="userInfoContent">
+            <!-- Content loaded via AJAX -->
+        </div>
+    </div>
+</div>
+
+<!-- Confirmation Modal -->
+<div class="confirm-modal" id="confirmModal">
+    <div class="confirm-modal-dialog">
+        <div class="confirm-modal-header">
+            <h4><i class="bi bi-question-circle"></i> Confirm Action</h4>
+            <button type="button" class="modal-close-btn" onclick="closeConfirmModal()">
+                <i class="bi bi-x-lg"></i>
+            </button>
+        </div>
+        <div class="confirm-modal-body">
+            <p class="confirm-message" id="confirmMessage"></p>
+            <div class="confirm-status-change" id="confirmStatusChange" style="display: none;">
+                <div class="status-change-icon">
+                    <i class="bi bi-arrow-right-circle"></i>
+                </div>
+                <div class="status-change-text">
+                    <div class="current-status">Current Status: <span id="currentStatus"></span></div>
+                    <div class="new-status" id="newStatus"></div>
+                </div>
+            </div>
+            <div class="confirm-warning" id="confirmWarning" style="display: none;">
+                <i class="bi bi-exclamation-triangle-fill"></i>
+                <span class="confirm-warning-text" id="confirmWarningText"></span>
+            </div>
+        </div>
+        <div class="confirm-modal-footer">
+            <button type="button" class="confirm-btn cancel" onclick="closeConfirmModal()">
+                <i class="bi bi-x-lg"></i> Cancel
+            </button>
+            <button type="button" class="confirm-btn confirm" id="confirmButton" onclick="confirmAction()">
+                <i class="bi bi-check-lg"></i> Confirm
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Cancel Reason Modal -->
+<div class="cancel-reason-modal" id="cancelReasonModal">
+    <div class="cancel-reason-modal-dialog">
+        <div class="cancel-reason-modal-header">
+            <div class="cancel-reason-icon-wrapper">
+                <i class="bi bi-x-circle"></i>
+            </div>
+            <h4>Cancel Order</h4>
+            <p>Please select a reason for cancelling this order</p>
+            <button type="button" class="modal-close-btn" onclick="closeCancelReasonModal()">
+                <i class="bi bi-x-lg"></i>
+            </button>
+        </div>
+        <div class="cancel-reason-modal-body">
+            <input type="hidden" id="cancelOrderId" value="" />
+            <div class="cancel-reason-options">
+                <label class="cancel-reason-option">
+                    <input type="radio" name="cancelReason" value="0" />
+                    <div class="reason-card">
+                        <div class="reason-icon">
+                            <i class="bi bi-box-seam"></i>
+                        </div>
+                        <div class="reason-content">
+                            <span class="reason-title">Out of Stock</span>
+                            <span class="reason-desc">One or more items are unavailable</span>
+                        </div>
+                        <div class="reason-check">
+                            <i class="bi bi-check-lg"></i>
+                        </div>
+                    </div>
+                </label>
+                <label class="cancel-reason-option">
+                    <input type="radio" name="cancelReason" value="1" />
+                    <div class="reason-card">
+                        <div class="reason-icon">
+                            <i class="bi bi-exclamation-triangle"></i>
+                        </div>
+                        <div class="reason-content">
+                            <span class="reason-title">Unable to Fulfill</span>
+                            <span class="reason-desc">Cannot complete this order at this time</span>
+                        </div>
+                        <div class="reason-check">
+                            <i class="bi bi-check-lg"></i>
+                        </div>
+                    </div>
+                </label>
+                <label class="cancel-reason-option">
+                    <input type="radio" name="cancelReason" value="2" />
+                    <div class="reason-card">
+                        <div class="reason-icon">
+                            <i class="bi bi-three-dots"></i>
+                        </div>
+                        <div class="reason-content">
+                            <span class="reason-title">Other Reason</span>
+                            <span class="reason-desc">Another reason not listed above</span>
+                        </div>
+                        <div class="reason-check">
+                            <i class="bi bi-check-lg"></i>
+                        </div>
+                    </div>
+                </label>
+            </div>
+            <div class="cancel-reason-warning">
+                <i class="bi bi-info-circle"></i>
+                <span>This action cannot be undone. The customer will be notified.</span>
+            </div>
+        </div>
+        <div class="cancel-reason-modal-footer">
+            <button type="button" class="cancel-reason-btn secondary" onclick="closeCancelReasonModal()">
+                <i class="bi bi-arrow-left"></i> Go Back
+            </button>
+            <button type="button" class="cancel-reason-btn danger" id="confirmCancelBtn" onclick="confirmCancelOrder()" disabled>
+                <i class="bi bi-x-circle"></i> Cancel Order
+            </button>
+        </div>
+    </div>
+</div>
+
+@Html.AntiForgeryToken()
+
+@section Scripts {
+    <script>
+        window.currentArea = 'SuperAdmin';
+    </script>
+    <script src="~/js/restaurantOrders.js" asp-append-version="true"></script>
+}

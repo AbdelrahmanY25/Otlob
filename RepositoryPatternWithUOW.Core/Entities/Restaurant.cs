@@ -12,6 +12,8 @@ public sealed class Restaurant
     public int NumberOfBranches { get; set; } = 1;
     public decimal DeliveryFee { get; set; }
     public decimal DeliveryDuration { get; set; }
+    public decimal MinimumOrderPrice { get; set; } = 0;
+    public decimal Rating { get; set; } = 0;
     public AcctiveStatus AcctiveStatus { get; set; } = AcctiveStatus.UnAccepted;
     public ProgressStatus ProgressStatus { get; set; } = ProgressStatus.Pending;
     public BusinessType BusinessType { get; set; } = BusinessType.Restaurant;

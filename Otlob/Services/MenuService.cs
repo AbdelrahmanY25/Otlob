@@ -1,6 +1,7 @@
 ﻿namespace Otlob.Services;
 
-public class MenuService(IUnitOfWorkRepository unitOfWorkRepository, IEncryptionService encryptionService, IDataProtectionProvider dataProtectionProvider) : IMenuService
+public class MenuService(IUnitOfWorkRepository unitOfWorkRepository, IEncryptionService encryptionService,
+                         IDataProtectionProvider dataProtectionProvider) : IMenuService
 {
     private readonly IEncryptionService _encryptionService = encryptionService;
     private readonly IUnitOfWorkRepository _unitOfWorkRepository = unitOfWorkRepository;
@@ -11,10 +12,10 @@ public class MenuService(IUnitOfWorkRepository unitOfWorkRepository, IEncryption
         var menuResult = GetMenu(restaurantId, true);
 
         if (menuResult.IsFailure)
-            return Result.Failure<(IEnumerable<MenuResponse>, AcctiveRestaurantResponse)>(menuResult.Error!);
-        
-        var restaurant = _unitOfWorkRepository.Restaurants.
-            GetOneWithSelect(
+            return Result.Failure<(IEnumerable<MenuResponse>, AcctiveRestaurantResponse)>(menuResult.Error!);       
+
+        var restaurant = _unitOfWorkRepository.Restaurants
+            .GetOneWithSelect(
                 expression: r => r.Id == restaurantId,
                 tracked: false,
                 selector: r => new AcctiveRestaurantResponse
@@ -23,6 +24,7 @@ public class MenuService(IUnitOfWorkRepository unitOfWorkRepository, IEncryption
                     Image = r.Image,
                     DeliveryFee = r.DeliveryFee,
                     DeliveryDuration = r.DeliveryDuration,
+                    Rating = r.Rating
                 }
             );
 

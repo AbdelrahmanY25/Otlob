@@ -47,7 +47,7 @@ public class RestaurantMonthlyAnalyticsService(IUnitOfWorkRepository unitOfWorkR
         _unitOfWorkRepository.SaveChanges();
     }
 
-    public void Update(int restaurantId, decimal totalOrderPrice)
+    public void Update(int restaurantId, decimal totalOrderPrice, OrderStatus orderStatus)
     {
         Add(restaurantId);
 
@@ -58,8 +58,19 @@ public class RestaurantMonthlyAnalyticsService(IUnitOfWorkRepository unitOfWorkR
         var analytic = _unitOfWorkRepository.RestaurantMonthlyAnalytics
             .GetOne(expression: a => a.RestaurantId == restaurantId && a.Year == year && a.Month == month);               
 
-        analytic!.OrdersCount += 1;
-        analytic.TotalOrdersSales += totalOrderPrice;
+        if (orderStatus == OrderStatus.Cancelled)
+        {
+            analytic!.CancelledOrdersCount += 1;
+        }
+        else if (orderStatus == OrderStatus.Delivered)
+        { 
+            analytic!.CompletedOrdersCount += 1;
+            analytic.TotalOrdersSales += totalOrderPrice;
+        }
+        else
+        {
+            return;
+        }    
 
         _unitOfWorkRepository.RestaurantMonthlyAnalytics.Update(analytic);
 
@@ -114,7 +125,8 @@ public class RestaurantMonthlyAnalyticsService(IUnitOfWorkRepository unitOfWorkR
         {
             Year = year,
             Month = 0,
-            OrdersCount = analytics.Sum(a => a.OrdersCount),
+            CancelledOrdersCount = analytics.Sum(a => a.CancelledOrdersCount),
+            CompletedOrdersCount = analytics.Sum(a => a.CompletedOrdersCount),
             TotalOrdersSales = analytics.Sum(a => a.TotalOrdersSales),
             TotalOrdersRevenue = analytics.Sum(a => a.TotalOrdersRevenue)
         };
@@ -139,7 +151,8 @@ public class RestaurantMonthlyAnalyticsService(IUnitOfWorkRepository unitOfWorkR
         {
             Year = year,
             Month = 0,
-            OrdersCount = analytics.Sum(a => a.OrdersCount),
+            CancelledOrdersCount = analytics.Sum(a => a.CancelledOrdersCount),
+            CompletedOrdersCount = analytics.Sum(a => a.CompletedOrdersCount),
             TotalOrdersSales = analytics.Sum(a => a.TotalOrdersSales),
             TotalOrdersRevenue = analytics.Sum(a => a.TotalOrdersRevenue)
         };
@@ -173,5 +186,56 @@ public class RestaurantMonthlyAnalyticsService(IUnitOfWorkRepository unitOfWorkR
             .ToList();
 
         return response;
+    }
+
+    public RestaurantGeneralAnalyticsResponse GetGeneralAnalytics(int restaurantId)
+    {
+        var allAnalytics = _unitOfWorkRepository.RestaurantMonthlyAnalytics
+            .Get(
+                expression: a => a.RestaurantId == restaurantId,
+                tracked: false
+            )!
+            .OrderBy(a => a.Year)
+            .ThenBy(a => a.Month)
+            .Select(a => _mapper.Map<RestaurantMonthlyAnalyticsResponse>(a))
+            .ToList();
+
+        if (allAnalytics.Count == 0)
+        {
+            return new RestaurantGeneralAnalyticsResponse
+            {
+                TotalOrdersCount = 0,
+                AverageOrdersPerDay = 0,
+                TotalCancelledOrdersCount = 0,
+                TotalSales = 0,
+                TotalRevenue = 0,
+                AllMonthsAnalytics = []
+            };
+        }
+
+        var totalCompletedOrders = allAnalytics.Sum(a => a.CompletedOrdersCount);
+        var totalCancelledOrders = allAnalytics.Sum(a => a.CancelledOrdersCount);
+        var totalOrders = totalCompletedOrders + totalCancelledOrders;
+        var totalSales = allAnalytics.Sum(a => a.TotalOrdersSales);
+        var totalRevenue = allAnalytics.Sum(a => a.TotalOrdersRevenue);
+
+        // Calculate total days from first to last month
+        var firstMonth = allAnalytics.First();
+        var lastMonth = allAnalytics.Last();
+        var firstDate = new DateTime(firstMonth.Year, firstMonth.Month, 1);
+        var lastDate = new DateTime(lastMonth.Year, lastMonth.Month, DateTime.DaysInMonth(lastMonth.Year, lastMonth.Month));
+        var totalDays = (lastDate - firstDate).Days + 1;
+
+        var averageOrdersPerDay = totalDays > 0 ? (decimal)totalOrders / totalDays : 0;
+
+        return new RestaurantGeneralAnalyticsResponse
+        {
+            TotalOrdersCount = totalOrders,
+            AverageOrdersPerDay = Math.Round(averageOrdersPerDay, 2),
+            TotalCancelledOrdersCount = totalCancelledOrders,
+            TotalSales = totalSales,
+            TotalRevenue = totalRevenue,
+            AllMonthsAnalytics = allAnalytics
+        };
     }
 }

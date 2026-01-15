@@ -18,5 +18,6 @@ public class RestaurantDetailsResponse
     public string? Image { get; set; }
     public TimeOnly OpeningTime { get; set; }
     public TimeOnly ClosingTime { get; set; }
+    public bool IsAvailable { get; set; }
     public List<Category> Categories { get; set; } = [];
 }

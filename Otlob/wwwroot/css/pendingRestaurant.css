@@ -1,58 +1,66 @@
-/* Pending Restaurant Page - Professional Design */
+/* =========================================
+   Pending Restaurant Page
+   Uses Admin Theme Variables (--adm-*)
+   ========================================= */
 
-:root {
-    --pending-primary-color: #F04335;
-    --pending-secondary-color: #dd968c;
-    --pending-success-color: #05a437;
-    --pending-warning-color: #ffb300;
-    --pending-text-primary: #1f2937;
-    --pending-text-secondary: #6b7280;
-    --pending-bg-light: #f3f4f6;
-    --pending-border-color: #e5e7eb;
-    --pending-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-    --pending-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-    --pending-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* ===== Container ===== */
+/* ===== Page Container ===== */
 .pending-restaurant-container {
     min-height: 100vh;
-    background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
-    padding: 40px 20px;
+    background: var(--adm-bg-body);
+    padding: 2rem;
+    transition: var(--adm-transition);
 }
 
 .pending-restaurant-wrapper {
-    max-width: 1000px;
+    max-width: 1100px;
     margin: 0 auto;
 }
 
-/* ===== Header Section ===== */
+/* ===== Hero Header Section ===== */
 .pending-header {
+    background: linear-gradient(135deg, var(--adm-primary) 0%, var(--adm-primary-hover) 100%);
+    border-radius: 20px;
+    padding: 3rem 2.5rem;
     text-align: center;
-    margin-bottom: 50px;
+    margin-bottom: 2rem;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 10px 40px rgba(79, 70, 229, 0.25);
+}
+
+.pending-header::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 100%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+    pointer-events: none;
 }
 
 .pending-header-icon {
     width: 100px;
     height: 100px;
-    margin: 0 auto 24px;
-    background: linear-gradient(135deg, var(--pending-primary-color), var(--pending-secondary-color));
+    margin: 0 auto 1.5rem;
+    background: rgba(255, 255, 255, 0.2);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 10px 25px rgba(240, 67, 53, 0.3);
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.3);
     animation: pulse-icon 2s ease-in-out infinite;
 }
 
 @keyframes pulse-icon {
     0%, 100% {
         transform: scale(1);
-        box-shadow: 0 10px 25px rgba(240, 67, 53, 0.3);
+        box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4);
     }
     50% {
         transform: scale(1.05);
-        box-shadow: 0 15px 35px rgba(240, 67, 53, 0.4);
+        box-shadow: 0 0 0 15px rgba(255, 255, 255, 0);
     }
 }
 
@@ -62,78 +70,79 @@
 }
 
 .pending-title {
-    font-size: 36px;
+    font-size: 2.25rem;
     font-weight: 800;
-    color: var(--pending-text-primary);
-    margin: 0 0 12px;
+    color: white;
+    margin: 0 0 0.75rem;
+    letter-spacing: -0.025em;
 }
 
 .pending-subtitle {
-    font-size: 18px;
-    color: var(--pending-text-secondary);
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.9);
     margin: 0;
     line-height: 1.6;
+    max-width: 600px;
+    margin: 0 auto;
 }
 
-/* ===== Status Badge ===== */
+/* ===== Status Badge Section ===== */
 .pending-status-section {
     display: flex;
     justify-content: center;
-    margin-bottom: 40px;
+    margin-bottom: 2rem;
 }
 
 .pending-status-badge {
     display: inline-flex;
     align-items: center;
     gap: 10px;
-    padding: 12px 24px;
-    background: linear-gradient(135deg, rgba(255, 179, 0, 0.15), rgba(255, 179, 0, 0.1));
-    color: #d68400;
-    border: 2px solid rgba(255, 179, 0, 0.3);
+    padding: 0.875rem 1.75rem;
+    background: var(--adm-bg-sidebar);
+    color: #f59e0b;
+    border: 2px solid rgba(245, 158, 11, 0.3);
     border-radius: 50px;
-    font-size: 14px;
+    font-size: 0.875rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.5px;
+    box-shadow: var(--adm-shadow);
 }
 
 .pending-status-badge i {
-    font-size: 18px;
+    font-size: 1.125rem;
     animation: rotate-icon 2s linear infinite;
 }
 
 @keyframes rotate-icon {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
 }
 
-/* ===== Info Message ===== */
+/* ===== Info Message Card ===== */
 .pending-info-message {
-    background: white;
+    background: var(--adm-bg-sidebar);
     border-radius: 16px;
-    padding: 24px;
-    margin-bottom: 40px;
-    box-shadow: var(--pending-shadow);
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    box-shadow: var(--adm-shadow);
     display: flex;
     align-items: flex-start;
-    gap: 16px;
-    border-left: 4px solid var(--pending-warning-color);
+    gap: 1rem;
+    border-left: 4px solid #f59e0b;
+    transition: var(--adm-transition);
 }
 
 .pending-info-message i {
-    font-size: 24px;
-    color: var(--pending-warning-color);
+    font-size: 1.5rem;
+    color: #f59e0b;
     flex-shrink: 0;
     margin-top: 2px;
 }
 
 .pending-info-message p {
-    font-size: 15px;
-    color: var(--pending-text-primary);
+    font-size: 0.9375rem;
+    color: var(--adm-text-primary);
     line-height: 1.7;
     margin: 0;
 }
@@ -141,19 +150,19 @@
 /* ===== Action Cards Grid ===== */
 .pending-actions-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 30px;
-    margin-bottom: 40px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 2rem;
 }
 
 /* ===== Action Card ===== */
 .pending-action-card {
-    background: white;
+    background: var(--adm-bg-sidebar);
     border-radius: 20px;
-    padding: 40px 30px;
+    padding: 2.5rem 2rem;
     text-align: center;
-    box-shadow: var(--pending-shadow);
-    transition: var(--pending-transition);
+    box-shadow: var(--adm-shadow);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     overflow: hidden;
     text-decoration: none;
@@ -167,32 +176,33 @@
     top: 0;
     left: 0;
     right: 0;
-    height: 5px;
-    background: linear-gradient(90deg, var(--pending-primary-color), var(--pending-secondary-color));
+    height: 4px;
+    background: linear-gradient(90deg, var(--adm-primary), var(--adm-primary-hover));
     transform: scaleX(0);
     transform-origin: left;
     transition: transform 0.4s ease;
 }
 
 .pending-action-card:hover {
-    transform: translateY(-10px);
-    box-shadow: var(--pending-shadow-lg);
-    border-color: rgba(240, 67, 53, 0.2);
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(79, 70, 229, 0.15);
+    border-color: var(--adm-primary-light);
 }
 
 .pending-action-card:hover::before {
     transform: scaleX(1);
 }
 
+/* Card Icon */
 .pending-card-icon {
-    width: 90px;
-    height: 90px;
-    margin: 0 auto 24px;
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 1.5rem;
     border-radius: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: var(--pending-transition);
+    transition: all 0.3s ease;
 }
 
 .pending-action-card:hover .pending-card-icon {
@@ -200,81 +210,83 @@
 }
 
 .pending-card-icon.branches-icon {
-    background: linear-gradient(135deg, rgba(13, 110, 253, 0.15), rgba(13, 110, 253, 0.1));
-    border: 2px solid rgba(13, 110, 253, 0.2);
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(59, 130, 246, 0.1));
+    border: 2px solid rgba(59, 130, 246, 0.2);
 }
 
 .pending-card-icon.branches-icon i {
-    font-size: 40px;
-    color: #0d6efd;
+    font-size: 2rem;
+    color: #3b82f6;
 }
 
 .pending-card-icon.meals-icon {
-    background: linear-gradient(135deg, rgba(5, 164, 55, 0.15), rgba(5, 164, 55, 0.1));
-    border: 2px solid rgba(5, 164, 55, 0.2);
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(16, 185, 129, 0.1));
+    border: 2px solid rgba(16, 185, 129, 0.2);
 }
 
 .pending-card-icon.meals-icon i {
-    font-size: 40px;
-    color: var(--pending-success-color);
+    font-size: 2rem;
+    color: #10b981;
 }
 
 .pending-card-title {
-    font-size: 24px;
+    font-size: 1.375rem;
     font-weight: 700;
-    color: var(--pending-text-primary);
-    margin: 0 0 12px;
+    color: var(--adm-text-primary);
+    margin: 0 0 0.75rem;
 }
 
 .pending-card-description {
-    font-size: 15px;
-    color: var(--pending-text-secondary);
+    font-size: 0.9375rem;
+    color: var(--adm-text-secondary);
     line-height: 1.6;
-    margin: 0 0 24px;
+    margin: 0 0 1.5rem;
 }
 
+/* Action Button */
 .pending-card-action {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
-    padding: 12px 28px;
+    gap: 0.5rem;
+    padding: 0.75rem 1.75rem;
     border-radius: 50px;
-    font-size: 14px;
-    font-weight: 700;
+    font-size: 0.875rem;
+    font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    transition: var(--pending-transition);
+    transition: all 0.3s ease;
 }
 
 .pending-action-card.branches-card .pending-card-action {
-    background: linear-gradient(135deg, #0d6efd, #0b5ed7);
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
     color: white;
 }
 
 .pending-action-card.branches-card:hover .pending-card-action {
-    box-shadow: 0 6px 20px rgba(13, 110, 253, 0.4);
+    box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
     transform: translateY(-2px);
 }
 
 .pending-action-card.meals-card .pending-card-action {
-    background: linear-gradient(135deg, var(--pending-success-color), #048f36);
+    background: linear-gradient(135deg, #10b981, #059669);
     color: white;
 }
 
 .pending-action-card.meals-card:hover .pending-card-action {
-    box-shadow: 0 6px 20px rgba(5, 164, 55, 0.4);
+    box-shadow: 0 8px 20px rgba(16, 185, 129, 0.4);
     transform: translateY(-2px);
 }
 
 /* ===== Restaurant Info Card ===== */
 .pending-restaurant-info {
-    background: white;
+    background: var(--adm-bg-sidebar);
     border-radius: 16px;
-    padding: 24px;
-    box-shadow: var(--pending-shadow);
+    padding: 1.5rem;
+    box-shadow: var(--adm-shadow);
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 1.25rem;
+    transition: var(--adm-transition);
 }
 
 .pending-restaurant-logo {
@@ -282,7 +294,7 @@
     height: 80px;
     border-radius: 16px;
     object-fit: cover;
-    border: 3px solid var(--pending-border-color);
+    border: 3px solid var(--adm-border);
     flex-shrink: 0;
 }
 
@@ -291,35 +303,87 @@
 }
 
 .pending-restaurant-name {
-    font-size: 22px;
+    font-size: 1.25rem;
     font-weight: 700;
-    color: var(--pending-text-primary);
-    margin: 0 0 8px;
+    color: var(--adm-text-primary);
+    margin: 0 0 0.5rem;
 }
 
 .pending-restaurant-meta {
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 1rem;
     flex-wrap: wrap;
 }
 
 .pending-meta-item {
     display: flex;
     align-items: center;
-    gap: 6px;
-    font-size: 14px;
-    color: var(--pending-text-secondary);
+    gap: 0.375rem;
+    font-size: 0.875rem;
+    color: var(--adm-text-secondary);
 }
 
 .pending-meta-item i {
-    color: var(--pending-primary-color);
+    color: var(--adm-primary);
 }
 
-/* ===== Responsive Design ===== */
+/* =========================================
+   Dark Mode Overrides
+   ========================================= */
+body.adm-dark-mode .pending-header {
+    box-shadow: 0 10px 40px rgba(99, 102, 241, 0.3);
+}
+
+body.adm-dark-mode .pending-status-badge {
+    background: rgba(245, 158, 11, 0.1);
+    border-color: rgba(245, 158, 11, 0.4);
+}
+
+body.adm-dark-mode .pending-info-message {
+    border-left-color: #f59e0b;
+}
+
+body.adm-dark-mode .pending-action-card:hover {
+    box-shadow: 0 20px 40px rgba(99, 102, 241, 0.2);
+    border-color: var(--adm-primary);
+}
+
+body.adm-dark-mode .pending-card-icon.branches-icon {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(59, 130, 246, 0.15));
+    border-color: rgba(59, 130, 246, 0.4);
+}
+
+body.adm-dark-mode .pending-card-icon.meals-icon {
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(16, 185, 129, 0.15));
+    border-color: rgba(16, 185, 129, 0.4);
+}
+
+/* =========================================
+   Responsive Design
+   ========================================= */
+@media (max-width: 992px) {
+    .pending-restaurant-container {
+        padding: 1.5rem;
+    }
+
+    .pending-header {
+        padding: 2.5rem 2rem;
+    }
+
+    .pending-title {
+        font-size: 2rem;
+    }
+}
+
 @media (max-width: 768px) {
     .pending-restaurant-container {
-        padding: 30px 15px;
+        padding: 1rem;
+    }
+
+    .pending-header {
+        padding: 2rem 1.5rem;
+        border-radius: 16px;
     }
 
     .pending-header-icon {
@@ -328,37 +392,33 @@
     }
 
     .pending-header-icon i {
-        font-size: 40px;
+        font-size: 36px;
     }
 
     .pending-title {
-        font-size: 28px;
+        font-size: 1.75rem;
     }
 
     .pending-subtitle {
-        font-size: 16px;
+        font-size: 1rem;
     }
 
     .pending-actions-grid {
         grid-template-columns: 1fr;
-        gap: 20px;
+        gap: 1rem;
     }
 
     .pending-action-card {
-        padding: 30px 24px;
+        padding: 2rem 1.5rem;
     }
 
     .pending-card-icon {
-        width: 80px;
-        height: 80px;
-    }
-
-    .pending-card-icon i {
-        font-size: 36px !important;
+        width: 70px;
+        height: 70px;
     }
 
     .pending-card-title {
-        font-size: 20px;
+        font-size: 1.25rem;
     }
 
     .pending-info-message {
@@ -377,8 +437,8 @@
 }
 
 @media (max-width: 480px) {
-    .pending-restaurant-container {
-        padding: 20px 10px;
+    .pending-header {
+        padding: 1.5rem 1rem;
     }
 
     .pending-header-icon {
@@ -391,42 +451,42 @@
     }
 
     .pending-title {
-        font-size: 24px;
+        font-size: 1.5rem;
     }
 
     .pending-subtitle {
-        font-size: 14px;
+        font-size: 0.9375rem;
     }
 
     .pending-status-badge {
-        font-size: 12px;
-        padding: 10px 20px;
+        font-size: 0.75rem;
+        padding: 0.625rem 1.25rem;
     }
 
     .pending-action-card {
-        padding: 24px 20px;
+        padding: 1.5rem 1rem;
     }
 
     .pending-card-icon {
-        width: 70px;
-        height: 70px;
+        width: 60px;
+        height: 60px;
     }
 
     .pending-card-icon i {
-        font-size: 32px !important;
+        font-size: 1.5rem !important;
     }
 
     .pending-card-title {
-        font-size: 18px;
+        font-size: 1.125rem;
     }
 
     .pending-card-description {
-        font-size: 14px;
+        font-size: 0.875rem;
     }
 
     .pending-card-action {
-        padding: 10px 24px;
-        font-size: 13px;
+        padding: 0.625rem 1.25rem;
+        font-size: 0.8125rem;
     }
 
     .pending-restaurant-logo {
@@ -435,7 +495,7 @@
     }
 
     .pending-restaurant-name {
-        font-size: 18px;
+        font-size: 1.125rem;
     }
 }
 

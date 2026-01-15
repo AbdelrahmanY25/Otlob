@@ -1,0 +1,238 @@
+@model IEnumerable<PromoCodeResponse>
+
+@{
+    ViewData["Title"] = "My Promo Codes";
+    var restaurantStatus = ViewBag.RestaurantStatus as AcctiveStatus?;
+    var canCreateCodes = ViewBag.CanCreateCodes as bool? ?? false;
+    
+    var totalCodes = Model.Count();
+    var activeCodes = Model.Count(p => p.IsActive && !p.IsExpired);
+    var expiredCodes = Model.Count(p => p.IsExpired);
+    var totalUses = Model.Sum(p => p.TotalUsageCount);
+}
+
+<link rel="stylesheet" href="~/css/promoCodes.css" asp-append-version="true" />
+
+<div class="promo-dashboard">
+    <!-- Header -->
+    <div class="promo-header">
+        <div class="promo-header-content">
+            <div>
+                <h1 class="promo-title">
+                    <i class="bi bi-ticket-perforated-fill"></i>
+                    My Promo Codes
+                </h1>
+                <p class="promo-subtitle">Create and manage promotional codes for your customers</p>
+            </div>
+            @if (canCreateCodes)
+            {
+                <a asp-action="Create" class="promo-btn promo-btn-primary">
+                    <i class="bi bi-plus-lg"></i>
+                    Create New Code
+                </a>
+            }
+        </div>
+    </div>
+
+    @if (!canCreateCodes)
+    {
+        <div class="promo-alert warning">
+            <i class="bi bi-exclamation-triangle-fill promo-alert-icon"></i>
+            <div class="promo-alert-content">
+                <div class="promo-alert-title">Promo Code Creation Disabled</div>
+                <p class="promo-alert-text">
+                    @switch (restaurantStatus)
+                    {
+                        case AcctiveStatus.Pending:
+                            <text>Your restaurant is pending approval. You will be able to create promo codes once approved.</text>
+                            break;
+                        case AcctiveStatus.UnAccepted:
+                            <text>Please complete your restaurant registration to enable promo code creation.</text>
+                            break;
+                        case AcctiveStatus.Block:
+                            <text>Your restaurant is currently blocked. Please contact support to resolve this issue.</text>
+                            break;
+                        case AcctiveStatus.Warning:
+                            <text>Your restaurant has a warning status. Please resolve the issues to create new promo codes.</text>
+                            break;
+                        default:
+                            <text>Promo code creation is currently unavailable. Please contact support.</text>
+                            break;
+                    }
+                </p>
+            </div>
+        </div>
+    }
+
+    <!-- Stats Grid -->
+    <div class="promo-stats-grid">
+        <div class="promo-stat-card total">
+            <div class="promo-stat-icon">
+                <i class="bi bi-collection"></i>
+            </div>
+            <p class="promo-stat-label">Total Codes</p>
+            <h3 class="promo-stat-value">@totalCodes</h3>
+        </div>
+        <div class="promo-stat-card active">
+            <div class="promo-stat-icon">
+                <i class="bi bi-check-circle"></i>
+            </div>
+            <p class="promo-stat-label">Active</p>
+            <h3 class="promo-stat-value">@activeCodes</h3>
+        </div>
+        <div class="promo-stat-card expired">
+            <div class="promo-stat-icon">
+                <i class="bi bi-clock-history"></i>
+            </div>
+            <p class="promo-stat-label">Expired</p>
+            <h3 class="promo-stat-value">@expiredCodes</h3>
+        </div>
+        <div class="promo-stat-card uses">
+            <div class="promo-stat-icon">
+                <i class="bi bi-people"></i>
+            </div>
+            <p class="promo-stat-label">Total Uses</p>
+            <h3 class="promo-stat-value">@totalUses</h3>
+        </div>
+    </div>
+
+    <!-- Promo Codes Table -->
+    <div class="promo-table-card">
+        <div class="promo-table-header">
+            <h3 class="promo-table-title">
+                <i class="bi bi-list-ul me-2"></i>My Promo Codes
+            </h3>
+            <span class="promo-table-count">@totalCodes codes</span>
+        </div>
+
+        @if (Model.Any())
+        {
+            <table class="promo-table">
+                <thead>
+                    <tr>
+                        <th>Code</th>
+                        <th>Discount</th>
+                        <th>Type</th>
+                        <th>Valid Period</th>
+                        <th>Usage</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var promo in Model)
+                    {
+                        var usagePercent = promo.MaxTotalUsage.HasValue 
+                            ? Math.Min((promo.TotalUsageCount * 100.0 / promo.MaxTotalUsage.Value), 100) 
+                            : 0;
+                        
+                        <tr>
+                            <td>
+                                <div class="promo-code-cell">
+                                    <span class="promo-code-value">@promo.Code</span>
+                                    @if (!string.IsNullOrEmpty(promo.Description))
+                                    {
+                                        <span class="promo-code-restaurant">@(promo.Description.Length > 30 ? promo.Description.Substring(0, 30) + "..." : promo.Description)</span>
+                                    }
+                                </div>
+                            </td>
+                            <td>
+                                <span class="promo-discount">@promo.DiscountDisplay</span>
+                                @if (promo.MaxDiscountAmount.HasValue)
+                                {
+                                    <div class="promo-max-discount">Max: @promo.MaxDiscountAmount.Value.ToString("N0") L.E</div>
+                                }
+                            </td>
+                            <td>
+                                @if (promo.IsFirstOrderOnly)
+                                {
+                                    <span class="promo-type-badge first-order">
+                                        <i class="bi bi-star-fill me-1"></i>First Order
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="promo-type-badge regular">Regular</span>
+                                }
+                            </td>
+                            <td>
+                                <div class="promo-date-range">
+                                    <span class="promo-date">@promo.ValidFrom.ToString("dd MMM yyyy")</span>
+                                    <span class="promo-date-label">to</span>
+                                    <span class="promo-date">@promo.ValidTo.ToString("dd MMM yyyy")</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="promo-usage">
+                                    @if (promo.MaxTotalUsage.HasValue)
+                                    {
+                                        <div class="promo-usage-bar">
+                                            <div class="promo-usage-fill" style="width: @usagePercent%"></div>
+                                        </div>
+                                    }
+                                    <span class="promo-usage-text">@promo.TotalUsageCount / @(promo.MaxTotalUsage?.ToString() ?? "∞")</span>
+                                </div>
+                            </td>
+                            <td>
+                                @{
+                                    var statusClass = promo.Status.ToLower();
+                                }
+                                <span class="promo-status @statusClass">@promo.Status</span>
+                            </td>
+                            <td>
+                                <div class="promo-actions">
+                                    <a asp-action="Details" asp-route-id="@promo.Id" class="promo-action-btn view" title="View Details">
+                                        <i class="bi bi-eye"></i>
+                                    </a>
+                                    <a asp-action="Edit" asp-route-id="@promo.Id" class="promo-action-btn edit" title="Edit">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                    @if (promo.IsActive)
+                                    {
+                                        <form asp-action="Deactivate" asp-route-id="@promo.Id" method="post" style="display:inline;">
+                                            @Html.AntiForgeryToken()
+                                            <button type="submit" class="promo-action-btn deactivate" title="Deactivate" 
+                                                onclick="return confirm('Are you sure you want to deactivate this promo code?')">
+                                                <i class="bi bi-pause-circle"></i>
+                                            </button>
+                                        </form>
+                                    }
+                                    else if (canCreateCodes)
+                                    {
+                                        <form asp-action="Activate" asp-route-id="@promo.Id" method="post" style="display:inline;">
+                                            @Html.AntiForgeryToken()
+                                            <button type="submit" class="promo-action-btn activate" title="Activate">
+                                                <i class="bi bi-play-circle"></i>
+                                            </button>
+                                        </form>
+                                    }
+                                    <form asp-action="Delete" asp-route-id="@promo.Id" method="post" style="display:inline;">
+                                        @Html.AntiForgeryToken()
+                                        <button type="submit" class="promo-action-btn delete" title="Delete" 
+                                            onclick="return confirm('Are you sure you want to permanently delete this promo code?')">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <div class="promo-empty">
+                <i class="bi bi-ticket-perforated promo-empty-icon"></i>
+                <h4 class="promo-empty-title">No Promo Codes Yet</h4>
+                <p class="promo-empty-text">Create your first promo code to attract more customers.</p>
+                @if (canCreateCodes)
+                {
+                    <a asp-action="Create" class="promo-btn promo-btn-primary">
+                        <i class="bi bi-plus-lg"></i> Create Your First Code
+                    </a>
+                }
+            </div>
+        }
+    </div>
+</div>

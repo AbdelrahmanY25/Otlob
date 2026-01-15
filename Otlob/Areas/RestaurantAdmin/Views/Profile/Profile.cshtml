@@ -1,0 +1,148 @@
+﻿@model UserProfile
+
+@{ ViewData["Title"] = "My Profile"; }
+
+<link href="~/css/adminProfile.css" rel="stylesheet" asp-append-version="true" />
+
+<div class="profile-container">
+    <div class="profile-header-card">
+        <div class="profile-avatar-section">
+            <div class="profile-avatar-wrapper">
+                @if (!string.IsNullOrEmpty(Model.Image))
+                {
+                    <img src="~/images/@Model.Image" alt="Profile Picture" class="profile-avatar" id="avatarPreview" />
+                }
+                else
+                {
+                    <img src="~/images/default-avatar.png" alt="Default Avatar" class="profile-avatar" id="avatarPreview" 
+                         onerror="this.src='https://ui-avatars.com/api/?name=@(Model.FirstName)+@(Model.LastName)&background=random'" />
+                }
+
+                <form asp-action="UserProfilePicture" method="post" enctype="multipart/form-data" id="avatarForm">
+                    <label for="imageUpload" class="profile-avatar-upload-label" title="Change Profile Picture">
+                        <i class="fas fa-camera"></i>
+                    </label>
+                    <input type="file" id="imageUpload" name="Image" accept=".jpg,.jpeg,.png" style="display: none;" onchange="document.getElementById('avatarForm').submit();" />
+                </form>
+            </div>
+        </div>
+
+        <div class="profile-info">
+            <span class="profile-role-badge">Restaurant Admin</span>
+            <h1>@Model.FirstName @Model.LastName</h1>
+            <div class="profile-email">
+                <i class="far fa-envelope"></i> @Model.Email
+            </div>
+            <div class="profile-email" style="margin-top: 5px;">
+                <i class="fas fa-user-tag"></i> @@ @Model.UserName
+            </div>
+        </div>
+    </div>
+
+    <!-- Alert Messages -->
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success" style="margin-bottom: 20px; background-color: #dcfce7; color: #166534; padding: 15px; border-radius: 6px; border: 1px solid #bbf7d0;">
+            <i class="fas fa-check-circle"></i> @TempData["Success"]
+        </div>
+    }
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger" style="margin-bottom: 20px; background-color: #fee2e2; color: #991b1b; padding: 15px; border-radius: 6px; border: 1px solid #fecaca;">
+            <i class="fas fa-exclamation-circle"></i> @TempData["Error"]
+        </div>
+    }
+
+    <!-- Profile Form -->
+    <div class="profile-content-card">
+        <div class="card-header">
+            <h2>Personal Information</h2>
+        </div>
+
+        <form asp-action="Profile" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            
+            <div class="profile-form-grid">
+                <!-- Username (Read Only usually, but let's see if updateable in model) -->
+                <div class="form-group">
+                    <label asp-for="UserName" class="form-label">Username</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-user"></i>
+                        <input asp-for="UserName" class="form-input" placeholder="Username" readonly />
+                    </div>
+                    <span asp-validation-for="UserName" class="validation-error"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Email" class="form-label">Email Address</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-envelope"></i>
+                        <input asp-for="Email" class="form-input" placeholder="Email Address" readonly />
+                    </div>
+                    <span asp-validation-for="Email" class="validation-error"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="FirstName" class="form-label">First Name</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-id-card"></i>
+                        <input asp-for="FirstName" class="form-input" placeholder="Enter first name" />
+                    </div>
+                    <span asp-validation-for="FirstName" class="validation-error"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="LastName" class="form-label">Last Name</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-id-card"></i>
+                        <input asp-for="LastName" class="form-input" placeholder="Enter last name" />
+                    </div>
+                    <span asp-validation-for="LastName" class="validation-error"></span>
+                </div>
+
+                 <div class="form-group">
+                    <label asp-for="PhoneNumber" class="form-label">Phone Number</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-phone"></i>
+                        <input asp-for="PhoneNumber" class="form-input" placeholder="Enter phone number" />
+                    </div>
+                    <span asp-validation-for="PhoneNumber" class="validation-error"></span>
+                 </div>
+
+                <div class="form-group">
+                    <label asp-for="BirthDate" class="form-label">Date of Birth</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-calendar-alt"></i>
+                        <input asp-for="BirthDate" type="date" class="form-input" />
+                    </div>
+                    <span asp-validation-for="BirthDate" class="validation-error"></span>
+                </div>
+
+                <div class="form-group full-width">
+                     <label asp-for="Gender" class="form-label">Gender</label>
+                     <div class="input-wrapper">
+                        <i class="fas fa-venus-mars" style="z-index: 1;"></i>
+                        <select asp-for="Gender" class="form-input" asp-items="Html.GetEnumSelectList<Gender>()">
+                             <option value="">-- Select Gender --</option>
+                        </select>
+                     </div>
+                     <span asp-validation-for="Gender" class="validation-error"></span>
+                </div>
+
+            </div>
+
+            <div class="form-actions" style="gap: 10px;">
+                <a asp-action="ChangePassword" class="profile-btn" style="background-color: var(--adm-text-secondary); text-decoration: none;">
+                    <i class="fas fa-key"></i> Change Password
+                </a>
+                <button type="submit" class="profile-btn">
+                    <i class="fas fa-save"></i> Save Changes
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

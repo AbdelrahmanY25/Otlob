@@ -342,9 +342,7 @@ public class MealService(IMapper mapper, IFileService imageService,
                  .ToList();
 
             if (mealAddOnsIds.Count > 0)
-            {
                 _unitOfWorkRepository.ManyMealManyAddOns.SoftDelete(expression: mao => mealsIds.Contains(mao.MealId));
-            }
 
             _unitOfWorkRepository.Meals.SoftDelete(expression: m => m.CategoryId == categoryId);
         }
@@ -403,7 +401,102 @@ public class MealService(IMapper mapper, IFileService imageService,
         return Result.Success();
     }
 
+    public Result DeleteAllByRestaurantId(int restaurantId)
+    {
+        var mealsIds = _unitOfWorkRepository.Meals
+            .GetAllWithSelect
+             (
+                expression: m => m.RestaurantId == restaurantId,
+                tracked: false,
+                selector: m => m.Id
+             )!
+             .ToList();
 
+        if (mealsIds.Count > 0)
+        {
+            var mealOptionGroupIds = _unitOfWorkRepository.MealOptionGroups
+                .GetAllWithSelect
+                 (
+                    expression: og => mealsIds.Contains(og.MealId),
+                    tracked: false,
+                    selector: og => og.MealOptionGroupId
+                 )!
+                 .ToList();
+
+            if (mealOptionGroupIds.Count > 0)
+            {
+                _unitOfWorkRepository.MealOptionItems.SoftDelete(expression: oi => mealOptionGroupIds.Contains(oi.OptionGroupId));
+                _unitOfWorkRepository.MealOptionGroups.SoftDelete(expression: og => mealsIds.Contains(og.MealId));
+            }
+
+            var mealAddOnsIds = _unitOfWorkRepository.ManyMealManyAddOns
+                .GetAllWithSelect
+                 (
+                    expression: mao => mealsIds.Contains(mao.MealId),
+                    tracked: false,
+                    selector: mao => mao.AddOnId
+                 )!
+                 .ToList();
+
+            if (mealAddOnsIds.Count > 0)
+                _unitOfWorkRepository.ManyMealManyAddOns.SoftDelete(expression: mao => mealsIds.Contains(mao.MealId));
+
+            _unitOfWorkRepository.Meals.SoftDelete(expression: m => m.RestaurantId == restaurantId);
+        }
+
+        return Result.Success();
+    }
+
+    public Result UnDeleteAllByRestaurantId(int restaurantId)
+    {
+        var mealsIds = _unitOfWorkRepository.Meals
+            .GetAllWithSelect
+             (
+                expression: m => m.RestaurantId == restaurantId,
+                tracked: false,
+                ignoreQueryFilter: true,
+                selector: m => m.Id
+             )!
+             .ToList();
+        
+        if (mealsIds.Count > 0)
+        {
+            var mealOptionGroupIds = _unitOfWorkRepository.MealOptionGroups
+                .GetAllWithSelect
+                 (
+                    expression: og => mealsIds.Contains(og.MealId),
+                    tracked: false,
+                    ignoreQueryFilter: true,
+                    selector: og => og.MealOptionGroupId
+                 )!
+                 .ToList();
+            
+            if (mealOptionGroupIds.Count > 0)
+            {
+                _unitOfWorkRepository.MealOptionItems.UnSoftDelete(expression: oi => mealOptionGroupIds.Contains(oi.OptionGroupId));            
+                _unitOfWorkRepository.MealOptionGroups.UnSoftDelete(expression: og => mealsIds.Contains(og.MealId));
+            }
+            
+            var mealAddOnsIds = _unitOfWorkRepository.ManyMealManyAddOns
+                .GetAllWithSelect
+                 (
+                    expression: mao => mealsIds.Contains(mao.MealId),
+                    tracked: false,
+                    ignoreQueryFilter: true,
+                    selector: mao => mao.AddOnId
+                 )!
+                 .ToList();
+            
+            if (mealAddOnsIds.Count > 0)
+            {
+                _unitOfWorkRepository.ManyMealManyAddOns.UnSoftDelete(expression: mao => mealsIds.Contains(mao.MealId));
+            }
+            
+            _unitOfWorkRepository.Meals.UnSoftDelete(expression: m => m.RestaurantId == restaurantId);
+        }
+        
+        return Result.Success();
+    }
 
     private Meal GetMealImageById(string mealId)
     {

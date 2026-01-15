@@ -22,9 +22,7 @@ public class RestaurantBusinessDetailsController(IRestaurantBusinessDetailsServi
     public IActionResult Update(RestaurantBusinessInfo request, string key)
     {
         if (!ModelState.IsValid)
-        {
             return View(request);
-        }        
 
         // TODO: Handle Unprotect Exception
         int restaurantId = int.Parse(_dataProtector.Unprotect(key));

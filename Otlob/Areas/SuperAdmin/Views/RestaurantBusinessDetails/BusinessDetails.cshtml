@@ -4,158 +4,195 @@
     ViewData["Title"] = "Business Details";
 }
 
-<link rel="stylesheet" href="/css/profileAccount.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/css/adminProfile.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/css/adminCategorySelector.css" asp-append-version="true" />
 
-<div class="profile">
-    <div class="info">
-        <h2>Business Details</h2>
+<div class="profile-container">
+
+     <div class="profile-header-card" style="padding: 20px; gap: 20px;">
+        <div style="font-size: 32px; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; background: var(--adm-primary-light); color: var(--adm-primary); border-radius: 12px;">
+            <i class="fas fa-briefcase"></i>
+        </div>
+        <div class="profile-info">
+            <h1>Business Details</h1>
+            <div class="profile-email">
+                Manage your delivery settings, operating hours, and business classification.
+            </div>
+        </div>
     </div>
 
-    <hr class="line" />
+    <div class="profile-content-card">
+        <form asp-action="Update" method="post">
+            <div asp-validation-summary="All" class="text-danger mb-4"></div>
 
-    <div class="links">
-        <a href="#" class="active">Business Info</a>
-    </div>
-
-    <div class="profile-content">
-        <form class="profile-form" asp-action="Update" asp-route-key="@Model.RestaurntKey" method="post">
-            <div asp-validation-summary="All" class="text-danger mb-5"></div>
-
-            <div class="form-section-title">
-                <i class="fas fa-truck"></i>
-                Delivery Settings
-            </div>
-
-            <div class="form-row">
-                <div class="field">
-                    <label asp-for="DeliveryFee">Delivery Fee</label>
-                    <input asp-for="DeliveryFee" type="number" step="0.01" min="0" placeholder="Enter delivery fee" />
-                </div>
-
-                <div class="field">
-                    <label asp-for="DeliveryDurationTime">Delivery Duration (minutes)</label>
-                    <input asp-for="DeliveryDurationTime" type="number" min="1" placeholder="Enter delivery time" />
-                </div>
-            </div>
-
-            <div class="form-section-title">
-                <i class="fas fa-clock"></i>
-                Operating Hours
-            </div>
-
-            <div class="form-row">
-                <div class="field">
-                    <label asp-for="OpeningTime">Opening Time</label>
-                    <input asp-for="OpeningTime" type="time" />
-                </div>
-
-                <div class="field">
-                    <label asp-for="ClosingTime">Closing Time</label>
-                    <input asp-for="ClosingTime" type="time" />
-                </div>
-            </div>
-
-            <div class="form-section-title">
-                <i class="fas fa-briefcase"></i>
-                Business Information
-            </div>
-
-            <div class="form-row">
-                <div class="field">
-                    <label asp-for="BusinessType">Business Type</label>
-                    <select asp-for="BusinessType" asp-items="Html.GetEnumSelectList<BusinessType>()"></select>
-                </div>
-
-                <div class="field">
-                    <label asp-for="AdministratorRole">Administrator Role</label>
-                    <select asp-for="AdministratorRole" asp-items="Html.GetEnumSelectList<AdministratorRole>()"></select>
-                </div>
-            </div>
-
-            <div class="form-section-title">
-                <i class="fas fa-tags"></i>
-                Restaurant Categories
-            </div>
-
-            <div class="category-selector-container">
-                <label class="category-selector-label">
-                    Select Categories
-                    <span class="max-hint">Max 3</span>
-                </label>
-
-                <div class="selected-categories" id="selectedCategories">
-                    @if (Model.RestaurantCategories != null && Model.RestaurantCategories.Any())
-                    {
-                        @foreach (var category in Model.RestaurantCategories)
-                        {
-                            <div class="category-tag" data-id="@category.Id">
-                                <span>@category.Name</span>
-                                <button type="button" class="remove-tag" onclick="removeCategory(@category.Id)">×</button>
-                            </div>
-                        }
-                    }
-                    else
-                    {
-                        <span class="selected-categories-placeholder">No categories selected</span>
-                    }
-                </div>
-
-                <div class="category-dropdown-wrapper">
-                    <div class="category-dropdown-trigger" id="dropdownTrigger" onclick="toggleDropdown()">
-                        <span class="dropdown-trigger-text" id="triggerText">Select categories...</span>
-                        <span class="dropdown-trigger-icon"><i class="fas fa-chevron-down"></i></span>
-                    </div>
-
-                    <div class="category-dropdown-menu" id="dropdownMenu">
-                        <div class="dropdown-search">
-                            <input type="text" id="categorySearch" placeholder="🔍 Search categories..." oninput="filterCategories()" />
-                        </div>
-                        <div class="dropdown-options-wrapper">
-                            <div class="dropdown-options" id="dropdownOptions">
-                                @if (Model.AllCategories != null)
-                                {
-                                    @foreach (var category in Model.AllCategories)
-                                    {
-                                        var isSelected = Model.RestaurantCategories?.Any(c => c.Id == category.Id) ?? false;
-                                        <div class="dropdown-option @(isSelected ? "selected" : "")" 
-                                             data-id="@category.Id" 
-                                             data-name="@category.Name"
-                                             onclick="toggleCategory(@category.Id, '@category.Name')">
-                                            <div class="option-icon">
-                                                <i class="fas fa-utensils"></i>
-                                            </div>
-                                            <span class="option-text">@category.Name</span>
-                                            <div class="option-check">✓</div>
-                                        </div>
-                                    }
-                                }
-                            </div>
-                            <div class="dropdown-empty" id="dropdownEmpty" style="display: none;">
-                                <i class="fas fa-search"></i>
-                                No categories found
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="category-hidden-inputs" id="categoryInputs">
-                    @if (Model.RestaurantCategories != null)
-                    {
-                        @foreach (var category in Model.RestaurantCategories)
-                        {
-                            <input type="hidden" name="SelectedCategoryIds" value="@category.Id" />
-                        }
-                    }
-                </div>
+            <!-- Delivery Settings -->
+            <div class="card-header" style="margin-top: 0;">
+                <h2><i class="fas fa-truck" style="margin-right: 10px; color: var(--adm-primary);"></i> Delivery Settings</h2>
             </div>
             
-            <div class="field">
-                <label asp-for="NumberOfBranches">Number of Branches</label>
-                <input asp-for="NumberOfBranches" type="number" min="1" max="500" placeholder="Enter number of branches" />
+            <div class="profile-form-grid" style="margin-bottom: 30px;">
+                <div class="form-group">
+                    <label asp-for="DeliveryFee" class="form-label">Delivery Fee</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-money-bill-wave"></i>
+                        <input asp-for="DeliveryFee" class="form-input" type="number" step="0.01" min="0" placeholder="0.00" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="DeliveryDurationTime" class="form-label">Delivery Duration (min)</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-stopwatch"></i>
+                        <input asp-for="DeliveryDurationTime" class="form-input" type="number" min="1" placeholder="e.g. 30" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="MinimumOrderPrice" class="form-label">Minimum Order Price</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-tag"></i>
+                        <input asp-for="MinimumOrderPrice" class="form-input" type="number" step="0.01" min="0" placeholder="0.00" />
+                    </div>
+                </div>
+                 <div class="form-group">
+                    <label asp-for="NumberOfBranches" class="form-label">Number of Branches</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-code-branch"></i>
+                        <input asp-for="NumberOfBranches" class="form-input" type="number" min="1" max="500" placeholder="1" />
+                    </div>
+                </div>
             </div>
 
+            <!-- Operating Hours -->
+            <div class="card-header">
+                <h2><i class="fas fa-clock" style="margin-right: 10px; color: var(--adm-primary);"></i> Operating Hours</h2>
+            </div>
 
-            <button type="submit">Update Business Details</button>
+            <div class="profile-form-grid" style="margin-bottom: 30px;">
+                <div class="form-group">
+                    <label asp-for="OpeningTime" class="form-label">Opening Time</label>
+                    <div class="input-wrapper">
+                        <i class="far fa-clock"></i>
+                        <input asp-for="OpeningTime" class="form-input" type="time" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="ClosingTime" class="form-label">Closing Time</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-moon"></i>
+                        <input asp-for="ClosingTime" class="form-input" type="time" />
+                    </div>
+                </div>
+            </div>
+
+            <!-- Business Information -->
+             <div class="card-header">
+                <h2><i class="fas fa-building" style="margin-right: 10px; color: var(--adm-primary);"></i> Business Info</h2>
+            </div>
+
+            <div class="profile-form-grid" style="margin-bottom: 30px;">
+                <div class="form-group">
+                    <label asp-for="BusinessType" class="form-label">Business Type</label>
+                     <div class="input-wrapper">
+                        <i class="fas fa-utensils" style="z-index: 1;"></i>
+                        <select asp-for="BusinessType" class="form-input" asp-items="Html.GetEnumSelectList<BusinessType>()"></select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="AdministratorRole" class="form-label">Administrator Role</label>
+                     <div class="input-wrapper">
+                        <i class="fas fa-user-shield" style="z-index: 1;"></i>
+                        <select asp-for="AdministratorRole" class="form-input" asp-items="Html.GetEnumSelectList<AdministratorRole>()"></select>
+                    </div>
+                </div>
+            </div>
+
+             <!-- Restaurant Categories -->
+            <div class="card-header">
+                <h2><i class="fas fa-list" style="margin-right: 10px; color: var(--adm-primary);"></i> Restaurant Categories</h2>
+            </div>
+            
+            <div class="profile-form-grid" style="grid-template-columns: 1fr;">
+                 <div class="category-selector-container">
+                    <label class="category-selector-label">
+                        Select Categories
+                        <span class="max-hint">Max 3</span>
+                    </label>
+
+                    <div class="selected-categories" id="selectedCategories">
+                        @if (Model.RestaurantCategories != null && Model.RestaurantCategories.Any())
+                        {
+                            @foreach (var category in Model.RestaurantCategories)
+                            {
+                                <div class="category-tag" data-id="@category.Id">
+                                    <span>@category.Name</span>
+                                    <button type="button" class="remove-tag" onclick="removeCategory(@category.Id)">×</button>
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <span class="selected-categories-placeholder">No categories selected</span>
+                        }
+                    </div>
+
+                    <div class="category-dropdown-wrapper">
+                        <div class="category-dropdown-trigger" id="dropdownTrigger" onclick="toggleDropdown()">
+                            <span class="dropdown-trigger-text" id="triggerText">Select categories...</span>
+                            <span class="dropdown-trigger-icon"><i class="fas fa-chevron-down"></i></span>
+                        </div>
+
+                        <div class="category-dropdown-menu" id="dropdownMenu">
+                            <div class="dropdown-search">
+                                <input type="text" id="categorySearch" placeholder="🔍 Search categories..." oninput="filterCategories()" />
+                            </div>
+                            <div class="dropdown-options-wrapper">
+                                <div class="dropdown-options" id="dropdownOptions">
+                                    @if (Model.AllCategories != null)
+                                    {
+                                        @foreach (var category in Model.AllCategories)
+                                        {
+                                            var isSelected = Model.RestaurantCategories?.Any(c => c.Id == category.Id) ?? false;
+                                            <div class="dropdown-option @(isSelected ? "selected" : "")" 
+                                                 data-id="@category.Id" 
+                                                 data-name="@category.Name"
+                                                 onclick="toggleCategory(@category.Id, '@category.Name')">
+                                                <div class="option-icon">
+                                                    <i class="fas fa-utensils"></i>
+                                                </div>
+                                                <span class="option-text">@category.Name</span>
+                                                <div class="option-check">✓</div>
+                                            </div>
+                                        }
+                                    }
+                                </div>
+                                <div class="dropdown-empty" id="dropdownEmpty" style="display: none;">
+                                    <i class="fas fa-search"></i>
+                                    No categories found
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="category-hidden-inputs" id="categoryInputs">
+                        @if (Model.RestaurantCategories != null)
+                        {
+                            @foreach (var category in Model.RestaurantCategories)
+                            {
+                                <input type="hidden" name="SelectedCategoryIds" value="@category.Id" />
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="profile-btn">
+                    <i class="fas fa-save"></i> Update Business Details
+                </button>
+            </div>
         </form>
     </div>
 </div>
@@ -213,31 +250,15 @@
             const rect = trigger.getBoundingClientRect();
             
             // Calculate position
-            const top = rect.bottom + 8;
-            const left = rect.left;
-            const width = rect.width;
+            // Use absolute positioning relative to nearest positioned ancestor (the wrapper)
+            // But if we want it to break out of overflow:hidden containers, we might need fixed positioning
+            // For now, let's stick to standard flow within the wrapper which needs to not be hidden
             
-            // Check if dropdown would go below viewport
-            const viewportHeight = window.innerHeight;
-            const menuHeight = 350; // max-height of dropdown
-            
-            if (top + menuHeight > viewportHeight && rect.top > menuHeight) {
-                // Position above the trigger
-                menu.style.top = (rect.top - menuHeight - 8) + 'px';
-            } else {
-                // Position below the trigger
-                menu.style.top = top + 'px';
-            }
-            
-            menu.style.left = left + 'px';
-            menu.style.width = width + 'px';
+            // Simple display toggle handled by class
         }
 
         function repositionDropdown() {
-            const menu = document.getElementById('dropdownMenu');
-            if (menu.classList.contains('open')) {
-                positionDropdown();
-            }
+            // Not strictly needed if position:absolute is relative to wrapper and wrapper moves with page
         }
 
         // Toggle dropdown visibility
@@ -254,8 +275,6 @@
             if (isOpen) {
                 closeDropdown();
             } else {
-                // Position and show dropdown
-                positionDropdown();
                 trigger.classList.add('active');
                 menu.classList.add('open');
                 

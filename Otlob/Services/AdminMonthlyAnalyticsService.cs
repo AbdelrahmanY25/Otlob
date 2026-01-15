@@ -20,7 +20,7 @@ public class AdminMonthlyAnalyticsService(IUnitOfWorkRepository unitOfWorkReposi
         }
     }
 
-    public void Update(decimal totalOrderPrice)
+    public void Update(decimal totalOrderPrice, OrderStatus orderStatus)
     {
         Add();
         
@@ -29,10 +29,21 @@ public class AdminMonthlyAnalyticsService(IUnitOfWorkRepository unitOfWorkReposi
         var month = today.Month;        
 
         var analytic = _unitOfWorkRepository.AdminMonthlyAnalytics
-            .GetOne(expression: a => a.Year == year && a.Month == month);       
+            .GetOne(expression: a => a.Year == year && a.Month == month);
 
-        analytic!.OrdersCount += 1;
-        analytic.TotalOrdersSales += totalOrderPrice;
+        if (orderStatus == OrderStatus.Cancelled)
+        {
+            analytic!.CancelledOrdersCount += 1;
+        }
+        else if (orderStatus == OrderStatus.Delivered)
+        { 
+            analytic!.CompletedOrdersCount += 1;
+            analytic.TotalOrdersSales += totalOrderPrice;
+        }
+        else
+        {
+            return;
+        }
 
         _unitOfWorkRepository.AdminMonthlyAnalytics.Update(analytic);
 
@@ -84,7 +95,7 @@ public class AdminMonthlyAnalyticsService(IUnitOfWorkRepository unitOfWorkReposi
         {
             Year = year,
             Month = 0,
-            OrdersCount = analytics.Sum(a => a.OrdersCount),
+            CompletedOrdersCount = analytics.Sum(a => a.CompletedOrdersCount),
             TotalOrdersSales = analytics.Sum(a => a.TotalOrdersSales),
             TotalOrdersRevenue = analytics.Sum(a => a.TotalOrdersRevenue)
         };
@@ -106,7 +117,7 @@ public class AdminMonthlyAnalyticsService(IUnitOfWorkRepository unitOfWorkReposi
         {
             Year = year,
             Month = 0,
-            OrdersCount = analytics.Sum(a => a.OrdersCount),
+            CompletedOrdersCount = analytics.Sum(a => a.CompletedOrdersCount),
             TotalOrdersSales = analytics.Sum(a => a.TotalOrdersSales),
             TotalOrdersRevenue = analytics.Sum(a => a.TotalOrdersRevenue)
         };
@@ -139,5 +150,56 @@ public class AdminMonthlyAnalyticsService(IUnitOfWorkRepository unitOfWorkReposi
             .ToList();
 
         return response;
+    }
+
+    public SuperAdminGeneralAnalyticsResponse GetGeneralAnalytics()
+    {
+        var allAnalytics = _unitOfWorkRepository.AdminMonthlyAnalytics
+            .Get(
+                expression: null,
+                tracked: false
+            )!
+            .OrderBy(a => a.Year)
+            .ThenBy(a => a.Month)
+            .Select(a => _mapper.Map<AdminMonthlyAnalyticsResponse>(a))
+            .ToList();
+
+        if (allAnalytics.Count == 0)
+        {
+            return new SuperAdminGeneralAnalyticsResponse
+            {
+                TotalOrdersCount = 0,
+                AverageOrdersPerDay = 0,
+                TotalCancelledOrdersCount = 0,
+                TotalSales = 0,
+                TotalRevenue = 0,
+                AllMonthsAnalytics = []
+            };
+        }
+
+        var totalCompletedOrders = allAnalytics.Sum(a => a.CompletedOrdersCount);
+        var totalCancelledOrders = allAnalytics.Sum(a => a.CancelledOrdersCount);
+        var totalOrders = totalCompletedOrders + totalCancelledOrders;
+        var totalSales = allAnalytics.Sum(a => a.TotalOrdersSales);
+        var totalRevenue = allAnalytics.Sum(a => a.TotalOrdersRevenue);
+
+        // Calculate total days from first to last month
+        var firstMonth = allAnalytics.First();
+        var lastMonth = allAnalytics.Last();
+        var firstDate = new DateTime(firstMonth.Year, firstMonth.Month, 1);
+        var lastDate = new DateTime(lastMonth.Year, lastMonth.Month, DateTime.DaysInMonth(lastMonth.Year, lastMonth.Month));
+        var totalDays = (lastDate - firstDate).Days + 1;
+
+        var averageOrdersPerDay = totalDays > 0 ? (decimal)totalOrders / totalDays : 0;
+
+        return new SuperAdminGeneralAnalyticsResponse
+        {
+            TotalOrdersCount = totalOrders,
+            AverageOrdersPerDay = Math.Round(averageOrdersPerDay, 2),
+            TotalCancelledOrdersCount = totalCancelledOrders,
+            TotalSales = totalSales,
+            TotalRevenue = totalRevenue,
+            AllMonthsAnalytics = allAnalytics
+        };
     }
 }

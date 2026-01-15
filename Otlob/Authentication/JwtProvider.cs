@@ -1,23 +1,22 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using Utility.Settings;
 
-
 namespace Otlob.Authentication;
 
 public class JwtProvider(IOptions<JwtOptions> jwtOptions) : IJwtProvider
 {
     private readonly JwtOptions _jwtOptions = jwtOptions.Value;
 
-    public (string token, int expiresOn) GenerateToken(ApplicationUser user, IEnumerable<string> roles, IEnumerable<string> permissions)
+    public (string token, int expiresOn) GenerateToken(ApplicationUser user, string role)
     {
         Claim[] claims = [
             new(JwtRegisteredClaimNames.Sub, user.Id),
             new(JwtRegisteredClaimNames.Email, user.Email!),
             new(JwtRegisteredClaimNames.GivenName, user.FirstName),
             new(JwtRegisteredClaimNames.FamilyName, user.LastName),
+            new(JwtRegisteredClaimNames.PhoneNumber, user.PhoneNumber),
             new(JwtRegisteredClaimNames.Jti, Guid.CreateVersion7().ToString()),
-            new(nameof(roles), JsonSerializer.Serialize(roles), JsonClaimValueTypes.JsonArray),
-            new(nameof(permissions), JsonSerializer.Serialize(permissions), JsonClaimValueTypes.JsonArray)
+            new(nameof(role), role)
         ];
 
         var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtOptions.Key));

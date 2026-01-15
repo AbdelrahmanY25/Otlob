@@ -100,9 +100,32 @@ body {
     color: var(--text-secondary);
 }
 
-.meta-pill i {
-    color: var(--primary);
-    font-size: 0.9em;
+.rating-pill {
+    background: rgba(255, 159, 67, 0.1);
+}
+
+.rating-pill > i {
+    color: #ffc107; /* gold */
+}
+
+.stars-container {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+
+.stars-container i {
+    color: #ffc107; /* gold */
+}
+
+.stars-container .fa-regular {
+    color: var(--text-muted);
+}
+
+.rating-value {
+    margin-left: 4px;
+    font-weight: 800;
+    color: var(--text-primary);
 }
 
 .hero-subtitle {

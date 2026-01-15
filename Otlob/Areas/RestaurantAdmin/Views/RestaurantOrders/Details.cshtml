@@ -232,6 +232,13 @@
                         <span class="label">Service Fee</span>
                         <span class="value">@Model.ServiceFee.ToString("N2") L.E</span>
                     </div>
+                    @if (Model.DiscountAmount > 0)
+                    {
+                        <div class="info-row">
+                            <span class="label">Discount (@Model.DiscountAmount)</span>
+                            <span class="value text-success">-@Model.DiscountAmount.ToString("N2") L.E</span>
+                        </div>
+                    }
                     <div class="info-row total">
                         <span class="label">Total</span>
                         <span class="value">@Model.TotalPrice.ToString("N2") L.E</span>

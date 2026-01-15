@@ -10,7 +10,8 @@
         month = monthNames[m.Month - 1] + " " + m.Year,
         sales = m.TotalOrdersSales,
         revenue = m.TotalOrdersRevenue,
-        count = m.OrdersCount
+        count = m.CompletedOrdersCount,
+        cancelled = m.CancelledOrdersCount
     }).ToList();
     
     var pieChartData = new {
@@ -112,11 +113,15 @@
                 <!-- Current Month -->
                 <div class="summary-card" style="background: var(--adm-primary-light); border-color: var(--adm-primary);">
                     <div class="label">This Month Orders</div>
-                    <div class="value" style="color: var(--adm-primary);">@(Model.CurrentMonthAnalytics?.OrdersCount ?? 0)</div>
+                    <div class="value" style="color: var(--adm-primary);">@(Model.CurrentMonthAnalytics?.CompletedOrdersCount ?? 0)</div>
                 </div>
                 <div class="summary-card" style="background: rgba(16, 185, 129, 0.1); border-color: #10B981;">
                     <div class="label">This Month Sales</div>
                     <div class="value" style="color: #10B981;">@((Model.CurrentMonthAnalytics?.TotalOrdersSales ?? 0).ToString("N0")) L.E</div>
+                </div>
+                <div class="summary-card" style="background: rgba(239, 68, 68, 0.1); border-color: #EF4444;">
+                    <div class="label">This Month Cancelled</div>
+                    <div class="value" style="color: #EF4444;">@(Model.CurrentMonthAnalytics?.CancelledOrdersCount ?? 0)</div>
                 </div>
             </div>
 
@@ -126,14 +131,91 @@
                 <!-- Current Year -->
                 <div class="summary-card" style="background: rgba(245, 158, 11, 0.1); border-color: #F59E0B;">
                     <div class="label">This Year Orders</div>
-                    <div class="value" style="color: #F59E0B;">@(Model.CurrentYearAnalytics?.OrdersCount ?? 0)</div>
+                    <div class="value" style="color: #F59E0B;">@(Model.CurrentYearAnalytics?.CompletedOrdersCount ?? 0)</div>
                 </div>
                 <div class="summary-card" style="background: rgba(139, 92, 246, 0.1); border-color: #8B5CF6;">
                     <div class="label">This Year Revenue</div>
                     <div class="value" style="color: #8B5CF6;">@((Model.CurrentYearAnalytics?.TotalOrdersRevenue ?? 0).ToString("N0")) L.E</div>
                 </div>
+                <div class="summary-card" style="background: rgba(239, 68, 68, 0.1); border-color: #EF4444;">
+                    <div class="label">This Year Cancelled</div>
+                    <div class="value" style="color: #EF4444;">@(Model.CurrentYearAnalytics?.CancelledOrdersCount ?? 0)</div>
+                </div>
             </div>
         </div>
+    </div>
+
+    <!-- Section: Top 10 Meals Sales -->
+    <hr class="section-divider">
+    
+    <div class="section-header">
+        <h2 class="section-title"><i class="bi bi-trophy-fill"></i> Top 10 Best Selling Meals</h2>
+    </div>
+
+    <div class="data-table-card">
+        <div class="chart-header">
+            <h3 class="chart-title"><i class="bi bi-award-fill me-2"></i>Most Popular Meals</h3>
+        </div>
+        
+        @if (Model.TopTenMealsSales.Any())
+        {
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Image</th>
+                        <th>Meal Name</th>
+                        <th>Sales Count</th>
+                        <th>Total Sales</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{int rank = 1;}
+                    @foreach (var meal in Model.TopTenMealsSales)
+                    {
+                        <tr>
+                            <td>
+                                @if (rank <= 3)
+                                {
+                                    <span style="font-size: 1.5rem;">
+                                        @if (rank == 1) { <text>🥇</text> }
+                                        @if (rank == 2) { <text>🥈</text> }
+                                        @if (rank == 3) { <text>🥉</text> }
+                                    </span>
+                                }
+                                else
+                                {
+                                    <strong>@rank</strong>
+                                }
+                            </td>
+                            <td>
+                                @if (!string.IsNullOrEmpty(meal.MealImage))
+                                {
+                                    <img src="~/images/@meal.MealImage" alt="@meal.MealName" style="width: 60px; height: 60px; border-radius: 8px; object-fit: cover;">
+                                }
+                                else
+                                {
+                                    <div style="width: 60px; height: 60px; border-radius: 8px; background: #f0f0f0; display: flex; align-items: center; justify-content: center;">
+                                        <i class="bi bi-image" style="font-size: 1.5rem; color: #999;"></i>
+                                    </div>
+                                }
+                            </td>
+                            <td><strong>@meal.MealName</strong></td>
+                            <td>@meal.SalesCount orders</td>
+                            <td style="color: #10B981; font-weight: bold;">@meal.Sales.ToString("N2") L.E</td>
+                        </tr>
+                        rank++;
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <div class="no-data">
+                <i class="bi bi-trophy"></i>
+                <p>No meal sales data available yet</p>
+            </div>
+        }
     </div>
 
     <!-- Section: Last 12 Months Analytics -->
@@ -226,6 +308,7 @@
                     <tr>
                         <th>Month</th>
                         <th>Orders</th>
+                        <th>Cancelled</th>
                         <th>Total Sales</th>
                         <th>Revenue</th>
                     </tr>
@@ -235,7 +318,8 @@
                     {
                         <tr>
                             <td><strong>@monthNames[month.Month - 1] @month.Year</strong></td>
-                            <td>@month.OrdersCount</td>
+                            <td>@month.CompletedOrdersCount</td>
+                            <td style="color: #EF4444;">@month.CancelledOrdersCount</td>
                             <td>@month.TotalOrdersSales.ToString("N2") L.E</td>
                             <td>@month.TotalOrdersRevenue.ToString("N2") L.E</td>
                         </tr>

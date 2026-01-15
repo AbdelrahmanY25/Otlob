@@ -1,0 +1,143 @@
+@model PromoCodeRequest
+
+@{
+    ViewData["Title"] = "Edit Promo Code";
+    var promoCodeId = ViewBag.PromoCodeId as int?;
+}
+
+<link rel="stylesheet" href="~/css/promoCodes.css" asp-append-version="true" />
+
+<div class="promo-dashboard">
+    <!-- Header -->
+    <div class="promo-header">
+        <div class="promo-header-content">
+            <div>
+                <h1 class="promo-title">
+                    <i class="bi bi-pencil-fill"></i>
+                    Edit Promo Code
+                </h1>
+                <p class="promo-subtitle">Modify the details of your promotional code</p>
+            </div>
+            <a asp-action="Index" class="promo-btn promo-btn-outline">
+                <i class="bi bi-arrow-left"></i>
+                Back to List
+            </a>
+        </div>
+    </div>
+
+    <!-- Form Card -->
+    <div class="promo-form-card">
+        <div class="promo-form-header">
+            <h3 class="promo-form-title">
+                <i class="bi bi-ticket-perforated"></i>
+                Promo Code Details
+            </h3>
+        </div>
+        <div class="promo-form-body">
+            <form asp-action="Edit" asp-route-id="@promoCodeId" method="post">
+                <div class="promo-form-row">
+                    <div class="promo-form-group">
+                        <label asp-for="Code" class="promo-form-label">Promo Code <span class="required">*</span></label>
+                        <input asp-for="Code" class="promo-form-input text-uppercase" />
+                        <span asp-validation-for="Code" class="promo-form-error"></span>
+                    </div>
+                    <div class="promo-form-group">
+                        <label asp-for="DiscountType" class="promo-form-label">Discount Type <span class="required">*</span></label>
+                        <select asp-for="DiscountType" class="promo-form-select" asp-items="Html.GetEnumSelectList<DiscountType>()"></select>
+                        <span asp-validation-for="DiscountType" class="promo-form-error"></span>
+                    </div>
+                </div>
+
+                <div class="promo-form-row">
+                    <div class="promo-form-group">
+                        <label asp-for="DiscountValue" class="promo-form-label">Discount Value <span class="required">*</span></label>
+                        <input asp-for="DiscountValue" class="promo-form-input" type="number" step="0.01" min="0" />
+                        <span asp-validation-for="DiscountValue" class="promo-form-error"></span>
+                    </div>
+                    <div class="promo-form-group">
+                        <label asp-for="MaxDiscountAmount" class="promo-form-label">Max Discount Amount (L.E)</label>
+                        <input asp-for="MaxDiscountAmount" class="promo-form-input" type="number" step="0.01" min="0" placeholder="Optional" />
+                        <span asp-validation-for="MaxDiscountAmount" class="promo-form-error"></span>
+                    </div>
+                </div>
+
+                <div class="promo-form-row">
+                    <div class="promo-form-group full-width">
+                        <label asp-for="Description" class="promo-form-label">Description</label>
+                        <textarea asp-for="Description" class="promo-form-textarea" rows="2"></textarea>
+                        <span asp-validation-for="Description" class="promo-form-error"></span>
+                    </div>
+                </div>
+
+                <div class="promo-form-row">
+                    <div class="promo-form-group">
+                        <label asp-for="ValidFrom" class="promo-form-label">Valid From <span class="required">*</span></label>
+                        <input asp-for="ValidFrom" class="promo-form-input" type="datetime-local" />
+                        <span asp-validation-for="ValidFrom" class="promo-form-error"></span>
+                    </div>
+                    <div class="promo-form-group">
+                        <label asp-for="ValidTo" class="promo-form-label">Valid To <span class="required">*</span></label>
+                        <input asp-for="ValidTo" class="promo-form-input" type="datetime-local" />
+                        <span asp-validation-for="ValidTo" class="promo-form-error"></span>
+                    </div>
+                </div>
+
+                <div class="promo-form-row">
+                    <div class="promo-form-group">
+                        <label asp-for="MinOrderAmount" class="promo-form-label">Minimum Order Amount (L.E)</label>
+                        <input asp-for="MinOrderAmount" class="promo-form-input" type="number" step="0.01" min="0" placeholder="Optional" />
+                        <span asp-validation-for="MinOrderAmount" class="promo-form-error"></span>
+                    </div>
+                    <div class="promo-form-group">
+                        <label asp-for="MaxTotalUsage" class="promo-form-label">Max Total Usage</label>
+                        <input asp-for="MaxTotalUsage" class="promo-form-input" type="number" min="1" placeholder="Unlimited" />
+                        <span asp-validation-for="MaxTotalUsage" class="promo-form-error"></span>
+                    </div>
+                </div>
+
+                <div class="promo-form-row">
+                    <div class="promo-form-group">
+                        <label asp-for="MaxUsagePerUser" class="promo-form-label">Max Usage Per User <span class="required">*</span></label>
+                        <input asp-for="MaxUsagePerUser" class="promo-form-input" type="number" min="1" max="100" />
+                        <span asp-validation-for="MaxUsagePerUser" class="promo-form-error"></span>
+                    </div>
+                </div>
+
+                <div class="promo-switch-group">
+                    <label class="promo-switch">
+                        <input asp-for="IsActive" type="checkbox" />
+                        <span class="promo-switch-slider"></span>
+                    </label>
+                    <div>
+                        <span class="promo-switch-label">Active</span>
+                        <span class="promo-switch-hint">Enable or disable this code</span>
+                    </div>
+                </div>
+
+                <div class="promo-switch-group">
+                    <label class="promo-switch">
+                        <input asp-for="IsFirstOrderOnly" type="checkbox" />
+                        <span class="promo-switch-slider"></span>
+                    </label>
+                    <div>
+                        <span class="promo-switch-label">First Order Only</span>
+                        <span class="promo-switch-hint">Only users who haven't placed any orders can use this code</span>
+                    </div>
+                </div>
+
+                <div class="promo-form-actions">
+                    <a asp-action="Index" class="promo-btn promo-btn-outline">
+                        <i class="bi bi-x-lg"></i> Cancel
+                    </a>
+                    <button type="submit" class="promo-btn promo-btn-success">
+                        <i class="bi bi-check-lg"></i> Save Changes
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,179 @@
+@model RatingResponse
+
+@{
+    ViewData["Title"] = "Rate Your Order";
+}
+
+@section Profile {
+    <link rel="stylesheet" href="~/css/orderRating.css" asp-append-version="true" />
+}
+
+<div class="rating-page">
+    <div class="rating-container">
+        <a href="@Url.Action("Orders", "OrdersHistory", new { area = "Customer" })" class="back-link">
+            <i class="bi bi-arrow-left"></i> Back to Orders
+        </a>
+
+        <div class="rating-card">
+            <!-- Header -->
+            <div class="rating-header">
+                <div class="rating-icon-wrapper">
+                    <i class="bi bi-star"></i>
+                </div>
+                <h1 class="rating-title">How was your order?</h1>
+                <p class="rating-subtitle">Select all that apply to your experience</p>
+            </div>
+
+            <!-- Restaurant Info -->
+            <div class="restaurant-info">
+                @if (!string.IsNullOrEmpty(Model.RestaurantImage))
+                {
+                    <img src="~/images/@Model.RestaurantImage" alt="@Model.RestaurantName" class="restaurant-image" />
+                }
+                else
+                {
+                    <div class="restaurant-image-placeholder">
+                        <i class="bi bi-shop"></i>
+                    </div>
+                }
+                <div class="restaurant-details">
+                    <h3>@Model.RestaurantName</h3>
+                    <p><i class="bi bi-calendar3"></i> @Model.OrderDate.ToString("MMM dd, yyyy 'at' hh:mm tt")</p>
+                    <p><i class="bi bi-receipt"></i> Total: @Model.TotalPrice.ToString("N2") L.E</p>
+                </div>
+            </div>
+
+            <!-- Rating Form -->
+            <form asp-action="SubmitRating" asp-controller="Rating" asp-area="Customer" method="post" id="ratingForm">
+                <input type="hidden" name="OrderId" value="@Model.OrderId" />
+                
+                <div class="rating-tags-section">
+                    <h4 class="section-label"><i class="bi bi-tags"></i> What did you like?</h4>
+                    <div class="rating-tags-grid">
+                        <label class="rating-tag">
+                            <input type="checkbox" name="GoodFood" value="true" />
+                            <div class="tag-card">
+                                <div class="tag-icon">
+                                    <i class="bi bi-emoji-smile"></i>
+                                </div>
+                                <span class="tag-label">Good Food</span>
+                                <div class="tag-check">
+                                    <i class="bi bi-check-lg"></i>
+                                </div>
+                            </div>
+                        </label>
+
+                        <label class="rating-tag">
+                            <input type="checkbox" name="FastDelivery" value="true" />
+                            <div class="tag-card">
+                                <div class="tag-icon">
+                                    <i class="bi bi-lightning"></i>
+                                </div>
+                                <span class="tag-label">Fast Delivery</span>
+                                <div class="tag-check">
+                                    <i class="bi bi-check-lg"></i>
+                                </div>
+                            </div>
+                        </label>
+
+                        <label class="rating-tag">
+                            <input type="checkbox" name="GreatPacking" value="true" />
+                            <div class="tag-card">
+                                <div class="tag-icon">
+                                    <i class="bi bi-box-seam"></i>
+                                </div>
+                                <span class="tag-label">Great Packing</span>
+                                <div class="tag-check">
+                                    <i class="bi bi-check-lg"></i>
+                                </div>
+                            </div>
+                        </label>
+
+                        <label class="rating-tag">
+                            <input type="checkbox" name="FreshFood" value="true" />
+                            <div class="tag-card">
+                                <div class="tag-icon">
+                                    <i class="bi bi-flower1"></i>
+                                </div>
+                                <span class="tag-label">Fresh Food</span>
+                                <div class="tag-check">
+                                    <i class="bi bi-check-lg"></i>
+                                </div>
+                            </div>
+                        </label>
+
+                        <label class="rating-tag">
+                            <input type="checkbox" name="GoodPortionSize" value="true" />
+                            <div class="tag-card">
+                                <div class="tag-icon">
+                                    <i class="bi bi-arrows-fullscreen"></i>
+                                </div>
+                                <span class="tag-label">Good Portion</span>
+                                <div class="tag-check">
+                                    <i class="bi bi-check-lg"></i>
+                                </div>
+                            </div>
+                        </label>
+
+                        <label class="rating-tag">
+                            <input type="checkbox" name="FriendlyDelivery" value="true" />
+                            <div class="tag-card">
+                                <div class="tag-icon">
+                                    <i class="bi bi-person-heart"></i>
+                                </div>
+                                <span class="tag-label">Friendly Delivery</span>
+                                <div class="tag-check">
+                                    <i class="bi bi-check-lg"></i>
+                                </div>
+                            </div>
+                        </label>
+
+                        <label class="rating-tag">
+                            <input type="checkbox" name="WorthThePrice" value="true" />
+                            <div class="tag-card">
+                                <div class="tag-icon">
+                                    <i class="bi bi-cash-coin"></i>
+                                </div>
+                                <span class="tag-label">Worth The Price</span>
+                                <div class="tag-check">
+                                    <i class="bi bi-check-lg"></i>
+                                </div>
+                            </div>
+                        </label>
+                    </div>
+                    <div class="tag-validation-message" id="tagValidation" style="display: none;">
+                        <i class="bi bi-exclamation-circle"></i>
+                        <span>Please select at least one tag</span>
+                    </div>
+                </div>
+
+                <div class="comment-section">
+                    <h4 class="section-label"><i class="bi bi-chat-left-text"></i> Additional Comments (Optional)</h4>
+                    <div class="comment-wrapper">
+                        <textarea name="Comment" 
+                                  id="commentBox" 
+                                  placeholder="Share more details about your experience..." 
+                                  maxlength="500"
+                                  rows="4"></textarea>
+                        <div class="char-counter">
+                            <span id="charCount">0</span>/500
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <a href="@Url.Action("Orders", "OrdersHistory", new { area = "Customer" })" class="btn-secondary">
+                        <i class="bi bi-x-lg"></i> Skip
+                    </a>
+                    <button type="submit" class="btn-primary" id="submitBtn">
+                        <i class="bi bi-send"></i> Submit Rating
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/orderRating.js" asp-append-version="true"></script>
+}

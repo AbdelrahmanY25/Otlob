@@ -1,0 +1,859 @@
+@model RestaurantFullDetailsResponse
+
+@{
+    ViewData["Title"] = "Restaurant Details";
+    var restaurant = Model.Restaurant;
+}
+
+<link rel="stylesheet" href="~/css/restaurantDetailsPage.css" asp-append-version="true" />
+
+<div class="rd-page">
+    <div class="rd-container">
+        <!-- Header -->
+        <div class="rd-header">
+            <div class="rd-header-top">
+                <a class="rd-back-btn"
+                   asp-action="@(restaurant.AcctiveStatus == AcctiveStatus.UnAccepted || restaurant.AcctiveStatus == AcctiveStatus.Pending ? "UnAcceptedRestaurants" : "ActiveResturatns")"
+                   asp-controller="Restaurants">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to List
+                </a>
+                <div class="rd-badges">
+                    <span class="rd-badge status-@restaurant.AcctiveStatus.ToString().ToLower()">
+                        <i class="fas fa-circle"></i>
+                        @restaurant.AcctiveStatus
+                    </span>
+                    <span class="rd-badge status-@restaurant.ProgressStatus.ToString().ToLower()">
+                        <i class="fas fa-tasks"></i>
+                        @restaurant.ProgressStatus
+                    </span>
+                </div>
+            </div>
+
+            <div class="rd-profile">
+                <img class="rd-avatar"
+                     alt="@restaurant.Name Logo"
+                     src="/images/@(restaurant.Image ?? "Default.jpg")"
+                     onerror="this.src='/images/Default.jpg'" />
+                <div class="rd-profile-info">
+                    <h1 class="rd-name">@restaurant.Name</h1>
+                    <div class="rd-meta">
+                        <span class="rd-meta-item">
+                            <i class="fas fa-envelope"></i>
+                            @restaurant.Email
+                        </span>
+                        <span class="rd-meta-item">
+                            <i class="fas fa-phone"></i>
+                            @restaurant.Phone
+                        </span>
+                        <span class="rd-meta-item">
+                            <i class="fas fa-building"></i>
+                            @restaurant.BusinessType
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Stats -->
+        <div class="rd-stats">
+            <div class="rd-stat-card">
+                <div class="rd-stat-icon delivery">
+                    <i class="fas fa-dollar-sign"></i>
+                </div>
+                <div class="rd-stat-value">@restaurant.DeliveryFee.ToString("N2")</div>
+                <div class="rd-stat-label">Delivery Fee</div>
+            </div>
+            <div class="rd-stat-card">
+                <div class="rd-stat-icon time">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div class="rd-stat-value">@restaurant.DeliveryDuration min</div>
+                <div class="rd-stat-label">Delivery Time</div>
+            </div>
+            @if (restaurant.AcctiveStatus != AcctiveStatus.UnAccepted && restaurant.AcctiveStatus != AcctiveStatus.Rejected)
+            {
+                <a asp-area="SuperAdmin" asp-controller="Branches" asp-action="Branches" asp-route-id="@restaurant.Key" class="rd-stat-card clickable">
+                    <div class="rd-stat-icon branches">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <div class="rd-stat-value">@restaurant.NumberOfBranches</div>
+                    <div class="rd-stat-label">Branches</div>
+                </a>
+            }
+            <div class="rd-stat-card">
+                <div class="rd-stat-icon hours">
+                    <i class="fas fa-store"></i>
+                </div>
+                <div class="rd-stat-value">@restaurant.OpeningTime.ToString("hh:mm tt")</div>
+                <div class="rd-stat-label">Opens At</div>
+            </div>
+        </div>
+
+        <!-- Dashboard Links (Only for Active Restaurants) -->
+        @if (restaurant.AcctiveStatus == AcctiveStatus.Acctive || restaurant.AcctiveStatus == AcctiveStatus.Warning)
+        {
+            <div class="rd-dashboard-links">
+                <a asp-controller="RestaurantsAnalytics" asp-action="GeneralAnalytics" asp-route-restaurantKey="@Model.Restaurant.Key" class="rd-dashboard-link">
+                    <div class="icon analytics">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <div class="text">
+                        <div class="title">General Analytics</div>
+                        <div class="subtitle">View overall performance metrics</div>
+                    </div>
+                    <i class="fas fa-chevron-right arrow"></i>
+                </a>
+                <a asp-controller="RestaurantsAnalytics" asp-action="Main" asp-route-restaurantKey="@Model.Restaurant.Key" class="rd-dashboard-link">
+                    <div class="icon dashboard">
+                        <i class="fas fa-tachometer-alt"></i>
+                    </div>
+                    <div class="text">
+                        <div class="title">Main Dashboard</div>
+                        <div class="subtitle">View real-time restaurant stats</div>
+                    </div>
+                    <i class="fas fa-chevron-right arrow"></i>
+                </a>
+            </div>
+        }
+
+        <!-- Main Content -->
+        <div class="rd-content">
+            <!-- Left Column - Information -->
+            <div class="rd-main-column">
+                <!-- Restaurant Information -->
+                <div class="rd-card">
+                    <div class="rd-card-header">
+                        <h2 class="rd-card-title">
+                            <i class="fas fa-info-circle"></i>
+                            Restaurant Information
+                        </h2>
+                    </div>
+                    <div class="rd-card-body">
+                        <div class="rd-info-grid">
+                            <div class="rd-info-item">
+                                <div class="rd-info-icon">
+                                    <i class="fas fa-phone"></i>
+                                </div>
+                                <div class="rd-info-content">
+                                    <div class="rd-info-label">Phone Number</div>
+                                    <div class="rd-info-value">@restaurant.Phone</div>
+                                </div>
+                            </div>
+                            <div class="rd-info-item">
+                                <div class="rd-info-icon">
+                                    <i class="fas fa-envelope"></i>
+                                </div>
+                                <div class="rd-info-content">
+                                    <div class="rd-info-label">Email Address</div>
+                                    <div class="rd-info-value">@restaurant.Email</div>
+                                </div>
+                            </div>
+                            <div class="rd-info-item full-width">
+                                <div class="rd-info-icon">
+                                    <i class="fas fa-align-left"></i>
+                                </div>
+                                <div class="rd-info-content">
+                                    <div class="rd-info-label">Description</div>
+                                    <div class="rd-info-value description">@(string.IsNullOrEmpty(restaurant.Description) ? "No description provided" : restaurant.Description)</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Business Details -->
+                <div class="rd-card">
+                    <div class="rd-card-header">
+                        <h2 class="rd-card-title">
+                            <i class="fas fa-briefcase"></i>
+                            Business Details
+                        </h2>
+                    </div>
+                    <div class="rd-card-body">
+                        <div class="rd-info-grid">
+                            <div class="rd-info-item">
+                                <div class="rd-info-icon">
+                                    <i class="fas fa-building"></i>
+                                </div>
+                                <div class="rd-info-content">
+                                    <div class="rd-info-label">Business Type</div>
+                                    <div class="rd-info-value">@restaurant.BusinessType</div>
+                                </div>
+                            </div>
+                            <div class="rd-info-item">
+                                <div class="rd-info-icon">
+                                    <i class="fas fa-user-tie"></i>
+                                </div>
+                                <div class="rd-info-content">
+                                    <div class="rd-info-label">Administrator Role</div>
+                                    <div class="rd-info-value">@restaurant.AdministratorRole</div>
+                                </div>
+                            </div>
+                            <div class="rd-info-item">
+                                <div class="rd-info-icon">
+                                    <i class="fas fa-door-open"></i>
+                                </div>
+                                <div class="rd-info-content">
+                                    <div class="rd-info-label">Opening Time</div>
+                                    <div class="rd-info-value">@restaurant.OpeningTime.ToString("hh:mm tt")</div>
+                                </div>
+                            </div>
+                            <div class="rd-info-item">
+                                <div class="rd-info-icon">
+                                    <i class="fas fa-door-closed"></i>
+                                </div>
+                                <div class="rd-info-content">
+                                    <div class="rd-info-label">Closing Time</div>
+                                    <div class="rd-info-value">@restaurant.ClosingTime.ToString("hh:mm tt")</div>
+                                </div>
+                            </div>
+                            <div class="rd-info-item full-width">
+                                <div class="rd-info-icon">
+                                    <i class="fas fa-tags"></i>
+                                </div>
+                                <div class="rd-info-content">
+                                    <div class="rd-info-label">Categories</div>
+                                    <div class="rd-categories">
+                                        @if (restaurant.Categories != null && restaurant.Categories.Any())
+                                        {
+                                            @foreach (var category in restaurant.Categories)
+                                            {
+                                                <span class="rd-category-tag">
+                                                    <i class="fas fa-utensils"></i>
+                                                    @category.Name
+                                                </span>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <span class="rd-no-data">No categories assigned</span>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column - Actions Sidebar -->
+            <div class="rd-sidebar">
+                <!-- Status Management -->
+                <div class="rd-action-group">
+                    <div class="rd-action-title">
+                        <i class="fas fa-sliders-h"></i>
+                        Status
+                    </div>
+                    <div class="rd-action-buttons">
+                        @if (restaurant.AcctiveStatus == AcctiveStatus.UnAccepted)
+                        {
+                            <a class="rd-btn rd-btn-warning" asp-controller="RestaurantStatus" asp-action="ChangeRestaurantStatus" asp-route-id="@restaurant.Key" asp-route-status="@AcctiveStatus.Pending">
+                                <i class="fas fa-clock"></i> Pending
+                            </a>
+                            <a class="rd-btn rd-btn-danger" asp-controller="RestaurantStatus" asp-action="ChangeRestaurantStatus" asp-route-id="@restaurant.Key" asp-route-status="@AcctiveStatus.Rejected">
+                                <i class="fas fa-times"></i> Reject
+                            </a>
+                        }
+                        @if (restaurant.AcctiveStatus == AcctiveStatus.Pending)
+                        {
+                            <a class="rd-btn rd-btn-success" asp-controller="RestaurantStatus" asp-action="ChangeRestaurantStatus" asp-route-id="@restaurant.Key" asp-route-status="@AcctiveStatus.Acctive">
+                                <i class="fas fa-check"></i> Activate
+                            </a>
+                            <a class="rd-btn rd-btn-secondary" asp-controller="RestaurantStatus" asp-action="ChangeRestaurantStatus" asp-route-id="@restaurant.Key" asp-route-status="@AcctiveStatus.UnAccepted">
+                                <i class="fas fa-undo"></i> UnAccepted
+                            </a>
+                            <a class="rd-btn rd-btn-danger" asp-controller="RestaurantStatus" asp-action="ChangeRestaurantStatus" asp-route-id="@restaurant.Key" asp-route-status="@AcctiveStatus.Rejected">
+                                <i class="fas fa-times"></i> Reject
+                            </a>
+                        }
+                        @if (restaurant.AcctiveStatus == AcctiveStatus.Acctive)
+                        {
+                            <a class="rd-btn rd-btn-warning" asp-controller="RestaurantStatus" asp-action="ChangeRestaurantStatus" asp-route-id="@restaurant.Key" asp-route-status="@AcctiveStatus.Pending">
+                                <i class="fas fa-clock"></i> Pending
+                            </a>
+                            <a class="rd-btn rd-btn-orange" asp-controller="RestaurantStatus" asp-action="ChangeRestaurantStatus" asp-route-id="@restaurant.Key" asp-route-status="@AcctiveStatus.Warning">
+                                <i class="fas fa-exclamation-triangle"></i> Warning
+                            </a>
+                            <a class="rd-btn rd-btn-danger" asp-controller="RestaurantStatus" asp-action="ChangeRestaurantStatus" asp-route-id="@restaurant.Key" asp-route-status="@AcctiveStatus.Block">
+                                <i class="fas fa-ban"></i> Block
+                            </a>
+                        }
+                        @if (restaurant.AcctiveStatus == AcctiveStatus.Warning)
+                        {
+                            <a class="rd-btn rd-btn-success" asp-controller="RestaurantStatus" asp-action="ChangeRestaurantStatus" asp-route-id="@restaurant.Key" asp-route-status="@AcctiveStatus.Acctive">
+                                <i class="fas fa-check"></i> Restore
+                            </a>
+                            <a class="rd-btn rd-btn-danger" asp-controller="RestaurantStatus" asp-action="ChangeRestaurantStatus" asp-route-id="@restaurant.Key" asp-route-status="@AcctiveStatus.Block">
+                                <i class="fas fa-ban"></i> Block
+                            </a>
+                        }
+                        @if (restaurant.AcctiveStatus == AcctiveStatus.Block)
+                        {
+                            <a class="rd-btn rd-btn-orange" asp-controller="RestaurantStatus" asp-action="ChangeRestaurantStatus" asp-route-id="@restaurant.Key" asp-route-status="@AcctiveStatus.Warning">
+                                <i class="fas fa-exclamation-triangle"></i> Warning
+                            </a>
+                            <a class="rd-btn rd-btn-success" asp-controller="RestaurantStatus" asp-action="ChangeRestaurantStatus" asp-route-id="@restaurant.Key" asp-route-status="@AcctiveStatus.Acctive">
+                                <i class="fas fa-check"></i> Restore
+                            </a>
+                        }
+                    </div>
+                </div>
+
+                <!-- Profile Management -->
+                <div class="rd-action-group">
+                    <div class="rd-action-title">
+                        <i class="fas fa-user-edit"></i>
+                        Profile
+                    </div>
+                    <div class="rd-action-buttons">
+                        <a class="rd-btn rd-btn-secondary" asp-controller="RestaurantProfile" asp-action="EditRestaurantProfile" asp-route-id="@restaurant.Key">
+                            <i class="fas fa-store"></i> Edit Restaurant
+                        </a>
+                        <a class="rd-btn rd-btn-secondary" asp-controller="RestaurantBusinessDetails" asp-action="BusinessDetails" asp-route-key="@restaurant.Key">
+                            <i class="fas fa-briefcase"></i> Business Details
+                        </a>
+                        <a class="rd-btn rd-btn-secondary" asp-controller="UserProfile" asp-action="UserProfile" asp-route-id="@restaurant.OwnerId">
+                            <i class="fas fa-user"></i> Admin Profile
+                        </a>
+                    </div>
+                </div>
+
+                @if (restaurant.AcctiveStatus != AcctiveStatus.UnAccepted && restaurant.AcctiveStatus != AcctiveStatus.Rejected)
+                {
+                    <!-- Menu & Meals -->
+                    <div class="rd-action-group">
+                        <div class="rd-action-title">
+                            <i class="fas fa-utensils"></i>
+                            Menu
+                        </div>
+                        <div class="rd-action-buttons">
+                            <a class="rd-btn rd-btn-secondary" asp-controller="Menu" asp-action="Menu" asp-route-restaurantKey="@restaurant.Key">
+                                <i class="fas fa-list-alt"></i> View Menu
+                            </a>
+                            <a class="rd-btn rd-btn-secondary" asp-controller="Meals" asp-action="Deleted" asp-route-id="@restaurant.Key">
+                                <i class="fas fa-trash-restore"></i> Deleted Meals
+                            </a>
+                        </div>
+                    </div>
+
+                    @if (restaurant.AcctiveStatus != AcctiveStatus.Pending)
+                    {
+                        <!-- Orders -->
+                        <div class="rd-action-group">
+                            <div class="rd-action-title">
+                                <i class="fas fa-shopping-bag"></i>
+                                Orders
+                            </div>
+                            <div class="rd-action-buttons">
+                                <a class="rd-btn rd-btn-secondary" asp-controller="RestaurantOrders" asp-action="InProgress" asp-route-restaurantKey="@restaurant.Key">
+                                    <i class="fas fa-clock"></i> Current
+                                </a>
+                                <a class="rd-btn rd-btn-secondary" asp-controller="RestaurantOrders" asp-action="Delivered" asp-route-restaurantKey="@restaurant.Key">
+                                    <i class="fas fa-check-double"></i> Completed
+                                </a>
+                                <a class="rd-btn rd-btn-secondary" asp-controller="RestaurantOrders" asp-action="Cancelled" asp-route-restaurantKey="@restaurant.Key">
+                                    <i class="fas fa-check-double"></i> Cancelled
+                                </a>
+                            </div>
+                        </div>
+                    }
+                }
+
+                <!-- Danger Zone -->
+                @if (restaurant.IsAvailable)
+                {
+                    <div class="rd-action-group danger">
+                        <div class="rd-action-title">
+                            <i class="fas fa-skull-crossbones"></i>
+                            Danger Zone
+                        </div>
+                        <div class="rd-action-buttons">
+                            <button type="button" class="rd-btn rd-btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                                <i class="fas fa-trash-alt"></i> Delete Restaurant
+                            </button>
+                        </div>
+                    </div>
+                }
+                else 
+                {
+                    <div class="rd-action-group danger">
+                        <div class="rd-action-title">
+                            <i class="fas fa-skull-crossbones"></i>
+                            Danger Zone
+                        </div>
+                        <div class="rd-action-buttons">
+                            <button type="button" class="rd-btn rd-btn-danger" data-bs-toggle="modal" data-bs-target="#restoreModal">
+                                <i class="fas fa-undo"></i> Restore Restaurant
+                            </button>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <!-- Documents Section -->
+        <div class="rd-documents-section">
+            <h2 class="rd-section-title">
+                <i class="fas fa-folder-open"></i>
+                Documents & Certificates
+            </h2>
+            
+            <div class="rd-documents-grid">
+                <!-- Commercial Registration -->
+                <div class="rd-doc-card">
+                    <div class="rd-doc-header">
+                        <span class="rd-doc-title">
+                            <i class="fas fa-file-contract"></i>
+                            Commercial Registration
+                        </span>
+                        @if (Model.CommercialRegistration is not null)
+                        {
+                            <span class="rd-doc-status @Model.CommercialRegistration.DocumentStatus.ToString().ToLower()">
+                                @Model.CommercialRegistration.DocumentStatus
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="rd-doc-status notsubmitted">Not Submitted</span>
+                        }
+                    </div>
+                    <div class="rd-doc-body">
+                        @if (Model.CommercialRegistration is not null)
+                        {
+                            <div class="rd-doc-info">
+                                <div class="rd-doc-info-item">
+                                    <span class="rd-doc-info-label">Registration No.</span>
+                                    <span class="rd-doc-info-value">@Model.CommercialRegistration.RegistrationNumber</span>
+                                </div>
+                                <div class="rd-doc-info-item">
+                                    <span class="rd-doc-info-label">Issue Date</span>
+                                    <span class="rd-doc-info-value">@Model.CommercialRegistration.DateOfIssuance.ToString("dd MMM yyyy")</span>
+                                </div>
+                                <div class="rd-doc-info-item">
+                                    <span class="rd-doc-info-label">Expiry Date</span>
+                                    <span class="rd-doc-info-value">@Model.CommercialRegistration.ExpiryDate.ToString("dd MMM yyyy")</span>
+                                </div>
+                            </div>
+                            <div class="rd-doc-actions">
+                                <a asp-area="SuperAdmin" asp-controller="Documents" asp-action="Download" asp-route-id="@Model.CommercialRegistration.CertificateRegistration.Id" class="rd-doc-btn rd-doc-btn-download">
+                                    <i class="fas fa-download"></i> Download
+                                </a>
+                                @if (Model.CommercialRegistration.DocumentStatus == DocumentStatus.Pending)
+                                {
+                                    <a asp-area="SuperAdmin" asp-controller="CommercialRegistrations" asp-action="ChangeCommercialRegistrationDocumentStatus" asp-route-id="@Model.CommercialRegistration.Id" asp-route-status="@DocumentStatus.Accepted" asp-route-restaurantId="@restaurant.Key" class="rd-doc-btn rd-doc-btn-accept">
+                                        <i class="fas fa-check"></i>
+                                    </a>
+                                    <a asp-area="SuperAdmin" asp-controller="CommercialRegistrations" asp-action="ChangeCommercialRegistrationDocumentStatus" asp-route-id="@Model.CommercialRegistration.Id" asp-route-status="@DocumentStatus.Rejected" asp-route-restaurantId="@restaurant.Key" class="rd-doc-btn rd-doc-btn-reject">
+                                        <i class="fas fa-times"></i>
+                                    </a>
+                                }
+                                @if (Model.CommercialRegistration.DocumentStatus == DocumentStatus.Accepted)
+                                {
+                                    <a asp-area="SuperAdmin" asp-controller="CommercialRegistrations" asp-action="ChangeCommercialRegistrationDocumentStatus" asp-route-id="@Model.CommercialRegistration.Id" asp-route-status="@DocumentStatus.Pending" asp-route-restaurantId="@restaurant.Key" class="rd-doc-btn rd-doc-btn-pending">
+                                        <i class="fas fa-clock"></i>
+                                    </a>
+                                    <a asp-area="SuperAdmin" asp-controller="CommercialRegistrations" asp-action="ChangeCommercialRegistrationDocumentStatus" asp-route-id="@Model.CommercialRegistration.Id" asp-route-status="@DocumentStatus.Rejected" asp-route-restaurantId="@restaurant.Key" class="rd-doc-btn rd-doc-btn-reject">
+                                        <i class="fas fa-times"></i>
+                                    </a>
+                                }
+                                @if (Model.CommercialRegistration.DocumentStatus == DocumentStatus.Rejected)
+                                {
+                                    <a asp-area="SuperAdmin" asp-controller="CommercialRegistrations" asp-action="ChangeCommercialRegistrationDocumentStatus" asp-route-id="@Model.CommercialRegistration.Id" asp-route-status="@DocumentStatus.Pending" asp-route-restaurantId="@restaurant.Key" class="rd-doc-btn rd-doc-btn-pending">
+                                        <i class="fas fa-clock"></i>
+                                    </a>
+                                    <a asp-area="SuperAdmin" asp-controller="CommercialRegistrations" asp-action="ChangeCommercialRegistrationDocumentStatus" asp-route-id="@Model.CommercialRegistration.Id" asp-route-status="@DocumentStatus.Accepted" asp-route-restaurantId="@restaurant.Key" class="rd-doc-btn rd-doc-btn-accept">
+                                        <i class="fas fa-check"></i>
+                                    </a>
+                                }
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="rd-doc-not-submitted">
+                                <i class="fas fa-file-upload"></i>
+                                <p>Document not submitted yet</p>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                <!-- TradeMark -->
+                <div class="rd-doc-card">
+                    <div class="rd-doc-header">
+                        <span class="rd-doc-title">
+                            <i class="fas fa-trademark"></i>
+                            Trade Mark
+                        </span>
+                        @if (Model.TradeMark is not null)
+                        {
+                            <span class="rd-doc-status @Model.TradeMark.DocumentStatus.ToString().ToLower()">
+                                @Model.TradeMark.DocumentStatus
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="rd-doc-status notsubmitted">Not Submitted</span>
+                        }
+                    </div>
+                    <div class="rd-doc-body">
+                        @if (Model.TradeMark is not null)
+                        {
+                            <div class="rd-doc-info">
+                                <div class="rd-doc-info-item">
+                                    <span class="rd-doc-info-label">Trademark Name</span>
+                                    <span class="rd-doc-info-value">@Model.TradeMark.TrademarkName</span>
+                                </div>
+                                <div class="rd-doc-info-item">
+                                    <span class="rd-doc-info-label">Trademark No.</span>
+                                    <span class="rd-doc-info-value">@Model.TradeMark.TrademarkNumber</span>
+                                </div>
+                                <div class="rd-doc-info-item">
+                                    <span class="rd-doc-info-label">Expiry Date</span>
+                                    <span class="rd-doc-info-value">@Model.TradeMark.ExpiryDate.ToString("dd MMM yyyy")</span>
+                                </div>
+                            </div>
+                            <div class="rd-doc-actions">
+                                <a asp-area="SuperAdmin" asp-controller="Documents" asp-action="Download" asp-route-id="@Model.TradeMark.TradeMarkCertificate.Id" class="rd-doc-btn rd-doc-btn-download">
+                                    <i class="fas fa-download"></i> Download
+                                </a>
+                                @if (Model.TradeMark.DocumentStatus == DocumentStatus.Pending)
+                                {
+                                    <a asp-area="SuperAdmin" asp-controller="TradeMarks" asp-action="ChangeTradeMarkDocumentStatus" asp-route-id="@Model.TradeMark.Id" asp-route-status="@DocumentStatus.Accepted" asp-route-restaurantId="@restaurant.Key" class="rd-doc-btn rd-doc-btn-accept">
+                                        <i class="fas fa-check"></i>
+                                    </a>
+                                    <a asp-area="SuperAdmin" asp-controller="TradeMarks" asp-action="ChangeTradeMarkDocumentStatus" asp-route-id="@Model.TradeMark.Id" asp-route-status="@DocumentStatus.Rejected" asp-route-restaurantId="@restaurant.Key" class="rd-doc-btn rd-doc-btn-reject">
+                                        <i class="fas fa-times"></i>
+                                    </a>
+                                }
+                                @if (Model.TradeMark.DocumentStatus == DocumentStatus.Accepted)
+                                {
+                                    <a asp-area="SuperAdmin" asp-controller="TradeMarks" asp-action="ChangeTradeMarkDocumentStatus" asp-route-id="@Model.TradeMark.Id" asp-route-status="@DocumentStatus.Pending" asp-route-restaurantId="@restaurant.Key" class="rd-doc-btn rd-doc-btn-pending">
+                                        <i class="fas fa-clock"></i>
+                                    </a>
+                                    <a asp-area="SuperAdmin" asp-controller="TradeMarks" asp-action="ChangeTradeMarkDocumentStatus" asp-route-id="@Model.TradeMark.Id" asp-route-status="@DocumentStatus.Rejected" asp-route-restaurantId="@restaurant.Key" class="rd-doc-btn rd-doc-btn-reject">
+                                        <i class="fas fa-times"></i>
+                                    </a>
+                                }
+                                @if (Model.TradeMark.DocumentStatus == DocumentStatus.Rejected)
+                                {
+                                    <a asp-area="SuperAdmin" asp-controller="TradeMarks" asp-action="ChangeTradeMarkDocumentStatus" asp-route-id="@Model.TradeMark.Id" asp-route-status="@DocumentStatus.Pending" asp-route-restaurantId="@restaurant.Key" class="rd-doc-btn rd-doc-btn-pending">
+                                        <i class="fas fa-clock"></i>
+                                    </a>
+                                    <a asp-area="SuperAdmin" asp-controller="TradeMarks" asp-action="ChangeTradeMarkDocumentStatus" asp-route-id="@Model.TradeMark.Id" asp-route-status="@DocumentStatus.Accepted" asp-route-restaurantId="@restaurant.Key" class="rd-doc-btn rd-doc-btn-accept">
+                                        <i class="fas fa-check"></i>
+                                    </a>
+                                }
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="rd-doc-not-submitted">
+                                <i class="fas fa-file-upload"></i>
+                                <p>Document not submitted yet</p>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                <!-- VAT Certificate -->
+                <div class="rd-doc-card">
+                    <div class="rd-doc-header">
+                        <span class="rd-doc-title">
+                            <i class="fas fa-receipt"></i>
+                            VAT Certificate
+                        </span>
+                        @if (Model.Vat is not null)
+                        {
+                            <span class="rd-doc-status @Model.Vat.DocumentStatus.ToString().ToLower()">
+                                @Model.Vat.DocumentStatus
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="rd-doc-status notsubmitted">Not Submitted</span>
+                        }
+                    </div>
+                    <div class="rd-doc-body">
+                        @if (Model.Vat is not null)
+                        {
+                            <div class="rd-doc-info">
+                                <div class="rd-doc-info-item">
+                                    <span class="rd-doc-info-label">VAT Number</span>
+                                    <span class="rd-doc-info-value">@Model.Vat.VatNumber</span>
+                                </div>
+                            </div>
+                            <div class="rd-doc-actions">
+                                <a asp-area="SuperAdmin" asp-controller="Documents" asp-action="Download" asp-route-id="@Model.Vat.VatCertificate.Id" class="rd-doc-btn rd-doc-btn-download">
+                                    <i class="fas fa-download"></i> Download
+                                </a>
+                                @if (Model.Vat.DocumentStatus == DocumentStatus.Pending)
+                                {
+                                    <a asp-area="SuperAdmin" asp-controller="Vats" asp-action="ChangeVatDocumentStatus" asp-route-id="@Model.Vat.Id" asp-route-status="@DocumentStatus.Accepted" asp-route-restaurantId="@restaurant.Key" class="rd-doc-btn rd-doc-btn-accept">
+                                        <i class="fas fa-check"></i>
+                                    </a>
+                                    <a asp-area="SuperAdmin" asp-controller="Vats" asp-action="ChangeVatDocumentStatus" asp-route-id="@Model.Vat.Id" asp-route-status="@DocumentStatus.Rejected" asp-route-restaurantId="@restaurant.Key" class="rd-doc-btn rd-doc-btn-reject">
+                                        <i class="fas fa-times"></i>
+                                    </a>
+                                }
+                                @if (Model.Vat.DocumentStatus == DocumentStatus.Accepted)
+                                {
+                                    <a asp-area="SuperAdmin" asp-controller="Vats" asp-action="ChangeVatDocumentStatus" asp-route-id="@Model.Vat.Id" asp-route-status="@DocumentStatus.Pending" asp-route-restaurantId="@restaurant.Key" class="rd-doc-btn rd-doc-btn-pending">
+                                        <i class="fas fa-clock"></i>
+                                    </a>
+                                    <a asp-area="SuperAdmin" asp-controller="Vats" asp-action="ChangeVatDocumentStatus" asp-route-id="@Model.Vat.Id" asp-route-status="@DocumentStatus.Rejected" asp-route-restaurantId="@restaurant.Key" class="rd-doc-btn rd-doc-btn-reject">
+                                        <i class="fas fa-times"></i>
+                                    </a>
+                                }
+                                @if (Model.Vat.DocumentStatus == DocumentStatus.Rejected)
+                                {
+                                    <a asp-area="SuperAdmin" asp-controller="Vats" asp-action="ChangeVatDocumentStatus" asp-route-id="@Model.Vat.Id" asp-route-status="@DocumentStatus.Pending" asp-route-restaurantId="@restaurant.Key" class="rd-doc-btn rd-doc-btn-pending">
+                                        <i class="fas fa-clock"></i>
+                                    </a>
+                                    <a asp-area="SuperAdmin" asp-controller="Vats" asp-action="ChangeVatDocumentStatus" asp-route-id="@Model.Vat.Id" asp-route-status="@DocumentStatus.Accepted" asp-route-restaurantId="@restaurant.Key" class="rd-doc-btn rd-doc-btn-accept">
+                                        <i class="fas fa-check"></i>
+                                    </a>
+                                }
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="rd-doc-not-submitted">
+                                <i class="fas fa-file-upload"></i>
+                                <p>Document not submitted yet</p>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                <!-- Bank Account -->
+                <div class="rd-doc-card">
+                    <div class="rd-doc-header">
+                        <span class="rd-doc-title">
+                            <i class="fas fa-university"></i>
+                            Bank Account
+                        </span>
+                        @if (Model.BankAccount is not null)
+                        {
+                            <span class="rd-doc-status @Model.BankAccount.Status.ToString().ToLower()">
+                                @Model.BankAccount.Status
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="rd-doc-status notsubmitted">Not Submitted</span>
+                        }
+                    </div>
+                    <div class="rd-doc-body">
+                        @if (Model.BankAccount is not null)
+                        {
+                            <div class="rd-doc-info">
+                                <div class="rd-doc-info-item">
+                                    <span class="rd-doc-info-label">Holder Name</span>
+                                    <span class="rd-doc-info-value">@Model.BankAccount.AccountHolderName</span>
+                                </div>
+                                <div class="rd-doc-info-item">
+                                    <span class="rd-doc-info-label">Bank</span>
+                                    <span class="rd-doc-info-value">@Model.BankAccount.BankName</span>
+                                </div>
+                                <div class="rd-doc-info-item">
+                                    <span class="rd-doc-info-label">Account No.</span>
+                                    <span class="rd-doc-info-value">@Model.BankAccount.AccountNumber</span>
+                                </div>
+                                <div class="rd-doc-info-item">
+                                    <span class="rd-doc-info-label">IBAN</span>
+                                    <span class="rd-doc-info-value">@Model.BankAccount.Iban</span>
+                                </div>
+                            </div>
+                            <div class="rd-doc-actions">
+                                <a asp-area="SuperAdmin" asp-controller="Documents" asp-action="Download" asp-route-id="@Model.BankAccount.BankAccountCertificate.Id" class="rd-doc-btn rd-doc-btn-download">
+                                    <i class="fas fa-download"></i> Download
+                                </a>
+                                @if (Model.BankAccount.Status == DocumentStatus.Pending)
+                                {
+                                    <a asp-area="SuperAdmin" asp-controller="BankAccounts" asp-action="ChangeBankAccountDocumentStatus" asp-route-id="@Model.BankAccount.Id" asp-route-status="@DocumentStatus.Accepted" asp-route-restaurantId="@restaurant.Key" class="rd-doc-btn rd-doc-btn-accept">
+                                        <i class="fas fa-check"></i>
+                                    </a>
+                                    <a asp-area="SuperAdmin" asp-controller="BankAccounts" asp-action="ChangeBankAccountDocumentStatus" asp-route-id="@Model.BankAccount.Id" asp-route-status="@DocumentStatus.Rejected" asp-route-restaurantId="@restaurant.Key" class="rd-doc-btn rd-doc-btn-reject">
+                                        <i class="fas fa-times"></i>
+                                    </a>
+                                }
+                                @if (Model.BankAccount.Status == DocumentStatus.Accepted)
+                                {
+                                    <a asp-area="SuperAdmin" asp-controller="BankAccounts" asp-action="ChangeBankAccountDocumentStatus" asp-route-id="@Model.BankAccount.Id" asp-route-status="@DocumentStatus.Pending" asp-route-restaurantId="@restaurant.Key" class="rd-doc-btn rd-doc-btn-pending">
+                                        <i class="fas fa-clock"></i>
+                                    </a>
+                                    <a asp-area="SuperAdmin" asp-controller="BankAccounts" asp-action="ChangeBankAccountDocumentStatus" asp-route-id="@Model.BankAccount.Id" asp-route-status="@DocumentStatus.Rejected" asp-route-restaurantId="@restaurant.Key" class="rd-doc-btn rd-doc-btn-reject">
+                                        <i class="fas fa-times"></i>
+                                    </a>
+                                }
+                                @if (Model.BankAccount.Status == DocumentStatus.Rejected)
+                                {
+                                    <a asp-area="SuperAdmin" asp-controller="BankAccounts" asp-action="ChangeBankAccountDocumentStatus" asp-route-id="@Model.BankAccount.Id" asp-route-status="@DocumentStatus.Pending" asp-route-restaurantId="@restaurant.Key" class="rd-doc-btn rd-doc-btn-pending">
+                                        <i class="fas fa-clock"></i>
+                                    </a>
+                                    <a asp-area="SuperAdmin" asp-controller="BankAccounts" asp-action="ChangeBankAccountDocumentStatus" asp-route-id="@Model.BankAccount.Id" asp-route-status="@DocumentStatus.Accepted" asp-route-restaurantId="@restaurant.Key" class="rd-doc-btn rd-doc-btn-accept">
+                                        <i class="fas fa-check"></i>
+                                    </a>
+                                }
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="rd-doc-not-submitted">
+                                <i class="fas fa-file-upload"></i>
+                                <p>Document not submitted yet</p>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                <!-- National ID -->
+                <div class="rd-doc-card">
+                    <div class="rd-doc-header">
+                        <span class="rd-doc-title">
+                            <i class="fas fa-id-card"></i>
+                            National ID
+                        </span>
+                        @if (Model.NationalId is not null)
+                        {
+                            <span class="rd-doc-status @Model.NationalId.Status.ToString().ToLower()">
+                                @Model.NationalId.Status
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="rd-doc-status notsubmitted">Not Submitted</span>
+                        }
+                    </div>
+                    <div class="rd-doc-body">
+                        @if (Model.NationalId is not null)
+                        {
+                            <div class="rd-doc-info">
+                                <div class="rd-doc-info-item">
+                                    <span class="rd-doc-info-label">Full Name</span>
+                                    <span class="rd-doc-info-value">@Model.NationalId.FullName</span>
+                                </div>
+                                <div class="rd-doc-info-item">
+                                    <span class="rd-doc-info-label">National ID No.</span>
+                                    <span class="rd-doc-info-value">@Model.NationalId.NationalIdNumber</span>
+                                </div>
+                                <div class="rd-doc-info-item">
+                                    <span class="rd-doc-info-label">Expiry Date</span>
+                                    <span class="rd-doc-info-value">@Model.NationalId.NationalIdExpiryDate.ToString("dd MMM yyyy")</span>
+                                </div>
+                            </div>
+                            <div class="rd-doc-actions">
+                                <a asp-area="SuperAdmin" asp-controller="Documents" asp-action="Download" asp-route-id="@Model.NationalId.NationalIdCard.Id" class="rd-doc-btn rd-doc-btn-download">
+                                    <i class="fas fa-download"></i> ID Card
+                                </a>
+                                <a asp-area="SuperAdmin" asp-controller="Documents" asp-action="Download" asp-route-id="@Model.NationalId.SignatureImage.Id" class="rd-doc-btn rd-doc-btn-download">
+                                    <i class="fas fa-signature"></i> Signature
+                                </a>
+                                @if (Model.NationalId.Status == DocumentStatus.Pending)
+                                {
+                                    <a asp-area="SuperAdmin" asp-controller="NationalIds" asp-action="ChangeNationalIdDocumentStatus" asp-route-id="@Model.NationalId.Id" asp-route-status="@DocumentStatus.Accepted" asp-route-restaurantId="@restaurant.Key" class="rd-doc-btn rd-doc-btn-accept">
+                                        <i class="fas fa-check"></i>
+                                    </a>
+                                    <a asp-area="SuperAdmin" asp-controller="NationalIds" asp-action="ChangeNationalIdDocumentStatus" asp-route-id="@Model.NationalId.Id" asp-route-status="@DocumentStatus.Rejected" asp-route-restaurantId="@restaurant.Key" class="rd-doc-btn rd-doc-btn-reject">
+                                        <i class="fas fa-times"></i>
+                                    </a>
+                                }
+                                @if (Model.NationalId.Status == DocumentStatus.Accepted)
+                                {
+                                    <a asp-area="SuperAdmin" asp-controller="NationalIds" asp-action="ChangeNationalIdDocumentStatus" asp-route-id="@Model.NationalId.Id" asp-route-status="@DocumentStatus.Pending" asp-route-restaurantId="@restaurant.Key" class="rd-doc-btn rd-doc-btn-pending">
+                                        <i class="fas fa-clock"></i>
+                                    </a>
+                                    <a asp-area="SuperAdmin" asp-controller="NationalIds" asp-action="ChangeNationalIdDocumentStatus" asp-route-id="@Model.NationalId.Id" asp-route-status="@DocumentStatus.Rejected" asp-route-restaurantId="@restaurant.Key" class="rd-doc-btn rd-doc-btn-reject">
+                                        <i class="fas fa-times"></i>
+                                    </a>
+                                }
+                                @if (Model.NationalId.Status == DocumentStatus.Rejected)
+                                {
+                                    <a asp-area="SuperAdmin" asp-controller="NationalIds" asp-action="ChangeNationalIdDocumentStatus" asp-route-id="@Model.NationalId.Id" asp-route-status="@DocumentStatus.Pending" asp-route-restaurantId="@restaurant.Key" class="rd-doc-btn rd-doc-btn-pending">
+                                        <i class="fas fa-clock"></i>
+                                    </a>
+                                    <a asp-area="SuperAdmin" asp-controller="NationalIds" asp-action="ChangeNationalIdDocumentStatus" asp-route-id="@Model.NationalId.Id" asp-route-status="@DocumentStatus.Accepted" asp-route-restaurantId="@restaurant.Key" class="rd-doc-btn rd-doc-btn-accept">
+                                        <i class="fas fa-check"></i>
+                                    </a>
+                                }
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="rd-doc-not-submitted">
+                                <i class="fas fa-file-upload"></i>
+                                <p>Document not submitted yet</p>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade rd-modal" id="deleteModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="fas fa-exclamation-triangle text-danger me-2"></i>
+                    Delete Restaurant
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete this restaurant?</p>
+                <div class="rd-modal-delete-name">@restaurant.Name</div>
+                <div class="rd-warning-text">
+                    <ul>
+                        <li>All restaurant data will be permanently deleted</li>
+                        <li>All associated meals will be removed</li>
+                        <li>All orders history will be lost</li>
+                        <li>All documents will be deleted</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="rd-btn rd-btn-secondary" data-bs-dismiss="modal">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+                <a asp-area="SuperAdmin" asp-controller="Restaurants" asp-action="Delete" asp-route-restaurantKey="@restaurant.Key" class="rd-btn rd-btn-danger">
+                    <i class="fas fa-trash-alt"></i> Delete
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Restore Confirmation Modal -->
+<div class="modal fade rd-modal" id="restoreModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="fas fa-undo text-success me-2"></i>
+                    Restore Restaurant
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to restore this restaurant?</p>
+                <div class="rd-modal-restore-name">@restaurant.Name</div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="rd-btn rd-btn-secondary" data-bs-dismiss="modal">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+                <a asp-area="SuperAdmin" asp-controller="Restaurants" asp-action="Restore" asp-route-restaurantKey="@restaurant.Key" class="rd-btn rd-btn-success">
+                    <i class="fas fa-undo"></i> Restore
+                </a>
+            </div>
+        </div>
+    </div>
+
+@section Scripts {
+    <partial name="_NotificationPartial" />
+}

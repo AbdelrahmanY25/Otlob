@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Otlob.ApiServices;
-using Otlob.Authentication;
-using Stripe;
+﻿using Stripe;
 using System.Threading.RateLimiting;
 using Utility.Settings;
 
@@ -150,11 +147,22 @@ namespace Otlob
 
         private static IServiceCollection AddExternalAuthentication(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddAuthentication().AddGoogle(googleOptions =>
-            {
-                googleOptions.ClientId = configuration["Authentication:Google:ClientId"]!;
-                googleOptions.ClientSecret = configuration["Authentication:Google:ClientSecret"]!;
-            });
+            services.AddAuthentication()
+                .AddGoogle(googleOptions =>
+                {
+                    googleOptions.ClientId = configuration["Authentication:Google:ClientId"]!;
+                    googleOptions.ClientSecret = configuration["Authentication:Google:ClientSecret"]!;
+                })
+                .AddMicrosoftAccount(microsoftOptions =>
+                {
+                    microsoftOptions.ClientId = configuration["Authentication:Microsoft:ClientId"]!;
+                    microsoftOptions.ClientSecret = configuration["Authentication:Microsoft:ClientSecret"]!;
+                })
+                .AddFacebook(facebookOptions =>
+                {
+                    facebookOptions.AppId = configuration["Authentication:Facebook:AppId"]!;
+                    facebookOptions.AppSecret = configuration["Authentication:Facebook:AppSecret"]!;
+                });
 
             return services;
         }
@@ -210,6 +218,7 @@ namespace Otlob
         private static IServiceCollection AddServices(this IServiceCollection services)
         {
             services.AddScoped<IApiAuthService, ApiAuthService>();
+            services.AddScoped<IExternalSignInService, ExternalSignInService>();
             
             
             
@@ -235,11 +244,13 @@ namespace Otlob
             services.AddScoped<IManyMealsManyAddOnsService, ManyMealsManyAddOnsService>();
             services.AddScoped<IMealPriceHistoryService, MealPriceHistoryService>();
             services.AddScoped<IMenuService, MenuService>();
+            services.AddScoped<IMealsAnalyticsService, MealsAnalyticsService>();
             services.AddScoped<IMealAddOnService, MealAddOnService>();
             services.AddScoped<INationalIdService, NationalIdService>();
             services.AddScoped<IOrderDetailsService, OrderDetailsService>();
             services.AddScoped<IOrderService, Services.OrderService>();
             services.AddScoped<IPaginationService, PaginationService>();
+            services.AddScoped<IRestaurantRatingAnlyticsService, RestaurantRatingAnlyticsService>();
             services.AddScoped<IRestaurantBusinessDetailsService, RestaurantBusinessDetailsService>();
             services.AddScoped<IRestaurantCategoriesService, RestaurantCategoriesService>();
             services.AddScoped<IRestaurantDailyAnalyticsService, RestaurantDailyAnalyticsService>();
@@ -261,6 +272,9 @@ namespace Otlob
             services.AddScoped<ICategoriesService, CategoriesService>();
             services.AddScoped<ICommercialRegistrationService, CommercialRegistrationService>();
             services.AddScoped<IVatService, VatService>();
+            services.AddScoped<IOrderRatingService, OrderRatingService>();
+            services.AddScoped<IPromoCodeService, PromoCodeService>();
+            services.AddScoped<IAllRestaurantsAnalyticsService, AllRestaurantsAnalyticsService>();
 
             return services;
         }

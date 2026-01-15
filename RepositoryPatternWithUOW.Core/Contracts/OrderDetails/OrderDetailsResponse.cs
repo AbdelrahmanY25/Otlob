@@ -3,6 +3,7 @@ namespace Otlob.Core.Contracts.OrderDetails;
 public class OrderDetailsResponse
 {
     public int Id { get; set; }
+    public string Restaurantkey { get; set; } = string.Empty;
     public string RestaurantName { get; set; } = string.Empty;
     public string? RestaurantImage { get; set; }
     public DateTime OrderDate { get; set; }
@@ -16,7 +17,11 @@ public class OrderDetailsResponse
     public decimal SubTotal { get; set; }
     public decimal DeliveryFee { get; set; }
     public decimal ServiceFee { get; set; }
+    public decimal DiscountAmount { get; set; }
     public decimal TotalPrice { get; set; }
+    
+    // Rating
+    public bool IsRated { get; set; }
     
     // Order Items
     public List<OrderItemResponse> Items { get; set; } = [];

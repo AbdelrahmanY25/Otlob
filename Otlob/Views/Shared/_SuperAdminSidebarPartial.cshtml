@@ -32,12 +32,45 @@
                             </a>
                         </li>
 
-                        <!-- Users -->
+                        <!-- General Analytics -->
                         <li class="adm-nav-link">
-                            <a asp-area="SuperAdmin" asp-controller="UsersAnalysis" asp-action="Index">
-                                <i class="bi bi-people icon"></i>
-                                <span class="text nav-text">Users</span>
+                            <a asp-area="SuperAdmin" asp-controller="Home" asp-action="GeneralAnalytics">
+                                <i class="bi bi-graph-up-arrow icon"></i>
+                                <span class="text nav-text">General Analytics</span>
                             </a>
+                        </li>
+
+                        <!-- Restaurants Analytics -->
+                        <li class="adm-nav-link">
+                            <a asp-area="SuperAdmin" asp-controller="RestaurantsAnalytics" asp-action="Index">
+                                <i class="bi bi-bar-chart-line icon"></i>
+                                <span class="text nav-text">Restaurants Analytics</span>
+                            </a>
+                        </li>
+
+                        <!-- Users -->
+                        <li class="adm-dropdown">
+                            <div class="adm-nav-link adm-dropdown-toggle">
+                                <a href="javascript:void(0)">
+                                    <i class="bi bi-people icon"></i>
+                                    <span class="text nav-text">Users</span>
+                                    <i class="bi bi-chevron-down icon chevron"></i>
+                                </a>
+                            </div>
+                            <ul class="adm-submenu">
+                                <li class="adm-nav-link">
+                                    <a asp-area="SuperAdmin" asp-controller="UsersAnalysis" asp-action="Index">
+                                        <i class="bi bi-graph-up icon"></i>
+                                        <span class="text nav-text">Users Analytics</span>
+                                    </a>
+                                </li>
+                                <li class="adm-nav-link">
+                                    <a asp-area="SuperAdmin" asp-controller="Users" asp-action="Customers">
+                                        <i class="bi bi-people-fill icon"></i>
+                                        <span class="text nav-text">Customers Management</span>
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
 
                         <!-- Restaurants Dropdown -->
@@ -51,19 +84,19 @@
                             </div>
                             <ul class="adm-submenu">
                                 <li class="adm-nav-link">
-                                    <a asp-area="SuperAdmin" asp-controller="Restaurants" asp-action="ActiveResturatns">
+                                    <a asp-area="SuperAdmin" asp-controller="Restaurants" asp-action="Active">
                                         <i class="bi bi-check-circle icon"></i>
                                         <span class="text nav-text">Active</span>
                                     </a>
                                 </li>
                                 <li class="adm-nav-link">
-                                    <a asp-area="SuperAdmin" asp-controller="Restaurants" asp-action="UnAcceptedRestaurants">
+                                    <a asp-area="SuperAdmin" asp-controller="Restaurants" asp-action="UnAccepted">
                                         <i class="bi bi-hourglass-split icon"></i>
                                         <span class="text nav-text">New Requests</span>
                                     </a>
                                 </li>
                                 <li class="adm-nav-link">
-                                    <a asp-area="SuperAdmin" asp-controller="Restaurants" asp-action="DeletedRestaurant">
+                                    <a asp-area="SuperAdmin" asp-controller="Restaurants" asp-action="Deleted">
                                         <i class="bi bi-trash icon"></i>
                                         <span class="text nav-text">Deleted</span>
                                     </a>
@@ -71,29 +104,12 @@
                             </ul>
                         </li>
 
-                        <!-- Administration Dropdown -->
-                        <li class="adm-dropdown">
-                            <div class="adm-nav-link adm-dropdown-toggle">
-                                <a href="javascript:void(0)">
-                                    <i class="bi bi-shield-lock icon"></i>
-                                    <span class="text nav-text">Administration</span>
-                                    <i class="bi bi-chevron-down icon chevron"></i>
-                                </a>
-                            </div>
-                            <ul class="adm-submenu">
-                                <li class="adm-nav-link">
-                                    <a asp-area="SuperAdmin" asp-controller="Register" asp-action="BecomeAPartner">
-                                        <i class="bi bi-person-plus icon"></i>
-                                        <span class="text nav-text">Add Partner</span>
-                                    </a>
-                                </li>
-                                <li class="adm-nav-link">
-                                    <a asp-area="SuperAdmin" asp-controller="Register" asp-action="RegistSuperAdmin">
-                                        <i class="bi bi-person-badge icon"></i>
-                                        <span class="text nav-text">Add Super Admin</span>
-                                    </a>
-                                </li>
-                            </ul>
+                        <!-- Promo Codes -->
+                        <li class="adm-nav-link">
+                            <a asp-area="SuperAdmin" asp-controller="PromoCodes" asp-action="Index">
+                                <i class="bi bi-ticket-perforated icon"></i>
+                                <span class="text nav-text">Promo Codes</span>
+                            </a>
                         </li>
 
                     </ul>

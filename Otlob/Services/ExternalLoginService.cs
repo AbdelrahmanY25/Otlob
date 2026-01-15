@@ -1,3 +1,5 @@
+using Otlob.Errors;
+
 namespace Otlob.Services;
 
 public class ExternalLoginService(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager,
@@ -27,19 +29,19 @@ public class ExternalLoginService(SignInManager<ApplicationUser> signInManager, 
         returnUrl ??= "/";
 
         if (remoteError is not null)
-            return Result.Failure<string>(new Error("ExternalLogin.RemoteError", $"Error from external provider: {remoteError}"));
+            return Result.Failure<string>(ExternalLoginErrors.RemoteError);
 
         var info = await _signInManager.GetExternalLoginInfoAsync();
         
         if (info is null)
-            return Result.Failure<string>(new Error("ExternalLogin.InfoNotFound", "Error loading external login information"));
+            return Result.Failure<string>(ExternalLoginErrors.InfoNotFound);
 
         var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor: true);
         
         var email = info.Principal.FindFirstValue(ClaimTypes.Email);
         
         if (string.IsNullOrEmpty(email))
-            return Result.Failure<string>(new Error("ExternalLogin.EmailNotProvided", "Email was not provided by the external provider"));
+            return Result.Failure<string>(ExternalLoginErrors.EmailNotProvided);
 
         if (result.Succeeded)
         {

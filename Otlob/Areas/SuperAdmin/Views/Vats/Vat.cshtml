@@ -1,99 +1,177 @@
-﻿@model VatResponse
+@model VatResponse
 
 @{
-    ViewData["Title"] = "VAT Certificate Document";
+    ViewData["Title"] = "VAT Certificate";
 }
 
-<link rel="stylesheet" href="~/css/documents.css" />
+<link rel="stylesheet" href="~/css/documents.css" asp-append-version="true" />
 
-<div class="document-page-container">
-    <div class="document-page-wrapper">
-        <div class="document-header">
-            <div class="document-title-section">
-                <a class="back-btn" 
+<div class="doc-page">
+    <!-- Hero Section -->
+    <div class="doc-hero">
+        <div class="doc-hero-content">
+            <div class="doc-hero-top">
+                <a class="doc-back-btn" 
                    asp-area="SuperAdmin"
                    asp-controller="Restaurants" 
                    asp-action="ResturantDetails" 
-                   asp-route-id="@Model.RestaurantId"
-                   title="Back to restaurant">
+                   asp-route-id="@Model.RestaurantId">
                     <i class="fas fa-arrow-left"></i>
+                    Back to Restaurant
                 </a>
-                <div class="document-icon-wrapper">
+                <span class="doc-status-badge status-@Model.DocumentStatus.ToString().ToLower()">
+                    @if (Model.DocumentStatus == DocumentStatus.Accepted)
+                    {
+                        <i class="fas fa-check-circle"></i>
+                    }
+                    else if (Model.DocumentStatus == DocumentStatus.Rejected)
+                    {
+                        <i class="fas fa-times-circle"></i>
+                    }
+                    else
+                    {
+                        <i class="fas fa-clock"></i>
+                    }
+                    @Model.DocumentStatus
+                </span>
+            </div>
+            <div class="doc-hero-main">
+                <div class="doc-icon-wrapper">
                     <i class="fas fa-receipt"></i>
                 </div>
-                <div class="document-title-group">
-                    <h1>VAT Certificate</h1>
-                    <p class="document-subtitle">Document Details & Management</p>
+                <div class="doc-hero-info">
+                    <h1 class="doc-title">VAT Certificate</h1>
+                    <p class="doc-subtitle">Value Added Tax registration certificate for tax compliance</p>
                 </div>
             </div>
-            <div class="document-status-badge status-@Model.DocumentStatus.ToString().ToLower()">
-                @if (Model.DocumentStatus == DocumentStatus.Accepted)
-                {
-                    <i class="fas fa-check-circle"></i>
-                }
-                else if (Model.DocumentStatus == DocumentStatus.Rejected)
-                {
-                    <i class="fas fa-times-circle"></i>
-                }
-                else
-                {
-                    <i class="fas fa-clock"></i>
-                }
-                @Model.DocumentStatus
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="doc-main">
+        <!-- Quick Stats -->
+        <div class="doc-quick-stats">
+            <div class="doc-stat-card">
+                <div class="doc-stat-icon primary">
+                    <i class="fas fa-percent"></i>
+                </div>
+                <div class="doc-stat-content">
+                    <div class="doc-stat-value">VAT</div>
+                    <div class="doc-stat-label">Tax Type</div>
+                </div>
+            </div>
+            <div class="doc-stat-card">
+                <div class="doc-stat-icon success">
+                    <i class="fas fa-hashtag"></i>
+                </div>
+                <div class="doc-stat-content">
+                    <div class="doc-stat-value">@Model.VatNumber</div>
+                    <div class="doc-stat-label">VAT Number</div>
+                </div>
+            </div>
+            <div class="doc-stat-card">
+                <div class="doc-stat-icon @(Model.DocumentStatus == DocumentStatus.Accepted ? "success" : Model.DocumentStatus == DocumentStatus.Rejected ? "danger" : "warning")">
+                    <i class="fas fa-file-invoice"></i>
+                </div>
+                <div class="doc-stat-content">
+                    <div class="doc-stat-value">@Model.DocumentStatus</div>
+                    <div class="doc-stat-label">Status</div>
+                </div>
             </div>
         </div>
 
-        <div class="document-content-layout">
-            <div class="document-info-card">
-                <div class="document-card-header">
-                    <h2>
-                        <i class="fas fa-info-circle"></i>
-                        Document Information
-                    </h2>
+        <div class="doc-content-grid">
+            <!-- Left Column - Info Cards -->
+            <div class="doc-info-column">
+                <!-- VAT Details Card -->
+                <div class="doc-card">
+                    <div class="doc-card-header">
+                        <h2 class="doc-card-title">
+                            <i class="fas fa-info-circle"></i>
+                            VAT Details
+                        </h2>
+                    </div>
+                    <div class="doc-card-body">
+                        <div class="doc-info-grid">
+                            <div class="doc-info-item full-width">
+                                <div class="doc-info-icon">
+                                    <i class="fas fa-hashtag"></i>
+                                </div>
+                                <div class="doc-info-content">
+                                    <span class="doc-info-label">VAT Number</span>
+                                    <div class="doc-info-value">@Model.VatNumber</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="document-card-body">
-                    <div class="document-info-grid">
-                        <div class="doc-info-item">
-                            <span class="doc-info-label">VAT Number</span>
-                            <div class="doc-info-value">
-                                <i class="fas fa-hashtag"></i>
-                                @Model.VatNumber
+
+                <!-- Verification Status Card -->
+                <div class="doc-card">
+                    <div class="doc-card-header">
+                        <h2 class="doc-card-title">
+                            <i class="fas fa-clipboard-check"></i>
+                            Verification Status
+                        </h2>
+                    </div>
+                    <div class="doc-card-body">
+                        <div class="doc-info-grid">
+                            <div class="doc-info-item">
+                                <div class="doc-info-icon">
+                                    <i class="fas fa-flag"></i>
+                                </div>
+                                <div class="doc-info-content">
+                                    <span class="doc-info-label">Current Status</span>
+                                    <div class="doc-info-value">@Model.DocumentStatus</div>
+                                </div>
+                            </div>
+                            <div class="doc-info-item">
+                                <div class="doc-info-icon">
+                                    <i class="fas fa-check-double"></i>
+                                </div>
+                                <div class="doc-info-content">
+                                    <span class="doc-info-label">Tax Compliance</span>
+                                    <div class="doc-info-value">@(Model.DocumentStatus == DocumentStatus.Accepted ? "Verified" : "Pending Review")</div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div>
-                <div class="file-preview-card">
+            <!-- Right Column - Sidebar -->
+            <div class="doc-sidebar">
+                <!-- Certificate File -->
+                <div class="doc-file-card">
                     <h3>
-                        <i class="fas fa-file-pdf"></i>
-                        Certificate File
+                        <i class="fas fa-receipt"></i>
+                        VAT Certificate
                     </h3>
-                    <div class="file-icon-display">
+                    <div class="doc-file-icon">
                         <i class="fas fa-file-pdf"></i>
                     </div>
-                    <div class="file-name-display">
-                        @Model.VatCertificate.FileName
-                    </div>
-                    <div class="file-actions-group">
+                    <div class="doc-file-name">@Model.VatCertificate.FileName</div>
+                    <div class="doc-file-actions">
                         <a asp-area="SuperAdmin"
                            asp-controller="Documents" 
                            asp-action="Download" 
                            asp-route-id="@Model.VatCertificate.Id"
-                           class="btn-file-action btn-download">
+                           class="doc-btn doc-btn-download">
                             <i class="fas fa-download"></i>
                             Download
                         </a>
                     </div>
                 </div>
 
-                <div class="status-actions-card">
-                    <h3>
-                        <i class="fas fa-tasks"></i>
-                        Change Status
-                    </h3>
-                    <div class="status-buttons-group">
+                <!-- Status Actions Card -->
+                <div class="doc-action-card">
+                    <div class="doc-action-header">
+                        <h3 class="doc-action-title">
+                            <i class="fas fa-sliders-h"></i>
+                            Change Status
+                        </h3>
+                    </div>
+                    <div class="doc-action-body">
                         @foreach (var status in Enum.GetValues<DocumentStatus>())
                         {
                             @if (status != Model.DocumentStatus)
@@ -104,7 +182,7 @@
                                    asp-route-id="@Model.Id"
                                    asp-route-status="@status"
                                    asp-route-restaurantId="@Model.RestaurantId"
-                                   class="btn-status-action @(status == DocumentStatus.Accepted ? "btn-accept" : status == DocumentStatus.Rejected ? "btn-reject" : "btn-pending")">
+                                   class="doc-btn-status @(status == DocumentStatus.Accepted ? "doc-btn-accept" : status == DocumentStatus.Rejected ? "doc-btn-reject" : "doc-btn-pending")">
                                     @if (status == DocumentStatus.Accepted)
                                     {
                                         <i class="fas fa-check"></i>
@@ -121,8 +199,8 @@
                                 </a>
                             }
                         }
-                    </div>                    
-                </div>                
+                    </div>
+                </div>
             </div>
         </div>
     </div>

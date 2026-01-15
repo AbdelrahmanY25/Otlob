@@ -1,50 +1,44 @@
 ﻿namespace Otlob.Services;
 
 public class UserServices(UserManager<ApplicationUser> userManager, IDataProtectionProvider dataProtectionProvider,
-                          IUnitOfWorkRepository unitOfWorkRepository) : IUserServices
+                        IUnitOfWorkRepository unitOfWorkRepository) : IUserServices
 {
     private readonly UserManager<ApplicationUser> _userManager = userManager;
-    private readonly IDataProtector _dataProtector = dataProtectionProvider.CreateProtector("SecureData");
     private readonly IUnitOfWorkRepository _unitOfWorkRepository = unitOfWorkRepository;
+    private readonly IDataProtector _dataProtector = dataProtectionProvider.CreateProtector("SecureData");
 
-    public IQueryable<ApplicationUser>? GetAllUsers(Expression<Func<ApplicationUser, bool>>? query = null)
+    public async Task<IOrderedEnumerable<UserMainResponse>?> GetAllCustomers()
     {
-        var users = _unitOfWorkRepository
-                    .Users
-                    .GetAllWithSelect(
-                        expression: query,
-                        tracked: false,
-                        selector: u => new ApplicationUser
-                        {
-                            Id = _dataProtector.Protect(u.Id),
-                            UserName = u.UserName,
-                            Email = u.Email,
-                            PhoneNumber = u.PhoneNumber,
-                            LockoutEnabled = u.LockoutEnabled,
-                        }
-                    );
+        var customers = (await _userManager.GetUsersInRoleAsync(DefaultRoles.Customer))
+            .Select(
+                c => new UserMainResponse
+                {
+                    Id = _dataProtector.Protect(c.Id),
+                    UserName = c.UserName,
+                    Email = c.Email,
+                    PhoneNumber = c.PhoneNumber,
+                    Image = c.Image,
+                    LockoutEnabled = c.LockoutEnabled,
+                    EmailConfirmed = c.EmailConfirmed
+                }
+            );
 
-        return users!.OrderBy(u => u.UserName);
-    }
+        if (customers is null)
+            return null;
 
-    public int GetCustomersCount()
-    {
-        return _unitOfWorkRepository.Users.Get(tracked: false)!.Count();
+        return customers.OrderBy(u => u.UserName);
     }
 
     public async Task<Result> ToggleUserBlockStatusAsync(string userId)
     {
         if (userId is null)
-        {
             return Result.Failure(AuthenticationErrors.InvalidUser);
-        }
 
-        bool isUserIdExist = await _userManager.Users.AnyAsync(u => u.Id == _dataProtector.Unprotect(userId));
+        bool isUserIdExist = await _userManager.Users
+            .AnyAsync(u => u.Id == _dataProtector.Unprotect(userId));
 
         if (!isUserIdExist)
-        {
             return Result.Failure(AuthenticationErrors.InvalidUser);
-        }
 
         ApplicationUser user = (await _userManager.FindByIdAsync(_dataProtector.Unprotect(userId)))!;  
 
@@ -54,35 +48,26 @@ public class UserServices(UserManager<ApplicationUser> userManager, IDataProtect
         _unitOfWorkRepository.SaveChanges();
 
         return Result.Success();
-    }   
+    }
 
-    public async Task<Result<ApplicationUser>> GetUserContactInfo(string userId)
+    public async Task<Result> ToggleConfirmEmailAsync(string userId)
     {
         if (userId is null)
-        {
-            return Result.Failure<ApplicationUser>(AuthenticationErrors.InvalidUser);
-        }
+            return Result.Failure(AuthenticationErrors.InvalidUser);
 
-        bool isUserIdExist = await _userManager.Users.AnyAsync(u => u.Id == userId);
+        bool isUserIdExist = await _userManager.Users
+            .AnyAsync(u => u.Id == _dataProtector.Unprotect(userId));
 
         if (!isUserIdExist)
-        {
-            return Result.Failure<ApplicationUser>(AuthenticationErrors.InvalidUser);
-        }
+            return Result.Failure(AuthenticationErrors.InvalidUser);
 
-        ApplicationUser user = _unitOfWorkRepository.Users.
-            GetOneWithSelect(
-                expression: u => u.Id == userId,
-                tracked: false,
-                selector: u => new ApplicationUser
-                {
-                    Email = u.Email,
-                    Image = u.Image,
-                    UserName = u.UserName,
-                    PhoneNumber = u.PhoneNumber
-                }
-            )!;
+        ApplicationUser user = (await _userManager.FindByIdAsync(_dataProtector.Unprotect(userId)))!;  
 
-        return Result.Success(user);
-    }       
+        user.EmailConfirmed = !user.EmailConfirmed;
+
+        _unitOfWorkRepository.Users.ModifyProperty(user, u => u.EmailConfirmed);
+        _unitOfWorkRepository.SaveChanges();
+
+        return Result.Success();
+    }    
 }

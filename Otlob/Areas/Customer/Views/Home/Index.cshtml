@@ -30,6 +30,9 @@
 
     <!-- Filters Section -->
     <div class="ch-filters-section">
+        <button class="ch-filter-btn" data-filter="highRating">
+            <i class="fas fa-star"></i> High Rating
+        </button>
         <button class="ch-filter-btn" data-filter="freeDelivery">
             <i class="fas fa-tag"></i> Free Delivery
         </button>
@@ -56,7 +59,8 @@
                data-categories="@string.Join(",", item.Categories)"
                data-delivery-fee="@item.DeliveryFee"
                data-delivery-duration="@item.DeliveryDuration"
-               data-business-type="@item.BusinessType">
+               data-business-type="@item.BusinessType"
+               data-rating="@item.Rating">
                 
                 <div class="ch-card-img-wrapper">
                     <img src="/images/@(item.Image ?? "Default.jpg")" alt="@item.Name" class="ch-card-img" />
@@ -74,6 +78,20 @@
                     <div>
                         <div class="ch-res-header">
                             <h3 class="ch-res-name">@item.Name</h3>
+                            @if (item.Rating > 0)
+                            {
+                                <div class="ch-rating-wrapper">
+                                    <i class="fas fa-star ch-star-icon"></i>
+                                    <span class="ch-rating-text">@((item.Rating / 5m * 100).ToString("0"))%</span>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="ch-rating-wrapper">
+                                    <i class="fas fa-star ch-star-icon"></i>
+                                    <span class="ch-rating-text">New</span>
+                                </div>
+                            }
                         </div>
                         <div class="ch-res-tags">
                             @string.Join(", ", item.Categories.Take(3))

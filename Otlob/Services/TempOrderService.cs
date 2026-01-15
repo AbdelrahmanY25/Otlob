@@ -25,6 +25,8 @@ public class TempOrderService(IUnitOfWorkRepository unitOfWorkRepository) : ITem
             order.SubPrice,
             order.DeliveryFee,
             order.ServiceFeePrice,
+            order.DiscountAmount,
+            order.PromoCodeId,
             order.Notes,
             order.Method,
             order.OrderDate,

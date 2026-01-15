@@ -178,9 +178,9 @@
                             </button>
                         }
 
-                        @if (order.Status == "Pending")
+                        @if (order.Status == "Pending" || order.Status == "Preparing")
                         {
-                            <button type="button" class="order-btn danger icon-only" onclick="cancelOrder(@order.Id, this)" title="Cancel Order">
+                            <button type="button" class="order-btn danger icon-only" onclick="showCancelReasonModal(@order.Id)" title="Cancel Order">
                                 <i class="bi bi-x-lg"></i>
                             </button>
                         }
@@ -250,8 +250,89 @@
     </div>
 </div>
 
+<!-- Cancel Reason Modal -->
+<div class="cancel-reason-modal" id="cancelReasonModal">
+    <div class="cancel-reason-modal-dialog">
+        <div class="cancel-reason-modal-header">
+            <div class="cancel-reason-icon-wrapper">
+                <i class="bi bi-x-circle"></i>
+            </div>
+            <h4>Cancel Order</h4>
+            <p>Please select a reason for cancelling this order</p>
+            <button type="button" class="modal-close-btn" onclick="closeCancelReasonModal()">
+                <i class="bi bi-x-lg"></i>
+            </button>
+        </div>
+        <div class="cancel-reason-modal-body">
+            <input type="hidden" id="cancelOrderId" value="" />
+            <div class="cancel-reason-options">
+                <label class="cancel-reason-option">
+                    <input type="radio" name="cancelReason" value="0" />
+                    <div class="reason-card">
+                        <div class="reason-icon">
+                            <i class="bi bi-box-seam"></i>
+                        </div>
+                        <div class="reason-content">
+                            <span class="reason-title">Out of Stock</span>
+                            <span class="reason-desc">One or more items are unavailable</span>
+                        </div>
+                        <div class="reason-check">
+                            <i class="bi bi-check-lg"></i>
+                        </div>
+                    </div>
+                </label>
+                <label class="cancel-reason-option">
+                    <input type="radio" name="cancelReason" value="1" />
+                    <div class="reason-card">
+                        <div class="reason-icon">
+                            <i class="bi bi-exclamation-triangle"></i>
+                        </div>
+                        <div class="reason-content">
+                            <span class="reason-title">Unable to Fulfill</span>
+                            <span class="reason-desc">Cannot complete this order at this time</span>
+                        </div>
+                        <div class="reason-check">
+                            <i class="bi bi-check-lg"></i>
+                        </div>
+                    </div>
+                </label>
+                <label class="cancel-reason-option">
+                    <input type="radio" name="cancelReason" value="2" />
+                    <div class="reason-card">
+                        <div class="reason-icon">
+                            <i class="bi bi-three-dots"></i>
+                        </div>
+                        <div class="reason-content">
+                            <span class="reason-title">Other Reason</span>
+                            <span class="reason-desc">Another reason not listed above</span>
+                        </div>
+                        <div class="reason-check">
+                            <i class="bi bi-check-lg"></i>
+                        </div>
+                    </div>
+                </label>
+            </div>
+            <div class="cancel-reason-warning">
+                <i class="bi bi-info-circle"></i>
+                <span>This action cannot be undone. The customer will be notified.</span>
+            </div>
+        </div>
+        <div class="cancel-reason-modal-footer">
+            <button type="button" class="cancel-reason-btn secondary" onclick="closeCancelReasonModal()">
+                <i class="bi bi-arrow-left"></i> Go Back
+            </button>
+            <button type="button" class="cancel-reason-btn danger" id="confirmCancelBtn" onclick="confirmCancelOrder()" disabled>
+                <i class="bi bi-x-circle"></i> Cancel Order
+            </button>
+        </div>
+    </div>
+</div>
+
 @Html.AntiForgeryToken()
 
 @section Scripts {
+    <script>
+        window.currentArea = 'RestaurantAdmin';
+    </script>
     <script src="~/js/restaurantOrders.js" asp-append-version="true"></script>
 }

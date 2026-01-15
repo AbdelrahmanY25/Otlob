@@ -26,4 +26,16 @@ public class OrdersHistoryController(ICustomerOrdersService customerOrdersServic
 
         return View(result.Value);
     }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public IActionResult CancelOrder(int orderId, CustomerCancelReason reason)
+    {
+        var result = _customerOrdersService.CancelOrder(orderId, reason);
+
+        if (result.IsFailure)
+            return Json(new { success = false, message = result.Error.Description });
+
+        return Json(new { success = true, message = "Order cancelled successfully" });
+    }
 }

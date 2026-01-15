@@ -2,17 +2,23 @@
 
 [Area(DefaultRoles.Customer)]
 [Authorize(Roles = DefaultRoles.Customer)]
-public class OrderController(IOrderService orderService) : Controller
+public class OrderController(IOrderService orderService, ICheckOutService checkOutService) : Controller
 {
     private readonly IOrderService _orderService = orderService;
+    private readonly ICheckOutService _checkOutService = checkOutService;
 
     [HttpPost, ValidateAntiForgeryToken]
     public async Task<IActionResult> PlaceOrder(PaymentMethod paymentMethod, string? specialNotes = null)
     {
-        if (paymentMethod is PaymentMethod.Credit)
-            return PayWithCredit(specialNotes);
+        // Get applied promo code from session
+        var appliedPromo = _checkOutService.GetAppliedPromoCode();
+        int? promoCodeId = appliedPromo?.PromoCodeId;
+        decimal discountAmount = appliedPromo?.DiscountAmount ?? 0;
 
-        var placeOrderResult = await _orderService.PlaceOrder(paymentMethod, specialNotes);
+        if (paymentMethod is PaymentMethod.Credit)
+            return PayWithCredit(specialNotes, promoCodeId, discountAmount);
+
+        var placeOrderResult = await _orderService.PlaceOrder(paymentMethod, specialNotes, promoCodeId, discountAmount);
 
         if (placeOrderResult.IsFailure)
         {
@@ -20,13 +26,16 @@ public class OrderController(IOrderService orderService) : Controller
             return RedirectToAction("CheckOut", "CheckOut");
         }
 
+        // Clear promo code from session after successful order
+        _checkOutService.ClearAppliedPromoCode();
+
         TempData["Success"] = "Order placed successfully.";
         return RedirectToAction("Index", "Home");
     }
 
-    private IActionResult PayWithCredit(string? specialNotes = null)
+    private IActionResult PayWithCredit(string? specialNotes = null, int? promoCodeId = null, decimal discountAmount = 0)
     {
-        var createSessionResult = _orderService.CreateStripeSession(specialNotes);
+        var createSessionResult = _orderService.CreateStripeSession(specialNotes, promoCodeId, discountAmount);
 
         if (createSessionResult.IsFailure)
         {
@@ -52,6 +61,9 @@ public class OrderController(IOrderService orderService) : Controller
             TempData["Error"] = finishPaymentResult.Error.Description;
             return RedirectToAction("CheckOut", "CheckOut");
         }
+
+        // Clear promo code from session after successful order
+        _checkOutService.ClearAppliedPromoCode();
 
         TempData["Success"] = "Order placed successfully. Payment received!";
         return RedirectToAction("Index", "Home");

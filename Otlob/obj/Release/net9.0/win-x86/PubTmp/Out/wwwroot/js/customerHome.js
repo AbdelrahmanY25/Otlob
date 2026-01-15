@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', function () {
         selectedCategory: null,
         freeDelivery: false,
         fastDelivery: false,
+        highRating: false,
         businessType: null
     };
 
@@ -35,6 +36,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 btn.classList.toggle('active');
             } else if (filterType === 'fastDelivery') {
                 state.fastDelivery = !state.fastDelivery;
+                btn.classList.toggle('active');
+            } else if (filterType === 'highRating') {
+                state.highRating = !state.highRating;
                 btn.classList.toggle('active');
             } else if (filterType === 'businessType') {
                 if (state.businessType === filterValue) {
@@ -138,6 +142,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const categories = card.dataset.categories.toLowerCase();
             const deliveryFee = parseFloat(card.dataset.deliveryFee);
             const businessType = card.dataset.businessType;
+            const rating = parseFloat(card.dataset.rating) || 0;
 
             let isVisible = true;
 
@@ -153,6 +158,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
             // Free Delivery
             if (isVisible && state.freeDelivery && deliveryFee > 0) {
+                isVisible = false;
+            }
+
+            // High Rating (Rating >= 65% which is 3.25 out of 5)
+            if (isVisible && state.highRating && rating < 3.25) {
                 isVisible = false;
             }
 

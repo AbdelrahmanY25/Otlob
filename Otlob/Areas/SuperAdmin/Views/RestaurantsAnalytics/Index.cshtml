@@ -1,0 +1,417 @@
+@model AllRestaurantsAnalyticsDashboardResponse
+
+@{
+    ViewData["Title"] = "Restaurants Analytics";
+    
+    var monthNames = new[] { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
+    var currentYear = DateTime.UtcNow.Year;
+    var currentMonth = DateTime.UtcNow.Month;
+    
+    var monthlyTrendData = Model.MonthlyTrends.Select(m => new {
+        month = monthNames[m.Month - 1] + " " + m.Year,
+        sales = m.TotalSales,
+        revenue = m.TotalRevenue,
+        orders = m.TotalOrders,
+        restaurants = m.RestaurantCount
+    }).ToList();
+    
+    var topSalesData = Model.TopRestaurantsBySales.Select(r => new {
+        name = r.RestaurantName,
+        sales = r.TotalOrdersSales,
+        orders = r.CompletedOrdersCount,
+        image = r.RestaurantImage
+    }).ToList();
+    
+    var topOrdersData = Model.TopRestaurantsByOrdersCount.Select(r => new {
+        name = r.RestaurantName,
+        sales = r.TotalOrdersSales,
+        orders = r.CompletedOrdersCount,
+        image = r.RestaurantImage
+    }).ToList();
+}
+
+<link rel="stylesheet" href="~/css/restaurantsAnalytics.css" asp-append-version="true" />
+
+<div class="analytics-dashboard">
+    <!-- Header -->
+    <div class="dashboard-header">
+        <div class="header-content">
+            <h1 class="dashboard-title">
+                <i class="bi bi-shop me-2"></i>Restaurants Analytics
+            </h1>
+            <p class="dashboard-subtitle">Comprehensive overview of all restaurants performance and sales data</p>
+        </div>
+        <div class="header-filters">
+            <div class="filter-group">
+                <label><i class="bi bi-calendar3"></i> Year:</label>
+                <select id="yearFilter" class="filter-select">
+                    @for (int y = currentYear; y >= currentYear - 5; y--)
+                    {
+                        <option value="@y" selected="@(y == currentYear)">@y</option>
+                    }
+                </select>
+            </div>
+            <div class="filter-group">
+                <label><i class="bi bi-calendar-month"></i> Month:</label>
+                <select id="monthFilter" class="filter-select">
+                    <option value="0">All Months</option>
+                    @for (int m = 1; m <= 12; m++)
+                    {
+                        <option value="@m" selected="@(m == currentMonth)">@monthNames[m - 1]</option>
+                    }
+                </select>
+            </div>
+            <button id="applyFilters" class="apply-btn">
+                <i class="bi bi-funnel"></i> Apply
+            </button>
+        </div>
+    </div>
+
+    <!-- Summary Stats -->
+    <div class="stats-overview">
+        <div class="stat-card primary">
+            <div class="stat-icon-wrapper">
+                <i class="bi bi-shop-window"></i>
+            </div>
+            <div class="stat-info">
+                <span class="stat-label">Total Restaurants</span>
+                <h3 class="stat-value" id="totalRestaurants">@Model.TotalRestaurants</h3>
+            </div>
+        </div>
+        
+        <div class="stat-card success">
+            <div class="stat-icon-wrapper">
+                <i class="bi bi-bag-check-fill"></i>
+            </div>
+            <div class="stat-info">
+                <span class="stat-label">Completed Orders</span>
+                <h3 class="stat-value" id="totalOrders">@Model.TotalCompletedOrders.ToString("N0")</h3>
+            </div>
+        </div>
+        
+        <div class="stat-card warning">
+            <div class="stat-icon-wrapper">
+                <i class="bi bi-currency-dollar"></i>
+            </div>
+            <div class="stat-info">
+                <span class="stat-label">Total Sales</span>
+                <h3 class="stat-value" id="totalSales">@Model.TotalSales.ToString("N0") <small>L.E</small></h3>
+            </div>
+        </div>
+        
+        <div class="stat-card info">
+            <div class="stat-icon-wrapper">
+                <i class="bi bi-graph-up-arrow"></i>
+            </div>
+            <div class="stat-info">
+                <span class="stat-label">Total Revenue</span>
+                <h3 class="stat-value" id="totalRevenue">@Model.TotalRevenue.ToString("N0") <small>L.E</small></h3>
+            </div>
+        </div>
+        
+        <div class="stat-card danger">
+            <div class="stat-icon-wrapper">
+                <i class="bi bi-x-circle-fill"></i>
+            </div>
+            <div class="stat-info">
+                <span class="stat-label">Cancelled Orders</span>
+                <h3 class="stat-value" id="cancelledOrders">@Model.TotalCancelledOrders.ToString("N0")</h3>
+            </div>
+        </div>
+    </div>
+
+    <!-- Period Summary Cards -->
+    <div class="period-summary">
+        <div class="period-card">
+            <div class="period-header">
+                <i class="bi bi-calendar-week"></i>
+                <span>This Month</span>
+            </div>
+            <div class="period-stats">
+                <div class="period-stat">
+                    <span class="period-label">Orders</span>
+                    <span class="period-value" id="monthOrders">@Model.CurrentMonthOrders.ToString("N0")</span>
+                </div>
+                <div class="period-stat">
+                    <span class="period-label">Sales</span>
+                    <span class="period-value" id="monthSales">@Model.CurrentMonthSales.ToString("N0") L.E</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="period-card">
+            <div class="period-header">
+                <i class="bi bi-calendar-range"></i>
+                <span>This Year</span>
+            </div>
+            <div class="period-stats">
+                <div class="period-stat">
+                    <span class="period-label">Orders</span>
+                    <span class="period-value" id="yearOrders">@Model.CurrentYearOrders.ToString("N0")</span>
+                </div>
+                <div class="period-stat">
+                    <span class="period-label">Sales</span>
+                    <span class="period-value" id="yearSales">@Model.CurrentYearSales.ToString("N0") L.E</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts Row -->
+    <div class="charts-section">
+        <div class="chart-card wide">
+            <div class="chart-header">
+                <h3 class="chart-title">
+                    <i class="bi bi-bar-chart-line-fill"></i>
+                    Monthly Sales & Orders Trend
+                </h3>
+            </div>
+            <div class="chart-body">
+                @if (Model.MonthlyTrends.Any())
+                {
+                    <canvas id="trendChart" data-chart-data='@System.Text.Json.JsonSerializer.Serialize(monthlyTrendData)'></canvas>
+                }
+                else
+                {
+                    <div class="no-data">
+                        <i class="bi bi-bar-chart"></i>
+                        <p>No trend data available</p>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- Top Restaurants Section -->
+    <div class="top-restaurants-section">
+        <!-- Top by Sales -->
+        <div class="top-card">
+            <div class="top-header">
+                <h3 class="top-title">
+                    <i class="bi bi-trophy-fill text-warning"></i>
+                    Top Restaurants by Sales
+                </h3>
+                <span class="badge">@currentYear</span>
+            </div>
+            <div class="top-list" id="topSalesList">
+                @if (Model.TopRestaurantsBySales.Any())
+                {
+                    var rank = 1;
+                    @foreach (var restaurant in Model.TopRestaurantsBySales)
+                    {
+                        <div class="restaurant-item">
+                            <div class="rank-badge @(rank <= 3 ? $"rank-{rank}" : "")">@rank</div>
+                            <div class="restaurant-avatar">
+                                @if (!string.IsNullOrEmpty(restaurant.RestaurantImage))
+                                {
+                                    <img src="~/images/@restaurant.RestaurantImage" alt="@restaurant.RestaurantName" />
+                                }
+                                else
+                                {
+                                    <i class="bi bi-shop"></i>
+                                }
+                            </div>
+                            <div class="restaurant-info">
+                                <h4 class="restaurant-name">@restaurant.RestaurantName</h4>
+                                <div class="restaurant-stats">
+                                    <span class="stat-item">
+                                        <i class="bi bi-bag-check"></i>
+                                        @restaurant.CompletedOrdersCount orders
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="restaurant-sales">
+                                <span class="sales-amount">@restaurant.TotalOrdersSales.ToString("N0")</span>
+                                <span class="sales-currency">L.E</span>
+                            </div>
+                        </div>
+                        rank++;
+                    }
+                }
+                else
+                {
+                    <div class="no-data">
+                        <i class="bi bi-shop"></i>
+                        <p>No restaurants data available</p>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <!-- Top by Orders -->
+        <div class="top-card">
+            <div class="top-header">
+                <h3 class="top-title">
+                    <i class="bi bi-award-fill text-primary"></i>
+                    Top Restaurants by Orders
+                </h3>
+                <span class="badge">@currentYear</span>
+            </div>
+            <div class="top-list" id="topOrdersList">
+                @if (Model.TopRestaurantsByOrdersCount.Any())
+                {
+                    var rank = 1;
+                    @foreach (var restaurant in Model.TopRestaurantsByOrdersCount)
+                    {
+                        <div class="restaurant-item">
+                            <div class="rank-badge @(rank <= 3 ? $"rank-{rank}" : "")">@rank</div>
+                            <div class="restaurant-avatar">
+                                @if (!string.IsNullOrEmpty(restaurant.RestaurantImage))
+                                {
+                                    <img src="~/images/@restaurant.RestaurantImage" alt="@restaurant.RestaurantName" />
+                                }
+                                else
+                                {
+                                    <i class="bi bi-shop"></i>
+                                }
+                            </div>
+                            <div class="restaurant-info">
+                                <h4 class="restaurant-name">@restaurant.RestaurantName</h4>
+                                <div class="restaurant-stats">
+                                    <span class="stat-item">
+                                        <i class="bi bi-currency-dollar"></i>
+                                        @restaurant.TotalOrdersSales.ToString("N0") L.E
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="restaurant-orders">
+                                <span class="orders-count">@restaurant.CompletedOrdersCount</span>
+                                <span class="orders-label">orders</span>
+                            </div>
+                        </div>
+                        rank++;
+                    }
+                }
+                else
+                {
+                    <div class="no-data">
+                        <i class="bi bi-shop"></i>
+                        <p>No restaurants data available</p>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- Sales Distribution Chart -->
+    <div class="charts-section">
+        <div class="chart-card">
+            <div class="chart-header">
+                <h3 class="chart-title">
+                    <i class="bi bi-pie-chart-fill"></i>
+                    Top 10 Sales Distribution
+                </h3>
+            </div>
+            <div class="chart-body">
+                @if (Model.TopRestaurantsBySales.Any())
+                {
+                    <canvas id="salesDistributionChart" data-chart-data='@System.Text.Json.JsonSerializer.Serialize(topSalesData)'></canvas>
+                }
+                else
+                {
+                    <div class="no-data">
+                        <i class="bi bi-pie-chart"></i>
+                        <p>No sales data available</p>
+                    </div>
+                }
+            </div>
+        </div>
+        
+        <div class="chart-card">
+            <div class="chart-header">
+                <h3 class="chart-title">
+                    <i class="bi bi-bar-chart-fill"></i>
+                    Top 10 Orders Comparison
+                </h3>
+            </div>
+            <div class="chart-body">
+                @if (Model.TopRestaurantsByOrdersCount.Any())
+                {
+                    <canvas id="ordersComparisonChart" data-chart-data='@System.Text.Json.JsonSerializer.Serialize(topOrdersData)'></canvas>
+                }
+                else
+                {
+                    <div class="no-data">
+                        <i class="bi bi-bar-chart"></i>
+                        <p>No orders data available</p>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- All Restaurants Table -->
+    <div class="data-table-section">
+        <div class="table-header">
+            <h3 class="table-title">
+                <i class="bi bi-table"></i>
+                All Restaurants Performance
+            </h3>
+            <div class="table-actions">
+                <input type="text" id="searchRestaurant" class="search-input" placeholder="Search restaurant...">
+            </div>
+        </div>
+        <div class="table-container">
+            <table class="restaurants-table" id="restaurantsTable">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Restaurant</th>
+                        <th>Completed Orders</th>
+                        <th>Cancelled Orders</th>
+                        <th>Total Sales</th>
+                        <th>Revenue</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.AllRestaurantsAnalytics.Any())
+                    {
+                        var index = 1;
+                        @foreach (var restaurant in Model.AllRestaurantsAnalytics)
+                        {
+                            <tr>
+                                <td>@index</td>
+                                <td>
+                                    <div class="table-restaurant">
+                                        <div class="table-restaurant-avatar">
+                                            @if (!string.IsNullOrEmpty(restaurant.RestaurantImage))
+                                            {
+                                                <img src="~/images/@restaurant.RestaurantImage" alt="@restaurant.RestaurantName" />
+                                            }
+                                            else
+                                            {
+                                                <i class="bi bi-shop"></i>
+                                            }
+                                        </div>
+                                        <span>@restaurant.RestaurantName</span>
+                                    </div>
+                                </td>
+                                <td><span class="badge badge-success">@restaurant.CompletedOrdersCount</span></td>
+                                <td><span class="badge badge-danger">@restaurant.CancelledOrdersCount</span></td>
+                                <td><strong>@restaurant.TotalOrdersSales.ToString("N2")</strong> L.E</td>
+                                <td><strong>@restaurant.TotalOrdersRevenue.ToString("N2")</strong> L.E</td>
+                            </tr>
+                            index++;
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="6" class="text-center">
+                                <div class="no-data">
+                                    <i class="bi bi-inbox"></i>
+                                    <p>No data available</p>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="~/js/restaurantsAnalytics.js" asp-append-version="true"></script>
+}

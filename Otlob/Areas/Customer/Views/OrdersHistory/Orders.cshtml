@@ -4,7 +4,9 @@
     ViewData["Title"] = "My Orders";
 }
 
-<link rel="stylesheet" href="~/css/ordersHistory.css" />
+@section Profile {
+    <link rel="stylesheet" href="~/css/ordersHistory.css" asp-append-version="true" />
+}
 
 <div class="orders-page">
     <div class="orders-container">
@@ -31,74 +33,198 @@
         {
             @foreach (var order in Model)
             {
-                <div class="order-card">
-                    <a href="@Url.Action("OrderDetails", "OrdersHistory", new { area = "Customer", id = order.Id })" class="order-card-link">
-                        <div class="order-header">
-                            @if (!string.IsNullOrEmpty(order.RestaurantImage))
-                            {
-                                <img src="~/images/@order.RestaurantImage" alt="@order.RestaurantName" class="restaurant-logo" />
-                            }
-                            else
-                            {
-                                <div class="restaurant-logo-placeholder">
-                                    <i class="bi bi-shop"></i>
-                                </div>
-                            }
-                            <div class="order-info">
-                                <h3 class="restaurant-name">@order.RestaurantName</h3>
-                                <div class="order-meta">
-                                    <span><i class="bi bi-calendar3"></i> @order.OrderDate.ToString("MMM dd, yyyy")</span>
-                                    <span><i class="bi bi-clock"></i> @order.OrderDate.ToString("hh:mm tt")</span>
-                                    <span><i class="bi bi-box-seam"></i> @order.ItemsCount items</span>
-                                </div>
-                            </div>
-                            <span class="status-badge status-@order.Status.ToString().ToLower()">
-                                @switch (order.Status)
+                <div class="order-card" data-order-id="@order.Id" data-status="@order.Status">
+                    <div class="order-card-content">
+                        <a href="@Url.Action("OrderDetails", "OrdersHistory", new { area = "Customer", id = order.Id })" class="order-card-link">
+                            <div class="order-header">
+                                @if (!string.IsNullOrEmpty(order.RestaurantImage))
                                 {
-                                    case OrderStatus.Pending:
-                                        <i class="bi bi-hourglass-split"></i>
-                                        break;
-                                    case OrderStatus.Preparing:
-                                        <i class="bi bi-fire"></i>
-                                        break;
-                                    case OrderStatus.Shipped:
-                                        <i class="bi bi-truck"></i>
-                                        break;
-                                    case OrderStatus.Delivered:
-                                        <i class="bi bi-check-circle"></i>
-                                        break;
-                                    case OrderStatus.Cancelled:
-                                        <i class="bi bi-x-circle"></i>
-                                        break;
+                                    <img src="~/images/@order.RestaurantImage" alt="@order.RestaurantName" class="restaurant-logo" />
                                 }
-                                @order.Status
-                            </span>
-                        </div>
-                        <div class="order-footer">
-                            <div>
-                                <span class="order-total">@order.TotalPrice.ToString("N2") L.E</span>
-                                <span class="payment-method">
-                                    @if (order.PaymentMethod == PaymentMethod.Cash)
+                                else
+                                {
+                                    <div class="restaurant-logo-placeholder">
+                                        <i class="bi bi-shop"></i>
+                                    </div>
+                                }
+                                <div class="order-info">
+                                    <h3 class="restaurant-name">@order.RestaurantName</h3>
+                                    <div class="order-meta">
+                                        <span><i class="bi bi-calendar3"></i> @order.OrderDate.ToString("MMM dd, yyyy")</span>
+                                        <span><i class="bi bi-clock"></i> @order.OrderDate.ToString("hh:mm tt")</span>
+                                        <span><i class="bi bi-box-seam"></i> @order.ItemsCount items</span>
+                                    </div>
+                                </div>
+                                <span class="status-badge status-@order.Status.ToString().ToLower()">
+                                    @switch (order.Status)
                                     {
-                                        <i class="bi bi-cash"></i>
-                                        <span>Cash</span>
+                                        case OrderStatus.Pending:
+                                            <i class="bi bi-hourglass-split"></i>
+                                            break;
+                                        case OrderStatus.Preparing:
+                                            <i class="bi bi-fire"></i>
+                                            break;
+                                        case OrderStatus.Shipped:
+                                            <i class="bi bi-truck"></i>
+                                            break;
+                                        case OrderStatus.Delivered:
+                                            <i class="bi bi-check-circle"></i>
+                                            break;
+                                        case OrderStatus.Cancelled:
+                                            <i class="bi bi-x-circle"></i>
+                                            break;
                                     }
-                                    else
-                                    {
-                                        <i class="bi bi-credit-card"></i>
-                                        <span>Card</span>
-                                    }
+                                    @order.Status
                                 </span>
                             </div>
-                            <span class="view-details">
-                                View Details <i class="bi bi-chevron-right"></i>
-                            </span>
-                        </div>
-                    </a>
+                            <div class="order-footer">
+                                <div>
+                                    <span class="order-total">@order.TotalPrice.ToString("N2") L.E</span>
+                                    <span class="payment-method">
+                                        @if (order.PaymentMethod == PaymentMethod.Cash)
+                                        {
+                                            <i class="bi bi-cash"></i>
+                                            <span>Cash</span>
+                                        }
+                                        else
+                                        {
+                                            <i class="bi bi-credit-card"></i>
+                                            <span>Card</span>
+                                        }
+                                    </span>
+                                </div>
+                                <span class="view-details">
+                                    View Details <i class="bi bi-chevron-right"></i>
+                                </span>
+                            </div>
+                        </a>
+                        @if (order.Status == OrderStatus.Pending)
+                        {
+                            <div class="order-actions">
+                                <button type="button" class="cancel-order-btn" data-order-id="@order.Id">
+                                    <i class="bi bi-x-circle"></i> Cancel Order
+                                </button>
+                            </div>
+                        }
+                        @if (order.Status == OrderStatus.Delivered)
+                        {
+                            <div class="order-actions rating-actions">
+                                @if (order.IsRated)
+                                {
+                                    <a href="@Url.Action("View", "Rating", new { area = "Customer", orderId = order.Id })" class="view-rating-btn">
+                                        <i class="bi bi-star-fill"></i> View Rating
+                                    </a>
+                                }
+                                else
+                                {
+                                    <a href="@Url.Action("Rate", "Rating", new { area = "Customer", orderId = order.Id })" class="rate-order-btn">
+                                        <i class="bi bi-star"></i> Rate Order
+                                    </a>
+                                }
+                            </div>
+                        }
+                    </div>
                 </div>
             }
         }
     </div>
 </div>
 
-<script src="~/js/ordersHistory.js" defer></script>
+<!-- Cancel Order Modal -->
+<div class="cancel-modal" id="cancelModal">
+    <div class="cancel-modal-dialog">
+        <div class="cancel-modal-header">
+            <div class="cancel-icon-wrapper">
+                <i class="bi bi-exclamation-circle"></i>
+            </div>
+            <h4>Cancel Order</h4>
+            <p>Please let us know why you're cancelling</p>
+            <button type="button" class="modal-close-btn" onclick="closeCancelModal()">
+                <i class="bi bi-x-lg"></i>
+            </button>
+        </div>
+        <div class="cancel-modal-body">
+            <input type="hidden" id="cancelOrderId" value="" />
+            <div class="cancel-reason-options">
+                <label class="reason-option">
+                    <input type="radio" name="cancelReason" value="0" />
+                    <div class="reason-card">
+                        <div class="reason-icon">
+                            <i class="bi bi-lightbulb"></i>
+                        </div>
+                        <div class="reason-content">
+                            <span class="reason-title">Changed My Mind</span>
+                            <span class="reason-desc">I decided not to order</span>
+                        </div>
+                        <div class="reason-check">
+                            <i class="bi bi-check-lg"></i>
+                        </div>
+                    </div>
+                </label>
+                <label class="reason-option">
+                    <input type="radio" name="cancelReason" value="1" />
+                    <div class="reason-card">
+                        <div class="reason-icon">
+                            <i class="bi bi-cash-coin"></i>
+                        </div>
+                        <div class="reason-content">
+                            <span class="reason-title">Found Better Price</span>
+                            <span class="reason-desc">Found a better deal elsewhere</span>
+                        </div>
+                        <div class="reason-check">
+                            <i class="bi bi-check-lg"></i>
+                        </div>
+                    </div>
+                </label>
+                <label class="reason-option">
+                    <input type="radio" name="cancelReason" value="2" />
+                    <div class="reason-card">
+                        <div class="reason-icon">
+                            <i class="bi bi-clock-history"></i>
+                        </div>
+                        <div class="reason-content">
+                            <span class="reason-title">Order Taking Too Long</span>
+                            <span class="reason-desc">Waiting time is too long</span>
+                        </div>
+                        <div class="reason-check">
+                            <i class="bi bi-check-lg"></i>
+                        </div>
+                    </div>
+                </label>
+                <label class="reason-option">
+                    <input type="radio" name="cancelReason" value="3" />
+                    <div class="reason-card">
+                        <div class="reason-icon">
+                            <i class="bi bi-three-dots"></i>
+                        </div>
+                        <div class="reason-content">
+                            <span class="reason-title">Other Reason</span>
+                            <span class="reason-desc">Another reason not listed</span>
+                        </div>
+                        <div class="reason-check">
+                            <i class="bi bi-check-lg"></i>
+                        </div>
+                    </div>
+                </label>
+            </div>
+            <div class="cancel-warning">
+                <i class="bi bi-info-circle"></i>
+                <span>This action cannot be undone. Your order will be cancelled immediately.</span>
+            </div>
+        </div>
+        <div class="cancel-modal-footer">
+            <button type="button" class="cancel-btn secondary" onclick="closeCancelModal()">
+                <i class="bi bi-arrow-left"></i> Keep Order
+            </button>
+            <button type="button" class="cancel-btn danger" id="confirmCancelBtn" onclick="confirmCancelOrder()" disabled>
+                <i class="bi bi-x-circle"></i> Cancel Order
+            </button>
+        </div>
+    </div>
+</div>
+
+@Html.AntiForgeryToken()
+
+@section Scripts {
+    <script src="~/js/ordersHistory.js" asp-append-version="true"></script>
+}

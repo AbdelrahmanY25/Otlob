@@ -10,7 +10,7 @@
         month = monthNames[m.Month - 1] + " " + m.Year,
         sales = m.TotalOrdersSales,
         revenue = m.TotalOrdersRevenue,
-        count = m.OrdersCount
+        count = m.CompletedOrdersCount
     }).ToList();
     
     var pieChartData = new {
@@ -112,7 +112,7 @@
                 <!-- Current Month -->
                 <div class="summary-card" style="background: var(--adm-primary-light); border-color: var(--adm-primary);">
                     <div class="label">This Month Orders</div>
-                    <div class="value" style="color: var(--adm-primary);">@(Model.CurrentMonthAnalytics?.OrdersCount ?? 0)</div>
+                    <div class="value" style="color: var(--adm-primary);">@(Model.CurrentMonthAnalytics?.CompletedOrdersCount ?? 0)</div>
                 </div>
                 <div class="summary-card" style="background: rgba(16, 185, 129, 0.1); border-color: #10B981;">
                     <div class="label">This Month Sales</div>
@@ -126,7 +126,7 @@
                 <!-- Current Year -->
                 <div class="summary-card" style="background: rgba(245, 158, 11, 0.1); border-color: #F59E0B;">
                     <div class="label">This Year Orders</div>
-                    <div class="value" style="color: #F59E0B;">@(Model.CurrentYearAnalytics?.OrdersCount ?? 0)</div>
+                    <div class="value" style="color: #F59E0B;">@(Model.CurrentYearAnalytics?.CompletedOrdersCount ?? 0)</div>
                 </div>
                 <div class="summary-card" style="background: rgba(139, 92, 246, 0.1); border-color: #8B5CF6;">
                     <div class="label">This Year Revenue</div>
@@ -235,7 +235,7 @@
                     {
                         <tr>
                             <td><strong>@monthNames[month.Month - 1] @month.Year</strong></td>
-                            <td>@month.OrdersCount</td>
+                            <td>@month.CompletedOrdersCount</td>
                             <td>@month.TotalOrdersSales.ToString("N2") L.E</td>
                             <td>@month.TotalOrdersRevenue.ToString("N2") L.E</td>
                         </tr>

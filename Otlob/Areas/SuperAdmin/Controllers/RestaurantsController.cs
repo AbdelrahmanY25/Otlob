@@ -2,27 +2,37 @@
 
 [Area(DefaultRoles.SuperAdmin), Authorize(Roles = DefaultRoles.SuperAdmin)]
 [EnableRateLimiting(RateLimiterPolicy.IpLimit)]
-public class RestaurantsController(IRestaurantService restaurantService) : Controller
+public class RestaurantsController(IRestaurantService restaurantService,
+                                   ICommercialRegistrationService commercialRegistrationService,
+                                   ITradeMarkService tradeMarkService,
+                                   IVatService vatService,
+                                   IBankAccountService bankAccountService,
+                                   INationalIdService nationalIdService) : Controller
 {
     private readonly IRestaurantService _restaurantService = restaurantService;
+    private readonly ICommercialRegistrationService _commercialRegistrationService = commercialRegistrationService;
+    private readonly ITradeMarkService _tradeMarkService = tradeMarkService;
+    private readonly IVatService _vatService = vatService;
+    private readonly IBankAccountService _bankAccountService = bankAccountService;
+    private readonly INationalIdService _nationalIdService = nationalIdService;
 
-    public IActionResult UnAcceptedRestaurants()
+    public IActionResult UnAccepted()
     {
         var response = _restaurantService.GetUnAcceptedAndPendingRestaurants();
 
         return View(response);
     }
 
-    public IActionResult ActiveResturatns()
+    public IActionResult Active()
     {
         var response = _restaurantService.GetAcctiveRestaurants();
 
         return View(response);
     }
 
-    public IActionResult ResturantDetails(string id)
+    public IActionResult Details(string id, bool isAvaliable = true)
     {        
-        var result = _restaurantService.GetRestaurantDetailsById(id);
+        var result = _restaurantService.GetRestaurantDetailsById(id, isAvaliable);
 
         if (result.IsFailure)
         {
@@ -30,33 +40,59 @@ public class RestaurantsController(IRestaurantService restaurantService) : Contr
             return RedirectToAction("Index", "Home", new { Area = DefaultRoles.SuperAdmin });
         }
 
-        return View(result.Value);
+        var response = new RestaurantFullDetailsResponse
+        {
+            Restaurant = result.Value,
+            CommercialRegistration = _commercialRegistrationService.GetCommercialRegistration(id).Value,
+            TradeMark = _tradeMarkService.GetTradeMark(id).Value,
+            Vat = _vatService.GetVat(id).Value,
+            BankAccount = _bankAccountService.GetBankAccount(id).Value,
+            NationalId = _nationalIdService.GetNationalId(id).Value
+        };
+
+        return View(response);
     }
 
-    //public IActionResult DeletedRestaurant()
-    //{
-    //    var restaurants = _restaurantService.GetDeletedRestaurants();
+    public IActionResult Deleted()
+    {
+        var restaurants = _restaurantService.GetDeletedRestaurants();
 
-    //    if (restaurants is null)
-    //    {
-    //        TempData["Error"] = "There is no deleted restaurants";
-    //        return RedirectToAction("Index", "Home", new { Area = DefaultRoles.SuperAdmin });
-    //    }
+        if (restaurants is null)
+        {
+            TempData["Error"] = "There is no deleted restaurants";
+            return RedirectToAction("Index", "Home", new { Area = DefaultRoles.SuperAdmin });
+        }
 
-    //    return View(restaurants);
-    //}
+        return View(restaurants);
+    }
 
-    //public async Task<IActionResult> DeleteRestaurant(string id)
-    //{
-    //    await _restaurantService.DelteRestaurant(id);
-    //    TempData["Success"] = "Restaurant Deleted Successfully";
-    //    return RedirectToAction(nameof(ActiveResturatns));
-    //}
+    public IActionResult Delete(string restaurantKey)
+    {
+        var result = _restaurantService.DelteRestaurant(restaurantKey);
 
-    //public async Task<IActionResult> UnDeleteRestaurant(string id)
-    //{
-    //    await _restaurantService.UnDelteRestaurant(id);
-    //    TempData["Success"] = "Restaurant UnDeleted Successfully";
-    //    return RedirectToAction(nameof(ActiveResturatns));
-    //}
+        if (result.IsFailure)
+        {
+            TempData["Error"] = result.Error.Description;
+            return RedirectToAction(nameof(Details));
+        }
+
+        TempData["Success"] = "Restaurant Deleted Successfully";
+        
+        return RedirectToAction(nameof(Deleted));
+    }
+
+    public IActionResult Restore(string restaurantKey)
+    {
+        var result = _restaurantService.UnDelteRestaurant(restaurantKey);
+        
+        if (result.IsFailure)
+        {
+            TempData["Error"] = result.Error.Description;
+            return RedirectToAction(nameof(Deleted));
+        }
+
+
+        TempData["Success"] = "Restaurant UnDeleted Successfully";        
+        return RedirectToAction(nameof(Active));
+    }
 }

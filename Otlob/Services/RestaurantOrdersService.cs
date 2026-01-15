@@ -1,6 +1,6 @@
 ﻿namespace Otlob.Services;
 
-public class RestaurantOrdersService(IUnitOfWorkRepository unitOfWorkRepository, IHttpContextAccessor httpContextAccessor,
+public class RestaurantOrdersService(IUnitOfWorkRepository unitOfWorkRepository,
                                      IDataProtectionProvider dataProtectionProvider,
                                      IAdminDailyAnalyticsService adminDailyAnalyticsService,
                                      IAdminMonthlyAnalyticsService adminMonthlyAnalyticsService,
@@ -8,17 +8,14 @@ public class RestaurantOrdersService(IUnitOfWorkRepository unitOfWorkRepository,
                                      IRestaurantMonthlyAnalyticsService restaurantMonthlyAnalyticsService) : IRestaurantOrdersService
 {
     private readonly IUnitOfWorkRepository _unitOfWorkRepository = unitOfWorkRepository;
-    private readonly IHttpContextAccessor _httpContextAccessor = httpContextAccessor;
     private readonly IAdminDailyAnalyticsService _adminDailyAnalyticsService = adminDailyAnalyticsService;
     private readonly IAdminMonthlyAnalyticsService _adminMonthlyAnalyticsService = adminMonthlyAnalyticsService;
+    private readonly IDataProtector _dataProtector = dataProtectionProvider.CreateProtector("SecureData");
     private readonly IRestaurantDailyAnalyticsService _restaurantDailyAnalyticsService = restaurantDailyAnalyticsService;
     private readonly IRestaurantMonthlyAnalyticsService _restaurantMonthlyAnalyticsService = restaurantMonthlyAnalyticsService;
-    private readonly IDataProtector _dataProtector = dataProtectionProvider.CreateProtector("SecureData");
 
-    public IEnumerable<RestaurantOrdersResponse> GetAllInProgressByRestaurantId(string restaurantKey)
+    public IEnumerable<RestaurantOrdersResponse> GetAllInProgressByRestaurantId(int restaurantId)
     {
-        int restaurantId = int.Parse(_dataProtector.Unprotect(restaurantKey));
-
         var orders = GetInProgressOrdersByRestaurantId(restaurantId);
 
         if (orders is null || !orders.Any())
@@ -29,24 +26,8 @@ public class RestaurantOrdersService(IUnitOfWorkRepository unitOfWorkRepository,
         return responses;
     }
 
-    public IEnumerable<RestaurantOrdersResponse> GetInProgressRestaurantOrders()
+    public IEnumerable<RestaurantOrdersResponse> GetAllDeliveredByRestaurantId(int restaurantId)
     {
-        int restaurantId = int.Parse(_httpContextAccessor.HttpContext!.User.FindFirstValue(StaticData.RestaurantId)!);
-
-        var orders = GetInProgressOrdersByRestaurantId(restaurantId);
-
-        if (orders is null || !orders.Any())
-            return [];
-
-        var responses = MapToRestaurantOrdersResponse(orders);
-
-        return responses;
-    }
-
-    public IEnumerable<RestaurantOrdersResponse> GetAllDeliveredByRestaurantId(string restaurantKey)
-    {
-        int restaurantId = int.Parse(_dataProtector.Unprotect(restaurantKey));
-
         var orders = GetDeliveredOrdersByRestaurantId(restaurantId);
 
         if (orders is null || !orders.Any())
@@ -57,24 +38,8 @@ public class RestaurantOrdersService(IUnitOfWorkRepository unitOfWorkRepository,
         return responses;
     }
 
-    public IEnumerable<RestaurantOrdersResponse> GetDeliveredRestaurantOrders()
+    public IEnumerable<RestaurantOrdersResponse> GetAllCancelledByRestaurantId(int restaurantId)
     {
-        int restaurantId = int.Parse(_httpContextAccessor.HttpContext!.User.FindFirstValue(StaticData.RestaurantId)!);
-
-        var orders = GetDeliveredOrdersByRestaurantId(restaurantId);
-
-        if (orders is null || !orders.Any())
-            return [];
-
-        var responses = MapToRestaurantOrdersResponse(orders);
-
-        return responses;
-    }
-
-    public IEnumerable<RestaurantOrdersResponse> GetAllCancelledByRestaurantId(string restaurantKey)
-    {
-        int restaurantId = int.Parse(_dataProtector.Unprotect(restaurantKey));
-
         var orders = GetCancelledOrdersByRestaurantId(restaurantId);
 
         if (orders is null || !orders.Any())
@@ -85,28 +50,16 @@ public class RestaurantOrdersService(IUnitOfWorkRepository unitOfWorkRepository,
         return responses;
     }
 
-    public IEnumerable<RestaurantOrdersResponse> GetCancelledRestaurantOrders()
+    public Result UpdateOrderStatus(int restaurantId, int orderId, OrderStatus newStatus)
     {
-        int restaurantId = int.Parse(_httpContextAccessor.HttpContext!.User.FindFirstValue(StaticData.RestaurantId)!);
-
-        var orders = GetCancelledOrdersByRestaurantId(restaurantId);
-
-        if (orders is null || !orders.Any())
-            return [];
-
-        var responses = MapToRestaurantOrdersResponse(orders);
-
-        return responses;
-    }
-
-    public Result UpdateOrderStatus(int orderId, OrderStatus newStatus)
-    {
-        var order = _unitOfWorkRepository.Orders.GetOne(
-            expression: o => o.Id == orderId
-        );
+        var order = _unitOfWorkRepository.Orders
+            .GetOne(expression: o => o.Id == orderId);
 
         if (order is null)
             return Result.Failure(OrderErrors.NotFound);
+
+        if (order.RestaurantId != restaurantId)
+            return Result.Failure(OrderErrors.UnauthorizedCancellation);
 
         if (!IsValidStatusTransition(order.Status, newStatus))
             return Result.Failure(OrderErrors.InvalidStatusTransition);
@@ -134,10 +87,8 @@ public class RestaurantOrdersService(IUnitOfWorkRepository unitOfWorkRepository,
         return Result.Success();
     }
 
-    public OrderUserInfoResponse? GetOrderUserInfo(int orderId)
+    public OrderUserInfoResponse? GetOrderUserInfo(int restaurantId, int orderId)
     {
-        int restaurantId = int.Parse(_httpContextAccessor.HttpContext!.User.FindFirstValue(StaticData.RestaurantId)!);
-
         var userInfo = _unitOfWorkRepository.Orders.GetOneWithSelect(
             expression: o => o.Id == orderId && o.RestaurantId == restaurantId,
             selector: o => new OrderUserInfoResponse
@@ -154,6 +105,46 @@ public class RestaurantOrdersService(IUnitOfWorkRepository unitOfWorkRepository,
         return userInfo;
     }   
 
+    public Result CancelOrder(int restaurantId, int orderId, RestaurantCancelReason reason)
+    {
+        var order = _unitOfWorkRepository.Orders.GetOne(
+            expression: o => o.Id == orderId
+        );
+
+        if (order is null)
+            return Result.Failure(OrderErrors.NotFound);
+
+        if (order.RestaurantId != restaurantId)
+            return Result.Failure(OrderErrors.UnauthorizedCancellation);
+
+        if (order.Status == OrderStatus.Delivered || order.Status == OrderStatus.Cancelled)
+            return Result.Failure(OrderErrors.CannotCancelOrder);
+
+        using var transaction = _unitOfWorkRepository.BeginTransaction();
+
+        try
+        {
+            order.Status = OrderStatus.Cancelled;
+            order.RestaurantCancelReason = reason;
+
+            _unitOfWorkRepository.Orders.Update(order);
+            _unitOfWorkRepository.SaveChanges();
+
+            UpdateAdminAnalytics(order, OrderStatus.Cancelled);
+            UpdateRestaurantAnalytics(order, OrderStatus.Cancelled);
+
+            transaction.Commit();
+        }
+        catch
+        {
+            transaction.Rollback();
+            return Result.Failure(OrderErrors.AddOrderField);
+        }
+
+        return Result.Success();
+    }
+
+    
     private static bool IsValidStatusTransition(OrderStatus current, OrderStatus next)
     {
         return (current, next) switch
@@ -221,7 +212,9 @@ public class RestaurantOrdersService(IUnitOfWorkRepository unitOfWorkRepository,
             TotalAmount = o.TotalPrice,
             Status = o.Status.ToString(),
             PaymentMethod = o.Method,
-            ItemsCount = o.OrderDetails.Count
+            ItemsCount = o.OrderDetails.Count,
+            CustomerCancelReason = o.CustomerCancelReason,
+            RestaurantCancelReason = o.RestaurantCancelReason
         });
     }
 
@@ -238,11 +231,12 @@ public class RestaurantOrdersService(IUnitOfWorkRepository unitOfWorkRepository,
         else if (status == OrderStatus.Delivered)
         {
             _adminDailyAnalyticsService.UpdateDeliveredOrders(order.TotalPrice);
-            _adminMonthlyAnalyticsService.Update(order.TotalPrice);
+            _adminMonthlyAnalyticsService.Update(order.TotalPrice, status);
         }
         else if (status == OrderStatus.Cancelled)
         {
             _adminDailyAnalyticsService.UpdateCancelledOrders();
+            _adminMonthlyAnalyticsService.Update(order.TotalPrice, status);
         }
     }
 
@@ -259,11 +253,12 @@ public class RestaurantOrdersService(IUnitOfWorkRepository unitOfWorkRepository,
         else if (status == OrderStatus.Delivered)
         {
             _restaurantDailyAnalyticsService.UpdateDeliveredOrders(order.RestaurantId, order.TotalPrice);
-            _restaurantMonthlyAnalyticsService.Update(order.RestaurantId, order.TotalPrice);
+            _restaurantMonthlyAnalyticsService.Update(order.RestaurantId, order.TotalPrice, status);
         }
         else if (status == OrderStatus.Cancelled)
         {
             _restaurantDailyAnalyticsService.UpdateCancelledOrders(order.RestaurantId);
+            _restaurantMonthlyAnalyticsService.Update(order.RestaurantId, order.TotalPrice, status);
         }
     }
 }

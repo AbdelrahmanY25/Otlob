@@ -33,9 +33,18 @@ public class RestaurantDailyAnalyticsService(IUnitOfWorkRepository unitOfWorkRep
                 yesterdayAnalytics.ShippingOrders = 0;
 
                 _unitOfWorkRepository.RestaurantDailyAnalytics.Update(yesterdayAnalytics);
-
-                _unitOfWorkRepository.SaveChanges();
             }
+            else
+            {
+                _unitOfWorkRepository.RestaurantDailyAnalytics
+                    .Add(new RestaurantDailyAnalytic
+                    { 
+                        RestaurantId = restaurantId,
+                        Date = today
+                    });
+            }
+            
+            _unitOfWorkRepository.SaveChanges();
         }
     }
 

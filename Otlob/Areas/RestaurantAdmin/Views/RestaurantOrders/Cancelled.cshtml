@@ -81,6 +81,50 @@
                             </span>
                             <span class="detail-value price">@order.TotalAmount.ToString("N2") L.E</span>
                         </div>
+
+                        <!-- Cancel Reason -->
+                        <div class="cancel-reason-display">
+                            @if (order.CustomerCancelReason.HasValue)
+                            {
+                                <div class="cancel-reason-badge customer">
+                                    <i class="bi bi-person-x"></i>
+                                    <span class="cancel-by">Cancelled by Customer</span>
+                                    <span class="cancel-reason-text">
+                                        @(order.CustomerCancelReason switch
+                                        {
+                                            CustomerCancelReason.ChangedMind => "Changed Mind",
+                                            CustomerCancelReason.FoundBetterPrice => "Found Better Price",
+                                            CustomerCancelReason.OrderTookTooLong => "Order Took Too Long",
+                                            CustomerCancelReason.Other => "Other Reason",
+                                            _ => "Unknown"
+                                        })
+                                    </span>
+                                </div>
+                            }
+                            else if (order.RestaurantCancelReason.HasValue)
+                            {
+                                <div class="cancel-reason-badge restaurant">
+                                    <i class="bi bi-shop"></i>
+                                    <span class="cancel-by">Cancelled by Restaurant</span>
+                                    <span class="cancel-reason-text">
+                                        @(order.RestaurantCancelReason switch
+                                        {
+                                            RestaurantCancelReason.OutOfStock => "Out of Stock",
+                                            RestaurantCancelReason.UnableToFulfillOrder => "Unable to Fulfill",
+                                            RestaurantCancelReason.Other => "Other Reason",
+                                            _ => "Unknown"
+                                        })
+                                    </span>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="cancel-reason-badge unknown">
+                                    <i class="bi bi-question-circle"></i>
+                                    <span class="cancel-reason-text">Reason not specified</span>
+                                </div>
+                            }
+                        </div>
                     </div>
 
                     <div class="order-card-footer">
@@ -99,12 +143,14 @@
     else
     {
         <div class="empty-state">
-            <i class="bi bi-emoji-smile"></i>
+            <i class="bi bi-inbox"></i>
             <h3>No cancelled orders</h3>
-            <p>Great! You don't have any cancelled orders.</p>
+            <p>Cancelled orders will appear here.</p>
         </div>
     }
 </div>
+
+@Html.AntiForgeryToken()
 
 <!-- User Info Modal -->
 <div class="user-info-modal" id="userInfoModal">
@@ -116,10 +162,14 @@
             </button>
         </div>
         <div id="userInfoContent">
+            <!-- Content loaded via AJAX -->
         </div>
     </div>
 </div>
 
 @section Scripts {
+    <script>
+        window.currentArea = 'RestaurantAdmin';
+    </script>
     <script src="~/js/restaurantOrders.js" asp-append-version="true"></script>
 }

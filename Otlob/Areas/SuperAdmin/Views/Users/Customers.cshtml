@@ -1,0 +1,219 @@
+﻿@model IOrderedEnumerable<UserMainResponse>
+
+@{
+    ViewData["Title"] = "Customers Management";
+    var customers = Model?.ToList();
+    var totalCustomers = customers.Count;
+    var activeCustomers = customers.Count(c => !c.LockoutEnabled);
+    var blockedCustomers = customers.Count(c => c.LockoutEnabled);
+}
+
+@section Profile {
+    <link href="~/css/customersTable.css" rel="stylesheet" asp-append-version="true" />
+}
+
+<div class="customers-page">
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="page-header-content">
+            <h1><i class="fas fa-users"></i> Customers Management</h1>
+            <p>View and manage all customer accounts in the system</p>
+        </div>
+        <div class="header-stats">
+            <div class="stat-badge total">
+                <div class="icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="info">
+                    <span>Total Customers</span>
+                    <strong class="count">@totalCustomers</strong>
+                </div>
+            </div>
+            <div class="stat-badge active">
+                <div class="icon">
+                    <i class="fas fa-user-check"></i>
+                </div>
+                <div class="info">
+                    <span>Active</span>
+                    <strong class="count">@activeCustomers</strong>
+                </div>
+            </div>
+            <div class="stat-badge blocked">
+                <div class="icon">
+                    <i class="fas fa-user-slash"></i>
+                </div>
+                <div class="info">
+                    <span>Blocked</span>
+                    <strong class="count">@blockedCustomers</strong>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Table Card -->
+    <div class="table-card">
+        <!-- Loading Overlay -->
+        <div class="loading-overlay">
+            <div class="spinner"></div>
+        </div>
+
+        <!-- Table Toolbar -->
+        <div class="table-toolbar">
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" 
+                       id="searchInput" 
+                       placeholder="Search by name, email, or phone..."
+                       autocomplete="off">
+            </div>
+            <div class="filter-controls">
+                <!-- Status Filter Buttons -->
+                <button class="filter-btn active" data-filter="all">
+                    <i class="fas fa-list"></i>
+                    <span>All</span>
+                </button>
+                <button class="filter-btn" data-filter="active">
+                    <i class="fas fa-user-check"></i>
+                    <span>Active</span>
+                </button>
+                <button class="filter-btn" data-filter="blocked">
+                    <i class="fas fa-user-slash"></i>
+                    <span>Blocked</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Table -->
+        <div class="table-responsive">
+            <table class="customers-table">
+                <thead>
+                    <tr>
+                        <th class="sortable" data-sort="userName">
+                            User
+                            <i class="fas fa-sort sort-icon"></i>
+                        </th>
+                        <th class="sortable" data-sort="email">
+                            Contact
+                            <i class="fas fa-sort sort-icon"></i>
+                        </th>
+                        <th>Account Status</th>
+                        <th>Email Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (customers.Any())
+                    {
+                        @foreach (var customer in customers)
+                        {
+                            var isBlocked = !customer.LockoutEnabled;
+                            var isVerified = customer.EmailConfirmed;
+                            var initials = !string.IsNullOrEmpty(customer.UserName) 
+                                ? customer.UserName.Substring(0, Math.Min(2, customer.UserName.Length)).ToUpper() 
+                                : "?";
+                            
+                            <tr data-customer-id="@customer.Id"
+                                data-user-name="@customer.UserName"
+                                data-email="@customer.Email"
+                                data-phone="@customer.PhoneNumber"
+                                data-image="@customer.Image"
+                                /* Fix: Pass !LockoutEnabled (IsActive) to match JS filter expectation (Active = "true") */
+                                data-lockout-enabled="@((!customer.LockoutEnabled).ToString().ToLower())"
+                                data-email-confirmed="@customer.EmailConfirmed.ToString().ToLower()">
+                                
+                                <td data-label="User">
+                                    <div class="user-cell">
+                                        <div class="user-avatar">
+                                            @if (!string.IsNullOrEmpty(customer.Image))
+                                            {
+                                                <img src="~/images/@customer.Image" alt="@customer.UserName" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                                <span class="avatar-placeholder" style="display: none;">@initials</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="avatar-placeholder">@initials</span>
+                                            }
+                                        </div>
+                                        <div class="user-info">
+                                            <div class="name">@(customer.UserName ?? "N/A")</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                
+                                <td data-label="Contact">
+                                    <div class="contact-cell">
+                                        <div class="email">
+                                            <i class="fas fa-envelope"></i>
+                                            <span>@(customer.Email ?? "N/A")</span>
+                                        </div>
+                                        <div class="phone">
+                                            <i class="fas fa-phone"></i>
+                                            <span>@(customer.PhoneNumber ?? "N/A")</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                
+                                <td data-label="Account Status">
+                                    <span class="status-badge @(isBlocked ? "blocked" : "active")">
+                                        <i class="fas fa-circle"></i>
+                                        @(isBlocked ? "Blocked" : "Active")
+                                    </span>
+                                </td>
+                                
+                                <td data-label="Email Status">
+                                    <span class="status-badge @(isVerified ? "verified" : "unverified")">
+                                        <i class="fas fa-@(isVerified ? "check" : "clock")"></i>
+                                        @(isVerified ? "Verified" : "Unverified")
+                                    </span>
+                                </td>
+                                
+                                <td data-label="Actions">
+                                    <div class="action-buttons">
+                                        <a href="@Url.Action("UserProfile", "UserProfile", new { area = "SuperAdmin", id = customer.Id })" 
+                                           class="action-btn view-profile" 
+                                           data-tooltip="View Profile">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <button class="action-btn toggle-block @(isBlocked ? "blocked" : "")" 
+                                                data-tooltip="@(isBlocked ? "Unblock User" : "Block User")">
+                                            <i class="fas fa-@(isBlocked ? "unlock" : "ban")"></i>
+                                        </button>
+                                        <button class="action-btn toggle-email @(isVerified ? "verified" : "")" 
+                                                data-tooltip="@(isVerified ? "Mark as Unverified" : "Verify Email")">
+                                            <i class="fas fa-@(isVerified ? "check-circle" : "envelope")"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        @if (!customers.Any())
+        {
+            <div class="empty-state">
+                <div class="empty-icon">
+                    <i class="fas fa-users-slash"></i>
+                </div>
+                <h3>No customers found</h3>
+                <p>There are no customer accounts in the system yet</p>
+            </div>
+        }
+
+        <!-- Table Footer -->
+        <div class="table-footer">
+            <div class="showing-info">
+                Showing <strong>1</strong> to <strong>@Math.Min(10, totalCustomers)</strong> of <strong>@totalCustomers</strong> customers
+            </div>
+            <div class="pagination">
+                <!-- Pagination will be generated by JavaScript -->
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/customersTable.js" asp-append-version="true"></script>
+}

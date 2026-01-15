@@ -1,0 +1,294 @@
+/* =========================================
+   Admin Profile Page Styles
+   Uses variables from adminSite.css
+   ========================================= */
+
+.profile-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+    animation: fadeIn 0.4s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Header Card (Avatar + Basic Info) */
+.profile-header-card {
+    background: var(--adm-bg-sidebar);
+    border-radius: var(--adm-radius);
+    padding: 30px;
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    margin-bottom: 24px;
+    box-shadow: var(--adm-shadow);
+    border: 1px solid var(--adm-border);
+    position: relative;
+    overflow: hidden;
+}
+
+.profile-header-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, var(--adm-primary) 0%, var(--adm-primary-hover) 100%);
+}
+
+.profile-avatar-section {
+    position: relative;
+}
+
+.profile-avatar-wrapper {
+    position: relative;
+    width: 120px;
+    height: 120px;
+}
+
+.profile-avatar {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid var(--adm-bg-body);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.profile-avatar-upload-label {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    background: var(--adm-primary);
+    color: white;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: 2px solid var(--adm-bg-sidebar);
+    transition: var(--adm-transition);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.profile-avatar-upload-label:hover {
+    background: var(--adm-primary-hover);
+    transform: scale(1.1);
+}
+
+.profile-info {
+    flex: 1;
+}
+
+.profile-info h1 {
+    margin: 0 0 8px 0;
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--adm-text-primary);
+}
+
+.profile-role-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    background: var(--adm-primary-light);
+    color: var(--adm-primary);
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.profile-email {
+    color: var(--adm-text-secondary);
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Content Card (Forms) */
+.profile-content-card {
+    background: var(--adm-bg-sidebar);
+    border-radius: var(--adm-radius);
+    padding: 30px;
+    box-shadow: var(--adm-shadow);
+    border: 1px solid var(--adm-border);
+}
+
+.card-header {
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--adm-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card-header h2 {
+    margin: 0;
+    font-size: 20px;
+    color: var(--adm-text-primary);
+}
+
+.profile-form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group.full-width {
+    grid-column: 1 / -1;
+}
+
+.form-label {
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--adm-text-primary);
+}
+
+.input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-wrapper i {
+    position: absolute;
+    left: 12px;
+    color: var(--adm-text-secondary);
+    font-size: 16px;
+    pointer-events: none;
+}
+
+.form-input {
+    width: 100%;
+    padding: 12px 16px 12px 40px; /* Left padding for icon */
+    border: 1px solid var(--adm-border);
+    border-radius: var(--adm-radius);
+    background: var(--adm-bg-body);
+    color: var(--adm-text-primary);
+    font-size: 14px;
+    transition: var(--adm-transition);
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: var(--adm-primary);
+    box-shadow: 0 0 0 3px var(--adm-primary-light);
+}
+
+/* Specific styling for readonly/disabled inputs if any */
+.form-input:read-only {
+    opacity: 0.7;
+    cursor: default;
+}
+
+.validation-error {
+    color: #ef4444;
+    font-size: 12px;
+    margin-top: 4px;
+}
+
+.form-actions {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+    padding-top: 20px;
+    border-top: 1px solid var(--adm-border);
+}
+
+.profile-btn {
+    background: var(--adm-primary);
+    color: white;
+    border: none;
+    padding: 12px 28px;
+    border-radius: var(--adm-radius);
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 15px;
+    transition: var(--adm-transition);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.profile-btn:hover {
+    background: var(--adm-primary-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+/* Profile Quick Links */
+.profile-quick-link-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    background: var(--adm-primary-light);
+    color: var(--adm-primary);
+    border-radius: var(--adm-radius);
+    font-weight: 600;
+    font-size: 14px;
+    text-decoration: none;
+    transition: var(--adm-transition);
+    border: 1px solid transparent;
+}
+
+.profile-quick-link-btn:hover {
+    background: var(--adm-primary);
+    color: var(--adm-text-contrast);
+    transform: translateY(-2px);
+    box-shadow: var(--adm-shadow);
+}
+
+.profile-quick-link-btn i {
+    font-size: 16px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .profile-header-card {
+        flex-direction: column;
+        text-align: center;
+        padding: 20px;
+    }
+
+    .profile-info {
+        width: 100%;
+    }
+    
+    .profile-email {
+        justify-content: center;
+    }
+    
+    .profile-form-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .form-actions {
+        justify-content: stretch;
+    }
+
+    .profile-btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .profile-quick-links {
+        justify-content: center;
+    }
+}

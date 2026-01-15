@@ -1,33 +1,19 @@
-/* ===== Menu Categories & Meals Premium Design ===== */
+/* =========================================
+   Menu Management Page
+   Uses Admin Theme Variables (--adm-*)
+   ========================================= */
+
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
 
+/* Local Variables (extend admin theme) */
 :root {
-    --mc-primary: #F04335;
-    --mc-primary-dark: #d63d30;
-    --mc-secondary: #dd968c;
     --mc-success: #10b981;
     --mc-danger: #ef4444;
     --mc-warning: #f59e0b;
     --mc-info: #3b82f6;
-
-    --mc-text: #1f2937;
-    --mc-text-light: #6b7280;
-    --mc-text-muted: #9ca3af;
-
-    --mc-bg: #f8fafc;
-    --mc-card-bg: #ffffff;
-    --mc-border: #e2e8f0;
-
-    --mc-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
-    --mc-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-    --mc-shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
-    --mc-shadow-hover: 0 25px 50px -12px rgba(240, 67, 53, 0.15);
-
     --mc-radius: 16px;
     --mc-radius-sm: 10px;
     --mc-transition: cubic-bezier(0.4, 0, 0.2, 1);
-
-    /* Add-ons specific colors */
     --mc-butter-bg: #fffbeb;
     --mc-butter-border: #fde68a;
     --mc-butter-text: #92400e;
@@ -35,13 +21,14 @@
 
 body {
     font-family: 'Outfit', sans-serif;
-    background-color: var(--mc-bg);
 }
 
-/* Page Layout */
+/* ===== Page Layout ===== */
 .mc-page {
     min-height: 100vh;
     padding: 2rem;
+    background: var(--adm-bg-body);
+    transition: var(--adm-transition);
 }
 
 .mc-container {
@@ -49,17 +36,17 @@ body {
     margin: 0 auto;
 }
 
-/* Header */
+/* ===== Header ===== */
 .mc-header {
-    background: var(--mc-card-bg);
+    background: var(--adm-bg-sidebar);
     padding: 1.5rem 2rem;
     border-radius: var(--mc-radius);
-    box-shadow: var(--mc-shadow);
+    box-shadow: var(--adm-shadow);
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 2.5rem;
-    border: 1px solid var(--mc-border);
+    border: 1px solid var(--adm-border);
     flex-wrap: wrap;
     gap: 1.5rem;
 }
@@ -76,9 +63,9 @@ body {
     align-items: center;
     gap: 0.5rem;
     padding: 0.75rem 1.25rem;
-    background: white;
-    color: var(--mc-text);
-    border: 1px solid var(--mc-border);
+    background: var(--adm-bg-sidebar);
+    color: var(--adm-text-primary);
+    border: 1px solid var(--adm-border);
     border-radius: 8px;
     font-size: 0.9rem;
     font-weight: 600;
@@ -88,9 +75,9 @@ body {
 }
 
 .mc-control-btn:hover {
-    background: var(--mc-bg);
-    border-color: var(--mc-primary);
-    color: var(--mc-primary);
+    background: var(--adm-bg-body);
+    border-color: var(--adm-primary);
+    color: var(--adm-primary);
     transform: translateY(-1px);
 }
 
@@ -103,12 +90,12 @@ body {
 .mc-header-icon {
     width: 56px;
     height: 56px;
-    background: linear-gradient(135deg, var(--mc-primary), var(--mc-secondary));
+    background: linear-gradient(135deg, var(--adm-primary), var(--adm-primary-hover));
     border-radius: var(--mc-radius-sm);
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 8px 16px rgba(240, 67, 53, 0.25);
+    box-shadow: 0 8px 16px rgba(79, 70, 229, 0.25);
     font-size: 1.5rem;
     color: white;
 }
@@ -116,14 +103,14 @@ body {
 .mc-header-content h1 {
     font-size: 1.75rem;
     font-weight: 800;
-    color: var(--mc-text);
+    color: var(--adm-text-primary);
     margin: 0;
     letter-spacing: -0.025em;
 }
 
 .mc-header-content p {
     font-size: 0.95rem;
-    color: var(--mc-text-light);
+    color: var(--adm-text-secondary);
     margin: 0.25rem 0 0;
 }
 
@@ -132,7 +119,7 @@ body {
     align-items: center;
     gap: 0.75rem;
     padding: 0.875rem 1.75rem;
-    background: linear-gradient(135deg, var(--mc-primary), var(--mc-primary-dark));
+    background: linear-gradient(135deg, var(--adm-primary), var(--adm-primary-hover));
     color: white;
     border: none;
     border-radius: 50px;
@@ -140,34 +127,35 @@ body {
     font-weight: 700;
     cursor: pointer;
     transition: all 0.3s var(--mc-transition);
-    box-shadow: 0 4px 12px rgba(240, 67, 53, 0.3);
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
     text-decoration: none;
 }
 
 .mc-add-btn:hover {
     transform: translateY(-2px) scale(1.02);
-    box-shadow: 0 8px 20px rgba(240, 67, 53, 0.4);
+    box-shadow: 0 8px 20px rgba(79, 70, 229, 0.4);
+    color: white;
 }
 
-/* Category Section */
+/* ===== Category Section ===== */
 .mc-category-section {
-    background: var(--mc-card-bg);
+    background: var(--adm-bg-sidebar);
     border-radius: var(--mc-radius);
-    border: 1px solid var(--mc-border);
+    border: 1px solid var(--adm-border);
     margin-bottom: 2rem;
     overflow: hidden;
     transition: all 0.3s var(--mc-transition);
 }
 
 .mc-category-section:hover {
-    box-shadow: var(--mc-shadow-lg);
-    border-color: rgba(240, 67, 53, 0.1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    border-color: var(--adm-primary-light);
 }
 
 .mc-category-header {
     padding: 1.25rem 2rem;
-    background: #ffffff;
-    border-bottom: 1px solid var(--mc-border);
+    background: var(--adm-bg-sidebar);
+    border-bottom: 1px solid var(--adm-border);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -188,35 +176,35 @@ body {
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    background: var(--mc-bg);
-    color: var(--mc-text-light);
+    background: var(--adm-bg-body);
+    color: var(--adm-text-secondary);
     transition: transform 0.3s var(--mc-transition);
 }
 
 .mc-category-section.open .mc-cat-toggle {
     transform: rotate(180deg);
-    background: var(--mc-primary);
+    background: var(--adm-primary);
     color: white;
 }
 
 .mc-cat-title {
     font-size: 1.25rem;
     font-weight: 700;
-    color: var(--mc-text);
+    color: var(--adm-text-primary);
     display: flex;
     align-items: center;
     gap: 0.75rem;
 }
 
 .mc-cat-title i {
-    color: var(--mc-primary);
+    color: var(--adm-primary);
     opacity: 0.8;
 }
 
 .mc-cat-count {
     font-size: 0.85rem;
-    color: var(--mc-text-muted);
-    background: var(--mc-bg);
+    color: var(--adm-text-secondary);
+    background: var(--adm-bg-body);
     padding: 0.25rem 0.75rem;
     border-radius: 50px;
     font-weight: 600;
@@ -237,47 +225,46 @@ body {
     border: none;
     cursor: pointer;
     transition: all 0.2s var(--mc-transition);
-    background: var(--mc-bg);
-    color: var(--mc-text-light);
+    background: var(--adm-bg-body);
+    color: var(--adm-text-secondary);
     font-size: 1rem;
 }
 
 .mc-btn-icon:hover {
-    background: var(--mc-border);
-    color: var(--mc-text);
+    background: var(--adm-border);
+    color: var(--adm-text-primary);
     transform: scale(1.05);
 }
 
 .mc-btn-icon.delete:hover {
-    background: #fee2e2;
+    background: rgba(239, 68, 68, 0.1);
     color: var(--mc-danger);
 }
 
 .mc-btn-icon.add {
-    background: rgba(240, 67, 53, 0.1);
-    color: var(--mc-primary);
+    background: var(--adm-primary-light);
+    color: var(--adm-primary);
 }
 
 .mc-btn-icon.add:hover {
-    background: var(--mc-primary);
+    background: var(--adm-primary);
     color: white;
 }
 
-/* Meals Grid Container */
+/* ===== Meals Grid Container ===== */
 .mc-meals-container {
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.4s ease-out;
-    background: var(--mc-bg);
+    background: var(--adm-bg-body);
 }
 
 .mc-category-section.open .mc-meals-container {
     max-height: 2000px;
-    /* Arbitrary large value for animation */
     transition: max-height 0.6s ease-in;
 }
 
-/* Table Layout for Meals */
+/* ===== Table Layout for Meals ===== */
 .mc-meals-table-wrapper {
     padding: 1.5rem 2rem;
     display: block;
@@ -290,7 +277,7 @@ body {
 }
 
 .mc-meals-table thead tr {
-    background: #f8fafc;
+    background: var(--adm-bg-body);
 }
 
 .mc-meals-table thead th {
@@ -298,20 +285,20 @@ body {
     text-align: left;
     font-size: 0.85rem;
     font-weight: 700;
-    color: var(--mc-text-light);
+    color: var(--adm-text-secondary);
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    border-bottom: 2px solid var(--mc-border);
+    border-bottom: 2px solid var(--adm-border);
 }
 
 .mc-meals-table tbody tr {
-    background: white;
+    background: var(--adm-bg-sidebar);
     transition: all 0.2s var(--mc-transition);
-    border-bottom: 1px solid var(--mc-border);
+    border-bottom: 1px solid var(--adm-border);
 }
 
 .mc-meals-table tbody tr:hover {
-    background: #f8fafc;
+    background: var(--adm-bg-body);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
@@ -332,20 +319,20 @@ body {
     height: 60px;
     object-fit: cover;
     border-radius: var(--mc-radius-sm);
-    border: 2px solid var(--mc-border);
+    border: 2px solid var(--adm-border);
 }
 
 .mc-meal-name-sm {
     font-size: 1rem;
     font-weight: 600;
-    color: var(--mc-text);
+    color: var(--adm-text-primary);
 }
 
 .mc-price-badge {
     display: inline-flex;
     align-items: center;
     padding: 0.5rem 1rem;
-    background: linear-gradient(58deg, rgb(119 211 125 / 33%), rgb(15 53 26 / 10%));
+    background: rgba(16, 185, 129, 0.15);
     color: var(--mc-success);
     border-radius: 50px;
     font-weight: 700;
@@ -368,8 +355,8 @@ body {
     border: none;
     cursor: pointer;
     transition: all 0.2s var(--mc-transition);
-    background: var(--mc-bg);
-    color: var(--mc-text-light);
+    background: var(--adm-bg-body);
+    color: var(--adm-text-secondary);
     font-size: 0.95rem;
 }
 
@@ -407,7 +394,7 @@ body {
     color: white;
 }
 
-/* Mobile Cards (Hidden on Desktop) */
+/* ===== Mobile Cards (Hidden on Desktop) ===== */
 .mc-mobile-meals {
     display: none;
     padding: 1rem;
@@ -416,9 +403,9 @@ body {
 }
 
 .mc-mobile-meal-card {
-    background: white;
+    background: var(--adm-bg-sidebar);
     border-radius: var(--mc-radius-sm);
-    border: 1px solid var(--mc-border);
+    border: 1px solid var(--adm-border);
     display: flex;
     gap: 1rem;
     padding: 1rem;
@@ -426,8 +413,8 @@ body {
 }
 
 .mc-mobile-meal-card:hover {
-    box-shadow: var(--mc-shadow);
-    border-color: rgba(240, 67, 53, 0.2);
+    box-shadow: var(--adm-shadow);
+    border-color: var(--adm-primary-light);
 }
 
 .mc-mobile-meal-img {
@@ -454,7 +441,7 @@ body {
 .mc-mobile-meal-name {
     font-size: 1rem;
     font-weight: 600;
-    color: var(--mc-text);
+    color: var(--adm-text-primary);
     margin-bottom: 0.25rem;
 }
 
@@ -462,7 +449,7 @@ body {
     display: flex;
     gap: 1rem;
     padding-top: 0.5rem;
-    border-top: 1px solid var(--mc-border);
+    border-top: 1px solid var(--adm-border);
 }
 
 .mc-mobile-action {
@@ -474,6 +461,7 @@ body {
     text-decoration: none;
 }
 
+/* ===== Meals Grid ===== */
 .mc-meals-grid {
     padding: 1.5rem 2rem;
     display: grid;
@@ -481,23 +469,22 @@ body {
     gap: 1.5rem;
 }
 
-/* Meal Card */
+/* ===== Meal Card ===== */
 .mc-meal-card {
-    background: white;
+    background: var(--adm-bg-sidebar);
     border-radius: var(--mc-radius);
     overflow: hidden;
-    border: 1px solid var(--mc-border);
+    border: 1px solid var(--adm-border);
     transition: all 0.3s var(--mc-transition);
     display: flex;
     flex-direction: column;
     position: relative;
-
 }
 
 .mc-meal-card:hover {
     transform: translateY(-5px);
-    box-shadow: var(--mc-shadow-hover);
-    border-color: rgba(240, 67, 53, 0.2);
+    box-shadow: 0 15px 30px rgba(79, 70, 229, 0.12);
+    border-color: var(--adm-primary-light);
 }
 
 .mc-meal-img-wrapper {
@@ -525,7 +512,7 @@ body {
     padding: 6px 12px;
     border-radius: 20px;
     font-weight: 700;
-    color: var(--mc-primary);
+    color: var(--adm-primary);
     font-size: 0.9rem;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     backdrop-filter: blur(4px);
@@ -541,14 +528,14 @@ body {
 .mc-meal-name {
     font-size: 1.1rem;
     font-weight: 700;
-    color: var(--mc-text);
+    color: var(--adm-text-primary);
     margin-bottom: 0.5rem;
     line-height: 1.4;
 }
 
 .mc-meal-desc {
     font-size: 0.9rem;
-    color: var(--mc-text-light);
+    color: var(--adm-text-secondary);
     display: -webkit-box;
     -webkit-line-clamp: 2;
     line-clamp: 2;
@@ -559,8 +546,8 @@ body {
 
 .mc-meal-actions {
     padding: 1rem 1.25rem;
-    background: #f8fafc;
-    border-top: 1px solid var(--mc-border);
+    background: var(--adm-bg-body);
+    border-top: 1px solid var(--adm-border);
     display: flex;
     justify-content: space-between;
     gap: 0.75rem;
@@ -573,7 +560,7 @@ body {
     justify-content: center;
     padding: 0.5rem;
     border-radius: 8px;
-    color: var(--mc-text-light);
+    color: var(--adm-text-secondary);
     transition: all 0.2s;
     border: none;
     background: transparent;
@@ -582,111 +569,112 @@ body {
 }
 
 .mc-action-link:hover {
-    background: white;
-    color: var(--mc-text);
+    background: var(--adm-bg-sidebar);
+    color: var(--adm-text-primary);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 .mc-action-link.edit:hover {
     color: var(--mc-info);
-    background: #eff6ff;
+    background: rgba(59, 130, 246, 0.1);
 }
 
 .mc-action-link.history:hover {
     color: var(--mc-success);
-    background: #ecfdf5;
+    background: rgba(16, 185, 129, 0.1);
 }
 
 .mc-action-link.delete:hover {
     color: var(--mc-danger);
-    background: #fef2f2;
+    background: rgba(239, 68, 68, 0.1);
 }
 
-/* Add Meal Card */
+/* ===== Add Meal Card ===== */
 .mc-add-meal-card {
-    border: 2px dashed var(--mc-border);
+    border: 2px dashed var(--adm-border);
     border-radius: var(--mc-radius);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     min-height: 320px;
-    background: rgba(248, 250, 252, 0.5);
+    background: var(--adm-bg-body);
     cursor: pointer;
     transition: all 0.3s var(--mc-transition);
     text-decoration: none;
 }
 
 .mc-add-meal-card:hover {
-    border-color: var(--mc-primary);
-    background: rgba(240, 67, 53, 0.02);
+    border-color: var(--adm-primary);
+    background: var(--adm-primary-light);
     transform: translateY(-5px);
 }
 
 .mc-add-icon-lg {
     width: 64px;
     height: 64px;
-    background: rgba(240, 67, 53, 0.1);
+    background: var(--adm-primary-light);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 1.75rem;
-    color: var(--mc-primary);
+    color: var(--adm-primary);
     margin-bottom: 1rem;
     transition: all 0.3s;
 }
 
 .mc-add-meal-card:hover .mc-add-icon-lg {
     transform: scale(1.1) rotate(90deg);
-    background: var(--mc-primary);
+    background: var(--adm-primary);
     color: white;
 }
 
 .mc-add-text {
     font-size: 1.1rem;
     font-weight: 600;
-    color: var(--mc-text-light);
+    color: var(--adm-text-secondary);
 }
 
-/* Empty State */
+/* ===== Empty State ===== */
 .mc-empty {
     text-align: center;
     padding: 5rem 2rem;
-    background: white;
+    background: var(--adm-bg-sidebar);
     border-radius: var(--mc-radius);
-    border: 1px dashed var(--mc-border);
+    border: 1px dashed var(--adm-border);
 }
 
 .mc-empty-icon {
     width: 100px;
     height: 100px;
-    background: linear-gradient(135deg, rgba(240, 67, 53, 0.1), rgba(221, 150, 140, 0.1));
+    background: linear-gradient(135deg, var(--adm-primary-light), rgba(79, 70, 229, 0.1));
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 2.5rem;
-    color: var(--mc-primary);
+    color: var(--adm-primary);
     margin: 0 auto 1.5rem;
 }
 
 .mc-empty h2 {
     font-size: 1.5rem;
-    color: var(--mc-text);
+    color: var(--adm-text-primary);
     margin-bottom: 0.5rem;
 }
 
-/* Modals */
+/* ===== Modals ===== */
 .mc-modal .modal-content {
     border: none;
     border-radius: var(--mc-radius);
     overflow: hidden;
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    background: var(--adm-bg-sidebar);
 }
 
 .mc-modal .modal-header {
-    background: linear-gradient(135deg, var(--mc-primary), var(--mc-primary-dark));
+    background: linear-gradient(135deg, var(--adm-primary), var(--adm-primary-hover));
     color: white;
     padding: 1.25rem 1.5rem;
     border: none;
@@ -719,7 +707,7 @@ body {
 .mc-form-label {
     display: block;
     font-weight: 600;
-    color: var(--mc-text);
+    color: var(--adm-text-primary);
     margin-bottom: 0.5rem;
     font-size: 0.9rem;
 }
@@ -727,22 +715,24 @@ body {
 .mc-form-input {
     width: 100%;
     padding: 0.875rem 1rem;
-    border: 2px solid var(--mc-border);
+    border: 2px solid var(--adm-border);
     border-radius: var(--mc-radius-sm);
     font-size: 1rem;
     transition: all 0.2s;
+    background: var(--adm-bg-sidebar);
+    color: var(--adm-text-primary);
 }
 
 .mc-form-input:focus {
     outline: none;
-    border-color: var(--mc-primary);
-    box-shadow: 0 0 0 4px rgba(240, 67, 53, 0.1);
+    border-color: var(--adm-primary);
+    box-shadow: 0 0 0 4px var(--adm-primary-light);
 }
 
 .mc-modal .modal-footer {
     padding: 1.25rem 1.5rem;
-    border-top: 1px solid var(--mc-border);
-    background: #f8fafc;
+    border-top: 1px solid var(--adm-border);
+    background: var(--adm-bg-body);
 }
 
 .mc-btn {
@@ -755,23 +745,23 @@ body {
 }
 
 .mc-btn-secondary {
-    background: white;
-    border: 1px solid var(--mc-border);
-    color: var(--mc-text);
+    background: var(--adm-bg-sidebar);
+    border: 1px solid var(--adm-border);
+    color: var(--adm-text-primary);
 }
 
 .mc-btn-secondary:hover {
-    background: #f1f5f9;
+    background: var(--adm-bg-body);
 }
 
 .mc-btn-primary {
-    background: var(--mc-primary);
+    background: var(--adm-primary);
     color: white;
-    box-shadow: 0 4px 6px rgba(240, 67, 53, 0.2);
+    box-shadow: 0 4px 6px rgba(79, 70, 229, 0.2);
 }
 
 .mc-btn-primary:hover {
-    background: var(--mc-primary-dark);
+    background: var(--adm-primary-hover);
     transform: translateY(-1px);
 }
 
@@ -784,7 +774,56 @@ body {
     background: #dc2626;
 }
 
-/* Responsive */
+/* =========================================
+   Dark Mode Overrides
+   ========================================= */
+body.adm-dark-mode .mc-header-icon {
+    box-shadow: 0 8px 16px rgba(99, 102, 241, 0.3);
+}
+
+body.adm-dark-mode .mc-add-btn {
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+}
+
+body.adm-dark-mode .mc-add-btn:hover {
+    box-shadow: 0 8px 20px rgba(99, 102, 241, 0.5);
+}
+
+body.adm-dark-mode .mc-category-section:hover {
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+body.adm-dark-mode .mc-meal-card:hover {
+    box-shadow: 0 15px 30px rgba(99, 102, 241, 0.2);
+}
+
+body.adm-dark-mode .mc-meal-price-badge {
+    background: rgba(31, 41, 55, 0.95);
+}
+
+body.adm-dark-mode .mc-addons-section {
+    background-color: rgba(245, 158, 11, 0.1) !important;
+    border-color: rgba(245, 158, 11, 0.3) !important;
+}
+
+body.adm-dark-mode .mc-addon-card {
+    background: var(--adm-bg-sidebar);
+    border-color: rgba(245, 158, 11, 0.3);
+}
+
+body.adm-dark-mode .mc-addon-body {
+    background: linear-gradient(to bottom, var(--adm-bg-sidebar), rgba(245, 158, 11, 0.1));
+}
+
+body.adm-dark-mode .mc-addon-price {
+    background: rgba(245, 158, 11, 0.15);
+    border-color: rgba(245, 158, 11, 0.3);
+    color: #fbbf24;
+}
+
+/* =========================================
+   Responsive Design
+   ========================================= */
 @media (max-width: 1024px) {
     .mc-meals-grid {
         grid-template-columns: repeat(3, 1fr);
@@ -888,7 +927,7 @@ body {
     }
 }
 
-/* Add-ons Grid Layout */
+/* ===== Add-ons Grid Layout ===== */
 .mc-addons-section {
     background-color: var(--mc-butter-bg) !important;
     border-color: var(--mc-butter-border) !important;
@@ -925,7 +964,7 @@ body {
     height: 100%;
     overflow: hidden;
     position: relative;
-    background-color: #f3f4f6;
+    background-color: var(--adm-bg-body);
 }
 
 .mc-addon-img {
@@ -960,7 +999,7 @@ body {
 
 .mc-addon-name {
     font-weight: 700;
-    color: var(--mc-text);
+    color: var(--adm-text-primary);
     font-size: 0.95rem;
     line-height: 1.3;
     letter-spacing: -0.01em;
@@ -999,25 +1038,25 @@ body {
     font-weight: 600;
     cursor: pointer;
     background: white;
-    border-color: #e5e7eb;
-    color: var(--mc-text-light);
+    border-color: var(--adm-border);
+    color: var(--adm-text-secondary);
     box-shadow: 0 1px 2px rgba(0,0,0,0.05);
 }
 
 .mc-addon-btn:hover {
-    background: #f9fafb;
+    background: var(--adm-bg-body);
 }
 
 .mc-addon-btn.edit:hover {
     color: var(--mc-info);
     border-color: var(--mc-info);
-    background: #eff6ff;
+    background: rgba(59, 130, 246, 0.1);
 }
 
 .mc-addon-btn.delete:hover {
     color: var(--mc-danger);
     border-color: var(--mc-danger);
-    background: #fef2f2;
+    background: rgba(239, 68, 68, 0.1);
 }
 
 @media (max-width: 640px) {

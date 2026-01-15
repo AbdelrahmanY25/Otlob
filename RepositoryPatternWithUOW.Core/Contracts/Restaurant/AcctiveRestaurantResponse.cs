@@ -11,6 +11,7 @@ public class AcctiveRestaurantResponse
     public TimeOnly OpeningTime { get; init; }
     public TimeOnly ClosingTime { get; init; }
     public BusinessType BusinessType { get; init; }
+    public decimal Rating { get; init; }
     public IEnumerable<string> Categories { get; init; } = default!;
 
     public bool IsOpen => (TimeOnly.FromDateTime(DateTime.Now) >= OpeningTime && TimeOnly.FromDateTime(DateTime.Now) < ClosingTime) ||

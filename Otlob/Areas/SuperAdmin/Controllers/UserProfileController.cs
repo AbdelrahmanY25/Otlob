@@ -31,9 +31,7 @@ public class UserProfileController(IUserProfileService userProfileService, IData
     public async Task<IActionResult> UserProfile(UserProfile request)
     {
         if (!ModelState.IsValid)
-        {
             return View(request);
-        }
 
         string? id = HttpContext.Session.GetString(StaticData.UserId);
 
@@ -89,5 +87,32 @@ public class UserProfileController(IUserProfileService userProfileService, IData
         
         TempData["Success"] = "Profile picture updated successfully.";
         return RedirectToAction(nameof(UserProfile), new { Id = HttpContext.Session.GetString(StaticData.UserId)! });
+    }
+
+    public IActionResult ChangePassword() => View();
+
+    [HttpPost, ValidateAntiForgeryToken]
+    public async Task<IActionResult> ChangePassword(ChangePasswordRequest request)
+    {
+        string? userIdFromSession = HttpContext.Session.GetString(StaticData.UserId);
+
+        if (string.IsNullOrEmpty(userIdFromSession))
+        {
+            TempData["Error"] = "User ID session timeout or notfound.";
+            return RedirectToAction("Customers", "Users", new { Area = DefaultRoles.SuperAdmin });
+        }
+
+        string id = _dataProtector.Unprotect(userIdFromSession);
+
+        var changePasswordResult = await _userProfileService.ChangeUserPasswordAsync(id, request.NewPassword);
+
+        if (changePasswordResult.IsFailure)
+        {
+            TempData["Error"] = changePasswordResult.Error.Description!;
+            return RedirectToAction(nameof(UserProfile), new { Id = userIdFromSession });
+        }
+
+        TempData["Success"] = "Password changed successfully.";
+        return RedirectToAction(nameof(UserProfile), new { Id = userIdFromSession });
     }
 }

@@ -10,17 +10,19 @@ public interface IRestaurantService
 
     PendingRestaurantResponse GetPendingRestaurant();
 
-    Result<RestaurantDetailsResponse> GetRestaurantDetailsById(string id);      
+    Result<RestaurantDetailsResponse> GetRestaurantDetailsById(string id, bool isAvaliable);
+
+    IEnumerable<DeletedRestauraantsResponse> GetDeletedRestaurants();
     
-    //IQueryable<RestaurantVM>? GetDeletedRestaurants();
+    Result DelteRestaurant(string restaurantKey);
     
-    //Task<bool> DelteRestaurant(string id);
-    
-    //Task<bool> UnDelteRestaurant(string id);
+    Result UnDelteRestaurant(string restaurantKey);
 
     AcctiveStatus GetRestaurantStatusById(int restaurantId);
     
     Result IsRestaurantIdExists(int restaurantId);
     
     int HowManyBranchesExistForRestaurant(int restaurantId);
+
+    IEnumerable<SelectListItem> GetAllRestaurantsForDropdown();
 }

@@ -1,0 +1,123 @@
+@model RatingResponse
+
+@{
+    ViewData["Title"] = "Your Rating";
+}
+
+@section Profile {
+    <link rel="stylesheet" href="~/css/orderRating.css" asp-append-version="true" />
+}
+
+<div class="rating-page">
+    <div class="rating-container">
+        <a href="@Url.Action("Orders", "OrdersHistory", new { area = "Customer" })" class="back-link">
+            <i class="bi bi-arrow-left"></i> Back to Orders
+        </a>
+
+        <div class="rating-card view-mode">
+            <!-- Header -->
+            <div class="rating-header success">
+                <div class="rating-icon-wrapper success">
+                    <i class="bi bi-check-circle"></i>
+                </div>
+                <h1 class="rating-title">Thank You!</h1>
+                <p class="rating-subtitle">Your feedback helps us improve</p>
+            </div>
+
+            <!-- Restaurant Info -->
+            <div class="restaurant-info">
+                @if (!string.IsNullOrEmpty(Model.RestaurantImage))
+                {
+                    <img src="~/images/@Model.RestaurantImage" alt="@Model.RestaurantName" class="restaurant-image" />
+                }
+                else
+                {
+                    <div class="restaurant-image-placeholder">
+                        <i class="bi bi-shop"></i>
+                    </div>
+                }
+                <div class="restaurant-details">
+                    <h3>@Model.RestaurantName</h3>
+                    <p><i class="bi bi-calendar3"></i> @Model.OrderDate.ToString("MMM dd, yyyy 'at' hh:mm tt")</p>
+                    <p><i class="bi bi-receipt"></i> Total: @Model.TotalPrice.ToString("N2") L.E</p>
+                </div>
+            </div>
+
+            <!-- Rating Display -->
+            <div class="rating-display-section">
+                <h4 class="section-label"><i class="bi bi-hand-thumbs-up"></i> What you liked</h4>
+                <div class="selected-tags">
+                    @if (Model.GoodFood)
+                    {
+                        <div class="selected-tag">
+                            <i class="bi bi-emoji-smile"></i>
+                            <span>Good Food</span>
+                        </div>
+                    }
+                    @if (Model.FastDelivery)
+                    {
+                        <div class="selected-tag">
+                            <i class="bi bi-lightning"></i>
+                            <span>Fast Delivery</span>
+                        </div>
+                    }
+                    @if (Model.GreatPacking)
+                    {
+                        <div class="selected-tag">
+                            <i class="bi bi-box-seam"></i>
+                            <span>Great Packing</span>
+                        </div>
+                    }
+                    @if (Model.FreshFood)
+                    {
+                        <div class="selected-tag">
+                            <i class="bi bi-flower1"></i>
+                            <span>Fresh Food</span>
+                        </div>
+                    }
+                    @if (Model.GoodPortionSize)
+                    {
+                        <div class="selected-tag">
+                            <i class="bi bi-arrows-fullscreen"></i>
+                            <span>Good Portion</span>
+                        </div>
+                    }
+                    @if (Model.FriendlyDelivery)
+                    {
+                        <div class="selected-tag">
+                            <i class="bi bi-person-heart"></i>
+                            <span>Friendly Delivery</span>
+                        </div>
+                    }
+                    @if (Model.WorthThePrice)
+                    {
+                        <div class="selected-tag">
+                            <i class="bi bi-cash-coin"></i>
+                            <span>Worth The Price</span>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            @if (!string.IsNullOrEmpty(Model.Comment))
+            {
+                <div class="comment-display-section">
+                    <h4 class="section-label"><i class="bi bi-chat-left-text"></i> Your Comment</h4>
+                    <div class="comment-display">
+                        <p>@Model.Comment</p>
+                    </div>
+                </div>
+            }
+
+            <div class="rating-meta">
+                <p><i class="bi bi-clock"></i> Rated on @Model.RatedAt?.ToString("MMMM dd, yyyy 'at' hh:mm tt")</p>
+            </div>
+
+            <div class="form-actions centered">
+                <a href="@Url.Action("Orders", "OrdersHistory", new { area = "Customer" })" class="btn-primary">
+                    <i class="bi bi-arrow-left"></i> Back to Orders
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

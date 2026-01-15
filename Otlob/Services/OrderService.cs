@@ -1,22 +1,28 @@
-﻿namespace Otlob.Services;
+﻿using Otlob.Core.Entities;
+
+namespace Otlob.Services;
 
 public class OrderService(IUnitOfWorkRepository unitOfWorkRepository,
                           ICartService cartService,
                           ITempOrderService tempOrderService,
                           IHttpContextAccessor httpContextAccessor,
                           IAdminDailyAnalyticsService adminDailyAnalyticsService,
-                          IRestaurantDailyAnalyticsService restaurantDailyAnalyticsService) : IOrderService
+                          IRestaurantDailyAnalyticsService restaurantDailyAnalyticsService,
+                          IPromoCodeService promoCodeService,
+                          IMealsAnalyticsService mealsAnalyticsService) : IOrderService
 {
     private readonly ICartService _cartService = cartService;
     private readonly ITempOrderService _tempOrderService = tempOrderService;
+    private readonly IPromoCodeService _promoCodeService = promoCodeService;
     private readonly IHttpContextAccessor _httpContextAccessor = httpContextAccessor;
     private readonly IUnitOfWorkRepository _unitOfWorkRepository = unitOfWorkRepository;
+    private readonly IMealsAnalyticsService _mealsAnalyticsService = mealsAnalyticsService;
     private readonly IAdminDailyAnalyticsService _adminDailyAnalyticsService = adminDailyAnalyticsService;
     private readonly IRestaurantDailyAnalyticsService _restaurantDailyAnalyticsService = restaurantDailyAnalyticsService;
 
-    public async Task<Result> PlaceOrder(PaymentMethod paymentMethod, string? specialNotes = null)
+    public async Task<Result> PlaceOrder(PaymentMethod paymentMethod, string? specialNotes = null, int? promoCodeId = null, decimal discountAmount = 0)
     {        
-        var prepareOrderDataResult = await PrepareOrderData(paymentMethod, specialNotes);
+        var prepareOrderDataResult = await PrepareOrderData(paymentMethod, specialNotes, promoCodeId, discountAmount);
 
         if (prepareOrderDataResult.IsFailure)
             return Result.Failure(prepareOrderDataResult.Error);
@@ -24,7 +30,7 @@ public class OrderService(IUnitOfWorkRepository unitOfWorkRepository,
         return Result.Success();
     }
 
-    public Result<string> CreateStripeSession(string? specialNotes = null)
+    public Result<string> CreateStripeSession(string? specialNotes = null, int? promoCodeId = null, decimal discountAmount = 0)
     {
         string userId = _httpContextAccessor.HttpContext!.User.GetUserId()!;
 
@@ -101,6 +107,8 @@ public class OrderService(IUnitOfWorkRepository unitOfWorkRepository,
             SubPrice = subTotal,
             DeliveryFee = restaurantData.DeliveryFee,
             ServiceFeePrice = serviceFee,
+            DiscountAmount = discountAmount,
+            PromoCodeId = promoCodeId,
             Notes = specialNotes,
             Method = PaymentMethod.Credit,
             OrderDate = DateTime.Now,
@@ -197,6 +205,33 @@ public class OrderService(IUnitOfWorkRepository unitOfWorkRepository,
             });
         }
 
+        // Apply promo code discount using Stripe Coupon
+        if (discountAmount > 0)
+        {
+            try
+            {
+                // Create a one-time coupon for this discount
+                var couponService = new Stripe.CouponService();
+                var coupon = couponService.Create(new Stripe.CouponCreateOptions
+                {
+                    AmountOff = (long)Math.Ceiling(discountAmount * 100),
+                    Currency = "EGP",
+                    Duration = "once",
+                    Name = promoCodeId.HasValue ? $"Promo Code Discount" : "Discount"
+                });
+
+                options.Discounts =
+                [
+                    new SessionDiscountOptions { Coupon = coupon.Id }
+                ];
+            }
+            catch
+            {
+                // If coupon creation fails, continue without discount
+                // The order will still have the discount recorded for reference
+            }
+        }
+
         try
         {
             var service = new SessionService();
@@ -250,6 +285,8 @@ public class OrderService(IUnitOfWorkRepository unitOfWorkRepository,
                 SubPrice = orderData.SubPrice,
                 DeliveryFee = orderData.DeliveryFee,
                 ServiceFeePrice = orderData.ServiceFeePrice,
+                DiscountAmount = orderData.DiscountAmount,
+                PromoCodeId = orderData.PromoCodeId,
                 Notes = orderData.Notes,
                 Method = orderData.Method,
                 OrderDate = orderData.OrderDate,
@@ -259,6 +296,10 @@ public class OrderService(IUnitOfWorkRepository unitOfWorkRepository,
             // Add the order
             _unitOfWorkRepository.Orders.Add(order);
             _unitOfWorkRepository.SaveChanges();
+
+            // Record promo code usage if applicable
+            if (orderData.PromoCodeId.HasValue && orderData.DiscountAmount > 0)
+                _promoCodeService.RecordPromoCodeUsage(orderData.PromoCodeId.Value, order.Id, orderData.UserId, orderData.DiscountAmount);
 
             // Create and add order details
             List<OrderDetails> orderDetailsList = orderData.OrderDetails.Select(m => new OrderDetails
@@ -287,6 +328,13 @@ public class OrderService(IUnitOfWorkRepository unitOfWorkRepository,
 
             // update RestaurantDailyAnalytic
             _restaurantDailyAnalyticsService.InitialUpdate(order.RestaurantId);
+
+           // update MealsAnalytics
+            foreach (var detail in orderDetailsList)
+            {
+                decimal saleAmount = detail.MealPrice + detail.ItemsPrice + detail.AddOnsPrice;
+                _mealsAnalyticsService.UpdateSales(order.RestaurantId, detail.MealId, detail.MealQuantity, saleAmount);
+            }
 
             transaction.Commit();
 
@@ -326,7 +374,7 @@ public class OrderService(IUnitOfWorkRepository unitOfWorkRepository,
         }
     }
 
-    private async Task<Result> PrepareOrderData(PaymentMethod paymentMethod, string? specialNotes = null)
+    private async Task<Result> PrepareOrderData(PaymentMethod paymentMethod, string? specialNotes = null, int? promoCodeId = null, decimal discountAmount = 0)
     {
         string userId = _httpContextAccessor.HttpContext!.User.GetUserId()!;        
 
@@ -337,7 +385,7 @@ public class OrderService(IUnitOfWorkRepository unitOfWorkRepository,
 
         Restaurant restaurantData = GetRestaurantData(cartData.RestaurantId);
         
-        var addOrderResult = await AddOrder(userId, cartData, restaurantData, paymentMethod, specialNotes);
+        var addOrderResult = await AddOrder(userId, cartData, restaurantData, paymentMethod, specialNotes, promoCodeId, discountAmount);
 
         if (addOrderResult.IsFailure)
             return Result.Failure(addOrderResult.Error);
@@ -394,7 +442,7 @@ public class OrderService(IUnitOfWorkRepository unitOfWorkRepository,
         return restaurantData;
     }
 
-    private async Task<Result> AddOrder(string userId, Cart cartData, Restaurant restaurantData, PaymentMethod paymentMethod, string? specialNotes = null)
+    private async Task<Result> AddOrder(string userId, Cart cartData, Restaurant restaurantData, PaymentMethod paymentMethod, string? specialNotes = null, int? promoCodeId = null, decimal discountAmount = 0)
     {
         (string phoneNumber, string deliveryAddress, Point deliveryAddressLocation) = GetUserData(userId);
 
@@ -414,6 +462,8 @@ public class OrderService(IUnitOfWorkRepository unitOfWorkRepository,
                 SubPrice = SubPrice,
                 DeliveryFee = restaurantData.DeliveryFee,
                 ServiceFeePrice = SubPrice * 0.05m,
+                DiscountAmount = discountAmount,
+                PromoCodeId = promoCodeId,
                 Notes = specialNotes,
                 Method = paymentMethod,
                 OrderDate = DateTime.Now,
@@ -422,6 +472,10 @@ public class OrderService(IUnitOfWorkRepository unitOfWorkRepository,
 
             _unitOfWorkRepository.Orders.Add(order);
             _unitOfWorkRepository.SaveChanges();
+
+            // Record promo code usage if applicable
+            if (promoCodeId.HasValue && discountAmount > 0)
+                _promoCodeService.RecordPromoCodeUsage(promoCodeId.Value, order.Id, userId, discountAmount);
 
             List<OrderDetails> ordersDetails = [];
 
@@ -453,6 +507,13 @@ public class OrderService(IUnitOfWorkRepository unitOfWorkRepository,
             // update RestaurantDailyAnalytic
             _restaurantDailyAnalyticsService.InitialUpdate(order.RestaurantId);
 
+            // update MealsAnalytics
+            foreach (var detail in ordersDetails)
+            {
+                decimal saleAmount = detail.MealPrice + detail.ItemsPrice + detail.AddOnsPrice;
+                _mealsAnalyticsService.UpdateSales(order.RestaurantId, detail.MealId, detail.MealQuantity, saleAmount);
+            }
+
             transaction.Commit();
 
             return Result.Success();
@@ -477,6 +538,8 @@ public class OrderService(IUnitOfWorkRepository unitOfWorkRepository,
         public decimal SubPrice { get; set; }
         public decimal DeliveryFee { get; set; }
         public decimal ServiceFeePrice { get; set; }
+        public decimal DiscountAmount { get; set; }
+        public int? PromoCodeId { get; set; }
         public string? Notes { get; set; }
         public PaymentMethod Method { get; set; }
         public DateTime OrderDate { get; set; }

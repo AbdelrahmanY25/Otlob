@@ -11,7 +11,7 @@ public class AdminDailyAnalyticsEntityTypeConfiguration : IEntityTypeConfigurati
 
         builder.Property(ada => ada.TotalOrdersRevenue)
                 .HasColumnType("decimal(9,2)")
-               .HasComputedColumnSql("([TotalOrdersSales] * 0.05)", true);
+               .HasComputedColumnSql("([TotalOrdersSales] * 0.10)", true);
         
         builder.Property(ada => ada.AverageOrderPrice)
                .HasColumnType("decimal(9,2)")

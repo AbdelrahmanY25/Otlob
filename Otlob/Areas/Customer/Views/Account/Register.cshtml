@@ -4,113 +4,185 @@
     ViewData["Title"] = "Register";
 }
 
-<link href="~/css/authForms.css" rel="stylesheet" asp-append-version="true" />
+<link href="~/css/authForms.css" rel="stylesheet" asp-append-version="true"/>
 
-<div class="container">
-    <div class="left-panel">
-        <div class="logo">Otlob<span>.</span></div>
-        <div class="left-content">
-            <h2>Delicious Food Delivered</h2>
-            <p>Order from your favorite restaurants and get your food delivered to your doorstep in minutes.</p>
-            <div class="app-badges">
-                <div class="badge">
-                    <i class="fab fa-apple"></i>
-                    <span>App Store</span>
-                </div>
-                <div class="badge">
-                    <i class="fab fa-google-play"></i>
-                    <span>Play Store</span>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="right-panel">
-        <div class="welcome-text">
-            <h1>Sign Up</h1>
+<div class="auth-wrapper">
+    <div class="auth-card">
+        <div class="auth-header">
+            <a href="/" class="auth-logo">Otlob<span>.</span></a>
+            <h1>Create Account</h1>
+            <p>Join Otlob to order food from top restaurants</p>
         </div>
 
-        @if (TempData["ErrorMessage"] != null)
+        @if (TempData["Error"] != null)
         {
-            <div class="alert alert-danger" style="margin-bottom: 20px; border-radius: 12px; background:#fff5f5; border:1px solid #fed7d7; color:#c53030; padding: 12px;">
-                @TempData["ErrorMessage"]
+            <div class="auth-alert auth-alert-error">
+                <i class="fas fa-exclamation-circle" style="margin-top: 3px;"></i>
+                <span>@TempData["Error"]</span>
             </div>
         }
 
-        <form asp-action="Register" class="loginform" style="min-height: 540px">
-            <div asp-validation-summary="ModelOnly"></div>
+        <form asp-action="Register" class="auth-form">
+            <div asp-validation-summary="ModelOnly" class="auth-alert auth-alert-error" style="display:none;"></div>
 
-            <div class="form-group">
-                <div class="input-with-icon">
-                    <i class="fas fa-user"></i>
-                    <input type="text" id="username" asp-for="UserName" placeholder="Enter your username">
+            <div class="auth-form-group">
+                <label class="auth-label" asp-for="UserName">Username</label>
+                <div class="auth-input-container">
+                    <input type="text" class="auth-input" asp-for="UserName" placeholder="Choose a username" />
+                    <i class="fas fa-user auth-input-icon"></i>
                 </div>
-			    <span asp-validation-for="UserName" class="input-error-message"></span>
+                <span asp-validation-for="UserName" class="auth-input-error"></span>
             </div>
 
-            <div class="form-group">
-                <div class="input-with-icon">
-                    <i class="fas fa-envelope"></i>
-                    <input type="email" id="email" asp-for="Email" placeholder="Enter your email">
+            <div class="auth-form-group">
+                <label class="auth-label" asp-for="Email">Email</label>
+                <div class="auth-input-container">
+                    <input type="email" class="auth-input" asp-for="Email" placeholder="Enter your email" />
+                    <i class="fas fa-envelope auth-input-icon"></i>
                 </div>
-			    <span asp-validation-for="Email" class="input-error-message"></span>
+                <span asp-validation-for="Email" class="auth-input-error"></span>
             </div>
 
-            <div class="form-group">
-                <div class="input-with-icon">
-                    <i class="fas fa-lock"></i>
-                    <input type="password" id="password" asp-for="Password" placeholder="Enter your password">
+            <div class="auth-form-group">
+                <label class="auth-label" asp-for="PhoneNumber">Phone Number</label>
+                <div class="auth-input-container">
+                    <input type="tel" class="auth-input" asp-for="PhoneNumber" placeholder="+20 123 456 7890" />
+                    <i class="fas fa-phone auth-input-icon"></i>
                 </div>
-                <div id="password-strength-meter">
-                    <div class="password-progress-container">
-                        <div id="password-strength-bar" class="password-progress-bar"></div>
+                <span asp-validation-for="PhoneNumber" class="auth-input-error"></span>
+            </div>
+
+            <div class="auth-form-group">
+                <label class="auth-label" asp-for="Password">Password</label>
+                <div class="auth-input-container">
+                    <input type="password" id="password" class="auth-input" asp-for="Password" placeholder="Create a password" />
+                    <i class="fas fa-lock auth-input-icon"></i>
+                    <button type="button" class="auth-password-toggle" onclick="togglePassword('password', this)">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </div>
+                    
+                <div class="password-meter-container">
+                    <div class="password-meter">
+                        <div class="meter-segment" id="seg-1"></div>
+                        <div class="meter-segment" id="seg-2"></div>
+                        <div class="meter-segment" id="seg-3"></div>
+                        <div class="meter-segment" id="seg-4"></div>
+                        <div class="meter-segment" id="seg-5"></div>
+                    </div>
+                    <div class="password-criteria">
+                        <span class="criteria-item" id="crit-len"><i class="fas fa-circle"></i> 8+ chars</span>
+                        <span class="criteria-item" id="crit-cap"><i class="fas fa-circle"></i> 1 upper</span>
+                        <span class="criteria-item" id="crit-low"><i class="fas fa-circle"></i> 1 lower</span>
+                        <span class="criteria-item" id="crit-num"><i class="fas fa-circle"></i> 1 number</span>
+                        <span class="criteria-item" id="crit-spec"><i class="fas fa-circle"></i> 1 special</span>
                     </div>
                 </div>
-			    <span asp-validation-for="Password" class="input-error-message"></span>
+
+                <span asp-validation-for="Password" class="auth-input-error"></span>
             </div>
 
-            <div class="form-group">
-                <div class="input-with-icon">
-                    <i class="fas fa-lock"></i>
-                    <input type="password" id="confirmpassword" asp-for="ConfirmPassword" placeholder="Confirm your password">
+            <div class="auth-form-group">
+                <label class="auth-label" asp-for="ConfirmPassword">Confirm Password</label>
+                <div class="auth-input-container">
+                    <input type="password" id="confirmPassword" class="auth-input" asp-for="ConfirmPassword" placeholder="Confirm your password" />
+                    <i class="fas fa-lock auth-input-icon"></i>
+                    <button type="button" class="auth-password-toggle" onclick="togglePassword('confirmPassword', this)">
+                        <i class="fas fa-eye"></i>
+                    </button>
                 </div>
-			    <span asp-validation-for="ConfirmPassword" class="input-error-message"></span>
+                <span asp-validation-for="ConfirmPassword" class="auth-input-error"></span>
             </div>
 
-            <div class="form-group">
-                <div class="input-with-icon">
-                    <i class="fas fa-phone"></i>
-                    <input type="text" id="phonenumber" asp-for="PhoneNumber" placeholder="Enter your phone number">
-				</div>
-                <span asp-validation-for="PhoneNumber" class="input-error-message"></span>
-			</div>
-
-            <button type="submit" class="sign-in-btn">Sign Up</button>
+            <button type="submit" class="auth-btn">Create Account</button>
         </form>
 
-        <div class="divider">
-            <span>Or continue with</span>
+        <div class="auth-divider">
+            <span>Or sign up with</span>
         </div>
 
-        <div class="social-login">
-            <form asp-area="Customer" asp-controller="ExternalLogins" asp-action="ExternalLogin" asp-route-returnUrl="@ViewData["ReturnUrl"]" method="post">
-                <button type="submit" name="provider" value="Google" class="social-btn google-btn">
-                    <i class="fab fa-google-f"></i>
+        <div class="auth-social-grid">
+            <form asp-area="Customer" asp-controller="ExternalLogins" asp-action="ExternalLogin" asp-route-returnUrl="@ViewData["ReturnUrl"]" method="post" style="display:contents;">
+                <button type="submit" name="provider" value="Google" class="auth-social-btn">
+                    <i class="fab fa-google" style="color: #DB4437;"></i>
                     <span>Google</span>
+                </button>
+            </form>
+            <form asp-area="Customer" asp-controller="ExternalLogins" asp-action="ExternalLogin" asp-route-returnUrl="@ViewData["ReturnUrl"]" method="post" style="display:contents;">
+                <button type="submit" name="provider" value="Microsoft" class="auth-social-btn">
+                    <i class="fab fa-microsoft" style="color: #00A4EF;"></i>
+                    <span>Microsoft</span>
                 </button>
             </form>
         </div>
 
-        <div class="signup-link">
-            confirm your email <a asp-controller="Account" asp-action="ResendEmailConfirmation">Resend email confirmation</a>
-        </div>
-
-        <div class="signup-link">
-            have an account? <a asp-action="Login" asp-controller="Account">Sign In</a>
+        <div class="auth-footer">
+            Already have an account? <a asp-action="Login" class="auth-link">Sign in</a>
         </div>
     </div>
 </div>
 
-@section Scripts {
-    <partial name="_ValidationScriptsPartial"></partial>
-}
+<script>
+    function togglePassword(inputId, button) {
+        const input = document.getElementById(inputId);
+        const icon = button.querySelector('i');
+        if (input.type === 'password') {
+            input.type = 'text';
+            icon.classList.remove('fa-eye');
+            icon.classList.add('fa-eye-slash');
+        } else {
+            input.type = 'password';
+            icon.classList.remove('fa-eye-slash');
+            icon.classList.add('fa-eye');
+        }
+    }
+
+    // Password Meter Logic
+    document.addEventListener('DOMContentLoaded', function() {
+        const passwordInput = document.getElementById('password');
+        const segments = document.querySelectorAll('.meter-segment');
+        const criteriaItems = {
+            len: document.getElementById('crit-len'),
+            cap: document.getElementById('crit-cap'),
+            low: document.getElementById('crit-low'),
+            num: document.getElementById('crit-num'),
+            spec: document.getElementById('crit-spec')
+        };
+
+        passwordInput.addEventListener('input', function() {
+            const val = this.value;
+            let score = 0;
+                
+            // Check conditions
+            const conditions = {
+                len: val.length >= 8,
+                cap: /[A-Z]/.test(val),
+                low: /[a-z]/.test(val),
+                num: /[0-9]/.test(val),
+                spec: /[^A-Za-z0-9]/.test(val)
+            };
+
+            // Update text criteria status
+            for (const [key, met] of Object.entries(conditions)) {
+                if (met) {
+                    criteriaItems[key].classList.add('valid');
+                    criteriaItems[key].querySelector('i').classList.replace('fa-circle', 'fa-check-circle');
+                    score++;
+                } else {
+                    criteriaItems[key].classList.remove('valid');
+                    criteriaItems[key].querySelector('i').classList.replace('fa-check-circle', 'fa-circle');
+                }
+            }
+
+            // Update visual meter segments (0 to 5)
+            segments.forEach((seg, index) => {
+                if (index < score) {
+                    seg.classList.add('active');
+                } else {
+                    seg.classList.remove('active');
+                }
+            });
+        });
+    });
+</script>
+<partial name="_NotificationPartial"></partial>

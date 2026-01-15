@@ -6,6 +6,7 @@ global using Otlob.Core.Contracts.Address;
 global using Otlob.Core.Contracts.OrderDetails;
 global using Otlob.Core.Contracts.Files;
 global using Otlob.Core.Contracts.Meal;
+global using Otlob.Core.Contracts.PromoCode;
 global using Otlob.EF.IBaseRepository;
 global using Otlob.Core.Entities;
 global using Utility.Enums;

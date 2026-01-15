@@ -1,14 +1,17 @@
 ﻿global using Microsoft.AspNetCore.Authentication.JwtBearer;
 global using Otlob.Core.Contracts.MobileApp.Authentication;
+global using Otlob.Authentication;
 global using Otlob.ApiServices;
 
 global using JsonSerializer = System.Text.Json.JsonSerializer;
 global using Otlob.Core.Contracts.RestaurantAdminAnalytics;
+global using Otlob.Core.Contracts.RestaurantRatingAnlytic;
 global using Otlob.Core.Contracts.OrderDetails;
 global using Otlob.Core.Contracts.RestaurantOrders;
 global using Otlob.Core.Contracts.MealPriceHistory;
 global using Otlob.Core.Contracts.Authentication;
 global using Otlob.Core.Contracts.AdminAnalytics;
+global using Otlob.Core.Contracts.MealsAnalytics;
 global using Otlob.Core.Contracts.MenuCategory;
 global using Otlob.Core.Mapping.MappingProfile;
 global using Otlob.Core.Contracts.MealVarients;
@@ -25,7 +28,9 @@ global using Otlob.Core.Contracts.OrderDetails;
 global using Otlob.Core.Contracts.Files;
 global using Otlob.Core.Contracts.Meal;
 global using Otlob.Core.Contracts.Cart;
+global using Otlob.Core.Contracts.Rating;
 global using Otlob.Core.Contracts.User;
+global using Otlob.Core.Contracts.PromoCode;
 global using System.Text.Json.Nodes;
 global using Otlob.Core.Extensions;
 global using Otlob.Core.Contracts;

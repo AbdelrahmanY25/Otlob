@@ -83,19 +83,15 @@ public class AuthService(IMapper mapper, SignInManager<ApplicationUser> signInMa
         var result = await IsValidUser(request.Email);
 
         if (result.IsFailure)
-        {
             return Result.Failure<string>(result.Error);
-        }
 
         var user = await _userManager.FindByEmailAsync(request.Email);
 
         var signInResults = await _signInManager.PasswordSignInAsync(user!.UserName!, request.Password, request.RememberMe, true);
 
         if (!signInResults.Succeeded)
-        {
             return Result.Failure<string>(signInResults.IsNotAllowed ? 
                 AuthenticationErrors.NoEmailConfirmed : AuthenticationErrors.InvalidCredentials);
-        }        
 
         var userRole = (await _userManager.GetRolesAsync(user)).First();
 
@@ -134,16 +130,12 @@ public class AuthService(IMapper mapper, SignInManager<ApplicationUser> signInMa
         var validationResult = await IsValidUser(request.Email);
 
         if (validationResult.IsFailure)
-        {
             return Result.Failure(AuthenticationErrors.InvalidRegistration("Invalid Token"));
-        }
 
         var user = await _userManager.FindByEmailAsync(request.Email);
 
         if (!user!.EmailConfirmed)
-        {
             return Result.Failure(AuthenticationErrors.NoEmailConfirmed);
-        }
 
         string token = request.Token;
 
@@ -159,40 +151,13 @@ public class AuthService(IMapper mapper, SignInManager<ApplicationUser> signInMa
         var result = await _userManager.ResetPasswordAsync(user!, token, request.NewPassword!);
 
         if (!result.Succeeded)
-        {
             return Result.Failure(AuthenticationErrors.InvalidRegistration(string.Join(", ", result.Errors.Select(e => e.Description))));
-        }
 
         return Result.Success();
     }
 
-    public async Task<Result> ChangePasswordAsync(ChangePasswordRequest request)
-    {
-        string userId = _httpContextAccessor.HttpContext!.User.GetUserId()!;
-
-        ApplicationUser? user = await _userManager.FindByIdAsync(userId);
-
-        if (user is null)
-        {
-            return Result.Failure(AuthenticationErrors.InvalidUser);
-        }        
-
-        var result = await _userManager.ChangePasswordAsync(user, request.CurrentPassword, request.NewPassword);
-
-        if (!result.Succeeded)
-        {
-            return Result.Failure(AuthenticationErrors.InvalidRegistration(string.Join(", ", result.Errors.Select(e => e.Description))));
-        }
-
-        BackgroundJob.Enqueue(() => _sendEmailsToUsersService.WhenCahngeHisPasswordAsync(user));
-
-        return Result.Success();
-    }
-
-    public async Task LogOutAsync() => 
+    public async Task LogOutAsync() =>
         await _signInManager.SignOutAsync();
-
-
 
 
     private async Task<Result> SendEmailConfirmationAsync(ApplicationUser user)

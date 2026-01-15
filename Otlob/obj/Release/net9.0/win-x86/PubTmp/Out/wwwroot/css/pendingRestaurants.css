@@ -1,28 +1,42 @@
 /* ===== Pending Restaurants - Professional Table Design ===== */
+/* Compatible with Admin Dark Mode from adminSite.css */
 
 :root {
-    --pr-primary: #F04335;
-    --pr-primary-dark: #d63d30;
+    /* Light Mode Colors */
+    --pr-primary: #4F46E5;
+    --pr-primary-dark: #4338CA;
+    --pr-primary-light: #EEF2FF;
     --pr-success: #10b981;
     --pr-warning: #f59e0b;
     --pr-info: #3b82f6;
-    --pr-text: #1e293b;
-    --pr-text-secondary: #64748b;
-    --pr-text-light: #94a3b8;
-    --pr-bg: #f8fafc;
-    --pr-card-bg: #ffffff;
-    --pr-border: #e2e8f0;
-    --pr-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    --pr-text: #1F2937;
+    --pr-text-secondary: #6B7280;
+    --pr-text-light: #9CA3AF;
+    --pr-text-contrast: #FFFFFF;
+    --pr-bg: #F3F4F6;
+    --pr-card-bg: #FFFFFF;
+    --pr-border: #E5E7EB;
+    --pr-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
     --pr-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
     --pr-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08);
-    --pr-radius: 12px;
-    --pr-radius-sm: 8px;
+    --pr-radius: 6px;
+    --pr-radius-sm: 6px;
+    --pr-transition: all 0.3s ease;
 }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+/* Dark Mode Colors - Uses admin dark mode */
+body.adm-dark-mode {
+    --pr-primary: #6366F1;
+    --pr-primary-dark: #818CF8;
+    --pr-primary-light: #312E81;
+    --pr-text: #F9FAFB;
+    --pr-text-secondary: #9CA3AF;
+    --pr-text-light: #6B7280;
+    --pr-text-contrast: #FFFFFF;
+    --pr-bg: #111827;
+    --pr-card-bg: #1F2937;
+    --pr-border: #374151;
+    --pr-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
 }
 
 /* ===== Page Layout ===== */
@@ -30,6 +44,7 @@
     min-height: 100vh;
     background: var(--pr-bg);
     padding: 2rem;
+    transition: var(--pr-transition);
 }
 
 .pr-container {
@@ -48,6 +63,8 @@
     justify-content: space-between;
     align-items: center;
     gap: 1.5rem;
+    box-shadow: var(--pr-shadow);
+    transition: var(--pr-transition);
 }
 
 .pr-header-content {
@@ -64,33 +81,37 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    color: white;
+    color: var(--pr-text-contrast);
     font-size: 1.5rem;
     flex-shrink: 0;
 }
 
-.pr-header-text h1 {
+.pr-header-text h1,
+.pr-header-text h3 {
     font-size: 1.75rem;
     font-weight: 700;
     color: var(--pr-text);
     margin: 0;
     line-height: 1.2;
+    transition: var(--pr-transition);
 }
 
 .pr-header-text p {
     font-size: 0.95rem;
     color: var(--pr-text-secondary);
     margin: 0.25rem 0 0;
+    transition: var(--pr-transition);
 }
 
 .pr-header-stats {
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    background: #fef2f2;
+    background: var(--pr-primary-light);
     padding: 0.75rem 1.5rem;
     border-radius: 50px;
     flex-shrink: 0;
+    transition: var(--pr-transition);
 }
 
 .pr-stat-label {
@@ -119,10 +140,12 @@
     align-items: center;
     gap: 1rem;
     max-width: 500px;
+    box-shadow: var(--pr-shadow);
+    transition: var(--pr-transition);
 }
 
 .pr-search-box i {
-    color: var(--pr-text-light);
+    color: var(--pr-text-secondary);
     font-size: 1rem;
 }
 
@@ -134,15 +157,20 @@
     font-size: 0.95rem;
     color: var(--pr-text);
     background: transparent;
+    transition: var(--pr-transition);
 }
 
 .pr-search-box input::placeholder {
-    color: var(--pr-text-light);
+    color: var(--pr-text-secondary);
 }
 
 .pr-search-box:focus-within {
     border-color: var(--pr-primary);
-    box-shadow: 0 0 0 3px rgba(240, 67, 53, 0.1);
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+body.adm-dark-mode .pr-search-box:focus-within {
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
 }
 
 /* ===== Table Layout ===== */
@@ -151,6 +179,8 @@
     border: 1px solid var(--pr-border);
     border-radius: var(--pr-radius);
     overflow: hidden;
+    box-shadow: var(--pr-shadow);
+    transition: var(--pr-transition);
 }
 
 .pr-table {
@@ -159,7 +189,8 @@
 }
 
 .pr-table thead {
-    background: #f8fafc;
+    background: var(--pr-bg);
+    transition: var(--pr-transition);
 }
 
 .pr-table th {
@@ -171,16 +202,23 @@
     text-transform: uppercase;
     letter-spacing: 0.05em;
     border-bottom: 1px solid var(--pr-border);
+    transition: var(--pr-transition);
 }
 
 .pr-table td {
     padding: 1.25rem 1.5rem;
     border-bottom: 1px solid var(--pr-border);
     vertical-align: middle;
+    color: var(--pr-text);
+    transition: var(--pr-transition);
 }
 
 .pr-table tbody tr:last-child td {
     border-bottom: none;
+}
+
+.pr-table tbody tr:hover {
+    background: var(--pr-bg);
 }
 
 .pr-restaurant-info {
@@ -200,6 +238,7 @@
 .pr-restaurant-name {
     font-weight: 600;
     color: var(--pr-text);
+    transition: var(--pr-transition);
 }
 
 .pr-contact-info {
@@ -208,6 +247,7 @@
     gap: 0.25rem;
     font-size: 0.85rem;
     color: var(--pr-text-secondary);
+    transition: var(--pr-transition);
 }
 
 .pr-contact-info i {
@@ -223,22 +263,33 @@
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.025em;
+    transition: var(--pr-transition);
 }
 
-.pr-status-badge.pr-status-pending {
-    background: #fef3c7;
-    color: #92400e;
+.pr-status-badge.pr-status-pending,
+.pr-status-badge.pr-status-unaccepted {
+    background: rgba(245, 158, 11, 0.15);
+    color: #F59E0B;
+    border: 1px solid rgba(245, 158, 11, 0.3);
 }
 
 .pr-status-badge.pr-status-acctive {
-    align-items: center;
-    background: linear-gradient(58deg, rgb(119 211 125 / 33%), rgb(15 53 26 / 10%));
-    color: var(--pr-success);
+    background: rgba(16, 185, 129, 0.15);
+    color: #10B981;
+    border: 1px solid rgba(16, 185, 129, 0.3);
 }
 
-.pr-status-badge.pr-status-inacctive {
-    background: #fee2e2;
-    color: #991b1b;
+.pr-status-badge.pr-status-inacctive,
+.pr-status-badge.pr-status-block {
+    background: rgba(239, 68, 68, 0.15);
+    color: #EF4444;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.pr-status-badge.pr-status-warning {
+    background: rgba(251, 191, 36, 0.15);
+    color: #FBBF24;
+    border: 1px solid rgba(251, 191, 36, 0.3);
 }
 
 .pr-action-col {
@@ -257,15 +308,17 @@
     font-weight: 600;
     text-decoration: none;
     cursor: pointer;
+    transition: var(--pr-transition);
 }
 
 .pr-btn-primary {
     background: var(--pr-primary);
-    color: white;
+    color: var(--pr-text-contrast);
 }
 
 .pr-btn-primary:hover {
     background: var(--pr-primary-dark);
+    color: var(--pr-text-contrast);
 }
 
 /* ===== Empty States ===== */
@@ -276,6 +329,8 @@
     background: var(--pr-card-bg);
     border: 1px solid var(--pr-border);
     border-radius: var(--pr-radius);
+    box-shadow: var(--pr-shadow);
+    transition: var(--pr-transition);
 }
 
 .pr-no-results {
@@ -288,13 +343,14 @@
     width: 80px;
     height: 80px;
     margin: 0 auto 1.5rem;
-    background: #f1f5f9;
+    background: var(--pr-bg);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 2rem;
-    color: var(--pr-text-light);
+    color: var(--pr-text-secondary);
+    transition: var(--pr-transition);
 }
 
 .pr-empty h3,
@@ -303,6 +359,7 @@
     font-weight: 600;
     color: var(--pr-text);
     margin: 0 0 0.5rem;
+    transition: var(--pr-transition);
 }
 
 .pr-empty p,
@@ -310,6 +367,7 @@
     font-size: 0.95rem;
     color: var(--pr-text-secondary);
     margin: 0;
+    transition: var(--pr-transition);
 }
 
 /* ===== Responsive Design ===== */
@@ -416,7 +474,7 @@
     .pr-action-col {
         justify-content: center !important;
         padding: 1rem !important;
-        background: #f8fafc;
+        background: var(--pr-bg);
     }
 
     .pr-action-col::before {

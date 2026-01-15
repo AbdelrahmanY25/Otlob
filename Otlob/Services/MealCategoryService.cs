@@ -126,6 +126,24 @@ public class MealCategoryService(IUnitOfWorkRepository unitOfWorkRepository, IEn
         return Result.Success();
     }
 
+    public Result DeleteAllCategoriesByRestaurantId(int restaurantId)
+    {
+        _unitOfWorkRepository.MealCategories.SoftDelete(mc => mc.RestaurantId == restaurantId);       
+        
+        _mealService.DeleteAllByRestaurantId(restaurantId);
+
+        return Result.Success();
+    }
+
+    public Result UnDeleteAllCategoriesByRestaurantId(int restaurantId)
+    {
+        _unitOfWorkRepository.MealCategories.UnSoftDelete(mc => mc.RestaurantId == restaurantId);       
+        
+        _mealService.UnDeleteAllByRestaurantId(restaurantId);
+        
+        return Result.Success();
+    }
+
     public Result IsCategoryIdExists(int id)
     {
         bool isExists = _unitOfWorkRepository.MealCategories.IsExist(mc => mc.Id == id, ignoreQueryFilter: true);

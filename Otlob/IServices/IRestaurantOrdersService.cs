@@ -2,12 +2,10 @@
 
 public interface IRestaurantOrdersService
 {
-    IEnumerable<RestaurantOrdersResponse> GetAllInProgressByRestaurantId(string restaurantKey);
-    IEnumerable<RestaurantOrdersResponse> GetInProgressRestaurantOrders();
-    IEnumerable<RestaurantOrdersResponse> GetAllDeliveredByRestaurantId(string restaurantKey);
-    IEnumerable<RestaurantOrdersResponse> GetDeliveredRestaurantOrders();
-    IEnumerable<RestaurantOrdersResponse> GetAllCancelledByRestaurantId(string restaurantKey);
-    IEnumerable<RestaurantOrdersResponse> GetCancelledRestaurantOrders();
-    Result UpdateOrderStatus(int orderId, OrderStatus newStatus);
-    OrderUserInfoResponse? GetOrderUserInfo(int orderId);
+    IEnumerable<RestaurantOrdersResponse> GetAllInProgressByRestaurantId(int restaurantId);
+    IEnumerable<RestaurantOrdersResponse> GetAllDeliveredByRestaurantId(int restaurantId);
+    IEnumerable<RestaurantOrdersResponse> GetAllCancelledByRestaurantId(int restaurantId);
+    Result UpdateOrderStatus(int restaurantId, int orderId, OrderStatus newStatus);
+    Result CancelOrder(int restaurantId, int orderId, RestaurantCancelReason reason);
+    OrderUserInfoResponse? GetOrderUserInfo(int restaurantId, int orderId);
 }

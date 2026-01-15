@@ -166,6 +166,14 @@
     transform: translateY(-2px);
 }
 
+.checkout-btn.disabled {
+    background: #e2e8f0;
+    color: #94a3b8;
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+}
+
 /* Empty Cart Styles */
 .empty-cart-page {
     min-height: 60vh;

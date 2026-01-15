@@ -53,23 +53,31 @@ public class CartController(ICartService cartService) : Controller
         {
             if (Request.Headers.XRequestedWith == "XMLHttpRequest")
             {
-                TempData["Error"] = result.Error.Description;
-                
-                return RedirectToAction(nameof(Cart));
+                return Json(new { 
+                    success = false, 
+                    message = result.Error.Description 
+                });
             }
             
+            TempData["Error"] = result.Error.Description;
+            return RedirectToAction(nameof(Cart));
         }
 
         if(Request.Headers.XRequestedWith == "XMLHttpRequest")
         {
             var cart = _cartService.UserCart();
             var item = cart?.CartDetails.FirstOrDefault(x => x.Id == id);
+            var cartTotal = cart?.CartDetails.Sum(x => x.TotalPrice) ?? 0;
+            var minPrice = cart?.MinimumOrderPrice ?? 0;
+            
             return Json(new { 
                 success = true, 
-                quantity = item?.Quantity, 
-                itemTotal = item?.TotalPrice,
-                cartTotal = cart?.CartDetails.Sum(x => x.TotalPrice),
-                cartCount = cart?.CartDetails.Count()
+                quantity = item?.Quantity ?? 0, 
+                itemTotal = item?.TotalPrice ?? 0,
+                cartTotal,
+                cartCount = cart?.CartDetails.Count() ?? 0,
+                minPrice,
+                isLessThanMin = cartTotal < minPrice
             });
         }
             
@@ -85,11 +93,14 @@ public class CartController(ICartService cartService) : Controller
         {
             if (Request.Headers.XRequestedWith == "XMLHttpRequest")
             {
-                TempData["Error"] = result.Error.Description;
-
-                return RedirectToAction(nameof(Cart));
+                return Json(new { 
+                    success = false, 
+                    message = result.Error.Description 
+                });
             }
 
+            TempData["Error"] = result.Error.Description;
+            return RedirectToAction(nameof(Cart));
         }
 
         if(Request.Headers.XRequestedWith == "XMLHttpRequest")
@@ -97,14 +108,18 @@ public class CartController(ICartService cartService) : Controller
             var cart = _cartService.UserCart();
             var item = cart?.CartDetails.FirstOrDefault(x => x.Id == id);
             bool removed = item == null;
+            var cartTotal = cart?.CartDetails.Sum(x => x.TotalPrice) ?? 0;
+            var minPrice = cart?.MinimumOrderPrice ?? 0;
 
             return Json(new { 
                 success = true, 
                 removed,
                 quantity = item?.Quantity ?? 0, 
                 itemTotal = item?.TotalPrice ?? 0,
-                cartTotal = cart?.CartDetails.Sum(x => x.TotalPrice) ?? 0,
-                cartCount = cart?.CartDetails.Count() ?? 0
+                cartTotal,
+                cartCount = cart?.CartDetails.Count() ?? 0,
+                minPrice,
+                isLessThanMin = cartTotal < minPrice
             });
         }
 
@@ -118,29 +133,32 @@ public class CartController(ICartService cartService) : Controller
         
         if (result.IsFailure)
         {
-             if(Request.Headers.XRequestedWith == "XMLHttpRequest")
+            if(Request.Headers.XRequestedWith == "XMLHttpRequest")
             {
-                TempData["Error"] = result.Error.Description;
-
-                return RedirectToAction(nameof(Cart));
-            }
-        }
-        else
-        {
-             if (Request.Headers.XRequestedWith == "XMLHttpRequest")
-             {
-                 var cart = _cartService.UserCart();
-                
-                TempData["Success"] = "Item removed from cart.";
-                
                 return Json(new { 
-                    success = true, 
-                    removed = true,
-                    cartTotal = cart?.CartDetails.Sum(x => x.TotalPrice) ?? 0,
-                    cartCount = cart?.CartDetails.Count() ?? 0
+                    success = false, 
+                    message = result.Error.Description 
                 });
-             }
-             
+            }
+
+            TempData["Error"] = result.Error.Description;
+            return RedirectToAction(nameof(Cart));
+        }
+
+        if (Request.Headers.XRequestedWith == "XMLHttpRequest")
+        {
+            var cart = _cartService.UserCart();
+            var cartTotal = cart?.CartDetails.Sum(x => x.TotalPrice) ?? 0;
+            var minPrice = cart?.MinimumOrderPrice ?? 0;
+            
+            return Json(new { 
+                success = true, 
+                removed = true,
+                cartTotal,
+                cartCount = cart?.CartDetails.Count() ?? 0,
+                minPrice,
+                isLessThanMin = cartTotal < minPrice
+            });
         }
 
         return RedirectToAction(nameof(Cart));

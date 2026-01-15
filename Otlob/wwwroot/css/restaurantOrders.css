@@ -447,6 +447,66 @@
     font-size: 0.85rem;
 }
 
+/* Cancel Reason Display */
+.cancel-reason-display {
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px dashed var(--adm-border);
+}
+
+.cancel-reason-badge {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding: 0.75rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
+}
+
+.cancel-reason-badge.customer {
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+.cancel-reason-badge.customer i {
+    color: #EF4444;
+}
+
+.cancel-reason-badge.restaurant {
+    background: rgba(245, 158, 11, 0.1);
+    border: 1px solid rgba(245, 158, 11, 0.2);
+}
+
+.cancel-reason-badge.restaurant i {
+    color: #F59E0B;
+}
+
+.cancel-reason-badge.unknown {
+    background: var(--adm-bg-body);
+    border: 1px solid var(--adm-border);
+}
+
+.cancel-reason-badge.unknown i {
+    color: var(--adm-text-secondary);
+}
+
+.cancel-reason-badge .cancel-by {
+    font-weight: 600;
+    color: var(--adm-text-primary);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.cancel-reason-badge .cancel-by i {
+    font-size: 1rem;
+}
+
+.cancel-reason-badge .cancel-reason-text {
+    color: var(--adm-text-secondary);
+    padding-left: 1.5rem;
+}
+
 /* Icon only button */
 .order-btn.icon-only {
     padding: 0.45rem 0.6rem;
@@ -923,5 +983,318 @@
 
     .price-range {
         flex: 1;
+    }
+}
+
+/* =========================================
+   Cancel Reason Modal
+   ========================================= */
+.cancel-reason-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(4px);
+}
+
+.cancel-reason-modal.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.cancel-reason-modal-dialog {
+    background: var(--adm-bg-sidebar);
+    border-radius: 20px;
+    max-width: 480px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+    transform: scale(0.9) translateY(20px);
+    transition: transform 0.3s ease;
+    border: 1px solid var(--adm-border);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+}
+
+.cancel-reason-modal.show .cancel-reason-modal-dialog {
+    transform: scale(1) translateY(0);
+}
+
+.cancel-reason-modal-header {
+    padding: 2rem 1.5rem 1rem;
+    text-align: center;
+    position: relative;
+}
+
+.cancel-reason-icon-wrapper {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #FEE2E2, #FECACA);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+}
+
+body.adm-dark-mode .cancel-reason-icon-wrapper {
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.2), rgba(220, 38, 38, 0.3));
+}
+
+.cancel-reason-icon-wrapper i {
+    font-size: 2rem;
+    color: #EF4444;
+}
+
+.cancel-reason-modal-header h4 {
+    margin: 0 0 0.5rem;
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--adm-text-primary);
+}
+
+.cancel-reason-modal-header p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--adm-text-secondary);
+}
+
+.cancel-reason-modal-header .modal-close-btn {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+}
+
+.cancel-reason-modal-body {
+    padding: 0 1.5rem 1.5rem;
+}
+
+.cancel-reason-options {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.cancel-reason-option {
+    cursor: pointer;
+}
+
+.cancel-reason-option input[type="radio"] {
+    display: none;
+}
+
+.reason-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    border: 2px solid var(--adm-border);
+    border-radius: 12px;
+    transition: all 0.2s ease;
+    background: var(--adm-bg-body);
+}
+
+.reason-card:hover {
+    border-color: var(--adm-text-secondary);
+}
+
+.cancel-reason-option input[type="radio"]:checked + .reason-card {
+    border-color: #EF4444;
+    background: rgba(239, 68, 68, 0.05);
+}
+
+body.adm-dark-mode .cancel-reason-option input[type="radio"]:checked + .reason-card {
+    background: rgba(239, 68, 68, 0.1);
+}
+
+.reason-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    background: var(--adm-primary-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.reason-icon i {
+    font-size: 1.2rem;
+    color: var(--adm-primary);
+}
+
+.cancel-reason-option input[type="radio"]:checked + .reason-card .reason-icon {
+    background: #EF4444;
+}
+
+.cancel-reason-option input[type="radio"]:checked + .reason-card .reason-icon i {
+    color: white;
+}
+
+.reason-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+.reason-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--adm-text-primary);
+}
+
+.reason-desc {
+    font-size: 0.8rem;
+    color: var(--adm-text-secondary);
+}
+
+.reason-check {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 2px solid var(--adm-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.2s ease;
+}
+
+.reason-check i {
+    font-size: 0.75rem;
+    color: transparent;
+    transition: all 0.2s ease;
+}
+
+.cancel-reason-option input[type="radio"]:checked + .reason-card .reason-check {
+    border-color: #EF4444;
+    background: #EF4444;
+}
+
+.cancel-reason-option input[type="radio"]:checked + .reason-card .reason-check i {
+    color: white;
+}
+
+.cancel-reason-warning {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    padding: 0.85rem 1rem;
+    background: rgba(239, 68, 68, 0.08);
+    border-radius: 10px;
+    margin-top: 1.25rem;
+    border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+.cancel-reason-warning i {
+    color: #EF4444;
+    font-size: 1rem;
+    margin-top: 0.1rem;
+}
+
+.cancel-reason-warning span {
+    font-size: 0.8rem;
+    color: var(--adm-text-secondary);
+    line-height: 1.5;
+}
+
+.cancel-reason-modal-footer {
+    display: flex;
+    gap: 0.75rem;
+    padding: 0 1.5rem 1.5rem;
+}
+
+.cancel-reason-btn {
+    flex: 1;
+    padding: 0.85rem 1.25rem;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.cancel-reason-btn.secondary {
+    background: transparent;
+    border: 1px solid var(--adm-border);
+    color: var(--adm-text-secondary);
+}
+
+.cancel-reason-btn.secondary:hover {
+    background: var(--adm-bg-body);
+    border-color: var(--adm-text-secondary);
+    color: var(--adm-text-primary);
+}
+
+.cancel-reason-btn.danger {
+    background: #EF4444;
+    color: white;
+}
+
+.cancel-reason-btn.danger:hover:not(:disabled) {
+    background: #DC2626;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+}
+
+.cancel-reason-btn.danger:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Responsive for Cancel Reason Modal */
+@media (max-width: 480px) {
+    .cancel-reason-modal_dialog {
+        width: 95%;
+        border-radius: 16px;
+    }
+
+    .cancel-reason-modal-header {
+        padding: 1.5rem 1rem 0.75rem;
+    }
+
+    .cancel-reason-icon-wrapper {
+        width: 60px;
+        height: 60px;
+    }
+
+    .cancel-reason-icon-wrapper i {
+        font-size: 1.5rem;
+    }
+
+    .cancel-reason-modal-body {
+        padding: 0 1rem 1rem;
+    }
+
+    .cancel-reason-modal-footer {
+        padding: 0 1rem 1rem;
+        flex-direction: column;
+    }
+
+    .reason-card {
+        padding: 0.85rem;
+    }
+
+    .reason-icon {
+        width: 38px;
+        height: 38px;
+    }
+
+    .reason-icon i {
+        font-size: 1rem;
     }
 }

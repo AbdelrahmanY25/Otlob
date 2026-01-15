@@ -4,9 +4,11 @@ public class RestaurantService(IUnitOfWorkRepository unitOfWorkRepository,
                                IDataProtectionProvider dataProtectionProvider, IMapper mapper,
                                IHttpContextAccessor httpContextAccessor, 
                                IRestaurantProgressStatus restaurantProgressStatus,
-                               IRestaurantCategoriesService restaurantCategoriesService) : IRestaurantService
+                               IRestaurantCategoriesService restaurantCategoriesService,
+                               IMealCategoryService mealCategoryService) : IRestaurantService
 {
     private readonly IMapper _mapper = mapper;
+    private readonly IMealCategoryService _mealCategoryService = mealCategoryService;
     private readonly IHttpContextAccessor _httpContextAccessor = httpContextAccessor;
     private readonly IUnitOfWorkRepository _unitOfWorkRepository = unitOfWorkRepository;
     private readonly IRestaurantProgressStatus _restaurantProgressStatus = restaurantProgressStatus;
@@ -142,7 +144,25 @@ public class RestaurantService(IUnitOfWorkRepository unitOfWorkRepository,
         return response;
     }
 
-    public Result<RestaurantDetailsResponse> GetRestaurantDetailsById(string id)
+    public IEnumerable<DeletedRestauraantsResponse> GetDeletedRestaurants()
+    {
+        var restaurants = _unitOfWorkRepository.Restaurants
+                .GetAllWithSelect(
+                    expression: r => EFCore.Property<bool>(r, "IsDeleted"),
+                    tracked: false,
+                    ignoreQueryFilter: true,
+                    selector: r => new DeletedRestauraantsResponse
+                    {
+                        Key = _dataProtector.Protect(r.Id.ToString()),
+                        Name = r.Name!,
+                        Image = r.Image,
+                    }
+                );
+
+        return restaurants is null ? [] : restaurants;
+    }
+
+    public Result<RestaurantDetailsResponse> GetRestaurantDetailsById(string id, bool isAvaliable)
     {
         //TODO: Handle Exception
         int restaurantId = int.Parse(_dataProtector.Unprotect(id));
@@ -164,88 +184,91 @@ public class RestaurantService(IUnitOfWorkRepository unitOfWorkRepository,
         response.Key = _dataProtector.Protect(restaurant.Id.ToString());
         response.OwnerId = _dataProtector.Protect(restaurant.OwnerId);
         response.Categories = [.. _restaurantCategoriesService.GetCategoriesByRestaurantId(restaurantId)!];
+        response.IsAvailable = isAvaliable;
 
         return Result.Success(response);
     }
 
-    //public IQueryable<RestaurantVM>? GetDeletedRestaurants()
-    //{
-    //    IQueryable<RestaurantVM>? restaurants = _unitOfWorkRepository
-    //            .Restaurants
-    //            .GetAllWithSelect(
-    //                expression: r => EFCore.Property<bool>(r, "IsDeleted"),
-    //                tracked: false,
-    //                ignoreQueryFilter: true,
-    //                selector: r => new RestaurantVM
-    //                {
-    //                    Key = _dataProtector.Protect(r.Id.ToString()),
-    //                    Name = r.Name!,
-    //                    Image = r.Image,
-    //                }
-    //            );
 
-    //    if (restaurants is null)
-    //    {
-    //        return null;
-    //    }
+    public Result DelteRestaurant(string restaurantKey)
+    {
+        // TODO: Handle Exception
+        int restaurantId = int.Parse(_dataProtector.Unprotect(restaurantKey));
 
-    //    return restaurants;
-    //}
+        using var transaction = _unitOfWorkRepository.BeginTransaction();
 
-    //public async Task<bool> DelteRestaurant(string id)
-    //{
-    //    // TODO: Handle Exception
-    //    int restaurantId = int.Parse(_dataProtector.Unprotect(id));
+        try
+        {
+            _unitOfWorkRepository.Orders.SoftDelete(o => o.RestaurantId == restaurantId);
 
-    //    _unitOfWorkRepository.Orders.SoftDelete(o => o.RestaurantId == restaurantId);
+            _mealCategoryService.DeleteAllCategoriesByRestaurantId(restaurantId);
 
-    //    _unitOfWorkRepository.Meals.SoftDelete(expression: m => m.RestaurantId == restaurantId);
+            _unitOfWorkRepository.MealAddOns.SoftDelete(ma => ma.RestaurantId == restaurantId);
 
-    //    _unitOfWorkRepository.Restaurants.SoftDelete(r => r.Id == restaurantId);
+            _unitOfWorkRepository.Restaurants.SoftDelete(r => r.Id == restaurantId);
 
-    //    string ownerId = _unitOfWorkRepository.Restaurants
-    //        .GetOneWithSelect(
-    //            expression: r => r.Id == restaurantId,
-    //            ignoreQueryFilter: true,
-    //            tracked: false,
-    //            selector: r => r.OwnerId
-    //        )!;
+            string ownerId = _unitOfWorkRepository.Restaurants
+                .GetOneWithSelect(
+                    expression: r => r.Id == restaurantId,
+                    ignoreQueryFilter: true,
+                    tracked: false,
+                    selector: r => r.OwnerId
+                )!;
 
-    //    ApplicationUser? theOwner = await _userManager.FindByIdAsync(ownerId);
+            ApplicationUser theOwner = _unitOfWorkRepository.Users.GetOne(expression: u => u.Id == ownerId)!;
 
-    //    theOwner!.LockoutEnabled = false;
+            theOwner.LockoutEnabled = false;
 
-    //    _unitOfWorkRepository.SaveChanges();
+            _unitOfWorkRepository.SaveChanges();
 
-    //    return true;
-    //}
+            transaction.Commit();
+            return Result.Success();
+        }
+        catch
+        {
+            transaction.Rollback();
+            return Result.Failure(RestaurantErrors.DeleteFailed);
+        }
+    }
 
-    //public async Task<bool> UnDelteRestaurant(string id)
-    //{
-    //    int restaurantId = int.Parse(_dataProtector.Unprotect(id));
+    public Result UnDelteRestaurant(string restaurantKey)
+    {
+        int restaurantId = int.Parse(_dataProtector.Unprotect(restaurantKey));
 
-    //    _unitOfWorkRepository.Orders.UnSoftDelete(o => o.RestaurantId == restaurantId);
+        using var transaction = _unitOfWorkRepository.BeginTransaction();
 
-    //    _unitOfWorkRepository.Meals.UnSoftDelete(expression: m => m.RestaurantId == restaurantId);
+        try
+        {
+            _unitOfWorkRepository.Orders.UnSoftDelete(o => o.RestaurantId == restaurantId);
 
-    //    _unitOfWorkRepository.Restaurants.UnSoftDelete(r => r.Id == restaurantId);
+            _mealCategoryService.UnDeleteAllCategoriesByRestaurantId(restaurantId);
 
-    //    string ownerId = _unitOfWorkRepository.Restaurants
-    //        .GetOneWithSelect(
-    //            expression: r => r.Id == restaurantId,
-    //            ignoreQueryFilter: true,
-    //            tracked: false,
-    //            selector: r => r.OwnerId
-    //        )!;
+            _unitOfWorkRepository.Restaurants.UnSoftDelete(r => r.Id == restaurantId);
 
-    //    ApplicationUser? theOwner = await _userManager.FindByIdAsync(ownerId);
+            string ownerId = _unitOfWorkRepository.Restaurants
+                .GetOneWithSelect(
+                    expression: r => r.Id == restaurantId,
+                    ignoreQueryFilter: true,
+                    tracked: false,
+                    selector: r => r.OwnerId
+                )!;
 
-    //    theOwner!.LockoutEnabled = true;
+            ApplicationUser theOwner = _unitOfWorkRepository.Users.GetOne(expression: u => u.Id == ownerId)!;
 
-    //    _unitOfWorkRepository.SaveChanges();
+            theOwner.LockoutEnabled = true;
 
-    //    return true;
-    //}
+            _unitOfWorkRepository.SaveChanges();
+            
+            transaction.Commit();
+
+            return Result.Success();
+        }
+        catch
+        {
+            transaction.Rollback();
+            return Result.Failure(RestaurantErrors.UnDeleteFailed);
+        }       
+    }
 
     public AcctiveStatus GetRestaurantStatusById(int restaurantId)
     {
@@ -279,4 +302,24 @@ public class RestaurantService(IUnitOfWorkRepository unitOfWorkRepository,
 
         return totalBranches;
     }
+
+    public IEnumerable<SelectListItem> GetAllRestaurantsForDropdown()
+    {
+        return _unitOfWorkRepository.Restaurants
+            .GetAllWithSelect(
+                expression: r => r.AcctiveStatus == AcctiveStatus.Acctive,
+                tracked: false,
+                selector: r => new SelectListItem
+                {
+                    Value = r.Id.ToString(),
+                    Text = r.Name
+                }
+            )!.ToList();
+    }
+}
+
+public class SelectListItem
+{
+    public string? Value { get; set; }
+    public string? Text { get; set; }
 }

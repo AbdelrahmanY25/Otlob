@@ -23,6 +23,7 @@ public class RestaurantBusinessDetailsService(IUnitOfWorkRepository unitOfWorkRe
                     OpeningTime = r.OpeningTime,
                     ClosingTime = r.ClosingTime,
                     BusinessType = r.BusinessType,
+                    MinimumOrderPrice = r.MinimumOrderPrice,
                     AdministratorRole = r.AdministratorRole,
                     RestaurantCategories = _restaurantCategoriesService.GetCategoriesByRestaurantId(restaurantId)!.ToList(),
                     AllCategories = _restaurantCategoriesService.GetAll()!.ToList()
@@ -30,9 +31,7 @@ public class RestaurantBusinessDetailsService(IUnitOfWorkRepository unitOfWorkRe
             )!;
         
         if (request is null)
-        {
             return Result.Failure<RestaurantBusinessInfo>(RestaurantErrors.NotFound);
-        }
 
         return Result.Success(request);
     }
@@ -43,25 +42,19 @@ public class RestaurantBusinessDetailsService(IUnitOfWorkRepository unitOfWorkRe
             .GetOne(expression: r => r.Id == restaurantId)!;
 
         if (restaurantOldBusinessDetails is null)
-        {
             return Result.Failure(RestaurantErrors.NotFound);
-        }
 
         int restaurantBranchesCount = _branchService.GetRestaurantBranchesCountByRestaurantId(restaurantId);
 
         if (request.NumberOfBranches < restaurantBranchesCount)
-        {
             return Result.Failure(BranchErrors.InvalidBrachCount);
-        }
 
         _mapper.Map(request, restaurantOldBusinessDetails);
 
         _restaurantCategoriesService.SetCategoriesToRestaurant(request.SelectedCategoryIds!, restaurantId);
 
         if (restaurantOldBusinessDetails.ProgressStatus == ProgressStatus.Pending)
-        {
             restaurantOldBusinessDetails.ProgressStatus = ProgressStatus.RestaurantProfileCompleted;
-        }
 
         _unitOfWorkRepository.SaveChanges();
 

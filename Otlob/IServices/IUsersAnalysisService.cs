@@ -2,7 +2,6 @@
 {
     public interface IUsersAnalysisService
     {
-        UsersAnalysisVM GetCusomersAndPartnersCount();
-        UsersAnalysisVM PercentageOfActiveUsers();
+        Task<UsersAnalysisResponse> GetCusomersCount();
     }
 }

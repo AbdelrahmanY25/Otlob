@@ -25,4 +25,5 @@ public class Meal : AuditEntity
     public ICollection<MealPriceHistory> MealPriceHistories { get; set; } = [];
     public ICollection<MealOptionGroup> OptionGroups { get; set; } = [];
     public ICollection<ManyMealManyAddOn> MealAddOns { get; set; } = [];
+    public ICollection<MealsAnalytic> MealsAnalytics { get; set; } = [];
 }

@@ -5,10 +5,10 @@ public class UsersAnalysisController(IUsersAnalysisService usersAnalysisService)
 {       
     private readonly IUsersAnalysisService _usersAnalysisService = usersAnalysisService;
 
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {            
-        UsersAnalysisVM usersAnalysisVM = _usersAnalysisService.GetCusomersAndPartnersCount();
+        UsersAnalysisResponse usersAnalysisResponse = await _usersAnalysisService.GetCusomersCount();
 
-        return View(usersAnalysisVM);
+        return View(usersAnalysisResponse);
     }
 }

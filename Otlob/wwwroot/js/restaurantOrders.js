@@ -115,14 +115,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 try {
                     const token = document.querySelector('input[name="__RequestVerificationToken"]').value;
+                    const area = window.currentArea || 'SuperAdmin';
                     
-                    const response = await fetch('/RestaurantAdmin/RestaurantOrders/UpdateStatus', {
+                    const response = await fetch(`/${area}/RestaurantOrders/UpdateStatus`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/x-www-form-urlencoded',
-                            'RequestVerificationToken': token
                         },
-                        body: `orderKey=${encodeURIComponent(orderId)}&newStatus=${encodeURIComponent(newStatus)}`
+                        body: `orderKey=${encodeURIComponent(orderId)}&newStatus=${encodeURIComponent(newStatus)}&__RequestVerificationToken=${encodeURIComponent(token)}`
                     });
 
                     const result = await response.json();
@@ -145,64 +145,108 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     };
 
-    // Cancel order with confirmation modal
-    window.cancelOrder = async function (orderId, button) {
-        const card = button.closest('.order-card');
-        const currentStatus = card.dataset.status;
+    // Cancel Reason Modal Functions
+    window.showCancelReasonModal = function (orderId) {
+        const modal = document.getElementById('cancelReasonModal');
+        const orderIdInput = document.getElementById('cancelOrderId');
+        const confirmBtn = document.getElementById('confirmCancelBtn');
+        
+        // Reset form
+        orderIdInput.value = orderId;
+        document.querySelectorAll('input[name="cancelReason"]').forEach(radio => {
+            radio.checked = false;
+        });
+        confirmBtn.disabled = true;
+        
+        modal.classList.add('show');
+    };
 
-        showConfirmModal({
-            message: 'Are you sure you want to cancel this order?',
-            currentStatus: currentStatus,
-            newStatus: 'Cancelled',
-            warning: 'This action cannot be undone. The order will be permanently cancelled.',
-            isDanger: true,
-            onConfirm: async function () {
-                const originalContent = button.innerHTML;
-                button.classList.add('btn-loading');
-                button.innerHTML = '<div class="spinner"></div>';
+    window.closeCancelReasonModal = function () {
+        const modal = document.getElementById('cancelReasonModal');
+        modal.classList.remove('show');
+    };
 
-                try {
-                    const token = document.querySelector('input[name="__RequestVerificationToken"]').value;
-                    
-                    const response = await fetch('/RestaurantAdmin/RestaurantOrders/UpdateStatus', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/x-www-form-urlencoded',
-                            'RequestVerificationToken': token
-                        },
-                        body: `orderKey=${encodeURIComponent(orderId)}&newStatus=Cancelled`
-                    });
+    // Enable confirm button when reason is selected
+    const cancelReasonRadios = document.querySelectorAll('input[name="cancelReason"]');
+    cancelReasonRadios.forEach(radio => {
+        radio.addEventListener('change', function () {
+            const confirmBtn = document.getElementById('confirmCancelBtn');
+            confirmBtn.disabled = false;
+        });
+    });
 
-                    const result = await response.json();
-
-                    if (result.success) {
-                        showToast('Order cancelled successfully', 'success');
-                        setTimeout(() => window.location.reload(), 1000);
-                    } else {
-                        showToast(result.message || 'Failed to cancel order', 'error');
-                        button.classList.remove('btn-loading');
-                        button.innerHTML = originalContent;
-                    }
-                } catch (error) {
-                    console.error('Error cancelling order:', error);
-                    showToast('An error occurred. Please try again.', 'error');
-                    button.classList.remove('btn-loading');
-                    button.innerHTML = originalContent;
-                }
+    // Close cancel reason modal on backdrop click
+    const cancelReasonModal = document.getElementById('cancelReasonModal');
+    if (cancelReasonModal) {
+        cancelReasonModal.addEventListener('click', function (e) {
+            if (e.target === cancelReasonModal) {
+                closeCancelReasonModal();
             }
         });
+    }
+
+    // Confirm cancel order with reason
+    window.confirmCancelOrder = async function () {
+        const orderId = document.getElementById('cancelOrderId').value;
+        const selectedReason = document.querySelector('input[name="cancelReason"]:checked');
+        
+        if (!selectedReason) {
+            showToast('Please select a cancellation reason', 'error');
+            return;
+        }
+
+        const reason = selectedReason.value;
+        const confirmBtn = document.getElementById('confirmCancelBtn');
+        const originalContent = confirmBtn.innerHTML;
+        
+        confirmBtn.classList.add('btn-loading');
+        confirmBtn.innerHTML = '<div class="spinner"></div> Processing...';
+        confirmBtn.disabled = true;
+
+        try {
+            const token = document.querySelector('input[name="__RequestVerificationToken"]').value;
+            const area = window.currentArea || 'SuperAdmin';
+            
+            const response = await fetch(`/${area}/RestaurantOrders/CancelOrder`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `orderId=${encodeURIComponent(orderId)}&reason=${encodeURIComponent(reason)}&__RequestVerificationToken=${encodeURIComponent(token)}`
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                closeCancelReasonModal();
+                showToast(result.message, 'success');
+                setTimeout(() => window.location.reload(), 1000);
+            } else {
+                showToast(result.message || 'Failed to cancel order', 'error');
+                confirmBtn.classList.remove('btn-loading');
+                confirmBtn.innerHTML = originalContent;
+                confirmBtn.disabled = false;
+            }
+        } catch (error) {
+            console.error('Error cancelling order:', error);
+            showToast('An error occurred. Please try again.', 'error');
+            confirmBtn.classList.remove('btn-loading');
+            confirmBtn.innerHTML = originalContent;
+            confirmBtn.disabled = false;
+        }
     };
 
     // Show user info modal
     window.showUserInfo = async function (orderId) {
         const modal = document.getElementById('userInfoModal');
         const content = document.getElementById('userInfoContent');
+        const area = window.currentArea || 'SuperAdmin';
         
         content.innerHTML = '<div style="text-align: center; padding: 2rem;"><div class="spinner" style="width: 30px; height: 30px; margin: 0 auto;"></div><p style="margin-top: 1rem; color: var(--adm-text-secondary);">Loading...</p></div>';
         modal.classList.add('show');
 
         try {
-            const response = await fetch(`/RestaurantAdmin/RestaurantOrders/GetUserInfo?orderId=${orderId}`);
+            const response = await fetch(`/${area}/RestaurantOrders/GetUserInfo?orderId=${orderId}`);
             
             if (response.ok) {
                 const html = await response.text();
@@ -339,4 +383,19 @@ document.addEventListener('DOMContentLoaded', function () {
             new bootstrap.Tooltip(el);
         });
     }
+
+    // Close modals with Escape key
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') {
+            if (document.getElementById('cancelReasonModal')?.classList.contains('show')) {
+                closeCancelReasonModal();
+            }
+            if (document.getElementById('confirmModal')?.classList.contains('show')) {
+                closeConfirmModal();
+            }
+            if (document.getElementById('userInfoModal')?.classList.contains('show')) {
+                closeUserInfoModal();
+            }
+        }
+    });
 });

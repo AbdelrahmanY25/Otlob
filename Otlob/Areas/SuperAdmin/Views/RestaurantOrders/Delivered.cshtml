@@ -1,0 +1,149 @@
+@model IEnumerable<RestaurantOrdersResponse>
+
+@{
+    ViewData["Title"] = "Delivered Orders";
+    
+    string restaurantKey = Model.FirstOrDefault()?.RestaurantId ?? string.Empty;
+    
+    var ordersCount = Model.Count();
+}
+
+<link rel="stylesheet" href="~/css/restaurantOrders.css" asp-append-version="true" />
+
+<div class="orders-container">
+    <!-- Header -->
+    <div class="orders-header">
+        <h1 class="orders-title">
+            <i class="bi bi-check-circle"></i>
+            Orders Management
+            <span class="orders-count">@ordersCount</span>
+        </h1>
+    </div>
+
+    <!-- Tabs -->
+    <div class="orders-tabs">
+        <a href="@Url.Action("InProgress", "RestaurantOrders", new { area = "SuperAdmin", restaurantKey = restaurantKey })" class="orders-tab">
+            <i class="bi bi-hourglass-split"></i>
+            In Progress
+        </a>
+        <a href="@Url.Action("Delivered", "RestaurantOrders", new { area = "SuperAdmin", restaurantKey = restaurantKey })" class="orders-tab active">
+            <i class="bi bi-check-circle"></i>
+            Delivered
+            <span class="tab-badge">@ordersCount</span>
+        </a>
+        <a href="@Url.Action("Cancelled", "RestaurantOrders", new { area = "SuperAdmin", restaurantKey = restaurantKey })" class="orders-tab">
+            <i class="bi bi-x-circle"></i>
+            Cancelled
+        </a>
+    </div>
+
+    <!-- Toolbar -->
+    <div class="orders-toolbar">
+        <div class="search-box">
+            <i class="bi bi-search"></i>
+            <input type="text" id="searchInput" placeholder="Search by Order ID...">
+        </div>
+    </div>
+
+    <!-- Orders Grid -->
+    @if (Model.Any())
+    {
+        <div class="orders-grid" id="ordersGrid">
+            @foreach (var order in Model)
+            {
+                <div class="order-card" data-order-id="@order.Id">
+                    <div class="order-card-header">
+                        <div class="order-info">
+                            <h3 class="order-id">Order #@order.Id</h3>
+                            <p class="order-date">
+                                <i class="bi bi-calendar3"></i>
+                                @order.OrderDate.ToString("MMM dd, yyyy - hh:mm tt")
+                            </p>
+                        </div>
+                        <span class="status-badge delivered">Delivered</span>
+                    </div>
+
+                    <div class="order-card-body">
+                        <!-- Completed Status -->
+                        <div class="status-progress">
+                            @{
+                                var steps = new[] { "Pending", "Preparing", "Shipped", "Delivered" };
+                            }
+                            @foreach (var (step, index) in steps.Select((s, i) => (s, i)))
+                            {
+                                <div class="progress-step completed">
+                                    <div class="step-icon">
+                                        <i class="bi bi-check"></i>
+                                    </div>
+                                    <span class="step-label">@step</span>
+                                </div>
+                            }
+                        </div>
+
+                        <div class="order-details-row">
+                            <span class="detail-label">
+                                <i class="bi bi-basket"></i> Items
+                            </span>
+                            <span class="detail-value">@order.ItemsCount items</span>
+                        </div>
+
+                        <div class="order-details-row">
+                            <span class="detail-label">
+                                <i class="bi bi-credit-card"></i> Payment
+                            </span>
+                            <span class="detail-value">@order.PaymentMethod</span>
+                        </div>
+
+                        <div class="order-details-row">
+                            <span class="detail-label">
+                                <i class="bi bi-currency-dollar"></i> Total
+                            </span>
+                            <span class="detail-value price">@order.TotalAmount.ToString("N2") L.E</span>
+                        </div>
+                    </div>
+
+                    <div class="order-card-footer">
+                        <button type="button" class="order-btn info icon-only" onclick="showUserInfo(@order.Id)" title="View Customer">
+                            <i class="bi bi-person"></i>
+                        </button>
+
+                        <a href="@Url.Action("Details", "RestaurantOrders", new { area = "SuperAdmin", orderKey = order.Id })" class="order-btn secondary" style="flex: 1;">
+                            <i class="bi bi-eye"></i> View Details
+                        </a>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="empty-state">
+            <i class="bi bi-box-seam"></i>
+            <h3>No delivered orders yet</h3>
+            <p>Completed orders will appear here after delivery.</p>
+        </div>
+    }
+</div>
+
+@Html.AntiForgeryToken()
+
+<!-- User Info Modal -->
+<div class="user-info-modal" id="userInfoModal">
+    <div class="user-info-modal-dialog">
+        <div class="user-info-modal-header">
+            <h4><i class="bi bi-person-circle"></i> Customer Info</h4>
+            <button type="button" class="modal-close-btn" onclick="closeUserInfoModal()">
+                <i class="bi bi-x-lg"></i>
+            </button>
+        </div>
+        <div id="userInfoContent">
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        window.currentArea = 'SuperAdmin';
+    </script>
+    <script src="~/js/restaurantOrders.js" asp-append-version="true"></script>
+}

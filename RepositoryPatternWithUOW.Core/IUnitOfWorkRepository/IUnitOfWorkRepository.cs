@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using Otlob.Core.Entities;
+using System.Data;
 
 namespace Otlob.Core.IUnitOfWorkRepository;
 
@@ -8,6 +9,7 @@ public interface IUnitOfWorkRepository : IDisposable
     IBaseRepository<AdminMonthlyAnalytic> AdminMonthlyAnalytics { get; }
     IBaseRepository<Category> Categories { get; }
     IBaseRepository<Restaurant> Restaurants { get; }
+    IBaseRepository<RestaurantRatingAnlytic> RestaurantRatingAnlytics { get; }
     IBaseRepository<RestaurantDailyAnalytic> RestaurantDailyAnalytics { get; }
     IBaseRepository<RestaurantMonthlyAnalytic> RestaurantMonthlyAnalytics { get; }
     IBaseRepository<Address> Addresses { get; }
@@ -20,6 +22,7 @@ public interface IUnitOfWorkRepository : IDisposable
     IBaseRepository<MealOptionGroup> MealOptionGroups { get; }
     IBaseRepository<MealOptionItem> MealOptionItems { get; }
     IBaseRepository<Meal> Meals { get; }
+    IBaseRepository<MealsAnalytic> MealsAnalytics { get; }
     IBaseRepository<MealPriceHistory> MealsPriceHistories { get; }
     IBaseRepository<MenuCategory> MealCategories { get; }
     IBaseRepository<ManyMealManyAddOn> ManyMealManyAddOns { get; }
@@ -32,6 +35,9 @@ public interface IUnitOfWorkRepository : IDisposable
     IBaseRepository<NationalId> NationalIds { get; }
     IBaseRepository<RestaurantBranch> RestaurantBranches { get; }
     IBaseRepository<RestaurantCategory> RestaurantCategories { get; }
+    IBaseRepository<OrderRating> OrderRatings { get; }
+    IBaseRepository<PromoCode> PromoCodes { get; }
+    IBaseRepository<PromoCodeUsage> PromoCodeUsages { get; }
 
     IDbTransaction BeginTransaction();
     void SaveChanges();

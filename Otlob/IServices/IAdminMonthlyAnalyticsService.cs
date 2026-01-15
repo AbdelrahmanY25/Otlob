@@ -3,10 +3,11 @@
 public interface IAdminMonthlyAnalyticsService
 {
     void Add();
-    void Update(decimal totalOrderPrice);
+    void Update(decimal totalOrderPrice, OrderStatus orderStatus);
     AdminMonthlyAnalyticsResponse? GetCurrentMonthAnalytics();
     AdminMonthlyAnalyticsResponse? GetByDate(int year, int month);
     AdminMonthlyAnalyticsResponse? GetCurrentYearAnalytics();
     AdminMonthlyAnalyticsResponse? GetByYearAnalytics(int year);
     List<AdminMonthlyAnalyticsResponse> GetLastTweleveMonthsAnalytics();
+    SuperAdminGeneralAnalyticsResponse GetGeneralAnalytics();
 }

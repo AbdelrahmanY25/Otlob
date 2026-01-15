@@ -13,6 +13,7 @@ public class OrderDetailsService(IUnitOfWorkRepository unitOfWorkRepository, IDa
                 selector: o => new OrderDetailsResponse
                 {
                     Id = o.Id,
+                    Restaurantkey = _dataProtector.Protect(o.RestaurantId.ToString()),
                     RestaurantName = o.Restaurant.Name,
                     RestaurantImage = o.Restaurant.Image,
                     OrderDate = o.OrderDate,
@@ -23,8 +24,11 @@ public class OrderDetailsService(IUnitOfWorkRepository unitOfWorkRepository, IDa
                     Notes = o.Notes,
                     SubTotal = o.SubPrice,
                     DeliveryFee = o.DeliveryFee,
+                    DiscountAmount = o.DiscountAmount,
                     ServiceFee = o.ServiceFeePrice,
+
                     TotalPrice = o.TotalPrice,
+                    IsRated = o.Rating != null,
                     Items = o.OrderDetails.Select(od => new OrderItemResponse
                     {
                         MealName = od.Meal.Name,

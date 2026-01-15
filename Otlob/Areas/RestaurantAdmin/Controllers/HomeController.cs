@@ -4,11 +4,13 @@
 [Authorize(Roles = DefaultRoles.RestaurantAdmin), EnableRateLimiting(RateLimiterPolicy.IpLimit)]
 public class HomeController(IRestaurantService restaurantService,
                             IRestaurantDailyAnalyticsService restaurantDailyAnalyticsService,
-                            IRestaurantMonthlyAnalyticsService restaurantMonthlyAnalyticsService) : Controller
+                            IRestaurantMonthlyAnalyticsService restaurantMonthlyAnalyticsService,
+                            IMealsAnalyticsService mealsAnalyticsService) : Controller
 {
     private readonly IRestaurantService _restaurantService = restaurantService;
     private readonly IRestaurantDailyAnalyticsService _restaurantDailyAnalyticsService = restaurantDailyAnalyticsService;
     private readonly IRestaurantMonthlyAnalyticsService _restaurantMonthlyAnalyticsService = restaurantMonthlyAnalyticsService;
+    private readonly IMealsAnalyticsService _mealsAnalyticsService = mealsAnalyticsService;
 
     public IActionResult Index()
     {
@@ -55,7 +57,8 @@ public class HomeController(IRestaurantService restaurantService,
             TodayAnalytics = _restaurantDailyAnalyticsService.GetToDay(restaurantId),
             CurrentMonthAnalytics = _restaurantMonthlyAnalyticsService.GetCurrentMonthAnalytics(restaurantId),
             CurrentYearAnalytics = _restaurantMonthlyAnalyticsService.GetCurrentYearAnalytics(restaurantId),
-            Last12MonthsAnalytics = _restaurantMonthlyAnalyticsService.GetLastTwelveMonthsAnalytics(restaurantId)
+            Last12MonthsAnalytics = _restaurantMonthlyAnalyticsService.GetLastTwelveMonthsAnalytics(restaurantId),
+            TopTenMealsSales = _mealsAnalyticsService.GetTopTenSales(restaurantId).ToList()
         };
 
         return View(response);
@@ -75,5 +78,14 @@ public class HomeController(IRestaurantService restaurantService,
             return NotFound("No data for this date");
 
         return Json(analytics);
+    }
+
+    public IActionResult GeneralAnalytics()
+    {
+        int restaurantId = int.Parse(User.FindFirstValue(StaticData.RestaurantId)!);
+
+        var response = _restaurantMonthlyAnalyticsService.GetGeneralAnalytics(restaurantId);
+
+        return View(response);
     }
 }

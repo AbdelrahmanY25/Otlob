@@ -1,11 +1,10 @@
 ﻿namespace Otlob.Services;
 
 public class CartService(IUnitOfWorkRepository unitOfWorkRepository, IHttpContextAccessor httpContextAccessor,
-                          IEncryptionService encryptionService, IDataProtectionProvider dataProtectionProvider) : ICartService
+                          IDataProtectionProvider dataProtectionProvider) : ICartService
 {
     private readonly IUnitOfWorkRepository _unitOfWorkRepository = unitOfWorkRepository;
     private readonly IHttpContextAccessor _httpContextAccessor = httpContextAccessor;
-    private readonly IEncryptionService _encryptionService = encryptionService;
     private readonly IDataProtector _dataProtector = dataProtectionProvider.CreateProtector("SecureData");
 
     public CartResponse? UserCart()
@@ -20,6 +19,7 @@ public class CartService(IUnitOfWorkRepository unitOfWorkRepository, IHttpContex
                 {
                     Id = c.Id,
                     RestaurantId = c.RestaurantId,
+                    MinimumOrderPrice = c.Restaurant.MinimumOrderPrice,
                     CartDetails = c.CartDetails.Select(cd => new CartDetailsResponse
                     {
                         Id = cd.Id,
@@ -91,7 +91,7 @@ public class CartService(IUnitOfWorkRepository unitOfWorkRepository, IHttpContex
         return Result.Success();
     }
 
-    public Result DecrementItem(int itemId) // use delete
+    public Result DecrementItem(int itemId)
     {
         var cartDetail = _unitOfWorkRepository.CartDetails
             .GetOne(expression: cd => cd.Id == itemId);
@@ -109,7 +109,7 @@ public class CartService(IUnitOfWorkRepository unitOfWorkRepository, IHttpContex
         return Result.Success();
     }
 
-    public Result RemoveItem(int itemId) // use delete
+    public Result RemoveItem(int itemId)
     {
         var cartDetail = _unitOfWorkRepository.CartDetails
             .GetOne(expression: cd => cd.Id == itemId);

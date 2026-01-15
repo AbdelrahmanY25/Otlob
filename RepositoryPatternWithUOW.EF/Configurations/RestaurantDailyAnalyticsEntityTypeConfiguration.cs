@@ -4,6 +4,9 @@ public class RestaurantDailyAnalyticsEntityTypeConfiguration : IEntityTypeConfig
 {
     public void Configure(EntityTypeBuilder<RestaurantDailyAnalytic> builder)
     {
+        builder
+            .HasQueryFilter(r => EFCore.Property<bool>(r, "IsDeleted") == false);
+
         builder.HasIndex(rda => new { rda.RestaurantId, rda.Date }).IsUnique();
         
         builder.HasOne(rda => rda.Restaurant)
@@ -15,7 +18,7 @@ public class RestaurantDailyAnalyticsEntityTypeConfiguration : IEntityTypeConfig
 
         builder.Property(rda => rda.TotalOrdersRevenue)
                .HasColumnType("decimal(12,2)")
-               .HasComputedColumnSql("([TotalOrdersSales] * 0.05)", true);
+               .HasComputedColumnSql("([TotalOrdersSales] * 0.90)", true);
         
         builder.Property(rda => rda.AverageOrderPrice)
                .HasColumnType("decimal(12,2)")

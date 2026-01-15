@@ -1,0 +1,1009 @@
+/* =========================================
+   Admin User Orders Styles
+   Uses variables from adminSite.css
+   ========================================= */
+
+/* Orders Page Container */
+.admin-orders-page {
+    padding: 20px;
+    animation: adminFadeIn 0.4s ease-out;
+}
+
+@keyframes adminFadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.admin-orders-container {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+/* Page Header */
+.admin-page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.admin-page-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--adm-text-primary);
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.admin-page-title i {
+    color: var(--adm-primary);
+}
+
+/* Back Link */
+.admin-back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--adm-text-secondary);
+    text-decoration: none;
+    font-weight: 600;
+    margin-bottom: 16px;
+    transition: var(--adm-transition);
+    padding: 8px 16px;
+    border-radius: var(--adm-radius);
+    background: var(--adm-bg-sidebar);
+    border: 1px solid var(--adm-border);
+}
+
+.admin-back-link:hover {
+    color: var(--adm-primary);
+    background: var(--adm-primary-light);
+    border-color: var(--adm-primary);
+}
+
+/* Empty State */
+.admin-empty-orders {
+    text-align: center;
+    padding: 60px 30px;
+    background: var(--adm-bg-sidebar);
+    border-radius: var(--adm-radius);
+    box-shadow: var(--adm-shadow);
+    border: 1px solid var(--adm-border);
+}
+
+.admin-empty-orders i {
+    font-size: 4rem;
+    color: var(--adm-text-secondary);
+    margin-bottom: 16px;
+    opacity: 0.6;
+}
+
+.admin-empty-orders h3 {
+    color: var(--adm-text-primary);
+    margin-bottom: 8px;
+    font-size: 1.25rem;
+}
+
+.admin-empty-orders p {
+    color: var(--adm-text-secondary);
+    margin-bottom: 0;
+}
+
+/* Order Card */
+.admin-order-card {
+    background: var(--adm-bg-sidebar);
+    border-radius: var(--adm-radius);
+    box-shadow: var(--adm-shadow);
+    margin-bottom: 16px;
+    overflow: hidden;
+    border: 1px solid var(--adm-border);
+    transition: var(--adm-transition);
+}
+
+.admin-order-card:hover {
+    box-shadow: 0 8px 16px -4px rgba(0, 0, 0, 0.15);
+    border-color: var(--adm-primary);
+    transform: translateY(-2px);
+}
+
+.admin-order-card-content {
+    position: relative;
+}
+
+.admin-order-card-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    padding: 20px;
+}
+
+.admin-order-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.admin-restaurant-logo {
+    width: 56px;
+    height: 56px;
+    border-radius: var(--adm-radius);
+    object-fit: cover;
+    border: 2px solid var(--adm-border);
+}
+
+.admin-restaurant-logo-placeholder {
+    width: 56px;
+    height: 56px;
+    border-radius: var(--adm-radius);
+    background: var(--adm-primary-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--adm-primary);
+    font-size: 1.5rem;
+}
+
+.admin-order-info {
+    flex: 1;
+}
+
+.admin-restaurant-name {
+    font-weight: 700;
+    color: var(--adm-text-primary);
+    margin: 0 0 6px;
+    font-size: 1.1rem;
+}
+
+.admin-order-meta {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-size: 0.875rem;
+    color: var(--adm-text-secondary);
+    flex-wrap: wrap;
+}
+
+.admin-order-meta span {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.admin-order-meta i {
+    color: var(--adm-primary);
+    font-size: 0.9rem;
+}
+
+.admin-order-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 16px;
+    border-top: 1px solid var(--adm-border);
+}
+
+.admin-order-total {
+    font-weight: 700;
+    color: var(--adm-text-primary);
+    font-size: 1.15rem;
+}
+
+.admin-view-details {
+    color: var(--adm-primary);
+    font-weight: 600;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* Status Badge */
+.admin-status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+.admin-status-pending {
+    background: rgba(245, 158, 11, 0.15);
+    color: #d97706;
+}
+
+.admin-status-preparing {
+    background: rgba(99, 102, 241, 0.15);
+    color: #6366f1;
+}
+
+.admin-status-shipped {
+    background: rgba(59, 130, 246, 0.15);
+    color: #3b82f6;
+}
+
+.admin-status-delivered {
+    background: rgba(16, 185, 129, 0.15);
+    color: #059669;
+}
+
+.admin-status-cancelled {
+    background: rgba(239, 68, 68, 0.15);
+    color: #dc2626;
+}
+
+/* Payment Method */
+.admin-payment-method {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    margin-left: 16px;
+    background: var(--adm-bg-body);
+    border-radius: var(--adm-radius);
+    font-size: 0.875rem;
+    color: var(--adm-text-secondary);
+    border: 1px solid var(--adm-border);
+}
+
+.admin-payment-method i {
+    color: var(--adm-primary);
+}
+
+/* Rating Actions */
+.admin-order-actions {
+    border-top: 1px solid var(--adm-border);
+    display: flex;
+    justify-content: flex-end;
+    padding: 12px 20px;
+    background: var(--adm-bg-body);
+}
+
+.admin-view-rating-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border-radius: var(--adm-radius);
+    font-weight: 600;
+    font-size: 0.875rem;
+    text-decoration: none;
+    transition: var(--adm-transition);
+    border: 1px solid var(--adm-primary);
+    background: var(--adm-primary-light);
+    color: var(--adm-primary);
+}
+
+.admin-view-rating-btn:hover {
+    background: var(--adm-primary);
+    color: var(--adm-text-contrast);
+    transform: translateY(-1px);
+}
+
+.admin-not-rated-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    font-size: 0.875rem;
+    color: var(--adm-text-secondary);
+}
+
+/* =========================================
+   Order Details Page
+   ========================================= */
+
+.admin-details-page {
+    padding: 20px;
+}
+
+.admin-details-container {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.admin-details-card {
+    background: var(--adm-bg-sidebar);
+    border-radius: var(--adm-radius);
+    box-shadow: var(--adm-shadow);
+    overflow: hidden;
+    border: 1px solid var(--adm-border);
+}
+
+.admin-details-header {
+    padding: 24px;
+    border-bottom: 1px solid var(--adm-border);
+    background: linear-gradient(135deg, var(--adm-bg-sidebar) 0%, var(--adm-bg-body) 100%);
+}
+
+.admin-details-restaurant {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.admin-details-restaurant-logo {
+    width: 70px;
+    height: 70px;
+    border-radius: var(--adm-radius);
+    object-fit: cover;
+    border: 2px solid var(--adm-border);
+}
+
+.admin-details-restaurant-info h2 {
+    margin: 0 0 6px;
+    font-size: 1.35rem;
+    color: var(--adm-text-primary);
+}
+
+.admin-details-restaurant-info p {
+    margin: 0;
+    color: var(--adm-text-secondary);
+    font-size: 0.9rem;
+}
+
+.admin-details-badges {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+/* Status Progress */
+.admin-status-progress {
+    padding: 30px 24px;
+    background: var(--adm-bg-body);
+}
+
+.admin-progress-steps {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.admin-progress-line {
+    position: absolute;
+    top: 22px;
+    left: 35px;
+    right: 35px;
+    height: 3px;
+    background: var(--adm-border);
+    z-index: 1;
+}
+
+.admin-progress-line-fill {
+    position: absolute;
+    top: 22px;
+    left: 35px;
+    height: 3px;
+    background: var(--adm-primary);
+    z-index: 2;
+    transition: width 0.5s ease;
+}
+
+.admin-progress-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    z-index: 3;
+}
+
+.admin-step-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--adm-bg-sidebar);
+    border: 3px solid var(--adm-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 8px;
+    transition: var(--adm-transition);
+    color: var(--adm-text-secondary);
+}
+
+.admin-step-icon i {
+    font-size: 1rem;
+}
+
+.admin-progress-step.active .admin-step-icon,
+.admin-progress-step.completed .admin-step-icon {
+    border-color: var(--adm-primary);
+    background: var(--adm-primary);
+    color: var(--adm-text-contrast);
+}
+
+.admin-progress-step.active .admin-step-icon {
+    animation: adminPulse 2s infinite;
+}
+
+.admin-step-label {
+    font-size: 0.75rem;
+    color: var(--adm-text-secondary);
+    text-align: center;
+    font-weight: 500;
+}
+
+.admin-progress-step.active .admin-step-label,
+.admin-progress-step.completed .admin-step-label {
+    color: var(--adm-primary);
+    font-weight: 600;
+}
+
+@keyframes adminPulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(79, 70, 229, 0.4); }
+    50% { box-shadow: 0 0 0 10px rgba(79, 70, 229, 0); }
+}
+
+/* Cancelled Status */
+.admin-cancelled-status {
+    text-align: center;
+    padding: 24px;
+    background: rgba(239, 68, 68, 0.08);
+}
+
+.admin-cancelled-status i {
+    font-size: 2.5rem;
+    color: #dc2626;
+}
+
+.admin-cancelled-status p {
+    margin: 10px 0 0;
+    color: #dc2626;
+    font-weight: 600;
+}
+
+/* Order Notes */
+.admin-order-notes {
+    padding: 16px 24px;
+    background: rgba(245, 158, 11, 0.1);
+    border-left: 4px solid #f59e0b;
+    margin: 16px 24px;
+    border-radius: 0 var(--adm-radius) var(--adm-radius) 0;
+}
+
+.admin-order-notes p {
+    margin: 0;
+    color: var(--adm-text-primary);
+    font-size: 0.9rem;
+}
+
+.admin-order-notes strong {
+    color: #d97706;
+}
+
+/* Section Title */
+.admin-section-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--adm-text-primary);
+    margin: 0 0 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.admin-section-title i {
+    color: var(--adm-primary);
+}
+
+/* Order Items */
+.admin-order-items {
+    padding: 24px;
+}
+
+.admin-item-card {
+    display: flex;
+    gap: 16px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--adm-border);
+}
+
+.admin-item-card:last-child {
+    border-bottom: none;
+}
+
+.admin-item-image {
+    width: 80px;
+    height: 80px;
+    border-radius: var(--adm-radius);
+    object-fit: cover;
+    border: 2px solid var(--adm-border);
+}
+
+.admin-item-image-placeholder {
+    width: 80px;
+    height: 80px;
+    border-radius: var(--adm-radius);
+    background: var(--adm-primary-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--adm-primary);
+    font-size: 1.75rem;
+}
+
+.admin-item-info {
+    flex: 1;
+}
+
+.admin-item-name {
+    font-weight: 600;
+    color: var(--adm-text-primary);
+    margin: 0 0 6px;
+    font-size: 1.05rem;
+}
+
+.admin-item-details {
+    font-size: 0.85rem;
+    color: var(--adm-text-secondary);
+    margin: 0 0 8px;
+}
+
+.admin-item-quantity {
+    font-size: 0.85rem;
+    color: var(--adm-text-secondary);
+    background: var(--adm-bg-body);
+    padding: 4px 10px;
+    border-radius: var(--adm-radius);
+    display: inline-block;
+}
+
+.admin-item-price {
+    font-weight: 700;
+    color: var(--adm-text-primary);
+    white-space: nowrap;
+    font-size: 1.1rem;
+}
+
+/* Delivery Info */
+.admin-delivery-info {
+    padding: 24px;
+    border-top: 1px solid var(--adm-border);
+    background: var(--adm-bg-body);
+}
+
+.admin-info-row {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 12px;
+    align-items: flex-start;
+}
+
+.admin-info-row:last-child {
+    margin-bottom: 0;
+}
+
+.admin-info-row i {
+    color: var(--adm-primary);
+    width: 24px;
+    text-align: center;
+    flex-shrink: 0;
+    font-size: 1rem;
+    margin-top: 2px;
+}
+
+.admin-info-row span {
+    color: var(--adm-text-secondary);
+    font-size: 0.95rem;
+}
+
+/* Order Summary */
+.admin-order-summary {
+    padding: 24px;
+    border-top: 1px solid var(--adm-border);
+}
+
+.admin-summary-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    color: var(--adm-text-secondary);
+    font-size: 0.95rem;
+}
+
+.admin-summary-row.total {
+    color: var(--adm-text-primary);
+    font-weight: 700;
+    font-size: 1.15rem;
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 2px solid var(--adm-border);
+    margin-bottom: 0;
+}
+
+.admin-summary-row.total span:last-child {
+    color: var(--adm-primary);
+}
+
+/* Rating Section */
+.admin-rating-section {
+    padding: 24px;
+    border-top: 1px solid var(--adm-border);
+    background: linear-gradient(135deg, rgba(79, 70, 229, 0.03) 0%, rgba(79, 70, 229, 0.08) 100%);
+}
+
+.admin-rating-status {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    background: var(--adm-bg-sidebar);
+    border-radius: var(--adm-radius);
+    border: 1px solid var(--adm-border);
+}
+
+.admin-rating-status.rated {
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.05) 0%, rgba(16, 185, 129, 0.1) 100%);
+    border-color: rgba(16, 185, 129, 0.3);
+}
+
+.admin-rating-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #059669;
+    font-weight: 600;
+}
+
+.admin-rating-badge i {
+    font-size: 1.25rem;
+}
+
+.admin-view-rating-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: #059669;
+    text-decoration: none;
+    font-weight: 600;
+    transition: var(--adm-transition);
+}
+
+.admin-view-rating-link:hover {
+    color: var(--adm-primary);
+}
+
+.admin-rating-status.not-rated {
+    flex-direction: column;
+    text-align: center;
+    gap: 8px;
+}
+
+.admin-rating-status.not-rated p {
+    margin: 0;
+    color: var(--adm-text-secondary);
+}
+
+/* =========================================
+   View Rating Page
+   ========================================= */
+
+.admin-rating-page {
+    padding: 20px;
+}
+
+.admin-rating-container {
+    max-width: 750px;
+    margin: 0 auto;
+}
+
+.admin-rating-card {
+    background: var(--adm-bg-sidebar);
+    border-radius: 16px;
+    box-shadow: var(--adm-shadow);
+    overflow: hidden;
+    border: 1px solid var(--adm-border);
+}
+
+.admin-rating-header {
+    padding: 32px 24px;
+    text-align: center;
+    background: linear-gradient(135deg, var(--adm-primary) 0%, var(--adm-primary-hover) 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.admin-rating-header::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%);
+}
+
+.admin-rating-icon-wrapper {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 16px;
+    position: relative;
+}
+
+.admin-rating-icon-wrapper i {
+    font-size: 2.5rem;
+    color: white;
+}
+
+.admin-rating-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: white;
+    margin: 0 0 8px;
+}
+
+.admin-rating-subtitle {
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.85);
+    margin: 0;
+}
+
+/* Restaurant Info in Rating */
+.admin-rating-restaurant-info {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--adm-border);
+    background: var(--adm-bg-body);
+}
+
+.admin-rating-restaurant-image {
+    width: 70px;
+    height: 70px;
+    border-radius: 12px;
+    object-fit: cover;
+    border: 2px solid var(--adm-border);
+}
+
+.admin-rating-restaurant-image-placeholder {
+    width: 70px;
+    height: 70px;
+    border-radius: 12px;
+    background: var(--adm-primary-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--adm-primary);
+    font-size: 1.75rem;
+}
+
+.admin-rating-restaurant-details h3 {
+    margin: 0 0 8px;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--adm-text-primary);
+}
+
+.admin-rating-restaurant-details p {
+    margin: 0 0 4px;
+    font-size: 0.875rem;
+    color: var(--adm-text-secondary);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.admin-rating-restaurant-details p:last-child {
+    margin-bottom: 0;
+}
+
+.admin-rating-restaurant-details p i {
+    color: var(--adm-primary);
+    font-size: 0.9rem;
+}
+
+/* Rating Display Section */
+.admin-rating-display-section {
+    padding: 24px;
+}
+
+.admin-section-label {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--adm-text-primary);
+    margin: 0 0 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.admin-section-label i {
+    color: var(--adm-primary);
+}
+
+.admin-selected-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.admin-selected-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    background: var(--adm-primary-light);
+    border: 1px solid rgba(79, 70, 229, 0.3);
+    border-radius: 10px;
+    color: var(--adm-primary);
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+.admin-selected-tag i {
+    font-size: 1rem;
+}
+
+/* Comment Display */
+.admin-comment-display-section {
+    padding: 0 24px 24px;
+}
+
+.admin-comment-display {
+    padding: 16px 20px;
+    background: var(--adm-bg-body);
+    border-radius: 12px;
+    border-left: 4px solid var(--adm-primary);
+}
+
+.admin-comment-display p {
+    margin: 0;
+    color: var(--adm-text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+/* Rating Meta */
+.admin-rating-meta {
+    padding: 16px 24px;
+    background: var(--adm-bg-body);
+    border-top: 1px solid var(--adm-border);
+}
+
+.admin-rating-meta p {
+    margin: 0;
+    font-size: 0.85rem;
+    color: var(--adm-text-secondary);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Form Actions */
+.admin-form-actions {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    padding: 24px;
+    background: var(--adm-bg-body);
+    border-top: 1px solid var(--adm-border);
+}
+
+.admin-btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    border-radius: var(--adm-radius);
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: var(--adm-transition);
+    text-decoration: none;
+    border: none;
+    background: var(--adm-primary);
+    color: var(--adm-text-contrast);
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+}
+
+.admin-btn-primary:hover {
+    background: var(--adm-primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(79, 70, 229, 0.4);
+    color: var(--adm-text-contrast);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .admin-orders-page,
+    .admin-details-page,
+    .admin-rating-page {
+        padding: 16px;
+    }
+
+    .admin-page-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .admin-page-title {
+        font-size: 1.5rem;
+    }
+
+    .admin-order-header {
+        flex-wrap: wrap;
+    }
+
+    .admin-order-meta {
+        gap: 10px;
+    }
+
+    .admin-order-footer {
+        flex-direction: column;
+        gap: 12px;
+        align-items: flex-start;
+    }
+
+    .admin-progress-steps {
+        flex-direction: column;
+        gap: 16px;
+        align-items: flex-start;
+        padding-left: 20px;
+    }
+
+    .admin-progress-line,
+    .admin-progress-line-fill {
+        width: 3px !important;
+        height: auto;
+        top: 22px;
+        bottom: 22px;
+        left: 40px;
+        right: auto;
+    }
+
+    .admin-progress-step {
+        flex-direction: row;
+        gap: 16px;
+    }
+
+    .admin-step-label {
+        text-align: left;
+    }
+
+    .admin-item-card {
+        flex-wrap: wrap;
+    }
+
+    .admin-item-price {
+        width: 100%;
+        text-align: right;
+        margin-top: 8px;
+    }
+
+    .admin-details-badges {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .admin-payment-method {
+        margin-left: 0;
+    }
+
+    .admin-selected-tags {
+        gap: 8px;
+    }
+
+    .admin-selected-tag {
+        padding: 8px 12px;
+        font-size: 0.85rem;
+    }
+}

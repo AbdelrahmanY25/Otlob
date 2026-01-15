@@ -4,6 +4,9 @@ public class RestaurantMonthlyAnalyticEntityTypeConfiguration : IEntityTypeConfi
 {
     public void Configure(EntityTypeBuilder<RestaurantMonthlyAnalytic> builder)
     {
+        builder
+            .HasQueryFilter(r => EFCore.Property<bool>(r, "IsDeleted") == false);
+
         builder.HasIndex(rma => new { rma.RestaurantId, rma.Year, rma.Month }).IsUnique();
 
         builder.HasOne(rma => rma.Restaurant)
@@ -15,6 +18,6 @@ public class RestaurantMonthlyAnalyticEntityTypeConfiguration : IEntityTypeConfi
 
         builder.Property(rma => rma.TotalOrdersRevenue)
                .HasColumnType("decimal(12,2)")
-               .HasComputedColumnSql("([TotalOrdersSales] * 0.05)", true);
+               .HasComputedColumnSql("([TotalOrdersSales] * 0.90)", true);
     }
 }

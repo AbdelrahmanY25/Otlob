@@ -4,7 +4,7 @@
     ViewData["Title"] = "Shopping Cart";
 }
 
-<link rel="stylesheet" href="~/css/cart.css" />
+<link rel="stylesheet" href="~/css/cart.css" asp-asp-append-version="true"/>
 
 <div class="cart-page">
     <div class="cart-container">
@@ -108,12 +108,50 @@
             }
         </div>
 
-        <div class="cart-summary">
+        @{
+            var cartTotalPrice = Model.CartDetails.Sum(x => x.TotalPrice);
+            var isLessThanMin = cartTotalPrice < Model.MinimumOrderPrice;
+            var minPriceInvariant = Model.MinimumOrderPrice.ToString("F2", System.Globalization.CultureInfo.InvariantCulture);
+            var checkoutUrl = Url.Action("CheckOut", "CheckOut", new { area = "Customer" });
+        }
+
+        <div class="cart-summary" id="cart-summary-section" data-min-price="@minPriceInvariant">
+            @if (isLessThanMin)
+            {
+                <div class="alert alert-warning mb-3" id="min-price-warning" style="font-size: 0.9rem; border-radius: 12px; display: flex; align-items: center; gap: 10px; background: #fffbeb; border: 1px solid #fef3c7; color: #92400e; padding: 12px;">
+                    <i class="bi bi-exclamation-triangle-fill" style="font-size: 1.2rem;"></i>
+                    <span>
+                        Minimum order price for this restaurant is <strong>@Model.MinimumOrderPrice.ToString("N2") L.E</strong>. 
+                        Add <strong id="min-price-remaining">@((Model.MinimumOrderPrice - cartTotalPrice).ToString("N2")) L.E</strong> more to checkout.
+                    </span>
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-warning mb-3" id="min-price-warning" style="font-size: 0.9rem; border-radius: 12px; display: none; align-items: center; gap: 10px; background: #fffbeb; border: 1px solid #fef3c7; color: #92400e; padding: 12px;">
+                    <i class="bi bi-exclamation-triangle-fill" style="font-size: 1.2rem;"></i>
+                    <span>
+                        Minimum order price for this restaurant is <strong>@Model.MinimumOrderPrice.ToString("N2") L.E</strong>. 
+                        Add <strong id="min-price-remaining">0.00 L.E</strong> more to checkout.
+                    </span>
+                </div>
+            }
+
             <div style="display:flex; justify-content:space-between; margin-bottom:10px; font-weight:700; font-size:1.2rem; color:var(--c-text-main);">
                 <span>Total</span>
-                <span id="cart-total-price">@Model.CartDetails.Sum(x => x.TotalPrice).ToString("N2") L.E</span>
+                <span id="cart-total-price">@cartTotalPrice.ToString("N2") L.E</span>
             </div>
-            <a asp-controller="CheckOut" asp-action="CheckOut" class="checkout-btn">Proceed to Checkout</a>
+
+            <div id="checkout-btn-container" data-checkout-url="@checkoutUrl">
+                @if (isLessThanMin)
+                {
+                    <button type="button" class="checkout-btn disabled" id="checkout-btn" disabled>Proceed to Checkout</button>
+                }
+                else
+                {
+                    <a href="@checkoutUrl" class="checkout-btn" id="checkout-btn">Proceed to Checkout</a>
+                }
+            </div>
         </div>
     </div>
 </div>
@@ -142,4 +180,4 @@
     </div>
 </div>
 
-<script src="@Url.Content("~/js/cart.js")" defer></script>
+<script src="~/js/cart.js" asp-append-version="true"></script>

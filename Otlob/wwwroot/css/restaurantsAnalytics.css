@@ -1,0 +1,713 @@
+/* ============================================
+   Restaurants Analytics Dashboard Styles
+   ============================================ */
+
+.analytics-dashboard {
+    padding: 1.5rem;
+    background: var(--adm-bg-main);
+    min-height: 100vh;
+}
+
+/* --- Header --- */
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--adm-border);
+}
+
+.header-content {
+    flex: 1;
+    min-width: 300px;
+}
+
+.dashboard-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--adm-text-primary);
+    margin: 0 0 0.5rem;
+    display: flex;
+    align-items: center;
+}
+
+.dashboard-title i {
+    color: var(--adm-primary);
+}
+
+.dashboard-subtitle {
+    color: var(--adm-text-secondary);
+    font-size: 0.95rem;
+    margin: 0;
+}
+
+.header-filters {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.filter-group {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.filter-group label {
+    font-size: 0.85rem;
+    color: var(--adm-text-secondary);
+    white-space: nowrap;
+}
+
+.filter-select {
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    border: 1px solid var(--adm-border);
+    background: var(--adm-bg-sidebar);
+    color: var(--adm-text-primary);
+    font-size: 0.9rem;
+    cursor: pointer;
+    min-width: 120px;
+}
+
+.filter-select:focus {
+    outline: none;
+    border-color: var(--adm-primary);
+}
+
+.apply-btn {
+    padding: 0.5rem 1.25rem;
+    border-radius: 8px;
+    border: none;
+    background: var(--adm-primary);
+    color: white;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--adm-transition);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.apply-btn:hover {
+    background: var(--adm-primary-dark);
+    transform: translateY(-1px);
+}
+
+/* --- Stats Overview --- */
+.stats-overview {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1.25rem;
+    margin-bottom: 2rem;
+}
+
+.stat-card {
+    background: var(--adm-bg-sidebar);
+    border-radius: 16px;
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    border: 1px solid var(--adm-border);
+    transition: var(--adm-transition);
+    position: relative;
+    overflow: hidden;
+}
+
+.stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+}
+
+.stat-card.primary::before { background: var(--adm-primary); }
+.stat-card.success::before { background: #10B981; }
+.stat-card.warning::before { background: #F59E0B; }
+.stat-card.info::before { background: #3B82F6; }
+.stat-card.danger::before { background: #EF4444; }
+
+.stat-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--adm-shadow);
+}
+
+.stat-icon-wrapper {
+    width: 56px;
+    height: 56px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+}
+
+.stat-card.primary .stat-icon-wrapper { background: rgba(79, 70, 229, 0.15); color: var(--adm-primary); }
+.stat-card.success .stat-icon-wrapper { background: rgba(16, 185, 129, 0.15); color: #10B981; }
+.stat-card.warning .stat-icon-wrapper { background: rgba(245, 158, 11, 0.15); color: #F59E0B; }
+.stat-card.info .stat-icon-wrapper { background: rgba(59, 130, 246, 0.15); color: #3B82F6; }
+.stat-card.danger .stat-icon-wrapper { background: rgba(239, 68, 68, 0.15); color: #EF4444; }
+
+.stat-info {
+    flex: 1;
+}
+
+.stat-label {
+    font-size: 0.85rem;
+    color: var(--adm-text-secondary);
+    display: block;
+    margin-bottom: 0.25rem;
+}
+
+.stat-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--adm-text-primary);
+    margin: 0;
+}
+
+.stat-value small {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--adm-text-secondary);
+}
+
+/* --- Period Summary --- */
+.period-summary {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+    margin-bottom: 2rem;
+}
+
+.period-card {
+    background: linear-gradient(135deg, var(--adm-primary) 0%, #6366f1 100%);
+    border-radius: 16px;
+    padding: 1.5rem;
+    color: white;
+}
+
+.period-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.period-header i {
+    font-size: 1.25rem;
+}
+
+.period-stats {
+    display: flex;
+    gap: 2rem;
+}
+
+.period-stat {
+    display: flex;
+    flex-direction: column;
+}
+
+.period-label {
+    font-size: 0.85rem;
+    opacity: 0.85;
+}
+
+.period-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+/* --- Charts Section --- */
+.charts-section {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.chart-card {
+    background: var(--adm-bg-sidebar);
+    border-radius: 16px;
+    padding: 1.5rem;
+    border: 1px solid var(--adm-border);
+}
+
+.chart-card.wide {
+    grid-column: 1 / -1;
+}
+
+.chart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.25rem;
+}
+
+.chart-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--adm-text-primary);
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.chart-title i {
+    color: var(--adm-primary);
+}
+
+.chart-body {
+    position: relative;
+    height: 300px;
+}
+
+.chart-card.wide .chart-body {
+    height: 350px;
+}
+
+/* --- Top Restaurants Section --- */
+.top-restaurants-section {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.top-card {
+    background: var(--adm-bg-sidebar);
+    border-radius: 16px;
+    padding: 1.5rem;
+    border: 1px solid var(--adm-border);
+}
+
+.top-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.25rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--adm-border);
+}
+
+.top-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--adm-text-primary);
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.top-header .badge {
+    background: var(--adm-primary-light);
+    color: var(--adm-primary);
+    padding: 0.35rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.top-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    max-height: 450px;
+    overflow-y: auto;
+}
+
+.restaurant-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: var(--adm-bg-main);
+    border-radius: 12px;
+    transition: var(--adm-transition);
+}
+
+.restaurant-item:hover {
+    background: var(--adm-primary-light);
+}
+
+.rank-badge {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.9rem;
+    background: var(--adm-border);
+    color: var(--adm-text-secondary);
+}
+
+.rank-badge.rank-1 {
+    background: linear-gradient(135deg, #FFD700, #FFA500);
+    color: white;
+}
+
+.rank-badge.rank-2 {
+    background: linear-gradient(135deg, #C0C0C0, #A8A8A8);
+    color: white;
+}
+
+.rank-badge.rank-3 {
+    background: linear-gradient(135deg, #CD7F32, #B87333);
+    color: white;
+}
+
+.restaurant-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--adm-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.restaurant-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.restaurant-avatar i {
+    font-size: 1.5rem;
+    color: var(--adm-text-secondary);
+}
+
+.restaurant-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.restaurant-name {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--adm-text-primary);
+    margin: 0 0 0.25rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.restaurant-stats {
+    display: flex;
+    gap: 1rem;
+}
+
+.stat-item {
+    font-size: 0.8rem;
+    color: var(--adm-text-secondary);
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.restaurant-sales,
+.restaurant-orders {
+    text-align: right;
+}
+
+.sales-amount,
+.orders-count {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--adm-text-primary);
+}
+
+.sales-currency,
+.orders-label {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--adm-text-secondary);
+}
+
+/* --- Data Table Section --- */
+.data-table-section {
+    background: var(--adm-bg-sidebar);
+    border-radius: 16px;
+    padding: 1.5rem;
+    border: 1px solid var(--adm-border);
+}
+
+.table-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.25rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.table-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--adm-text-primary);
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.table-title i {
+    color: var(--adm-primary);
+}
+
+.search-input {
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    border: 1px solid var(--adm-border);
+    background: var(--adm-bg-main);
+    color: var(--adm-text-primary);
+    font-size: 0.9rem;
+    width: 250px;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: var(--adm-primary);
+}
+
+.table-container {
+    overflow-x: auto;
+}
+
+.restaurants-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.restaurants-table thead th {
+    text-align: left;
+    padding: 1rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--adm-text-secondary);
+    border-bottom: 2px solid var(--adm-border);
+    white-space: nowrap;
+}
+
+.restaurants-table tbody td {
+    padding: 1rem;
+    font-size: 0.9rem;
+    color: var(--adm-text-primary);
+    border-bottom: 1px solid var(--adm-border);
+}
+
+.restaurants-table tbody tr:hover {
+    background: var(--adm-primary-light);
+}
+
+.restaurants-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.table-restaurant {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.table-restaurant-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    overflow: hidden;
+    background: var(--adm-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.table-restaurant-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.table-restaurant-avatar i {
+    font-size: 1rem;
+    color: var(--adm-text-secondary);
+}
+
+.badge {
+    padding: 0.35rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.badge-success {
+    background: rgba(16, 185, 129, 0.15);
+    color: #10B981;
+}
+
+.badge-danger {
+    background: rgba(239, 68, 68, 0.15);
+    color: #EF4444;
+}
+
+/* --- No Data State --- */
+.no-data {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem;
+    color: var(--adm-text-secondary);
+}
+
+.no-data i {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+}
+
+.no-data p {
+    margin: 0;
+    font-size: 0.95rem;
+}
+
+/* --- Responsive --- */
+@media (max-width: 1400px) {
+    .stats-overview {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 1200px) {
+    .stats-overview {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .charts-section,
+    .top-restaurants-section {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 992px) {
+    .dashboard-header {
+        flex-direction: column;
+    }
+    
+    .header-filters {
+        width: 100%;
+        justify-content: flex-start;
+    }
+    
+    .period-summary {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .analytics-dashboard {
+        padding: 1rem;
+    }
+    
+    .stats-overview {
+        grid-template-columns: 1fr;
+    }
+    
+    .stat-card {
+        padding: 1.25rem;
+    }
+    
+    .stat-value {
+        font-size: 1.25rem;
+    }
+    
+    .dashboard-title {
+        font-size: 1.5rem;
+    }
+    
+    .filter-group {
+        flex: 1;
+        min-width: 120px;
+    }
+    
+    .filter-select {
+        width: 100%;
+    }
+    
+    .search-input {
+        width: 100%;
+    }
+    
+    .table-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .table-actions {
+        width: 100%;
+    }
+}
+
+@media (max-width: 576px) {
+    .header-filters {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .apply-btn {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .period-stats {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+    
+    .restaurant-item {
+        flex-wrap: wrap;
+    }
+    
+    .restaurant-sales,
+    .restaurant-orders {
+        width: 100%;
+        text-align: left;
+        margin-top: 0.5rem;
+        padding-top: 0.5rem;
+        border-top: 1px solid var(--adm-border);
+    }
+}
+
+/* --- Scrollbar Styling --- */
+.top-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.top-list::-webkit-scrollbar-track {
+    background: var(--adm-bg-main);
+    border-radius: 3px;
+}
+
+.top-list::-webkit-scrollbar-thumb {
+    background: var(--adm-border);
+    border-radius: 3px;
+}
+
+.top-list::-webkit-scrollbar-thumb:hover {
+    background: var(--adm-text-secondary);
+}

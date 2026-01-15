@@ -1,134 +1,204 @@
-﻿@model BankAccountResponse
+@model BankAccountResponse
 
 @{
     ViewData["Title"] = "Bank Account Document";
 }
 
-<link rel="stylesheet" href="~/css/documents.css" />
+<link rel="stylesheet" href="~/css/documents.css" asp-append-version="true" />
 
-<div class="document-page-container">
-    <div class="document-page-wrapper">
-        <div class="document-header">
-            <div class="document-title-section">
-                <a class="back-btn" 
+<div class="doc-page">
+    <!-- Hero Section -->
+    <div class="doc-hero">
+        <div class="doc-hero-content">
+            <div class="doc-hero-top">
+                <a class="doc-back-btn" 
                    asp-area="SuperAdmin"
                    asp-controller="Restaurants" 
                    asp-action="ResturantDetails" 
-                   asp-route-id="@Model.RestaurantId"
-                   title="Back to restaurant">
+                   asp-route-id="@Model.RestaurantId">
                     <i class="fas fa-arrow-left"></i>
+                    Back to Restaurant
                 </a>
-                <div class="document-icon-wrapper">
+                <span class="doc-status-badge status-@Model.Status.ToString().ToLower()">
+                    @if (Model.Status == DocumentStatus.Accepted)
+                    {
+                        <i class="fas fa-check-circle"></i>
+                    }
+                    else if (Model.Status == DocumentStatus.Rejected)
+                    {
+                        <i class="fas fa-times-circle"></i>
+                    }
+                    else
+                    {
+                        <i class="fas fa-clock"></i>
+                    }
+                    @Model.Status
+                </span>
+            </div>
+            <div class="doc-hero-main">
+                <div class="doc-icon-wrapper">
                     <i class="fas fa-university"></i>
                 </div>
-                <div class="document-title-group">
-                    <h1>Bank Account Certificate</h1>
-                    <p class="document-subtitle">Document Details & Management</p>
+                <div class="doc-hero-info">
+                    <h1 class="doc-title">Bank Account Certificate</h1>
+                    <p class="doc-subtitle">Bank account verification for payment processing</p>
                 </div>
             </div>
-            <div class="document-status-badge status-@Model.Status.ToString().ToLower()">
-                @if (Model.Status == DocumentStatus.Accepted)
-                {
-                    <i class="fas fa-check-circle"></i>
-                }
-                else if (Model.Status == DocumentStatus.Rejected)
-                {
-                    <i class="fas fa-times-circle"></i>
-                }
-                else
-                {
-                    <i class="fas fa-clock"></i>
-                }
-                @Model.Status
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="doc-main">
+        <!-- Quick Stats -->
+        <div class="doc-quick-stats">
+            <div class="doc-stat-card">
+                <div class="doc-stat-icon primary">
+                    <i class="fas fa-user-tie"></i>
+                </div>
+                <div class="doc-stat-content">
+                    <div class="doc-stat-value">@Model.AccountHolderName.Split(' ').FirstOrDefault()</div>
+                    <div class="doc-stat-label">Account Holder</div>
+                </div>
+            </div>
+            <div class="doc-stat-card">
+                <div class="doc-stat-icon success">
+                    <i class="fas fa-building"></i>
+                </div>
+                <div class="doc-stat-content">
+                    <div class="doc-stat-value">@Model.BankName</div>
+                    <div class="doc-stat-label">Bank</div>
+                </div>
+            </div>
+            <div class="doc-stat-card">
+                <div class="doc-stat-icon warning">
+                    <i class="fas fa-credit-card"></i>
+                </div>
+                <div class="doc-stat-content">
+                    <div class="doc-stat-value">@Model.AccountType</div>
+                    <div class="doc-stat-label">Account Type</div>
+                </div>
             </div>
         </div>
 
-        <div class="document-content-layout">
-            <div class="document-info-card">
-                <div class="document-card-header">
-                    <h2>
-                        <i class="fas fa-info-circle"></i>
-                        Document Information
-                    </h2>
+        <div class="doc-content-grid">
+            <!-- Left Column - Info Cards -->
+            <div class="doc-info-column">
+                <!-- Account Holder Information Card -->
+                <div class="doc-card">
+                    <div class="doc-card-header">
+                        <h2 class="doc-card-title">
+                            <i class="fas fa-user-circle"></i>
+                            Account Holder Information
+                        </h2>
+                    </div>
+                    <div class="doc-card-body">
+                        <div class="doc-info-grid">
+                            <div class="doc-info-item full-width">
+                                <div class="doc-info-icon">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <div class="doc-info-content">
+                                    <span class="doc-info-label">Account Holder Name</span>
+                                    <div class="doc-info-value">@Model.AccountHolderName</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="document-card-body">
-                    <div class="document-info-grid">
-                        <div class="doc-info-item">
-                            <span class="doc-info-label">Account Holder Name</span>
-                            <div class="doc-info-value">
-                                <i class="fas fa-user"></i>
-                                @Model.AccountHolderName
+
+                <!-- Bank Details Card -->
+                <div class="doc-card">
+                    <div class="doc-card-header">
+                        <h2 class="doc-card-title">
+                            <i class="fas fa-university"></i>
+                            Bank Details
+                        </h2>
+                    </div>
+                    <div class="doc-card-body">
+                        <div class="doc-info-grid">
+                            <div class="doc-info-item">
+                                <div class="doc-info-icon">
+                                    <i class="fas fa-building"></i>
+                                </div>
+                                <div class="doc-info-content">
+                                    <span class="doc-info-label">Bank Name</span>
+                                    <div class="doc-info-value">@Model.BankName</div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="doc-info-item">
-                            <span class="doc-info-label">Account Type</span>
-                            <div class="doc-info-value">
-                                <i class="fas fa-tag"></i>
-                                @Model.AccountType.GetDisplayName()
+                            <div class="doc-info-item">
+                                <div class="doc-info-icon">
+                                    <i class="fas fa-credit-card"></i>
+                                </div>
+                                <div class="doc-info-content">
+                                    <span class="doc-info-label">Account Type</span>
+                                    <div class="doc-info-value">@Model.AccountType</div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="doc-info-item">
-                            <span class="doc-info-label">Account Number</span>
-                            <div class="doc-info-value">
-                                <i class="fas fa-hashtag"></i>
-                                @Model.AccountNumber
+                            <div class="doc-info-item">
+                                <div class="doc-info-icon">
+                                    <i class="fas fa-hashtag"></i>
+                                </div>
+                                <div class="doc-info-content">
+                                    <span class="doc-info-label">Account Number</span>
+                                    <div class="doc-info-value">@Model.AccountNumber</div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="doc-info-item" style=" grid-column: span 2;">
-                            <span class="doc-info-label">Bank Name</span>
-                            <div class="doc-info-value">
-                                <i class="fas fa-building"></i>
-                                @Model.BankName.GetDisplayName()
+                            <div class="doc-info-item">
+                                <div class="doc-info-icon">
+                                    <i class="fas fa-globe"></i>
+                                </div>
+                                <div class="doc-info-content">
+                                    <span class="doc-info-label">IBAN</span>
+                                    <div class="doc-info-value">@Model.Iban</div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="doc-info-item" style="grid-column: span 2;">
-                            <span class="doc-info-label">IBAN</span>
-                            <div class="doc-info-value">
-                                <i class="fas fa-barcode"></i>
-                                <span style="word-break: break-all;">@Model.Iban</span>
-                            </div>
-                        </div>
-                        <div class="doc-info-item">
-                            <span class="doc-info-label">Certificate Issue Date</span>
-                            <div class="doc-info-value">
-                                <i class="fas fa-calendar-check"></i>
-                                @Model.BankCertificateIssueDate.ToString("MMM dd, yyyy")
+                            <div class="doc-info-item full-width">
+                                <div class="doc-info-icon">
+                                    <i class="fas fa-calendar-check"></i>
+                                </div>
+                                <div class="doc-info-content">
+                                    <span class="doc-info-label">Certificate Issue Date</span>
+                                    <div class="doc-info-value">@Model.BankCertificateIssueDate.ToString("MMMM dd, yyyy")</div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div>
-                <div class="file-preview-card">
+            <!-- Right Column - Sidebar -->
+            <div class="doc-sidebar">
+                <!-- Certificate File -->
+                <div class="doc-file-card">
                     <h3>
-                        <i class="fas fa-file-pdf"></i>
-                        Certificate File
+                        <i class="fas fa-file-invoice"></i>
+                        Bank Certificate
                     </h3>
-                    <div class="file-icon-display">
+                    <div class="doc-file-icon">
                         <i class="fas fa-file-pdf"></i>
                     </div>
-                    <div class="file-name-display">
-                        @Model.BankAccountCertificate.FileName
-                    </div>
-                    <div class="file-actions-group">
+                    <div class="doc-file-name">@Model.BankAccountCertificate.FileName</div>
+                    <div class="doc-file-actions">
                         <a asp-area="SuperAdmin"
                            asp-controller="Documents" 
                            asp-action="Download" 
                            asp-route-id="@Model.BankAccountCertificate.Id"
-                           class="btn-file-action btn-download">
+                           class="doc-btn doc-btn-download">
                             <i class="fas fa-download"></i>
                             Download
                         </a>
                     </div>
                 </div>
 
-                <div class="status-actions-card">
-                    <h3>
-                        <i class="fas fa-tasks"></i>
-                        Change Status
-                    </h3>
-                    <div class="status-buttons-group">
+                <!-- Status Actions Card -->
+                <div class="doc-action-card">
+                    <div class="doc-action-header">
+                        <h3 class="doc-action-title">
+                            <i class="fas fa-sliders-h"></i>
+                            Change Status
+                        </h3>
+                    </div>
+                    <div class="doc-action-body">
                         @foreach (var status in Enum.GetValues<DocumentStatus>())
                         {
                             @if (status != Model.Status)
@@ -139,7 +209,7 @@
                                    asp-route-id="@Model.Id"
                                    asp-route-status="@status"
                                    asp-route-restaurantId="@Model.RestaurantId"
-                                   class="btn-status-action @(status == DocumentStatus.Accepted ? "btn-accept" : status == DocumentStatus.Rejected ? "btn-reject" : "btn-pending")">
+                                   class="doc-btn-status @(status == DocumentStatus.Accepted ? "doc-btn-accept" : status == DocumentStatus.Rejected ? "doc-btn-reject" : "doc-btn-pending")">
                                     @if (status == DocumentStatus.Accepted)
                                     {
                                         <i class="fas fa-check"></i>
@@ -156,8 +226,8 @@
                                 </a>
                             }
                         }
-                    </div>                    
-                </div>                
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -165,5 +235,4 @@
 
 @section Scripts {
     <partial name="_NotificationPartial"></partial>
-    <script src="~/js/documents.js"></script>
 }

@@ -26,9 +26,21 @@ public class OrderEntityTypeConfiguration : IEntityTypeConfiguration<Order>
             .HasColumnType("decimal(5,2)");
 
         builder
+            .Property(o => o.DiscountAmount)
+            .HasColumnType("decimal(8,2)")
+            .HasDefaultValue(0);
+
+        builder
             .Property(o => o.TotalPrice)
             .HasColumnType("decimal(8,2)")
-            .HasComputedColumnSql("[SubPrice] + [ServiceFeePrice] + [DeliveryFee]", true);
+            .HasComputedColumnSql("[SubPrice] + [ServiceFeePrice] + [DeliveryFee] - [DiscountAmount]", true);
+
+        builder
+            .HasOne(o => o.PromoCode)
+            .WithMany(p => p.Orders)
+            .HasForeignKey(o => o.PromoCodeId)
+            .IsRequired(false)
+            .OnDelete(DeleteBehavior.Restrict);
 
         builder
             .Property(o => o.Method)

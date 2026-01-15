@@ -1,4 +1,6 @@
-﻿namespace Otlob.Core.Contracts.RestaurantAdminAnalytics;
+﻿using Otlob.Core.Contracts.MealsAnalytics;
+
+namespace Otlob.Core.Contracts.RestaurantAdminAnalytics;
 
 public class RestaurantAdminDashboardResponse
 {
@@ -6,4 +8,5 @@ public class RestaurantAdminDashboardResponse
     public RestaurantMonthlyAnalyticsResponse? CurrentMonthAnalytics { get; set; }
     public RestaurantMonthlyAnalyticsResponse? CurrentYearAnalytics { get; set; }
     public List<RestaurantMonthlyAnalyticsResponse> Last12MonthsAnalytics { get; set; } = [];
+    public List<MealsAnalyticsResponse> TopTenMealsSales { get; set; } = [];
 }

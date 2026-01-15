@@ -1,0 +1,588 @@
+@model SuperAdminGeneralAnalyticsResponse
+
+@{
+    ViewData["Title"] = "General Analytics";
+    
+    var monthNames = new[] { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
+    
+    var allMonthsData = Model.AllMonthsAnalytics.Select(m => new {
+        month = monthNames[m.Month - 1] + " " + m.Year,
+        sales = m.TotalOrdersSales,
+        revenue = m.TotalOrdersRevenue,
+        count = m.CompletedOrdersCount,
+        cancelled = m.CancelledOrdersCount
+    }).ToList();
+
+    // Group data by year for yearly summary
+    var yearlyData = Model.AllMonthsAnalytics
+        .GroupBy(m => m.Year)
+        .Select(g => new {
+            year = g.Key,
+            sales = g.Sum(m => m.TotalOrdersSales),
+            revenue = g.Sum(m => m.TotalOrdersRevenue),
+            count = g.Sum(m => m.CompletedOrdersCount),
+            cancelled = g.Sum(m => m.CancelledOrdersCount)
+        })
+        .OrderBy(y => y.year)
+        .ToList();
+
+    // Pie chart data for completed vs cancelled orders
+    var completedOrders = Model.TotalOrdersCount - Model.TotalCancelledOrdersCount;
+    var ordersPieData = new {
+        completed = completedOrders,
+        cancelled = Model.TotalCancelledOrdersCount
+    };
+}
+
+<link rel="stylesheet" href="~/css/superAdminHome.css" asp-append-version="true" />
+
+<div class="dashboard-container">
+    <!-- Header -->
+    <div class="dashboard-header">
+        <h1 class="dashboard-title"><i class="bi bi-graph-up-arrow me-2"></i>General Analytics</h1>
+        <p class="dashboard-subtitle">Complete overview of all restaurants' performance across all time.</p>
+    </div>
+
+    <!-- Overall Stats Cards -->
+    <div class="stats-grid">
+        <div class="stat-card orders">
+            <div class="stat-header">
+                <div class="stat-icon">
+                    <i class="bi bi-bag-check"></i>
+                </div>
+            </div>
+            <p class="stat-label">Total Orders</p>
+            <h3 class="stat-value">@Model.TotalOrdersCount.ToString("N0")</h3>
+        </div>
+
+        <div class="stat-card average">
+            <div class="stat-header">
+                <div class="stat-icon">
+                    <i class="bi bi-calendar-day"></i>
+                </div>
+            </div>
+            <p class="stat-label">Avg Orders/Day</p>
+            <h3 class="stat-value">@Model.AverageOrdersPerDay.ToString("N2")</h3>
+        </div>
+
+        <div class="stat-card" style="--stat-color: #EF4444; background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(239, 68, 68, 0.05) 100%);">
+            <div class="stat-header">
+                <div class="stat-icon" style="background: rgba(239, 68, 68, 0.2); color: #EF4444;">
+                    <i class="bi bi-x-circle"></i>
+                </div>
+            </div>
+            <p class="stat-label">Cancelled Orders</p>
+            <h3 class="stat-value" style="color: #EF4444;">@Model.TotalCancelledOrdersCount.ToString("N0")</h3>
+        </div>
+
+        <div class="stat-card sales">
+            <div class="stat-header">
+                <div class="stat-icon">
+                    <i class="bi bi-currency-dollar"></i>
+                </div>
+            </div>
+            <p class="stat-label">Total Sales</p>
+            <h3 class="stat-value">@Model.TotalSales.ToString("N2") L.E</h3>
+        </div>
+
+        <div class="stat-card revenue">
+            <div class="stat-header">
+                <div class="stat-icon">
+                    <i class="bi bi-graph-up-arrow"></i>
+                </div>
+            </div>
+            <p class="stat-label">Total Revenue</p>
+            <h3 class="stat-value">@Model.TotalRevenue.ToString("N2") L.E</h3>
+        </div>
+    </div>
+
+    <!-- Orders Completion Pie Chart -->
+    <div class="charts-row">
+        <div class="chart-card">
+            <div class="chart-header">
+                <h3 class="chart-title"><i class="bi bi-pie-chart-fill me-2"></i>Orders Completion Rate</h3>
+            </div>
+            <div class="chart-container">
+                @if (Model.TotalOrdersCount > 0)
+                {
+                    <canvas id="ordersCompletionPieChart" data-chart-data='@System.Text.Json.JsonSerializer.Serialize(ordersPieData)'></canvas>
+                }
+                else
+                {
+                    <div class="no-data">
+                        <i class="bi bi-pie-chart"></i>
+                        <p>No orders data available</p>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <!-- Summary Stats -->
+        <div class="chart-card">
+            <div class="chart-header">
+                <h3 class="chart-title"><i class="bi bi-clipboard-data me-2"></i>Orders Summary</h3>
+            </div>
+            <div class="summary-grid" style="padding: 1rem;">
+                <div class="summary-card" style="background: rgba(16, 185, 129, 0.1); border-color: #10B981; padding: 1.5rem; border-radius: 12px; border: 1px solid;">
+                    <div class="label" style="font-size: 0.9rem; color: var(--adm-text-secondary);">Completed Orders</div>
+                    <div class="value" style="font-size: 1.75rem; font-weight: 700; color: #10B981;">@((Model.TotalOrdersCount - Model.TotalCancelledOrdersCount).ToString("N0"))</div>
+                    <div style="font-size: 0.85rem; color: #10B981; margin-top: 0.5rem;">
+                        @(Model.TotalOrdersCount > 0 ? Math.Round((decimal)(Model.TotalOrdersCount - Model.TotalCancelledOrdersCount) / Model.TotalOrdersCount * 100, 1) : 0)% of total
+                    </div>
+                </div>
+                <div class="summary-card" style="background: rgba(239, 68, 68, 0.1); border-color: #EF4444; padding: 1.5rem; border-radius: 12px; border: 1px solid; margin-top: 1rem;">
+                    <div class="label" style="font-size: 0.9rem; color: var(--adm-text-secondary);">Cancelled Orders</div>
+                    <div class="value" style="font-size: 1.75rem; font-weight: 700; color: #EF4444;">@Model.TotalCancelledOrdersCount.ToString("N0")</div>
+                    <div style="font-size: 0.85rem; color: #EF4444; margin-top: 0.5rem;">
+                        @(Model.TotalOrdersCount > 0 ? Math.Round((decimal)Model.TotalCancelledOrdersCount / Model.TotalOrdersCount * 100, 1) : 0)% of total
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section: Yearly Summary -->
+    <hr class="section-divider">
+    
+    <div class="section-header">
+        <h2 class="section-title"><i class="bi bi-calendar-range"></i> Yearly Summary</h2>
+    </div>
+
+    <!-- Yearly Charts -->
+    <div class="charts-row">
+        <!-- Yearly Sales Chart -->
+        <div class="chart-card">
+            <div class="chart-header">
+                <h3 class="chart-title"><i class="bi bi-bar-chart me-2"></i>Sales by Year</h3>
+            </div>
+            <div class="chart-container">
+                @if (yearlyData.Any())
+                {
+                    <canvas id="yearlySalesChart" data-chart-data='@System.Text.Json.JsonSerializer.Serialize(yearlyData)'></canvas>
+                }
+                else
+                {
+                    <div class="no-data">
+                        <i class="bi bi-bar-chart"></i>
+                        <p>No data available</p>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <!-- Yearly Orders Chart -->
+        <div class="chart-card">
+            <div class="chart-header">
+                <h3 class="chart-title"><i class="bi bi-pie-chart me-2"></i>Orders by Year</h3>
+            </div>
+            <div class="chart-container">
+                @if (yearlyData.Any())
+                {
+                    <canvas id="yearlyOrdersChart" data-chart-data='@System.Text.Json.JsonSerializer.Serialize(yearlyData)'></canvas>
+                }
+                else
+                {
+                    <div class="no-data">
+                        <i class="bi bi-pie-chart"></i>
+                        <p>No data available</p>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- Yearly Data Table -->
+    <div class="data-table-card">
+        <div class="chart-header">
+            <h3 class="chart-title"><i class="bi bi-table me-2"></i>Yearly Report</h3>
+        </div>
+        
+        @if (yearlyData.Any())
+        {
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Year</th>
+                        <th>Completed Orders</th>
+                        <th>Cancelled Orders</th>
+                        <th>Total Sales</th>
+                        <th>Revenue</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var year in yearlyData.OrderByDescending(y => y.year))
+                    {
+                        <tr>
+                            <td><strong>@year.year</strong></td>
+                            <td>@year.count</td>
+                            <td style="color: #EF4444;">@year.cancelled</td>
+                            <td>@year.sales.ToString("N2") L.E</td>
+                            <td>@year.revenue.ToString("N2") L.E</td>
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    <tr style="font-weight: bold; background: var(--adm-primary-light);">
+                        <td>Total</td>
+                        <td>@yearlyData.Sum(y => y.count)</td>
+                        <td style="color: #EF4444;">@yearlyData.Sum(y => y.cancelled)</td>
+                        <td>@yearlyData.Sum(y => y.sales).ToString("N2") L.E</td>
+                        <td>@yearlyData.Sum(y => y.revenue).ToString("N2") L.E</td>
+                    </tr>
+                </tfoot>
+            </table>
+        }
+        else
+        {
+            <div class="no-data">
+                <i class="bi bi-table"></i>
+                <p>No yearly data available</p>
+            </div>
+        }
+    </div>
+
+    <!-- Section: All Months Analytics -->
+    <hr class="section-divider">
+    
+    <div class="section-header">
+        <h2 class="section-title"><i class="bi bi-bar-chart-line"></i> All Months Analytics</h2>
+    </div>
+
+    <!-- Monthly Charts -->
+    <div class="charts-row">
+        <!-- Monthly Sales Trend -->
+        <div class="chart-card">
+            <div class="chart-header">
+                <h3 class="chart-title"><i class="bi bi-graph-up me-2"></i>Monthly Sales Trend</h3>
+            </div>
+            <div class="chart-container">
+                @if (Model.AllMonthsAnalytics.Any())
+                {
+                    <canvas id="allMonthlySalesChart" data-chart-data='@System.Text.Json.JsonSerializer.Serialize(allMonthsData)'></canvas>
+                }
+                else
+                {
+                    <div class="no-data">
+                        <i class="bi bi-graph-up"></i>
+                        <p>No sales data available</p>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <!-- Monthly Orders Trend -->
+        <div class="chart-card">
+            <div class="chart-header">
+                <h3 class="chart-title"><i class="bi bi-bar-chart me-2"></i>Monthly Orders Trend</h3>
+            </div>
+            <div class="chart-container">
+                @if (Model.AllMonthsAnalytics.Any())
+                {
+                    <canvas id="allMonthlyOrdersChart" data-chart-data='@System.Text.Json.JsonSerializer.Serialize(allMonthsData)'></canvas>
+                }
+                else
+                {
+                    <div class="no-data">
+                        <i class="bi bi-bar-chart"></i>
+                        <p>No orders data available</p>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- Sales vs Revenue Comparison (Full Width) -->
+    <div class="charts-row">
+        <div class="chart-card full-width">
+            <div class="chart-header">
+                <h3 class="chart-title"><i class="bi bi-cash-stack me-2"></i>Sales vs Revenue (All Time)</h3>
+            </div>
+            <div class="chart-container" style="height: 400px;">
+                @if (Model.AllMonthsAnalytics.Any())
+                {
+                    <canvas id="allTimeRevenueChart" data-chart-data='@System.Text.Json.JsonSerializer.Serialize(allMonthsData)'></canvas>
+                }
+                else
+                {
+                    <div class="no-data">
+                        <i class="bi bi-cash-stack"></i>
+                        <p>No revenue data available</p>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- All Months Data Table -->
+    <div class="data-table-card">
+        <div class="chart-header">
+            <h3 class="chart-title"><i class="bi bi-table me-2"></i>Complete Monthly Report</h3>
+        </div>
+        
+        @if (Model.AllMonthsAnalytics.Any())
+        {
+            <div style="max-height: 500px; overflow-y: auto;">
+                <table class="data-table">
+                    <thead style="position: sticky; top: 0; background: var(--adm-bg-primary); z-index: 1;">
+                        <tr>
+                            <th>Month</th>
+                            <th>Completed Orders</th>
+                            <th>Cancelled Orders</th>
+                            <th>Total Sales</th>
+                            <th>Revenue</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var month in Model.AllMonthsAnalytics.OrderByDescending(m => m.Year).ThenByDescending(m => m.Month))
+                        {
+                            <tr>
+                                <td><strong>@monthNames[month.Month - 1] @month.Year</strong></td>
+                                <td>@month.CompletedOrdersCount</td>
+                                <td style="color: #EF4444;">@month.CancelledOrdersCount</td>
+                                <td>@month.TotalOrdersSales.ToString("N2") L.E</td>
+                                <td>@month.TotalOrdersRevenue.ToString("N2") L.E</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <div class="no-data">
+                <i class="bi bi-table"></i>
+                <p>No monthly data available</p>
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Color palette
+            const colors = {
+                primary: '#6366F1',
+                success: '#10B981',
+                warning: '#F59E0B',
+                danger: '#EF4444',
+                purple: '#8B5CF6',
+                cyan: '#06B6D4'
+            };
+
+            // Orders Completion Pie Chart
+            const ordersCompletionPieCanvas = document.getElementById('ordersCompletionPieChart');
+            if (ordersCompletionPieCanvas) {
+                const pieData = JSON.parse(ordersCompletionPieCanvas.dataset.chartData);
+                const total = pieData.completed + pieData.cancelled;
+                const completedPercent = total > 0 ? ((pieData.completed / total) * 100).toFixed(1) : 0;
+                const cancelledPercent = total > 0 ? ((pieData.cancelled / total) * 100).toFixed(1) : 0;
+                
+                new Chart(ordersCompletionPieCanvas, {
+                    type: 'doughnut',
+                    data: {
+                        labels: [`Completed (${completedPercent}%)`, `Cancelled (${cancelledPercent}%)`],
+                        datasets: [{
+                            data: [pieData.completed, pieData.cancelled],
+                            backgroundColor: [colors.success, colors.danger],
+                            borderWidth: 0,
+                            hoverOffset: 10
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                                labels: {
+                                    padding: 20,
+                                    usePointStyle: true,
+                                    pointStyle: 'circle'
+                                }
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        const value = context.raw;
+                                        const percentage = total > 0 ? ((value / total) * 100).toFixed(1) : 0;
+                                        return `${context.label}: ${value.toLocaleString()} orders`;
+                                    }
+                                }
+                            }
+                        },
+                        cutout: '60%'
+                    }
+                });
+            }
+
+            // Yearly Sales Chart
+            const yearlySalesCanvas = document.getElementById('yearlySalesChart');
+            if (yearlySalesCanvas) {
+                const yearlyData = JSON.parse(yearlySalesCanvas.dataset.chartData);
+                new Chart(yearlySalesCanvas, {
+                    type: 'bar',
+                    data: {
+                        labels: yearlyData.map(d => d.year),
+                        datasets: [{
+                            label: 'Total Sales (L.E)',
+                            data: yearlyData.map(d => d.sales),
+                            backgroundColor: colors.primary,
+                            borderRadius: 8
+                        }, {
+                            label: 'Revenue (L.E)',
+                            data: yearlyData.map(d => d.revenue),
+                            backgroundColor: colors.success,
+                            borderRadius: 8
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { position: 'top' }
+                        },
+                        scales: {
+                            y: { beginAtZero: true }
+                        }
+                    }
+                });
+            }
+
+            // Yearly Orders Chart
+            const yearlyOrdersCanvas = document.getElementById('yearlyOrdersChart');
+            if (yearlyOrdersCanvas) {
+                const yearlyData = JSON.parse(yearlyOrdersCanvas.dataset.chartData);
+                new Chart(yearlyOrdersCanvas, {
+                    type: 'bar',
+                    data: {
+                        labels: yearlyData.map(d => d.year),
+                        datasets: [{
+                            label: 'Completed Orders',
+                            data: yearlyData.map(d => d.count),
+                            backgroundColor: colors.success,
+                            borderRadius: 8
+                        }, {
+                            label: 'Cancelled Orders',
+                            data: yearlyData.map(d => d.cancelled),
+                            backgroundColor: colors.danger,
+                            borderRadius: 8
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { position: 'top' }
+                        },
+                        scales: {
+                            y: { beginAtZero: true }
+                        }
+                    }
+                });
+            }
+
+            // All Monthly Sales Chart
+            const allMonthlySalesCanvas = document.getElementById('allMonthlySalesChart');
+            if (allMonthlySalesCanvas) {
+                const monthlyData = JSON.parse(allMonthlySalesCanvas.dataset.chartData);
+                new Chart(allMonthlySalesCanvas, {
+                    type: 'line',
+                    data: {
+                        labels: monthlyData.map(d => d.month),
+                        datasets: [{
+                            label: 'Total Sales (L.E)',
+                            data: monthlyData.map(d => d.sales),
+                            borderColor: colors.primary,
+                            backgroundColor: colors.primary + '20',
+                            fill: true,
+                            tension: 0.4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { position: 'top' }
+                        },
+                        scales: {
+                            y: { beginAtZero: true }
+                        }
+                    }
+                });
+            }
+
+            // All Monthly Orders Chart
+            const allMonthlyOrdersCanvas = document.getElementById('allMonthlyOrdersChart');
+            if (allMonthlyOrdersCanvas) {
+                const monthlyData = JSON.parse(allMonthlyOrdersCanvas.dataset.chartData);
+                new Chart(allMonthlyOrdersCanvas, {
+                    type: 'bar',
+                    data: {
+                        labels: monthlyData.map(d => d.month),
+                        datasets: [{
+                            label: 'Completed Orders',
+                            data: monthlyData.map(d => d.count),
+                            backgroundColor: colors.success,
+                            borderRadius: 4
+                        }, {
+                            label: 'Cancelled Orders',
+                            data: monthlyData.map(d => d.cancelled),
+                            backgroundColor: colors.danger,
+                            borderRadius: 4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { position: 'top' }
+                        },
+                        scales: {
+                            x: { stacked: true },
+                            y: { stacked: true, beginAtZero: true }
+                        }
+                    }
+                });
+            }
+
+            // All Time Revenue Comparison Chart
+            const allTimeRevenueCanvas = document.getElementById('allTimeRevenueChart');
+            if (allTimeRevenueCanvas) {
+                const monthlyData = JSON.parse(allTimeRevenueCanvas.dataset.chartData);
+                new Chart(allTimeRevenueCanvas, {
+                    type: 'line',
+                    data: {
+                        labels: monthlyData.map(d => d.month),
+                        datasets: [{
+                            label: 'Total Sales (L.E)',
+                            data: monthlyData.map(d => d.sales),
+                            borderColor: colors.primary,
+                            backgroundColor: 'transparent',
+                            tension: 0.4,
+                            borderWidth: 2
+                        }, {
+                            label: 'Revenue (L.E)',
+                            data: monthlyData.map(d => d.revenue),
+                            borderColor: colors.success,
+                            backgroundColor: 'transparent',
+                            tension: 0.4,
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { position: 'top' }
+                        },
+                        scales: {
+                            y: { beginAtZero: true }
+                        }
+                    }
+                });
+            }
+        });
+    </script>
+}

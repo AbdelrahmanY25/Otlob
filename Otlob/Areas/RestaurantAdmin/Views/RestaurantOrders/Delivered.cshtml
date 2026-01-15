@@ -122,6 +122,8 @@
     }
 </div>
 
+@Html.AntiForgeryToken()
+
 <!-- User Info Modal -->
 <div class="user-info-modal" id="userInfoModal">
     <div class="user-info-modal-dialog">
@@ -137,5 +139,8 @@
 </div>
 
 @section Scripts {
+    <script>
+        window.currentArea = 'RestaurantAdmin';
+    </script>
     <script src="~/js/restaurantOrders.js" asp-append-version="true"></script>
 }

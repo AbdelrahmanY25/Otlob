@@ -24,4 +24,8 @@ public interface IMealService
     Result DeleteManyMealsByCategoryId(int categoryId);
     
     Result UnDeleteManyMealsByCategoryId(int categoryId);
+
+    Result DeleteAllByRestaurantId(int restaurantId);
+
+    Result UnDeleteAllByRestaurantId(int restaurantId);
 }

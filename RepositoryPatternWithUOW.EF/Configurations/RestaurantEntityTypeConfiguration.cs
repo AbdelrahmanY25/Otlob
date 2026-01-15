@@ -44,6 +44,14 @@ public class RestaurantEntityTypeConfiguration : IEntityTypeConfiguration<Restau
         builder
             .Property(r => r.DeliveryFee)
             .HasColumnType("decimal(5,2)");
+        
+        builder
+            .Property(r => r.MinimumOrderPrice)
+            .HasColumnType("decimal(5,2)");
+        
+        builder
+            .Property(r => r.Rating)
+            .HasColumnType("decimal(10,2)");
 
         builder
             .Property(r => r.AcctiveStatus)

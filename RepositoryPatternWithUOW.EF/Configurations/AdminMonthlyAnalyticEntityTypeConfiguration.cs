@@ -15,6 +15,6 @@ public class AdminMonthlyAnalyticEntityTypeConfiguration : IEntityTypeConfigurat
         builder
             .Property(x => x.TotalOrdersRevenue)
             .HasColumnType("decimal(10,2)")
-            .HasComputedColumnSql("([TotalOrdersSales] * 0.05)", true);
+            .HasComputedColumnSql("([TotalOrdersSales] * 0.10)", true);
     }
 }

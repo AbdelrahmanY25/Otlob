@@ -5,6 +5,7 @@ D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwr
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\css\becomeAParters.css
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\css\restaurants.css
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.rtl.min.css
+D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\css\promoCodes.css
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\js\mealDetails.js
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\css\superAdminHome.css
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\css\all.min.css
@@ -35,7 +36,9 @@ D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwr
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.rtl.min.css.map
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js.map
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css.map
+D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\js\orderRating.js
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.js
+D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\css\adminProfile.css
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\css\passwordConfirmation.css
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\js\superAdminHome.js
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\templates\reset-password.html
@@ -53,6 +56,9 @@ D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwr
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\templates\email-confirmation.html
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\css\restaurantDetailsPage.css
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\Illustrations\Partnership-pana.svg
+D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\css\adminCategorySelector.css
+D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\css\restaurantsAnalytics.css
+D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\css\adminUserOrders.css
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.css.map
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\js\customerHome.js
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\js\orderDetails.js
@@ -93,6 +99,7 @@ D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwr
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\css\pendingRestaurant.css
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\Illustrations\Reset password-pana.svg
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\lib\jquery-validation\dist\jquery.validate.js
+D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\css\orderRating.css
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\js\site.js
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\css\addBranch.css
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\Illustrations\Forgot password-rafiki.svg
@@ -125,10 +132,14 @@ D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwr
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\css\unAcceptedRestaurantsHome.css
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\css\restaurantOrders.css
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\lib\jquery-validation\dist\additional-methods.js
+D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\js\customersTable.js
+D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\js\adminUserOrders.js
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\css\mealDetails.css
+D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\js\restaurantsAnalytics.js
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.css.map
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.rtl.min.css
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.min.css.map
+D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\css\customersTable.css
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\Illustrations\Error 429-pana.svg
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\css\cart.css
 D:\My_Projects\Back End C# Asp .Net\MVC Projects\Otlob Projects\Otlob\Otlob\wwwroot\css\normalize.css
@@ -149,7 +160,10 @@ wwwroot\Illustrations\team-work-3-37.svg
 wwwroot\css\AddAddresss.css
 wwwroot\css\addBranch.css
 wwwroot\css\addMeal.css
+wwwroot\css\adminCategorySelector.css
+wwwroot\css\adminProfile.css
 wwwroot\css\adminSite.css
+wwwroot\css\adminUserOrders.css
 wwwroot\css\all.min.css
 wwwroot\css\authForms.css
 wwwroot\css\becomeAParters.css
@@ -157,6 +171,7 @@ wwwroot\css\branches.css
 wwwroot\css\cart.css
 wwwroot\css\checkout.css
 wwwroot\css\customerHome.css
+wwwroot\css\customersTable.css
 wwwroot\css\documents.css
 wwwroot\css\footer.css
 wwwroot\css\forgetPassword.css
@@ -170,15 +185,18 @@ wwwroot\css\menuForCustomer.css
 wwwroot\css\newSite.css
 wwwroot\css\normalize.css
 wwwroot\css\orderDetails.css
+wwwroot\css\orderRating.css
 wwwroot\css\ordersHistory.css
 wwwroot\css\passwordConfirmation.css
 wwwroot\css\pendingRestaurant.css
 wwwroot\css\pendingRestaurants.css
 wwwroot\css\profileAccount.css
+wwwroot\css\promoCodes.css
 wwwroot\css\restaurantAdminHome.css
 wwwroot\css\restaurantDetailsPage.css
 wwwroot\css\restaurantOrders.css
 wwwroot\css\restaurants.css
+wwwroot\css\restaurantsAnalytics.css
 wwwroot\css\savedAddresses.css
 wwwroot\css\superAdminHome.css
 wwwroot\css\unAcceptedRestaurants.css
@@ -230,11 +248,12 @@ wwwroot\images\019b4fcf-8793-74f3-8883-f405e71adbb9.jpg
 wwwroot\images\019b5bc5-534f-7bea-bd6e-d33fa7bcc33c.jpg
 wwwroot\images\019b5bc6-b60d-7e02-9818-4c2d8a3cf0e3.jpg
 wwwroot\images\019b5fab-24b3-792d-8a42-c7596f5ca3c5.jpg
-wwwroot\images\019b9959-9319-7dd4-8106-ecc8f9cab752.png
 wwwroot\images\019b9b54-e2f0-7d81-943b-87c50d4e06e1.png
 wwwroot\images\019ba2f4-6150-7d12-8c9f-a2016db05650.png
 wwwroot\images\019ba34a-7c2d-7979-8039-63f9d065113b.png
-wwwroot\images\3df3d1c9-7509-4fdb-85e8-5725316b0a99.jpg
+wwwroot\images\019baf34-e13e-72c6-bcb7-6b2609889cb4.png
+wwwroot\images\019bb2a7-b160-7955-ae0c-2c4bf784af9a.png
+wwwroot\images\019bb2a9-1a60-7494-b8e8-34bc5ddb6cc6.png
 wwwroot\images\Default.jpg
 wwwroot\images\Logo\otlob-logo.svg
 wwwroot\images\icons\EgyptionFood.png
@@ -266,16 +285,20 @@ wwwroot\js\AddAddress.js
 wwwroot\js\OrdersAnalysis.js
 wwwroot\js\addMeal.js
 wwwroot\js\adminSite.js
+wwwroot\js\adminUserOrders.js
 wwwroot\js\cart.js
 wwwroot\js\checkout.js
 wwwroot\js\customerHome.js
+wwwroot\js\customersTable.js
 wwwroot\js\homePage.js
 wwwroot\js\mealDetails.js
 wwwroot\js\menuForCustomer.js
 wwwroot\js\orderDetails.js
+wwwroot\js\orderRating.js
 wwwroot\js\ordersHistory.js
 wwwroot\js\restaurantAdminHome.js
 wwwroot\js\restaurantOrders.js
+wwwroot\js\restaurantsAnalytics.js
 wwwroot\js\site.js
 wwwroot\js\superAdminHome.js
 wwwroot\js\unAcceptedRestaurants.js

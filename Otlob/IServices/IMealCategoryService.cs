@@ -9,4 +9,6 @@ public interface IMealCategoryService
     Result Delete(string key);
     Result UnDelete(string key);
     Result IsCategoryIdExists(int id);
+    Result DeleteAllCategoriesByRestaurantId(int restaurantId);
+    Result UnDeleteAllCategoriesByRestaurantId(int restaurantId);
 }

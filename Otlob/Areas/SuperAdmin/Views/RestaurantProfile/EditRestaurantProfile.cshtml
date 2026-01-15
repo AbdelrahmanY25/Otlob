@@ -1,62 +1,118 @@
 ﻿@model RestaurantProfile;
 
-<link rel="stylesheet" href="/css/profileAccount.css" asp-append-version="true" />
+@{
+    ViewData["Title"] = "Account";
+}
 
-<div class="profile">
-    <div class="info">
-        <h2>Resturant Account</h2>
+<link rel="stylesheet" href="~/css/adminProfile.css" asp-append-version="true" />
+
+<div class="profile-container">
+
+    <!-- Restaurant Header with Image Upload -->
+    <div class="profile-header-card">
+        <div class="profile-avatar-section">
+            <div class="profile-avatar-wrapper" style="width: 150px; height: 150px; border-radius: 12px;">
+                @if (!string.IsNullOrEmpty(Model.Image))
+                {
+                    <img src="~/images/@Model.Image" alt="Restaurant Image" class="profile-avatar" id="restaurantImagePreview" style="border-radius: 12px;" />
+                }
+                else
+                {
+                    <img src="~/images/default-restaurant.png" alt="Default Restaurant" class="profile-avatar" id="restaurantImagePreview" style="border-radius: 12px;"
+                         onerror="this.src='https://ui-avatars.com/api/?name=@(Model.Name)&background=random&size=150'" />
+                }
+
+                <form asp-action="EditRestaurantProfilePicture" method="post" enctype="multipart/form-data" id="imageForm">
+                    <label for="fileInput" class="profile-avatar-upload-label" title="Change Restaurant Image">
+                        <i class="fas fa-camera"></i>
+                    </label>
+                    <input type="file" id="fileInput" name="image" accept=".jpg,.jpeg,.png" style="display: none;" onchange="this.form.submit()" />
+                </form>
+            </div>
+        </div>
+
+        <div class="profile-info">
+            <span class="profile-role-badge">Restaurant Account</span>
+            <h1>@Model.Name</h1>
+            <div class="profile-email">
+                <i class="far fa-envelope"></i> @Model.Email
+            </div>
+            <div class="profile-email" style="margin-top: 5px;">
+                <i class="fas fa-phone-alt"></i> @Model.Phone
+            </div>
+        </div>
     </div>
 
-    <hr class="line" />
+    <!-- Alert Messages -->
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success" style="margin-bottom: 20px; background-color: #dcfce7; color: #166534; padding: 15px; border-radius: 6px; border: 1px solid #bbf7d0;">
+            <i class="fas fa-check-circle"></i> @TempData["Success"]
+        </div>
+    }
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger" style="margin-bottom: 20px; background-color: #fee2e2; color: #991b1b; padding: 15px; border-radius: 6px; border: 1px solid #fecaca;">
+            <i class="fas fa-exclamation-circle"></i> @TempData["Error"]
+        </div>
+    }
 
-    <div class="links">
-        <a href="#" class="active">Account Info</a>
-    </div>
-    <div class="profile-content">
-        <form class="profile-form picture-form" asp-action="EditRestaurantProfilePicture" enctype="multipart/form-data">
-            <div class="pic">
-                <i class="edit-icon" onclick="triggerFileInput()" title="Edit Profile Picture">&#9998;</i>
-                <img id="profilePicture" alt="Profile" src="/images/@(Model.Image is not null ? Model.Image : "Default.jpg")" />
-                <input class="hidden-file-input"
-                       id="fileInput"
-                       type="file"
-                       accept="image/*"
-                       name="image"
-                       asp-for="Image"
-                       onchange="document.getElementById('profilePicture').src = window.URL.createObjectURL(this.files[0]);" />
+    <!-- Content Card -->
+    <div class="profile-content-card">
+        <div class="card-header">
+            <h2>Account Information</h2>
+        </div>
+
+        <form asp-action="EditRestaurantProfile" method="post">
+            <div asp-validation-summary="All" class="text-danger mb-4"></div>
+
+            <div class="profile-form-grid">
+
+                <div class="form-group full-width">
+                    <label asp-for="Name" class="form-label">Business Name</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-store"></i>
+                        <input asp-for="Name" class="form-input" placeholder="Business name" />
+                    </div>
+                    <span asp-validation-for="Name" class="validation-error"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Email" class="form-label">Business Email</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-envelope"></i>
+                        <input asp-for="Email" class="form-input" placeholder="Business email" />
+                    </div>
+                    <span asp-validation-for="Email" class="validation-error"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Phone" class="form-label">Phone Number</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-phone"></i>
+                        <input asp-for="Phone" class="form-input" placeholder="Phone" />
+                    </div>
+                    <span asp-validation-for="Phone" class="validation-error"></span>
+                </div>
+
+                <div class="form-group full-width">
+                    <label asp-for="Description" class="form-label">Description</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-align-left" style="top: 15px;"></i>
+                        <textarea asp-for="Description" class="form-input" placeholder="Description" rows="4" style="resize: vertical; min-height: 100px; padding-left: 40px;"></textarea>
+                    </div>
+                    <span asp-validation-for="Description" class="validation-error"></span>
+                </div>
             </div>
 
-            <button type="submit">Update Resturan picture</button>
-        </form>
-
-        <form class="profile-form" asp-action="EditRestaurantProfile">
-            <div asp-validation-summary="All" class="text-danger mb-5"></div>
-            <div class="field">
-                <input asp-for="Name" value="@Model.Name" placeholder="Business name" />
+            <div class="form-actions">
+                <button type="submit" class="profile-btn">
+                    <i class="fas fa-save"></i> Update Restaurant Info
+                </button>
             </div>
-
-            <div class="field">
-                <input asp-for="Email" value="@Model.Email" placeholder="Business email" />
-            </div>
-
-            <div class="field">
-                <input asp-for="Phone" value="@Model.Phone" placeholder="Phone" />
-            </div>
-
-            <div class="field">
-                <input asp-for="Description" value="@Model.Description" placeholder="Description" />
-            </div>            
-
-            <button type="submit">Update Restaurant info</button>
         </form>
     </div>
 </div>
-
-<script>
-    function triggerFileInput() {
-        document.getElementById("fileInput").click();
-    }
-</script>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial"></partial>

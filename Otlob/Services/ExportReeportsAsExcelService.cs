@@ -33,7 +33,7 @@ public class ExportReeportsAsExcelService(IAdminMonthlyAnalyticsService adminMon
 
             row["Year"] = $"{ order.Year}";
             row["Month"] = $"{months[order.Month - 1]}";
-            row["Total Orders"] = order.OrdersCount;
+            row["Total Orders"] = order.CompletedOrdersCount;
             row["Orders Sales"] = $"{order.TotalOrdersSales} EGP";
             row["Orders Revenue"] = $"{order.TotalOrdersRevenue} EGP";
 

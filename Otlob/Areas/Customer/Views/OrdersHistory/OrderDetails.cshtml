@@ -238,11 +238,47 @@
                     <span>Service Fee</span>
                     <span>@Model.ServiceFee.ToString("N2") L.E</span>
                 </div>
+               @if(Model.DiscountAmount > 0)
+                {
+                    <div class="summary-row">
+                        <span>Discount</span>
+                        <span class="text-success">-@Model.DiscountAmount.ToString("N2") L.E</span>
+                    </div>
+                }
                 <div class="summary-row total">
                     <span>Total</span>
                     <span>@Model.TotalPrice.ToString("N2") L.E</span>
                 </div>
             </div>
+
+            @* Rating Section - Only show for delivered orders *@
+            @if (Model.Status == OrderStatus.Delivered)
+            {
+                <div class="rating-section">
+                    <h3 class="section-title"><i class="bi bi-star"></i> Rating</h3>
+                    @if (Model.IsRated)
+                    {
+                        <div class="rating-status rated">
+                            <div class="rating-badge">
+                                <i class="bi bi-star-fill"></i>
+                                <span>You rated this order</span>
+                            </div>
+                            <a href="@Url.Action("View", "Rating", new { area = "Customer", orderId = Model.Id })" class="view-rating-link">
+                                View Rating <i class="bi bi-chevron-right"></i>
+                            </a>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="rating-status not-rated">
+                            <p>How was your order? Share your feedback!</p>
+                            <a href="@Url.Action("Rate", "Rating", new { area = "Customer", orderId = Model.Id })" class="rate-btn">
+                                <i class="bi bi-star"></i> Rate Order
+                            </a>
+                        </div>
+                    }
+                </div>
+            }
         </div>
     </div>
 </div>

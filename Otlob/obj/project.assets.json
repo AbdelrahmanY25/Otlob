@@ -1065,6 +1065,22 @@
           "Microsoft.AspNetCore.App"
         ]
       },
+      "Microsoft.AspNetCore.Authentication.MicrosoftAccount/9.0.11": {
+        "type": "package",
+        "compile": {
+          "lib/net9.0/Microsoft.AspNetCore.Authentication.MicrosoftAccount.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net9.0/Microsoft.AspNetCore.Authentication.MicrosoftAccount.dll": {
+            "related": ".xml"
+          }
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
+      },
       "Microsoft.AspNetCore.Cryptography.Internal/9.0.9": {
         "type": "package",
         "compile": {
@@ -5640,6 +5656,21 @@
         "lib/net9.0/Microsoft.AspNetCore.Authentication.JwtBearer.xml",
         "microsoft.aspnetcore.authentication.jwtbearer.9.0.11.nupkg.sha512",
         "microsoft.aspnetcore.authentication.jwtbearer.nuspec"
+      ]
+    },
+    "Microsoft.AspNetCore.Authentication.MicrosoftAccount/9.0.11": {
+      "sha512": "YTB40XZ/oA7rscdxwAubOaRHA+Pks1qh4YeKLIK8MXhau7JOCmlk5Sk4BaBXOQSr1ZcZBT1Kag/VFRJVCmv7GA==",
+      "type": "package",
+      "path": "microsoft.aspnetcore.authentication.microsoftaccount/9.0.11",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "THIRD-PARTY-NOTICES.TXT",
+        "lib/net9.0/Microsoft.AspNetCore.Authentication.MicrosoftAccount.dll",
+        "lib/net9.0/Microsoft.AspNetCore.Authentication.MicrosoftAccount.xml",
+        "microsoft.aspnetcore.authentication.microsoftaccount.9.0.11.nupkg.sha512",
+        "microsoft.aspnetcore.authentication.microsoftaccount.nuspec"
       ]
     },
     "Microsoft.AspNetCore.Cryptography.Internal/9.0.9": {
@@ -11854,6 +11885,7 @@
       "Microsoft.AspNetCore.Authentication.Facebook >= 9.0.11",
       "Microsoft.AspNetCore.Authentication.Google >= 9.0.11",
       "Microsoft.AspNetCore.Authentication.JwtBearer >= 9.0.11",
+      "Microsoft.AspNetCore.Authentication.MicrosoftAccount >= 9.0.11",
       "Microsoft.EntityFrameworkCore.Design >= 9.0.9",
       "MimeKit >= 4.13.0",
       "Otlob.Core >= 1.0.0",
@@ -11962,6 +11994,10 @@
             "version": "[9.0.11, )"
           },
           "Microsoft.AspNetCore.Authentication.JwtBearer": {
+            "target": "Package",
+            "version": "[9.0.11, )"
+          },
+          "Microsoft.AspNetCore.Authentication.MicrosoftAccount": {
             "target": "Package",
             "version": "[9.0.11, )"
           },

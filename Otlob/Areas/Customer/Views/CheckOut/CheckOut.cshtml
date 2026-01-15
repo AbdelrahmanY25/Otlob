@@ -2,7 +2,7 @@
 
 @{
     ViewData["Title"] = "Checkout";
-    var totalAmount = Model.SubTotal + Model.DeliveryFee + Model.ServiceFee;
+    var totalAmount = Model.Total;
 }
 
 <link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet">
@@ -45,6 +45,44 @@
                             }
                             <p class="text-muted mb-0">@Model.Address.CustomerAddress</p>
 
+                        </div>
+                    </div>
+
+                    <!-- Promo Code -->
+                    <div class="section-card">
+                        <div class="section-title">
+                            <i class="bi bi-tag text-danger"></i> Promo Code
+                        </div>
+                        <div class="promo-code-container">
+                            <div class="input-group" id="promoCodeInputGroup">
+                                <input type="text" 
+                                       class="form-control" 
+                                       id="promoCodeInput" 
+                                       placeholder="Enter promo code" 
+                                       value="@Model.AppliedPromoCode"
+                                       @(Model.AppliedPromoCode != null ? "disabled" : "")
+                                       style="border-color: var(--border-light);">
+                                @if (Model.AppliedPromoCode != null)
+                                {
+                                    <button type="button" class="btn btn-outline-danger" id="removePromoBtn">
+                                        <i class="bi bi-x-lg"></i> Remove
+                                    </button>
+                                }
+                                else
+                                {
+                                    <button type="button" class="btn btn-danger" id="applyPromoBtn">
+                                        Apply
+                                    </button>
+                                }
+                            </div>
+                            <div id="promoCodeMessage" class="mt-2" style="display: none;"></div>
+                            @if (Model.AppliedPromoCode != null)
+                            {
+                                <div class="alert alert-success mt-2 mb-0 py-2" id="appliedPromoAlert">
+                                    <i class="bi bi-check-circle-fill me-2"></i>
+                                    Code <strong>@Model.AppliedPromoCode</strong> applied! You save <strong>@Model.DiscountAmount.ToString("N2") L.E</strong>
+                                </div>
+                            }
                         </div>
                     </div>
 
@@ -114,9 +152,16 @@
                             <span>@Model.ServiceFee.ToString("N2") L.E</span>
                         </div>
 
+                        <div class="summary-row discount-row" id="discountRow" style="@(Model.DiscountAmount > 0 ? "" : "display: none;")">
+                            <span style="color: #28a745;">
+                                <i class="bi bi-tag-fill"></i> Discount
+                            </span>
+                            <span style="color: #28a745;" id="discountAmount">-@Model.DiscountAmount.ToString("N2") L.E</span>
+                        </div>
+
                         <div class="summary-row total">
                             <span>Total Amount</span>
-                            <span class="text-danger">@totalAmount.ToString("N2") L.E</span>
+                            <span class="text-danger" id="totalAmount">@totalAmount.ToString("N2") L.E</span>
                         </div>
 
                         <button type="submit" class="place-order-btn">
@@ -161,3 +206,127 @@
 
 <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
 <script src="~/js/checkout.js" defer></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const applyPromoBtn = document.getElementById('applyPromoBtn');
+        const removePromoBtn = document.getElementById('removePromoBtn');
+        const promoCodeInput = document.getElementById('promoCodeInput');
+        const promoCodeMessage = document.getElementById('promoCodeMessage');
+        const discountRow = document.getElementById('discountRow');
+        const discountAmount = document.getElementById('discountAmount');
+        const totalAmount = document.getElementById('totalAmount');
+        const appliedPromoAlert = document.getElementById('appliedPromoAlert');
+        const promoCodeInputGroup = document.getElementById('promoCodeInputGroup');
+
+        // Original total without discount
+        const originalTotal = @((Model.SubTotal + Model.DeliveryFee + Model.ServiceFee).ToString(System.Globalization.CultureInfo.InvariantCulture));
+
+        if (applyPromoBtn) {
+            applyPromoBtn.addEventListener('click', function() {
+                const code = promoCodeInput.value.trim();
+                
+                if (!code) {
+                    showMessage('Please enter a promo code.', 'danger');
+                    return;
+                }
+
+                applyPromoBtn.disabled = true;
+                applyPromoBtn.innerHTML = '<span class="spinner-border spinner-border-sm"></span>';
+
+                fetch('@Url.Action("ApplyPromoCode", "CheckOut", new { area = "Customer" })', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ code: code })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Update UI
+                        discountRow.style.display = '';
+                        discountAmount.textContent = '-' + data.discountAmount.toFixed(2) + ' L.E';
+                        totalAmount.textContent = data.newTotal.toFixed(2) + ' L.E';
+                        
+                        // Show success message
+                        showMessage('Code <strong>' + data.code + '</strong> applied! ' + data.discountDisplay, 'success');
+                        
+                        // Update button to remove
+                        promoCodeInput.disabled = true;
+                        promoCodeInputGroup.innerHTML = `
+                            <input type="text" class="form-control" id="promoCodeInput" value="${data.code}" disabled style="border-color: var(--border-light);">
+                            <button type="button" class="btn btn-outline-danger" id="removePromoBtn">
+                                <i class="bi bi-x-lg"></i> Remove
+                            </button>
+                        `;
+                        
+                        // Re-attach remove event
+                        document.getElementById('removePromoBtn').addEventListener('click', removePromoCode);
+                    } else {
+                        showMessage(data.message, 'danger');
+                        applyPromoBtn.disabled = false;
+                        applyPromoBtn.innerHTML = 'Apply';
+                    }
+                })
+                .catch(error => {
+                    showMessage('An error occurred. Please try again.', 'danger');
+                    applyPromoBtn.disabled = false;
+                    applyPromoBtn.innerHTML = 'Apply';
+                });
+            });
+        }
+
+        if (removePromoBtn) {
+            removePromoBtn.addEventListener('click', removePromoCode);
+        }
+
+        function removePromoCode() {
+            fetch('@Url.Action("RemovePromoCode", "CheckOut", new { area = "Customer" })', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Reset UI
+                    discountRow.style.display = 'none';
+                    totalAmount.textContent = originalTotal.toFixed(2) + ' L.E';
+                    
+                    // Update button back to apply
+                    promoCodeInputGroup.innerHTML = `
+                        <input type="text" class="form-control" id="promoCodeInput" placeholder="Enter promo code" style="border-color: var(--border-light);">
+                        <button type="button" class="btn btn-danger" id="applyPromoBtn">Apply</button>
+                    `;
+                    
+                    // Hide any message
+                    promoCodeMessage.style.display = 'none';
+                    if (appliedPromoAlert) appliedPromoAlert.style.display = 'none';
+                    
+                    // Re-attach apply event
+                    document.getElementById('applyPromoBtn').addEventListener('click', arguments.callee);
+                    
+                    // Reload page to reset state properly
+                    location.reload();
+                }
+            });
+        }
+
+        function showMessage(message, type) {
+            promoCodeMessage.innerHTML = `<div class="alert alert-${type} py-2 mb-0">${message}</div>`;
+            promoCodeMessage.style.display = 'block';
+        }
+
+        // Allow Enter key to submit promo code
+        if (promoCodeInput && !promoCodeInput.disabled) {
+            promoCodeInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    if (applyPromoBtn) applyPromoBtn.click();
+                }
+            });
+        }
+    });
+</script>

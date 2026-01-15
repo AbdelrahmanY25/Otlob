@@ -18,6 +18,7 @@
           "Microsoft.AspNetCore.Authentication.Facebook": "9.0.11",
           "Microsoft.AspNetCore.Authentication.Google": "9.0.11",
           "Microsoft.AspNetCore.Authentication.JwtBearer": "9.0.11",
+          "Microsoft.AspNetCore.Authentication.MicrosoftAccount": "9.0.11",
           "Microsoft.EntityFrameworkCore.Design": "9.0.9",
           "MimeKit": "4.13.0",
           "Otlob.Core": "1.0.0",
@@ -886,6 +887,14 @@
         },
         "runtime": {
           "lib/net9.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll": {
+            "assemblyVersion": "9.0.11.0",
+            "fileVersion": "9.0.1125.52006"
+          }
+        }
+      },
+      "Microsoft.AspNetCore.Authentication.MicrosoftAccount/9.0.11": {
+        "runtime": {
+          "lib/net9.0/Microsoft.AspNetCore.Authentication.MicrosoftAccount.dll": {
             "assemblyVersion": "9.0.11.0",
             "fileVersion": "9.0.1125.52006"
           }
@@ -3180,6 +3189,13 @@
       "sha512": "sha512-76KB8sBNzyo4L6mPXCYVHC/Uo1wQKF0jdGzQD8lPLLZ01CAyq2daU/h4jk2+F6QJ1gPgprlZz3Z/1trQ3CVdLA==",
       "path": "microsoft.aspnetcore.authentication.jwtbearer/9.0.11",
       "hashPath": "microsoft.aspnetcore.authentication.jwtbearer.9.0.11.nupkg.sha512"
+    },
+    "Microsoft.AspNetCore.Authentication.MicrosoftAccount/9.0.11": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-YTB40XZ/oA7rscdxwAubOaRHA+Pks1qh4YeKLIK8MXhau7JOCmlk5Sk4BaBXOQSr1ZcZBT1Kag/VFRJVCmv7GA==",
+      "path": "microsoft.aspnetcore.authentication.microsoftaccount/9.0.11",
+      "hashPath": "microsoft.aspnetcore.authentication.microsoftaccount.9.0.11.nupkg.sha512"
     },
     "Microsoft.AspNetCore.Cryptography.Internal/9.0.9": {
       "type": "package",

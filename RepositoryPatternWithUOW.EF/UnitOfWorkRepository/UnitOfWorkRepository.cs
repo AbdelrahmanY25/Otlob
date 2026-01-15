@@ -1,5 +1,5 @@
-﻿using System.Data;
-using Microsoft.EntityFrameworkCore.Storage;
+﻿using Microsoft.EntityFrameworkCore.Storage;
+using System.Data;
 
 namespace Otlob.EF.UnitOfWorkRepository;
 
@@ -13,6 +13,7 @@ public class UnitOfWorkRepository(ApplicationDbContext applicationDbContext) : I
     private IBaseRepository<Order> _orders = default!;
     private IBaseRepository<Category> _categories = default!;
     private IBaseRepository<Restaurant> _restaurants = default!;
+    private IBaseRepository<RestaurantRatingAnlytic> _restaurantRatingAnlytics = default!;
     private IBaseRepository<RestaurantDailyAnalytic> _restaurantDailyAnalytics = default!;
     private IBaseRepository<RestaurantMonthlyAnalytic> _restaurantMonthlyAnalytics = default!;
     private IBaseRepository<Address> _addresses = default!;
@@ -23,6 +24,7 @@ public class UnitOfWorkRepository(ApplicationDbContext applicationDbContext) : I
     private IBaseRepository<MealOptionGroup> _mealOptionGroups = default!;
     private IBaseRepository<MealOptionItem> _mealOptionItems = default!;
     private IBaseRepository<Meal> _meals = default!;
+    private IBaseRepository<MealsAnalytic> _mealsAnalytics = default!;
     private IBaseRepository<MealPriceHistory> _mealsPriceHistories = default!;
     private IBaseRepository<MenuCategory> _mealCategories = default!;
     private IBaseRepository<ManyMealManyAddOn> _manyMealManyAddOns = default!;
@@ -55,6 +57,15 @@ public class UnitOfWorkRepository(ApplicationDbContext applicationDbContext) : I
         }
     }
 
+    public IBaseRepository<RestaurantRatingAnlytic> RestaurantRatingAnlytics
+    {
+        get
+        {
+            _restaurantRatingAnlytics ??= new BaseRepository<RestaurantRatingAnlytic>(_context);
+            return _restaurantRatingAnlytics;
+        }
+    }
+
     public IBaseRepository<RestaurantDailyAnalytic> RestaurantDailyAnalytics
     {
         get
@@ -80,6 +91,15 @@ public class UnitOfWorkRepository(ApplicationDbContext applicationDbContext) : I
             _meals ??= new BaseRepository<Meal>(_context);
 
             return _meals;
+        }
+    }
+
+    public IBaseRepository<MealsAnalytic> MealsAnalytics
+    {
+        get
+        {
+            _mealsAnalytics ??= new BaseRepository<MealsAnalytic>(_context);
+            return _mealsAnalytics;
         }
     }
 
@@ -298,6 +318,36 @@ public class UnitOfWorkRepository(ApplicationDbContext applicationDbContext) : I
         {
             _restaurantCategorys ??= new BaseRepository<RestaurantCategory>(_context);
             return _restaurantCategorys;
+        }
+    }
+
+    private IBaseRepository<OrderRating> _orderRatings = default!;
+    public IBaseRepository<OrderRating> OrderRatings
+    {
+        get
+        {
+            _orderRatings ??= new BaseRepository<OrderRating>(_context);
+            return _orderRatings;
+        }
+    }
+
+    private IBaseRepository<PromoCode> _promoCodes = default!;
+    public IBaseRepository<PromoCode> PromoCodes
+    {
+        get
+        {
+            _promoCodes ??= new BaseRepository<PromoCode>(_context);
+            return _promoCodes;
+        }
+    }
+
+    private IBaseRepository<PromoCodeUsage> _promoCodeUsages = default!;
+    public IBaseRepository<PromoCodeUsage> PromoCodeUsages
+    {
+        get
+        {
+            _promoCodeUsages ??= new BaseRepository<PromoCodeUsage>(_context);
+            return _promoCodeUsages;
         }
     }
 

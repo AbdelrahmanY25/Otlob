@@ -117,9 +117,7 @@ public class AccountController(IAuthService authService) : Controller
     public async Task<IActionResult> ResetPassword(ResetPasswordRequest request)
     {
         if (!ModelState.IsValid)
-        {
             return View(request);
-        }
             
         Result result = await _authService.ResetPasswordAsync(request);
 
@@ -133,29 +131,6 @@ public class AccountController(IAuthService authService) : Controller
     }
 
     [Authorize]
-    public IActionResult ChangePassword() => View();
-
-    [Authorize]
-    [HttpPost, ValidateAntiForgeryToken]
-    public async Task<IActionResult> ChangePassword(ChangePasswordRequest request)
-    {
-        var result = await _authService.ChangePasswordAsync(request);
-
-        if (result.IsFailure)
-        {
-            TempData["Error"] = result.Error.Description;
-            return View(request);
-        }
-            
-        TempData["Success"] = "Your password updated succefully";
-        return RedirectToAction("UserProfile", "UserProfile");         
-    }
-
-    [Authorize]
-    public async Task<IActionResult> Logout()
-    {
-        await _authService.LogOutAsync();
-        return RedirectToAction(nameof(Login));
-    }
+    public IActionResult ChangePassword() => View();   
 }
 

@@ -46,35 +46,20 @@
                                 </a>
                             </li>
 
+                            <!-- General Analytics -->
+                            <li class="adm-nav-link">
+                                <a asp-area="RestaurantAdmin" asp-controller="Home" asp-action="GeneralAnalytics">
+                                    <i class="bi bi-graph-up-arrow icon"></i>
+                                    <span class="text nav-text">General Analytics</span>
+                                </a>
+                            </li>
+
                             <!-- Menu Dropdown -->
-                            <li class="adm-dropdown">
-                                <div class="adm-nav-link adm-dropdown-toggle">
-                                    <a href="javascript:void(0)">
-                                        <i class="bi bi-book icon"></i>
-                                        <span class="text nav-text">Menu</span>
-                                        <i class="bi bi-chevron-down icon chevron"></i>
-                                    </a>
-                                </div>
-                                <ul class="adm-submenu">
-                                    <li class="adm-nav-link">
-                                        <a asp-area="RestaurantAdmin" asp-controller="Menu" asp-action="Menu">
-                                            <i class="bi bi-list-ul icon"></i>
-                                            <span class="text nav-text">All Items</span>
-                                        </a>
-                                    </li>
-                                    <li class="adm-nav-link">
-                                        <a asp-area="RestaurantAdmin" asp-controller="Menu" asp-action="Menu">
-                                            <i class="bi bi-tags icon"></i>
-                                            <span class="text nav-text">Categories</span>
-                                        </a>
-                                    </li>
-                                    <li class="adm-nav-link">
-                                        <a asp-area="RestaurantAdmin" asp-controller="Menu" asp-action="Menu">
-                                            <i class="bi bi-plus-circle icon"></i>
-                                            <span class="text nav-text">Add-ons</span>
-                                        </a>
-                                    </li>
-                                </ul>
+                            <li class="adm-nav-link">
+                                <a asp-area="RestaurantAdmin" asp-controller="Menu" asp-action="Menu">
+                                    <i class="bi bi-list-ul icon"></i>
+                                    <span class="text nav-text">Menu</span>
+                                </a>
                             </li>
 
                             <!-- Branches Dropdown -->
@@ -131,6 +116,22 @@
                                         </a>
                                     </li>
                                 </ul>
+                            </li>
+                            
+                            <!-- Rating Analytics -->
+                            <li class="adm-nav-link">
+                                <a asp-area="RestaurantAdmin" asp-controller="RatingAnalytics" asp-action="Index">
+                                    <i class="bi bi-star icon"></i>
+                                    <span class="text nav-text">Rating Analytics</span>
+                                </a>
+                            </li>
+
+                            <!-- Promo Codes -->
+                            <li class="adm-nav-link">
+                                <a asp-area="RestaurantAdmin" asp-controller="PromoCodes" asp-action="Index">
+                                    <i class="bi bi-ticket-perforated icon"></i>
+                                    <span class="text nav-text">Promo Codes</span>
+                                </a>
                             </li>
 
                             <!-- Settings -->

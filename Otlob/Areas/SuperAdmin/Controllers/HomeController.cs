@@ -20,6 +20,12 @@ public class HomeController(IAdminDailyAnalyticsService adminDailyAnalyticsServi
         return View(response);
     }
 
+    public IActionResult GeneralAnalytics()
+    {
+        var response = _adminMonthlyAnalyticsService.GetGeneralAnalytics();
+        return View(response);
+    }
+
     [HttpGet]
     public IActionResult GetDailyAnalytics(string date)
     {

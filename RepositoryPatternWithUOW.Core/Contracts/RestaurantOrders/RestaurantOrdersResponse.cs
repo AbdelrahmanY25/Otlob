@@ -10,4 +10,6 @@ public class RestaurantOrdersResponse
     public string Status { get; init; } = string.Empty;
     public PaymentMethod PaymentMethod { get; init; }
     public int ItemsCount { get; init; }
+    public CustomerCancelReason? CustomerCancelReason { get; init; }
+    public RestaurantCancelReason? RestaurantCancelReason { get; init; }
 }
