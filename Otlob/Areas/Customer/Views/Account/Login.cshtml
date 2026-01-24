@@ -97,4 +97,18 @@
         }
     }
 </script>
-<partial name="_NotificationPartial"></partial>
+@* Render plain notifications here for this page only — avoid the styled/toast partial *@
+@if (TempData["Error"] != null)
+{
+    <div class="auth-alert auth-alert-error plain-notification" role="alert" style="margin-top:12px;">
+        <i class="fas fa-exclamation-circle" style="margin-top: 3px;"></i>
+        <span>@TempData["Error"]</span>
+    </div>
+}
+
+@if (TempData["Success"] != null)
+{
+    <div class="auth-alert auth-alert-success plain-notification" role="status" style="margin-top:12px;">
+        <span>@TempData["Success"]</span>
+    </div>
+}

@@ -1,4 +1,3 @@
-using Otlob.Core.Contracts.PromoCode;
 using Otlob.Errors;
 
 namespace Otlob.Services;
@@ -20,6 +19,7 @@ public class PromoCodeService(IUnitOfWorkRepository unitOfWorkRepository) : IPro
 
         // Validate promo code
         var validationResult = ValidatePromoCode(promoCode, restaurantId, orderAmount, userId);
+        
         if (validationResult.IsFailure)
             return Result.Failure<ApplyPromoCodeResponse>(validationResult.Error);
 
@@ -31,6 +31,7 @@ public class PromoCodeService(IUnitOfWorkRepository unitOfWorkRepository) : IPro
         var response = new ApplyPromoCodeResponse
         {
             IsValid = true,
+            PromoCodeId = promoCode.Id,
             Code = promoCode.Code,
             DiscountAmount = discountAmount,
             OriginalTotal = originalTotal,

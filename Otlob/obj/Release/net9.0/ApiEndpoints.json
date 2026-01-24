@@ -1,0 +1,504 @@
+[
+  {
+    "ContainingType": "Otlob.ApiControllers.AdvertisementsController",
+    "Method": "TrackClick",
+    "RelativePath": "api/Advertisements/{id}/click",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Otlob.ApiControllers.AdvertisementsController",
+    "Method": "TrackView",
+    "RelativePath": "api/Advertisements/{id}/view",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Otlob.ApiControllers.AdvertisementsController",
+    "Method": "GetActiveAds",
+    "RelativePath": "api/Advertisements/active",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Otlob.ApiControllers.FavouritesController",
+    "Method": "GetFavourites",
+    "RelativePath": "api/Favourites",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Otlob.ApiControllers.FavouritesController",
+    "Method": "IsFavourite",
+    "RelativePath": "api/Favourites/isFavourite",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "restaurantKey",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Otlob.ApiControllers.FavouritesController",
+    "Method": "Toggle",
+    "RelativePath": "api/Favourites/toggle",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "Otlob.Core.Contracts.Favourites.ToggleToFavouritesRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Otlob.ApiControllers.HomeController",
+    "Method": "GetCustomerHomePage",
+    "RelativePath": "api/Home/restaurants",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "lat",
+        "Type": "System.Nullable\u00601[[System.Double, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "lon",
+        "Type": "System.Nullable\u00601[[System.Double, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Otlob.ApiControllers.HomeController",
+    "Method": "GetCustomerHomePageByLocation",
+    "RelativePath": "api/Home/restaurants/by-location",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "lat",
+        "Type": "System.Nullable\u00601[[System.Double, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "lon",
+        "Type": "System.Nullable\u00601[[System.Double, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Otlob.ApiControllers.OrdersController",
+    "Method": "ConfirmPayment",
+    "RelativePath": "api/Orders/confirmPayment",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "tempOrderId",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Otlob.ApiControllers.OrdersController",
+    "Method": "GetOrderDetails",
+    "RelativePath": "api/Orders/details/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Otlob.ApiControllers.OrdersController",
+    "Method": "GetOrderHistory",
+    "RelativePath": "api/Orders/history",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Otlob.ApiControllers.OrdersController",
+    "Method": "Place",
+    "RelativePath": "api/Orders/place",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "Otlob.Core.Contracts.MobileApp.Order.OrderRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Otlob.ApiControllers.PromoCodeController",
+    "Method": "Apply",
+    "RelativePath": "api/PromoCode/apply",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "Otlob.Core.Contracts.MobileApp.PromoCode.ApplyPromoCodeRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Otlob.ApiControllers.MenuController",
+    "Method": "Menu",
+    "RelativePath": "api/restaurant/Menu/{restaurantKey}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "restaurantKey",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Otlob.ApiControllers.MenuController",
+    "Method": "Meal",
+    "RelativePath": "api/restaurant/Menu/meal/{mealId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "mealId",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Otlob.ApiControllers.UserAddressesController",
+    "Method": "Add",
+    "RelativePath": "api/UserAddresses/add",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "Otlob.Core.Contracts.MobileApp.Address.UserAddressRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Otlob.ApiControllers.UserAddressesController",
+    "Method": "GetForUpdate",
+    "RelativePath": "api/UserAddresses/address-for-update/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Otlob.ApiControllers.UserAddressesController",
+    "Method": "GetUserAddressies",
+    "RelativePath": "api/UserAddresses/addresses",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Otlob.ApiControllers.UserAddressesController",
+    "Method": "Delete",
+    "RelativePath": "api/UserAddresses/delete/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Otlob.ApiControllers.UserAddressesController",
+    "Method": "Update",
+    "RelativePath": "api/UserAddresses/update",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "Otlob.Core.Contracts.MobileApp.Address.UserAddressRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Otlob.ApiControllers.UserProfilesController",
+    "Method": "DeleteAccount",
+    "RelativePath": "api/UserProfiles/delete",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Otlob.ApiControllers.UserProfilesController",
+    "Method": "GetProfile",
+    "RelativePath": "api/UserProfiles/profile",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Otlob.ApiControllers.UserProfilesController",
+    "Method": "UpdateProfile",
+    "RelativePath": "api/UserProfiles/update",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "Otlob.Core.Contracts.MobileApp.UserProfile.UpdateUserProfileRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Otlob.ApiControllers.UserProfilesController",
+    "Method": "UpdateProfilePicture",
+    "RelativePath": "api/UserProfiles/update-profile-picture",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "image",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Otlob.ApiControllers.AuthController",
+    "Method": "ConfirmEmailViaOtp",
+    "RelativePath": "Auth/confirm-email-otp",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "Otlob.Core.Contracts.MobileApp.Otps.OtpRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Otlob.ApiControllers.AuthController",
+    "Method": "ExistsUser",
+    "RelativePath": "Auth/exists-user",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "Otlob.Core.Contracts.Authentication.ResendEmailConfirmationRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Otlob.ApiControllers.AuthController",
+    "Method": "GoogleSignIn",
+    "RelativePath": "Auth/google-signin",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "Otlob.Core.Contracts.MobileApp.Authentication.GoogleIdTokenRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Otlob.ApiControllers.AuthController",
+    "Method": "Login",
+    "RelativePath": "Auth/login",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "Otlob.Core.Contracts.Authentication.LoginRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Otlob.ApiControllers.AuthController",
+    "Method": "MicrosoftSignIn",
+    "RelativePath": "Auth/microsoft-signin",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "Otlob.Core.Contracts.MobileApp.Authentication.MicrosoftIdTokenRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Otlob.ApiControllers.AuthController",
+    "Method": "Refresh",
+    "RelativePath": "Auth/refresh",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "Otlob.Core.Contracts.MobileApp.Authentication.RefreshTokenRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Otlob.ApiControllers.AuthController",
+    "Method": "Register",
+    "RelativePath": "Auth/register",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "Otlob.Core.Contracts.MobileApp.Authentication.MobileRegisterRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Otlob.ApiControllers.AuthController",
+    "Method": "ResendConfirmationEmail",
+    "RelativePath": "Auth/resend-email-confirmation",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "Otlob.Core.Contracts.Authentication.ResendEmailConfirmationRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Otlob.ApiControllers.AuthController",
+    "Method": "RevokeRefreshToken",
+    "RelativePath": "Auth/revoke-refresh-token",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "Otlob.Core.Contracts.MobileApp.Authentication.RefreshTokenRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  }
+]

@@ -161,10 +161,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 isVisible = false;
             }
 
-            // High Rating (Rating >= 65% which is 3.25 out of 5)
-            if (isVisible && state.highRating && rating < 3.25) {
-                isVisible = false;
-            }
+            // High Rating - don't filter, just mark for sorting
+            // We'll sort by rating when state.highRating is true
 
             // Business Type
             if (isVisible && state.businessType && businessType !== state.businessType) {
@@ -180,7 +178,14 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
         // 2. Sort visible cards if needed
-        if (state.fastDelivery) {
+        if (state.highRating) {
+            // Sort by rating from highest to lowest
+            visibleCards.sort((a, b) => {
+                const ratingA = parseFloat(a.dataset.rating) || 0;
+                const ratingB = parseFloat(b.dataset.rating) || 0;
+                return ratingB - ratingA; // Descending order (highest first)
+            });
+        } else if (state.fastDelivery) {
             visibleCards.sort((a, b) => {
                 const timeA = parseFloat(a.dataset.deliveryDuration);
                 const timeB = parseFloat(b.dataset.deliveryDuration);

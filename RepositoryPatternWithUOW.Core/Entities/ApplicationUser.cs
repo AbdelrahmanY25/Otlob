@@ -13,6 +13,10 @@ public class ApplicationUser : IdentityUser
     public string? Image { get; set; }
     public Gender? Gender { get; set; }
     public DateOnly? BirthDate { get; set; }
+    
+    // Stripe customer ID for mobile app payments
+    public string? StripeCustomerId { get; set; }
+
 
     public ICollection<Order> Orders { get; set; } = [];
     public ICollection<Address> UserAddress { get; set; } = [];

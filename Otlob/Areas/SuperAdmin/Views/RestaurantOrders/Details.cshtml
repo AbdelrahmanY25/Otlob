@@ -136,35 +136,28 @@
                                 
                                 @if (mealDetails != null)
                                 {
-                                    @if (mealDetails.Options.Any())
+                                    @if (mealDetails.Items?.Any() == true)
                                     {
                                         <div class="item-options">
-                                            @foreach (var option in mealDetails.Options)
+                                            @foreach (var option in mealDetails.Items)
                                             {
                                                 <span class="option-tag">
                                                     <i class="bi bi-check-circle"></i>
-                                                    @option.GroupName: @option.ItemName
-                                                    @if (option.Price > 0)
-                                                    {
-                                                        <span class="option-price">(+@option.Price.ToString("N2") L.E)</span>
-                                                    }
+                                                    @option.Name
+                                                    <span class="option-price">(+@option.Price.ToString("N2") L.E)</span>
                                                 </span>
                                             }
                                         </div>
                                     }
                                     
-                                    @if (mealDetails.AddOns.Any())
+                                    @if (mealDetails.AddOns?.Any() == true)
                                     {
                                         <div class="item-addons">
                                             <span class="addons-label"><i class="bi bi-plus-circle"></i> Add-ons:</span>
                                             @foreach (var addOn in mealDetails.AddOns)
                                             {
                                                 <span class="addon-tag">
-                                                    @addOn.Name
-                                                    @if (addOn.Quantity > 1)
-                                                    {
-                                                        <span>x@addOn.Quantity</span>
-                                                    }
+                                                    @addOn.Name                                                  
                                                     <span class="addon-price">(+@addOn.Price.ToString("N2") L.E)</span>
                                                 </span>
                                             }

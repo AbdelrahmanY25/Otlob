@@ -207,7 +207,6 @@ public class RestaurantOrdersService(IUnitOfWorkRepository unitOfWorkRepository,
         {
             Id = o.Id,
             UserId = _dataProtector.Protect(o.UserId),
-            RestaurantId = _dataProtector.Protect(o.RestaurantId.ToString()),
             OrderDate = o.OrderDate,
             TotalAmount = o.TotalPrice,
             Status = o.Status.ToString(),

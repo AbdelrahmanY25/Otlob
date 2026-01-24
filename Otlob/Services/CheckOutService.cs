@@ -1,6 +1,4 @@
-﻿using Otlob.Core.Contracts.PromoCode;
-
-namespace Otlob.Services;
+﻿namespace Otlob.Services;
 
 public class CheckOutService(IUnitOfWorkRepository unitOfWorkRepository,
                              IHttpContextAccessor httpContextAccessor, 
@@ -52,7 +50,7 @@ public class CheckOutService(IUnitOfWorkRepository unitOfWorkRepository,
                 {
                     Key = _dataProtector.Protect(a.Id.ToString()),
                     CustomerAddress = a.CustomerAddress,
-                    PlaceType = a.PlaceType,
+                    PlaceType = a.PropertyType,
                     StreetName = a.StreetName,
                     HouseNumberOrName = a.HouseNumberOrName,
                     FloorNumber = a.FloorNumber,
@@ -127,9 +125,7 @@ public class CheckOutService(IUnitOfWorkRepository unitOfWorkRepository,
         var result = _promoCodeService.ValidateAndCalculateDiscount(code, cartData.RestaurantId, orderAmount, userId);
 
         if (result.IsFailure)
-        {
             return Result.Failure<ApplyPromoCodeResponse>(result.Error);
-        }
 
         // Store promo code in session
         var session = _httpContextAccessor.HttpContext!.Session;

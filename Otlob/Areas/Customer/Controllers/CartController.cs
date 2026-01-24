@@ -1,16 +1,15 @@
 ﻿namespace Otlob.Areas.Customer.Controllers;
 
-[Area(DefaultRoles.Customer), Authorize, EnableRateLimiting(RateLimiterPolicy.IpLimit)]
+[Area(DefaultRoles.Customer), EnableRateLimiting(RateLimiterPolicy.IpLimit)]
 public class CartController(ICartService cartService) : Controller
 {
     private readonly ICartService _cartService = cartService;
 
-    [AllowAnonymous]
     [HttpPost, ValidateAntiForgeryToken]
     public IActionResult Add(CartRequest request, string restaurantKey)
     {
         if (!ModelState.IsValid)
-            return RedirectToAction("Meal", "Menu", new { mealKey = request.MealId });        
+            return RedirectToAction("Meal", "Menu", new { mealKey = request.MealId });
 
         var addToCartResult = _cartService.AddOrUpdateCart(request, restaurantKey);
 

@@ -17,7 +17,10 @@ public class RestaurantBusinessDetailsController(IRestaurantBusinessDetailsServi
     public IActionResult Update(RestaurantBusinessInfo request)
     {
         if (!ModelState.IsValid)
+        {
+            TempData["Error"] = ModelState.SelectMany(x => x.Value!.Errors).Select(x => x.ErrorMessage).First();
             return View(request); 
+        }
 
         int restaurantId = int.Parse(User.FindFirstValue(StaticData.RestaurantId)!);
         

@@ -1,0 +1,145 @@
+@model AdvertisementResponse
+
+@{
+    ViewData["Title"] = "Review Advertisement";
+}
+
+<link rel="stylesheet" href="~/css/advertisements.css" asp-append-version="true" />
+
+
+<div class="ads-review-page">
+    <!-- Header -->
+    <div class="ads-review-header">
+        <a asp-action="Pending" class="ads-back-btn">
+            <i class="bi bi-arrow-left"></i>
+            Back to Pending
+        </a>
+        <h1 class="ads-review-title">
+            <i class="bi bi-clipboard-check"></i>
+            Review Advertisement
+        </h1>
+    </div>
+
+    <div class="ads-review-grid">
+        <!-- Advertisement Preview -->
+        <div class="ads-review-preview">
+            <h3 class="ads-card-title">
+                <i class="bi bi-image"></i>
+                Advertisement Preview
+            </h3>
+            <div class="ads-preview-frame">
+                <img src="@Model.ImageUrl" alt="@Model.Title" class="ads-preview-image" />
+            </div>
+            <div class="ads-preview-content">
+                <h2>@Model.Title</h2>
+                <p class="text-muted">@Model.TitleAr</p>
+                <p>@Model.Description</p>
+                <p class="text-muted">@Model.DescriptionAr</p>
+            </div>
+        </div>
+
+        <!-- Details and Actions -->
+        <div class="ads-review-details">
+            <!-- Restaurant Info -->
+            <div class="ads-info-card">
+                <h3 class="ads-card-title">
+                    <i class="bi bi-shop"></i>
+                    Restaurant Information
+                </h3>
+                <div class="ads-info-row">
+                    <span>Restaurant</span>
+                    <strong>@Model.RestaurantName</strong>
+                </div>
+            </div>
+
+            <!-- Plan Details -->
+            <div class="ads-info-card">
+                <h3 class="ads-card-title">
+                    <i class="bi bi-tag"></i>
+                    Plan Details
+                </h3>
+                <div class="ads-info-row">
+                    <span>Plan</span>
+                    <span class="ads-plan-badge large">@Model.PlanName</span>
+                </div>
+                <div class="ads-info-row">
+                    <span>Price Paid</span>
+                    <strong class="text-success">@Model.PlanPrice.ToString("N0") EGP</strong>
+                </div>
+            </div>
+
+            <!-- Duration -->
+            <div class="ads-info-card">
+                <h3 class="ads-card-title">
+                    <i class="bi bi-calendar3"></i>
+                    Campaign Duration
+                </h3>
+                <div class="ads-info-row">
+                    <span>Start Date</span>
+                    <span>@Model.StartDate.ToString("dddd, MMMM dd, yyyy")</span>
+                </div>
+                <div class="ads-info-row">
+                    <span>End Date</span>
+                    <span>@Model.EndDate.ToString("dddd, MMMM dd, yyyy")</span>
+                </div>
+                <div class="ads-info-row">
+                    <span>Duration</span>
+                    <span>@((Model.EndDate - Model.StartDate).Days) days</span>
+                </div>
+            </div>
+
+            <!-- Submission Info -->
+            <div class="ads-info-card">
+                <h3 class="ads-card-title">
+                    <i class="bi bi-clock-history"></i>
+                    Submission Info
+                </h3>
+                <div class="ads-info-row">
+                    <span>Submitted</span>
+                    <span>@Model.CreatedAt.ToString("MMMM dd, yyyy HH:mm")</span>
+                </div>
+                @if (Model.UpdatedAt.HasValue)
+                {
+                    <div class="ads-info-row">
+                        <span>Last Updated</span>
+                        <span>@Model.UpdatedAt.Value.ToString("MMMM dd, yyyy HH:mm")</span>
+                    </div>
+                }
+            </div>
+
+            <!-- Review Actions -->
+            <div class="ads-review-actions-card">
+                <h3 class="ads-card-title">
+                    <i class="bi bi-hand-thumbs-up"></i>
+                    Review Decision
+                </h3>
+                
+                <form asp-action="Approve" asp-route-id="@Model.Id" method="post" class="ads-approve-form">
+                    @Html.AntiForgeryToken()
+                    <button type="submit" class="ads-btn ads-btn-success w-100" 
+                            onclick="return confirm('Are you sure you want to approve this advertisement?');">
+                        <i class="bi bi-check-circle"></i>
+                        Approve Advertisement
+                    </button>
+                </form>
+
+                <hr />
+
+                <form asp-action="Reject" asp-route-id="@Model.Id" method="post" class="ads-reject-form">
+                    @Html.AntiForgeryToken()
+                    <div class="ads-form-group">
+                        <label class="ads-form-label">Rejection Reason <span class="required">*</span></label>
+                        <textarea name="Reason" class="ads-form-textarea" rows="3" 
+                                  placeholder="Please provide a reason for rejection..." required></textarea>
+                        <small class="ads-form-hint">The restaurant owner will see this reason and can edit their ad.</small>
+                    </div>
+                    <button type="submit" class="ads-btn ads-btn-danger w-100"
+                            onclick="return confirm('Are you sure you want to reject this advertisement? Payment will be refunded.');">
+                        <i class="bi bi-x-circle"></i>
+                        Reject & Refund
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

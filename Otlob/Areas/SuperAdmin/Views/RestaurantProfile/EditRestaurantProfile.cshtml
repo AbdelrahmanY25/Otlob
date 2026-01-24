@@ -8,8 +8,31 @@
 
 <div class="profile-container">
 
+    <!-- Restaurant Cover Image Upload -->
+    <div class="profile-header-card" style="padding: 0; overflow: hidden;">
+        <div class="profile-cover-section" style="position: relative; width: 100%; height: 250px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); overflow: hidden;">
+            @if (!string.IsNullOrEmpty(Model.CoverImage))
+            {
+                <img src="~/images/@Model.CoverImage" alt="Restaurant Cover" class="profile-cover-image" id="restaurantCoverPreview" style="width: 100%; height: 100%; object-fit: cover;" />
+            }
+            else
+            {
+                <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: white; font-size: 24px; font-weight: 600;">
+                    <i class="fas fa-image" style="margin-right: 10px;"></i> Restaurant Cover
+                </div>
+            }
+
+            <form asp-action="EditRestaurantProfileCover" method="post" enctype="multipart/form-data" id="coverForm" style="position: absolute; bottom: 20px; right: 20px;">
+                 <label for="coverInput" class="profile-avatar-upload-label" title="Change Cover Image">
+                    <i class="fas fa-camera"></i>
+                </label>
+                <input type="file" id="coverInput" name="image" accept=".jpg,.jpeg,.png" style="display: none;" onchange="this.form.submit()" />
+            </form>
+        </div>
+    </div>
+
     <!-- Restaurant Header with Image Upload -->
-    <div class="profile-header-card">
+    <div class="profile-header-card" style="margin-top: 20px;">
         <div class="profile-avatar-section">
             <div class="profile-avatar-wrapper" style="width: 150px; height: 150px; border-radius: 12px;">
                 @if (!string.IsNullOrEmpty(Model.Image))
@@ -18,8 +41,8 @@
                 }
                 else
                 {
-                    <img src="~/images/default-restaurant.png" alt="Default Restaurant" class="profile-avatar" id="restaurantImagePreview" style="border-radius: 12px;"
-                         onerror="this.src='https://ui-avatars.com/api/?name=@(Model.Name)&background=random&size=150'" />
+                    <img src="~/images/Default.jpg" alt="Default Restaurant" class="profile-avatar" id="restaurantImagePreview" style="border-radius: 12px;"
+                        onerror="this.src='https://ui-avatars.com/api/?name=@(Model.Name)&background=random&size=150'" />
                 }
 
                 <form asp-action="EditRestaurantProfilePicture" method="post" enctype="multipart/form-data" id="imageForm">
@@ -116,5 +139,5 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial"></partial>
-    <partial name="_NotificationPartial"></partial>
+    
 }

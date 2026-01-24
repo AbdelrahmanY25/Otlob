@@ -13,7 +13,7 @@
         <div class="rd-header">
             <div class="rd-header-top">
                 <a class="rd-back-btn"
-                   asp-action="@(restaurant.AcctiveStatus == AcctiveStatus.UnAccepted || restaurant.AcctiveStatus == AcctiveStatus.Pending ? "UnAcceptedRestaurants" : "ActiveResturatns")"
+                   asp-action="@(restaurant.AcctiveStatus == AcctiveStatus.UnAccepted || restaurant.AcctiveStatus == AcctiveStatus.Pending ? "UnAccepted" : "Active")"
                    asp-controller="Restaurants">
                     <i class="fas fa-arrow-left"></i>
                     Back to List
@@ -328,10 +328,10 @@
                             Menu
                         </div>
                         <div class="rd-action-buttons">
-                            <a class="rd-btn rd-btn-secondary" asp-controller="Menu" asp-action="Menu" asp-route-restaurantKey="@restaurant.Key">
+                            <a class="rd-btn rd-btn-secondary" asp-area="@DefaultRoles.SuperAdmin" asp-controller="Menu" asp-action="Menu" asp-route-restaurantKey="@restaurant.Key">
                                 <i class="fas fa-list-alt"></i> View Menu
                             </a>
-                            <a class="rd-btn rd-btn-secondary" asp-controller="Meals" asp-action="Deleted" asp-route-id="@restaurant.Key">
+                            <a class="rd-btn rd-btn-secondary" asp-area="@DefaultRoles.SuperAdmin" asp-controller="Meals" asp-action="Deleted" asp-route-id="@restaurant.Key">
                                 <i class="fas fa-trash-restore"></i> Deleted Meals
                             </a>
                         </div>
@@ -855,5 +855,5 @@
     </div>
 
 @section Scripts {
-    <partial name="_NotificationPartial" />
+    
 }

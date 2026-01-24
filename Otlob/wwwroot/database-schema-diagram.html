@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Otlob Database Schema Diagram</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #ff385d;
+            --primary-dark: #e02e50;
+            --accent-green: #00b894;
+            --accent-orange: #ff9f43;
+            --text-primary: #1a1a2e;
+            --text-secondary: #6b7280;
+            --text-muted: #9ca3af;
+            --text-white: #ffffff;
+            --bg-primary: #fafafa;
+            --bg-secondary: #ffffff;
+            --bg-tertiary: #f3f4f6;
+            --bg-dark: #1a1a2e;
+            --border-light: #e5e7eb;
+            --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 40px rgba(0, 0, 0, 0.15);
+            --radius-md: 12px;
+            --radius-lg: 16px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: var(--bg-tertiary);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            padding: 25px;
+            background: var(--bg-dark);
+            border-radius: var(--radius-lg);
+            margin-bottom: 20px;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .header h1 {
+            color: var(--text-white);
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .header p {
+            color: var(--text-muted);
+            font-size: 1rem;
+        }
+
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: var(--bg-secondary);
+            border-radius: var(--radius-md);
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .legend-color {
+            width: 16px;
+            height: 16px;
+            border-radius: 4px;
+        }
+
+        .diagram-wrapper {
+            background: var(--bg-secondary);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            overflow: auto;
+            padding: 20px;
+        }
+
+        .diagram-container {
+            position: relative;
+            width: 2200px;
+            height: 1800px;
+            margin: 0 auto;
+        }
+
+        svg.connections {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .table-block {
+            position: absolute;
+            background: var(--bg-secondary);
+            border: 2px solid var(--border-light);
+            border-radius: var(--radius-md);
+            min-width: 140px;
+            box-shadow: var(--shadow-md);
+            transition: all 0.3s ease;
+            overflow: hidden;
+            z-index: 10;
+            cursor: pointer;
+        }
+
+        .table-block:hover {
+            transform: scale(1.05);
+            box-shadow: var(--shadow-lg);
+            z-index: 100;
+        }
+
+        .table-block.highlight {
+            border-color: var(--primary);
+            box-shadow: 0 0 20px rgba(255, 56, 93, 0.4);
+        }
+
+        .table-header {
+            padding: 10px 14px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-align: center;
+            color: var(--text-white);
+        }
+
+        /* Category Colors */
+        .cat-core .table-header { background: var(--primary); }
+        .cat-user .table-header { background: #3b82f6; }
+        .cat-order .table-header { background: var(--accent-green); }
+        .cat-meal .table-header { background: var(--accent-orange); }
+        .cat-restaurant .table-header { background: #8b5cf6; }
+        .cat-promo .table-header { background: #ec4899; }
+        .cat-ads .table-header { background: #14b8a6; }
+        .cat-analytics .table-header { background: #f59e0b; }
+        .cat-documents .table-header { background: #6366f1; }
+        .cat-system .table-header { background: #64748b; }
+
+        .cat-core { border-left: 4px solid var(--primary); }
+        .cat-user { border-left: 4px solid #3b82f6; }
+        .cat-order { border-left: 4px solid var(--accent-green); }
+        .cat-meal { border-left: 4px solid var(--accent-orange); }
+        .cat-restaurant { border-left: 4px solid #8b5cf6; }
+        .cat-promo { border-left: 4px solid #ec4899; }
+        .cat-ads { border-left: 4px solid #14b8a6; }
+        .cat-analytics { border-left: 4px solid #f59e0b; }
+        .cat-documents { border-left: 4px solid #6366f1; }
+        .cat-system { border-left: 4px solid #64748b; }
+
+        /* Wire styles */
+        .wire {
+            fill: none;
+            stroke-width: 2;
+            opacity: 0.6;
+            transition: all 0.3s ease;
+        }
+
+        .wire:hover {
+            stroke-width: 3;
+            opacity: 1;
+        }
+
+        .wire-core { stroke: var(--primary); }
+        .wire-user { stroke: #3b82f6; }
+        .wire-order { stroke: var(--accent-green); }
+        .wire-meal { stroke: var(--accent-orange); }
+        .wire-restaurant { stroke: #8b5cf6; }
+        .wire-promo { stroke: #ec4899; }
+        .wire-ads { stroke: #14b8a6; }
+        .wire-analytics { stroke: #f59e0b; }
+        .wire-documents { stroke: #6366f1; }
+
+        .connection-dot {
+            r: 4;
+            transition: all 0.3s ease;
+        }
+
+        .instructions {
+            text-align: center;
+            padding: 10px;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🍽️ Otlob Database Schema</h1>
+        <p>Interactive Entity Relationship Diagram</p>
+    </div>
+
+    <div class="legend">
+        <div class="legend-item"><div class="legend-color" style="background: #ff385d;"></div><span>Core</span></div>
+        <div class="legend-item"><div class="legend-color" style="background: #3b82f6;"></div><span>User</span></div>
+        <div class="legend-item"><div class="legend-color" style="background: #00b894;"></div><span>Orders</span></div>
+        <div class="legend-item"><div class="legend-color" style="background: #ff9f43;"></div><span>Meals</span></div>
+        <div class="legend-item"><div class="legend-color" style="background: #8b5cf6;"></div><span>Restaurant</span></div>
+        <div class="legend-item"><div class="legend-color" style="background: #ec4899;"></div><span>Promo</span></div>
+        <div class="legend-item"><div class="legend-color" style="background: #14b8a6;"></div><span>Ads</span></div>
+        <div class="legend-item"><div class="legend-color" style="background: #f59e0b;"></div><span>Analytics</span></div>
+        <div class="legend-item"><div class="legend-color" style="background: #6366f1;"></div><span>Documents</span></div>
+        <div class="legend-item"><div class="legend-color" style="background: #64748b;"></div><span>System</span></div>
+    </div>
+
+    <div class="instructions">💡 Hover over tables to highlight relationships. Scroll to navigate the diagram.</div>
+
+    <div class="diagram-wrapper">
+        <div class="diagram-container" id="diagram">
+            <svg class="connections" id="svg"></svg>
+            
+            <!-- Core Entities - Center -->
+            <div class="table-block cat-core" id="Restaurant" style="left: 550px; top: 350px;">
+                <div class="table-header">Restaurant</div>
+            </div>
+            <div class="table-block cat-core" id="ApplicationUser" style="left: 150px; top: 350px;">
+                <div class="table-header">ApplicationUser</div>
+            </div>
+            <div class="table-block cat-core" id="Order" style="left: 350px; top: 550px;">
+                <div class="table-header">Order</div>
+            </div>
+            <div class="table-block cat-core" id="Meal" style="left: 900px; top: 350px;">
+                <div class="table-header">Meal</div>
+            </div>
+
+            <!-- User Related -->
+            <div class="table-block cat-user" id="ApplicationRole" style="left: 50px; top: 200px;">
+                <div class="table-header">ApplicationRole</div>
+            </div>
+            <div class="table-block cat-user" id="RefreshToken" style="left: 50px; top: 280px;">
+                <div class="table-header">RefreshToken</div>
+            </div>
+            <div class="table-block cat-user" id="Address" style="left: 50px; top: 450px;">
+                <div class="table-header">Address</div>
+            </div>
+            <div class="table-block cat-user" id="Otp" style="left: 50px; top: 530px;">
+                <div class="table-header">Otp</div>
+            </div>
+
+            <!-- Order Related -->
+            <div class="table-block cat-order" id="OrderDetails" style="left: 500px; top: 650px;">
+                <div class="table-header">OrderDetails</div>
+            </div>
+            <div class="table-block cat-order" id="OrderRating" style="left: 200px; top: 700px;">
+                <div class="table-header">OrderRating</div>
+            </div>
+            <div class="table-block cat-order" id="Cart" style="left: 350px; top: 200px;">
+                <div class="table-header">Cart</div>
+            </div>
+            <div class="table-block cat-order" id="CartDetails" style="left: 500px; top: 200px;">
+                <div class="table-header">CartDetails</div>
+            </div>
+            <div class="table-block cat-system" id="TempOrder" style="left: 200px; top: 650px;">
+                <div class="table-header">TempOrder</div>
+            </div>
+
+            <!-- Meal Related -->
+            <div class="table-block cat-meal" id="MenuCategory" style="left: 750px; top: 200px;">
+                <div class="table-header">MenuCategory</div>
+            </div>
+            <div class="table-block cat-meal" id="MealOptionGroup" style="left: 1050px; top: 250px;">
+                <div class="table-header">MealOptionGroup</div>
+            </div>
+            <div class="table-block cat-meal" id="MealOptionItem" style="left: 1200px; top: 250px;">
+                <div class="table-header">MealOptionItem</div>
+            </div>
+            <div class="table-block cat-meal" id="MealAddOn" style="left: 1050px; top: 450px;">
+                <div class="table-header">MealAddOn</div>
+            </div>
+            <div class="table-block cat-meal" id="ManyMealManyAddOn" style="left: 1050px; top: 350px;">
+                <div class="table-header">ManyMealManyAddOn</div>
+            </div>
+            <div class="table-block cat-meal" id="MealPriceHistory" style="left: 900px; top: 500px;">
+                <div class="table-header">MealPriceHistory</div>
+            </div>
+
+            <!-- Restaurant Related -->
+            <div class="table-block cat-restaurant" id="RestaurantBranch" style="left: 700px; top: 500px;">
+                <div class="table-header">RestaurantBranch</div>
+            </div>
+            <div class="table-block cat-restaurant" id="Category" style="left: 550px; top: 100px;">
+                <div class="table-header">Category</div>
+            </div>
+            <div class="table-block cat-restaurant" id="RestaurantCategory" style="left: 550px; top: 200px;">
+                <div class="table-header">RestaurantCategory</div>
+            </div>
+
+            <!-- Promo Related -->
+            <div class="table-block cat-promo" id="PromoCode" style="left: 150px; top: 700px;">
+                <div class="table-header">PromoCode</div>
+            </div>
+            <div class="table-block cat-promo" id="PromoCodeUsage" style="left: 50px; top: 700px;">
+                <div class="table-header">PromoCodeUsage</div>
+            </div>
+
+            <!-- Ads Related -->
+            <div class="table-block cat-ads" id="Advertisement" style="left: 700px; top: 750px;">
+                <div class="table-header">Advertisement</div>
+            </div>
+            <div class="table-block cat-ads" id="AdvertisementPlan" style="left: 850px; top: 750px;">
+                <div class="table-header">AdvertisementPlan</div>
+            </div>
+            <div class="table-block cat-ads" id="AdvertisementPayment" style="left: 700px; top: 850px;">
+                <div class="table-header">AdvertisementPayment</div>
+            </div>
+            <div class="table-block cat-ads" id="AdvertisementAnalytics" style="left: 850px; top: 850px;">
+                <div class="table-header">AdvertisementAnalytics</div>
+            </div>
+
+            <!-- Analytics -->
+            <div class="table-block cat-analytics" id="MealsAnalytic" style="left: 1100px; top: 550px;">
+                <div class="table-header">MealsAnalytic</div>
+            </div>
+            <div class="table-block cat-analytics" id="RestaurantDailyAnalytic" style="left: 1250px; top: 450px;">
+                <div class="table-header">RestaurantDailyAnalytic</div>
+            </div>
+            <div class="table-block cat-analytics" id="RestaurantMonthlyAnalytic" style="left: 1250px; top: 530px;">
+                <div class="table-header">RestaurantMonthlyAnalytic</div>
+            </div>
+            <div class="table-block cat-analytics" id="RestaurantRatingAnlytic" style="left: 1250px; top: 610px;">
+                <div class="table-header">RestaurantRatingAnlytic</div>
+            </div>
+            <div class="table-block cat-analytics" id="AdminDailyAnalytic" style="left: 1450px; top: 450px;">
+                <div class="table-header">AdminDailyAnalytic</div>
+            </div>
+            <div class="table-block cat-analytics" id="AdminMonthlyAnalytic" style="left: 1450px; top: 530px;">
+                <div class="table-header">AdminMonthlyAnalytic</div>
+            </div>
+
+            <!-- Documents -->
+            <div class="table-block cat-documents" id="CommercialRegistration" style="left: 1200px; top: 50px;">
+                <div class="table-header">CommercialRegistration</div>
+            </div>
+            <div class="table-block cat-documents" id="TradeMark" style="left: 1400px; top: 50px;">
+                <div class="table-header">TradeMark</div>
+            </div>
+            <div class="table-block cat-documents" id="NationalId" style="left: 1200px; top: 130px;">
+                <div class="table-header">NationalId</div>
+            </div>
+            <div class="table-block cat-documents" id="BankAccount" style="left: 1400px; top: 130px;">
+                <div class="table-header">BankAccount</div>
+            </div>
+            <div class="table-block cat-documents" id="VAT" style="left: 1300px; top: 210px;">
+                <div class="table-header">VAT</div>
+            </div>
+            <div class="table-block cat-documents" id="UploadedFile" style="left: 1500px; top: 210px;">
+                <div class="table-header">UploadedFile</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Define all relationships
+        const relationships = [
+            // Restaurant connections
+            { from: 'Restaurant', to: 'ApplicationUser', color: '#ff385d', label: 'Owner' },
+            { from: 'Restaurant', to: 'RestaurantBranch', color: '#8b5cf6' },
+            { from: 'Restaurant', to: 'MenuCategory', color: '#ff9f43' },
+            { from: 'Restaurant', to: 'Order', color: '#00b894' },
+            { from: 'Restaurant', to: 'MealAddOn', color: '#ff9f43' },
+            { from: 'Restaurant', to: 'RestaurantCategory', color: '#8b5cf6' },
+            { from: 'Restaurant', to: 'Advertisement', color: '#14b8a6' },
+            { from: 'Restaurant', to: 'Cart', color: '#00b894' },
+            { from: 'Restaurant', to: 'PromoCode', color: '#ec4899' },
+            
+            // Restaurant Documents
+            { from: 'Restaurant', to: 'CommercialRegistration', color: '#6366f1' },
+            { from: 'Restaurant', to: 'TradeMark', color: '#6366f1' },
+            { from: 'Restaurant', to: 'NationalId', color: '#6366f1' },
+            { from: 'Restaurant', to: 'BankAccount', color: '#6366f1' },
+            { from: 'Restaurant', to: 'VAT', color: '#6366f1' },
+            
+            // Restaurant Analytics
+            { from: 'Restaurant', to: 'RestaurantDailyAnalytic', color: '#f59e0b' },
+            { from: 'Restaurant', to: 'RestaurantMonthlyAnalytic', color: '#f59e0b' },
+            { from: 'Restaurant', to: 'RestaurantRatingAnlytic', color: '#f59e0b' },
+            { from: 'Restaurant', to: 'MealsAnalytic', color: '#f59e0b' },
+
+            // User connections
+            { from: 'ApplicationUser', to: 'Order', color: '#3b82f6' },
+            { from: 'ApplicationUser', to: 'Address', color: '#3b82f6' },
+            { from: 'ApplicationUser', to: 'RefreshToken', color: '#3b82f6' },
+            { from: 'ApplicationUser', to: 'Cart', color: '#3b82f6' },
+            { from: 'ApplicationUser', to: 'Otp', color: '#3b82f6' },
+            { from: 'ApplicationUser', to: 'PromoCodeUsage', color: '#ec4899' },
+            { from: 'ApplicationUser', to: 'PromoCode', color: '#ec4899' },
+
+            // Order connections
+            { from: 'Order', to: 'OrderDetails', color: '#00b894' },
+            { from: 'Order', to: 'OrderRating', color: '#00b894' },
+            { from: 'Order', to: 'PromoCode', color: '#ec4899' },
+            { from: 'Order', to: 'PromoCodeUsage', color: '#ec4899' },
+
+            // Meal connections
+            { from: 'Meal', to: 'MenuCategory', color: '#ff9f43' },
+            { from: 'Meal', to: 'MealOptionGroup', color: '#ff9f43' },
+            { from: 'Meal', to: 'ManyMealManyAddOn', color: '#ff9f43' },
+            { from: 'Meal', to: 'MealPriceHistory', color: '#ff9f43' },
+            { from: 'Meal', to: 'MealsAnalytic', color: '#f59e0b' },
+            { from: 'Meal', to: 'OrderDetails', color: '#00b894' },
+            { from: 'Meal', to: 'CartDetails', color: '#00b894' },
+            { from: 'Meal', to: 'Restaurant', color: '#ff385d' },
+
+            // Meal Option connections
+            { from: 'MealOptionGroup', to: 'MealOptionItem', color: '#ff9f43' },
+            { from: 'ManyMealManyAddOn', to: 'MealAddOn', color: '#ff9f43' },
+
+            // Cart connections
+            { from: 'Cart', to: 'CartDetails', color: '#00b894' },
+
+            // Category connections
+            { from: 'Category', to: 'RestaurantCategory', color: '#8b5cf6' },
+
+            // Advertisement connections
+            { from: 'Advertisement', to: 'AdvertisementPlan', color: '#14b8a6' },
+            { from: 'Advertisement', to: 'AdvertisementPayment', color: '#14b8a6' },
+            { from: 'Advertisement', to: 'AdvertisementAnalytics', color: '#14b8a6' },
+
+            // Document connections
+            { from: 'CommercialRegistration', to: 'UploadedFile', color: '#6366f1' },
+            { from: 'TradeMark', to: 'UploadedFile', color: '#6366f1' },
+            { from: 'NationalId', to: 'UploadedFile', color: '#6366f1' },
+            { from: 'BankAccount', to: 'UploadedFile', color: '#6366f1' },
+            { from: 'VAT', to: 'UploadedFile', color: '#6366f1' },
+
+            // PromoCode connections
+            { from: 'PromoCode', to: 'PromoCodeUsage', color: '#ec4899' },
+        ];
+
+        function getCenter(el) {
+            const rect = el.getBoundingClientRect();
+            const container = document.getElementById('diagram').getBoundingClientRect();
+            return {
+                x: el.offsetLeft + el.offsetWidth / 2,
+                y: el.offsetTop + el.offsetHeight / 2
+            };
+        }
+
+        function getEdgePoint(fromEl, toEl) {
+            const from = getCenter(fromEl);
+            const to = getCenter(toEl);
+            
+            const fromRect = { 
+                left: fromEl.offsetLeft, 
+                right: fromEl.offsetLeft + fromEl.offsetWidth,
+                top: fromEl.offsetTop, 
+                bottom: fromEl.offsetTop + fromEl.offsetHeight,
+                width: fromEl.offsetWidth,
+                height: fromEl.offsetHeight
+            };
+            
+            const toRect = { 
+                left: toEl.offsetLeft, 
+                right: toEl.offsetLeft + toEl.offsetWidth,
+                top: toEl.offsetTop, 
+                bottom: toEl.offsetTop + toEl.offsetHeight,
+                width: toEl.offsetWidth,
+                height: toEl.offsetHeight
+            };
+
+            const dx = to.x - from.x;
+            const dy = to.y - from.y;
+            const angle = Math.atan2(dy, dx);
+
+            // Calculate exit point from source
+            let fromPoint = { x: from.x, y: from.y };
+            let toPoint = { x: to.x, y: to.y };
+
+            // Determine which edge to use for from element
+            if (Math.abs(dx) > Math.abs(dy)) {
+                // Horizontal connection
+                if (dx > 0) {
+                    fromPoint.x = fromRect.right;
+                    toPoint.x = toRect.left;
+                } else {
+                    fromPoint.x = fromRect.left;
+                    toPoint.x = toRect.right;
+                }
+            } else {
+                // Vertical connection
+                if (dy > 0) {
+                    fromPoint.y = fromRect.bottom;
+                    toPoint.y = toRect.top;
+                } else {
+                    fromPoint.y = fromRect.top;
+                    toPoint.y = toRect.bottom;
+                }
+            }
+
+            return { from: fromPoint, to: toPoint };
+        }
+
+        function drawConnections() {
+            const svg = document.getElementById('svg');
+            svg.innerHTML = '';
+            
+            // Add arrow marker definition
+            const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+            defs.innerHTML = `
+                <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                    <polygon points="0 0, 10 3.5, 0 7" fill="#9ca3af" />
+                </marker>
+            `;
+            svg.appendChild(defs);
+
+            relationships.forEach((rel, index) => {
+                const fromEl = document.getElementById(rel.from);
+                const toEl = document.getElementById(rel.to);
+                
+                if (!fromEl || !toEl) return;
+
+                const points = getEdgePoint(fromEl, toEl);
+                
+                // Create curved path
+                const midX = (points.from.x + points.to.x) / 2;
+                const midY = (points.from.y + points.to.y) / 2;
+                
+                // Add some curve
+                const dx = points.to.x - points.from.x;
+                const dy = points.to.y - points.from.y;
+                const offset = 20;
+                
+                let ctrlX = midX;
+                let ctrlY = midY;
+                
+                if (Math.abs(dx) > Math.abs(dy)) {
+                    ctrlY = midY + (index % 2 === 0 ? offset : -offset);
+                } else {
+                    ctrlX = midX + (index % 2 === 0 ? offset : -offset);
+                }
+
+                const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                path.setAttribute('d', `M ${points.from.x} ${points.from.y} Q ${ctrlX} ${ctrlY} ${points.to.x} ${points.to.y}`);
+                path.setAttribute('class', 'wire');
+                path.setAttribute('stroke', rel.color);
+                path.setAttribute('data-from', rel.from);
+                path.setAttribute('data-to', rel.to);
+                path.setAttribute('marker-end', 'url(#arrowhead)');
+                
+                svg.appendChild(path);
+
+                // Add dots at connection points
+                const dotFrom = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                dotFrom.setAttribute('cx', points.from.x);
+                dotFrom.setAttribute('cy', points.from.y);
+                dotFrom.setAttribute('r', '4');
+                dotFrom.setAttribute('fill', rel.color);
+                dotFrom.setAttribute('class', 'connection-dot');
+                svg.appendChild(dotFrom);
+
+                const dotTo = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                dotTo.setAttribute('cx', points.to.x);
+                dotTo.setAttribute('cy', points.to.y);
+                dotTo.setAttribute('r', '4');
+                dotTo.setAttribute('fill', rel.color);
+                dotTo.setAttribute('class', 'connection-dot');
+                svg.appendChild(dotTo);
+            });
+        }
+
+        // Highlight related tables on hover
+        document.querySelectorAll('.table-block').forEach(block => {
+            block.addEventListener('mouseenter', () => {
+                const id = block.id;
+                
+                // Find all related tables
+                const related = new Set();
+                relationships.forEach(rel => {
+                    if (rel.from === id) related.add(rel.to);
+                    if (rel.to === id) related.add(rel.from);
+                });
+
+                // Highlight related blocks
+                document.querySelectorAll('.table-block').forEach(b => {
+                    if (related.has(b.id) || b.id === id) {
+                        b.classList.add('highlight');
+                    } else {
+                        b.style.opacity = '0.3';
+                    }
+                });
+
+                // Highlight wires
+                document.querySelectorAll('.wire').forEach(wire => {
+                    const from = wire.getAttribute('data-from');
+                    const to = wire.getAttribute('data-to');
+                    if (from === id || to === id) {
+                        wire.style.opacity = '1';
+                        wire.style.strokeWidth = '3';
+                    } else {
+                        wire.style.opacity = '0.1';
+                    }
+                });
+
+                document.querySelectorAll('.connection-dot').forEach(dot => {
+                    dot.style.opacity = '0.3';
+                });
+            });
+
+            block.addEventListener('mouseleave', () => {
+                document.querySelectorAll('.table-block').forEach(b => {
+                    b.classList.remove('highlight');
+                    b.style.opacity = '1';
+                });
+                document.querySelectorAll('.wire').forEach(wire => {
+                    wire.style.opacity = '0.6';
+                    wire.style.strokeWidth = '2';
+                });
+                document.querySelectorAll('.connection-dot').forEach(dot => {
+                    dot.style.opacity = '1';
+                });
+            });
+        });
+
+        // Draw connections on load
+        window.addEventListener('load', drawConnections);
+        window.addEventListener('resize', drawConnections);
+    </script>
+</body>
+</html>

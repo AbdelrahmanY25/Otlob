@@ -6,4 +6,7 @@ public class StripeSettings
 
     [Required, NotNull, Length(10, int.MaxValue)]
     public string SecretKey { get; set; } = string.Empty;
+
+    [Required, NotNull, Length(10, int.MaxValue)]
+    public string PublishableKey { get; set; } = string.Empty;
 }

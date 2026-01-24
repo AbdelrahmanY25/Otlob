@@ -9,13 +9,13 @@
 
             <div class="am-header-actions">
                 <div class="am-header-title">
-                    <a asp-controller="Menu" asp-action="Menu" asp-route-restaurantKey="@ViewBag.ResKey" class="am-back-link">
+                    <a asp-area="@DefaultRoles.SuperAdmin" asp-controller="Menu" asp-action="Menu" asp-route-restaurantKey="@ViewBag.ResKey" class="am-back-link">
                         <i class="fas fa-arrow-left"></i>
                     </a>
                     <h1>Edit Meal</h1>
                 </div>
                 <div class="am-actions">
-                    <a asp-controller="Menu" asp-action="Menu" asp-route-restaurantKey="@ViewBag.ResKey" class="am-btn-secondary">Discard</a>
+                    <a asp-area="@DefaultRoles.SuperAdmin" asp-controller="Menu" asp-action="Menu" asp-route-restaurantKey="@ViewBag.ResKey" class="am-btn-secondary">Discard</a>
                     <button type="submit" class="am-btn-primary" id="submitBtn" style="display:none;">Save</button>
                 </div>
             </div>
@@ -401,7 +401,6 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
-    <partial name="_NotificationPartial" />
 
     <script>
         // Initialize counters based on existing data (Razor-dependent)

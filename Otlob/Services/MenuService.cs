@@ -7,18 +7,18 @@ public class MenuService(IUnitOfWorkRepository unitOfWorkRepository, IEncryption
     private readonly IUnitOfWorkRepository _unitOfWorkRepository = unitOfWorkRepository;
     private readonly IDataProtector _dataProtector = dataProtectionProvider.CreateProtector("SecureData");
 
-    public Result<(IEnumerable<MenuResponse> menu, AcctiveRestaurantResponse restaurant)> MenuForCustomer(int restaurantId)
+    public Result<FullMenuResponse> MenuForCustomer(int restaurantId)
     {
         var menuResult = GetMenu(restaurantId, true);
 
         if (menuResult.IsFailure)
-            return Result.Failure<(IEnumerable<MenuResponse>, AcctiveRestaurantResponse)>(menuResult.Error!);       
+            return Result.Failure<FullMenuResponse>(menuResult.Error!);
 
         var restaurant = _unitOfWorkRepository.Restaurants
             .GetOneWithSelect(
                 expression: r => r.Id == restaurantId,
                 tracked: false,
-                selector: r => new AcctiveRestaurantResponse
+                selector: r => new RestaurantInfoForMenu
                 {
                     Name = r.Name,
                     Image = r.Image,
@@ -26,9 +26,9 @@ public class MenuService(IUnitOfWorkRepository unitOfWorkRepository, IEncryption
                     DeliveryDuration = r.DeliveryDuration,
                     Rating = r.Rating
                 }
-            );
+            )!;
 
-        return Result.Success((menuResult.Value!, restaurant!));
+        return Result.Success(new FullMenuResponse { Menu = menuResult.Value, Restaurant = restaurant });
     }
 
     public Result<(IEnumerable<MenuResponse> menu, IEnumerable<AddOnResponse> addOns)> MenuForAdmins(int restaurantId)
@@ -119,6 +119,8 @@ public class MenuService(IUnitOfWorkRepository unitOfWorkRepository, IEncryption
         return Result.Success(meal!);
     }
 
+    
+    
     private Result<IEnumerable<MenuResponse>> GetMenu(int restaurantId, bool withAvaliableMeals = false)
     {
         bool isRestaurantIdExists = _unitOfWorkRepository.Restaurants.IsExist(r => r.Id == restaurantId);
@@ -138,10 +140,11 @@ public class MenuService(IUnitOfWorkRepository unitOfWorkRepository, IEncryption
                         Name = mc.Name,
                     },
                     Meals = mc.Meals
-                    .Select(m => new MealResponse
+                    .Select(m => new MealForMenuResponse
                     {
                         Key = m.Id,
                         Name = m.Name,
+                        Description = m.Description,
                         Image = m.Image,
                         Price = m.Price,
                         OfferPrice = m.OfferPrice,

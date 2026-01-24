@@ -3,7 +3,7 @@
 public class AddressRequest
 {
     public string CustomerAddress { get; init; } = string.Empty;
-    public PlaceType PlaceType { get; init; }
+    public PropertyType PlaceType { get; init; }
     public string StreetName { get; init; } = string.Empty;
     public string? HouseNumberOrName { get; init; }
     public int? FloorNumber { get; init; }

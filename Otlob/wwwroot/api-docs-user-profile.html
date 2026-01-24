@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile API Documentation - Otlob</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #f04335;
+            --secondary: #2C3E50;
+            --bg: #f8f9fa;
+            --card: #ffffff;
+            --border: #e9ecef;
+            --success: #28a745;
+            --warning: #ffc107;
+            --text: #333;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background-color: var(--bg);
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        header {
+            background-color: var(--secondary);
+            color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        h1 { margin: 0; font-size: 2rem; }
+        .base-url {
+            background: rgba(255,255,255,0.1);
+            padding: 8px 12px;
+            border-radius: 6px;
+            display: inline-block;
+            margin-top: 10px;
+            font-family: monospace;
+        }
+
+        .endpoint-card {
+            background: var(--card);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .method-badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-weight: 800;
+            margin-right: 10px;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+        }
+
+        .get { background: #e3f2fd; color: #1976d2; }
+        .put { background: #fff3e0; color: #f57c00; }
+        .delete { background: #ffebee; color: #d32f2f; }
+
+        .auth-notice {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+
+        pre {
+            background: #2d3436;
+            color: #dfe6e9;
+            padding: 1.5rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 0.9rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 12px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th { background: #f8f9fa; color: #666; font-size: 0.9rem; text-transform: uppercase; }
+
+        .section-title {
+            font-weight: 700;
+            color: var(--secondary);
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 5px;
+            margin-top: 20px;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 3rem;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-user-circle"></i> User Profile API</h1>
+            <p>Documentation for mobile app integration</p>
+            <div class="base-url">Base URL: https://otlob.runasp.net</div>
+        </header>
+
+        <div class="auth-notice">
+            <i class="fas fa-lock"></i> <strong>Authentication Required:</strong> All endpoints require a <code>Bearer Token</code> in the <code>Authorization</code> header.
+        </div>
+
+        <div class="endpoint-card">
+            <h3><span class="method-badge get">GET</span> /api/UserProfiles/profile</h3>
+            <p>Retrieves the current user's profile information.</p>
+            <div class="section-title">Response (JSON)</div>
+<pre>
+{
+  "isSuccess": true,
+  "apiError": { "code": "", "description": "", "statusCode": null },
+  "value": {
+    "firstName": "John",
+    "lastName": "Doe",
+    "email": "user@example.com",
+    "userName": "username",
+    "phoneNumber": "010...",
+    "gender": 0,
+    "dateOfBirth": "1990-01-01",
+    "image": "image.jpg"
+  }
+}
+</pre>
+            <div class="section-title">Failure Response (Example)</div>
+<pre>
+{
+  "type": "https://tools.ietf.org/html/rfc7231#section-6.5.1",
+  "title": "Bad Request",
+  "status": 400,
+  "detail": "User not found.",
+  "code": "UserProfile.UserNotFound"
+}
+</pre>
+        </div>
+
+        <div class="endpoint-card">
+            <h3><span class="method-badge put">PUT</span> /api/UserProfiles/update</h3>
+            <p>Updates user profile data.</p>
+                        <div class="section-title">Request Body (JSON)</div>
+            <pre>
+            {
+              "firstName": "string",
+              "lastName": "string",
+              "email": "string",
+              "userName": "string",
+              "phoneNumber": "string",
+              "gender": 0,
+              "dateOfBirth": "yyyy-MM-dd"
+            }
+            </pre>
+        </div>
+
+        <div class="endpoint-card">
+            <h3><span class="method-badge put">PUT</span> /api/UserProfiles/update-profile-picture</h3>
+            <p>Updates profile image (Multipart Form Data).</p>
+            <div class="section-title">Request</div>
+            <p>Parameter name: <b>image</b> (File upload)</p>
+        </div>
+
+        <div class="endpoint-card">
+            <h3><span class="method-badge delete">DELETE</span> /api/UserProfiles/delete</h3>
+            <p>Deletes user account.</p>
+        </div>
+
+        <footer>
+            &copy; 2024 Otlob. Managed for Flutter Team.
+        </footer>
+    </div>
+</body>
+</html>

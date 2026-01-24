@@ -1,958 +1,1260 @@
-# \## 🎯 Restaurant Advertisement Feature - Full Implementation Plan
+\# 🎯 Full Plan: Restaurant Advertisement Feature with Monthly Subscription
 
-# 
 
-# ---
 
-# 
+\## 📋 Overview
 
-# \### 📋 Feature Overview
 
-# 
 
-# A comprehensive advertisement system allowing restaurants to promote their business through paid monthly subscriptions, with a complete approval workflow and management system for both Restaurant Admins and Super Admins.
+This feature allows restaurants to create paid advertisements that appear on the customer's home page, increasing visibility and driving more orders. The system includes subscription management, approval workflows, and analytics.
 
-# 
 
-# ---
 
-# 
+---
 
-# \### 🏗️ System Architecture
 
-# 
 
-# \#### 1. Advertisement Types (Like Talabat/Uber Eats)
+\## 🏗️ Architecture Overview
 
-# 
 
-# | Ad Type | Description | Display Location | Priority |
 
-# |---------|-------------|------------------|----------|
+```
 
-# | \*\*Featured Banner\*\* | Large banner at top of home page | Main Home Page Carousel | Highest |
+┌─────────────────┐     ┌──────────────────┐     ┌─────────────────┐
 
-# | \*\*Sponsored Listing\*\* | Restaurant appears at top of search results | Restaurant List / Search Results | High |
+│  Restaurant     │────▶│   Super Admin    │────▶│    Customer     │
 
-# | \*\*Category Spotlight\*\* | Featured in specific cuisine category | Category Pages | Medium |
+│  Admin Panel    │     │   Approval       │     │   Home Page     │
 
-# | \*\*Story/Promotion Ad\*\* | Instagram-style story ads | Home Page Stories Section | Medium |
+│  (Create Ads)   │     │   (Review Ads)   │     │   (View Ads)    │
 
-# | \*\*Push Notification Ad\*\* | Promotional notifications to users | Customer Mobile/Web Notifications | High |
+└─────────────────┘     └──────────────────┘     └─────────────────┘
 
-# 
+&nbsp;        │                       │                        │
 
-# \#### 2. Subscription Plans
+&nbsp;        └───────────────────────┴────────────────────────┘
 
-# 
+&nbsp;                                │
 
-# | Plan | Duration | Features | Price (Example) |
+&nbsp;                   ┌────────────▼────────────┐
 
-# |------|----------|----------|-----------------|
+&nbsp;                   │     Database Layer      │
 
-# | \*\*Basic\*\* | 1 Month | Sponsored Listing only | 500 L.E/month |
+&nbsp;                   │  (Ads, Subscriptions,   │
 
-# | \*\*Standard\*\* | 1 Month | Sponsored Listing + Category Spotlight | 1,000 L.E/month |
+&nbsp;                   │   Placements, Analytics)│
 
-# | \*\*Premium\*\* | 1 Month | All Ad Types + Priority Support + Analytics | 2,500 L.E/month |
+&nbsp;                   └─────────────────────────┘
 
-# | \*\*Enterprise\*\* | 1 Month | Custom package + Dedicated Account Manager | Custom Pricing |
+```
 
-# 
 
-# ---
 
-# 
+---
 
-# \### 🗄️ Database Design
 
-# 
 
-# \#### New Entities
+\## 📊 Database Schema Design
 
-# 
 
-# ```
 
-# ┌─────────────────────────────────────────────────────────────────┐
+\### 1. \*\*AdvertisementPlan\*\* (Subscription Plans)
 
-# │                    AdvertisementPlan                            │
+| Column | Type | Description |
 
-# ├─────────────────────────────────────────────────────────────────┤
+|--------|------|-------------|
 
-# │ Id (PK)                                                         │
+| Id | GUID | Primary Key |
 
-# │ Name (Basic/Standard/Premium/Enterprise)                        │
+| Name | string | "Basic", "Premium", "Featured" |
 
-# │ Description                                                     │
+| NameAr | string | Arabic name |
 
-# │ Price                                                           │
+| Description | string | Plan description |
 
-# │ DurationInDays (30)                                             │
+| DescriptionAr | string | Arabic description |
 
-# │ Features (JSON - list of allowed ad types)                      │
+| PricePerMonth | decimal | Monthly cost (e.g., 500, 1000, 2000 EGP) |
 
-# │ MaxAdsPerMonth                                                  │
+| DurationInDays | int | 30, 60, 90 days |
 
-# │ IncludesAnalytics                                               │
+| MaxImpressions | int? | Impression limit (null = unlimited) |
 
-# │ IncludesPrioritySupport                                         │
+| MaxClicks | int? | Click limit (null = unlimited) |
 
-# │ IsActive                                                        │
+| PlacementPriority | int | 1=Highest, 10=Lowest |
 
-# │ CreatedAt, UpdatedAt                                            │
+| Features | string (JSON) | Additional features |
 
-# └─────────────────────────────────────────────────────────────────┘
+| IsActive | bool | Plan availability |
 
-# 
+| CreatedAt | DateTime | |
 
-# ┌─────────────────────────────────────────────────────────────────┐
+| UpdatedAt | DateTime | |
 
-# │                 AdvertisementSubscription                       │
 
-# ├─────────────────────────────────────────────────────────────────┤
 
-# │ Id (PK)                                                         │
+\### 2. \*\*AdvertisementPlacement\*\* (Where Ads Appear)
 
-# │ RestaurantId (FK)                                               │
+| Column | Type | Description |
 
-# │ PlanId (FK)                                                     │
+|--------|------|-------------|
 
-# │ StartDate                                                       │
+| Id | GUID | Primary Key |
 
-# │ EndDate                                                         │
+| Name | string | "HomePage\_Banner", "HomePage\_Carousel", "Restaurant\_List\_Top", "Search\_Results", "Category\_Page" |
 
-# │ Status (Active/Expired/Cancelled/PendingPayment)                │
+| DisplayName | string | Human readable name |
 
-# │ AutoRenew                                                       │
+| Description | string | Placement description |
 
-# │ PaymentMethod                                                   │
+| Dimensions | string | "1200x400", "600x300" |
 
-# │ TotalPaid                                                       │
+| MaxAdsCount | int | Max ads per placement |
 
-# │ CreatedAt, UpdatedAt                                            │
+| IsActive | bool | |
 
-# └─────────────────────────────────────────────────────────────────┘
 
-# 
 
-# ┌─────────────────────────────────────────────────────────────────┐
+\### 3. \*\*Advertisement\*\* (Main Ad Entity)
 
-# │                      Advertisement                              │
+| Column | Type | Description |
 
-# ├─────────────────────────────────────────────────────────────────┤
+|--------|------|-------------|
 
-# │ Id (PK)                                                         │
+| Id | GUID | Primary Key |
 
-# │ RestaurantId (FK)                                               │
+| RestaurantId | GUID | FK to Restaurant |
 
-# │ SubscriptionId (FK)                                             │
+| BranchId | GUID? | Optional specific branch |
 
-# │ Title                                                           │
+| AdvertisementPlanId | GUID | FK to Plan |
 
-# │ Description                                                     │
+| Title | string(100) | Ad title |
 
-# │ AdType (FeaturedBanner/SponsoredListing/CategorySpotlight/etc.) │
+| TitleAr | string(100) | Arabic title |
 
-# │ ImageUrl                                                        │
+| Description | string(500) | Ad description |
 
-# │ BannerImageUrl (for large banners)                              │
+| DescriptionAr | string(500) | Arabic description |
 
-# │ TargetUrl (deep link to restaurant/offer)                       │
+| ImageUrl | string | Main ad image |
 
-# │ StartDate                                                       │
+| MobileImageUrl | string | Mobile-optimized image |
 
-# │ EndDate                                                         │
+| TargetUrl | string? | Deep link or URL |
 
-# │ Status (Draft/PendingApproval/Approved/Rejected/Active/Paused/  │
+| TargetType | enum | Restaurant, Branch, Meal, Category, PromoCode |
 
-# │         Expired/Cancelled)                                      │
+| TargetEntityId | GUID? | Target entity ID |
 
-# │ Priority (display order)                                        │
+| Status | enum | Draft, PendingApproval, Approved, Rejected, Active, Paused, Expired, Cancelled |
 
-# │ TargetAudience (JSON - location, preferences)                   │
+| RejectionReason | string? | Why rejected |
 
-# │ CategoryId (FK, nullable - for category spotlight)              │
+| StartDate | DateTime | Campaign start |
 
-# │ CreatedAt, UpdatedAt                                            │
+| EndDate | DateTime | Campaign end |
 
-# │ ApprovedAt, ApprovedBy                                          │
+| Budget | decimal? | Optional budget limit |
 
-# │ RejectionReason                                                 │
+| SpentAmount | decimal | Amount spent |
 
-# └─────────────────────────────────────────────────────────────────┘
+| Priority | int | Display priority |
 
-# 
+| CreatedAt | DateTime | |
 
-# ┌─────────────────────────────────────────────────────────────────┐
+| UpdatedAt | DateTime | |
 
-# │                   AdvertisementAnalytics                        │
+| ApprovedAt | DateTime? | |
 
-# ├─────────────────────────────────────────────────────────────────┤
+| ApprovedByUserId | GUID? | Super admin who approved |
 
-# │ Id (PK)                                                         │
 
-# │ AdvertisementId (FK)                                            │
 
-# │ Date                                                            │
+\### 4. \*\*AdvertisementPlacementMapping\*\* (Ad-to-Placement)
 
-# │ Impressions (times shown)                                       │
+| Column | Type | Description |
 
-# │ Clicks                                                          │
+|--------|------|-------------|
 
-# │ UniqueViews                                                     │
+| Id | GUID | Primary Key |
 
-# │ OrdersGenerated                                                 │
+| AdvertisementId | GUID | FK |
 
-# │ RevenueGenerated                                                │
+| AdvertisementPlacementId | GUID | FK |
 
-# │ ClickThroughRate (calculated)                                   │
+| Position | int? | Specific position |
 
-# │ ConversionRate (calculated)                                     │
+| IsActive | bool | |
 
-# └─────────────────────────────────────────────────────────────────┘
 
-# 
 
-# ┌─────────────────────────────────────────────────────────────────┐
+\### 5. \*\*AdvertisementSubscription\*\* (Payment/Subscription)
 
-# │                 AdvertisementPayment                            │
+| Column | Type | Description |
 
-# ├─────────────────────────────────────────────────────────────────┤
+|--------|------|-------------|
 
-# │ Id (PK)                                                         │
+| Id | GUID | Primary Key |
 
-# │ SubscriptionId (FK)                                             │
+| AdvertisementId | GUID | FK |
 
-# │ Amount                                                          │
+| RestaurantId | GUID | FK |
 
-# │ PaymentMethod (Card/BankTransfer/Wallet)                        │
+| AdvertisementPlanId | GUID | FK |
 
-# │ TransactionId                                                   │
+| SubscriptionStartDate | DateTime | |
 
-# │ Status (Pending/Completed/Failed/Refunded)                      │
+| SubscriptionEndDate | DateTime | |
 
-# │ PaymentDate                                                     │
+| Amount | decimal | Total amount |
 
-# │ InvoiceNumber                                                   │
+| Currency | string | "EGP", "USD" |
 
-# │ CreatedAt                                                       │
+| PaymentStatus | enum | Pending, Paid, Failed, Refunded |
 
-# └─────────────────────────────────────────────────────────────────┘
+| PaymentMethod | string | Card, Wallet, BankTransfer |
 
-# ```
+| TransactionId | string? | Payment gateway ref |
 
-# 
+| InvoiceNumber | string | |
 
-# ---
+| AutoRenew | bool | Auto-renewal flag |
 
-# 
+| RenewalCount | int | Times renewed |
 
-# \### 🔄 Workflow \& Status Flow
+| CreatedAt | DateTime | |
 
-# 
+| UpdatedAt | DateTime | |
 
-# ```
 
-# ┌─────────────────────────────────────────────────────────────────────────────┐
 
-# │                        ADVERTISEMENT LIFECYCLE                               │
+\### 6. \*\*AdvertisementAnalytics\*\* (Performance Tracking)
 
-# └─────────────────────────────────────────────────────────────────────────────┘
+| Column | Type | Description |
 
-# 
+|--------|------|-------------|
 
-# Restaurant Admin                    Super Admin                    System
+| Id | GUID | Primary Key |
 
-# &nbsp;     │                                  │                            │
+| AdvertisementId | GUID | FK |
 
-# &nbsp;     │  1. Create Ad (Draft)            │                            │
+| Date | DateOnly | Analytics date |
 
-# &nbsp;     ├─────────────────►                │                            │
+| Impressions | int | Views count |
 
-# &nbsp;     │                                  │                            │
+| Clicks | int | Click count |
 
-# &nbsp;     │  2. Submit for Approval          │                            │
+| UniqueViews | int | Unique users |
 
-# &nbsp;     ├──────────────────────────────────►                            │
+| OrdersGenerated | int | Orders from ad |
 
-# &nbsp;     │         (Status: PendingApproval)│                            │
+| RevenueGenerated | decimal | Revenue from orders |
 
-# &nbsp;     │                                  │                            │
+| CTR | decimal | Click-through rate |
 
-# &nbsp;     │                    3. Review Ad  │                            │
+| ConversionRate | decimal | Orders/Clicks |
 
-# &nbsp;     │                    ┌─────────────┤                            │
 
-# &nbsp;     │                    │             │                            │
 
-# &nbsp;     │         ┌──────────▼──────────┐  │                            │
+\### 7. \*\*AdvertisementInteraction\*\* (Detailed Tracking)
 
-# &nbsp;     │         │  Approve / Reject   │  │                            │
+| Column | Type | Description |
 
-# &nbsp;     │         └──────────┬──────────┘  │                            │
+|--------|------|-------------|
 
-# &nbsp;     │                    │             │                            │
+| Id | GUID | Primary Key |
 
-# &nbsp;     │    ┌───────────────┴───────────────┐                          │
+| AdvertisementId | GUID | FK |
 
-# &nbsp;     │    │                               │                          │
+| CustomerId | GUID? | FK (nullable for guests) |
 
-# &nbsp;     │    ▼                               ▼                          │
+| SessionId | string | Session tracking |
 
-# &nbsp;     │ Approved                       Rejected                       │
+| InteractionType | enum | View, Click, Dismiss, Share |
 
-# &nbsp;     │ (Status: Approved)             (Status: Rejected)             │
+| PlacementId | GUID | Where interaction occurred |
 
-# &nbsp;     │    │                               │                          │
+| DeviceType | string | Mobile, Web, iOS, Android |
 
-# &nbsp;     │    │                               │  Notification to         │
+| IPAddress | string? | For fraud detection |
 
-# &nbsp;     │    │                               │  Restaurant Admin        │
+| UserAgent | string? | |
 
-# &nbsp;     │    │                               ├─────────────────────────►│
+| CreatedAt | DateTime | |
 
-# &nbsp;     │    │                                                          │
 
-# &nbsp;     │    │  4. System checks StartDate                              │
 
-# &nbsp;     │    ├──────────────────────────────────────────────────────────►
+\### 8. \*\*AdvertisementTargeting\*\* (Audience Targeting)
 
-# &nbsp;     │    │                              (Background Job)            │
+| Column | Type | Description |
 
-# &nbsp;     │    │                                                          │
+|--------|------|-------------|
 
-# &nbsp;     │    ▼                                                          │
+| Id | GUID | Primary Key |
 
-# &nbsp;     │ Active (Status: Active)                                       │
+| AdvertisementId | GUID | FK |
 
-# &nbsp;     │ \[Displayed to Customers]                                      │
+| TargetingType | enum | Location, Age, OrderHistory, Cuisine, TimeOfDay |
 
-# &nbsp;     │    │                                                          │
+| TargetingValue | string (JSON) | Targeting criteria |
 
-# &nbsp;     │    │  5. Track Analytics                                      │
+| IsActive | bool | |
 
-# &nbsp;     │    ├──────────────────────────────────────────────────────────►
 
-# &nbsp;     │    │                                                          │
 
-# &nbsp;     │    │  6. EndDate reached                                      │
+---
 
-# &nbsp;     │    ├──────────────────────────────────────────────────────────►
 
-# &nbsp;     │    │                                                          │
 
-# &nbsp;     │    ▼                                                          │
+\## 🔄 Status Flow Diagram
 
-# &nbsp;     │ Expired (Status: Expired)                                     │
 
-# &nbsp;     │                                                               │
 
-# &nbsp;     │  \[Optional: Auto-renew subscription]                          │
+```
 
-# &nbsp;     └───────────────────────────────────────────────────────────────┘
+┌─────────┐     ┌─────────────────┐     ┌──────────┐
 
-# ```
+│  Draft  │────▶│ PendingApproval │────▶│ Approved │
 
-# 
+└─────────┘     └─────────────────┘     └──────────┘
 
-# ---
+&nbsp;                       │                     │
 
-# 
+&nbsp;                       ▼                     ▼
 
-# \### 📁 Project Structure
+&nbsp;                 ┌──────────┐          ┌──────────┐
 
-# 
+&nbsp;                 │ Rejected │          │  Active  │
 
-# ```
+&nbsp;                 └──────────┘          └──────────┘
 
-# Otlob/
+&nbsp;                       │                     │
 
-# ├── Areas/
+&nbsp;                       ▼               ┌─────┴─────┐
 
-# │   ├── RestaurantAdmin/
+&nbsp;                 ┌──────────┐          ▼           ▼
 
-# │   │   ├── Controllers/
+&nbsp;                 │  Draft   │    ┌─────────┐ ┌─────────┐
 
-# │   │   │   ├── AdvertisementsController.cs
+&nbsp;                 │(Re-edit) │    │ Paused  │ │ Expired │
 
-# │   │   │   └── AdvertisementSubscriptionsController.cs
+&nbsp;                 └──────────┘    └─────────┘ └─────────┘
 
-# │   │   └── Views/
+&nbsp;                                      │
 
-# │   │       ├── Advertisements/
+&nbsp;                                      ▼
 
-# │   │       │   ├── Index.cshtml (List all ads)
+&nbsp;                                ┌───────────┐
 
-# │   │       │   ├── Create.cshtml
+&nbsp;                                │ Cancelled │
 
-# │   │       │   ├── Edit.cshtml
+&nbsp;                                └───────────┘
 
-# │   │       │   ├── Details.cshtml
+```
 
-# │   │       │   └── Analytics.cshtml
 
-# │   │       └── AdvertisementSubscriptions/
 
-# │   │           ├── Plans.cshtml (View available plans)
+---
 
-# │   │           ├── Subscribe.cshtml
 
-# │   │           ├── MySubscription.cshtml
 
-# │   │           └── PaymentHistory.cshtml
+\## 📁 Project Structure
 
-# │   │
 
-# │   ├── SuperAdmin/
 
-# │   │   ├── Controllers/
+\### Core Layer (Entities \& Contracts)
 
-# │   │   │   ├── AdvertisementsManagementController.cs
+```
 
-# │   │   │   ├── AdvertisementPlansController.cs
+RepositoryPatternWithUOW.Core/
 
-# │   │   │   └── AdvertisementAnalyticsController.cs
+├── Entities/
 
-# │   │   └── Views/
+│   └── Advertisements/
 
-# │   │       ├── AdvertisementsManagement/
+│       ├── Advertisement.cs
 
-# │   │       │   ├── Index.cshtml (All ads from all restaurants)
+│       ├── AdvertisementPlan.cs
 
-# │   │       │   ├── PendingApprovals.cshtml
+│       ├── AdvertisementPlacement.cs
 
-# │   │       │   ├── Review.cshtml
+│       ├── AdvertisementPlacementMapping.cs
 
-# │   │       │   ├── Details.cshtml
+│       ├── AdvertisementSubscription.cs
 
-# │   │       │   └── AllSubscriptions.cshtml
+│       ├── AdvertisementAnalytics.cs
 
-# │   │       ├── AdvertisementPlans/
+│       ├── AdvertisementInteraction.cs
 
-# │   │       │   ├── Index.cshtml
+│       └── AdvertisementTargeting.cs
 
-# │   │       │   ├── Create.cshtml
+│
 
-# │   │       │   └── Edit.cshtml
+├── Contracts/
 
-# │   │       └── AdvertisementAnalytics/
+│   └── Advertisements/
 
-# │   │           ├── Overview.cshtml (Platform-wide stats)
+│       ├── IAdvertisementRepository.cs
 
-# │   │           ├── Revenue.cshtml
+│       ├── IAdvertisementPlanRepository.cs
 
-# │   │           └── PerformanceReport.cshtml
+│       ├── IAdvertisementSubscriptionRepository.cs
 
-# │   │
+│       └── IAdvertisementAnalyticsRepository.cs
 
-# │   └── Customer/
+```
 
-# │       └── Views/
 
-# │           └── Home/
 
-# │               └── Index.cshtml (Display ads)
+\### Utility Layer (Enums \& Constants)
 
-# │
+```
 
-# ├── IServices/
+Utility/
 
-# │   ├── IAdvertisementService.cs
+├── Enums/
 
-# │   ├── IAdvertisementSubscriptionService.cs
+│   └── Advertisements/
 
-# │   ├── IAdvertisementPlanService.cs
+│       ├── AdvertisementStatus.cs
 
-# │   ├── IAdvertisementAnalyticsService.cs
+│       ├── AdvertisementTargetType.cs
 
-# │   └── IAdvertisementPaymentService.cs
+│       ├── InteractionType.cs
 
-# │
+│       ├── PaymentStatus.cs
 
-# ├── Services/
+│       └── TargetingType.cs
 
-# │   ├── AdvertisementService.cs
+│
 
-# │   ├── AdvertisementSubscriptionService.cs
+├── Consts/
 
-# │   ├── AdvertisementPlanService.cs
+│   └── Advertisements/
 
-# │   ├── AdvertisementAnalyticsService.cs
+│       ├── AdvertisementConstants.cs
 
-# │   └── AdvertisementPaymentService.cs
+│       └── PlacementTypes.cs
 
-# │
+```
 
-# ├── Errors/
 
-# │   └── AdvertisementErrors.cs
 
-# │
+\### EF Layer (Configurations \& Repositories)
 
-# └── BackgroundJobs/
+```
 
-# &nbsp;   ├── AdvertisementStatusUpdaterJob.cs (Activate/Expire ads)
+RepositoryPatternWithUOW.EF/
 
-# &nbsp;   ├── SubscriptionRenewalJob.cs
+├── Configurations/
 
-# &nbsp;   └── AnalyticsAggregationJob.cs
+│   └── Advertisements/
 
-# 
+│       ├── AdvertisementConfiguration.cs
 
-# RepositoryPatternWithUOW.Core/
+│       ├── AdvertisementPlanConfiguration.cs
 
-# ├── Entities/
+│       ├── AdvertisementPlacementConfiguration.cs
 
-# │   ├── AdvertisementPlan.cs
+│       ├── AdvertisementSubscriptionConfiguration.cs
 
-# │   ├── AdvertisementSubscription.cs
+│       └── AdvertisementAnalyticsConfiguration.cs
 
-# │   ├── Advertisement.cs
+│
 
-# │   ├── AdvertisementAnalytics.cs
+├── BaseRepository/
 
-# │   └── AdvertisementPayment.cs
+│   └── Advertisements/
 
-# │
+│       ├── AdvertisementRepository.cs
 
-# ├── Contracts/
+│       ├── AdvertisementPlanRepository.cs
 
-# │   └── Advertisement/
+│       ├── AdvertisementSubscriptionRepository.cs
 
-# │       ├── AdvertisementRequest.cs
+│       └── AdvertisementAnalyticsRepository.cs
 
-# │       ├── AdvertisementResponse.cs
+```
 
-# │       ├── AdvertisementPlanResponse.cs
 
-# │       ├── SubscriptionRequest.cs
 
-# │       ├── SubscriptionResponse.cs
+\### Main Otlob Project (Services, Controllers, Views)
 
-# │       ├── AdAnalyticsResponse.cs
+```
 
-# │       └── AdReviewRequest.cs
+Otlob/
 
-# │
+├── Errors/
 
-# └── IBaseRepository/
+│   └── AdvertisementErrors.cs
 
-# &nbsp;   ├── IAdvertisementRepository.cs
+│
 
-# &nbsp;   ├── IAdvertisementPlanRepository.cs
+├── IServices/
 
-# &nbsp;   └── IAdvertisementSubscriptionRepository.cs
+│   └── IAdvertisementService.cs
 
-# 
+│   └── IAdvertisementSubscriptionService.cs
 
-# Utility/
+│   └── IAdvertisementAnalyticsService.cs
 
-# └── Enums/
+│
 
-# &nbsp;   ├── AdType.cs
+├── Services/
 
-# &nbsp;   ├── AdStatus.cs
+│   └── AdvertisementService.cs
 
-# &nbsp;   ├── SubscriptionStatus.cs
+│   └── AdvertisementSubscriptionService.cs
 
-# &nbsp;   └── AdPaymentStatus.cs
+│   └── AdvertisementAnalyticsService.cs
 
-# ```
+│
 
-# 
+├── Areas/
 
-# ---
+│   ├── RestaurantAdmin/
 
-# 
+│   │   ├── Controllers/
 
-# \### 🎨 UI/UX Design
+│   │   │   └── AdvertisementController.cs
 
-# 
+│   │   └── Views/
 
-# \#### Customer Home Page Layout
+│   │       └── Advertisement/
 
-# 
+│   │           ├── Index.cshtml (List all ads)
 
-# ```
+│   │           ├── Create.cshtml (Create new ad)
 
-# ┌─────────────────────────────────────────────────────────────────┐
+│   │           ├── Edit.cshtml (Edit ad)
 
-# │  ┌───────────────────────────────────────────────────────────┐  │
+│   │           ├── Details.cshtml (View ad details)
 
-# │  │         🎯 FEATURED BANNER CAROUSEL (Auto-slide)          │  │
+│   │           ├── Analytics.cshtml (View performance)
 
-# │  │    \[Premium Ads - Large Restaurant Promotions]            │  │
+│   │           ├── Plans.cshtml (View available plans)
 
-# │  └───────────────────────────────────────────────────────────┘  │
+│   │           └── Subscription.cshtml (Manage subscription)
 
-# │                                                                 │
+│   │
 
-# │  ┌─────┐ ┌─────┐ ┌─────┐ ┌─────┐ ┌─────┐                       │
+│   ├── SuperAdmin/
 
-# │  │Story│ │Story│ │Story│ │Story│ │Story│  ← Story Ads          │
+│   │   ├── Controllers/
 
-# │  └─────┘ └─────┘ └─────┘ └─────┘ └─────┘                       │
+│   │   │   └── AdvertisementManagementController.cs
 
-# │                                                                 │
+│   │   └── Views/
 
-# │  ─────────────── Sponsored Restaurants ───────────────         │
+│   │       └── AdvertisementManagement/
 
-# │  ┌─────────────┐ ┌─────────────┐ ┌─────────────┐               │
+│   │           ├── Index.cshtml (All ads dashboard)
 
-# │  │ 🏷️ SPONSORED │ │ 🏷️ SPONSORED │ │ 🏷️ SPONSORED │               │
+│   │           ├── PendingApprovals.cshtml
 
-# │  │  Restaurant  │ │  Restaurant  │ │  Restaurant  │               │
+│   │           ├── Approve.cshtml (Review \& approve)
 
-# │  │    Card      │ │    Card      │ │    Card      │               │
+│   │           ├── Plans.cshtml (Manage plans)
 
-# │  └─────────────┘ └─────────────┘ └─────────────┘               │
+│   │           ├── Placements.cshtml (Manage placements)
 
-# │                                                                 │
+│   │           ├── Analytics.cshtml (Overall analytics)
 
-# │  ─────────────── All Restaurants ───────────────               │
+│   │           └── Revenue.cshtml (Revenue reports)
 
-# │  ┌─────────────┐ ┌─────────────┐ ┌─────────────┐               │
+│   │
 
-# │  │  Restaurant  │ │  Restaurant  │ │  Restaurant  │               │
+│   └── Customer/
 
-# │  │    Card      │ │    Card      │ │    Card      │               │
+│       └── Controllers/
 
-# │  └─────────────┘ └─────────────┘ └─────────────┘               │
+│           └── HomeController.cs (Modified to show ads)
 
-# │                                                                 │
+│
 
-# └─────────────────────────────────────────────────────────────────┘
+├── ViewModels/
 
-# ```
+│   └── Advertisements/
 
-# 
+│       ├── AdvertisementViewModel.cs
 
-# \#### Restaurant Admin - Advertisement Dashboard
+│       ├── CreateAdvertisementViewModel.cs
 
-# 
+│       ├── EditAdvertisementViewModel.cs
 
-# ```
+│       ├── AdvertisementPlanViewModel.cs
 
-# ┌─────────────────────────────────────────────────────────────────┐
+│       ├── AdvertisementAnalyticsViewModel.cs
 
-# │  📊 Advertisement Dashboard                                     │
+│       ├── ApproveAdvertisementViewModel.cs
 
-# ├─────────────────────────────────────────────────────────────────┤
+│       └── CustomerAdvertisementViewModel.cs
 
-# │                                                                 │
+```
 
-# │  ┌──────────────┐ ┌──────────────┐ ┌──────────────┐            │
 
-# │  │ Active Ads   │ │ Impressions  │ │ Clicks       │            │
 
-# │  │     3        │ │   12,450     │ │    892       │            │
+---
 
-# │  └──────────────┘ └──────────────┘ └──────────────┘            │
 
-# │                                                                 │
 
-# │  ┌─────────────────────────────────────────────────────────┐   │
+\## 🎨 Feature Breakdown
 
-# │  │ Current Subscription: Premium Plan                       │   │
 
-# │  │ Valid Until: Feb 15, 2026 │ Auto-Renew: ON              │   │
 
-# │  │ \[Manage Subscription] \[View Plans]                       │   │
+\### 1. \*\*Advertisement Plans (Packages)\*\*
 
-# │  └─────────────────────────────────────────────────────────┘   │
 
-# │                                                                 │
 
-# │  \[+ Create New Advertisement]                                   │
+| Plan | Price/Month | Features |
 
-# │                                                                 │
+|------|-------------|----------|
 
-# │  ┌─────────────────────────────────────────────────────────┐   │
+| \*\*Basic\*\* | 500 EGP | 1 placement, 10K impressions, Standard position |
 
-# │  │ My Advertisements                                        │   │
+| \*\*Premium\*\* | 1,000 EGP | 3 placements, 50K impressions, Priority position |
 
-# │  ├─────────────────────────────────────────────────────────┤   │
+| \*\*Featured\*\* | 2,000 EGP | All placements, Unlimited impressions, Top position, Analytics dashboard |
 
-# │  │ Title          │ Type      │ Status   │ Impressions │ ⚙️ │   │
+| \*\*Enterprise\*\* | Custom | Custom deal, Dedicated support, Advanced targeting |
 
-# │  │ Summer Sale    │ Banner    │ ✅ Active │ 5,230      │ ...│   │
 
-# │  │ Free Delivery  │ Sponsored │ ⏳ Pending│ -          │ ...│   │
 
-# │  │ New Menu       │ Story     │ ❌ Rejected│ -         │ ...│   │
+\### 2. \*\*Placement Locations\*\*
 
-# │  └─────────────────────────────────────────────────────────┘   │
 
-# │                                                                 │
 
-# └─────────────────────────────────────────────────────────────────┘
+| Placement | Description | Dimensions |
 
-# ```
+|-----------|-------------|------------|
 
-# 
+| `HomePage\_Hero\_Banner` | Main banner at top of home | 1200x400 |
 
-# \#### Super Admin - Approval Queue
+| `HomePage\_Carousel` | Rotating carousel | 800x400 |
 
-# 
+| `Restaurant\_List\_Sponsored` | "Sponsored" in restaurant list | 400x200 |
 
-# ```
+| `Search\_Results\_Top` | Top of search results | 400x150 |
 
-# ┌─────────────────────────────────────────────────────────────────┐
+| `Category\_Page\_Banner` | Category page header | 1000x300 |
 
-# │  🔍 Pending Advertisement Approvals (12)                        │
+| `Checkout\_Suggestions` | Checkout page suggestions | 300x200 |
 
-# ├─────────────────────────────────────────────────────────────────┤
 
-# │                                                                 │
 
-# │  ┌─────────────────────────────────────────────────────────┐   │
+\### 3. \*\*Targeting Options\*\*
 
-# │  │ 🍕 Pizza Palace - "50% Off Weekend Deal"                 │   │
 
-# │  │ Type: Featured Banner │ Submitted: 2 hours ago          │   │
 
-# │  │ ┌─────────────────────────────────────────────────────┐ │   │
+\- \*\*Location-based\*\*: Target specific areas/cities
 
-# │  │ │          \[Ad Preview Image]                         │ │   │
+\- \*\*Time-based\*\*: Show ads during specific hours (lunch, dinner)
 
-# │  │ └─────────────────────────────────────────────────────┘ │   │
+\- \*\*User behavior\*\*: Based on order history, cuisine preferences
 
-# │  │ Plan: Premium │ Subscription Valid: ✅                  │   │
+\- \*\*New users\*\*: Target first-time customers
 
-# │  │                                                         │   │
+\- \*\*Re-engagement\*\*: Target inactive users
 
-# │  │ \[👁️ View Details] \[✅ Approve] \[❌ Reject]               │   │
 
-# │  └─────────────────────────────────────────────────────────┘   │
 
-# │                                                                 │
+---
 
-# │  ┌─────────────────────────────────────────────────────────┐   │
 
-# │  │ 🍔 Burger King - "New Whopper Launch"                    │   │
 
-# │  │ Type: Sponsored Listing │ Submitted: 5 hours ago        │   │
+\## 🔌 API Endpoints
 
-# │  │ ...                                                      │   │
 
-# │  └─────────────────────────────────────────────────────────┘   │
 
-# │                                                                 │
+\### Restaurant Admin APIs
 
-# └─────────────────────────────────────────────────────────────────┘
+```
 
-# ```
+POST   /api/restaurant-admin/advertisements                    - Create advertisement
 
-# 
+GET    /api/restaurant-admin/advertisements                    - List my advertisements
 
-# ---
+GET    /api/restaurant-admin/advertisements/{id}               - Get advertisement details
 
-# 
+PUT    /api/restaurant-admin/advertisements/{id}               - Update advertisement
 
-# \### 📝 Implementation Phases
+DELETE /api/restaurant-admin/advertisements/{id}               - Delete/Cancel advertisement
 
-# 
+POST   /api/restaurant-admin/advertisements/{id}/submit        - Submit for approval
 
-# \#### Phase 1: Foundation (Week 1-2)
+POST   /api/restaurant-admin/advertisements/{id}/pause         - Pause advertisement
 
-# \- \[ ] Create database entities and migrations
+POST   /api/restaurant-admin/advertisements/{id}/resume        - Resume advertisement
 
-# \- \[ ] Set up repository interfaces and implementations
 
-# \- \[ ] Create enums (AdType, AdStatus, SubscriptionStatus)
 
-# \- \[ ] Implement base services interfaces
+GET    /api/restaurant-admin/advertisement-plans               - Get available plans
 
-# \- \[ ] Add error classes
+POST   /api/restaurant-admin/advertisement-subscriptions       - Create subscription
 
-# 
+GET    /api/restaurant-admin/advertisement-subscriptions       - List my subscriptions
 
-# \#### Phase 2: Subscription System (Week 2-3)
+POST   /api/restaurant-admin/advertisement-subscriptions/{id}/renew - Renew subscription
 
-# \- \[ ] Implement AdvertisementPlanService (CRUD for plans)
+POST   /api/restaurant-admin/advertisement-subscriptions/{id}/cancel - Cancel subscription
 
-# \- \[ ] Implement AdvertisementSubscriptionService
 
-# \- \[ ] Create SuperAdmin views for managing plans
 
-# \- \[ ] Create RestaurantAdmin views for subscribing to plans
+GET    /api/restaurant-admin/advertisements/{id}/analytics     - Get ad analytics
 
-# \- \[ ] Implement payment integration (if applicable)
+GET    /api/restaurant-admin/advertisements/analytics/summary  - Get overall summary
 
-# 
+```
 
-# \#### Phase 3: Advertisement Management (Week 3-4)
 
-# \- \[ ] Implement AdvertisementService (Create, Edit, Submit)
 
-# \- \[ ] Create RestaurantAdmin advertisement CRUD views
+\### Super Admin APIs
 
-# \- \[ ] Implement image upload for ad banners
+```
 
-# \- \[ ] Add ad preview functionality
+GET    /api/super-admin/advertisements                         - List all advertisements
 
-# 
+GET    /api/super-admin/advertisements/pending                 - List pending approvals
 
-# \#### Phase 4: Approval Workflow (Week 4-5)
+POST   /api/super-admin/advertisements/{id}/approve            - Approve advertisement
 
-# \- \[ ] Implement approval/rejection logic in SuperAdmin
+POST   /api/super-admin/advertisements/{id}/reject             - Reject advertisement
 
-# \- \[ ] Create pending approvals dashboard
+PUT    /api/super-admin/advertisements/{id}/priority           - Update priority
 
-# \- \[ ] Add notification system for status changes
+DELETE /api/super-admin/advertisements/{id}                    - Force remove ad
 
-# \- \[ ] Implement rejection reason feedback
 
-# 
 
-# \#### Phase 5: Customer Display (Week 5-6)
+\# Plan Management
 
-# \- \[ ] Modify Customer Home page to display ads
+GET    /api/super-admin/advertisement-plans                    - List all plans
 
-# \- \[ ] Implement ad rotation/carousel for banners
+POST   /api/super-admin/advertisement-plans                    - Create plan
 
-# \- \[ ] Add "Sponsored" badges to restaurant cards
+PUT    /api/super-admin/advertisement-plans/{id}               - Update plan
 
-# \- \[ ] Implement story ads display
+DELETE /api/super-admin/advertisement-plans/{id}               - Delete plan
 
-# \- \[ ] Add click tracking
 
-# 
 
-# \#### Phase 6: Analytics \& Reporting (Week 6-7)
+\# Placement Management
 
-# \- \[ ] Implement AdvertisementAnalyticsService
+GET    /api/super-admin/advertisement-placements               - List placements
 
-# \- \[ ] Create analytics tracking middleware
+POST   /api/super-admin/advertisement-placements               - Create placement
 
-# \- \[ ] Build RestaurantAdmin analytics dashboard
+PUT    /api/super-admin/advertisement-placements/{id}          - Update placement
 
-# \- \[ ] Build SuperAdmin platform-wide reports
 
-# \- \[ ] Add revenue tracking
 
-# 
+\# Analytics \& Revenue
 
-# \#### Phase 7: Background Jobs \& Automation (Week 7-8)
+GET    /api/super-admin/advertisements/analytics               - Overall analytics
 
-# \- \[ ] Implement ad status updater job (activate/expire)
+GET    /api/super-admin/advertisements/revenue                 - Revenue reports
 
-# \- \[ ] Implement subscription renewal job
+GET    /api/super-admin/advertisements/revenue/by-restaurant   - Revenue by restaurant
 
-# \- \[ ] Add auto-renewal functionality
+```
 
-# \- \[ ] Set up email notifications for expiring subscriptions
 
-# 
 
-# \#### Phase 8: Testing \& Polish (Week 8-9)
+\### Customer APIs
 
-# \- \[ ] Unit testing for all services
+```
 
-# \- \[ ] Integration testing
+GET    /api/customer/advertisements/home                       - Get home page ads
 
-# \- \[ ] UI/UX refinements
+GET    /api/customer/advertisements/placement/{placementName}  - Get ads for placement
 
-# \- \[ ] Performance optimization
+POST   /api/customer/advertisements/{id}/click                 - Track click
 
-# \- \[ ] Documentation
+POST   /api/customer/advertisements/{id}/impression            - Track impression
 
-# 
+```
 
-# ---
 
-# 
 
-# \### 🔐 Security Considerations
+---
 
-# 
 
-# 1\. \*\*Authorization\*\*: Restaurant can only manage their own ads
 
-# 2\. \*\*Validation\*\*: Strict image/content validation before submission
+\## 💼 Business Logic \& Services
 
-# 3\. \*\*Rate Limiting\*\*: Prevent spam ad submissions
 
-# 4\. \*\*Content Moderation\*\*: SuperAdmin review before activation
 
-# 5\. \*\*Payment Security\*\*: Secure payment processing
+\### IAdvertisementService Methods
 
-# 
+```csharp
 
-# ---
+// CRUD Operations
 
-# 
+Task<Result<AdvertisementDto>> CreateAsync(CreateAdvertisementRequest request);
 
-# \### 📊 Key Metrics to Track
+Task<Result<AdvertisementDto>> UpdateAsync(Guid id, UpdateAdvertisementRequest request);
 
-# 
+Task<Result> DeleteAsync(Guid id);
 
-# | Metric | Description |
+Task<Result<AdvertisementDto>> GetByIdAsync(Guid id);
 
-# |--------|-------------|
+Task<Result<PaginatedList<AdvertisementDto>>> GetByRestaurantAsync(Guid restaurantId, AdvertisementFilter filter);
 
-# | \*\*Impressions\*\* | Number of times ad was displayed |
 
-# | \*\*Clicks\*\* | Number of times ad was clicked |
 
-# | \*\*CTR\*\* | Click-Through Rate (Clicks/Impressions) |
+// Status Management
 
-# | \*\*Conversions\*\* | Orders placed after clicking ad |
+Task<Result> SubmitForApprovalAsync(Guid id);
 
-# | \*\*Revenue Generated\*\* | Total order value from ad clicks |
+Task<Result> ApproveAsync(Guid id, Guid approvedByUserId);
 
-# | \*\*ROI\*\* | Return on Investment for restaurant |
+Task<Result> RejectAsync(Guid id, string reason);
 
-# | \*\*Platform Revenue\*\* | Total subscription revenue |
+Task<Result> PauseAsync(Guid id);
 
-# 
+Task<Result> ResumeAsync(Guid id);
 
-# ---
+Task<Result> ExpireAsync(Guid id);
 
-# 
 
-# \### 💰 Revenue Model for Platform
 
-# 
+// Customer Facing
 
-# ```
+Task<Result<List<CustomerAdvertisementDto>>> GetActiveAdsForPlacementAsync(string placementName, AdvertisementContext context);
 
-# Monthly Revenue = Σ (Active Subscriptions × Plan Price)
+Task<Result<List<CustomerAdvertisementDto>>> GetHomePageAdsAsync(Guid? customerId, string? location);
 
-# 
 
-# Example:
 
-# \- 50 Basic Plans × 500 L.E = 25,000 L.E
+// Tracking
 
-# \- 30 Standard Plans × 1,000 L.E = 30,000 L.E  
+Task<Result> TrackImpressionAsync(Guid advertisementId, TrackingRequest request);
 
-# \- 20 Premium Plans × 2,500 L.E = 50,000 L.E
+Task<Result> TrackClickAsync(Guid advertisementId, TrackingRequest request);
 
-# ─────────────────────────────────────────────
+```
 
-# Total Monthly Revenue = 105,000 L.E
 
-# ```
 
-# 
+\### IAdvertisementSubscriptionService Methods
 
-# ---
+```csharp
 
-# 
+Task<Result<SubscriptionDto>> CreateSubscriptionAsync(CreateSubscriptionRequest request);
 
-# \### 🚀 Next Steps
+Task<Result> ProcessPaymentAsync(Guid subscriptionId, PaymentRequest request);
 
-# 
+Task<Result> RenewSubscriptionAsync(Guid subscriptionId);
 
-# 1\. Review and refine this plan
+Task<Result> CancelSubscriptionAsync(Guid subscriptionId);
 
-# 2\. Prioritize which phases to implement first
+Task<Result<List<SubscriptionDto>>> GetByRestaurantAsync(Guid restaurantId);
 
-# 3\. Begin with Phase 1: Foundation
+Task ProcessExpiredSubscriptionsAsync(); // Background job
 
-# 4\. Iterate based on feedback
+Task ProcessAutoRenewalsAsync(); // Background job
+
+```
+
+
+
+\### IAdvertisementAnalyticsService Methods
+
+```csharp
+
+Task<Result<AdvertisementAnalyticsDto>> GetAnalyticsAsync(Guid advertisementId, DateRange range);
+
+Task<Result<RestaurantAdsAnalyticsSummary>> GetRestaurantSummaryAsync(Guid restaurantId, DateRange range);
+
+Task<Result<OverallAdsAnalytics>> GetOverallAnalyticsAsync(DateRange range); // Super Admin
+
+Task<Result<RevenueReport>> GetRevenueReportAsync(DateRange range); // Super Admin
+
+Task AggregateAnalyticsAsync(DateOnly date); // Background job
+
+```
+
+
+
+---
+
+
+
+\## 📅 Implementation Phases
+
+
+
+\### \*\*Phase 1: Foundation (Week 1-2)\*\*
+
+1\. Create all entity classes
+
+2\. Create enums and constants
+
+3\. Create EF configurations
+
+4\. Create migration
+
+5\. Create repositories
+
+6\. Update Unit of Work
+
+
+
+\### \*\*Phase 2: Core Services (Week 2-3)\*\*
+
+1\. Implement `AdvertisementService`
+
+2\. Implement `AdvertisementSubscriptionService`
+
+3\. Implement `AdvertisementAnalyticsService`
+
+4\. Create error classes
+
+5\. Write unit tests
+
+
+
+\### \*\*Phase 3: Restaurant Admin Panel (Week 3-4)\*\*
+
+1\. Create controller \& views for ad management
+
+2\. Create subscription management UI
+
+3\. Create analytics dashboard
+
+4\. Image upload functionality
+
+5\. Plan selection UI
+
+
+
+\### \*\*Phase 4: Super Admin Panel (Week 4-5)\*\*
+
+1\. Create approval workflow UI
+
+2\. Create plan management UI
+
+3\. Create placement management UI
+
+4\. Create revenue reporting dashboard
+
+5\. Create overall analytics dashboard
+
+
+
+\### \*\*Phase 5: Customer Experience (Week 5-6)\*\*
+
+1\. Modify home page to display ads
+
+2\. Implement ad carousel component
+
+3\. Implement sponsored restaurant badges
+
+4\. Implement click/impression tracking
+
+5\. A/B testing setup
+
+
+
+\### \*\*Phase 6: Payment \& Automation (Week 6-7)\*\*
+
+1\. Integrate payment gateway
+
+2\. Create subscription payment flow
+
+3\. Implement auto-renewal logic
+
+4\. Create background jobs for:
+
+&nbsp;  - Expiring ads
+
+&nbsp;  - Processing renewals
+
+&nbsp;  - Aggregating analytics
+
+
+
+\### \*\*Phase 7: Testing \& Optimization (Week 7-8)\*\*
+
+1\. Integration testing
+
+2\. Performance optimization
+
+3\. Caching implementation
+
+4\. Load testing
+
+5\. Security audit
+
+
+
+---
+
+
+
+\## 🔒 Security Considerations
+
+
+
+1\. \*\*Authorization\*\*: Ensure restaurants can only manage their own ads
+
+2\. \*\*Rate Limiting\*\*: Prevent impression/click fraud
+
+3\. \*\*IP Tracking\*\*: Detect and block fraudulent activity
+
+4\. \*\*Image Validation\*\*: Validate uploaded images for malware
+
+5\. \*\*Payment Security\*\*: PCI compliance for payment processing
+
+6\. \*\*Data Privacy\*\*: GDPR compliance for tracking data
+
+
+
+---
+
+
+
+\## 📈 Analytics \& Reporting
+
+
+
+\### Restaurant Dashboard Metrics
+
+\- Total Impressions
+
+\- Total Clicks
+
+\- Click-Through Rate (CTR)
+
+\- Orders Generated
+
+\- Revenue Generated
+
+\- Cost Per Click (CPC)
+
+\- Return on Ad Spend (ROAS)
+
+
+
+\### Super Admin Dashboard Metrics
+
+\- Total Active Ads
+
+\- Pending Approvals
+
+\- Total Revenue
+
+\- Revenue by Plan
+
+\- Revenue by Restaurant
+
+\- Top Performing Ads
+
+\- Placement Performance
+
+
+
+---
+
+
+
+\## 🔧 Background Jobs (Hangfire/Quartz)
+
+
+
+```csharp
+
+// Daily Jobs
+
+\[Schedule("0 0 \* \* \*")] // Midnight
+
+public class ExpireAdvertisementsJob { }
+
+
+
+\[Schedule("0 1 \* \* \*")] // 1 AM
+
+public class AggregateAnalyticsJob { }
+
+
+
+\[Schedule("0 6 \* \* \*")] // 6 AM
+
+public class ProcessAutoRenewalsJob { }
+
+
+
+// Hourly Jobs
+
+\[Schedule("0 \* \* \* \*")]
+
+public class UpdateAdStatusJob { } // Activate/deactivate based on schedule
+
+
+
+// Weekly Jobs
+
+\[Schedule("0 0 \* \* 0")] // Sunday midnight
+
+public class GenerateWeeklyReportsJob { }
+
+```
+
+
+
+---
+
+
+
+\## 🎨 UI/UX Mockup Descriptions
+
+
+
+\### Customer Home Page
+
+```
+
+┌────────────────────────────────────────────────┐
+
+│  🎯 HERO BANNER AD (Full Width Carousel)       │
+
+│  \[Restaurant Special Offer - 30% Off!]         │
+
+└────────────────────────────────────────────────┘
+
+
+
+│ Categories: 🍕 🍔 🍜 🥗 🍰                      │
+
+
+
+┌────────────────────────────────────────────────┐
+
+│ 📍 Sponsored Restaurants                       │
+
+│ ┌──────┐ ┌──────┐ ┌──────┐                    │
+
+│ │ Ad 1 │ │ Ad 2 │ │ Ad 3 │  ← Horizontal     │
+
+│ │ ⭐   │ │ ⭐   │ │ ⭐   │    Scroll          │
+
+│ └──────┘ └──────┘ └──────┘                    │
+
+└────────────────────────────────────────────────┘
+
+
+
+│ 🏪 Restaurants Near You                        │
+
+│ \[Sponsored Badge] Restaurant A - ⭐ 4.5        │
+
+│ Restaurant B - ⭐ 4.2                          │
+
+│ Restaurant C - ⭐ 4.8                          │
+
+```
+
+
+
+\### Restaurant Admin - Create Ad
+
+```
+
+┌─────────────────────────────────────────────────┐
+
+│ Create New Advertisement                         │
+
+├─────────────────────────────────────────────────┤
+
+│ Step 1: Choose Plan                             │
+
+│ ○ Basic (500 EGP/mo)                            │
+
+│ ● Premium (1000 EGP/mo) ✓                       │
+
+│ ○ Featured (2000 EGP/mo)                        │
+
+├─────────────────────────────────────────────────┤
+
+│ Step 2: Ad Content                              │
+
+│ Title: \[\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_]            │
+
+│ Description: \[\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_]             │
+
+│ Image: \[Upload] 📷                              │
+
+│ Target: ○ Restaurant ○ Specific Meal ○ Promo   │
+
+├─────────────────────────────────────────────────┤
+
+│ Step 3: Schedule                                │
+
+│ Start Date: \[📅] End Date: \[📅]                │
+
+│ ☑ Auto-renew subscription                      │
+
+├─────────────────────────────────────────────────┤
+
+│ Step 4: Review \& Submit                         │
+
+│ \[Preview] \[Save Draft] \[Submit for Approval]   │
+
+└─────────────────────────────────────────────────┘
+
+```
+
+
+
+---
+
+
+
+\## ✅ Summary Checklist
+
+
+
+\- \[ ] \*\*Entities\*\*: 8 new entities
+
+\- \[ ] \*\*Enums\*\*: 5 new enums
+
+\- \[ ] \*\*Repositories\*\*: 4 new repositories
+
+\- \[ ] \*\*Services\*\*: 3 new services
+
+\- \[ ] \*\*Controllers\*\*: 2 new controllers (RestaurantAdmin, SuperAdmin)
+
+\- \[ ] \*\*Views\*\*: ~15 new views
+
+\- \[ ] \*\*ViewModels\*\*: ~10 new view models
+
+\- \[ ] \*\*APIs\*\*: ~25 new endpoints
+
+\- \[ ] \*\*Background Jobs\*\*: 5 scheduled jobs
+
+\- \[ ] \*\*Migrations\*\*: 1 migration with 8 tables
+
+
+
+---
+
+
+
+\## 🚀 Next Steps
+
+
+
+1\. \*\*Creating the entity classes\*\* in the Core layer
+
+2\. \*\*Creating the enums\*\* in the Utility layer
+
+3\. \*\*Creating the EF configurations\*\* and migration
+
+4\. \*\*Creating the services and interfaces\*\*
+
+5\. \*\*Creating the controllers and views\*\*
 
 
 

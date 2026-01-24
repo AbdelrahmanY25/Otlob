@@ -1,0 +1,1243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Database & SQL Server Documentation - Otlob</title>
+    <style>
+        :root {
+            --primary: #ff385d;
+            --primary-dark: #e02e50;
+            --primary-light: #ff6b81;
+            --text-primary: #1a1a2e;
+            --text-secondary: #6b7280;
+            --text-muted: #9ca3af;
+            --bg-primary: #fafafa;
+            --bg-secondary: #ffffff;
+            --bg-tertiary: #f3f4f6;
+            --border-light: #e5e7eb;
+            --border-hover: #d1d5db;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+            --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --radius-md: 12px;
+            --radius-lg: 16px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cairo', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: var(--bg-secondary);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            overflow: hidden;
+            border: 1px solid var(--border-light);
+        }
+
+        .header {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            padding: 40px;
+            text-align: center;
+            border-bottom: 2px solid var(--primary);
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            color: var(--text-primary);
+        }
+
+        .header p {
+            font-size: 1.2em;
+            color: var(--text-secondary);
+        }
+
+        .nav-tabs {
+            display: flex;
+            background: var(--bg-tertiary);
+            overflow-x: auto;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .nav-tab {
+            flex: 1;
+            padding: 15px 20px;
+            background: transparent;
+            color: var(--text-secondary);
+            border: none;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            min-width: 150px;
+            border-bottom: 2px solid transparent;
+        }
+
+        .nav-tab:hover {
+            color: var(--primary);
+            background: var(--bg-secondary);
+        }
+
+        .nav-tab.active {
+            color: var(--primary);
+            background: var(--bg-secondary);
+            border-bottom-color: var(--primary);
+            font-weight: bold;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section h2 {
+            color: var(--text-primary);
+            font-size: 2em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--primary);
+        }
+
+        .section h3 {
+            color: var(--text-primary);
+            font-size: 1.5em;
+            margin: 25px 0 15px 0;
+        }
+
+        .section p {
+            margin-bottom: 15px;
+            text-align: justify;
+            color: var(--text-secondary);
+        }
+
+        .highlight-box {
+            background: var(--bg-tertiary);
+            border-left: 4px solid var(--primary);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: var(--radius-md);
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .feature-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-md);
+            padding: 25px;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .feature-card:hover {
+            box-shadow: var(--shadow-md);
+            border-color: var(--primary);
+        }
+
+        .feature-card h4 {
+            color: var(--text-primary);
+            font-size: 1.3em;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .feature-card .icon {
+            font-size: 1.5em;
+            margin-right: 10px;
+        }
+
+        .feature-card p {
+            color: var(--text-secondary);
+        }
+
+        .code-block {
+            background: var(--text-primary);
+            color: #a9b7c6;
+            padding: 20px;
+            border-radius: var(--radius-md);
+            overflow-x: auto;
+            margin: 20px 0;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9em;
+            line-height: 1.5;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .code-block .keyword {
+            color: #cc7832;
+        }
+
+        .code-block .string {
+            color: #6a8759;
+        }
+
+        .code-block .comment {
+            color: #808080;
+            font-style: italic;
+        }
+
+        .code-block .type {
+            color: #ffc66d;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-light);
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .comparison-table th {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            font-weight: bold;
+        }
+
+        .comparison-table tr:hover {
+            background: var(--bg-tertiary);
+        }
+
+        .comparison-table td:first-child {
+            font-weight: bold;
+            color: var(--text-primary);
+        }
+
+        .comparison-table td {
+            color: var(--text-secondary);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: bold;
+            margin: 5px 5px 5px 0;
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-light);
+        }
+
+        .badge-success {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+        }
+
+        .badge-info {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+        }
+
+        .badge-warning {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+        }
+
+        .badge-danger {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+        }
+
+        .pros-cons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .pros-cons-box {
+            padding: 20px;
+            border-radius: var(--radius-md);
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-light);
+        }
+
+        .pros-box {
+            border-left: 4px solid var(--primary);
+        }
+
+        .cons-box {
+            border-left: 4px solid var(--text-muted);
+        }
+
+        .pros-box h4 {
+            color: var(--text-primary);
+            margin-bottom: 15px;
+        }
+
+        .cons-box h4 {
+            color: var(--text-primary);
+            margin-bottom: 15px;
+        }
+
+        .pros-cons ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .pros-cons li {
+            padding: 8px 0;
+            padding-left: 30px;
+            position: relative;
+            color: var(--text-secondary);
+        }
+
+        .pros-box li::before {
+            content: "✓";
+            position: absolute;
+            left: 5px;
+            color: var(--primary);
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .cons-box li::before {
+            content: "✗";
+            position: absolute;
+            left: 5px;
+            color: var(--text-muted);
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .architecture-diagram {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-md);
+            padding: 30px;
+            margin: 30px 0;
+            text-align: center;
+        }
+
+        .layer {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: var(--radius-md);
+            font-weight: bold;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-light);
+        }
+
+        .arrow {
+            color: var(--primary);
+            font-size: 2em;
+            margin: 10px 0;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin: 20px 0;
+            padding: 12px 25px;
+            background: var(--bg-secondary);
+            color: var(--primary);
+            text-decoration: none;
+            border-radius: var(--radius-md);
+            transition: all 0.3s ease;
+            font-weight: bold;
+            border: 1px solid var(--primary);
+        }
+
+        .back-link:hover {
+            background: var(--primary);
+            color: var(--bg-secondary);
+        }
+
+        .highlight-box ul {
+            color: var(--text-secondary);
+        }
+
+        .highlight-box h3,
+        .highlight-box h4 {
+            color: var(--text-primary);
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .pros-cons {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-tab {
+                font-size: 0.9em;
+                padding: 12px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🗄️ Database & SQL Server Documentation</h1>
+            <p>Understanding Database Management and Microsoft SQL Server Integration with ASP.NET Core</p>
+        </div>
+
+        <div class="nav-tabs">
+            <button class="nav-tab active" onclick="showTab('overview')">Overview</button>
+            <button class="nav-tab" onclick="showTab('databases')">What is a Database?</button>
+            <button class="nav-tab" onclick="showTab('sql-server')">Microsoft SQL Server</button>
+            <button class="nav-tab" onclick="showTab('aspnet-integration')">ASP.NET Core Integration</button>
+            <button class="nav-tab" onclick="showTab('why-choose')">Why Choose SQL Server?</button>
+            <button class="nav-tab" onclick="showTab('implementation')">Implementation</button>
+        </div>
+
+        <div class="content">
+            <!-- Overview Tab -->
+            <div id="overview" class="tab-content active">
+                <div class="section">
+                    <h2>📋 Overview</h2>
+                    <p>
+                        This documentation provides a comprehensive understanding of database management systems, 
+                        Microsoft SQL Server, and its seamless integration with ASP.NET Core applications. 
+                        Whether you're building a small application or an enterprise-level system, understanding 
+                        these concepts is crucial for creating robust, scalable, and maintainable applications.
+                    </p>
+
+                    <div class="highlight-box">
+                        <h3>🎯 What You'll Learn</h3>
+                        <ul style="margin-left: 20px; margin-top: 10px;">
+                            <li>Fundamental concepts of database management systems</li>
+                            <li>Key features and capabilities of Microsoft SQL Server</li>
+                            <li>How ASP.NET Core integrates with SQL Server</li>
+                            <li>Benefits of using SQL Server with ASP.NET Core</li>
+                            <li>Practical implementation patterns and best practices</li>
+                        </ul>
+                    </div>
+
+                    <div class="feature-grid">
+                        <div class="feature-card">
+                            <h4><span class="icon">🗃️</span> Database Basics</h4>
+                            <p>Learn about data persistence, structured storage, and relational database concepts.</p>
+                        </div>
+                        <div class="feature-card">
+                            <h4><span class="icon">⚡</span> SQL Server Power</h4>
+                            <p>Discover enterprise-grade features, performance, and security capabilities.</p>
+                        </div>
+                        <div class="feature-card">
+                            <h4><span class="icon">🔗</span> Seamless Integration</h4>
+                            <p>Understand how Entity Framework Core bridges ASP.NET Core and SQL Server.</p>
+                        </div>
+                        <div class="feature-card">
+                            <h4><span class="icon">🚀</span> Production Ready</h4>
+                            <p>Build scalable, secure, and maintainable applications with confidence.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- What is a Database Tab -->
+            <div id="databases" class="tab-content">
+                <div class="section">
+                    <h2>🗄️ What is a Database?</h2>
+                    
+                    <h3>Definition</h3>
+                    <p>
+                        A <strong>database</strong> is an organized collection of structured data stored electronically 
+                        in a computer system. It allows for efficient storage, retrieval, modification, and management 
+                        of data through a Database Management System (DBMS).
+                    </p>
+
+                    <div class="highlight-box">
+                        <h3>🔑 Key Concepts</h3>
+                        <p><strong>Data Persistence:</strong> Data remains available even after the application or server restarts.</p>
+                        <p><strong>Structured Storage:</strong> Data is organized in tables, rows, and columns for easy access.</p>
+                        <p><strong>ACID Properties:</strong> Ensures reliability through Atomicity, Consistency, Isolation, and Durability.</p>
+                        <p><strong>Query Language:</strong> SQL (Structured Query Language) allows complex data operations.</p>
+                    </div>
+
+                    <h3>Types of Databases</h3>
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>Type</th>
+                                <th>Description</th>
+                                <th>Examples</th>
+                                <th>Use Cases</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Relational (RDBMS)</td>
+                                <td>Tables with relationships, SQL-based</td>
+                                <td>SQL Server, MySQL, PostgreSQL</td>
+                                <td>Business applications, E-commerce</td>
+                            </tr>
+                            <tr>
+                                <td>NoSQL</td>
+                                <td>Document, key-value, or graph-based</td>
+                                <td>MongoDB, Redis, Cassandra</td>
+                                <td>Big data, Real-time analytics</td>
+                            </tr>
+                            <tr>
+                                <td>NewSQL</td>
+                                <td>Combines SQL with NoSQL scalability</td>
+                                <td>CockroachDB, Google Spanner</td>
+                                <td>Distributed systems</td>
+                            </tr>
+                            <tr>
+                                <td>In-Memory</td>
+                                <td>Data stored in RAM for speed</td>
+                                <td>Redis, Memcached</td>
+                                <td>Caching, Session management</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h3>Why Use a Database?</h3>
+                    <div class="feature-grid">
+                        <div class="feature-card">
+                            <h4><span class="icon">💾</span> Data Persistence</h4>
+                            <p>Store data permanently and reliably, surviving application restarts and system reboots.</p>
+                        </div>
+                        <div class="feature-card">
+                            <h4><span class="icon">🔍</span> Efficient Queries</h4>
+                            <p>Quickly search, filter, and retrieve data using optimized query languages.</p>
+                        </div>
+                        <div class="feature-card">
+                            <h4><span class="icon">🔐</span> Data Integrity</h4>
+                            <p>Enforce rules, constraints, and relationships to maintain data accuracy.</p>
+                        </div>
+                        <div class="feature-card">
+                            <h4><span class="icon">👥</span> Concurrent Access</h4>
+                            <p>Multiple users can access and modify data simultaneously without conflicts.</p>
+                        </div>
+                        <div class="feature-card">
+                            <h4><span class="icon">🔄</span> Transaction Support</h4>
+                            <p>Group operations together ensuring all-or-nothing execution (ACID compliance).</p>
+                        </div>
+                        <div class="feature-card">
+                            <h4><span class="icon">📊</span> Data Analysis</h4>
+                            <p>Perform complex aggregations, reporting, and business intelligence operations.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Microsoft SQL Server Tab -->
+            <div id="sql-server" class="tab-content">
+                <div class="section">
+                    <h2>🛢️ Microsoft SQL Server</h2>
+                    
+                    <h3>What is Microsoft SQL Server?</h3>
+                    <p>
+                        <strong>Microsoft SQL Server</strong> is a relational database management system (RDBMS) 
+                        developed by Microsoft. It's one of the most popular and powerful database systems in the world, 
+                        designed to handle workloads ranging from small single-machine applications to large 
+                        internet-facing applications with many concurrent users.
+                    </p>
+
+                    <div class="highlight-box">
+                        <h3>📌 Core Characteristics</h3>
+                        <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px;">
+                            <span class="badge badge-success">Enterprise-Grade</span>
+                            <span class="badge badge-info">ACID Compliant</span>
+                            <span class="badge badge-warning">High Performance</span>
+                            <span class="badge badge-success">Scalable</span>
+                            <span class="badge badge-info">Secure</span>
+                            <span class="badge badge-warning">Cloud-Ready</span>
+                            <span class="badge badge-success">T-SQL Support</span>
+                            <span class="badge badge-info">.NET Integration</span>
+                        </div>
+                    </div>
+
+                    <h3>Key Features</h3>
+                    <div class="feature-grid">
+                        <div class="feature-card">
+                            <h4><span class="icon">⚡</span> High Performance</h4>
+                            <p><strong>In-Memory OLTP:</strong> Lightning-fast transaction processing</p>
+                            <p><strong>Columnstore Indexes:</strong> Optimized for analytics workloads</p>
+                            <p><strong>Query Optimizer:</strong> Intelligent execution plan generation</p>
+                        </div>
+                        <div class="feature-card">
+                            <h4><span class="icon">🔒</span> Security</h4>
+                            <p><strong>Always Encrypted:</strong> End-to-end data encryption</p>
+                            <p><strong>Row-Level Security:</strong> Fine-grained access control</p>
+                            <p><strong>Transparent Data Encryption (TDE):</strong> At-rest encryption</p>
+                        </div>
+                        <div class="feature-card">
+                            <h4><span class="icon">🔄</span> High Availability</h4>
+                            <p><strong>Always On Availability Groups:</strong> Automatic failover</p>
+                            <p><strong>Log Shipping:</strong> Disaster recovery</p>
+                            <p><strong>Replication:</strong> Data distribution</p>
+                        </div>
+                        <div class="feature-card">
+                            <h4><span class="icon">📊</span> Business Intelligence</h4>
+                            <p><strong>SQL Server Analysis Services (SSAS):</strong> OLAP cubes</p>
+                            <p><strong>SQL Server Reporting Services (SSRS):</strong> Report generation</p>
+                            <p><strong>SQL Server Integration Services (SSIS):</strong> ETL pipelines</p>
+                        </div>
+                        <div class="feature-card">
+                            <h4><span class="icon">☁️</span> Cloud Integration</h4>
+                            <p><strong>Azure SQL Database:</strong> Fully managed cloud database</p>
+                            <p><strong>Hybrid Deployments:</strong> On-premises and cloud</p>
+                            <p><strong>Elastic Pools:</strong> Resource sharing</p>
+                        </div>
+                        <div class="feature-card">
+                            <h4><span class="icon">🔍</span> Advanced Analytics</h4>
+                            <p><strong>R and Python Integration:</strong> Machine learning</p>
+                            <p><strong>Graph Database:</strong> Relationship modeling</p>
+                            <p><strong>JSON Support:</strong> Semi-structured data</p>
+                        </div>
+                    </div>
+
+                    <h3>SQL Server Editions</h3>
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>Edition</th>
+                                <th>Target Audience</th>
+                                <th>Key Limitations</th>
+                                <th>Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Express</td>
+                                <td>Small applications, learning</td>
+                                <td>10 GB database size, limited CPU/memory</td>
+                                <td>Free</td>
+                            </tr>
+                            <tr>
+                                <td>Developer</td>
+                                <td>Development and testing</td>
+                                <td>Non-production use only</td>
+                                <td>Free</td>
+                            </tr>
+                            <tr>
+                                <td>Standard</td>
+                                <td>Mid-tier applications</td>
+                                <td>Limited Always On, no advanced analytics</td>
+                                <td>Paid License</td>
+                            </tr>
+                            <tr>
+                                <td>Enterprise</td>
+                                <td>Mission-critical applications</td>
+                                <td>None (full features)</td>
+                                <td>Premium License</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="pros-cons">
+                        <div class="pros-cons-box pros-box">
+                            <h4>✓ Advantages</h4>
+                            <ul>
+                                <li>Excellent integration with Microsoft ecosystem</li>
+                                <li>Comprehensive management tools (SSMS)</li>
+                                <li>Strong enterprise support and documentation</li>
+                                <li>Advanced security features</li>
+                                <li>High performance and scalability</li>
+                                <li>Robust backup and recovery options</li>
+                                <li>T-SQL is powerful and feature-rich</li>
+                            </ul>
+                        </div>
+                        <div class="pros-cons-box cons-box">
+                            <h4>✗ Considerations</h4>
+                            <ul>
+                                <li>Windows Server licensing costs (on-premises)</li>
+                                <li>Resource intensive (RAM, CPU)</li>
+                                <li>Primarily Windows-focused (Linux support is newer)</li>
+                                <li>Enterprise edition can be expensive</li>
+                                <li>Learning curve for advanced features</li>
+                                <li>Vendor lock-in with Microsoft ecosystem</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ASP.NET Core Integration Tab -->
+            <div id="aspnet-integration" class="tab-content">
+                <div class="section">
+                    <h2>🔗 ASP.NET Core Integration with SQL Server</h2>
+                    
+                    <h3>How They Work Together</h3>
+                    <p>
+                        ASP.NET Core and SQL Server form a powerful combination for building modern web applications. 
+                        The integration is facilitated primarily through <strong>Entity Framework Core (EF Core)</strong>, 
+                        an Object-Relational Mapper (ORM) that allows developers to work with databases using .NET objects.
+                    </p>
+
+                    <div class="architecture-diagram">
+                        <h3 style="color: var(--primary-color); margin-bottom: 20px;">Architecture Stack</h3>
+                        <div class="layer" style="background: linear-gradient(135deg, #3498db, #2980b9);">
+                            ASP.NET Core Application (MVC / Web API)
+                        </div>
+                        <div class="arrow">⬇️</div>
+                        <div class="layer" style="background: linear-gradient(135deg, #9b59b6, #8e44ad);">
+                            Entity Framework Core (ORM Layer)
+                        </div>
+                        <div class="arrow">⬇️</div>
+                        <div class="layer" style="background: linear-gradient(135deg, #e74c3c, #c0392b);">
+                            SQL Server Database Provider
+                        </div>
+                        <div class="arrow">⬇️</div>
+                        <div class="layer" style="background: linear-gradient(135deg, #16a085, #138d75);">
+                            Microsoft SQL Server Database
+                        </div>
+                    </div>
+
+                    <h3>Entity Framework Core (EF Core)</h3>
+                    <div class="highlight-box">
+                        <p>
+                            <strong>EF Core</strong> is a modern object-database mapper that enables .NET developers 
+                            to work with databases using .NET objects, eliminating the need for most data-access code. 
+                            It supports LINQ queries, change tracking, updates, and schema migrations.
+                        </p>
+                    </div>
+
+                    <h3>Key Integration Features</h3>
+                    <div class="feature-grid">
+                        <div class="feature-card">
+                            <h4><span class="icon">🎯</span> Object-Relational Mapping</h4>
+                            <p>Map C# classes to database tables automatically, eliminating boilerplate SQL code.</p>
+                        </div>
+                        <div class="feature-card">
+                            <h4><span class="icon">📝</span> LINQ Queries</h4>
+                            <p>Write type-safe queries in C# that are translated to SQL at runtime.</p>
+                        </div>
+                        <div class="feature-card">
+                            <h4><span class="icon">🔄</span> Change Tracking</h4>
+                            <p>Automatically detect changes to entities and generate appropriate SQL commands.</p>
+                        </div>
+                        <div class="feature-card">
+                            <h4><span class="icon">🚀</span> Migrations</h4>
+                            <p>Code-first approach to evolve database schema alongside application code.</p>
+                        </div>
+                        <div class="feature-card">
+                            <h4><span class="icon">⚡</span> Performance</h4>
+                            <p>Compiled queries, connection pooling, and efficient SQL generation.</p>
+                        </div>
+                        <div class="feature-card">
+                            <h4><span class="icon">🧪</span> Testability</h4>
+                            <p>Easy mocking and in-memory database providers for unit testing.</p>
+                        </div>
+                    </div>
+
+                    <h3>Connection Configuration</h3>
+                    <p>Setting up SQL Server with ASP.NET Core involves configuring the connection string and registering the DbContext:</p>
+                    
+                    <div class="code-block">
+<span class="comment">// appsettings.json</span>
+{
+  <span class="string">"ConnectionStrings"</span>: {
+    <span class="string">"DefaultConnection"</span>: <span class="string">"Server=.;Database=OtlobDB;Trusted_Connection=True;TrustServerCertificate=True"</span>
+  }
+}
+
+<span class="comment">// Program.cs</span>
+<span class="keyword">var</span> connectionString = builder.Configuration.GetConnectionString(<span class="string">"DefaultConnection"</span>);
+
+builder.Services.AddDbContext&lt;<span class="type">ApplicationDbContext</span>&gt;(options =>
+    options.UseSqlServer(connectionString));
+                    </div>
+
+                    <h3>DbContext Example</h3>
+                    <div class="code-block">
+<span class="keyword">public class</span> <span class="type">ApplicationDbContext</span> : <span class="type">DbContext</span>
+{
+    <span class="keyword">public</span> <span class="type">ApplicationDbContext</span>(<span class="type">DbContextOptions</span>&lt;<span class="type">ApplicationDbContext</span>&gt; options)
+        : <span class="keyword">base</span>(options) { }
+
+    <span class="comment">// DbSet properties represent tables</span>
+    <span class="keyword">public</span> <span class="type">DbSet</span>&lt;<span class="type">Restaurant</span>&gt; Restaurants { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+    <span class="keyword">public</span> <span class="type">DbSet</span>&lt;<span class="type">Order</span>&gt; Orders { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+    <span class="keyword">public</span> <span class="type">DbSet</span>&lt;<span class="type">Meal</span>&gt; Meals { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+    <span class="keyword">protected override void</span> OnModelCreating(<span class="type">ModelBuilder</span> modelBuilder)
+    {
+        <span class="comment">// Configure entity relationships and constraints</span>
+        modelBuilder.ApplyConfigurationsFromAssembly(<span class="keyword">typeof</span>(<span class="type">ApplicationDbContext</span>).Assembly);
+    }
+}
+                    </div>
+
+                    <h3>Repository Pattern Implementation</h3>
+                    <div class="code-block">
+<span class="comment">// Repository interface</span>
+<span class="keyword">public interface</span> <span class="type">IRepository</span>&lt;T&gt; <span class="keyword">where</span> T : <span class="keyword">class</span>
+{
+    <span class="type">Task</span>&lt;<span class="type">IEnumerable</span>&lt;T&gt;&gt; GetAllAsync();
+    <span class="type">Task</span>&lt;T?&gt; GetByIdAsync(<span class="keyword">object</span> id);
+    <span class="type">Task</span> AddAsync(T entity);
+    <span class="keyword">void</span> Update(T entity);
+    <span class="keyword">void</span> Delete(T entity);
+}
+
+<span class="comment">// Repository implementation</span>
+<span class="keyword">public class</span> <span class="type">Repository</span>&lt;T&gt; : <span class="type">IRepository</span>&lt;T&gt; <span class="keyword">where</span> T : <span class="keyword">class</span>
+{
+    <span class="keyword">private readonly</span> <span class="type">ApplicationDbContext</span> _context;
+    <span class="keyword">private readonly</span> <span class="type">DbSet</span>&lt;T&gt; _dbSet;
+
+    <span class="keyword">public</span> <span class="type">Repository</span>(<span class="type">ApplicationDbContext</span> context)
+    {
+        _context = context;
+        _dbSet = context.Set&lt;T&gt;();
+    }
+
+    <span class="keyword">public async</span> <span class="type">Task</span>&lt;<span class="type">IEnumerable</span>&lt;T&gt;&gt; GetAllAsync()
+        => <span class="keyword">await</span> _dbSet.ToListAsync();
+
+    <span class="keyword">public async</span> <span class="type">Task</span>&lt;T?&gt; GetByIdAsync(<span class="keyword">object</span> id)
+        => <span class="keyword">await</span> _dbSet.FindAsync(id);
+
+    <span class="keyword">public async</span> <span class="type">Task</span> AddAsync(T entity)
+        => <span class="keyword">await</span> _dbSet.AddAsync(entity);
+
+    <span class="keyword">public void</span> Update(T entity)
+        => _dbSet.Update(entity);
+
+    <span class="keyword">public void</span> Delete(T entity)
+        => _dbSet.Remove(entity);
+}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Why Choose SQL Server Tab -->
+            <div id="why-choose" class="tab-content">
+                <div class="section">
+                    <h2>🎯 Why Choose SQL Server with ASP.NET Core?</h2>
+                    
+                    <h3>Microsoft Ecosystem Synergy</h3>
+                    <p>
+                        Using SQL Server with ASP.NET Core provides seamless integration within the Microsoft technology stack, 
+                        offering a cohesive development experience with consistent tooling, documentation, and support.
+                    </p>
+
+                    <div class="feature-grid">
+                        <div class="feature-card">
+                            <h4><span class="icon">🔧</span> Native Integration</h4>
+                            <p>First-class support in Entity Framework Core with optimized SQL Server provider.</p>
+                            <span class="badge badge-success">Built-in</span>
+                            <span class="badge badge-info">Optimized</span>
+                        </div>
+                        <div class="feature-card">
+                            <h4><span class="icon">🛠️</span> Unified Tooling</h4>
+                            <p>Visual Studio, Azure Data Studio, and SSMS provide comprehensive database management.</p>
+                            <span class="badge badge-success">IDE Integration</span>
+                        </div>
+                        <div class="feature-card">
+                            <h4><span class="icon">☁️</span> Azure Deployment</h4>
+                            <p>Easy deployment to Azure SQL Database with minimal configuration changes.</p>
+                            <span class="badge badge-info">Cloud-Ready</span>
+                        </div>
+                        <div class="feature-card">
+                            <h4><span class="icon">📚</span> Extensive Documentation</h4>
+                            <p>Comprehensive Microsoft docs covering all integration scenarios and best practices.</p>
+                            <span class="badge badge-warning">Well-Documented</span>
+                        </div>
+                        <div class="feature-card">
+                            <h4><span class="icon">🔐</span> Windows Authentication</h4>
+                            <p>Seamless integration with Active Directory for enterprise security.</p>
+                            <span class="badge badge-success">Enterprise Security</span>
+                        </div>
+                        <div class="feature-card">
+                            <h4><span class="icon">⚡</span> Performance Optimization</h4>
+                            <p>EF Core provider specifically optimized for SQL Server features.</p>
+                            <span class="badge badge-info">High Performance</span>
+                        </div>
+                    </div>
+
+                    <h3>Technical Advantages</h3>
+                    
+                    <div class="highlight-box">
+                        <h4>🚀 Developer Productivity</h4>
+                        <ul style="margin-left: 20px; margin-top: 10px;">
+                            <li><strong>Type-Safe Queries:</strong> LINQ provides compile-time checking and IntelliSense support</li>
+                            <li><strong>Code-First Migrations:</strong> Version control your database schema alongside code</li>
+                            <li><strong>Scaffolding:</strong> Generate entities from existing database or vice versa</li>
+                            <li><strong>Debugging:</strong> Step through LINQ queries and see generated SQL</li>
+                        </ul>
+                    </div>
+
+                    <div class="highlight-box">
+                        <h4>🏢 Enterprise Features</h4>
+                        <ul style="margin-left: 20px; margin-top: 10px;">
+                            <li><strong>High Availability:</strong> Always On availability groups for mission-critical applications</li>
+                            <li><strong>Disaster Recovery:</strong> Automated backups, point-in-time restore, geo-replication</li>
+                            <li><strong>Security:</strong> Row-level security, always encrypted, dynamic data masking</li>
+                            <li><strong>Scalability:</strong> Scale up/out with read replicas and partitioning</li>
+                        </ul>
+                    </div>
+
+                    <h3>When to Choose SQL Server</h3>
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>Scenario</th>
+                                <th>Why SQL Server is Ideal</th>
+                                <th>Key Benefits</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Enterprise Applications</td>
+                                <td>Proven reliability, 24/7 support, comprehensive features</td>
+                                <td>High availability, security, compliance</td>
+                            </tr>
+                            <tr>
+                                <td>Microsoft Stack Projects</td>
+                                <td>Seamless integration with Azure, Office, .NET ecosystem</td>
+                                <td>Reduced complexity, unified tooling</td>
+                            </tr>
+                            <tr>
+                                <td>Complex Transactions</td>
+                                <td>Excellent ACID compliance, stored procedures, triggers</td>
+                                <td>Data integrity, consistency</td>
+                            </tr>
+                            <tr>
+                                <td>Business Intelligence</td>
+                                <td>Built-in SSRS, SSAS, Power BI integration</td>
+                                <td>Advanced analytics, reporting</td>
+                            </tr>
+                            <tr>
+                                <td>Regulated Industries</td>
+                                <td>Comprehensive security, compliance certifications</td>
+                                <td>Data protection, audit trails</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h3>Performance Considerations</h3>
+                    <div class="pros-cons">
+                        <div class="pros-cons-box pros-box">
+                            <h4>✓ Performance Strengths</h4>
+                            <ul>
+                                <li>Query optimizer with cost-based execution plans</li>
+                                <li>In-memory OLTP for high-throughput scenarios</li>
+                                <li>Columnstore indexes for analytical workloads</li>
+                                <li>Connection pooling with EF Core</li>
+                                <li>Compiled queries and query caching</li>
+                                <li>Read-only replicas for scaling reads</li>
+                            </ul>
+                        </div>
+                        <div class="pros-cons-box cons-box">
+                            <h4>⚠️ Performance Considerations</h4>
+                            <ul>
+                                <li>Requires proper indexing strategy</li>
+                                <li>N+1 query problems with lazy loading</li>
+                                <li>Memory-intensive for large datasets</li>
+                                <li>Licensing costs for Enterprise features</li>
+                                <li>Proper connection management required</li>
+                                <li>Query complexity impacts performance</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h3>Cost-Benefit Analysis</h3>
+                    <div class="highlight-box">
+                        <h4>💰 Total Cost of Ownership</h4>
+                        <p><strong>Initial Costs:</strong></p>
+                        <ul style="margin-left: 20px;">
+                            <li>SQL Server Express: <strong>Free</strong> (for small apps, development)</li>
+                            <li>SQL Server Developer: <strong>Free</strong> (for non-production use)</li>
+                            <li>Azure SQL Database: <strong>Pay-as-you-go</strong> (starting ~$5/month)</li>
+                            <li>SQL Server Standard: <strong>~$4,000+</strong> (one-time or per-core licensing)</li>
+                        </ul>
+                        <p style="margin-top: 15px;"><strong>Long-term Benefits:</strong></p>
+                        <ul style="margin-left: 20px;">
+                            <li>Reduced development time (developer productivity)</li>
+                            <li>Lower maintenance costs (automated tools)</li>
+                            <li>Fewer production issues (reliability)</li>
+                            <li>Better performance (optimization features)</li>
+                            <li>Scalability without major rewrites</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Implementation Tab -->
+            <div id="implementation" class="tab-content">
+                <div class="section">
+                    <h2>💻 Implementation Guide</h2>
+                    
+                    <h3>Step 1: Install SQL Server</h3>
+                    <div class="highlight-box">
+                        <p><strong>Options:</strong></p>
+                        <ul style="margin-left: 20px; margin-top: 10px;">
+                            <li><strong>SQL Server Express:</strong> Download from Microsoft's website (free)</li>
+                            <li><strong>SQL Server Developer:</strong> Full features for development (free)</li>
+                            <li><strong>Azure SQL Database:</strong> Cloud-based, no installation needed</li>
+                            <li><strong>LocalDB:</strong> Lightweight version for development (included with Visual Studio)</li>
+                        </ul>
+                    </div>
+
+                    <h3>Step 2: Install NuGet Packages</h3>
+                    <div class="code-block">
+<span class="comment"># Install Entity Framework Core SQL Server provider</span>
+dotnet add package Microsoft.EntityFrameworkCore.SqlServer
+
+<span class="comment"># Install EF Core tools for migrations</span>
+dotnet add package Microsoft.EntityFrameworkCore.Tools
+
+<span class="comment"># Install design-time support</span>
+dotnet add package Microsoft.EntityFrameworkCore.Design
+                    </div>
+
+                    <h3>Step 3: Create Entity Classes</h3>
+                    <div class="code-block">
+<span class="keyword">public class</span> <span class="type">Restaurant</span>
+{
+    <span class="keyword">public</span> <span class="keyword">int</span> Id { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+    <span class="keyword">public string</span> Name { <span class="keyword">get</span>; <span class="keyword">set</span>; } = <span class="keyword">string</span>.Empty;
+    <span class="keyword">public string</span> Description { <span class="keyword">get</span>; <span class="keyword">set</span>; } = <span class="keyword">string</span>.Empty;
+    <span class="keyword">public bool</span> IsActive { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+    
+    <span class="comment">// Navigation properties</span>
+    <span class="keyword">public</span> <span class="type">ICollection</span>&lt;<span class="type">Meal</span>&gt; Meals { <span class="keyword">get</span>; <span class="keyword">set</span>; } = <span class="keyword">new</span> <span class="type">List</span>&lt;<span class="type">Meal</span>&gt;();
+    <span class="keyword">public</span> <span class="type">ICollection</span>&lt;<span class="type">Order</span>&gt; Orders { <span class="keyword">get</span>; <span class="keyword">set</span>; } = <span class="keyword">new</span> <span class="type">List</span>&lt;<span class="type">Order</span>&gt;();
+}
+                    </div>
+
+                    <h3>Step 4: Configure DbContext</h3>
+                    <div class="code-block">
+<span class="keyword">public class</span> <span class="type">ApplicationDbContext</span> : <span class="type">DbContext</span>
+{
+    <span class="keyword">public</span> <span class="type">ApplicationDbContext</span>(<span class="type">DbContextOptions</span>&lt;<span class="type">ApplicationDbContext</span>&gt; options)
+        : <span class="keyword">base</span>(options) { }
+
+    <span class="keyword">public</span> <span class="type">DbSet</span>&lt;<span class="type">Restaurant</span>&gt; Restaurants { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+    <span class="keyword">public</span> <span class="type">DbSet</span>&lt;<span class="type">Meal</span>&gt; Meals { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+    <span class="keyword">public</span> <span class="type">DbSet</span>&lt;<span class="type">Order</span>&gt; Orders { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+    <span class="keyword">protected override void</span> OnModelCreating(<span class="type">ModelBuilder</span> modelBuilder)
+    {
+        <span class="comment">// Configure entity relationships</span>
+        modelBuilder.Entity&lt;<span class="type">Restaurant</span>&gt;()
+            .HasMany(r => r.Meals)
+            .WithOne(m => m.Restaurant)
+            .HasForeignKey(m => m.RestaurantId)
+            .OnDelete(<span class="type">DeleteBehavior</span>.Cascade);
+
+        <span class="comment">// Apply configurations from separate files</span>
+        modelBuilder.ApplyConfigurationsFromAssembly(<span class="keyword">typeof</span>(<span class="type">ApplicationDbContext</span>).Assembly);
+    }
+}
+                    </div>
+
+                    <h3>Step 5: Configure Connection String</h3>
+                    <div class="code-block">
+<span class="comment">// appsettings.json</span>
+{
+  <span class="string">"ConnectionStrings"</span>: {
+    <span class="string">"DefaultConnection"</span>: <span class="string">"Server=.;Database=OtlobDB;Trusted_Connection=True;TrustServerCertificate=True"</span>,
+    <span class="string">"AzureConnection"</span>: <span class="string">"Server=tcp:myserver.database.windows.net;Database=OtlobDB;User ID=admin;Password=***"</span>
+  }
+}
+
+<span class="comment">// Program.cs</span>
+<span class="keyword">var</span> connectionString = builder.Configuration.GetConnectionString(<span class="string">"DefaultConnection"</span>)
+    ?? <span class="keyword">throw new</span> <span class="type">InvalidOperationException</span>(<span class="string">"Connection string not found"</span>);
+
+builder.Services.AddDbContext&lt;<span class="type">ApplicationDbContext</span>&gt;(options =>
+{
+    options.UseSqlServer(connectionString);
+    options.EnableSensitiveDataLogging(builder.Environment.IsDevelopment());
+});
+                    </div>
+
+                    <h3>Step 6: Create and Apply Migrations</h3>
+                    <div class="code-block">
+<span class="comment"># Create initial migration</span>
+dotnet ef migrations add InitialCreate
+
+<span class="comment"># Apply migration to database</span>
+dotnet ef database update
+
+<span class="comment"># Add new migration after model changes</span>
+dotnet ef migrations add AddNewFeature
+
+<span class="comment"># Rollback to specific migration</span>
+dotnet ef database update PreviousMigrationName
+
+<span class="comment"># Remove last migration (if not applied)</span>
+dotnet ef migrations remove
+                    </div>
+
+                    <h3>Step 7: Implement Repository Pattern</h3>
+                    <div class="code-block">
+<span class="comment">// Service registration</span>
+builder.Services.AddScoped&lt;<span class="type">IUnitOfWork</span>, <span class="type">UnitOfWork</span>&gt;();
+builder.Services.AddScoped(typeof(<span class="type">IRepository</span>&lt;&gt;), typeof(<span class="type">Repository</span>&lt;&gt;));
+
+<span class="comment">// Usage in controller/service</span>
+<span class="keyword">public class</span> <span class="type">RestaurantService</span>
+{
+    <span class="keyword">private readonly</span> <span class="type">IUnitOfWork</span> _unitOfWork;
+
+    <span class="keyword">public</span> <span class="type">RestaurantService</span>(<span class="type">IUnitOfWork</span> unitOfWork)
+    {
+        _unitOfWork = unitOfWork;
+    }
+
+    <span class="keyword">public async</span> <span class="type">Task</span>&lt;<span class="type">Restaurant</span>?&gt; GetRestaurantAsync(<span class="keyword">int</span> id)
+    {
+        <span class="keyword">return await</span> _unitOfWork.Restaurants
+            .Include(r => r.Meals)
+            .FirstOrDefaultAsync(r => r.Id == id);
+    }
+
+    <span class="keyword">public async</span> <span class="type">Task</span> AddRestaurantAsync(<span class="type">Restaurant</span> restaurant)
+    {
+        <span class="keyword">await</span> _unitOfWork.Restaurants.AddAsync(restaurant);
+        <span class="keyword">await</span> _unitOfWork.CompleteAsync();
+    }
+}
+                    </div>
+
+                    <h3>Step 8: Query Optimization</h3>
+                    <div class="code-block">
+<span class="comment">// Eager loading - Load related data in single query</span>
+<span class="keyword">var</span> restaurants = <span class="keyword">await</span> _context.Restaurants
+    .Include(r => r.Meals)
+    .Include(r => r.Orders)
+        .ThenInclude(o => o.OrderDetails)
+    .ToListAsync();
+
+<span class="comment">// Projection - Select only needed columns</span>
+<span class="keyword">var</span> restaurantNames = <span class="keyword">await</span> _context.Restaurants
+    .Select(r => <span class="keyword">new</span> { r.Id, r.Name })
+    .ToListAsync();
+
+<span class="comment">// AsNoTracking - Read-only queries (faster)</span>
+<span class="keyword">var</span> readOnlyData = <span class="keyword">await</span> _context.Restaurants
+    .AsNoTracking()
+    .ToListAsync();
+
+<span class="comment">// Compiled queries - Pre-compile for reuse</span>
+<span class="keyword">private static readonly</span> <span class="type">Func</span>&lt;<span class="type">ApplicationDbContext</span>, <span class="keyword">int</span>, <span class="type">Task</span>&lt;<span class="type">Restaurant</span>?&gt;&gt; 
+    GetRestaurantById = EF.CompileAsyncQuery(
+        (ApplicationDbContext context, <span class="keyword">int</span> id) =>
+            context.Restaurants.FirstOrDefault(r => r.Id == id));
+                    </div>
+
+                    <h3>Best Practices</h3>
+                    <div class="feature-grid">
+                        <div class="feature-card">
+                            <h4><span class="icon">📋</span> Use Migrations</h4>
+                            <p>Version control your database schema changes for reliable deployments.</p>
+                        </div>
+                        <div class="feature-card">
+                            <h4><span class="icon">🔍</span> Index Properly</h4>
+                            <p>Add indexes on foreign keys and frequently queried columns.</p>
+                        </div>
+                        <div class="feature-card">
+                            <h4><span class="icon">⚡</span> Optimize Queries</h4>
+                            <p>Use AsNoTracking, projections, and avoid N+1 query problems.</p>
+                        </div>
+                        <div class="feature-card">
+                            <h4><span class="icon">🔒</span> Secure Connections</h4>
+                            <p>Use encrypted connections, parameterized queries, and proper authentication.</p>
+                        </div>
+                        <div class="feature-card">
+                            <h4><span class="icon">💾</span> Handle Transactions</h4>
+                            <p>Use Unit of Work pattern for managing complex operations.</p>
+                        </div>
+                        <div class="feature-card">
+                            <h4><span class="icon">🧪</span> Test Thoroughly</h4>
+                            <p>Use in-memory providers for unit tests, real database for integration tests.</p>
+                        </div>
+                    </div>
+
+                    <div class="highlight-box">
+                        <h3>🎓 Learning Resources</h3>
+                        <ul style="margin-left: 20px; margin-top: 10px;">
+                            <li><strong>Official Docs:</strong> docs.microsoft.com/ef/core</li>
+                            <li><strong>SQL Server Docs:</strong> docs.microsoft.com/sql</li>
+                            <li><strong>ASP.NET Core:</strong> docs.microsoft.com/aspnet/core</li>
+                            <li><strong>Learn SQL:</strong> sqlservertutorial.net</li>
+                            <li><strong>YouTube:</strong> Microsoft Developer, .NET channels</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <a href="database-schema-diagram.html" class="back-link">← View Database Schema Diagram</a>
+            <a href="database-schema-documentation.html" class="back-link" style="margin-left: 10px;">← View Schema Documentation</a>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabId) {
+            // Hide all tab contents
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // Remove active class from all tabs
+            const tabs = document.querySelectorAll('.nav-tab');
+            tabs.forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Show selected tab content
+            document.getElementById(tabId).classList.add('active');
+
+            // Add active class to clicked tab
+            event.target.classList.add('active');
+
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>

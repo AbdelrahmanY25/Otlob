@@ -2,9 +2,6 @@
 
 @{
     ViewData["Title"] = "Delivered Orders";
-    
-    string restaurantKey = Model.FirstOrDefault()?.RestaurantId ?? string.Empty;
-    
     var ordersCount = Model.Count();
 }
 
@@ -22,16 +19,16 @@
 
     <!-- Tabs -->
     <div class="orders-tabs">
-        <a href="@Url.Action("InProgress", "RestaurantOrders", new { area = "SuperAdmin", restaurantKey = restaurantKey })" class="orders-tab">
+        <a asp-controller="RestaurantOrders" asp-action="InProgress" asp-route-restaurantKey="@ViewBag.RestaurantKey" class="orders-tab active">
             <i class="bi bi-hourglass-split"></i>
             In Progress
-        </a>
-        <a href="@Url.Action("Delivered", "RestaurantOrders", new { area = "SuperAdmin", restaurantKey = restaurantKey })" class="orders-tab active">
-            <i class="bi bi-check-circle"></i>
-            Delivered
             <span class="tab-badge">@ordersCount</span>
         </a>
-        <a href="@Url.Action("Cancelled", "RestaurantOrders", new { area = "SuperAdmin", restaurantKey = restaurantKey })" class="orders-tab">
+        <a asp-controller="RestaurantOrders" asp-action="Delivered" asp-route-restaurantKey="@ViewBag.RestaurantKey" class="orders-tab">
+            <i class="bi bi-check-circle"></i>
+            Delivered
+        </a>
+        <a asp-controller="RestaurantOrders" asp-action="Cancelled" asp-route-restaurantKey="@ViewBag.RestaurantKey" class="orders-tab">
             <i class="bi bi-x-circle"></i>
             Cancelled
         </a>

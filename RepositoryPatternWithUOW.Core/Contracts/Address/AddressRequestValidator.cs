@@ -26,7 +26,7 @@ public class AddressRequestValidator : AbstractValidator<AddressRequest>
         RuleFor(a => a.CompanyName)
             .Length(10, 30)
             .Matches(RegexPattern.Address)
-            .When(a => a.PlaceType == PlaceType.Office);
+            .When(a => a.PlaceType == PropertyType.Office);
 
         RuleFor(a => a.PlaceType)
             .IsInEnum();

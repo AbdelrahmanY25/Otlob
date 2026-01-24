@@ -1,0 +1,166 @@
+@model RestaurantCostsResponse
+
+@{
+    ViewData["Title"] = "Advertisement Costs";
+}
+
+<link rel="stylesheet" href="~/css/advertisements.css" asp-append-version="true" />
+
+@{
+}
+
+<div class="ads-costs-page">
+    <!-- Header -->
+    <div class="ads-costs-header">
+        <a asp-action="Index" class="ads-back-btn">
+            <i class="bi bi-arrow-left"></i>
+            Back to Advertisements
+        </a>
+        <h1 class="ads-costs-title">
+            <i class="bi bi-graph-up"></i>
+            Advertisement Costs Dashboard
+        </h1>
+        <p class="ads-costs-subtitle">Track your advertising spend and ROI</p>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="ads-costs-stats">
+        <div class="ads-cost-card total-spent">
+            <div class="ads-cost-icon">
+                <i class="bi bi-cash-stack"></i>
+            </div>
+            <div class="ads-cost-info">
+                <span class="ads-cost-label">Total Spent</span>
+                <span class="ads-cost-value">@Model.TotalSpentDisplay</span>
+            </div>
+        </div>
+
+        <div class="ads-cost-card this-month">
+            <div class="ads-cost-icon">
+                <i class="bi bi-calendar-month"></i>
+            </div>
+            <div class="ads-cost-info">
+                <span class="ads-cost-label">This Month</span>
+                <span class="ads-cost-value">@Model.ThisMonthSpentDisplay</span>
+            </div>
+        </div>
+
+        <div class="ads-cost-card active-cost">
+            <div class="ads-cost-icon">
+                <i class="bi bi-broadcast"></i>
+            </div>
+            <div class="ads-cost-info">
+                <span class="ads-cost-label">Active Ads Cost</span>
+                <span class="ads-cost-value">@Model.ActiveAdsCostDisplay</span>
+            </div>
+        </div>
+
+        <div class="ads-cost-card refunded">
+            <div class="ads-cost-icon">
+                <i class="bi bi-arrow-counterclockwise"></i>
+            </div>
+            <div class="ads-cost-info">
+                <span class="ads-cost-label">Total Refunded</span>
+                <span class="ads-cost-value">@Model.TotalRefundedDisplay</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ads Summary -->
+    <div class="ads-summary-cards">
+        <div class="ads-summary-card">
+            <i class="bi bi-collection"></i>
+            <span class="ads-summary-value">@Model.TotalAdsCount</span>
+            <span class="ads-summary-label">Total Ads</span>
+        </div>
+        <div class="ads-summary-card active">
+            <i class="bi bi-broadcast"></i>
+            <span class="ads-summary-value">@Model.ActiveAdsCount</span>
+            <span class="ads-summary-label">Active</span>
+        </div>
+        <div class="ads-summary-card pending">
+            <i class="bi bi-hourglass-split"></i>
+            <span class="ads-summary-value">@Model.PendingAdsCount</span>
+            <span class="ads-summary-label">Pending</span>
+        </div>
+    </div>
+
+    <!-- Payment History -->
+    <div class="ads-history-section">
+        <h2 class="ads-section-title">
+            <i class="bi bi-clock-history"></i>
+            Payment History
+        </h2>
+
+        @if (!Model.PaymentHistory.Any())
+        {
+            <div class="ads-empty-state">
+                <i class="bi bi-receipt"></i>
+                <h3>No Payment History</h3>
+                <p>You haven't made any payments yet. Create an advertisement to get started.</p>
+            </div>
+        }
+        else
+        {
+            <div class="ads-table-responsive">
+                <table class="ads-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Advertisement</th>
+                            <th>Plan</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                            <th>Payment Method</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var payment in Model.PaymentHistory)
+                        {
+                            <tr>
+                                <td>@payment.CreatedAt.ToString("MMM dd, yyyy HH:mm")</td>
+                                <td>
+                                    <a asp-action="Details" asp-route-id="@payment.AdvertisementId">
+                                        @payment.AdvertisementTitle
+                                    </a>
+                                </td>
+                                <td>
+                                    <span class="ads-plan-badge">@payment.PlanName</span>
+                                </td>
+                                <td class="@(payment.PaymentStatus == AdvertisementPaymentStatus.Refunded ? "text-danger" : "")">
+                                    @if (payment.PaymentStatus == AdvertisementPaymentStatus.Refunded)
+                                    {
+                                        <s>@payment.AmountDisplay</s>
+                                        <small class="d-block text-muted">Refunded</small>
+                                    }
+                                    else
+                                    {
+                                        @payment.AmountDisplay
+                                    }
+                                </td>
+                                <td>
+                                    <span class="ads-payment-status status-@payment.PaymentStatus.ToString().ToLower()">
+                                        @payment.PaymentStatusDisplay
+                                    </span>
+                                </td>
+                                <td>
+                                    @if (!string.IsNullOrEmpty(payment.CardLast4))
+                                    {
+                                        <span class="ads-card-info">
+                                            <i class="bi bi-credit-card"></i>
+                                            @payment.CardBrand •••• @payment.CardLast4
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">-</span>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+</div>

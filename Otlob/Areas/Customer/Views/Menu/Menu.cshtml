@@ -1,13 +1,13 @@
-﻿@model (IEnumerable<MenuResponse> menu, AcctiveRestaurantResponse restaurant)
+﻿@model FullMenuResponse
 
 @{
     ViewData["Title"] = "Menu";
     
     // Collect categories from the model
-    var categories = Model.menu.Select(m => m.Categories);
+    var categories = Model.Menu.Select(m => m.Categories);
 
     // Get all meals with offers across all categories
-    var allMeals = Model.menu.SelectMany(m => m.Meals ?? Enumerable.Empty<MealResponse>());
+    var allMeals = Model.Menu.SelectMany(m => m.Meals);
     var offerMeals = allMeals.Where(m => m.OfferPrice > 0)
                              .OrderByDescending(m => (m.Price - m.OfferPrice) / (m.Price == 0 ? 1 : m.Price) * 100);
 }
@@ -20,26 +20,26 @@
     <div class="menu-hero">
         <div class="hero-content">
             <div class="restaurant-profile">
-                @if (!string.IsNullOrEmpty(Model.restaurant.Image))
+                @if (!string.IsNullOrEmpty(Model.Restaurant.Image))
                 {
                     <div class="restaurant-logo">
-                        <img src="~/images/@Model.restaurant.Image" alt="@Model.restaurant.Name" />
+                        <img src="~/images/@Model.Restaurant.Image" alt="@Model.Restaurant.Name" />
                     </div>
                 }
                 <div class="restaurant-details">
-                    <h1 class="hero-title">@Model.restaurant.Name</h1>
+                    <h1 class="hero-title">@Model.Restaurant.Name</h1>
                     <div class="restaurant-meta">
                         <span class="meta-pill rating-pill">
-                            @if (Model.restaurant.Rating > 0)
+                            @if (Model.Restaurant.Rating > 0)
                             {
                                 <div class="stars-container">
                                     @for (int i = 1; i <= 5; i++)
                                     {
-                                        if (Model.restaurant.Rating >= i)
+                                        if (Model.Restaurant.Rating >= i)
                                         {
                                             <i class="fa-solid fa-star"></i>
                                         }
-                                        else if (Model.restaurant.Rating >= i - 0.5m)
+                                        else if (Model.Restaurant.Rating >= i - 0.5m)
                                         {
                                             <i class="fa-solid fa-star-half-stroke"></i>
                                         }
@@ -49,7 +49,7 @@
                                         }
                                     }
                                 </div>
-                                <span class="rating-value">@((Model.restaurant.Rating / 5m * 100).ToString("0"))%</span>
+                                <span class="rating-value">@((Model.Restaurant.Rating / 5m * 100).ToString("0"))%</span>
                             }
                             else
                             {
@@ -59,11 +59,11 @@
                         </span>
                         <span class="meta-pill">
                             <i class="fa-regular fa-clock"></i>
-                            @Model.restaurant.DeliveryDuration mins
+                            @Model.Restaurant.DeliveryDuration mins
                         </span>
                         <span class="meta-pill">
                             <i class="fa-solid fa-bicycle"></i>
-                            EGP @Model.restaurant.DeliveryFee.ToString("N2")
+                            EGP @Model.Restaurant.DeliveryFee.ToString("N2")
                         </span>
                     </div>
                     <p class="hero-subtitle">Discover delicious meals crafted with love for you</p>
@@ -134,11 +134,11 @@
 
     <!-- Menu Categories Content -->
     <div class="menu-main-content">
-        @foreach (var menuResponse in Model.menu)
+        @foreach (var menuResponse in Model.Menu)
         {
             var categoryData = menuResponse.Categories;
             // Get all meals for this category, offers first
-            var allCategoryMeals = (menuResponse.Meals ?? Enumerable.Empty<MealResponse>()).OrderByDescending(m => m.OfferPrice > 0).ToList();
+            var allCategoryMeals = (menuResponse.Meals).OrderByDescending(m => m.OfferPrice > 0).ToList();
 
             <div id="cat-@categoryData.Key" class="category-section">
                 <div class="category-header">
@@ -213,6 +213,6 @@
 </div>
 
 @section Scripts {
-    <partial name="_NotificationPartial"></partial>
+    
     <script src="~/js/menuForCustomer.js" asp-append-version="true"></script>
 }

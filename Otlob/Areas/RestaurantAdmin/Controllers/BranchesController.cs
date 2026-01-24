@@ -21,9 +21,7 @@ public class BranchesController(IBranchService branchService, IMapper mapper) : 
     public IActionResult AddBranch(BranchRequest request)
     {
         if (!ModelState.IsValid)
-        {
             return View(request);
-        }
 
         var restaurantId = int.Parse(User.FindFirstValue(StaticData.RestaurantId)!);
         var response = _branchService.Add(request, restaurantId);

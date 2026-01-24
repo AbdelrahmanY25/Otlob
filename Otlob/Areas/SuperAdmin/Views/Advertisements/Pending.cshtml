@@ -1,0 +1,89 @@
+@model IEnumerable<AdvertisementResponse>
+
+@{
+    ViewData["Title"] = "Pending Advertisements";
+}
+
+<link rel="stylesheet" href="~/css/advertisements.css" asp-append-version="true" />
+
+@{
+}
+
+<div class="ads-admin-page">
+    <!-- Header -->
+    <div class="ads-admin-header">
+        <div>
+            <h1 class="ads-admin-title">
+                <i class="bi bi-hourglass-split"></i>
+                Pending Advertisements
+            </h1>
+            <p class="ads-admin-subtitle">Review and approve/reject submitted advertisements</p>
+        </div>
+        <div class="ads-admin-actions">
+            <a asp-action="Revenue" class="ads-btn ads-btn-secondary">
+                <i class="bi bi-currency-dollar"></i>
+                Revenue Dashboard
+            </a>
+            <a asp-action="Index" class="ads-btn ads-btn-outline">
+                <i class="bi bi-list"></i>
+                All Advertisements
+            </a>
+        </div>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="ads-empty-state large">
+            <i class="bi bi-check-circle"></i>
+            <h3>All Caught Up!</h3>
+            <p>There are no advertisements pending review at the moment.</p>
+        </div>
+    }
+    else
+    {
+        <div class="ads-pending-grid">
+            @foreach (var ad in Model.OrderBy(a => a.CreatedAt))
+            {
+                <div class="ads-pending-card">
+                    <div class="ads-pending-image">
+                        <img src="@ad.ImageUrl" alt="@ad.Title" />
+                    </div>
+                    <div class="ads-pending-content">
+                        <div class="ads-pending-header">
+                            <span class="ads-plan-badge">@ad.PlanName</span>
+                            <span class="ads-pending-date">
+                                <i class="bi bi-clock"></i>
+                                Submitted @ad.CreatedAt.ToString("MMM dd, HH:mm")
+                            </span>
+                        </div>
+                        <h3 class="ads-pending-title">@ad.Title</h3>
+                        <p class="ads-pending-title-ar">@ad.TitleAr</p>
+                        <p class="ads-pending-description">@ad.Description</p>
+                        
+                        <div class="ads-pending-meta">
+                            <span>
+                                <i class="bi bi-shop"></i>
+                                @ad.RestaurantName
+                            </span>
+                            <span>
+                                <i class="bi bi-calendar"></i>
+                                @ad.StartDate.ToString("MMM dd") - @ad.EndDate.ToString("MMM dd, yyyy")
+                            </span>
+                            <span>
+                                <i class="bi bi-tag"></i>
+                                @ad.PlanPrice.ToString("N0") EGP
+                            </span>
+                        </div>
+                        
+                        <div class="ads-pending-actions">
+                            <a asp-action="Review" asp-route-id="@ad.Id" class="ads-btn ads-btn-primary">
+                                <i class="bi bi-eye"></i>
+                                Review
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>

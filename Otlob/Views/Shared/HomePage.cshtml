@@ -1,93 +1,229 @@
-﻿<link href="~/css/homepage.css" rel="stylesheet" asp-append-version="true" />
+﻿@model List<ActiveAdvertisementResponse>
+
+<link href="~/css/homepage.css" rel="stylesheet" asp-append-version="true" />
 <link href="~/css/newSite.css" rel="stylesheet" asp-append-version="true" />
 
 <div class="mainSection">
-    <!-- HERO SECTION: Customer Focus -->
+    <!-- HERO SECTION -->
     <section class="hero-section">
         <div class="hero-content">
-            <h1 class="hero-title">Don't Wait, Just Otlob</h1>
-            <p class="hero-subtitle">Order food from the best restaurants near you, delivered fast.</p>
+            <h1 class="hero-title">Don't Wait, Just <span class="highlight">Otlob</span></h1>
+            <p class="hero-subtitle">Order food from the best restaurants near you, delivered fast to your doorstep.</p>
             
             <div class="search-container">
                 <button class="location-btn" onclick="getCurrentLocation()" title="Use current location">
                     <i class="bi bi-crosshair"></i>
                 </button>
                 <input type="text" id="searchInput" class="search-input" placeholder="Search for area, street name, landmark..." onkeyup="searchAddress()">
-                <button type="button" class="search-btn" onclick="handleGoButtonClick()">Let's Go</button>
+                <button type="button" class="search-btn" onclick="handleGoButtonClick()">
+                    <i class="bi bi-search"></i> Let's Go
+                </button>
                 
                 <div id="results" class="results"></div>
             </div>
+
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <span class="stat-number">500+</span>
+                    <span class="stat-label">Restaurants</span>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat-item">
+                    <span class="stat-number">50K+</span>
+                    <span class="stat-label">Happy Customers</span>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat-item">
+                    <span class="stat-number">30min</span>
+                    <span class="stat-label">Avg Delivery</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Hero Wave Decoration -->
+        <div class="hero-wave">
+            <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M0 120L60 105C120 90 240 60 360 45C480 30 600 30 720 37.5C840 45 960 60 1080 67.5C1200 75 1320 75 1380 75L1440 75V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z" fill="var(--bg-primary)"/>
+            </svg>
         </div>
     </section>
 
-    <!-- MAIN CONTENT -->
-    <section class="main-content">
-        <div class="container">
-            
-            <!-- BUSINESS PARTNER SECTION: High Visibility -->
-            <div class="partner-cta-section">
-                <div class="partner-content-box">
-                    <h2>Become a Partner</h2>
-                    <p>Join our network of restaurant partners and reach thousands of hungry customers. Grow your business with our proven delivery platform.</p>
-                    <a asp-area="@DefaultRoles.Customer" asp-controller="BecomeAPartner" asp-action="BecomeAPartner" class="btn-primary-solid">Register Your Restaurant</a>
+    <!-- FEATURED ADVERTISEMENTS SECTION -->
+    @if (Model != null && Model.Any())
+    {
+        <section class="ads-showcase-section">
+            <div class="container">
+                <div class="section-header">
+                    <div class="section-badge">
+                        <i class="bi bi-stars"></i>
+                        Featured
+                    </div>
+                    <h2 class="section-title">Today's <span class="highlight">Hot Deals</span></h2>
+                    <p class="section-subtitle">Exclusive offers from our top restaurant partners</p>
                 </div>
-                <div class="partner-bg-image"></div>
-            </div>
 
-            <!-- CONSUMER SECTIONS: Grid -->
-            <div class="section-grid">
-                <!-- Card 1 -->
-                <a href="javascript:void(0)" onclick="handleQuickNavigation()" class="promo-card">
-                    <div class="promo-image">
-                        <img src="~/images/landing/food.jpg" alt="Enjoy Food" />
-                    </div>
-                    <div class="promo-content">
-                        <h3 class="promo-title">Enjoy with Family & Friends</h3>
-                        <p class="promo-desc">We deliver happiness and the best dining experience directly to you.</p>
-                        <span class="promo-link">Order Now <i class="fas fa-arrow-right"></i></span>
+                <div class="ads-pyramid-grid">
+                    @{
+                        var adsList = Model.ToList();
+                        var totalAds = adsList.Count;
+                        int index = 0;
+                        int row = 0;
+                        
+                        // Pyramid pattern: 3 -> 2 -> 1 -> 3 -> 2 -> 1 (repeating)
+                        int[] pattern = { 3, 2, 1 };
+                    }
+                    
+                    @while (index < totalAds)
+                    {
+                        var cardsInRow = pattern[row % pattern.Length];
+                        var remainingCards = totalAds - index;
+                        cardsInRow = Math.Min(cardsInRow, remainingCards);
+                        
+                        <div class="ads-row ads-row-@cardsInRow">
+                            @for (int i = 0; i < cardsInRow && index < totalAds; i++)
+                            {
+                                var ad = adsList[index];
+                                var isFeatured = row == 0 && i == 1 && cardsInRow == 3; // Center card in first row
+                                
+                                <div class="ad-card @(isFeatured ? "featured" : "")" data-ad-id="@ad.Id" onclick="trackAndNavigate('@ad.Id', '@ad.RestaurantId')">
+                                    <div class="ad-image-wrapper">
+                                        <img src="@ad.ImageUrl" alt="@ad.Title" class="ad-image" loading="lazy" />
+                                        <div class="ad-plan-badge @(ad.PlanDisplayOrder == 1 ? "premium" : "")">
+                                            <i class="bi bi-lightning-fill"></i>
+                                            @ad.PlanName
+                                        </div>
+                                        <div class="ad-overlay">
+                                            <span class="view-deal">View Deal <i class="bi bi-arrow-right"></i></span>
+                                        </div>
+                                    </div>
+                                    <div class="ad-content">
+                                        <div class="ad-restaurant">
+                                            @if (!string.IsNullOrEmpty(ad.RestaurantImage))
+                                            {
+                                                <img src="~/images/@ad.RestaurantImage" alt="@ad.RestaurantName" class="restaurant-logo" />
+                                            }
+                                            else
+                                            {
+                                                <div class="restaurant-logo-placeholder">
+                                                    <i class="bi bi-shop"></i>
+                                                </div>
+                                            }
+                                            <span class="restaurant-name">@ad.RestaurantName</span>
+                                        </div>
+                                        <h3 class="ad-title">@ad.Title</h3>
+                                        <p class="ad-description">@ad.Description</p>
+                                    </div>
+                                </div>
+                                index++;
+                            }
+                        </div>
+                        row++;
+                    }
+                </div>
+            </div>
+        </section>
+    }
+
+    <!-- QUICK ORDER CTA -->
+    <section class="quick-order-section">
+        <div class="container">
+            <div class="quick-order-grid">
+                <a href="javascript:void(0)" onclick="handleQuickNavigation()" class="quick-card food-card">
+                    <div class="quick-card-bg"></div>
+                    <div class="quick-card-content">
+                        <div class="quick-icon">
+                            <i class="bi bi-egg-fried"></i>
+                        </div>
+                        <h3>Order Food Now</h3>
+                        <p>Browse hundreds of delicious options from restaurants near you</p>
+                        <span class="quick-link">
+                            Start Ordering <i class="bi bi-arrow-right"></i>
+                        </span>
                     </div>
                 </a>
-
-                <!-- Card 2 -->
-                <a href="javascript:void(0)" onclick="handleQuickNavigation()" class="promo-card">
-                    <div class="promo-image">
-                        <img src="~/images/landing/pexels-chanwalrus-958545.jpg" alt="Wide Selection" />
-                    </div>
-                    <div class="promo-content">
-                        <h3 class="promo-title">Explore Cuisines</h3>
-                        <p class="promo-desc">We're proud to offer a wide selection of cuisines from around the world.</p>
-                        <span class="promo-link">View Menu <i class="fas fa-arrow-right"></i></span>
+                
+                <a href="javascript:void(0)" onclick="handleQuickNavigation()" class="quick-card cuisine-card">
+                    <div class="quick-card-bg"></div>
+                    <div class="quick-card-content">
+                        <div class="quick-icon">
+                            <i class="bi bi-globe2"></i>
+                        </div>
+                        <h3>Explore Cuisines</h3>
+                        <p>Discover amazing flavors from around the world</p>
+                        <span class="quick-link">
+                            View All <i class="bi bi-arrow-right"></i>
+                        </span>
                     </div>
                 </a>
             </div>
-
         </div>
     </section>
 
     <!-- FEATURES SECTION -->
     <section class="features-section">
         <div class="container">
-            <h2 class="features-title">Why Choose Otlob?</h2>
+            <h2 class="features-title">Why Choose <span class="highlight">Otlob</span>?</h2>
             <div class="features-grid">
                 <div class="feature-item">
-                    <div class="feature-icon-circle">⚡</div>
+                    <div class="feature-icon-circle">
+                        <i class="bi bi-lightning-charge-fill"></i>
+                    </div>
                     <h3>Fast Delivery</h3>
                     <p>Get your food delivered in 30 minutes or less with our optimized fleet.</p>
                 </div>
                 <div class="feature-item">
-                    <div class="feature-icon-circle">🏆</div>
+                    <div class="feature-icon-circle">
+                        <i class="bi bi-trophy-fill"></i>
+                    </div>
                     <h3>Quality Assured</h3>
                     <p>We partner with only the best restaurants to ensure high quality.</p>
                 </div>
                 <div class="feature-item">
-                    <div class="feature-icon-circle">💳</div>
+                    <div class="feature-icon-circle">
+                        <i class="bi bi-credit-card-fill"></i>
+                    </div>
                     <h3>Easy Payment</h3>
                     <p>Multiple secure payment options including cash, credit, and wallets.</p>
                 </div>
                 <div class="feature-item">
-                    <div class="feature-icon-circle">📱</div>
+                    <div class="feature-icon-circle">
+                        <i class="bi bi-geo-alt-fill"></i>
+                    </div>
                     <h3>Track Orders</h3>
                     <p>Real-time order tracking from the kitchen to your doorstep.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PARTNER SECTION -->
+    <section class="partner-section">
+        <div class="container">
+            <div class="partner-cta-section">
+                <div class="partner-content-box">
+                    <div class="partner-badge">
+                        <i class="bi bi-building"></i>
+                        For Restaurants
+                    </div>
+                    <h2>Grow Your Business With Us</h2>
+                    <p>Join our network of 500+ restaurant partners and reach thousands of hungry customers every day. Increase your revenue with our proven delivery platform.</p>
+                    <ul class="partner-benefits">
+                        <li><i class="bi bi-check-circle-fill"></i> Zero commission for first month</li>
+                        <li><i class="bi bi-check-circle-fill"></i> Easy-to-use dashboard</li>
+                        <li><i class="bi bi-check-circle-fill"></i> Marketing & promotion support</li>
+                    </ul>
+                    <a asp-area="@DefaultRoles.Customer" asp-controller="BecomeAPartner" asp-action="BecomeAPartner" class="btn-partner">
+                        <i class="bi bi-shop"></i>
+                        Register Your Restaurant
+                    </a>
+                </div>
+                <div class="partner-bg-image">
+                    <div class="partner-stats-overlay">
+                        <div class="partner-stat">
+                            <span class="partner-stat-value">40%</span>
+                            <span class="partner-stat-label">Avg Revenue Increase</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -98,3 +234,35 @@
 
 <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
 <script src="~/js/homePage.js" asp-append-version="true"></script>
+
+<script>
+    // Track views when ads become visible using Intersection Observer
+    document.addEventListener('DOMContentLoaded', function() {
+        const adCards = document.querySelectorAll('.ad-card[data-ad-id]');
+        const viewedAds = new Set(); // Track which ads have been viewed to avoid duplicates
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const adId = entry.target.dataset.adId;
+                    if (adId && !viewedAds.has(adId)) {
+                        viewedAds.add(adId);
+                        fetch(`/api/advertisements/${adId}/view`, { method: 'POST' })
+                            .catch(() => {});
+                    }
+                }
+            });
+        }, { threshold: 0.5 }); // Track when 50% of the ad is visible
+        
+        adCards.forEach(card => observer.observe(card));
+    });
+
+    function trackAndNavigate(adId, restaurantKey) {
+        // Track click
+        fetch(`/api/advertisements/${adId}/click`, { method: 'POST' })
+            .catch(() => {});
+        
+        // Navigate to restaurant menu with protected key
+        window.location.href = `/Customer/Menu/Menu?restaurantKey=${encodeURIComponent(restaurantKey)}`;
+    }
+</script>

@@ -23,7 +23,7 @@ public class MealCategoriesController(IMealCategoryService mealCategoryService, 
         if (!ModelState.IsValid)
         {
             TempData["Error"] = ModelState.FirstOrDefault().Value?.Errors.FirstOrDefault()?.ErrorMessage;
-            return RedirectToAction("Menu", "Menu", new { restaurantKey });
+            return RedirectToAction("Menu", "Menu", new { restaurantKey, Area = DefaultRoles.SuperAdmin });
         }
 
         var result = _mealCategoryService.Add(restaurantId, request);
@@ -31,10 +31,10 @@ public class MealCategoriesController(IMealCategoryService mealCategoryService, 
         if (result.IsFailure)
         {
             TempData["Error"] = result.Error.Description;
-            return RedirectToAction("Menu", "Menu", new { restaurantKey });
+            return RedirectToAction("Menu", "Menu", new { restaurantKey, Area = DefaultRoles.SuperAdmin });
         }
 
-        return RedirectToAction("Menu", "Menu", new { restaurantKey });
+        return RedirectToAction("Menu", "Menu", new { restaurantKey, Area = DefaultRoles.SuperAdmin });
     }
 
     [HttpPost, ValidateAntiForgeryToken]
@@ -51,7 +51,7 @@ public class MealCategoriesController(IMealCategoryService mealCategoryService, 
         if (!ModelState.IsValid)
         {
             TempData["Error"] = ModelState.FirstOrDefault().Value?.Errors.FirstOrDefault()?.ErrorMessage;
-            return RedirectToAction("Menu", "Menu", new { restaurantKey });
+            return RedirectToAction("Menu", "Menu", new { restaurantKey, Area = DefaultRoles.SuperAdmin });
         }
 
         var result = _mealCategoryService.Update(key, request);
@@ -59,10 +59,10 @@ public class MealCategoriesController(IMealCategoryService mealCategoryService, 
         if (result.IsFailure)
         {
             TempData["Error"] = result.Error.Description;
-            return RedirectToAction("Menu", "Menu", new { restaurantKey });
+            return RedirectToAction("Menu", "Menu", new { restaurantKey, Area = DefaultRoles.SuperAdmin });
         }
 
-        return RedirectToAction("Menu", "Menu", new { restaurantKey });
+        return RedirectToAction("Menu", "Menu", new { restaurantKey, Area = DefaultRoles.SuperAdmin });
     }
 
     public IActionResult Delete(string key)
@@ -80,9 +80,9 @@ public class MealCategoriesController(IMealCategoryService mealCategoryService, 
         if (reult.IsFailure)
         {
             TempData["Error"] = reult.Error.Description;
-            return RedirectToAction("Menu", "Menu", new { restaurantKey });
+            return RedirectToAction("Menu", "Menu", new { restaurantKey, Area = DefaultRoles.SuperAdmin });
         }
 
-        return RedirectToAction("Menu", "Menu", new { restaurantKey });
+        return RedirectToAction("Menu", "Menu", new { restaurantKey, Area = DefaultRoles.SuperAdmin });
     }
 }

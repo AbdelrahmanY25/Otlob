@@ -18,7 +18,7 @@
 
 <div class="meal-page">
     <div class="meal-nav">
-        <a class="back-btn" asp-controller="Menu" asp-action="Menu" asp-route-restaurantKey="@Model.RestaurantKey">
+        <a class="back-btn" asp-area="@DefaultRoles.Customer" asp-controller="Menu" asp-action="Menu" asp-route-restaurantKey="@Model.RestaurantKey">
             <i class="fa-solid fa-arrow-left"></i>
             <span>Back to Menu</span>
         </a>

@@ -12,7 +12,7 @@ public class RestaurantRatingAnlyticsService(IUnitOfWorkRepository unitOfWorkRep
         if (!isExists)
         {
             _unitOfWorkRepository.RestaurantRatingAnlytics
-                .Add(new RestaurantRatingAnlytic{ RestaurantId = restaurantId });
+                .Add(new RestaurantRatingAnlytic { RestaurantId = restaurantId });
 
             _unitOfWorkRepository.SaveChanges();
         }

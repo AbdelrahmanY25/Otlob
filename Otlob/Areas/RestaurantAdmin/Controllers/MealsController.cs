@@ -8,13 +8,6 @@ public class MealsController(IMealService mealService, IMealCategoryService menu
     private readonly IMealCategoryService _menuCategoryService = menuCategoryService;
     private readonly IMealAddOnService _mealAddOnService = mealAddOnService;
 
-    //public IActionResult Index()
-    //{        
-    //    var mealsResult = _mealService.GetAllByRestaurantId(int.Parse(User.FindFirstValue(StaticData.RestaurantId)!))!;       
-
-    //    return View(mealsResult.Value);
-    //}
-
     public IActionResult Add()
     {
         int restaurantId = int.Parse(User.FindFirstValue(StaticData.RestaurantId)!);
@@ -71,7 +64,7 @@ public class MealsController(IMealService mealService, IMealCategoryService menu
         if (resultResponse.IsFailure)
         {
             TempData["Error"] = resultResponse.Error.Description;
-            return RedirectToAction("Menu", "Menu");
+            return RedirectToAction("Menu", "Menu", new { Area = DefaultRoles.RestaurantAdmin });
         }
 
         return View(resultResponse.Value);
@@ -138,7 +131,7 @@ public class MealsController(IMealService mealService, IMealCategoryService menu
         if (result.IsFailure)
             TempData["Error"] = result.Error.Description;
 
-        return RedirectToAction("Menu", "Menu");
+        return RedirectToAction("Menu", "Menu", new { Area = DefaultRoles.RestaurantAdmin });
     }
 
     [HttpPost, ValidateAntiForgeryToken]
@@ -155,6 +148,6 @@ public class MealsController(IMealService mealService, IMealCategoryService menu
     private RedirectToActionResult BackToMealsView(string msg)
     {
         TempData["Success"] = msg;
-        return RedirectToAction("Menu", "Menu");
+        return RedirectToAction("Menu", "Menu", new { Area = DefaultRoles.RestaurantAdmin });
     }
 }

@@ -52,24 +52,7 @@
                 </p>
             </div>
         </div>
-        <div class="header-actions">
-            @if (!isCancelled && Model.Status != OrderStatus.Delivered)
-            {
-                @if (!string.IsNullOrEmpty(nextStatus))
-                {
-                    <button type="button" class="action-btn primary" onclick="updateOrderStatusFromDetails(@orderKey, '@nextStatus', this)">
-                        <i class="bi bi-arrow-right-circle"></i>
-                        @(nextStatus == "Preparing" ? "Start Preparing" : nextStatus == "Shipped" ? "Mark as Shipped" : "Mark as Delivered")
-                    </button>
-                }
-                
-                @if (Model.Status == OrderStatus.Pending || Model.Status == OrderStatus.Preparing)
-                {
-                    <button type="button" class="action-btn danger" onclick="updateOrderStatusFromDetails(@orderKey, 'Cancelled', this)">
-                        <i class="bi bi-x-lg"></i> Cancel Order
-                    </button>
-                }
-            }
+        <div class="header-actions">            
             <button type="button" class="action-btn outline" onclick="printOrder()">
                 <i class="bi bi-printer"></i> Print
             </button>
@@ -153,24 +136,21 @@
                                 
                                 @if (mealDetails != null)
                                 {
-                                    @if (mealDetails.Options.Any())
+                                    @if (mealDetails.Items?.Any() == true)
                                     {
                                         <div class="item-options">
-                                            @foreach (var option in mealDetails.Options)
+                                            @foreach (var option in mealDetails.Items)
                                             {
                                                 <span class="option-tag">
                                                     <i class="bi bi-check-circle"></i>
-                                                    @option.GroupName: @option.ItemName
-                                                    @if (option.Price > 0)
-                                                    {
-                                                        <span class="option-price">(+@option.Price.ToString("N2") L.E)</span>
-                                                    }
+                                                    @option.Name
+                                                    <span class="option-price">(+@option.Price.ToString("N2") L.E)</span>
                                                 </span>
                                             }
                                         </div>
                                     }
                                     
-                                    @if (mealDetails.AddOns.Any())
+                                    @if (mealDetails.AddOns?.Any() == true)
                                     {
                                         <div class="item-addons">
                                             <span class="addons-label"><i class="bi bi-plus-circle"></i> Add-ons:</span>
@@ -178,10 +158,6 @@
                                             {
                                                 <span class="addon-tag">
                                                     @addOn.Name
-                                                    @if (addOn.Quantity > 1)
-                                                    {
-                                                        <span>x@addOn.Quantity</span>
-                                                    }
                                                     <span class="addon-price">(+@addOn.Price.ToString("N2") L.E)</span>
                                                 </span>
                                             }

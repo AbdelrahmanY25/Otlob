@@ -1,0 +1,167 @@
+@model AdvertisementResponse
+
+@{
+    ViewData["Title"] = "Advertisement Details";
+}
+
+<link rel="stylesheet" href="~/css/advertisements.css" asp-append-version="true" />
+
+@{
+}
+
+<div class="ads-details-page admin">
+    <!-- Header -->
+    <div class="ads-details-header">
+        <div class="ads-details-header-content">
+            <a asp-action="Index" class="ads-back-btn">
+                <i class="bi bi-arrow-left"></i>
+                Back to All Ads
+            </a>
+            <h1 class="ads-details-title">Advertisement Details</h1>
+        </div>
+        @if (Model.Status == AdvertisementStatus.Pending)
+        {
+            <a asp-action="Review" asp-route-id="@Model.Id" class="ads-btn ads-btn-warning">
+                <i class="bi bi-clipboard-check"></i>
+                Review This Ad
+            </a>
+        }
+    </div>
+
+    <!-- Status Banner -->
+    <div class="ads-status-banner status-@Model.Status.ToString().ToLower()">
+        <div class="ads-status-info">
+            <span class="ads-status-badge large status-@Model.Status.ToString().ToLower()">
+                @Model.StatusDisplay
+            </span>
+        </div>
+    </div>
+
+    @if (Model.Status == AdvertisementStatus.Rejected && !string.IsNullOrEmpty(Model.RejectionReason))
+    {
+        <div class="ads-alert error">
+            <i class="bi bi-x-circle-fill ads-alert-icon"></i>
+            <div class="ads-alert-content">
+                <div class="ads-alert-title">Rejection Reason</div>
+                <p class="ads-alert-text">@Model.RejectionReason</p>
+            </div>
+        </div>
+    }
+
+    <!-- Main Content -->
+    <div class="ads-details-grid">
+        <!-- Advertisement Preview -->
+        <div class="ads-preview-card">
+            <h3 class="ads-card-title">
+                <i class="bi bi-image"></i>
+                Advertisement Preview
+            </h3>
+            <div class="ads-preview-image-container">
+                <img src="@Model.ImageUrl" alt="@Model.Title" class="ads-preview-image" />
+            </div>
+            <div class="ads-preview-content">
+                <h2 class="ads-preview-title">@Model.Title</h2>
+                <p class="ads-preview-title-ar">@Model.TitleAr</p>
+                <p class="ads-preview-description">@Model.Description</p>
+                <p class="ads-preview-description-ar text-muted">@Model.DescriptionAr</p>
+            </div>
+        </div>
+
+        <!-- Advertisement Info -->
+        <div class="ads-info-section">
+            <!-- Restaurant Info -->
+            <div class="ads-info-card">
+                <h3 class="ads-card-title">
+                    <i class="bi bi-shop"></i>
+                    Restaurant
+                </h3>
+                <div class="ads-info-row">
+                    <span class="ads-info-label">Name</span>
+                    <span class="ads-info-value">@Model.RestaurantName</span>
+                </div>
+            </div>
+
+            <!-- Plan Info -->
+            <div class="ads-info-card">
+                <h3 class="ads-card-title">
+                    <i class="bi bi-tag"></i>
+                    Plan Details
+                </h3>
+                <div class="ads-info-row">
+                    <span class="ads-info-label">Plan</span>
+                    <span class="ads-info-value">
+                        <span class="ads-plan-badge large">@Model.PlanName</span>
+                    </span>
+                </div>
+                <div class="ads-info-row">
+                    <span class="ads-info-label">Price</span>
+                    <span class="ads-info-value price">@Model.PlanPrice.ToString("N0") EGP</span>
+                </div>
+            </div>
+
+            <!-- Duration -->
+            <div class="ads-info-card">
+                <h3 class="ads-card-title">
+                    <i class="bi bi-calendar3"></i>
+                    Campaign Duration
+                </h3>
+                <div class="ads-info-row">
+                    <span class="ads-info-label">Start Date</span>
+                    <span class="ads-info-value">@Model.StartDate.ToString("dddd, MMMM dd, yyyy")</span>
+                </div>
+                <div class="ads-info-row">
+                    <span class="ads-info-label">End Date</span>
+                    <span class="ads-info-value">@Model.EndDate.ToString("dddd, MMMM dd, yyyy")</span>
+                </div>
+            </div>
+
+            <!-- Analytics -->
+            @if (Model.Status == AdvertisementStatus.Active || Model.Status == AdvertisementStatus.Expired)
+            {
+                <div class="ads-info-card analytics">
+                    <h3 class="ads-card-title">
+                        <i class="bi bi-graph-up"></i>
+                        Performance Analytics
+                    </h3>
+                    <div class="ads-analytics-grid">
+                        <div class="ads-analytics-item">
+                            <span class="ads-analytics-value">@Model.Views</span>
+                            <span class="ads-analytics-label">Views</span>
+                        </div>
+                        <div class="ads-analytics-item">
+                            <span class="ads-analytics-value">@Model.Clicks</span>
+                            <span class="ads-analytics-label">Clicks</span>
+                        </div>
+                        <div class="ads-analytics-item">
+                            <span class="ads-analytics-value">@Model.ClickThroughRate.ToString("F2")%</span>
+                            <span class="ads-analytics-label">CTR</span>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            <!-- Timestamps -->
+            <div class="ads-info-card">
+                <h3 class="ads-card-title">
+                    <i class="bi bi-clock-history"></i>
+                    Timeline
+                </h3>
+                <div class="ads-info-row">
+                    <span class="ads-info-label">Created</span>
+                    <span class="ads-info-value">@Model.CreatedAt.ToString("MMM dd, yyyy HH:mm")</span>
+                </div>
+                @if (Model.ReviewedAt.HasValue)
+                {
+                    <div class="ads-info-row">
+                        <span class="ads-info-label">Reviewed</span>
+                        <span class="ads-info-value">@Model.ReviewedAt.Value.ToString("MMM dd, yyyy HH:mm")</span>
+                    </div>
+                    <div class="ads-info-row">
+                        <span class="ads-info-label">Reviewed By</span>
+                        <span class="ads-info-value">@(Model.ReviewedByUserName ?? "N/A")</span>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

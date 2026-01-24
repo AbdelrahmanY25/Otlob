@@ -3,5 +3,5 @@
 public class MenuResponse
 {
    public MenuCategoryResponse Categories { get; init; } = default!;
-   public IEnumerable<MealResponse> Meals { get; init; } = default!;
+   public IEnumerable<MealForMenuResponse> Meals { get; init; } = default!;
 }

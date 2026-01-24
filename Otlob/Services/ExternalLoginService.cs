@@ -3,11 +3,12 @@ using Otlob.Errors;
 namespace Otlob.Services;
 
 public class ExternalLoginService(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager,
-                                  IUnitOfWorkRepository unitOfWorkRepository) : IExternalLoginService
+                                  IUnitOfWorkRepository unitOfWorkRepository, IHttpContextAccessor httpContextAccessor) : IExternalLoginService
 {
     private readonly SignInManager<ApplicationUser> _signInManager = signInManager;
     private readonly UserManager<ApplicationUser> _userManager = userManager;
     private readonly IUnitOfWorkRepository _unitOfWorkRepository = unitOfWorkRepository;
+    private readonly IHttpContextAccessor _httpContextAccessor = httpContextAccessor;
 
     public Task<Result<string>> ExternalLoginAsync(string provider, string returnUrl)
     {

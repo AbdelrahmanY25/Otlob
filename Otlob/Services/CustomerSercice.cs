@@ -4,11 +4,11 @@ public class CustomerSercice(IUnitOfWorkRepository unitOfWorkRepository,
                              IHttpContextAccessor httpContextAccessor,
                              IDataProtectionProvider dataProtectionProvider) : ICustomerSercice
 {
-    private readonly IUnitOfWorkRepository _unitOfWorkRepository = unitOfWorkRepository;
     private readonly IHttpContextAccessor _httpContextAccessor = httpContextAccessor;
+    private readonly IUnitOfWorkRepository _unitOfWorkRepository = unitOfWorkRepository;
     private readonly IDataProtector _dataProtector = dataProtectionProvider.CreateProtector("SecureData");
 
-    public Result<CustomerHomeResponse> GetCustomerHomePage()
+    public Result<CustomerHomeResponse> GetCustomerHomePage(List<ActiveAdvertisementResponse>? advertisements = null)
     {       
         var getUserDeliveryLocationResult = GetUserDeliveryLocation();
 
@@ -22,14 +22,15 @@ public class CustomerSercice(IUnitOfWorkRepository unitOfWorkRepository,
 
         var response = new CustomerHomeResponse
         {
-            Categories = _unitOfWorkRepository.Categories.GetAllWithSelect(selector: c => c.Name)!,
-            Restaurants = restaurants.Value
+            Categories = _unitOfWorkRepository.Categories.GetAllWithSelect(selector: c => new CategoryResponse(c.Name, c.Image))!,
+            Restaurants = restaurants.Value,
+            Advertisements = advertisements ?? []
         };
 
         return Result.Success(response);
     }
 
-    public Result<CustomerHomeResponse> GetCustomerHomePage(double? lat = null, double? lon = null)
+    public Result<CustomerHomeResponse> GetCustomerHomePage(double? lat = null, double? lon = null, List<ActiveAdvertisementResponse>? advertisements = null)
     {        
         if (!(lat.HasValue && lon.HasValue) && !(lat < -90 || lat > 90 || lon < -180 || lon > 180))
             return Result.Failure<CustomerHomeResponse>(CommonErrors.InvalidLatitudeOrLongitudeValues);
@@ -43,13 +44,16 @@ public class CustomerSercice(IUnitOfWorkRepository unitOfWorkRepository,
 
         var response = new CustomerHomeResponse
         {
-            Categories = _unitOfWorkRepository.Categories.GetAllWithSelect(selector: c => c.Name)!,
-            Restaurants = restaurants.Value
+            Categories = _unitOfWorkRepository.Categories.GetAllWithSelect(selector: c => new CategoryResponse(c.Name, c.Image))!,
+            Restaurants = restaurants.Value,
+            Advertisements = advertisements ?? []
         };
 
         return Result.Success(response);
     }
 
+    
+    
     private Result<Point> GetUserDeliveryLocation()
     {
         string userId = _httpContextAccessor.HttpContext!.User.GetUserId()!;
@@ -107,6 +111,7 @@ public class CustomerSercice(IUnitOfWorkRepository unitOfWorkRepository,
                     Key = _dataProtector.Protect(r.Id.ToString()),
                     Name = r.Name,
                     Image = r.Image,
+                    CoverImage = r.CoverImage,
                     DeliveryFee = r.DeliveryFee,
                     DeliveryDuration = r.DeliveryDuration,
                     Status = r.AcctiveStatus,
@@ -123,6 +128,4 @@ public class CustomerSercice(IUnitOfWorkRepository unitOfWorkRepository,
 
         return Result.Success(restaurants);
     }
-
-    //private 
 }

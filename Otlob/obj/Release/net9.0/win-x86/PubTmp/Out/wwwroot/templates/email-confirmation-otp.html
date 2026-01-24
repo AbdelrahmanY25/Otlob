@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Verification Code - Otlob</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f4f4f4;
+            padding: 20px 0;
+        }
+
+        .email-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            background: linear-gradient(135deg, #F04335 0%, #dd968c 100%);
+            padding: 40px 30px;
+            text-align: center;
+            color: white;
+        }
+
+        .logo {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .header-subtitle {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 40px 30px;
+        }
+
+        .greeting {
+            font-size: 24px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .message {
+            font-size: 16px;
+            color: #555;
+            margin-bottom: 30px;
+            line-height: 1.8;
+        }
+
+        .user-info {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            border-left: 4px solid #F04335;
+        }
+
+            .user-info h3 {
+                color: #F04335;
+                margin-bottom: 10px;
+                font-size: 18px;
+            }
+
+        .user-detail {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: #666;
+        }
+
+            .user-detail:last-child {
+                margin-bottom: 0;
+            }
+
+        .icon {
+            margin-right: 10px;
+            font-size: 16px;
+        }
+
+        .otp-container {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border: 3px dashed #F04335;
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .otp-label {
+            font-size: 14px;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .otp-code {
+            font-size: 48px;
+            font-weight: bold;
+            color: #F04335;
+            letter-spacing: 8px;
+            font-family: 'Courier New', monospace;
+            text-shadow: 2px 2px 4px rgba(240, 67, 53, 0.1);
+            margin: 10px 0;
+            user-select: all;
+        }
+
+        .otp-instruction {
+            font-size: 13px;
+            color: #666;
+            margin-top: 15px;
+            font-style: italic;
+        }
+
+        .expiry-notice {
+            background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+            border: 2px solid #ffd93d;
+            color: #856404;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 30px 0;
+            text-align: center;
+        }
+
+            .expiry-notice .timer-icon {
+                font-size: 32px;
+                margin-bottom: 10px;
+            }
+
+            .expiry-notice h4 {
+                margin-bottom: 10px;
+                color: #F04335;
+                font-size: 18px;
+            }
+
+            .expiry-notice p {
+                font-size: 15px;
+                margin: 0;
+            }
+
+        /* Circular timer styles */
+        .expiry-notice .timer-circle-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 18px;
+            flex-direction: column;
+            margin-bottom: 12px;
+        }
+
+        .timer-circle {
+            position: relative;
+            width: 96px;
+            height: 96px;
+        }
+
+        .timer-circle svg {
+            transform: rotate(-90deg);
+            width: 96px;
+            height: 96px;
+        }
+
+        .timer-circle .bg-ring {
+            stroke: rgba(0,0,0,0.06);
+            stroke-width: 8;
+            fill: none;
+        }
+
+        .timer-circle .progress-ring {
+            stroke: #F04335;
+            stroke-width: 8;
+            stroke-linecap: round;
+            fill: none;
+            transition: stroke-dashoffset 1s linear;
+        }
+
+        .timer-circle .timer-text {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: #6b4a2a;
+            font-size: 18px;
+        }
+
+        .security-notice {
+            background-color: #fee;
+            border: 1px solid #fcc;
+            color: #c33;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+
+            .security-notice h4 {
+                margin-bottom: 10px;
+                color: #F04335;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }
+
+            .security-notice ul {
+                margin: 10px 0 0 20px;
+                padding: 0;
+            }
+
+                .security-notice ul li {
+                    margin-bottom: 8px;
+                }
+
+        .divider {
+            height: 2px;
+            background: linear-gradient(90deg, #F04335 0%, #dd968c 100%);
+            margin: 30px 0;
+        }
+
+        .footer {
+            background-color: #f8f9fa;
+            padding: 30px;
+            text-align: center;
+            border-top: 1px solid #eee;
+        }
+
+        .footer-text {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        .footer-links {
+            margin-top: 20px;
+        }
+
+            .footer-links a {
+                color: #F04335;
+                text-decoration: none;
+                margin: 0 15px;
+                font-size: 14px;
+            }
+
+                .footer-links a:hover {
+                    text-decoration: underline;
+                }
+
+        @media (max-width: 600px) {
+            .email-container {
+                margin: 0;
+                border-radius: 0;
+            }
+
+            .header, .content, .footer {
+                padding: 20px;
+            }
+
+            .greeting {
+                font-size: 20px;
+            }
+
+            .otp-code {
+                font-size: 36px;
+                letter-spacing: 4px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <div class="header">
+            <div class="logo">🍔 Otlob</div>
+            <div class="header-subtitle">Your favorite food delivery service</div>
+        </div>
+
+        <div class="content">
+            <div class="greeting">Hello {{USERNAME}}! 👋</div>
+
+            <div class="message">
+                We received a request to verify your email address. Use the verification code below to complete your email confirmation.
+            </div>
+
+            <div class="user-info">
+                <h3>📋 Verification Request Details</h3>
+                <div class="user-detail">
+                    <span class="icon">👤</span>
+                    <strong>Username:</strong> {{USERNAME}}
+                </div>
+                <div class="user-detail">
+                    <span class="icon">📧</span>
+                    <strong>Email:</strong> {{EMAIL}}
+                </div>               
+            </div>
+
+            <div class="otp-container">
+                <div class="otp-label">Your Verification Code</div>
+                <div class="otp-code">{{OTP_CODE}}</div>
+                <div class="otp-instruction">
+                    Click on the code to select and copy it
+                </div>
+            </div>
+
+            <div class="expiry-notice">
+                <div class="timer-circle-wrapper">
+                    <div class="timer-circle" aria-hidden="true">
+                        <svg viewBox="0 0 100 100" aria-hidden="true">
+                            <circle class="bg-ring" cx="50" cy="50" r="44"></circle>
+                            <circle id="progressRing" class="progress-ring" cx="50" cy="50" r="44" stroke-dasharray="0 1000"></circle>
+                        </svg>
+                        <div class="timer-text"><span id="timerSeconds">90</span>s</div>
+                    </div>
+                </div>
+
+                <h4>Time Sensitive Code</h4>
+                <p>This verification code will expire in <strong><span id="expiryText">90 sec</span></strong> for your security.</p>
+            </div>
+
+            <div class="security-notice">
+                <h4>🔒 Important Security Information</h4>
+                <ul>
+                    <li>Never share this code with anyone, including Otlob staff</li>
+                    <li>Otlob will never ask for your verification code via phone or email</li>
+                    <li>If you didn't request this code, please ignore this email and secure your account</li>
+                    <li>Each code can only be used once</li>
+                </ul>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="message" style="margin-top: 20px; font-size: 14px; color: #666;">
+                <strong>Didn't request this code?</strong><br>
+                If you didn't attempt to verify your email, you can safely ignore this message. Your account remains secure and no changes have been made.
+            </div>
+        </div>
+
+        <div class="footer">
+            <div class="footer-text">
+                <strong>Otlob - Delivering Happiness</strong><br>
+                This email was sent to {{EMAIL}} as part of your email verification process.
+            </div>
+
+            <div class="footer-links">
+                <a href="#">Help Center</a>
+                <a href="#">Contact Support</a>
+                <a href="#">Privacy Policy</a>
+            </div>
+
+            <div class="footer-text" style="margin-top: 20px; font-size: 12px;">
+                © 2026 Otlob. All rights reserved.
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        (function(){
+            const DURATION = 90; // seconds
+            const timerEl = document.getElementById('timerSeconds');
+            const expiryText = document.getElementById('expiryText');
+            const ring = document.getElementById('progressRing');
+
+            if (!timerEl || !ring) return;
+
+            const R = 44; // radius used in SVG
+            const C = 2 * Math.PI * R;
+            ring.style.strokeDasharray = C.toString();
+            ring.style.strokeDashoffset = '0';
+
+            let remaining = DURATION;
+            // initialize
+            timerEl.textContent = remaining.toString();
+            expiryText.textContent = remaining + ' sec';
+
+            const start = Date.now();
+
+            const tick = () => {
+                const elapsed = Math.floor((Date.now() - start) / 1000);
+                remaining = Math.max(0, DURATION - elapsed);
+                timerEl.textContent = remaining.toString();
+                expiryText.textContent = remaining > 0 ? remaining + ' sec' : 'expired';
+
+                const progress = (DURATION - remaining) / DURATION; // 0..1
+                const offset = C * progress;
+                ring.style.strokeDashoffset = offset.toString();
+
+                if (remaining <= 0) {
+                    clearInterval(interval);
+                    ring.style.stroke = '#999';
+                    timerEl.textContent = '0';
+                    expiryText.textContent = 'expired';
+                }
+            };
+
+            // Run immediately then every second
+            tick();
+            const interval = setInterval(tick, 1000);
+        })();
+    </script>
+</body>
+</html>

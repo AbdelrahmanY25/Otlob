@@ -7,4 +7,5 @@ public class RestaurantProfile
     public string Phone { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
     public string? Image { get; set; }
+    public string? CoverImage { get; set; }
 }

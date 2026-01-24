@@ -11,6 +11,7 @@ public class UnitOfWorkRepository(ApplicationDbContext applicationDbContext) : I
     private IBaseRepository<AdminMonthlyAnalytic> _adminMonthlyAnalytic = default!;
     private IBaseRepository<ApplicationUser> _users = default!;
     private IBaseRepository<Order> _orders = default!;
+    private IBaseRepository<Otp> _otps = default!;
     private IBaseRepository<Category> _categories = default!;
     private IBaseRepository<Restaurant> _restaurants = default!;
     private IBaseRepository<RestaurantRatingAnlytic> _restaurantRatingAnlytics = default!;
@@ -110,6 +111,16 @@ public class UnitOfWorkRepository(ApplicationDbContext applicationDbContext) : I
             _orders ??= new BaseRepository<Order>(_context);
            
             return _orders;
+        }
+    }
+
+    public IBaseRepository<Otp> Otps
+    { 
+        get 
+        {
+            _otps ??= new BaseRepository<Otp>(_context);
+            
+            return _otps;
         }
     }
 
@@ -348,6 +359,56 @@ public class UnitOfWorkRepository(ApplicationDbContext applicationDbContext) : I
         {
             _promoCodeUsages ??= new BaseRepository<PromoCodeUsage>(_context);
             return _promoCodeUsages;
+        }
+    }
+
+    private IBaseRepository<AdvertisementPlan> _advertisementPlans = default!;
+    public IBaseRepository<AdvertisementPlan> AdvertisementPlans
+    {
+        get
+        {
+            _advertisementPlans ??= new BaseRepository<AdvertisementPlan>(_context);
+            return _advertisementPlans;
+        }
+    }
+
+    private IBaseRepository<Advertisement> _advertisements = default!;
+    public IBaseRepository<Advertisement> Advertisements
+    {
+        get
+        {
+            _advertisements ??= new BaseRepository<Advertisement>(_context);
+            return _advertisements;
+        }
+    }
+
+    private IBaseRepository<AdvertisementPayment> _advertisementPayments = default!;
+    public IBaseRepository<AdvertisementPayment> AdvertisementPayments
+    {
+        get
+        {
+            _advertisementPayments ??= new BaseRepository<AdvertisementPayment>(_context);
+            return _advertisementPayments;
+        }
+    }
+
+    private IBaseRepository<AdvertisementAnalytics> _advertisementAnalytics = default!;
+    public IBaseRepository<AdvertisementAnalytics> AdvertisementAnalytics
+    {
+        get
+        {
+            _advertisementAnalytics ??= new BaseRepository<AdvertisementAnalytics>(_context);
+            return _advertisementAnalytics;
+        }
+    }
+
+    private IBaseRepository<UsersFavourites> _usersFavourites = default!;
+    public IBaseRepository<UsersFavourites> UsersFavourites
+    {
+        get
+        {
+            _usersFavourites ??= new BaseRepository<UsersFavourites>(_context);
+            return _usersFavourites;
         }
     }
 

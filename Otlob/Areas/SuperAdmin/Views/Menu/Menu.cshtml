@@ -66,7 +66,7 @@
             {
                 var categoryData = menuResponse.Categories;
                 // Get all meals for this category, offers first
-                var allCategoryMeals = (menuResponse.Meals ?? Enumerable.Empty<MealResponse>()).OrderByDescending(m => m.OfferPrice > 0).ToList();
+                var allCategoryMeals = (menuResponse.Meals).OrderByDescending(m => m.OfferPrice > 0).ToList();
 
                 <div class="mc-category-section open">
                     <div class="mc-category-header" onclick="toggleCategory(this)">
@@ -81,7 +81,7 @@
                             <span class="mc-cat-count">@allCategoryMeals.Count meals</span>
                         </div>
                         <div class="mc-cat-actions" onclick="event.stopPropagation()">
-                            <a asp-controller="Meals" asp-action="Add" class="mc-btn-icon add" title="Add Meal">
+                            <a asp-area="@DefaultRoles.SuperAdmin" asp-controller="Meals" asp-action="Add" class="mc-btn-icon add" title="Add Meal">
                                 <i class="fas fa-plus"></i>
                             </a>
                             <button type="button" class="mc-btn-icon"
@@ -140,10 +140,10 @@
                                             </td>
                                             <td>
                                                 <div class="mc-meal-actions-row">
-                                                    <a asp-controller="Meals" asp-action="Update" asp-route-key="@meal.Key" class="mc-action-btn view" title="View Details">
+                                                    <a asp-area="@DefaultRoles.SuperAdmin" asp-controller="Meals" asp-action="Update" asp-route-key="@meal.Key" class="mc-action-btn view" title="View Details">
                                                         <i class="fas fa-eye"></i>
                                                     </a>
-                                                    <a asp-controller="MealPrices" asp-action="PricesHistory" asp-route-id="@meal.Key" class="mc-action-btn history" title="Price History">
+                                                    <a asp-area="@DefaultRoles.SuperAdmin" asp-controller="MealPrices" asp-action="PricesHistory" asp-route-id="@meal.Key" class="mc-action-btn history" title="Price History">
                                                         <i class="fas fa-history"></i>
                                                     </a>
                                                     <button type="button"
@@ -186,10 +186,10 @@
                                             </div>
                                         </div>
                                         <div class="mc-mobile-meal-actions">
-                                            <a asp-controller="Meals" asp-action="Update" asp-route-key="@meal.Key" class="mc-mobile-action" style="color: #0284c7;">
+                                            <a asp-area="@DefaultRoles.SuperAdmin" asp-controller="Meals" asp-action="Update" asp-route-key="@meal.Key" class="mc-mobile-action" style="color: #0284c7;">
                                                 <i class="fas fa-eye"></i> Details
                                             </a>
-                                            <a asp-controller="MealPrices" asp-action="PricesHistory" asp-route-id="@meal.Key" class="mc-mobile-action" style="color: #059669;">
+                                            <a asp-area="@DefaultRoles.SuperAdmin" asp-controller="MealPrices" asp-action="PricesHistory" asp-route-id="@meal.Key" class="mc-mobile-action" style="color: #059669;">
                                                 <i class="fas fa-history"></i> History
                                             </a>
                                             <button type="button"
@@ -521,8 +521,6 @@
 </div>
 
 @section Scripts {
-    <partial name="_NotificationPartial" />
-
     <script>
         function toggleCategory(header) {
             header.parentElement.classList.toggle('open');

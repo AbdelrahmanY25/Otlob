@@ -22,7 +22,7 @@
     </div>
 
     <div class="profile-content-card">
-        <form asp-action="Update" method="post">
+        <form asp-action="Update" asp-route-key="@Model.RestaurntKey" method="post">
             <div asp-validation-summary="All" class="text-danger mb-4"></div>
 
             <!-- Delivery Settings -->
@@ -199,7 +199,6 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
-    <partial name="_NotificationPartial" />
 
     <script>
         // State management

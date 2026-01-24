@@ -1,5 +1,4 @@
-﻿using Otlob.Core.Entities;
-using System.Data;
+﻿using System.Data;
 
 namespace Otlob.Core.IUnitOfWorkRepository;
 
@@ -14,6 +13,7 @@ public interface IUnitOfWorkRepository : IDisposable
     IBaseRepository<RestaurantMonthlyAnalytic> RestaurantMonthlyAnalytics { get; }
     IBaseRepository<Address> Addresses { get; }
     IBaseRepository<Order> Orders { get; }
+    IBaseRepository<Otp> Otps { get; }
     IBaseRepository<CartDetails> CartDetails { get; }
     IBaseRepository<Cart> Carts { get; }
     IBaseRepository<OrderDetails> OrderDetails { get; }
@@ -38,6 +38,11 @@ public interface IUnitOfWorkRepository : IDisposable
     IBaseRepository<OrderRating> OrderRatings { get; }
     IBaseRepository<PromoCode> PromoCodes { get; }
     IBaseRepository<PromoCodeUsage> PromoCodeUsages { get; }
+    IBaseRepository<AdvertisementPlan> AdvertisementPlans { get; }
+    IBaseRepository<Advertisement> Advertisements { get; }
+    IBaseRepository<AdvertisementPayment> AdvertisementPayments { get; }
+    IBaseRepository<AdvertisementAnalytics> AdvertisementAnalytics { get; }
+    IBaseRepository<UsersFavourites> UsersFavourites { get; }
 
     IDbTransaction BeginTransaction();
     void SaveChanges();

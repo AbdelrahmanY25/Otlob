@@ -157,11 +157,6 @@ namespace Otlob
                 {
                     microsoftOptions.ClientId = configuration["Authentication:Microsoft:ClientId"]!;
                     microsoftOptions.ClientSecret = configuration["Authentication:Microsoft:ClientSecret"]!;
-                })
-                .AddFacebook(facebookOptions =>
-                {
-                    facebookOptions.AppId = configuration["Authentication:Facebook:AppId"]!;
-                    facebookOptions.AppSecret = configuration["Authentication:Facebook:AppSecret"]!;
                 });
 
             return services;
@@ -218,7 +213,14 @@ namespace Otlob
         private static IServiceCollection AddServices(this IServiceCollection services)
         {
             services.AddScoped<IApiAuthService, ApiAuthService>();
-            services.AddScoped<IExternalSignInService, ExternalSignInService>();
+            services.AddScoped<IApiCustomerService, ApiCustomerService>();
+            services.AddScoped<IApiMenuServcie, ApiMenuServcie>();
+            services.AddScoped<IApiOrderHistoryService, ApiOrderHistoryService>();
+            services.AddScoped<IApiOrdersService, ApiOrdersService>();
+            services.AddScoped<IApiPromoCodeService, ApiPromoCodeService>();
+            services.AddScoped<IApiSearchService, ApiSearchService>();
+            services.AddScoped<IApiUserProfileService, ApiUserProfileService>();
+            services.AddScoped<IUserAddressService, UserAddressService>();
             
             
             
@@ -275,6 +277,13 @@ namespace Otlob
             services.AddScoped<IOrderRatingService, OrderRatingService>();
             services.AddScoped<IPromoCodeService, PromoCodeService>();
             services.AddScoped<IAllRestaurantsAnalyticsService, AllRestaurantsAnalyticsService>();
+            
+            // Advertisement Services
+            services.AddScoped<IAdvertisementService, AdvertisementService>();
+            services.AddScoped<IAdvertisementPaymentService, AdvertisementPaymentService>();
+
+            // Favourites Service
+            services.AddScoped<IFavouritesService, FavouritesService>();
 
             return services;
         }
@@ -290,7 +299,7 @@ namespace Otlob
                         partitionKey: httpContext.Connection.RemoteIpAddress?.ToString() ?? "unknown",
                         factory: _ => new FixedWindowRateLimiterOptions
                         {
-                            PermitLimit = 20,
+                            PermitLimit = 40,
                             Window = TimeSpan.FromSeconds(20),
                         }
                     )
@@ -301,7 +310,7 @@ namespace Otlob
                         partitionKey: httpContext.User.GetUserId() ?? "unknown_user",
                         factory: _ => new FixedWindowRateLimiterOptions
                         {
-                            PermitLimit = 20,
+                            PermitLimit = 30,
                             Window = TimeSpan.FromSeconds(20),                          
                         }
                     )

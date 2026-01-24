@@ -9,7 +9,7 @@ public class AddressService(IUnitOfWorkRepository unitOfWorkRepository, IDataPro
 
     public IQueryable<AddressResponse>?GetUserAddressies()
     {
-        string userId = _httpContextAccessor.HttpContext!.User.GetUserId();
+        string userId = _httpContextAccessor.HttpContext!.User.GetUserId()!;
 
         var userAddressies = _unitOfWorkRepository.Addresses
                 .GetAllWithSelect
@@ -45,7 +45,7 @@ public class AddressService(IUnitOfWorkRepository unitOfWorkRepository, IDataPro
                     {
                         Key = _dataProtector.Protect(add.Id.ToString()),
                         CustomerAddress = add.CustomerAddress,
-                        PlaceType = add.PlaceType,
+                        PlaceType = add.PropertyType,
                         StreetName = add.StreetName,
                         FloorNumber = add.FloorNumber,
                         HouseNumberOrName = add.HouseNumberOrName,
@@ -135,7 +135,10 @@ public class AddressService(IUnitOfWorkRepository unitOfWorkRepository, IDataPro
         return Result.Success();
     }
 
-    public Address? HasDeliverAddress(string userId, int addressId) =>
+
+
+
+    private Address? HasDeliverAddress(string userId, int addressId) =>
             _unitOfWorkRepository.Addresses
                  .GetOne(expression: add => add.Id != addressId && add.UserId == userId && add.IsDeliveryAddress);
 
@@ -158,7 +161,7 @@ public class AddressService(IUnitOfWorkRepository unitOfWorkRepository, IDataPro
         return _unitOfWorkRepository.Addresses
             .IsExist(
                 add => add.UserId == userId &&
-                add.PlaceType == request.PlaceType &&
+                add.PropertyType == request.PlaceType &&
                 add.StreetName == request.StreetName &&
                 add.FloorNumber == request.FloorNumber &&
                 add.CompanyName == request.CompanyName &&
@@ -173,7 +176,7 @@ public class AddressService(IUnitOfWorkRepository unitOfWorkRepository, IDataPro
             .IsExist(
                 add => add.UserId == userId &&
                 add.Id != addressId &&
-                add.PlaceType == request.PlaceType &&
+                add.PropertyType == request.PlaceType &&
                 add.StreetName == request.StreetName &&
                 add.FloorNumber == request.FloorNumber &&
                 add.CompanyName == request.CompanyName &&

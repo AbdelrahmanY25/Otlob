@@ -24,54 +24,55 @@ public class MealAddOnsController(IMealAddOnService mealAddOnService, IDataProte
         if (result.IsFailure)
         {
             TempData["Error"] = result.Error.Description;
-            return RedirectToAction("Menu", "Menu");
+            return RedirectToAction("Menu", "Menu", new { restaurantKey, Area = DefaultRoles.SuperAdmin });
         }
 
         TempData["Success"] = "AddOn Added Successfully";
-        return RedirectToAction("Menu", "Menu", new { restaurantKey });
+        return RedirectToAction("Menu", "Menu", new { restaurantKey, Area = DefaultRoles.SuperAdmin });
     }
 
     public IActionResult Update(AddOnRequest request, string key)
     {
+        string restaurantKey = HttpContext.Session.GetString(StaticData.RestaurantId)!;
+        
+        if (string.IsNullOrEmpty(restaurantKey))
+        {
+            TempData["Error"] = "The session timeout try again";
+            return RedirectToAction("Index", "Home", new { Area = DefaultRoles.SuperAdmin });
+        }
+
         var result = _mealAddOnService.Update(request, key);
 
         if (result.IsFailure)
         {
             TempData["Error"] = result.Error.Description;
-            return RedirectToAction("Menu", "Menu");
+            return RedirectToAction("Menu", "Menu", new { restaurantKey, Area = DefaultRoles.SuperAdmin });
         }
 
-        string restaurantKey = HttpContext.Session.GetString(StaticData.RestaurantId)!;
 
+        TempData["Success"] = "AddOn Updated Successfully";
+        return RedirectToAction("Menu", "Menu", new { restaurantKey, Area = DefaultRoles.SuperAdmin });
+    }
+
+    public IActionResult Delete(string key)
+    {
+        string restaurantKey = HttpContext.Session.GetString(StaticData.RestaurantId)!;
+        
         if (string.IsNullOrEmpty(restaurantKey))
         {
             TempData["Error"] = "The session timeout try again";
             return RedirectToAction("Index", "Home", new { Area = DefaultRoles.SuperAdmin });
         }
 
-        TempData["Success"] = "AddOn Updated Successfully";
-        return RedirectToAction("Menu", "Menu", new { restaurantKey });
-    }
-
-    public IActionResult Delete(string key)
-    {
         var result = _mealAddOnService.Delete(key);
 
         if (result.IsFailure)
         {
             TempData["Error"] = result.Error.Description;
-            return RedirectToAction("Menu", "Menu");
-        }
-
-        string restaurantKey = HttpContext.Session.GetString(StaticData.RestaurantId)!;
-
-        if (string.IsNullOrEmpty(restaurantKey))
-        {
-            TempData["Error"] = "The session timeout try again";
-            return RedirectToAction("Index", "Home", new { Area = DefaultRoles.SuperAdmin });
+            return RedirectToAction("Menu", "Menu", new { restaurantKey, Area = DefaultRoles.SuperAdmin });
         }
 
         TempData["Success"] = "AddOn Deleted Successfully";
-        return RedirectToAction("Menu", "Menu", new { restaurantKey });
+        return RedirectToAction("Menu", "Menu", new { restaurantKey, Area = DefaultRoles.SuperAdmin });
     }
 }

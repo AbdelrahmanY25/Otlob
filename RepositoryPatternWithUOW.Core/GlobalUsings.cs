@@ -1,4 +1,10 @@
-﻿global using Otlob.Core.Contracts.Authentication;
+﻿global using Otlob.Core.Contracts.MobileApp;
+global using Otlob.Core.Contracts.MobileApp.Category;
+global using Otlob.Core.Contracts.MobileApp.TopMeals;
+global using Otlob.Core.Contracts.MobileApp.PromoCode;
+global using Otlob.Core.Contracts.MobileApp.TopRestaurants;
+
+global using Otlob.Core.Contracts.Authentication;
 global using Otlob.Core.Contracts.MenuCategory;
 global using Otlob.Core.Contracts.MealVarients;
 global using Otlob.Core.Contracts.Restaurant;
@@ -7,6 +13,8 @@ global using Otlob.Core.Contracts.OrderDetails;
 global using Otlob.Core.Contracts.Files;
 global using Otlob.Core.Contracts.Meal;
 global using Otlob.Core.Contracts.PromoCode;
+global using Otlob.Core.Contracts.Advertisement;
+global using Otlob.Core.Contracts.Favourites;
 global using Otlob.EF.IBaseRepository;
 global using Otlob.Core.Entities;
 global using Utility.Enums;

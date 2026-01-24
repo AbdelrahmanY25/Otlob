@@ -112,6 +112,37 @@
                             </a>
                         </li>
 
+                        <!-- Advertisements Dropdown -->
+                        <li class="adm-dropdown">
+                            <div class="adm-nav-link adm-dropdown-toggle">
+                                <a href="javascript:void(0)">
+                                    <i class="bi bi-megaphone icon"></i>
+                                    <span class="text nav-text">Advertisements</span>
+                                    <i class="bi bi-chevron-down icon chevron"></i>
+                                </a>
+                            </div>
+                            <ul class="adm-submenu">
+                                <li class="adm-nav-link">
+                                    <a asp-area="SuperAdmin" asp-controller="Advertisements" asp-action="Pending">
+                                        <i class="bi bi-hourglass-split icon"></i>
+                                        <span class="text nav-text">Pending Review</span>
+                                    </a>
+                                </li>
+                                <li class="adm-nav-link">
+                                    <a asp-area="SuperAdmin" asp-controller="Advertisements" asp-action="Index">
+                                        <i class="bi bi-list-ul icon"></i>
+                                        <span class="text nav-text">All Advertisements</span>
+                                    </a>
+                                </li>
+                                <li class="adm-nav-link">
+                                    <a asp-area="SuperAdmin" asp-controller="Advertisements" asp-action="Revenue">
+                                        <i class="bi bi-graph-up icon"></i>
+                                        <span class="text nav-text">Revenue Dashboard</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
                     </ul>
                 </div>
 

@@ -2,6 +2,6 @@
 
 public interface ICustomerSercice
 {
-    Result<CustomerHomeResponse> GetCustomerHomePage();
-    Result<CustomerHomeResponse> GetCustomerHomePage(double? lat = null, double? lon = null);
+    Result<CustomerHomeResponse> GetCustomerHomePage(List<ActiveAdvertisementResponse>? advertisements = null);
+    Result<CustomerHomeResponse> GetCustomerHomePage(double? lat = null, double? lon = null, List<ActiveAdvertisementResponse>? advertisements = null);
 }

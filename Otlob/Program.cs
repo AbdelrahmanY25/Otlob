@@ -71,10 +71,13 @@ public class Program
         RecurringJob.AddOrUpdate("AddRestaurantDailyAnalyticsJob", () => restaurantDailyAnalyticsService.AddForAllActiveRestaurants(), Cron.Daily);
         RecurringJob.AddOrUpdate("AddRestaurantMonthlyAnalyticsJob", () => restaurantMonthlyAnalyticsService.AddForAllActiveRestaurants(), Cron.Monthly);
 
+        // Advertisement Jobs - Activate approved ads and expire ended ads
+        var advertisementService = scope.ServiceProvider.GetRequiredService<IAdvertisementService>();
+        RecurringJob.AddOrUpdate("ActivateApprovedAdsJob", () => advertisementService.ActivateApprovedAds(), Cron.Hourly);
+        RecurringJob.AddOrUpdate("ExpireEndedAdsJob", () => advertisementService.ExpireEndedAds(), Cron.Hourly);
+
 
         app.UseRateLimiter();
-
-        app.MapHub<OrdersHub>("/orderHub");
 
         app.MapControllerRoute(
             name: "default",

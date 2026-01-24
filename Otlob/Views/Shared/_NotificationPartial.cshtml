@@ -1,13 +1,103 @@
-﻿@if (TempData["Error"] != null)
-{
-    <div class="alert alert-danger" style="margin-bottom: 20px; border-radius: 12px; background:#fff5f5; border:1px solid #fed7d7; color:#c53030; padding: 12px;">
-        @TempData["Error"]
-    </div>
+﻿@{
+    var error = TempData["Error"] as string;
+    var success = TempData["Success"] as string;
 }
 
-@if (TempData["Success"] != null)
-{
-    <div class="alert alert-success" style="margin-bottom: 20px; border-radius: 12px; background:#f0fff4; border:1px solid #c6f6d5; color:#2f855a; padding: 12px;">
-        @TempData["Success"]
-    </div>
-}
+<div id="otlob-toast-container" aria-live="polite" aria-atomic="true">
+    @if (!string.IsNullOrEmpty(error))
+    {
+        <div class="otlob-toast otlob-toast-error" role="alert">
+            <div class="otlob-toast-body">@error</div>
+        </div>
+    }
+
+    @if (!string.IsNullOrEmpty(success))
+    {
+        <div class="otlob-toast otlob-toast-success" role="alert">
+            <div class="otlob-toast-body">@success</div>
+        </div>
+    }
+</div>
+
+<style>
+    #otlob-toast-container {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 12000;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        pointer-events: none; /* allow clicks to pass except on toast */
+    }
+
+    .otlob-toast {
+        pointer-events: auto;
+        max-width: 360px; /* smaller width */
+        min-width: 220px;
+        border-radius: 12px;
+        padding: 12px 14px;
+        box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+        transition: opacity 220ms ease, transform 220ms ease, max-width 180ms ease;
+        opacity: 1;
+        transform: translateY(0);
+        cursor: pointer;
+        font-size: 14px;
+    }
+
+    .otlob-toast-body { white-space: pre-wrap; }
+
+    .otlob-toast-error {
+        background: #fff5f5;
+        border: 1px solid #fed7d7;
+        color: #c53030;
+    }
+
+    .otlob-toast-success {
+        background: #f0fff4;
+        border: 1px solid #c6f6d5;
+        color: #2f855a;
+    }
+
+    .otlob-toast.hide {
+        opacity: 0;
+        transform: translateY(-10px) scale(0.98);
+    }
+
+    .otlob-toast.shrink {
+        max-width: 260px;
+    }
+</style>
+
+<script>
+    (function(){
+        'use strict';
+        const TOAST_TIMEOUT = 3000; // 3 seconds
+
+        function removeToast(el){
+            if(!el) return;
+            el.classList.add('hide');
+            // wait for transition then remove
+            setTimeout(()=>{ el.remove(); }, 260);
+        }
+
+        document.addEventListener('DOMContentLoaded', ()=>{
+            const container = document.getElementById('otlob-toast-container');
+            if(!container) return;
+
+            const toasts = Array.from(container.querySelectorAll('.otlob-toast'));
+            toasts.forEach(toast => {
+                // auto hide after timeout
+                const timer = setTimeout(()=> removeToast(toast), TOAST_TIMEOUT);
+
+                // hide on click (shrink a bit for visual feedback)
+                toast.addEventListener('click', (e)=>{
+                    clearTimeout(timer);
+                    toast.classList.add('shrink');
+                    // short delay to show shrink animation before hiding
+                    setTimeout(()=> removeToast(toast), 160);
+                }, { once: true });
+            });
+        });
+    })();
+</script>

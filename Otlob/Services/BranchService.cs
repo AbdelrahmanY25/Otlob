@@ -187,7 +187,7 @@ public class BranchService(IUnitOfWorkRepository unitOfWorkRepository, IRestaura
     private Result ValidBranchDataForAdd(BranchRequest request, int restaurantId)
     {
         bool isAddressExists = _unitOfWorkRepository.RestaurantBranches
-            .IsExist(rb => rb.Address == request.Address, ignoreQueryFilter: true);
+            .IsExist(rb => rb.Address == request.Address && rb.RestaurantId == restaurantId, ignoreQueryFilter: true);
 
         if (isAddressExists)
             return Result.Failure(BranchErrors.DoublicateddBranchAddress);
@@ -216,7 +216,7 @@ public class BranchService(IUnitOfWorkRepository unitOfWorkRepository, IRestaura
     private Result ValidBranchDataForUpdate(BranchRequest request, int restaurantId, int branchId)
     {
         bool isAddressExists = _unitOfWorkRepository.RestaurantBranches
-            .IsExist(rb => rb.Address == request.Address && rb.Id != branchId, ignoreQueryFilter: true);
+            .IsExist(rb => rb.Address == request.Address && rb.RestaurantId == restaurantId && rb.Id != branchId, ignoreQueryFilter: true);
 
         if (isAddressExists)
             return Result.Failure(BranchErrors.DoublicateddBranchAddress);

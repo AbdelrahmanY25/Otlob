@@ -10,12 +10,12 @@
         "dependencies": {
           "ClosedXML": "0.105.0",
           "FluentValidation.AspNetCore": "11.3.1",
+          "Google.Apis.Auth": "1.68.0",
           "Hangfire.AspNetCore": "1.8.21",
           "Hangfire.Dashboard.Basic.Authentication": "8.0.0",
           "Hangfire.SqlServer": "1.8.21",
           "LinqKit": "1.3.8",
           "MailKit": "4.13.0",
-          "Microsoft.AspNetCore.Authentication.Facebook": "9.0.11",
           "Microsoft.AspNetCore.Authentication.Google": "9.0.11",
           "Microsoft.AspNetCore.Authentication.JwtBearer": "9.0.11",
           "Microsoft.AspNetCore.Authentication.MicrosoftAccount": "9.0.11",
@@ -135,7 +135,7 @@
       },
       "EntityFramework/6.5.0": {
         "dependencies": {
-          "System.CodeDom": "6.0.0",
+          "System.CodeDom": "7.0.0",
           "System.Configuration.ConfigurationManager": "9.0.0",
           "System.Data.SqlClient": "4.8.6"
         },
@@ -187,6 +187,41 @@
           "lib/netstandard2.1/FluentValidation.DependencyInjectionExtensions.dll": {
             "assemblyVersion": "11.0.0.0",
             "fileVersion": "11.11.0.0"
+          }
+        }
+      },
+      "Google.Apis/1.68.0": {
+        "dependencies": {
+          "Google.Apis.Core": "1.68.0"
+        },
+        "runtime": {
+          "lib/net6.0/Google.Apis.dll": {
+            "assemblyVersion": "1.68.0.0",
+            "fileVersion": "1.68.0.0"
+          }
+        }
+      },
+      "Google.Apis.Auth/1.68.0": {
+        "dependencies": {
+          "Google.Apis": "1.68.0",
+          "Google.Apis.Core": "1.68.0",
+          "System.Management": "7.0.2"
+        },
+        "runtime": {
+          "lib/net6.0/Google.Apis.Auth.dll": {
+            "assemblyVersion": "1.68.0.0",
+            "fileVersion": "1.68.0.0"
+          }
+        }
+      },
+      "Google.Apis.Core/1.68.0": {
+        "dependencies": {
+          "Newtonsoft.Json": "13.0.3"
+        },
+        "runtime": {
+          "lib/net6.0/Google.Apis.Core.dll": {
+            "assemblyVersion": "1.68.0.0",
+            "fileVersion": "1.68.0.0"
           }
         }
       },
@@ -862,14 +897,6 @@
           "lib/net8.0/MailKit.dll": {
             "assemblyVersion": "4.13.0.0",
             "fileVersion": "4.13.0.0"
-          }
-        }
-      },
-      "Microsoft.AspNetCore.Authentication.Facebook/9.0.11": {
-        "runtime": {
-          "lib/net9.0/Microsoft.AspNetCore.Authentication.Facebook.dll": {
-            "assemblyVersion": "9.0.11.0",
-            "fileVersion": "9.0.1125.52006"
           }
         }
       },
@@ -2100,7 +2127,7 @@
       },
       "Mono.TextTemplating/3.0.0": {
         "dependencies": {
-          "System.CodeDom": "6.0.0"
+          "System.CodeDom": "7.0.0"
         },
         "runtime": {
           "lib/net6.0/Mono.TextTemplating.dll": {
@@ -2415,11 +2442,11 @@
           }
         }
       },
-      "System.CodeDom/6.0.0": {
+      "System.CodeDom/7.0.0": {
         "runtime": {
-          "lib/net6.0/System.CodeDom.dll": {
-            "assemblyVersion": "6.0.0.0",
-            "fileVersion": "6.0.21.52210"
+          "lib/net7.0/System.CodeDom.dll": {
+            "assemblyVersion": "7.0.0.0",
+            "fileVersion": "7.0.22.51805"
           }
         }
       },
@@ -2544,6 +2571,25 @@
           "lib/net9.0/System.Linq.Dynamic.Core.dll": {
             "assemblyVersion": "1.6.7.0",
             "fileVersion": "1.6.7.0"
+          }
+        }
+      },
+      "System.Management/7.0.2": {
+        "dependencies": {
+          "System.CodeDom": "7.0.0"
+        },
+        "runtime": {
+          "lib/net7.0/System.Management.dll": {
+            "assemblyVersion": "7.0.0.2",
+            "fileVersion": "7.0.723.27404"
+          }
+        },
+        "runtimeTargets": {
+          "runtimes/win/lib/net7.0/System.Management.dll": {
+            "rid": "win",
+            "assetType": "runtime",
+            "assemblyVersion": "7.0.0.2",
+            "fileVersion": "7.0.723.27404"
           }
         }
       },
@@ -2762,6 +2808,27 @@
       "sha512": "sha512-viTKWaMbL3yJYgGI0DiCeavNbE9UPMWFVK2XS9nYXGbm3NDMd0/L5ER4wBzmTtW3BYh3SrlSXm9RACiKZ6stlA==",
       "path": "fluentvalidation.dependencyinjectionextensions/11.11.0",
       "hashPath": "fluentvalidation.dependencyinjectionextensions.11.11.0.nupkg.sha512"
+    },
+    "Google.Apis/1.68.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-s2MymhdpH+ybZNBeZ2J5uFgFHApBp+QXf9FjZSdM1lk/vx5VqIknJwnaWiuAzXxPrLEkesX0Q+UsiWn39yZ9zw==",
+      "path": "google.apis/1.68.0",
+      "hashPath": "google.apis.1.68.0.nupkg.sha512"
+    },
+    "Google.Apis.Auth/1.68.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-hFx8Qz5bZ4w0hpnn4tSmZaaFpjAMsgVElZ+ZgVLUZ2r9i+AKcoVgwiNfv1pruNS5cCvpXqhKECbruBCfRezPHA==",
+      "path": "google.apis.auth/1.68.0",
+      "hashPath": "google.apis.auth.1.68.0.nupkg.sha512"
+    },
+    "Google.Apis.Core/1.68.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-pAqwa6pfu53UXCR2b7A/PAPXeuVg6L1OFw38WckN27NU2+mf+KTjoEg2YGv/f0UyKxzz7DxF1urOTKg/6dTP9g==",
+      "path": "google.apis.core/1.68.0",
+      "hashPath": "google.apis.core.1.68.0.nupkg.sha512"
     },
     "Hangfire.AspNetCore/1.8.21": {
       "type": "package",
@@ -3168,13 +3235,6 @@
       "sha512": "sha512-GsepEHKkaQvbAuBizlhz93yc0ihJWzVCfoerfnpCeqiKLeS6gsTKInYy3/U2wqgkGE62TKs5OKS1a90pyc+j4g==",
       "path": "mailkit/4.13.0",
       "hashPath": "mailkit.4.13.0.nupkg.sha512"
-    },
-    "Microsoft.AspNetCore.Authentication.Facebook/9.0.11": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-PtUktBvZJq7KOP1HJL/tKEgHDVvctS2gwqgqWdhibpYzUoQk0gSn73zXRwra9PJVTaIG9gzYhPuYGWxBGA3/2Q==",
-      "path": "microsoft.aspnetcore.authentication.facebook/9.0.11",
-      "hashPath": "microsoft.aspnetcore.authentication.facebook.9.0.11.nupkg.sha512"
     },
     "Microsoft.AspNetCore.Authentication.Google/9.0.11": {
       "type": "package",
@@ -3841,12 +3901,12 @@
       "path": "system.clientmodel/1.0.0",
       "hashPath": "system.clientmodel.1.0.0.nupkg.sha512"
     },
-    "System.CodeDom/6.0.0": {
+    "System.CodeDom/7.0.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-CPc6tWO1LAer3IzfZufDBRL+UZQcj5uS207NHALQzP84Vp/z6wF0Aa0YZImOQY8iStY0A2zI/e3ihKNPfUm8XA==",
-      "path": "system.codedom/6.0.0",
-      "hashPath": "system.codedom.6.0.0.nupkg.sha512"
+      "sha512": "sha512-GLltyqEsE5/3IE+zYRP5sNa1l44qKl9v+bfdMcwg+M9qnQf47wK3H0SUR/T+3N4JEQXF3vV4CSuuo0rsg+nq2A==",
+      "path": "system.codedom/7.0.0",
+      "hashPath": "system.codedom.7.0.0.nupkg.sha512"
     },
     "System.Composition/7.0.0": {
       "type": "package",
@@ -3924,6 +3984,13 @@
       "sha512": "sha512-lH+YgtovXbxD6JImHl2VXUtXRUvN8BMEZB2ReZNvS+J5GnGGZV9ivxslQ2nJWmKlBjFTReAKsevnQKE4yLP2pA==",
       "path": "system.linq.dynamic.core/1.6.7",
       "hashPath": "system.linq.dynamic.core.1.6.7.nupkg.sha512"
+    },
+    "System.Management/7.0.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-/qEUN91mP/MUQmJnM5y5BdT7ZoPuVrtxnFlbJ8a3kBJGhe2wCzBfnPFtK2wTtEEcf3DMGR9J00GZZfg6HRI6yA==",
+      "path": "system.management/7.0.2",
+      "hashPath": "system.management.7.0.2.nupkg.sha512"
     },
     "System.Memory.Data/1.0.2": {
       "type": "package",

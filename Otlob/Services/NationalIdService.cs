@@ -11,7 +11,7 @@ public class NationalIdService(IUnitOfWorkRepository unitOfWorkRepository, IHttp
     private readonly IRestaurantProgressStatus _restaurantProgressStatus = restaurantProgressStatus;
     private readonly IDataProtector _dataProtector = dataProtectionProvider.CreateProtector("SecureData");
 
-    public Result<NationalIdResponse> GetNationalId(string id)
+    public Result<NationalIdResponse?> GetNationalId(string id)
     {
         //TODO: Handle exception for unprotect
         int restaurantId = int.Parse(_dataProtector.Unprotect(id));
@@ -19,9 +19,7 @@ public class NationalIdService(IUnitOfWorkRepository unitOfWorkRepository, IHttp
         bool isRestaurantHasCertificate = IsRestaurantUploadHisNationalIdCard(restaurantId);
 
         if (!isRestaurantHasCertificate)
-        {
-            return Result.Failure<NationalIdResponse>(NationalIdErrors.NotFoundNationalIdCard);
-        }
+            return Result.Success<NationalIdResponse?>(null);
 
         var response = _unitOfWorkRepository.NationalIds
             .GetOneWithSelect(
@@ -53,7 +51,7 @@ public class NationalIdService(IUnitOfWorkRepository unitOfWorkRepository, IHttp
                 }
             );
 
-        return Result.Success(response!);
+        return Result.Success(response);
     }
 
     public async Task<Result> UploadAsync(NationalIdRequest request, UploadFileRequest nationalIdCard, UploadImageRequest signature)

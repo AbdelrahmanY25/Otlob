@@ -3,6 +3,7 @@ namespace Otlob.Core.Contracts.PromoCode;
 public class ApplyPromoCodeResponse
 {
     public bool IsValid { get; set; }
+    public int PromoCodeId { get; set; }
     public string? ErrorMessage { get; set; }
     public string Code { get; set; } = string.Empty;
     public decimal DiscountAmount { get; set; }

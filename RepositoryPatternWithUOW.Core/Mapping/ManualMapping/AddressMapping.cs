@@ -1,4 +1,6 @@
-﻿namespace Otlob.Core.Mapping.ManualMapping;
+﻿using Otlob.Core.Contracts.MobileApp.Address;
+
+namespace Otlob.Core.Mapping.ManualMapping;
 
 public static class AddressMapping
 {
@@ -7,13 +9,32 @@ public static class AddressMapping
     public static Address MapToAddress(this AddressRequest request, Address address)
     {
         address.CustomerAddress = request.CustomerAddress;
-        address.PlaceType = request.PlaceType;
+        address.PropertyType = request.PlaceType;
         address.StreetName = request.StreetName;
         address.FloorNumber = request.FloorNumber;
         address.HouseNumberOrName = request.HouseNumberOrName;
         address.CompanyName = request.CompanyName;
         address.IsDeliveryAddress = request.IsDeliveryAddress;
         address.Location = _geometryFactory.CreatePoint(new Coordinate(request.LonCode, request.LatCode));
+
+        return address;
+    }
+
+    public static Address MapToUserAddress(this UserAddressRequest request, Address address)
+    {
+        address.Location = _geometryFactory.CreatePoint(new Coordinate(request.LonCode, request.LatCode));
+        address.GovermentOrCity = request.GovermentOrCity;
+        address.District = request.District;
+        address.StreetName = request.StreetName;
+        address.HouseNumberOrName = request.BuildingName;
+        address.PropertyType = request.PropertyType;
+        address.Floor = request.Floor;
+        address.FloorNo = request.FloorNo;
+        address.AddressLabel = request.AddressLabel;
+        address.IsDefault = request.IsDefault;
+        address.IsDeliveryAddress = request.IsDefault;
+        address.PhoneNumber = request.PhoneNumber;
+        address.Instructions = request.Instructions;
 
         return address;
     }

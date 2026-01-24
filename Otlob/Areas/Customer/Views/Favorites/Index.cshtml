@@ -1,0 +1,126 @@
+@model IEnumerable<FavouritesResponse>
+
+@{
+    ViewData["Title"] = "My Favourites";
+}
+
+<link href="~/css/customerHome.css" rel="stylesheet" asp-append-version="true" />
+<link href="~/css/favourites.css" rel="stylesheet" asp-append-version="true" />
+
+<div class="ch-container">
+    <div class="favourites-header">
+        <h1><i class="fas fa-heart"></i> My Favourite Restaurants</h1>
+        <p>Your saved restaurants for quick access</p>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="empty-favourites">
+            <i class="far fa-heart"></i>
+            <h2>No favourites yet</h2>
+            <p>Start exploring restaurants and tap the heart icon to add them to your favourites!</p>
+            <a asp-area="@DefaultRoles.Customer" asp-controller="Home" asp-action="Index" class="btn-explore">
+                Explore Restaurants
+            </a>
+        </div>
+    }
+    else
+    {
+        <div id="restaurantsGrid" class="ch-restaurants-grid">
+            @foreach (var item in Model)
+            {
+                <div class="ch-restaurant-card-wrapper">
+                    <a asp-area="@DefaultRoles.Customer" asp-controller="Menu" asp-action="Menu" 
+                       asp-route-restaurantKey="@item.RestaurantKey" class="ch-restaurant-card"
+                       data-name="@item.RestaurantName"
+                       data-categories="@string.Join(",", item.Categories)">
+                        
+                        <div class="ch-card-img-wrapper">
+                            <img src="/images/@(item.Image ?? "Default.jpg")" alt="@item.RestaurantName" class="ch-card-img" />
+                        </div>
+                        
+                        <div class="ch-card-content">
+                            <div>
+                                <div class="ch-res-header">
+                                    <h3 class="ch-res-name">@item.RestaurantName</h3>
+                                    @if (item.Rating > 0)
+                                    {
+                                        <div class="ch-rating-wrapper">
+                                            <i class="fas fa-star ch-star-icon"></i>
+                                            <span class="ch-rating-text">@((item.Rating / 5m * 100).ToString("0"))%</span>
+                                            <span class="ch-rates-count">(@item.RatesCount)</span>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="ch-rating-wrapper">
+                                            <i class="fas fa-star ch-star-icon"></i>
+                                            <span class="ch-rating-text">New</span>
+                                        </div>
+                                    }
+                                </div>
+                                <div class="ch-res-tags">
+                                    @string.Join(", ", item.Categories.Take(3))
+                                </div>
+
+                                <div class="ch-res-footer">
+                                    <span class="ch-delivery-fee @(item.DeliveryFee == 0 ? "free" : "")">
+                                        @if (item.DeliveryFee == 0)
+                                        {
+                                            <span>Free</span>
+                                        }
+                                        else
+                                        {
+                                            <span>@item.DeliveryFee.ToString("0.00") L.E</span>
+                                        }
+                                    </span>
+
+                                    <div class="ch-meta-item">
+                                        <i class="fas fa-clock"></i> @item.DeliveryTime.ToString("0") min
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                    <button class="favourite-btn active" 
+                            data-restaurant-key="@item.RestaurantKey"
+                            onclick="toggleFavourite(this, '@item.RestaurantKey')">
+                        <i class="fas fa-heart"></i>
+                    </button>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script>
+        function toggleFavourite(button, restaurantKey) {
+            fetch('@Url.Action("Toggle", "Favorites", new { Area = DefaultRoles.Customer })', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]')?.value || ''
+                },
+                body: JSON.stringify({ restaurantKey: restaurantKey })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Remove the card from the list with animation
+                    const cardWrapper = button.closest('.ch-restaurant-card-wrapper');
+                    cardWrapper.style.animation = 'fadeOut 0.3s ease-out forwards';
+                    setTimeout(() => {
+                        cardWrapper.remove();
+                        // Check if list is empty and show empty state
+                        const grid = document.getElementById('restaurantsGrid');
+                        if (grid && grid.children.length === 0) {
+                            location.reload();
+                        }
+                    }, 300);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    </script>
+}

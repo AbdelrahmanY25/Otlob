@@ -18,6 +18,7 @@
         @if (User.IsInRole(DefaultRoles.Customer))
         {
             <a asp-area="@DefaultRoles.Customer" asp-controller="Cart" asp-action="Cart"><i class="fa-solid fa-cart-shopping"></i></a>
+            <a asp-area="@DefaultRoles.Customer" asp-controller="Favorites" asp-action="Index" title="My Favourites"><i class="fa-solid fa-heart" style="color: #e74c3c;"></i></a>
         }
     }     
 </div>
@@ -54,6 +55,7 @@
             @if (User.IsInRole(DefaultRoles.Customer)) {
                 <li><a asp-area=@DefaultRoles.Customer asp-controller="UserProfile" asp-action="UserProfile">Profile</a></li>
                 <li><a asp-area=@DefaultRoles.Customer asp-action="Orders" asp-controller="OrdersHistory">My Orders</a></li>
+                <li><a asp-area=@DefaultRoles.Customer asp-action="Index" asp-controller="Favorites">My Favorites</a></li>
                 <li><a asp-area=@DefaultRoles.Customer asp-action="SavedAddresses" asp-controller="Address">My Addresses</a></li>
                 <li><a asp-area=@DefaultRoles.Customer asp-controller="UserProfile" asp-action="Logout">Logout</a></li>
             }

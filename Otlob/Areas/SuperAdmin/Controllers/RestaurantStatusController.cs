@@ -9,9 +9,6 @@ public class RestaurantStatusController(IRestauranStatusService restauranStatusS
     {
         Result isStatusChanged = _restauranStatusService.ChangeRestauranStatus(id, status);
 
-        TempData[isStatusChanged.IsSuccess ? "Success" : "Error"] =
-            isStatusChanged.IsSuccess ? "The resturant status has been changed" : "Try again change status";
-
-        return RedirectToAction("ResturantDetails", "Restaurants", new { id });
+        return RedirectToAction("Details", "Restaurants", new { id });
     }
 }

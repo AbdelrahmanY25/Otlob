@@ -1,213 +1,226 @@
-/* Global Styles */
 :root {
-    --primary-color: #ff385d; /* requested primary */
-    --primary-hover: #e0224a; /* slightly darker */
-    --primary-contrast: #ffffff;
-
-    --text-dark: #222428;
-    --text-light: #6b7280;
-    --muted: #9aa0a6;
-    --muted-light: #f4f4f6;
-
-    --bg-light: #f8f9fa;
-    --white: #ffffff;
-    --card-bg: #ffffff;
-
-    --shadow-sm: 0 2px 8px rgba(0,0,0,0.06);
-    --shadow-md: 0 6px 18px rgba(0,0,0,0.12);
+    --primary: #ff385d;
+    --primary-dark: #e0224a;
+    --secondary: #1a1a2e;
+    
+    --text-primary: #1f2937;
+    --text-secondary: #6b7280;
+    --text-muted: #9ca3af;
+    
+    --bg-main: #f9fafb;
+    --bg-card: #ffffff;
+    --border-color: #e5e7eb;
+    
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.1);
+    --shadow-lg: 0 8px 24px rgba(0,0,0,0.12);
+    
+    --radius-sm: 8px;
     --radius-md: 12px;
     --radius-lg: 16px;
+    --radius-full: 50px;
+    
     --transition: all 0.3s ease;
 }
 
+/* Base Styles */
 body {
-    background-color: var(--bg-light);
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: var(--text-dark);
+    background: var(--bg-main);
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+    color: var(--text-primary);
+    line-height: 1.5;
 }
 
+/* =========================================
+   CONTAINER
+   ========================================= */
 .ch-container {
-    max-width: 1200px;
+    max-width: 1280px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 24px;
 }
 
-/* Search Section */
+/* =========================================
+   SEARCH SECTION
+   ========================================= */
 .ch-search-section {
-    margin-bottom: 30px;
-    text-align: center;
+    margin-bottom: 24px;
 }
 
 .ch-search-wrapper {
     position: relative;
-    max-width: 600px;
+    max-width: 560px;
     margin: 0 auto;
-}
-
-.ch-search-input {
-    width: 100%;
-    padding: 15px 20px 15px 50px;
-    border: 2px solid var(--muted-light);
-    border-radius: 50px;
-    font-size: 1.1rem;
-    transition: var(--transition);
-    outline: none;
-    box-shadow: var(--shadow-sm);
-    background: var(--card-bg);
-}
-
-.ch-search-input:focus {
-    border-color: var(--primary-color);
-    box-shadow: var(--shadow-md);
 }
 
 .ch-search-icon {
     position: absolute;
-    left: 20px;
+    left: 18px;
     top: 50%;
     transform: translateY(-50%);
-    color: var(--muted);
-    font-size: 1.2rem;
+    color: var(--text-muted);
+    font-size: 1rem;
+    pointer-events: none;
 }
 
-/* Categories Section */
+.ch-search-input {
+    width: 100%;
+    padding: 14px 20px 14px 48px;
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-full);
+    font-size: 1rem;
+    background: var(--bg-card);
+    transition: var(--transition);
+    outline: none;
+}
+
+.ch-search-input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px rgba(255, 56, 93, 0.1);
+}
+
+.ch-search-input::placeholder {
+    color: var(--text-muted);
+}
+
+/* =========================================
+   CATEGORIES SECTION - CIRCULAR ICONS
+   ========================================= */
 .ch-categories-section {
-    margin: 30px auto;
-    overflow: hidden; /* Ensure no scrollbar on parent */
-    max-width: 600px;
+    margin-bottom: 24px;
+    overflow: hidden;
 }
 
 .ch-categories-scroll {
     display: flex;
+    gap: 12px;
     overflow-x: auto;
-    gap: 5px; /* Increased gap */
-    padding: 15px 5px;
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none; /* IE 10+ */
+    padding: 8px 4px;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
     scroll-behavior: smooth;
-    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
 }
 
 .ch-categories-scroll::-webkit-scrollbar {
-    display: none; /* Chrome/Safari/Webkit */
+    display: none;
 }
 
 .ch-category-item {
     flex: 0 0 auto;
     display: flex;
-    flex-direction: column;
     align-items: center;
+    justify-content: center;
+    width: 80px;
+    height: 80px;
+    padding: 0;
+    border-radius: 50%;
     cursor: pointer;
-    padding: 15px; /* Increased padding */
-    border-radius: var(--radius-md);
     transition: var(--transition);
-    min-width: 100px; /* Increased min-width */
-    background: transparent;
-}
-
-.ch-category-item:hover, .ch-category-item.active {
-    background-color: var(--bg-light);
-    color: #ffff;
+    background: var(--bg-card);
+    border: 2px solid var(--border-color);
     box-shadow: var(--shadow-sm);
-    transform: translateY(-2px);
 }
 
-.ch-category-item.active .ch-cat-name {
-    color: var(--primary-color);
-    font-weight: 700;
+.ch-category-item:hover {
+    border-color: var(--primary);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+}
+
+.ch-category-item.active {
+    border-color: var(--primary);
 }
 
 .ch-cat-icon {
-    width: 70px; /* Increased size */
-    height: 70px; /* Increased size */
+    width: 100%;
+    height: 100%;
     object-fit: contain;
-    margin-bottom: 10px;
     border-radius: 50%;
-    background: var(--card-bg);
-    padding: 12px; /* Increased padding */
-    box-shadow: 0 2px 5px rgba(0,0,0,0.04);
+    background: transparent;
+    padding: 0;
 }
 
 .ch-cat-name {
-    font-size: 1rem; /* Increased font size */
-    color: var(--text-dark);
-    font-weight: 500;
-    text-align: center;
+    display: none;
 }
 
-/* Filters Section */
+/* =========================================
+   FILTERS SECTION
+   ========================================= */
 .ch-filters-section {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
-    margin-bottom: 30px;
+    gap: 8px;
+    margin-bottom: 28px;
     justify-content: center;
-    padding: 10px 12px;
-    border-radius: 12px;
 }
 
 .ch-filter-btn {
-    padding: 8px 16px;
-    border: 1px solid var(--muted-light);
-    background: var(--white);
-    border-radius: 20px;
-    cursor: pointer;
-    font-size: 0.9rem;
-    color: var(--text-dark);
-    transition: var(--transition);
-    display: flex;
+    display: inline-flex;
     align-items: center;
     gap: 6px;
+    padding: 10px 18px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-full);
+    background: var(--bg-card);
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: var(--transition);
 }
 
 .ch-filter-btn:hover {
-    background-color: rgba(255,56,93,0.06); /* subtle tint of primary */
-    border-color: rgba(255,56,93,0.12);
+    border-color: var(--primary);
+    color: var(--primary);
 }
 
 .ch-filter-btn.active {
-    background-color: var(--primary-color);
-    color: var(--primary-contrast);
-    border-color: var(--primary-color);
+    background: var(--primary);
+    border-color: var(--primary);
+    color: white;
 }
 
-/* Restaurants Grid */
+.ch-filter-btn i {
+    font-size: 0.8rem;
+}
+
+/* =========================================
+   RESTAURANTS GRID
+   ========================================= */
 .ch-restaurants-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Slightly wider cards */
-    gap: 25px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
 }
 
+/* =========================================
+   RESTAURANT CARD - HORIZONTAL LAYOUT
+   ========================================= */
 .ch-restaurant-card {
     display: flex;
     flex-direction: row;
-    align-items: center; /* Center vertically */
-    gap: 12px;
-    padding: 10px; /* Decreased padding for tighter layout */
-    background: var(--card-bg);
-    border-radius: 16px; /* Slightly smaller radius */
-    overflow: visible; /* Allow shadow */
-    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-    transition: var(--transition);
-    cursor: pointer;
-    position: relative;
+    background: var(--bg-card);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
     text-decoration: none;
     color: inherit;
-    border: 1px solid transparent;
+    transition: var(--transition);
+    border: 1px solid var(--border-color);
 }
 
 .ch-restaurant-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
     border-color: transparent;
 }
 
 .ch-card-img-wrapper {
-    flex: 0 0 110px; /* Reduced size */
-    height: 110px;
-    overflow: hidden;
-    border-radius: 12px; /* Reduced radius */
     position: relative;
+    width: 140px;
+    height: 140px;
+    flex-shrink: 0;
+    overflow: hidden;
 }
 
 .ch-card-img {
@@ -218,197 +231,461 @@ body {
 }
 
 .ch-restaurant-card:hover .ch-card-img {
-    transform: scale(1.03);
+    transform: scale(1.05);
+}
+
+.ch-status-badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    padding: 4px 10px;
+    border-radius: var(--radius-sm);
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.ch-status-badge.status-closed {
+    background: rgba(220, 53, 69, 0.9);
+    color: white;
+}
+
+.ch-status-badge.status-busy {
+    background: rgba(255, 193, 7, 0.9);
+    color: #333;
 }
 
 .ch-card-content {
-    flex: 1 1 auto;
-    padding: 0; /* Remove padding as parent has it */
+    padding: 14px;
     display: flex;
     flex-direction: column;
+    gap: 6px;
+    flex: 1;
+    min-width: 0;
     justify-content: center;
-    height: 100%;
-    min-width: 0; /* Fix flex child overflow */
 }
 
-.ch-res-header { 
-    margin-bottom: 6px; 
+.ch-res-header {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    gap: 10px;
+    gap: 12px;
 }
 
-.ch-res-name { 
-    font-size: 1.02rem; 
-    font-weight: 700; 
-    margin: 0; 
-    color: var(--text-dark);
+.ch-res-name {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0;
+    line-height: 1.3;
     flex: 1;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 .ch-rating-wrapper {
     display: flex;
     align-items: center;
     gap: 4px;
-    background: rgba(255, 215, 0, 0.1);
-    padding: 2px 6px;
-    border-radius: 6px;
+    background: #fef3c7;
+    padding: 4px 8px;
+    border-radius: var(--radius-sm);
     flex-shrink: 0;
 }
 
 .ch-star-icon {
-    color: #ffc107; /* Gold */
-    font-size: 0.85rem;
+    color: #f59e0b;
+    font-size: 0.75rem;
 }
 
 .ch-rating-text {
-    font-size: 0.82rem;
+    font-size: 0.8rem;
     font-weight: 700;
-    color: var(--text-dark);
+    color: #92400e;
 }
 
-.ch-res-tags { 
-    margin-bottom: 8px; 
-    font-size: 0.82rem;
-    color: var(--muted);
-    line-height: 1.4;
+.ch-res-tags {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
     display: -webkit-box;
-    -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
-    height: auto;
-    white-space: normal;
-}
-
-.ch-tag {
-    color: var(--muted);
-    background: none;
-    padding: 0;
-}
-
-.ch-tag:not(:last-child):after {
-    content: ",";
-    margin-right: 4px;
-    color: var(--muted);
 }
 
 .ch-res-footer {
     display: flex;
     align-items: center;
-    gap: 15px;
-}
-
-/* Status badge adjustments */
-.ch-status-badge { 
-    left: 8px; 
-    top: 8px; 
-    font-size: 0.65rem;
-    padding: 3px 8px;
-    border-radius: 12px;
-    backdrop-filter: blur(4px);
-}
-
-.ch-meta-item { 
-    padding: 0; 
-    background: none;
-    font-size: 0.9rem;
-    color: var(--text-dark);
-    font-weight: 600;
-}
-
-.ch-meta-item i {
-    color: var(--primary-color);
-    margin-right: 4px;
-    font-size: 0.85rem;
+    justify-content: space-between;
+    gap: 8px;
+    flex-wrap: wrap;
+    padding-top: 8px;
+    border-top: 1px solid var(--border-color);
+    margin-top: 4px;
 }
 
 .ch-delivery-fee {
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     font-weight: 700;
-    color: var(--primary-color); /* brand color for price */
+    color: var(--primary);
 }
 
 .ch-delivery-fee.free {
-    color: #28a745;
+    color: #10b981;
 }
 
-/* Empty State */
+.ch-meta-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.ch-meta-item i {
+    color: var(--primary);
+    font-size: 0.8rem;
+}
+
+/* =========================================
+   AD CARD - IMAGE ONLY
+   ========================================= */
+.ch-ad-card {
+    display: block;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    cursor: pointer;
+    transition: var(--transition);
+    position: relative;
+    height: 200px;
+    width: 100%;
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-sm);
+}
+
+.ch-ad-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+}
+
+.ch-ad-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
+}
+
+/* =========================================
+   NO RESULTS
+   ========================================= */
 .ch-no-results {
     grid-column: 1 / -1;
     text-align: center;
-    padding: 50px;
-    color: var(--text-light);
+    padding: 60px 20px;
+    color: var(--text-secondary);
     display: none;
 }
 
 .ch-no-results i {
     font-size: 3rem;
-    margin-bottom: 15px;
-    color: var(--muted-light);
+    margin-bottom: 16px;
+    color: var(--text-muted);
 }
 
-/* Responsive Breakpoints */
-@media (max-width: 1024px) {
-    .ch-container { padding: 15px; }
-    .ch-restaurants-grid {
-        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-    }
-    .ch-card-img-wrapper { flex: 0 0 100px; height: 100px; }
-    .ch-res-name { font-size: 1rem; }
+.ch-no-results h3 {
+    font-size: 1.25rem;
+    margin-bottom: 8px;
+    color: var(--text-primary);
 }
 
-@media (max-width: 992px) {
-    .ch-restaurants-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-    .ch-card-img-wrapper { flex: 0 0 96px; height: 96px; }
-    .ch-restaurant-card { padding: 10px; }
+.ch-no-results p {
+    color: var(--text-secondary);
 }
 
-@media (max-width: 768px) {
+/* =========================================
+   RESPONSIVE - DESKTOP (992px - 1199px)
+   ========================================= */
+@media (max-width: 1199px) {
     .ch-restaurants-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: 18px;
     }
-    .ch-search-input { padding: 12px 20px 12px 45px; }
-    .ch-card-img-wrapper { flex: 0 0 88px; height: 88px; }
-    .ch-res-name { font-size: 0.98rem; }
+    
+    .ch-card-img-wrapper {
+        width: 130px;
+        height: 130px;
+    }
+    
+    .ch-ad-card {
+        height: 180px;
+    }
 }
 
-@media (max-width: 640px) {
+/* =========================================
+   RESPONSIVE - TABLET (768px - 991px)
+   ========================================= */
+@media (max-width: 991px) {
+    .ch-container {
+        padding: 20px;
+    }
+    
+    .ch-restaurants-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+    }
+    
+    .ch-card-img-wrapper {
+        width: 120px;
+        height: 120px;
+    }
+    
+    .ch-category-item {
+        width: 54px;
+        height: 54px;
+    }
+    
+    .ch-cat-icon {
+        width: 32px;
+        height: 32px;
+    }
+    
+    .ch-ad-card {
+        height: 160px;
+    }
+}
+
+/* =========================================
+   RESPONSIVE - SMALL TABLET (640px - 767px)
+   ========================================= */
+@media (max-width: 767px) {
+    .ch-container {
+        padding: 16px;
+    }
+    
+    .ch-search-wrapper {
+        max-width: 100%;
+    }
+    
     .ch-filters-section {
+        flex-wrap: nowrap;
         overflow-x: auto;
         justify-content: flex-start;
-        padding-bottom: 10px;
-        flex-wrap: nowrap;
+        padding-bottom: 8px;
+        scrollbar-width: none;
     }
-    .ch-filter-btn { flex: 0 0 auto; }
-    .ch-restaurant-card {
-        flex-direction: row; /* Keep horizontal */
-        gap: 10px;
-        padding: 8px;
+    
+    .ch-filters-section::-webkit-scrollbar {
+        display: none;
     }
+    
+    .ch-filter-btn {
+        flex: 0 0 auto;
+        padding: 8px 14px;
+        font-size: 0.8rem;
+    }
+    
+    .ch-category-item {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .ch-cat-icon {
+        width: 28px;
+        height: 28px;
+    }
+    
+    .ch-restaurants-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 14px;
+    }
+    
     .ch-card-img-wrapper {
-        flex: 0 0 80px; /* Smaller image for mobile */
-        width: 80px;
-        height: 80px;
-        border-radius: 10px;
+        width: 100px;
+        height: 100px;
     }
-    .ch-card-content { padding: 0; }
-    .ch-res-name { font-size: 0.95rem; }
-    .ch-rating-wrapper { padding: 1px 4px; }
-    .ch-rating-text { font-size: 0.75rem; }
+    
+    .ch-card-content {
+        padding: 10px;
+    }
+    
+    .ch-res-name {
+        font-size: 0.9rem;
+    }
+    
+    .ch-res-tags {
+        font-size: 0.75rem;
+    }
+    
+    .ch-ad-card {
+        height: 140px;
+    }
 }
 
-@media (max-width: 480px) {
+/* =========================================
+   RESPONSIVE - MOBILE (< 640px)
+   ========================================= */
+@media (max-width: 639px) {
+    .ch-container {
+        padding: 12px;
+    }
+    
+    .ch-search-input {
+        padding: 12px 16px 12px 44px;
+        font-size: 0.95rem;
+    }
+    
+    .ch-search-icon {
+        left: 16px;
+    }
+    
+    .ch-categories-section {
+        margin-bottom: 16px;
+    }
+    
+    .ch-category-item {
+        width: 46px;
+        height: 46px;
+    }
+    
+    .ch-cat-icon {
+        width: 26px;
+        height: 26px;
+    }
+    
+    .ch-filters-section {
+        margin-bottom: 20px;
+    }
+    
+    .ch-filter-btn {
+        padding: 8px 12px;
+        font-size: 0.75rem;
+    }
+    
+    .ch-filter-btn i {
+        font-size: 0.7rem;
+    }
+    
+    /* Single Column Layout */
     .ch-restaurants-grid {
         grid-template-columns: 1fr;
+        gap: 12px;
     }
-    .ch-card-img-wrapper { 
-        flex: 0 0 75px; 
-        width: 75px; 
-        height: 75px; 
+    
+    .ch-restaurant-card {
+        border-radius: var(--radius-md);
     }
-    .ch-res-name { font-size: 0.92rem; }
+    
+    .ch-card-img-wrapper {
+        width: 100px;
+        height: 100px;
+    }
+    
+    .ch-card-content {
+        padding: 10px;
+    }
+    
+    .ch-res-header {
+        margin-bottom: 4px;
+    }
+    
+    .ch-res-name {
+        font-size: 0.95rem;
+    }
+    
+    .ch-rating-wrapper {
+        padding: 2px 6px;
+    }
+    
+    .ch-rating-text {
+        font-size: 0.75rem;
+    }
+    
+    .ch-res-tags {
+        font-size: 0.75rem;
+        margin-bottom: 4px;
+    }
+    
+    .ch-res-footer {
+        padding-top: 6px;
+        margin-top: 2px;
+    }
+    
+    .ch-delivery-fee {
+        font-size: 0.85rem;
+    }
+    
+    .ch-meta-item {
+        font-size: 0.8rem;
+    }
+    
+    .ch-status-badge {
+        top: 8px;
+        left: 8px;
+        padding: 3px 8px;
+        font-size: 0.65rem;
+    }
+    
+    /* Ad Card - Full Width Banner */
+    .ch-ad-card {
+        height: 160px;
+        border-radius: var(--radius-md);
+        margin: 4px 0;
+    }
+}
+
+/* =========================================
+   RESPONSIVE - SMALL MOBILE (< 400px)
+   ========================================= */
+@media (max-width: 399px) {
+    .ch-container {
+        padding: 10px;
+    }
+    
+    .ch-category-item {
+        width: 42px;
+        height: 42px;
+    }
+    
+    .ch-cat-icon {
+        width: 24px;
+        height: 24px;
+    }
+    
+    .ch-filter-btn {
+        padding: 6px 10px;
+        font-size: 0.7rem;
+    }
+    
+    .ch-filter-btn i {
+        font-size: 0.65rem;
+    }
+    
+    .ch-card-img-wrapper {
+        width: 85px;
+        height: 85px;
+    }
+    
+    .ch-card-content {
+        padding: 8px;
+    }
+    
+    .ch-res-name {
+        font-size: 0.88rem;
+    }
+    
+    .ch-res-tags {
+        font-size: 0.7rem;
+    }
+    
+    .ch-res-footer {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+    }
+    
+    .ch-ad-card {
+        height: 140px;
+    }
 }

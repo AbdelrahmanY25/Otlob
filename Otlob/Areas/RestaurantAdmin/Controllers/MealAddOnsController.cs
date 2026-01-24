@@ -12,11 +12,11 @@ public class MealAddOnsController(IMealAddOnService mealAddOnService) : Controll
         if (result.IsFailure)
         {
             TempData["Error"] = result.Error.Description;
-            return RedirectToAction("Menu", "Menu");
+            return RedirectToAction("Menu", "Menu", new { Area = DefaultRoles.RestaurantAdmin });
         }
 
         TempData["Success"] = "AddOn Added Successfully";
-        return RedirectToAction("Menu", "Menu");        
+        return RedirectToAction("Menu", "Menu", new { Area = DefaultRoles.RestaurantAdmin });
     }
 
     public IActionResult Update(AddOnRequest request, string key)
@@ -26,11 +26,11 @@ public class MealAddOnsController(IMealAddOnService mealAddOnService) : Controll
         if (result.IsFailure)
         {
             TempData["Error"] = result.Error.Description;
-            return RedirectToAction("Menu", "Menu");
+            return RedirectToAction("Menu", "Menu", new { Area = DefaultRoles.RestaurantAdmin });
         }
 
         TempData["Success"] = "AddOn Updated Successfully";
-        return RedirectToAction("Menu", "Menu");
+        return RedirectToAction("Menu", "Menu", new { Area = DefaultRoles.RestaurantAdmin });
     }
 
     public IActionResult Delete(string key)
@@ -40,10 +40,10 @@ public class MealAddOnsController(IMealAddOnService mealAddOnService) : Controll
         if (result.IsFailure)
         {
             TempData["Error"] = result.Error.Description;
-            return RedirectToAction("Menu", "Menu");
+            return RedirectToAction("Menu", "Menu", new { Area = DefaultRoles.RestaurantAdmin });
         }
 
         TempData["Success"] = "AddOn Deleted Successfully";
-        return RedirectToAction("Menu", "Menu");
+        return RedirectToAction("Menu", "Menu", new { Area = DefaultRoles.RestaurantAdmin });
     }
 }

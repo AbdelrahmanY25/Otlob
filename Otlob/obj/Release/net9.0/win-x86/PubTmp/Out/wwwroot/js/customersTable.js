@@ -111,20 +111,25 @@
             const sortBtn = elements.sortDropdown.querySelector('.filter-btn');
             const sortItems = elements.sortDropdown.querySelectorAll('.dropdown-item');
 
-            sortBtn?.addEventListener('click', (e) => {
-                e.stopPropagation();
-                elements.sortDropdown.classList.toggle('open');
-            });
+            if (sortBtn) {
+                sortBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    elements.sortDropdown.classList.toggle('open');
+                });
+            }
 
             sortItems.forEach(item => {
-                item.addEventListener('click', () => {
+                item.addEventListener('click', (e) => {
+                    e.stopPropagation();
                     const field = item.dataset.sort;
+                    
                     if (state.sortField === field) {
                         state.sortDirection = state.sortDirection === 'asc' ? 'desc' : 'asc';
                     } else {
                         state.sortField = field;
                         state.sortDirection = 'asc';
                     }
+                    
                     updateSortUI(item);
                     applySorting();
                     renderTable();
@@ -133,8 +138,10 @@
             });
 
             // Close dropdown on outside click
-            document.addEventListener('click', () => {
-                elements.sortDropdown.classList.remove('open');
+            document.addEventListener('click', (e) => {
+                if (!elements.sortDropdown.contains(e.target)) {
+                    elements.sortDropdown.classList.remove('open');
+                }
             });
         }
 

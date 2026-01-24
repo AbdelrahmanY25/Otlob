@@ -93,7 +93,7 @@
     border-radius: 16px;
     border: 1px solid var(--adm-border);
     box-shadow: var(--adm-shadow);
-    overflow: hidden;
+    overflow: visible;
 }
 
 /* --- Table Toolbar --- */

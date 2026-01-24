@@ -1,0 +1,178 @@
+@model IEnumerable<AdvertisementResponse>
+
+@{
+    ViewData["Title"] = "All Advertisements";
+}
+
+<link rel="stylesheet" href="~/css/advertisements.css" asp-append-version="true" />
+
+@{
+    var currentStatus = ViewBag.CurrentStatus as AdvertisementStatus?;
+    
+    var totalAds = Model.Count();
+    var activeAds = Model.Count(a => a.Status == AdvertisementStatus.Active);
+    var pendingAds = Model.Count(a => a.Status == AdvertisementStatus.Pending);
+    var approvedAds = Model.Count(a => a.Status == AdvertisementStatus.Approved);
+}
+
+<div class="ads-admin-page">
+    <!-- Header -->
+    <div class="ads-admin-header">
+        <div>
+            <h1 class="ads-admin-title">
+                <i class="bi bi-megaphone-fill"></i>
+                All Advertisements
+            </h1>
+            <p class="ads-admin-subtitle">Manage all advertisements in the system</p>
+        </div>
+        <div class="ads-admin-actions">
+            <a asp-action="Pending" class="ads-btn ads-btn-warning">
+                <i class="bi bi-hourglass-split"></i>
+                Pending Review (@pendingAds)
+            </a>
+            <a asp-action="Revenue" class="ads-btn ads-btn-success">
+                <i class="bi bi-currency-dollar"></i>
+                Revenue
+            </a>
+        </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="ads-stats-grid">
+        <div class="ads-stat-card total">
+            <div class="ads-stat-icon">
+                <i class="bi bi-collection"></i>
+            </div>
+            <p class="ads-stat-label">Total Ads</p>
+            <h3 class="ads-stat-value">@totalAds</h3>
+        </div>
+        <div class="ads-stat-card active">
+            <div class="ads-stat-icon">
+                <i class="bi bi-broadcast"></i>
+            </div>
+            <p class="ads-stat-label">Active</p>
+            <h3 class="ads-stat-value">@activeAds</h3>
+        </div>
+        <div class="ads-stat-card pending">
+            <div class="ads-stat-icon">
+                <i class="bi bi-hourglass-split"></i>
+            </div>
+            <p class="ads-stat-label">Pending</p>
+            <h3 class="ads-stat-value">@pendingAds</h3>
+        </div>
+        <div class="ads-stat-card approved">
+            <div class="ads-stat-icon">
+                <i class="bi bi-check-circle"></i>
+            </div>
+            <p class="ads-stat-label">Approved</p>
+            <h3 class="ads-stat-value">@approvedAds</h3>
+        </div>
+    </div>
+
+    <!-- Filter Tabs -->
+    <div class="ads-filter-tabs">
+        <a asp-action="Index" class="ads-filter-tab @(currentStatus == null ? "active" : "")">
+            All
+        </a>
+        <a asp-action="Index" asp-route-status="@AdvertisementStatus.Active" 
+           class="ads-filter-tab @(currentStatus == AdvertisementStatus.Active ? "active" : "")">
+            Active
+        </a>
+        <a asp-action="Index" asp-route-status="@AdvertisementStatus.Pending" 
+           class="ads-filter-tab @(currentStatus == AdvertisementStatus.Pending ? "active" : "")">
+            Pending
+        </a>
+        <a asp-action="Index" asp-route-status="@AdvertisementStatus.Approved" 
+           class="ads-filter-tab @(currentStatus == AdvertisementStatus.Approved ? "active" : "")">
+            Approved
+        </a>
+        <a asp-action="Index" asp-route-status="@AdvertisementStatus.Rejected" 
+           class="ads-filter-tab @(currentStatus == AdvertisementStatus.Rejected ? "active" : "")">
+            Rejected
+        </a>
+        <a asp-action="Index" asp-route-status="@AdvertisementStatus.Expired" 
+           class="ads-filter-tab @(currentStatus == AdvertisementStatus.Expired ? "active" : "")">
+            Expired
+        </a>
+    </div>
+
+    <!-- Advertisements Table -->
+    <div class="ads-table-card">
+        @if (!Model.Any())
+        {
+            <div class="ads-empty-state">
+                <i class="bi bi-inbox"></i>
+                <h3>No Advertisements Found</h3>
+                <p>There are no advertisements matching the current filter.</p>
+            </div>
+        }
+        else
+        {
+            <div class="ads-table-responsive">
+                <table class="ads-table">
+                    <thead>
+                        <tr>
+                            <th>Image</th>
+                            <th>Title</th>
+                            <th>Restaurant</th>
+                            <th>Plan</th>
+                            <th>Status</th>
+                            <th>Duration</th>
+                            <th>Analytics</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var ad in Model.OrderByDescending(a => a.CreatedAt))
+                        {
+                            <tr>
+                                <td>
+                                    <img src="@ad.ImageUrl" alt="@ad.Title" class="ads-thumbnail" />
+                                </td>
+                                <td>
+                                    <div class="ads-title-cell">
+                                        <strong>@ad.Title</strong>
+                                        <small class="text-muted d-block">@ad.TitleAr</small>
+                                    </div>
+                                </td>
+                                <td>@ad.RestaurantName</td>
+                                <td>
+                                    <span class="ads-plan-badge">@ad.PlanName</span>
+                                </td>
+                                <td>
+                                    <span class="ads-status-badge status-@ad.Status.ToString().ToLower()">
+                                        @ad.StatusDisplay
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="ads-date-cell">
+                                        <span>@ad.StartDate.ToString("MMM dd")</span>
+                                        <span class="text-muted">-</span>
+                                        <span>@ad.EndDate.ToString("MMM dd")</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="ads-analytics-cell">
+                                        <span title="Views"><i class="bi bi-eye"></i> @ad.Views</span>
+                                        <span title="Clicks"><i class="bi bi-hand-index"></i> @ad.Clicks</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <a asp-action="Details" asp-route-id="@ad.Id" class="ads-action-btn" title="View Details">
+                                        <i class="bi bi-eye"></i>
+                                    </a>
+                                    @if (ad.Status == AdvertisementStatus.Pending)
+                                    {
+                                        <a asp-action="Review" asp-route-id="@ad.Id" class="ads-action-btn review" title="Review">
+                                            <i class="bi bi-clipboard-check"></i>
+                                        </a>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+</div>

@@ -11,7 +11,7 @@ public class TradeMarkService(IUnitOfWorkRepository unitOfWorkRepository, IFileS
     private readonly IRestaurantProgressStatus _restaurantProgressStatus = restaurantProgressStatus;
     private readonly IDataProtector _dataProtector = dataProtectionProvider.CreateProtector("SecureData");
 
-    public Result<TradeMarkResponse> GetTradeMark(string id)
+    public Result<TradeMarkResponse?> GetTradeMark(string id)
     {
         //TODO: Handle exception for unprotect
         int restaurantId = int.Parse(_dataProtector.Unprotect(id));
@@ -19,9 +19,7 @@ public class TradeMarkService(IUnitOfWorkRepository unitOfWorkRepository, IFileS
         bool isRestaurantHasCertificate = IsRestaurantHasTradeMarkCertificate(restaurantId);
 
         if (!isRestaurantHasCertificate)
-        {
-            return Result.Failure<TradeMarkResponse>(TradeMarkErrors.NotFoundCertificate);
-        }
+            return Result.Success<TradeMarkResponse?>(null);
 
         var response = _unitOfWorkRepository.TradeMarks
             .GetOneWithSelect(
@@ -46,7 +44,7 @@ public class TradeMarkService(IUnitOfWorkRepository unitOfWorkRepository, IFileS
                 }
             );
 
-        return Result.Success(response!);
+        return Result.Success(response);
     }
 
     public async Task<Result> UploadAsync(TradeMarkRequest request, UploadFileRequest fileRequest)

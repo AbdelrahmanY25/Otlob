@@ -22,6 +22,7 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
     public DbSet<NationalId> NationalIds { get; set; }
     public DbSet<OrderDetails> OrderDetails { get; set; }
     public DbSet<Order> Orders { get; set; }
+    public DbSet<Otp> Otps { get; set; }
     public DbSet<Restaurant> Restaurants { get; set; }
     public DbSet<RestaurantRatingAnlytic> RestaurantRatingAnlytics { get; set; }
     public DbSet<RestaurantDailyAnalytic> RestaurantDailyAnalytics { get; set; }
@@ -31,6 +32,11 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
     public DbSet<UploadedFile> UploadedFiles { get; set; }
     public DbSet<VAT> Vats { get; set; }
     public DbSet<OrderRating> OrderRatings { get; set; }
+    public DbSet<AdvertisementPlan> AdvertisementPlans { get; set; }
+    public DbSet<Advertisement> Advertisements { get; set; }
+    public DbSet<AdvertisementPayment> AdvertisementPayments { get; set; }
+    public DbSet<AdvertisementAnalytics> AdvertisementAnalytics { get; set; }
+    public DbSet<UsersFavourites> UsersFavourites { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

@@ -33,15 +33,11 @@ public class AddressEntityTypeConfiguration : IEntityTypeConfiguration<Address>
             .HasColumnType("geography");
 
         builder
-            .Property(a => a.PlaceType)
+            .Property(a => a.PropertyType)
             .HasMaxLength(20)
             .HasConversion(
                 a => a.ToString(),
-                a => Enum.Parse<PlaceType>(a)
+                a => Enum.Parse<PropertyType>(a)
             );
-
-        builder
-            .HasIndex(a => new { a.UserId, a.CustomerAddress, a.StreetName })
-            .IsUnique();
     }
 }

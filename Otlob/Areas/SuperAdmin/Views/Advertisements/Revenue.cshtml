@@ -1,0 +1,220 @@
+@model RevenueReportResponse
+
+@{
+    ViewData["Title"] = "Advertisement Revenue";
+}
+
+<link rel="stylesheet" href="~/css/advertisements.css" asp-append-version="true" />
+
+@{
+    var startDate = ViewBag.StartDate as DateTime?;
+    var endDate = ViewBag.EndDate as DateTime?;
+}
+
+
+<div class="ads-revenue-page">
+    <!-- Header -->
+    <div class="ads-revenue-header">
+        <div>
+            <h1 class="ads-revenue-title">
+                <i class="bi bi-currency-dollar"></i>
+                Advertisement Revenue Dashboard
+            </h1>
+            <p class="ads-revenue-subtitle">Track advertisement profits and performance</p>
+        </div>
+        <div class="ads-revenue-actions">
+            <a asp-action="Pending" class="ads-btn ads-btn-warning">
+                <i class="bi bi-hourglass-split"></i>
+                Pending (@Model.PendingAdsCount)
+            </a>
+            <a asp-action="Index" class="ads-btn ads-btn-outline">
+                <i class="bi bi-list"></i>
+                All Ads
+            </a>
+        </div>
+    </div>
+
+    <!-- Date Filter -->
+    <div class="ads-filter-card">
+        <form asp-action="Revenue" method="get" class="ads-date-filter">
+            <div class="ads-filter-group">
+                <label>Start Date</label>
+                <input type="date" name="startDate" value="@startDate?.ToString("yyyy-MM-dd")" class="ads-form-input" />
+            </div>
+            <div class="ads-filter-group">
+                <label>End Date</label>
+                <input type="date" name="endDate" value="@endDate?.ToString("yyyy-MM-dd")" class="ads-form-input" />
+            </div>
+            <button type="submit" class="ads-btn ads-btn-primary">
+                <i class="bi bi-funnel"></i>
+                Filter
+            </button>
+            <a asp-action="Revenue" class="ads-btn ads-btn-outline">
+                <i class="bi bi-x-lg"></i>
+                Clear
+            </a>
+        </form>
+    </div>
+
+    <!-- Revenue Stats -->
+    <div class="ads-revenue-stats">
+        <div class="ads-revenue-card total">
+            <div class="ads-revenue-icon">
+                <i class="bi bi-cash-stack"></i>
+            </div>
+            <div class="ads-revenue-info">
+                <span class="ads-revenue-label">Total Revenue</span>
+                <span class="ads-revenue-value">@Model.TotalRevenueDisplay</span>
+            </div>
+        </div>
+
+        <div class="ads-revenue-card this-month">
+            <div class="ads-revenue-icon">
+                <i class="bi bi-calendar-month"></i>
+            </div>
+            <div class="ads-revenue-info">
+                <span class="ads-revenue-label">This Month</span>
+                <span class="ads-revenue-value">@Model.ThisMonthRevenueDisplay</span>
+            </div>
+        </div>
+
+        <div class="ads-revenue-card this-week">
+            <div class="ads-revenue-icon">
+                <i class="bi bi-calendar-week"></i>
+            </div>
+            <div class="ads-revenue-info">
+                <span class="ads-revenue-label">This Week</span>
+                <span class="ads-revenue-value">@Model.ThisWeekRevenueDisplay</span>
+            </div>
+        </div>
+
+        <div class="ads-revenue-card net-profit">
+            <div class="ads-revenue-icon">
+                <i class="bi bi-graph-up-arrow"></i>
+            </div>
+            <div class="ads-revenue-info">
+                <span class="ads-revenue-label">Net Profit</span>
+                <span class="ads-revenue-value">@Model.NetProfitDisplay</span>
+            </div>
+        </div>
+
+        <div class="ads-revenue-card refunds">
+            <div class="ads-revenue-icon">
+                <i class="bi bi-arrow-counterclockwise"></i>
+            </div>
+            <div class="ads-revenue-info">
+                <span class="ads-revenue-label">Total Refunds</span>
+                <span class="ads-revenue-value text-danger">@Model.TotalRefundsDisplay</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ads Summary -->
+    <div class="ads-summary-section">
+        <div class="ads-summary-card">
+            <i class="bi bi-collection"></i>
+            <span class="ads-summary-value">@Model.TotalAdsCount</span>
+            <span class="ads-summary-label">Total Ads</span>
+        </div>
+        <div class="ads-summary-card active">
+            <i class="bi bi-broadcast"></i>
+            <span class="ads-summary-value">@Model.ActiveAdsCount</span>
+            <span class="ads-summary-label">Active</span>
+        </div>
+        <div class="ads-summary-card pending">
+            <i class="bi bi-hourglass-split"></i>
+            <span class="ads-summary-value">@Model.PendingAdsCount</span>
+            <span class="ads-summary-label">Pending</span>
+        </div>
+        <div class="ads-summary-card rejected">
+            <i class="bi bi-x-circle"></i>
+            <span class="ads-summary-value">@Model.RejectedAdsCount</span>
+            <span class="ads-summary-label">Rejected</span>
+        </div>
+    </div>
+
+    <div class="ads-revenue-grid">
+        <!-- Revenue by Plan -->
+        <div class="ads-chart-card">
+            <h3 class="ads-card-title">
+                <i class="bi bi-pie-chart"></i>
+                Revenue by Plan
+            </h3>
+            @if (Model.RevenueByPlan.Any())
+            {
+                <div class="ads-plan-breakdown">
+                    @foreach (var plan in Model.RevenueByPlan)
+                    {
+                        <div class="ads-plan-row">
+                            <div class="ads-plan-info">
+                                <span class="ads-plan-badge">@plan.PlanName</span>
+                                <span class="ads-plan-count">@plan.AdsCount ads</span>
+                            </div>
+                            <div class="ads-plan-progress">
+                                <div class="ads-progress-bar">
+                                    <div class="ads-progress-fill" style="width: @plan.PercentageOfTotal%"></div>
+                                </div>
+                                <span class="ads-plan-percentage">@plan.PercentageDisplay</span>
+                            </div>
+                            <span class="ads-plan-revenue">@plan.RevenueDisplay</span>
+                        </div>
+                    }
+                </div>
+            }
+            else
+            {
+                <div class="ads-empty-state small">
+                    <i class="bi bi-pie-chart"></i>
+                    <p>No revenue data available</p>
+                </div>
+            }
+        </div>
+
+        <!-- Top Restaurants -->
+        <div class="ads-chart-card">
+            <h3 class="ads-card-title">
+                <i class="bi bi-trophy"></i>
+                Top Advertising Restaurants
+            </h3>
+            @if (Model.TopRestaurants.Any())
+            {
+                <div class="ads-top-list">
+                    @foreach (var restaurant in Model.TopRestaurants.Take(10))
+                    {
+                        <div class="ads-top-item">
+                            <div class="ads-top-rank">
+                                @(Model.TopRestaurants.IndexOf(restaurant) + 1)
+                            </div>
+                            <div class="ads-top-info">
+                                @if (!string.IsNullOrEmpty(restaurant.RestaurantImage))
+                                {
+                                    <img src="~/images/@restaurant.RestaurantImage" alt="@restaurant.RestaurantName" class="ads-top-image" />
+                                }
+                                else
+                                {
+                                    <div class="ads-top-image placeholder">
+                                        <i class="bi bi-shop"></i>
+                                    </div>
+                                }
+                                <div class="ads-top-details">
+                                    <strong>@restaurant.RestaurantName</strong>
+                                    <small>@restaurant.TotalAdsCount ads (@restaurant.ActiveAdsCount active)</small>
+                                </div>
+                            </div>
+                            <div class="ads-top-amount">
+                                @restaurant.TotalPaidDisplay
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+            else
+            {
+                <div class="ads-empty-state small">
+                    <i class="bi bi-trophy"></i>
+                    <p>No restaurants data available</p>
+                </div>
+            }
+        </div>
+    </div>
+</div>

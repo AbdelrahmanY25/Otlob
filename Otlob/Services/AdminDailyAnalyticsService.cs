@@ -16,21 +16,28 @@ public class AdminDailyAnalyticsService(IUnitOfWorkRepository unitOfWorkReposito
             var yesterdayAnalytics = _unitOfWorkRepository.AdminDailyAnalytics
                 .GetOne(expression: a => a.Date == yesterday)!;
 
-            var newAnalytics = new AdminDailyAnalytic
-            { 
-                Date = today,
-                PendingOrders = yesterdayAnalytics.PendingOrders,
-                PreparingOrders = yesterdayAnalytics.PreparingOrders,
-                ShippingOrders = yesterdayAnalytics.ShippingOrders
-            };
+            if (yesterdayAnalytics is not null)
+            {
+                var newAnalytics = new AdminDailyAnalytic
+                { 
+                    Date = today,
+                    PendingOrders = yesterdayAnalytics.PendingOrders,
+                    PreparingOrders = yesterdayAnalytics.PreparingOrders,
+                    ShippingOrders = yesterdayAnalytics.ShippingOrders
+                };
 
-            yesterdayAnalytics.PendingOrders = 0;
-            yesterdayAnalytics.PreparingOrders = 0;
-            yesterdayAnalytics.ShippingOrders = 0;
-            
-            _unitOfWorkRepository.AdminDailyAnalytics.Update(yesterdayAnalytics);
+                yesterdayAnalytics.PendingOrders = 0;
+                yesterdayAnalytics.PreparingOrders = 0;
+                yesterdayAnalytics.ShippingOrders = 0;
 
-            _unitOfWorkRepository.AdminDailyAnalytics.Add(newAnalytics);
+                _unitOfWorkRepository.AdminDailyAnalytics.Add(newAnalytics);
+                
+                _unitOfWorkRepository.AdminDailyAnalytics.Update(yesterdayAnalytics);
+            }
+            else
+            {
+                _unitOfWorkRepository.AdminDailyAnalytics.Add(new AdminDailyAnalytic { Date = today });
+            }
 
             _unitOfWorkRepository.SaveChanges();
         }

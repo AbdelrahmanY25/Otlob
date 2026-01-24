@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "QKoCrIN1ZxI=",
+  "dgSpecHash": "UCK9cT3Xl0w=",
   "success": true,
   "projectFilePath": "D:\\My_Projects\\Back End C# Asp .Net\\MVC Projects\\Otlob Projects\\Otlob\\Otlob\\Otlob.csproj",
   "expectedPackageFiles": [
@@ -18,6 +18,9 @@
     "C:\\Users\\ASUS\\.nuget\\packages\\fluentvalidation\\12.0.0\\fluentvalidation.12.0.0.nupkg.sha512",
     "C:\\Users\\ASUS\\.nuget\\packages\\fluentvalidation.aspnetcore\\11.3.1\\fluentvalidation.aspnetcore.11.3.1.nupkg.sha512",
     "C:\\Users\\ASUS\\.nuget\\packages\\fluentvalidation.dependencyinjectionextensions\\11.11.0\\fluentvalidation.dependencyinjectionextensions.11.11.0.nupkg.sha512",
+    "C:\\Users\\ASUS\\.nuget\\packages\\google.apis\\1.68.0\\google.apis.1.68.0.nupkg.sha512",
+    "C:\\Users\\ASUS\\.nuget\\packages\\google.apis.auth\\1.68.0\\google.apis.auth.1.68.0.nupkg.sha512",
+    "C:\\Users\\ASUS\\.nuget\\packages\\google.apis.core\\1.68.0\\google.apis.core.1.68.0.nupkg.sha512",
     "C:\\Users\\ASUS\\.nuget\\packages\\hangfire.aspnetcore\\1.8.21\\hangfire.aspnetcore.1.8.21.nupkg.sha512",
     "C:\\Users\\ASUS\\.nuget\\packages\\hangfire.core\\1.8.21\\hangfire.core.1.8.21.nupkg.sha512",
     "C:\\Users\\ASUS\\.nuget\\packages\\hangfire.dashboard.basic.authentication\\8.0.0\\hangfire.dashboard.basic.authentication.8.0.0.nupkg.sha512",
@@ -76,7 +79,6 @@
     "C:\\Users\\ASUS\\.nuget\\packages\\linqkit\\1.3.8\\linqkit.1.3.8.nupkg.sha512",
     "C:\\Users\\ASUS\\.nuget\\packages\\linqkit.core\\1.2.8\\linqkit.core.1.2.8.nupkg.sha512",
     "C:\\Users\\ASUS\\.nuget\\packages\\mailkit\\4.13.0\\mailkit.4.13.0.nupkg.sha512",
-    "C:\\Users\\ASUS\\.nuget\\packages\\microsoft.aspnetcore.authentication.facebook\\9.0.11\\microsoft.aspnetcore.authentication.facebook.9.0.11.nupkg.sha512",
     "C:\\Users\\ASUS\\.nuget\\packages\\microsoft.aspnetcore.authentication.google\\9.0.11\\microsoft.aspnetcore.authentication.google.9.0.11.nupkg.sha512",
     "C:\\Users\\ASUS\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\9.0.11\\microsoft.aspnetcore.authentication.jwtbearer.9.0.11.nupkg.sha512",
     "C:\\Users\\ASUS\\.nuget\\packages\\microsoft.aspnetcore.authentication.microsoftaccount\\9.0.11\\microsoft.aspnetcore.authentication.microsoftaccount.9.0.11.nupkg.sha512",
@@ -200,7 +202,7 @@
     "C:\\Users\\ASUS\\.nuget\\packages\\stripe.net\\48.6.0-beta.1\\stripe.net.48.6.0-beta.1.nupkg.sha512",
     "C:\\Users\\ASUS\\.nuget\\packages\\system.buffers\\4.5.0\\system.buffers.4.5.0.nupkg.sha512",
     "C:\\Users\\ASUS\\.nuget\\packages\\system.clientmodel\\1.0.0\\system.clientmodel.1.0.0.nupkg.sha512",
-    "C:\\Users\\ASUS\\.nuget\\packages\\system.codedom\\6.0.0\\system.codedom.6.0.0.nupkg.sha512",
+    "C:\\Users\\ASUS\\.nuget\\packages\\system.codedom\\7.0.0\\system.codedom.7.0.0.nupkg.sha512",
     "C:\\Users\\ASUS\\.nuget\\packages\\system.collections.immutable\\8.0.0\\system.collections.immutable.8.0.0.nupkg.sha512",
     "C:\\Users\\ASUS\\.nuget\\packages\\system.collections.nongeneric\\4.3.0\\system.collections.nongeneric.4.3.0.nupkg.sha512",
     "C:\\Users\\ASUS\\.nuget\\packages\\system.collections.specialized\\4.3.0\\system.collections.specialized.4.3.0.nupkg.sha512",
@@ -225,6 +227,7 @@
     "C:\\Users\\ASUS\\.nuget\\packages\\system.io.packaging\\8.0.1\\system.io.packaging.8.0.1.nupkg.sha512",
     "C:\\Users\\ASUS\\.nuget\\packages\\system.io.pipelines\\7.0.0\\system.io.pipelines.7.0.0.nupkg.sha512",
     "C:\\Users\\ASUS\\.nuget\\packages\\system.linq.dynamic.core\\1.6.7\\system.linq.dynamic.core.1.6.7.nupkg.sha512",
+    "C:\\Users\\ASUS\\.nuget\\packages\\system.management\\7.0.2\\system.management.7.0.2.nupkg.sha512",
     "C:\\Users\\ASUS\\.nuget\\packages\\system.memory\\4.5.4\\system.memory.4.5.4.nupkg.sha512",
     "C:\\Users\\ASUS\\.nuget\\packages\\system.memory.data\\1.0.2\\system.memory.data.1.0.2.nupkg.sha512",
     "C:\\Users\\ASUS\\.nuget\\packages\\system.numerics.vectors\\4.5.0\\system.numerics.vectors.4.5.0.nupkg.sha512",
@@ -256,10 +259,10 @@
     "C:\\Users\\ASUS\\.nuget\\packages\\system.threading.tasks.extensions\\4.5.4\\system.threading.tasks.extensions.4.5.4.nupkg.sha512",
     "C:\\Users\\ASUS\\.nuget\\packages\\twilio\\7.14.1\\twilio.7.14.1.nupkg.sha512",
     "C:\\Users\\ASUS\\.nuget\\packages\\z.entityframework.extensions.efcore\\9.105.2\\z.entityframework.extensions.efcore.9.105.2.nupkg.sha512",
-    "C:\\Users\\ASUS\\.nuget\\packages\\microsoft.netcore.app.ref\\9.0.11\\microsoft.netcore.app.ref.9.0.11.nupkg.sha512",
-    "C:\\Users\\ASUS\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\9.0.11\\microsoft.windowsdesktop.app.ref.9.0.11.nupkg.sha512",
-    "C:\\Users\\ASUS\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\9.0.11\\microsoft.aspnetcore.app.ref.9.0.11.nupkg.sha512",
-    "C:\\Users\\ASUS\\.nuget\\packages\\microsoft.netcore.app.host.win-x86\\9.0.11\\microsoft.netcore.app.host.win-x86.9.0.11.nupkg.sha512"
+    "C:\\Users\\ASUS\\.nuget\\packages\\microsoft.netcore.app.ref\\9.0.12\\microsoft.netcore.app.ref.9.0.12.nupkg.sha512",
+    "C:\\Users\\ASUS\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\9.0.12\\microsoft.windowsdesktop.app.ref.9.0.12.nupkg.sha512",
+    "C:\\Users\\ASUS\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\9.0.12\\microsoft.aspnetcore.app.ref.9.0.12.nupkg.sha512",
+    "C:\\Users\\ASUS\\.nuget\\packages\\microsoft.netcore.app.host.win-x86\\9.0.12\\microsoft.netcore.app.host.win-x86.9.0.12.nupkg.sha512"
   ],
   "logs": []
 }

@@ -11,7 +11,7 @@ public class MealCategoriesController(IMealCategoryService mealCategoryService) 
         if (!ModelState.IsValid)
         {
             TempData["Error"] = ModelState.FirstOrDefault().Value?.Errors.FirstOrDefault()?.ErrorMessage;
-            return RedirectToAction("Menu", "Menu");
+            return RedirectToAction("Menu", "Menu", new { Area = DefaultRoles.RestaurantAdmin });
         }
 
         var result = _mealCategoryService.Add(int.Parse(User.FindFirstValue(StaticData.RestaurantId)!), request);
@@ -19,10 +19,10 @@ public class MealCategoriesController(IMealCategoryService mealCategoryService) 
         if (result.IsFailure)
         {
             TempData["Error"] = result.Error.Description;
-            return RedirectToAction("Menu", "Menu");
+            return RedirectToAction("Menu", "Menu", new { Area = DefaultRoles.RestaurantAdmin });
         }            
 
-        return RedirectToAction("Menu", "Menu");
+        return RedirectToAction("Menu", "Menu", new { Area = DefaultRoles.RestaurantAdmin });
     }
     
     [HttpPost, ValidateAntiForgeryToken]
@@ -31,7 +31,7 @@ public class MealCategoriesController(IMealCategoryService mealCategoryService) 
         if (!ModelState.IsValid)
         {
             TempData["Error"] = ModelState.FirstOrDefault().Value?.Errors.FirstOrDefault()?.ErrorMessage;
-            return RedirectToAction("Menu", "Menu");
+            return RedirectToAction("Menu", "Menu", new { Area = DefaultRoles.RestaurantAdmin });
         }
 
         var result = _mealCategoryService.Update(key, request);
@@ -39,10 +39,10 @@ public class MealCategoriesController(IMealCategoryService mealCategoryService) 
         if (result.IsFailure)
         {
             TempData["Error"] = result.Error.Description;
-            return RedirectToAction("Menu", "Menu");
+            return RedirectToAction("Menu", "Menu", new { Area = DefaultRoles.RestaurantAdmin });
         }            
 
-        return RedirectToAction("Menu", "Menu");
+        return RedirectToAction("Menu", "Menu", new { Area = DefaultRoles.RestaurantAdmin });
     }
 
     public IActionResult Delete(string key)
@@ -52,9 +52,9 @@ public class MealCategoriesController(IMealCategoryService mealCategoryService) 
         if (reult.IsFailure)
         {
             TempData["Error"] = reult.Error.Description;
-            return RedirectToAction("Menu", "Menu");
+            return RedirectToAction("Menu", "Menu", new { Area = DefaultRoles.RestaurantAdmin });
         }
 
-        return RedirectToAction("Menu", "Menu");
+        return RedirectToAction("Menu", "Menu", new { Area = DefaultRoles.RestaurantAdmin });
     }
 }

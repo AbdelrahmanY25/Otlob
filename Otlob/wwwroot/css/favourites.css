@@ -1,0 +1,120 @@
+.favourites-header {
+    text-align: center;
+    padding: 2rem 1rem;
+    margin-bottom: 1rem;
+}
+
+.favourites-header h1 {
+    color: #333;
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.favourites-header h1 i {
+    color: #e74c3c;
+}
+
+.favourites-header p {
+    color: #666;
+    font-size: 1rem;
+}
+
+.empty-favourites {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 2rem;
+    text-align: center;
+}
+
+.empty-favourites i {
+    font-size: 5rem;
+    color: #ddd;
+    margin-bottom: 1.5rem;
+}
+
+.empty-favourites h2 {
+    color: #333;
+    margin-bottom: 0.5rem;
+}
+
+.empty-favourites p {
+    color: #666;
+    margin-bottom: 1.5rem;
+    max-width: 400px;
+}
+
+.btn-explore {
+    background-color: #e74c3c;
+    color: white;
+    padding: 0.75rem 2rem;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+}
+
+.btn-explore:hover {
+    background-color: #c0392b;
+    color: white;
+}
+
+.ch-restaurant-card-wrapper {
+    position: relative;
+}
+
+.favourite-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: none;
+    background-color: rgba(255, 255, 255, 0.9);
+    color: #ccc;
+    font-size: 1.1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    z-index: 10;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.favourite-btn:hover {
+    transform: scale(1.1);
+}
+
+.favourite-btn.active {
+    color: #e74c3c;
+}
+
+.favourite-btn.active i {
+    animation: heartBeat 0.3s ease-in-out;
+}
+
+.ch-rates-count {
+    font-size: 0.75rem;
+    color: #999;
+    margin-left: 4px;
+}
+
+@keyframes heartBeat {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.3); }
+    100% { transform: scale(1); }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+        transform: scale(1);
+    }
+    to {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+}

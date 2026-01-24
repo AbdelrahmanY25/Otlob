@@ -31,9 +31,7 @@ public class BecomeAPartnerController(IAuthService authService, IAddPartnerServi
     public async Task<IActionResult> RegistRestaurantAccount(RegistResturantRequest request)
     {
         if (!ModelState.IsValid)
-        {
             return View(request);
-        }
 
         var result = await _addPartnerService.RegistRestaurant(request);
 

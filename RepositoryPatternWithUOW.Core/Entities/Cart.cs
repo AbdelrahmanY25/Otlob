@@ -1,6 +1,6 @@
 ﻿namespace Otlob.Core.Entities;
 
-public class Cart : AuditEntity
+public class Cart
 {
     public int Id { get; set; }
     public string UserId { get; set; } = string.Empty;

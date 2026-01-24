@@ -86,4 +86,38 @@ public class RestaurantProfileController(IRestaurantProfileService restaurantPro
         TempData["Success"] = "profile Image updated successfully";
         return RedirectToAction(nameof(EditRestaurantProfile), new { id = restaruantKey });
     }
+
+    [HttpPost, ValidateAntiForgeryToken]
+    public IActionResult EditRestaurantProfileCover(UploadImageRequest request)
+    {
+        string? restaruantKey = HttpContext.Session.GetString(StaticData.RestaurantId);
+
+        if (string.IsNullOrEmpty(restaruantKey))
+        {
+            TempData["Error"] = "The session timeout try again.";
+            return RedirectToAction("Index", "Home", new { Area = DefaultRoles.SuperAdmin });
+        }
+
+        // TODO: Handle Exception for unprotect
+        int restaurantId = int.Parse(_dataProtector.Unprotect(restaruantKey));
+
+        if (!ModelState.IsValid)
+        {
+            TempData["Error"] = ModelState.Values.SelectMany(v => v.Errors).FirstOrDefault()?.ErrorMessage;
+            return RedirectToAction(nameof(EditRestaurantProfile), new { id = restaruantKey });
+        }               
+
+        Result uploadImageResult = _restaurantProfileService.EditRestaurantProfileCover(restaurantId, request.Image);
+
+        if (uploadImageResult.IsFailure)
+        {
+            TempData["Error"] = uploadImageResult.Error.Description;
+            return RedirectToAction(nameof(EditRestaurantProfile), new { id = restaruantKey });
+        }
+
+        TempData["Success"] = "profile Image updated successfully";
+        return RedirectToAction(nameof(EditRestaurantProfile), new { id = restaruantKey });
+    }
+
+
 }

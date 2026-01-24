@@ -19,6 +19,7 @@ public sealed class Restaurant
     public BusinessType BusinessType { get; set; } = BusinessType.Restaurant;
     public AdministratorRole AdministratorRole { get; set; } = AdministratorRole.Owner;
     public string? Image { get; set; }
+    public string? CoverImage { get; set; }
     public TimeOnly OpeningTime { get; set; }
     public TimeOnly ClosingTime { get; set; }
 
@@ -45,7 +46,13 @@ public sealed class Restaurant
 
     public BankAccount BankAccount { get; set; } = default!;    
 
-    public VAT VatCertificate { get; set; } = default!;    
+    public VAT VatCertificate { get; set; } = default!;
+    
+    public ICollection<Advertisement> Advertisements { get; set; } = [];
+    
+    public ICollection<AdvertisementPayment> AdvertisementPayments { get; set; } = [];
+    
+    public RestaurantRatingAnlytic RatingAnlytic { get; set; } = default!;
 }
 
 public enum AcctiveStatus

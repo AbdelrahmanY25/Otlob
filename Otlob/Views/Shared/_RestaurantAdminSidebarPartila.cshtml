@@ -40,7 +40,7 @@
                             
                             <!-- Dashboard -->
                             <li class="adm-nav-link">
-                                <a asp-area="RestaurantAdmin" asp-controller="Home" asp-action="AcctiveRestaurants">
+                                <a asp-area="@DefaultRoles.RestaurantAdmin" asp-controller="Home" asp-action="AcctiveRestaurants">
                                     <i class="bi bi-grid-1x2-fill icon"></i>
                                     <span class="text nav-text">Dashboard</span>
                                 </a>
@@ -48,7 +48,7 @@
 
                             <!-- General Analytics -->
                             <li class="adm-nav-link">
-                                <a asp-area="RestaurantAdmin" asp-controller="Home" asp-action="GeneralAnalytics">
+                                <a asp-area="@DefaultRoles.RestaurantAdmin" asp-controller="Home" asp-action="GeneralAnalytics">
                                     <i class="bi bi-graph-up-arrow icon"></i>
                                     <span class="text nav-text">General Analytics</span>
                                 </a>
@@ -56,7 +56,7 @@
 
                             <!-- Menu Dropdown -->
                             <li class="adm-nav-link">
-                                <a asp-area="RestaurantAdmin" asp-controller="Menu" asp-action="Menu">
+                                <a asp-area="@DefaultRoles.RestaurantAdmin" asp-controller="Menu" asp-action="Menu">
                                     <i class="bi bi-list-ul icon"></i>
                                     <span class="text nav-text">Menu</span>
                                 </a>
@@ -73,13 +73,13 @@
                                 </div>
                                 <ul class="adm-submenu">
                                     <li class="adm-nav-link">
-                                        <a asp-area="RestaurantAdmin" asp-controller="Branches" asp-action="Branches">
+                                        <a asp-area="@DefaultRoles.RestaurantAdmin" asp-controller="Branches" asp-action="Branches">
                                             <i class="bi bi-building icon"></i>
                                             <span class="text nav-text">All Branches</span>
                                         </a>
                                     </li>
                                     <li class="adm-nav-link">
-                                        <a asp-area="RestaurantAdmin" asp-controller="Branches" asp-action="AddBranch">
+                                        <a asp-area="@DefaultRoles.RestaurantAdmin" asp-controller="Branches" asp-action="AddBranch">
                                             <i class="bi bi-plus-circle icon"></i>
                                             <span class="text nav-text">Add Branch</span>
                                         </a>
@@ -98,19 +98,19 @@
                                 </div>
                                 <ul class="adm-submenu">
                                     <li class="adm-nav-link">
-                                        <a asp-area="RestaurantAdmin" asp-controller="RestaurantOrders" asp-action="InProgress">
+                                        <a asp-area="@DefaultRoles.RestaurantAdmin" asp-controller="RestaurantOrders" asp-action="InProgress">
                                             <i class="bi bi-clock-history icon"></i>
                                             <span class="text nav-text">In Progress</span>
                                         </a>
                                     </li>
                                     <li class="adm-nav-link">
-                                        <a asp-area="RestaurantAdmin" asp-controller="RestaurantOrders" asp-action="Delivered">
+                                        <a asp-area="@DefaultRoles.RestaurantAdmin" asp-controller="RestaurantOrders" asp-action="Delivered">
                                             <i class="bi bi-check-circle icon"></i>
                                             <span class="text nav-text">Delivered</span>
                                         </a>
                                     </li>
                                     <li class="adm-nav-link">
-                                        <a asp-area="RestaurantAdmin" asp-controller="RestaurantOrders" asp-action="Cancelled">
+                                        <a asp-area="@DefaultRoles.RestaurantAdmin" asp-controller="RestaurantOrders" asp-action="Cancelled">
                                             <i class="bi bi-x-circle icon"></i>
                                             <span class="text nav-text">Cancelled</span>
                                         </a>
@@ -120,7 +120,7 @@
                             
                             <!-- Rating Analytics -->
                             <li class="adm-nav-link">
-                                <a asp-area="RestaurantAdmin" asp-controller="RatingAnalytics" asp-action="Index">
+                                <a asp-area="@DefaultRoles.RestaurantAdmin" asp-controller="RatingAnalytics" asp-action="Index">
                                     <i class="bi bi-star icon"></i>
                                     <span class="text nav-text">Rating Analytics</span>
                                 </a>
@@ -128,20 +128,42 @@
 
                             <!-- Promo Codes -->
                             <li class="adm-nav-link">
-                                <a asp-area="RestaurantAdmin" asp-controller="PromoCodes" asp-action="Index">
+                                <a asp-area="@DefaultRoles.RestaurantAdmin" asp-controller="PromoCodes" asp-action="Index">
                                     <i class="bi bi-ticket-perforated icon"></i>
                                     <span class="text nav-text">Promo Codes</span>
                                 </a>
                             </li>
 
-                            <!-- Settings -->
-                            <li class="adm-nav-link">
-                                <a asp-area="RestaurantAdmin" asp-controller="Settings" asp-action="Index">
-                                    <i class="bi bi-gear icon"></i>
-                                    <span class="text nav-text">Settings</span>
-                                </a>
+                            <!-- Advertisements Dropdown -->
+                            <li class="adm-dropdown">
+                                <div class="adm-nav-link adm-dropdown-toggle">
+                                    <a href="javascript:void(0)">
+                                        <i class="bi bi-megaphone icon"></i>
+                                        <span class="text nav-text">Advertisements</span>
+                                        <i class="bi bi-chevron-down icon chevron"></i>
+                                    </a>
+                                </div>
+                                <ul class="adm-submenu">
+                                    <li class="adm-nav-link">
+                                        <a asp-area="@DefaultRoles.RestaurantAdmin" asp-controller="Advertisements" asp-action="Index">
+                                            <i class="bi bi-list-ul icon"></i>
+                                            <span class="text nav-text">My Advertisements</span>
+                                        </a>
+                                    </li>
+                                    <li class="adm-nav-link">
+                                        <a asp-area="@DefaultRoles.RestaurantAdmin" asp-controller="Advertisements" asp-action="Create">
+                                            <i class="bi bi-plus-circle icon"></i>
+                                            <span class="text nav-text">Create New</span>
+                                        </a>
+                                    </li>
+                                    <li class="adm-nav-link">
+                                        <a asp-area="@DefaultRoles.RestaurantAdmin" asp-controller="Advertisements" asp-action="Costs">
+                                            <i class="bi bi-currency-dollar icon"></i>
+                                            <span class="text nav-text">Costs Dashboard</span>
+                                        </a>
+                                    </li>
+                                </ul>
                             </li>
-
                         </ul>
                     </div>
 

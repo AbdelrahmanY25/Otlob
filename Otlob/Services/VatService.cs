@@ -11,7 +11,7 @@ public class VatService(IUnitOfWorkRepository unitOfWorkRepository, IFileService
     private readonly IRestaurantProgressStatus _restaurantProgressStatus = restaurantProgressStatus;
     private readonly IDataProtector _dataProtector = dataProtectionProvider.CreateProtector("SecureData");
 
-    public Result<VatResponse> GetVat(string id)
+    public Result<VatResponse?> GetVat(string id)
     {
         //TODO: Handle exception for unprotect
         int restaurantId = int.Parse(_dataProtector.Unprotect(id));
@@ -19,9 +19,7 @@ public class VatService(IUnitOfWorkRepository unitOfWorkRepository, IFileService
         bool isRestaurantHasCertificate = IsRestaurantHasVatCertificate(restaurantId);
 
         if (!isRestaurantHasCertificate)
-        {
-            return Result.Failure<VatResponse>(VatErrors.NotFoundCertificate);
-        }
+            return Result.Success<VatResponse?>(null);
 
         var response = _unitOfWorkRepository.Vats
             .GetOneWithSelect(
@@ -44,7 +42,7 @@ public class VatService(IUnitOfWorkRepository unitOfWorkRepository, IFileService
                 }
             );
 
-        return Result.Success(response!);
+        return Result.Success(response);
     }
 
     public async Task<Result> UploadAsync(VatRequest request, UploadFileRequest fileRequest)

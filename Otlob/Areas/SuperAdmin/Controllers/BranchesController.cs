@@ -31,9 +31,7 @@ public class BranchesController(IBranchService branchService, IDataProtectionPro
     public IActionResult AddBranch(BranchRequest request)
     {
         if (!ModelState.IsValid)
-        {
             return View(request);
-        }
 
         string id = HttpContext.Session.GetString(StaticData.RestaurantId)!;
 

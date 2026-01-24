@@ -1,0 +1,602 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Otlob Database Schema</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #ff385d;
+            --primary-dark: #e02e50;
+            --primary-light: #ff6b81;
+            --primary-glow: rgba(255, 56, 93, 0.15);
+            --accent-green: #00b894;
+            --accent-green-light: rgba(0, 184, 148, 0.1);
+            --accent-orange: #ff9f43;
+            --accent-yellow: #d4ec14;
+            --text-primary: #1a1a2e;
+            --text-secondary: #6b7280;
+            --text-muted: #9ca3af;
+            --text-white: #ffffff;
+            --bg-primary: #fafafa;
+            --bg-secondary: #ffffff;
+            --bg-tertiary: #f3f4f6;
+            --bg-dark: #1a1a2e;
+            --border-light: #e5e7eb;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+            --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 40px rgba(0, 0, 0, 0.15);
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-tertiary) 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            padding: 30px 20px;
+            background: var(--bg-dark);
+            border-radius: var(--radius-lg);
+            margin-bottom: 30px;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .header h1 {
+            color: var(--text-white);
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: var(--bg-secondary);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+        }
+
+        .schema-container {
+            position: relative;
+            width: 100%;
+            min-height: 2800px;
+            background: var(--bg-secondary);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            overflow: hidden;
+        }
+
+        svg.connections {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .tables-container {
+            position: relative;
+            z-index: 2;
+            padding: 40px;
+        }
+
+        .section {
+            margin-bottom: 60px;
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid var(--primary);
+            display: inline-block;
+        }
+
+        .tables-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: flex-start;
+        }
+
+        .table-block {
+            background: var(--bg-secondary);
+            border: 2px solid var(--border-light);
+            border-radius: var(--radius-md);
+            padding: 0;
+            min-width: 160px;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+        .table-block:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary);
+        }
+
+        .table-header {
+            padding: 12px 16px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-align: center;
+            color: var(--text-white);
+        }
+
+        .table-body {
+            padding: 8px 16px;
+            background: var(--bg-secondary);
+            min-height: 20px;
+        }
+
+        /* Category Colors */
+        .cat-core .table-header { background: var(--primary); }
+        .cat-user .table-header { background: #3b82f6; }
+        .cat-order .table-header { background: var(--accent-green); }
+        .cat-meal .table-header { background: var(--accent-orange); }
+        .cat-restaurant .table-header { background: #8b5cf6; }
+        .cat-promo .table-header { background: #ec4899; }
+        .cat-ads .table-header { background: #14b8a6; }
+        .cat-analytics .table-header { background: #f59e0b; }
+        .cat-documents .table-header { background: #6366f1; }
+        .cat-system .table-header { background: #64748b; }
+
+        .cat-core { border-left: 4px solid var(--primary); }
+        .cat-user { border-left: 4px solid #3b82f6; }
+        .cat-order { border-left: 4px solid var(--accent-green); }
+        .cat-meal { border-left: 4px solid var(--accent-orange); }
+        .cat-restaurant { border-left: 4px solid #8b5cf6; }
+        .cat-promo { border-left: 4px solid #ec4899; }
+        .cat-ads { border-left: 4px solid #14b8a6; }
+        .cat-analytics { border-left: 4px solid #f59e0b; }
+        .cat-documents { border-left: 4px solid #6366f1; }
+        .cat-system { border-left: 4px solid #64748b; }
+
+        /* Relationship lines */
+        .relation-line {
+            stroke: var(--text-muted);
+            stroke-width: 1.5;
+            fill: none;
+            opacity: 0.6;
+        }
+
+        .relation-dot {
+            fill: var(--primary);
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            .tables-grid {
+                justify-content: center;
+            }
+            .table-block {
+                min-width: 140px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🍽️ Otlob Database Schema</h1>
+        <p>Entity Relationship Diagram - Food Delivery Platform</p>
+    </div>
+
+    <div class="legend">
+        <div class="legend-item">
+            <div class="legend-color" style="background: #ff385d;"></div>
+            <span>Core Entities</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background: #3b82f6;"></div>
+            <span>User & Auth</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background: #00b894;"></div>
+            <span>Orders</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background: #ff9f43;"></div>
+            <span>Meals & Menu</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background: #8b5cf6;"></div>
+            <span>Restaurant</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background: #ec4899;"></div>
+            <span>Promotions</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background: #14b8a6;"></div>
+            <span>Advertisements</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background: #f59e0b;"></div>
+            <span>Analytics</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background: #6366f1;"></div>
+            <span>Documents</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background: #64748b;"></div>
+            <span>System</span>
+        </div>
+    </div>
+
+    <div class="schema-container">
+        <svg class="connections" id="connectionsSvg"></svg>
+        
+        <div class="tables-container">
+            <!-- Core Entities Section -->
+            <div class="section">
+                <div class="section-title">🏢 Core Entities</div>
+                <div class="tables-grid">
+                    <div class="table-block cat-core" id="tbl-Restaurant">
+                        <div class="table-header">Restaurant</div>
+                        <div class="table-body"></div>
+                    </div>
+                    <div class="table-block cat-core" id="tbl-ApplicationUser">
+                        <div class="table-header">ApplicationUser</div>
+                        <div class="table-body"></div>
+                    </div>
+                    <div class="table-block cat-core" id="tbl-Order">
+                        <div class="table-header">Order</div>
+                        <div class="table-body"></div>
+                    </div>
+                    <div class="table-block cat-core" id="tbl-Meal">
+                        <div class="table-header">Meal</div>
+                        <div class="table-body"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- User & Authentication Section -->
+            <div class="section">
+                <div class="section-title">👤 User & Authentication</div>
+                <div class="tables-grid">
+                    <div class="table-block cat-user" id="tbl-ApplicationRole">
+                        <div class="table-header">ApplicationRole</div>
+                        <div class="table-body"></div>
+                    </div>
+                    <div class="table-block cat-user" id="tbl-RefreshToken">
+                        <div class="table-header">RefreshToken</div>
+                        <div class="table-body"></div>
+                    </div>
+                    <div class="table-block cat-user" id="tbl-Address">
+                        <div class="table-header">Address</div>
+                        <div class="table-body"></div>
+                    </div>
+                    <div class="table-block cat-user" id="tbl-Otp">
+                        <div class="table-header">Otp</div>
+                        <div class="table-body"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Orders Section -->
+            <div class="section">
+                <div class="section-title">🛒 Orders & Cart</div>
+                <div class="tables-grid">
+                    <div class="table-block cat-order" id="tbl-OrderDetails">
+                        <div class="table-header">OrderDetails</div>
+                        <div class="table-body"></div>
+                    </div>
+                    <div class="table-block cat-order" id="tbl-OrderRating">
+                        <div class="table-header">OrderRating</div>
+                        <div class="table-body"></div>
+                    </div>
+                    <div class="table-block cat-order" id="tbl-Cart">
+                        <div class="table-header">Cart</div>
+                        <div class="table-body"></div>
+                    </div>
+                    <div class="table-block cat-order" id="tbl-CartDetails">
+                        <div class="table-header">CartDetails</div>
+                        <div class="table-body"></div>
+                    </div>
+                    <div class="table-block cat-order" id="tbl-TempOrder">
+                        <div class="table-header">TempOrder</div>
+                        <div class="table-body"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Meals & Menu Section -->
+            <div class="section">
+                <div class="section-title">🍔 Meals & Menu</div>
+                <div class="tables-grid">
+                    <div class="table-block cat-meal" id="tbl-MenuCategory">
+                        <div class="table-header">MenuCategory</div>
+                        <div class="table-body"></div>
+                    </div>
+                    <div class="table-block cat-meal" id="tbl-MealOptionGroup">
+                        <div class="table-header">MealOptionGroup</div>
+                        <div class="table-body"></div>
+                    </div>
+                    <div class="table-block cat-meal" id="tbl-MealOptionItem">
+                        <div class="table-header">MealOptionItem</div>
+                        <div class="table-body"></div>
+                    </div>
+                    <div class="table-block cat-meal" id="tbl-MealAddOn">
+                        <div class="table-header">MealAddOn</div>
+                        <div class="table-body"></div>
+                    </div>
+                    <div class="table-block cat-meal" id="tbl-ManyMealManyAddOn">
+                        <div class="table-header">ManyMealManyAddOn</div>
+                        <div class="table-body"></div>
+                    </div>
+                    <div class="table-block cat-meal" id="tbl-MealPriceHistory">
+                        <div class="table-header">MealPriceHistory</div>
+                        <div class="table-body"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Restaurant Section -->
+            <div class="section">
+                <div class="section-title">🏪 Restaurant Management</div>
+                <div class="tables-grid">
+                    <div class="table-block cat-restaurant" id="tbl-RestaurantBranch">
+                        <div class="table-header">RestaurantBranch</div>
+                        <div class="table-body"></div>
+                    </div>
+                    <div class="table-block cat-restaurant" id="tbl-Category">
+                        <div class="table-header">Category</div>
+                        <div class="table-body"></div>
+                    </div>
+                    <div class="table-block cat-restaurant" id="tbl-RestaurantCategory">
+                        <div class="table-header">RestaurantCategory</div>
+                        <div class="table-body"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Promotions Section -->
+            <div class="section">
+                <div class="section-title">🎁 Promotions</div>
+                <div class="tables-grid">
+                    <div class="table-block cat-promo" id="tbl-PromoCode">
+                        <div class="table-header">PromoCode</div>
+                        <div class="table-body"></div>
+                    </div>
+                    <div class="table-block cat-promo" id="tbl-PromoCodeUsage">
+                        <div class="table-header">PromoCodeUsage</div>
+                        <div class="table-body"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Advertisements Section -->
+            <div class="section">
+                <div class="section-title">📢 Advertisements</div>
+                <div class="tables-grid">
+                    <div class="table-block cat-ads" id="tbl-Advertisement">
+                        <div class="table-header">Advertisement</div>
+                        <div class="table-body"></div>
+                    </div>
+                    <div class="table-block cat-ads" id="tbl-AdvertisementPlan">
+                        <div class="table-header">AdvertisementPlan</div>
+                        <div class="table-body"></div>
+                    </div>
+                    <div class="table-block cat-ads" id="tbl-AdvertisementPayment">
+                        <div class="table-header">AdvertisementPayment</div>
+                        <div class="table-body"></div>
+                    </div>
+                    <div class="table-block cat-ads" id="tbl-AdvertisementAnalytics">
+                        <div class="table-header">AdvertisementAnalytics</div>
+                        <div class="table-body"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Analytics Section -->
+            <div class="section">
+                <div class="section-title">📊 Analytics</div>
+                <div class="tables-grid">
+                    <div class="table-block cat-analytics" id="tbl-MealsAnalytic">
+                        <div class="table-header">MealsAnalytic</div>
+                        <div class="table-body"></div>
+                    </div>
+                    <div class="table-block cat-analytics" id="tbl-RestaurantDailyAnalytic">
+                        <div class="table-header">RestaurantDailyAnalytic</div>
+                        <div class="table-body"></div>
+                    </div>
+                    <div class="table-block cat-analytics" id="tbl-RestaurantMonthlyAnalytic">
+                        <div class="table-header">RestaurantMonthlyAnalytic</div>
+                        <div class="table-body"></div>
+                    </div>
+                    <div class="table-block cat-analytics" id="tbl-RestaurantRatingAnlytic">
+                        <div class="table-header">RestaurantRatingAnlytic</div>
+                        <div class="table-body"></div>
+                    </div>
+                    <div class="table-block cat-analytics" id="tbl-AdminDailyAnalytic">
+                        <div class="table-header">AdminDailyAnalytic</div>
+                        <div class="table-body"></div>
+                    </div>
+                    <div class="table-block cat-analytics" id="tbl-AdminMonthlyAnalytic">
+                        <div class="table-header">AdminMonthlyAnalytic</div>
+                        <div class="table-body"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Documents Section -->
+            <div class="section">
+                <div class="section-title">📄 Legal Documents</div>
+                <div class="tables-grid">
+                    <div class="table-block cat-documents" id="tbl-CommercialRegistration">
+                        <div class="table-header">CommercialRegistration</div>
+                        <div class="table-body"></div>
+                    </div>
+                    <div class="table-block cat-documents" id="tbl-TradeMark">
+                        <div class="table-header">TradeMark</div>
+                        <div class="table-body"></div>
+                    </div>
+                    <div class="table-block cat-documents" id="tbl-NationalId">
+                        <div class="table-header">NationalId</div>
+                        <div class="table-body"></div>
+                    </div>
+                    <div class="table-block cat-documents" id="tbl-BankAccount">
+                        <div class="table-header">BankAccount</div>
+                        <div class="table-body"></div>
+                    </div>
+                    <div class="table-block cat-documents" id="tbl-VAT">
+                        <div class="table-header">VAT</div>
+                        <div class="table-body"></div>
+                    </div>
+                    <div class="table-block cat-documents" id="tbl-UploadedFile">
+                        <div class="table-header">UploadedFile</div>
+                        <div class="table-body"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Relationships Summary -->
+    <div style="margin-top: 30px; background: var(--bg-secondary); border-radius: var(--radius-lg); padding: 30px; box-shadow: var(--shadow-md);">
+        <h2 style="color: var(--text-primary); margin-bottom: 20px; font-size: 1.5rem;">🔗 Entity Relationships</h2>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); gap: 20px;">
+            <!-- Core Relationships -->
+            <div style="background: var(--bg-tertiary); padding: 20px; border-radius: var(--radius-md); border-left: 4px solid var(--primary);">
+                <h3 style="color: var(--primary); margin-bottom: 15px; font-size: 1.1rem;">Restaurant Hub</h3>
+                <ul style="list-style: none; color: var(--text-secondary); font-size: 0.9rem; line-height: 1.8;">
+                    <li>→ <strong>Owner</strong> (ApplicationUser) - 1:1</li>
+                    <li>→ <strong>RestaurantBranches</strong> - 1:N</li>
+                    <li>→ <strong>MenuCategories</strong> - 1:N</li>
+                    <li>→ <strong>Orders</strong> - 1:N</li>
+                    <li>→ <strong>MealAddOns</strong> - 1:N</li>
+                    <li>→ <strong>Advertisements</strong> - 1:N</li>
+                    <li>→ <strong>RestaurantCategories</strong> - M:N (via join)</li>
+                    <li>→ <strong>Legal Documents</strong> (CR, TM, VAT, Bank, NatId) - 1:1 each</li>
+                </ul>
+            </div>
+
+            <div style="background: var(--bg-tertiary); padding: 20px; border-radius: var(--radius-md); border-left: 4px solid #3b82f6;">
+                <h3 style="color: #3b82f6; margin-bottom: 15px; font-size: 1.1rem;">ApplicationUser Hub</h3>
+                <ul style="list-style: none; color: var(--text-secondary); font-size: 0.9rem; line-height: 1.8;">
+                    <li>→ <strong>Orders</strong> - 1:N</li>
+                    <li>→ <strong>Addresses</strong> - 1:N</li>
+                    <li>→ <strong>RefreshTokens</strong> - 1:N (Owned)</li>
+                    <li>→ <strong>Cart</strong> - 1:1</li>
+                    <li>→ <strong>Otp</strong> - 1:N</li>
+                    <li>→ <strong>PromoCodeUsages</strong> - 1:N</li>
+                </ul>
+            </div>
+
+            <div style="background: var(--bg-tertiary); padding: 20px; border-radius: var(--radius-md); border-left: 4px solid var(--accent-green);">
+                <h3 style="color: var(--accent-green); margin-bottom: 15px; font-size: 1.1rem;">Order Hub</h3>
+                <ul style="list-style: none; color: var(--text-secondary); font-size: 0.9rem; line-height: 1.8;">
+                    <li>→ <strong>User</strong> (ApplicationUser) - N:1</li>
+                    <li>→ <strong>Restaurant</strong> - N:1</li>
+                    <li>→ <strong>OrderDetails</strong> - 1:N</li>
+                    <li>→ <strong>OrderRating</strong> - 1:1</li>
+                    <li>→ <strong>PromoCode</strong> - N:1 (optional)</li>
+                    <li>→ <strong>PromoCodeUsage</strong> - 1:1</li>
+                </ul>
+            </div>
+
+            <div style="background: var(--bg-tertiary); padding: 20px; border-radius: var(--radius-md); border-left: 4px solid var(--accent-orange);">
+                <h3 style="color: var(--accent-orange); margin-bottom: 15px; font-size: 1.1rem;">Meal Hub</h3>
+                <ul style="list-style: none; color: var(--text-secondary); font-size: 0.9rem; line-height: 1.8;">
+                    <li>→ <strong>Restaurant</strong> - N:1</li>
+                    <li>→ <strong>MenuCategory</strong> - N:1</li>
+                    <li>→ <strong>MealOptionGroups</strong> - 1:N</li>
+                    <li>→ <strong>MealAddOns</strong> - M:N (via ManyMealManyAddOn)</li>
+                    <li>→ <strong>MealPriceHistories</strong> - 1:N</li>
+                    <li>→ <strong>MealsAnalytics</strong> - 1:N</li>
+                    <li>→ <strong>OrderDetails</strong> - 1:N</li>
+                    <li>→ <strong>CartDetails</strong> - 1:N</li>
+                </ul>
+            </div>
+
+            <div style="background: var(--bg-tertiary); padding: 20px; border-radius: var(--radius-md); border-left: 4px solid #14b8a6;">
+                <h3 style="color: #14b8a6; margin-bottom: 15px; font-size: 1.1rem;">Advertisement Hub</h3>
+                <ul style="list-style: none; color: var(--text-secondary); font-size: 0.9rem; line-height: 1.8;">
+                    <li>→ <strong>Restaurant</strong> - N:1</li>
+                    <li>→ <strong>AdvertisementPlan</strong> - N:1</li>
+                    <li>→ <strong>AdvertisementPayment</strong> - 1:1</li>
+                    <li>→ <strong>AdvertisementAnalytics</strong> - 1:1</li>
+                </ul>
+            </div>
+
+            <div style="background: var(--bg-tertiary); padding: 20px; border-radius: var(--radius-md); border-left: 4px solid #ec4899;">
+                <h3 style="color: #ec4899; margin-bottom: 15px; font-size: 1.1rem;">PromoCode Hub</h3>
+                <ul style="list-style: none; color: var(--text-secondary); font-size: 0.9rem; line-height: 1.8;">
+                    <li>→ <strong>Restaurant</strong> - N:1 (optional)</li>
+                    <li>→ <strong>CreatedByUser</strong> (ApplicationUser) - N:1</li>
+                    <li>→ <strong>Orders</strong> - 1:N</li>
+                    <li>→ <strong>PromoCodeUsages</strong> - 1:N</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Statistics -->
+    <div style="margin-top: 30px; background: var(--bg-dark); border-radius: var(--radius-lg); padding: 30px; box-shadow: var(--shadow-lg);">
+        <h2 style="color: var(--text-white); margin-bottom: 20px; font-size: 1.5rem; text-align: center;">📈 Database Statistics</h2>
+        <div style="display: flex; justify-content: center; gap: 40px; flex-wrap: wrap;">
+            <div style="text-align: center;">
+                <div style="font-size: 3rem; font-weight: 700; color: var(--primary);">38</div>
+                <div style="color: var(--text-muted); font-size: 0.9rem;">Total Entities</div>
+            </div>
+            <div style="text-align: center;">
+                <div style="font-size: 3rem; font-weight: 700; color: var(--accent-green);">10</div>
+                <div style="color: var(--text-muted); font-size: 0.9rem;">Categories</div>
+            </div>
+            <div style="text-align: center;">
+                <div style="font-size: 3rem; font-weight: 700; color: var(--accent-orange);">50+</div>
+                <div style="color: var(--text-muted); font-size: 0.9rem;">Relationships</div>
+            </div>
+        </div>
+    </div>
+
+    <footer style="text-align: center; padding: 30px; color: var(--text-muted); font-size: 0.9rem;">
+        Generated for Otlob Food Delivery Platform • Entity Relationship Diagram
+    </footer>
+</body>
+</html>

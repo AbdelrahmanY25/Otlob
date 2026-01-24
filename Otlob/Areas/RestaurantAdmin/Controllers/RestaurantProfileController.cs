@@ -63,4 +63,27 @@ public class RestaurantProfileController(IRestaurantProfileService restaurantPro
         TempData["Success"] = "profile Image updated successfully";
         return RedirectToAction(nameof(EditRestaurantProfile));
     }
+
+    [HttpPost, ValidateAntiForgeryToken]
+    public IActionResult EditRestaurantProfileCover(UploadImageRequest request)
+    {
+        if (!ModelState.IsValid)
+        {
+            TempData["Error"] = ModelState.Values.SelectMany(v => v.Errors).FirstOrDefault()?.ErrorMessage;
+            return RedirectToAction(nameof(EditRestaurantProfile));
+        }
+        
+        int restaurantId = int.Parse(User.FindFirstValue(StaticData.RestaurantId)!);
+
+        Result uploadImageResult = _restaurantProfileService.EditRestaurantProfileCover(restaurantId, request.Image);
+
+        if (uploadImageResult.IsFailure)
+        {
+            TempData["Error"] = uploadImageResult.Error.Description;
+            return RedirectToAction(nameof(EditRestaurantProfile));
+        }
+
+        TempData["Success"] = "profile Image updated successfully";
+        return RedirectToAction(nameof(EditRestaurantProfile));
+    }
 }

@@ -11,7 +11,7 @@ public class CommercialRegistrationService(IUnitOfWorkRepository unitOfWorkRepos
     private readonly IRestaurantProgressStatus _restaurantProgressStatus = restaurantProgressStatus;
     private readonly IDataProtector _dataProtector = dataProtectionProvider.CreateProtector("SecureData");
 
-    public Result<CommercialRegistrationResponse> GetCommercialRegistration(string id)
+    public Result<CommercialRegistrationResponse?> GetCommercialRegistration(string id)
     {
         //TODO: Handle exception for unprotect
         int restaurantId = int.Parse(_dataProtector.Unprotect(id));
@@ -19,9 +19,7 @@ public class CommercialRegistrationService(IUnitOfWorkRepository unitOfWorkRepos
         bool isRestaurantHasCertificate = IsRestaurantHasCertificate(restaurantId);
 
         if (!isRestaurantHasCertificate)
-        {
-            return Result.Failure<CommercialRegistrationResponse>(CommertialRegistrationErrors.NotFoundCertificate);
-        }
+            return Result.Success<CommercialRegistrationResponse?>(null);            
 
         var response = _unitOfWorkRepository.CommercialRegistrations
             .GetOneWithSelect(
@@ -46,7 +44,7 @@ public class CommercialRegistrationService(IUnitOfWorkRepository unitOfWorkRepos
                 }
             );
 
-        return Result.Success(response!);
+        return Result.Success(response);
     }   
 
     public async Task<Result> UploadAsync(CommercialRegistrationRequest request, UploadFileRequest fileRequest)
@@ -123,10 +121,7 @@ public class CommercialRegistrationService(IUnitOfWorkRepository unitOfWorkRepos
             .IsExist(cr => cr.Id == id);
 
         if (!isExist)
-        {
             return Result.Failure(CommertialRegistrationErrors.NotFoundCertificate);
-
-        }
 
         return Result.Success();
     }

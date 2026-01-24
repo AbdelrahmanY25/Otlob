@@ -18,6 +18,7 @@ public class RestaurantOrdersController(IRestaurantOrdersService restaurantOrder
             HttpContext.Session.SetInt32(StaticData.RestaurantId, restaurantId);
 
         var orders = _restaurantOrdersService.GetAllInProgressByRestaurantId(restaurantId);
+        ViewBag.RestaurantKey = restaurantKey;
 
         return View(orders);
     }
@@ -32,6 +33,7 @@ public class RestaurantOrdersController(IRestaurantOrdersService restaurantOrder
             HttpContext.Session.SetInt32(StaticData.RestaurantId, restaurantId);
 
         var orders = _restaurantOrdersService.GetAllDeliveredByRestaurantId(restaurantId);
+        ViewBag.RestaurantKey = restaurantKey;
 
         return View(orders);
     }
@@ -46,6 +48,7 @@ public class RestaurantOrdersController(IRestaurantOrdersService restaurantOrder
             HttpContext.Session.SetInt32(StaticData.RestaurantId, restaurantId);
 
         var orders = _restaurantOrdersService.GetAllCancelledByRestaurantId(restaurantId);
+        ViewBag.RestaurantKey = restaurantKey;
 
         return View(orders);
     }

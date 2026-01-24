@@ -2,11 +2,9 @@
 
 [Route("[controller]")]
 [ApiController, EnableRateLimiting(RateLimiterPolicy.IpLimit)]
-public class AuthController(IApiAuthService apiAuthService, IExternalSignInService externalSignInService, SignInManager<ApplicationUser> signInManager) : ControllerBase
+public class AuthController(IApiAuthService apiAuthService) : ControllerBase
 {
     private readonly IApiAuthService _apiAuthService = apiAuthService;
-    private readonly SignInManager<ApplicationUser> _signInManager = signInManager;
-    private readonly IExternalSignInService _externalSignInService = externalSignInService;
 
     [HttpPost("register"), DisableRateLimiting]
     public async Task<IActionResult> Register([FromBody] MobileRegisterRequest request, CancellationToken cancellationToken)
@@ -48,27 +46,35 @@ public class AuthController(IApiAuthService apiAuthService, IExternalSignInServi
         return result.IsSuccess ? Ok() : result.ToProblem();
     }
 
-    [HttpPost("external-login")]
-    public IActionResult ExternalLogin([FromBody] ProviderResponse response, string? returnUrl = null)
+    [HttpPost("confirm-email-otp")]
+    public async Task<IActionResult> ConfirmEmailViaOtp([FromBody] OtpRequest request)
     {
-        var redirectUrl = Url.Action(nameof(ExternalLoginCallback), "Auth", new { returnUrl, area = DefaultRoles.Customer });
-        var properties = _signInManager.ConfigureExternalAuthenticationProperties(response.Provider, redirectUrl);
-        return Challenge(properties, response.Provider);
+        var result = await _apiAuthService.ConfirmEmailViaOtpAsync(request);
+        
+        return result.IsSuccess ? Ok() : result.ToProblem();
     }
 
-    [HttpGet]
-    public async Task<IActionResult> ExternalLoginCallback(string? returnUrl = null, string? remoteError = null, CancellationToken cancellationToken = default)
+    [HttpPost("exists-user")]
+    public async Task<IActionResult> ExistsUser([FromBody] ResendEmailConfirmationRequest request)
     {
-        returnUrl ??= Url.Content("~/");
+        var response = await _apiAuthService.IsUserExistsAsync(request);
+        
+        return Ok(response);
+    }
 
-        if (remoteError is not null)
-            return RedirectToAction("Login", "Account");
+    [HttpPost("google-signin")]
+    public async Task<IActionResult> GoogleSignIn([FromBody] GoogleIdTokenRequest request, CancellationToken cancellationToken)
+    {
+        ApiResult<AuthResponse> result = await _apiAuthService.GoogleSignInAsync(request, cancellationToken);
 
-        var result = await _apiAuthService.ExternalLoginCallbackAsync(returnUrl, remoteError, cancellationToken);
+        return result.IsSuccess ? Ok(result.Value) : result.ToProblem();
+    }
 
-        if (result.IsFailure)
-            return RedirectToAction("Login", "Account");
+    [HttpPost("microsoft-signin")]
+    public async Task<IActionResult> MicrosoftSignIn([FromBody] MicrosoftIdTokenRequest request, CancellationToken cancellationToken)
+    {
+        ApiResult<AuthResponse> result = await _apiAuthService.MicrosoftSignInAsync(request, cancellationToken);
 
-        return RedirectToAction("Index", "Home", new { Area = result.Value });
+        return result.IsSuccess ? Ok(result.Value) : result.ToProblem();
     }
 }

@@ -18,6 +18,20 @@ public class SendEmailsToUsersService(IMailService mailService) : ISendEmailsToU
         await _mailService.SendEmailAsync(user.Email!, "Confirm Your Email - Otlob", emailBody);
     }
 
+    public async Task ConfirmEmailViaOtpAsync(string otp, ApplicationUser user)
+    {
+        string emailBody = await EmailBodyBulder.BuildEmailBodyAsync("email-confirmation-otp",
+        new Dictionary<string, string>
+            {
+                {"{{USERNAME}}", user.UserName ?? "User"},
+                {"{{EMAIL}}", user.Email!},
+                {"{{OTP_CODE}}", otp}
+            }
+        );
+
+        await _mailService.SendEmailAsync(user.Email!, "Confirm Your Email - Otlob", emailBody);
+    }
+
     public async Task WhenCreateUserAccountAsync(ApplicationUser user)
     {
         const decimal minOrderAmount = 150m;

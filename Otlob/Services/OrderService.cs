@@ -1,6 +1,4 @@
-﻿using Otlob.Core.Entities;
-
-namespace Otlob.Services;
+﻿namespace Otlob.Services;
 
 public class OrderService(IUnitOfWorkRepository unitOfWorkRepository,
                           ICartService cartService,
@@ -376,7 +374,7 @@ public class OrderService(IUnitOfWorkRepository unitOfWorkRepository,
 
     private async Task<Result> PrepareOrderData(PaymentMethod paymentMethod, string? specialNotes = null, int? promoCodeId = null, decimal discountAmount = 0)
     {
-        string userId = _httpContextAccessor.HttpContext!.User.GetUserId()!;        
+        string userId = _httpContextAccessor.HttpContext!.User.GetUserId()!;      
 
         Cart cartData = GetCartData(userId);
 

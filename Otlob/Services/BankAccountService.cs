@@ -12,7 +12,7 @@ public class BankAccountService(IUnitOfWorkRepository unitOfWorkRepository, IFil
     private readonly IDataProtector _dataProtector = dataProtectionProvider.CreateProtector("SecureData");
 
 
-    public Result<BankAccountResponse> GetBankAccount(string id)
+    public Result<BankAccountResponse?> GetBankAccount(string id)
     {
         //TODO: Handle exception for unprotect
         int restaurantId = int.Parse(_dataProtector.Unprotect(id));
@@ -20,9 +20,7 @@ public class BankAccountService(IUnitOfWorkRepository unitOfWorkRepository, IFil
         bool isRestaurantHasCertificate = IsRestaurantHasBankAccountCertificate(restaurantId);
 
         if (!isRestaurantHasCertificate)
-        {
-            return Result.Failure<BankAccountResponse>(BankAccountErrors.NotFoundCertificate);
-        }
+            return Result.Success<BankAccountResponse?>(null);
 
         var response = _unitOfWorkRepository.BankAccounts
             .GetOneWithSelect(
@@ -51,7 +49,7 @@ public class BankAccountService(IUnitOfWorkRepository unitOfWorkRepository, IFil
                 }
             );
 
-        return Result.Success(response!);
+        return Result.Success(response);
     }
 
     public async Task<Result> UploadAsync(BankAccountRequest request, UploadFileRequest fileRequest)

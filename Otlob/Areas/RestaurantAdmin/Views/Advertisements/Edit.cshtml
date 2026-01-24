@@ -1,0 +1,95 @@
+@model UpdateAdvertisementRequest
+
+@{
+    ViewData["Title"] = "Edit Advertisement";
+}
+
+<link rel="stylesheet" href="~/css/advertisements.css" asp-append-version="true" />
+
+@{
+    var advertisementId = ViewBag.AdvertisementId as Guid?;
+    var plans = ViewBag.Plans as List<AdvertisementPlanResponse> ?? new List<AdvertisementPlanResponse>();
+}
+
+<div class="ads-create-page">
+    <!-- Header -->
+    <div class="ads-create-header">
+        <a asp-action="Details" asp-route-id="@advertisementId" class="ads-back-btn">
+            <i class="bi bi-arrow-left"></i>
+            Back to Details
+        </a>
+        <h1 class="ads-create-title">
+            <i class="bi bi-pencil-square"></i>
+            Edit Advertisement
+        </h1>
+        <p class="ads-create-subtitle">Update your advertisement details</p>
+    </div>
+
+    <form asp-action="Edit" asp-route-id="@advertisementId" method="post" class="ads-create-form">
+        @Html.AntiForgeryToken()
+
+        <div class="ads-form-grid single-column">
+            <!-- Ad Details -->
+            <div class="ads-form-section">
+                <h3 class="ads-section-title">
+                    <i class="bi bi-card-text"></i>
+                    Advertisement Details
+                </h3>
+
+                <div class="ads-form-group">
+                    <label asp-for="Title" class="ads-form-label">Title (English) <span class="required">*</span></label>
+                    <input asp-for="Title" class="ads-form-input" placeholder="Enter advertisement title" />
+                    <span asp-validation-for="Title" class="ads-validation-error"></span>
+                </div>
+
+                <div class="ads-form-group">
+                    <label asp-for="TitleAr" class="ads-form-label">Title (Arabic) <span class="required">*</span></label>
+                    <input asp-for="TitleAr" class="ads-form-input" dir="rtl" placeholder="أدخل عنوان الإعلان" />
+                    <span asp-validation-for="TitleAr" class="ads-validation-error"></span>
+                </div>
+
+                <div class="ads-form-group">
+                    <label asp-for="Description" class="ads-form-label">Description (English) <span class="required">*</span></label>
+                    <textarea asp-for="Description" class="ads-form-textarea" rows="3" placeholder="Describe your advertisement..."></textarea>
+                    <span asp-validation-for="Description" class="ads-validation-error"></span>
+                </div>
+
+                <div class="ads-form-group">
+                    <label asp-for="DescriptionAr" class="ads-form-label">Description (Arabic) <span class="required">*</span></label>
+                    <textarea asp-for="DescriptionAr" class="ads-form-textarea" dir="rtl" rows="3" placeholder="وصف الإعلان..."></textarea>
+                    <span asp-validation-for="DescriptionAr" class="ads-validation-error"></span>
+                </div>
+
+                <div class="ads-form-group">
+                    <label asp-for="ImageUrl" class="ads-form-label">Image URL</label>
+                    <input asp-for="ImageUrl" class="ads-form-input" placeholder="https://example.com/image.jpg" />
+                    <span asp-validation-for="ImageUrl" class="ads-validation-error"></span>
+                    <small class="ads-form-hint">Leave empty to keep the current image</small>
+                </div>
+
+                <div class="ads-form-group">
+                    <label asp-for="StartDate" class="ads-form-label">Start Date <span class="required">*</span></label>
+                    <input asp-for="StartDate" type="date" class="ads-form-input" min="@DateTime.Now.AddDays(1).ToString("yyyy-MM-dd")" />
+                    <span asp-validation-for="StartDate" class="ads-validation-error"></span>
+                    <small class="ads-form-hint">Your advertisement will go live on this date after approval</small>
+                </div>
+            </div>
+        </div>
+
+        <!-- Form Actions -->
+        <div class="ads-form-actions">
+            <a asp-action="Details" asp-route-id="@advertisementId" class="ads-btn ads-btn-secondary">
+                <i class="bi bi-x-lg"></i>
+                Cancel
+            </a>
+            <button type="submit" class="ads-btn ads-btn-primary">
+                <i class="bi bi-check-lg"></i>
+                Save Changes
+            </button>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

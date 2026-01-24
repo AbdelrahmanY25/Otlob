@@ -12,20 +12,22 @@ public static class UserErrors
         new("User.DoublicatedUserName", "The user name is exist try another one.", StatusCodes.Status409Conflict);
     
     public static readonly ApiError DoublicatedEmail = 
-        new("User.DoublicatedEmail", "The email is exist try another one.", StatusCodes.Status409Conflict);
+        new("User.DoublicatedEmail", "The email already exists try another one.", StatusCodes.Status409Conflict);
     
     public static readonly ApiError EmailNotConfirmed = 
-        new("User.EmailNotConfirmed", "Confirm your email first to can sign in.", StatusCodes.Status401Unauthorized);
+        new("User.EmailNotConfirmed", "Confirm your email first, to sign in.", StatusCodes.Status401Unauthorized);
 
     public static readonly ApiError LockedOutUser = 
         new("User.LockedOutUser", "Your account is not active, please contact support.", StatusCodes.Status401Unauthorized);
     
     public static readonly ApiError DoublicatedConfirmation = 
-        new("User.DoublicatedConfirmation", "Your email already confirmed.", StatusCodes.Status409Conflict);
+        new("User.DoublicatedConfirmation", "Your email is already confirmed.", StatusCodes.Status409Conflict);
     
     public static readonly ApiError InvalidToken = 
         new("User.InvalidToken", "Your token is Invalid.", StatusCodes.Status400BadRequest);
     
+    public static readonly ApiError InvalidOrExpiredOtp = 
+        new("User.InvalidOrExpiredOtp", "The provided OTP is invalid or has expired.", StatusCodes.Status400BadRequest);
     public static ApiError UserLockoutEndDate(DateTime lockedTo) => 
         new("User.UserLockoutEndDate",
             $"Your account is locked until {lockedTo:dd/MM/yyyy hh:mm:ss tt}",

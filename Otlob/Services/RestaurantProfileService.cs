@@ -28,6 +28,7 @@ public class RestaurantProfileService(IUnitOfWorkRepository unitOfWorkRepository
                     Phone = r.Phone!,
                     Email = r.Email!,
                     Image = r.Image,
+                    CoverImage = r.CoverImage,
                     Description = r.Description!
                 }
              )!;
@@ -102,6 +103,37 @@ public class RestaurantProfileService(IUnitOfWorkRepository unitOfWorkRepository
         return Result.Success();
     }
 
+    public Result EditRestaurantProfileCover(int restaurantId, IFormFile image)
+    {
+        Result validateRestaurantIdResult = _restaurantService.IsRestaurantIdExists(restaurantId);
+
+        if (validateRestaurantIdResult.IsFailure)
+            return validateRestaurantIdResult;
+
+        var isImageUploaded = _imageService.UploadImage(image!);
+
+        if (isImageUploaded.IsFailure)
+            return isImageUploaded;
+
+        Restaurant restaurant = GetRestaurantCoverImageById(restaurantId);
+
+        var isOldImageDeleted = _imageService.DeleteImage(restaurant.CoverImage);
+
+        if (isOldImageDeleted.IsFailure)
+        {
+            _imageService.DeleteImage(isImageUploaded.Value);
+            return isOldImageDeleted;
+        }
+
+        restaurant.CoverImage = isImageUploaded.Value;
+
+        _unitOfWorkRepository.Restaurants.ModifyProperty(restaurant, r => r.CoverImage!);
+
+        _unitOfWorkRepository.SaveChanges();
+
+        return Result.Success();
+    }
+
 
 
 
@@ -115,6 +147,22 @@ public class RestaurantProfileService(IUnitOfWorkRepository unitOfWorkRepository
                     {
                         Id = r.Id,
                         Image = r.Image
+                    }
+                )!;
+
+        return restaurant;
+    }
+
+    private Restaurant GetRestaurantCoverImageById(int restaurantId)
+    {
+        Restaurant restaurant = _unitOfWorkRepository
+                .Restaurants
+                .GetOneWithSelect(
+                    expression: r => r.Id == restaurantId,
+                    selector: r => new Restaurant
+                    {
+                        Id = r.Id,
+                        CoverImage = r.CoverImage
                     }
                 )!;
 

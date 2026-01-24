@@ -1,10 +1,14 @@
 ﻿@model CustomerHomeResponse
 
+@inject SignInManager<ApplicationUser> SignInManager
+
 @{
     ViewData["Title"] = "Restaurants";
+    bool isUserLoggedIn = SignInManager.IsSignedIn(User);
 }
 
 <link href="~/css/customerHome.css" rel="stylesheet" asp-append-version="true"/>
+<link href="~/css/favourites.css" rel="stylesheet" asp-append-version="true"/>
 
 <div class="ch-container">
     <!-- Search Section -->
@@ -20,9 +24,9 @@
         <div class="ch-categories-scroll">
             @foreach (var category in Model.Categories)
             {
-                <div class="ch-category-item" data-category="@category">
-                    <img src="/images/icons/@(category).png" alt="@category" class="ch-cat-icon"/>
-                    <span class="ch-cat-name">@category</span>
+                <div class="ch-category-item" data-category="@category.Name">
+                    <img src="/images/icons/@(category.Image)" alt="@category" class="ch-cat-icon"/>
+                    <span class="ch-cat-name">@category.Name</span>
                 </div>
             }
         </div>
@@ -50,72 +54,112 @@
         </button>
     </div>
 
-    <!-- Restaurants Grid -->
+    <!-- Restaurants Grid with Ads -->
     <div id="restaurantsGrid" class="ch-restaurants-grid">
-        @foreach (var item in Model.Restaurants)
+        @{
+            var restaurantsList = Model.Restaurants.ToList();
+            var adsList = Model.Advertisements;
+            int restaurantIndex = 0;
+            int adIndex = 0;
+            int adsPerGroup = 2;
+            int restaurantsPerGroup = 6;
+        }
+        
+        @while (restaurantIndex < restaurantsList.Count)
         {
-            <a asp-controller="Menu" asp-action="Menu" asp-route-restaurantKey="@item.Key" class="ch-restaurant-card"
-               data-name="@item.Name"
-               data-categories="@string.Join(",", item.Categories)"
-               data-delivery-fee="@item.DeliveryFee"
-               data-delivery-duration="@item.DeliveryDuration"
-               data-business-type="@item.BusinessType"
-               data-rating="@item.Rating">
-                
-                <div class="ch-card-img-wrapper">
-                    <img src="/images/@(item.Image ?? "Default.jpg")" alt="@item.Name" class="ch-card-img" />
-                    @if (item.IsClosed)
-                    {
-                        <span class="ch-status-badge status-closed">Closed</span>
-                    }
-                    else if (item.Status == AcctiveStatus.Warning)
-                    {
-                        <span class="ch-status-badge status-busy">Busy</span>
-                    }
-                </div>
-                
-                <div class="ch-card-content">
-                    <div>
-                        <div class="ch-res-header">
-                            <h3 class="ch-res-name">@item.Name</h3>
-                            @if (item.Rating > 0)
+            // Display 6 restaurants (or remaining)
+            var restaurantsToShow = Math.Min(restaurantsPerGroup, restaurantsList.Count - restaurantIndex);
+            @for (int i = 0; i < restaurantsToShow; i++)
+            {
+                var item = restaurantsList[restaurantIndex];
+                <div class="ch-restaurant-card-wrapper" data-restaurant-key="@item.Key">
+                    <a asp-area="@DefaultRoles.Customer" asp-controller="Menu" asp-action="Menu" asp-route-restaurantKey="@item.Key" class="ch-restaurant-card"
+                       data-name="@item.Name"
+                       data-categories="@string.Join(",", item.Categories)"
+                       data-delivery-fee="@item.DeliveryFee"
+                       data-delivery-duration="@item.DeliveryDuration"
+                       data-business-type="@item.BusinessType"
+                       data-rating="@item.Rating">
+                        
+                        <div class="ch-card-img-wrapper">
+                            <img src="/images/@(item.Image ?? "Default.jpg")" alt="@item.Name" class="ch-card-img" />
+                            @if (item.IsClosed)
                             {
-                                <div class="ch-rating-wrapper">
-                                    <i class="fas fa-star ch-star-icon"></i>
-                                    <span class="ch-rating-text">@((item.Rating / 5m * 100).ToString("0"))%</span>
-                                </div>
+                                <span class="ch-status-badge status-closed">Closed</span>
                             }
-                            else
+                            else if (item.Status == AcctiveStatus.Warning)
                             {
-                                <div class="ch-rating-wrapper">
-                                    <i class="fas fa-star ch-star-icon"></i>
-                                    <span class="ch-rating-text">New</span>
-                                </div>
+                                <span class="ch-status-badge status-busy">Busy</span>
                             }
                         </div>
-                        <div class="ch-res-tags">
-                            @string.Join(", ", item.Categories.Take(3))
-                        </div>
+                        
+                        <div class="ch-card-content">
+                            <div>
+                                <div class="ch-res-header">
+                                    <h3 class="ch-res-name">@item.Name</h3>
+                                </div>
+                                <div class="ch-res-tags">
+                                    @string.Join(", ", item.Categories.Take(3))
+                                </div>
 
-                        <div class="ch-res-footer">
-                            <span class="ch-delivery-fee @(item.DeliveryFee == 0 ? "free" : "")">
-                                @if(item.DeliveryFee == 0)
-                                {
-                                    <span>Free</span>
-                                }
-                                else
-                                {
-                                    <span>@item.DeliveryFee.ToString("0.00") L.E</span>
-                                }
-                            </span>
-                            
-                            <div class="ch-meta-item">
-                                <i class="fas fa-clock"></i> @item.DeliveryDuration.ToString("0") min
+                                <div class="ch-res-footer">
+                                    <span class="ch-delivery-fee @(item.DeliveryFee == 0 ? "free" : "")">
+                                        @if(item.DeliveryFee == 0)
+                                        {
+                                            <span>Free</span>
+                                        }
+                                        else
+                                        {
+                                            <span>@item.DeliveryFee.ToString("0.00") L.E</span>
+                                        }
+                                    </span>
+
+                                    <div class="ch-meta-item">
+                                        <i class="fas fa-clock"></i> @item.DeliveryDuration.ToString("0") min
+                                    </div>
+
+                                    @if (item.Rating > 0)
+                                    {
+                                        <div class="ch-rating-wrapper">
+                                            <i class="fas fa-star ch-star-icon"></i>
+                                            <span class="ch-rating-text">@((item.Rating / 5m * 100).ToString("0"))%</span>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="ch-rating-wrapper">
+                                            <i class="fas fa-star ch-star-icon"></i>
+                                            <span class="ch-rating-text">New</span>
+                                        </div>
+                                    }
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </a>
+                    @if (isUserLoggedIn)
+                    {
+                        <button class="favourite-btn" 
+                                data-restaurant-key="@item.Key"
+                                onclick="event.preventDefault(); event.stopPropagation(); toggleFavourite(this, '@item.Key')">
+                            <i class="far fa-heart"></i>
+                        </button>
+                    }
                 </div>
-            </a>
+                restaurantIndex++;
+            }
+            
+            // Display 2 ads after every 6 restaurants (if ads are available)
+            @if (adsList.Count > 0 && restaurantIndex < restaurantsList.Count)
+            {
+                @for (int j = 0; j < adsPerGroup && adIndex < adsList.Count; j++)
+                {
+                    var ad = adsList[adIndex % adsList.Count];
+                    <div class="ch-ad-card" data-ad-id="@ad.Id" onclick="trackAdAndNavigate('@ad.Id', '@ad.RestaurantId')">
+                        <img src="@ad.ImageUrl" alt="@ad.Title" class="ch-ad-img" />
+                    </div>
+                    adIndex++;
+                }
+            }
         }
         
         <div id="noResults" class="ch-no-results">
@@ -127,6 +171,91 @@
 </div>
 
 @section Scripts {
-    <partial name="_NotificationPartial"></partial>
     <script src="~/js/customerHome.js" asp-append-version="true"></script>
+    
+    <script>
+        // Track ad views using Intersection Observer
+        document.addEventListener('DOMContentLoaded', function() {
+            const adCards = document.querySelectorAll('.ch-ad-card[data-ad-id]');
+            const viewedAds = new Set();
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const adId = entry.target.dataset.adId;
+                        if (adId && !viewedAds.has(adId)) {
+                            viewedAds.add(adId);
+                            fetch(`/api/advertisements/${adId}/view`, { method: 'POST' }).catch(() => {});
+                        }
+                    }
+                });
+            }, { threshold: 0.5 });
+            
+            adCards.forEach(card => observer.observe(card));
+
+            // Load favourite states for logged in users
+            @if (isUserLoggedIn)
+            {
+                <text>
+                loadFavouriteStates();
+                </text>
+            }
+        });
+
+        function trackAdAndNavigate(adId, restaurantKey) {
+            fetch(`/api/advertisements/${adId}/click`, { method: 'POST' }).catch(() => {});
+            window.location.href = `/Customer/Menu/Menu?restaurantKey=${encodeURIComponent(restaurantKey)}`;
+        }
+
+        @if (isUserLoggedIn)
+        {
+            <text>
+        function loadFavouriteStates() {
+            const buttons = document.querySelectorAll('.favourite-btn[data-restaurant-key]');
+            buttons.forEach(button => {
+                const restaurantKey = button.dataset.restaurantKey;
+                    fetch(`@Url.Action("IsFavorites", "Favorites", new { Area = DefaultRoles.Customer })?restaurantKey=${encodeURIComponent(restaurantKey)}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.isFavourite) {
+                            button.classList.add('active');
+                            button.querySelector('i').classList.remove('far');
+                            button.querySelector('i').classList.add('fas');
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
+            });
+        }
+
+        function toggleFavourite(button, restaurantKey) {
+                fetch('@Url.Action("Toggle", "Favorites", new { Area = DefaultRoles.Customer })', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ restaurantKey: restaurantKey })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    const icon = button.querySelector('i');
+                    if (data.isFavourite) {
+                        button.classList.add('active');
+                        icon.classList.remove('far');
+                        icon.classList.add('fas');
+                    } else {
+                        button.classList.remove('active');
+                        icon.classList.remove('fas');
+                        icon.classList.add('far');
+                    }
+                    // Animate heart
+                    icon.style.animation = 'heartBeat 0.3s ease-in-out';
+                    setTimeout(() => icon.style.animation = '', 300);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+            </text>
+        }
+    </script>
 }

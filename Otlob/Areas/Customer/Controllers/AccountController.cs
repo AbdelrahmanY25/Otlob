@@ -94,9 +94,7 @@ public class AccountController(IAuthService authService) : Controller
     public async Task<IActionResult> ForgetPassword(ForgetPasswordRequest request)
     {
         if (!ModelState.IsValid)
-        {
             return View(request);
-        }
 
         var result = await _authService.ForgetPasswordAsync(request);
 

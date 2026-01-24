@@ -64,7 +64,7 @@
             {
                 var categoryData = menuResponse.Categories;
                 // Get all meals for this category, offers first
-                var allCategoryMeals = (menuResponse.Meals ?? Enumerable.Empty<MealResponse>()).OrderByDescending(m => m.OfferPrice > 0).ToList();
+                var allCategoryMeals = (menuResponse.Meals).OrderByDescending(m => m.OfferPrice > 0).ToList();
 
                 <div class="mc-category-section open">
                     <div class="mc-category-header" onclick="toggleCategory(this)">
@@ -519,7 +519,7 @@
 </div>
 
 @section Scripts {
-    <partial name="_NotificationPartial" />
+    
 
     <script>
         function toggleCategory(header) {

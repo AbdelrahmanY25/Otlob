@@ -1,11 +1,12 @@
 ﻿namespace Otlob.Services;
 
 public class AddPartnerService(IUnitOfWorkRepository unitOfWorkRepository, IMapper mapper,
-                               UserManager<ApplicationUser> userManager) : IAddPartnerService
+                               UserManager<ApplicationUser> userManager, IRestaurantRatingAnlyticsService restaurantRatingAnlyticsService) : IAddPartnerService
 {
     private readonly IMapper _mapper = mapper;
     private readonly UserManager<ApplicationUser> _userManager = userManager;
     private readonly IUnitOfWorkRepository _unitOfWorkRepository = unitOfWorkRepository;
+    private readonly IRestaurantRatingAnlyticsService _restaurantRatingAnlyticsService = restaurantRatingAnlyticsService;
 
     public async Task<Result> RegistRestaurant(RegistResturantRequest request)
     {
@@ -26,6 +27,8 @@ public class AddPartnerService(IUnitOfWorkRepository unitOfWorkRepository, IMapp
 
         _unitOfWorkRepository.Restaurants.Add(restaurant);
         _unitOfWorkRepository.SaveChanges();
+
+        _restaurantRatingAnlyticsService.Add(restaurant.Id);
 
         return Result.Success();
     }

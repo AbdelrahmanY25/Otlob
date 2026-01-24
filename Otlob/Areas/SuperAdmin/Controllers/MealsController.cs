@@ -9,22 +9,7 @@ public class MealsController(IMealService mealService, IMealCategoryService menu
     private readonly IMealCategoryService _menuCategoryService = menuCategoryService;
     private readonly IMealAddOnService _mealAddOnService = mealAddOnService;
     private readonly IDataProtector _dataProtector = dataProtectionProvider.CreateProtector("SecureData");
-
-    //public IActionResult Index(string id)
-    //{                
-    //    var result = _mealService.GetAllByRestaurantId(int.Parse(_dataProtector.Unprotect(id)));
-        
-    //    if (result!.IsFailure)
-    //    {
-    //        TempData["Error"] = result.Error.Description;
-    //        return RedirectToAction("Index", "Home", new { Area = DefaultRoles.SuperAdmin });
-    //    }
-        
-    //    HttpContext.Session.SetString(StaticData.RestaurantId, id);
-
-    //    return View(result.Value);
-    //}
-
+   
     public IActionResult Add()
     {
         string restaurantKey = HttpContext.Session.GetString(StaticData.RestaurantId)!;
@@ -32,7 +17,7 @@ public class MealsController(IMealService mealService, IMealCategoryService menu
         if (string.IsNullOrEmpty(restaurantKey)) 
         {
             TempData["Error"] = "The session timeout try again";
-            return RedirectToAction("Index", "Home", new { Area = DefaultRoles.RestaurantAdmin });
+            return RedirectToAction("Index", "Home", new { Area = DefaultRoles.SuperAdmin });
         }
 
                                                     // TODO: Handle Exception
@@ -42,7 +27,7 @@ public class MealsController(IMealService mealService, IMealCategoryService menu
         if (categoriesResult!.IsFailure)
         {
             TempData["Error"] = categoriesResult.Error.Description;
-            return RedirectToAction("Index", "Home", new { Area = DefaultRoles.RestaurantAdmin });
+            return RedirectToAction("Index", "Home", new { Area = DefaultRoles.SuperAdmin });
         }
 
         // Get all add-ons for the restaurant
@@ -51,7 +36,7 @@ public class MealsController(IMealService mealService, IMealCategoryService menu
         if (addOnsResult.IsFailure)
         {
             TempData["Error"] = addOnsResult.Error.Description;
-            return RedirectToAction("Index", "Home", new { Area = DefaultRoles.RestaurantAdmin });
+            return RedirectToAction("Index", "Home", new { Area = DefaultRoles.SuperAdmin });
         }
 
         MealRequest request = new() { Categories = categoriesResult.Value, AddOns = addOnsResult.Value };
@@ -74,7 +59,7 @@ public class MealsController(IMealService mealService, IMealCategoryService menu
         if (string.IsNullOrEmpty(restaurantKey))
         {
             TempData["Error"] = "The session timeout try again";
-            return RedirectToAction("Index", "Home", new { Area = DefaultRoles.RestaurantAdmin });
+            return RedirectToAction("Index", "Home", new { Area = DefaultRoles.SuperAdmin });
         }
 
                                                          // TODO: Handle Exception
@@ -86,7 +71,7 @@ public class MealsController(IMealService mealService, IMealCategoryService menu
             return View(request);
         }
 
-        return RedirectToAction("Menu", "Menu", new { restaurantKey });
+        return RedirectToAction("Menu", "Menu", new { restaurantKey, Area = DefaultRoles.SuperAdmin });
     }
 
     public IActionResult Update(string key)
@@ -96,7 +81,7 @@ public class MealsController(IMealService mealService, IMealCategoryService menu
         if (string.IsNullOrEmpty(restaurantKey))
         {
             TempData["Error"] = "The session timeout try again";
-            return RedirectToAction("Index", "Home", new { Area = DefaultRoles.RestaurantAdmin });
+            return RedirectToAction("Index", "Home", new { Area = DefaultRoles.SuperAdmin });
         }
 
         var result = _mealService.GetForUpdate(key);
@@ -126,7 +111,7 @@ public class MealsController(IMealService mealService, IMealCategoryService menu
         if (string.IsNullOrEmpty(restaurantKey))
         {
             TempData["Error"] = "The session timeout try again";
-            return RedirectToAction("Index", "Home", new { Area = DefaultRoles.RestaurantAdmin });
+            return RedirectToAction("Index", "Home", new { Area = DefaultRoles.SuperAdmin });
         }
 
                                                                            // TODO: Handle Exception
@@ -183,7 +168,7 @@ public class MealsController(IMealService mealService, IMealCategoryService menu
         if (string.IsNullOrEmpty(restaurantKey))
         {
             TempData["Error"] = "The session timeout try again";
-            return RedirectToAction("Index", "Home", new { Area = DefaultRoles.RestaurantAdmin });
+            return RedirectToAction("Index", "Home", new { Area = DefaultRoles.SuperAdmin });
         }
         
         var result = _mealService.DeleteMeal(id);
@@ -191,7 +176,7 @@ public class MealsController(IMealService mealService, IMealCategoryService menu
         if (result.IsFailure)
             TempData["Error"] = result.Error.Description;
 
-        return RedirectToAction("Menu", "Menu", new { restaurantKey });
+        return RedirectToAction("Menu", "Menu", new { restaurantKey, Area = DefaultRoles.SuperAdmin });
     }
 
     [HttpPost, ValidateAntiForgeryToken]
@@ -202,7 +187,7 @@ public class MealsController(IMealService mealService, IMealCategoryService menu
         if (string.IsNullOrEmpty(resId))
         {
             TempData["Error"] = "The session timeout try again";
-            return RedirectToAction("Index", "Home", new { Area = DefaultRoles.RestaurantAdmin });
+            return RedirectToAction("Index", "Home", new { Area = DefaultRoles.SuperAdmin });
         }
 
         var result = _mealService.UnDeleteMeal(id);
