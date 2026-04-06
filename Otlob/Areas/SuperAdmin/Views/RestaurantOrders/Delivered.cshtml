@@ -19,12 +19,12 @@
 
     <!-- Tabs -->
     <div class="orders-tabs">
-        <a asp-controller="RestaurantOrders" asp-action="InProgress" asp-route-restaurantKey="@ViewBag.RestaurantKey" class="orders-tab active">
+        <a asp-controller="RestaurantOrders" asp-action="InProgress" asp-route-restaurantKey="@ViewBag.RestaurantKey" class="orders-tab">
             <i class="bi bi-hourglass-split"></i>
             In Progress
             <span class="tab-badge">@ordersCount</span>
         </a>
-        <a asp-controller="RestaurantOrders" asp-action="Delivered" asp-route-restaurantKey="@ViewBag.RestaurantKey" class="orders-tab">
+        <a asp-controller="RestaurantOrders" asp-action="Delivered" asp-route-restaurantKey="@ViewBag.RestaurantKey" class="orders-tab active">
             <i class="bi bi-check-circle"></i>
             Delivered
         </a>

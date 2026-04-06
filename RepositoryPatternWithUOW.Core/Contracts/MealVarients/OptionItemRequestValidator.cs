@@ -16,7 +16,7 @@ public class OptionItemRequestValidator : AbstractValidator<OptionItemRequest>
 
         RuleFor(x => x.DisplayOrder)
             .GreaterThanOrEqualTo(1)
-            .LessThanOrEqualTo(25)
+            .LessThanOrEqualTo(20)
             .WithMessage("Display order must be at least 1");
 
         RuleFor(x => x.ImageRequest)

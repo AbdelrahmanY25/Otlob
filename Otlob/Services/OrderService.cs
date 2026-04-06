@@ -300,16 +300,17 @@ public class OrderService(IUnitOfWorkRepository unitOfWorkRepository,
                 _promoCodeService.RecordPromoCodeUsage(orderData.PromoCodeId.Value, order.Id, orderData.UserId, orderData.DiscountAmount);
 
             // Create and add order details
-            List<OrderDetails> orderDetailsList = orderData.OrderDetails.Select(m => new OrderDetails
-            {
-                OrderId = order.Id,
-                MealId = m.MealId,
-                MealDetails = m.MealDetails,
-                MealQuantity = m.MealQuantity,
-                MealPrice = m.MealPrice,
-                ItemsPrice = m.ItemsPrice,
-                AddOnsPrice = m.AddOnsPrice
-            }).ToList();
+            List<OrderDetails> orderDetailsList = [.. orderData.OrderDetails
+                .Select(m => new OrderDetails
+                {
+                    OrderId = order.Id,
+                    MealId = m.MealId,
+                    MealDetails = m.MealDetails,
+                    MealQuantity = m.MealQuantity,
+                    MealPrice = m.MealPrice,
+                    ItemsPrice = m.ItemsPrice,
+                    AddOnsPrice = m.AddOnsPrice
+                })];
 
             await _unitOfWorkRepository.OrderDetails.AddRangeAsync(orderDetailsList);
             _unitOfWorkRepository.SaveChanges();

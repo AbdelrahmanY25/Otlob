@@ -166,6 +166,8 @@ wwwroot\Illustrations\Reset password-rafiki.svg
 wwwroot\Illustrations\Sign up-rafiki.svg
 wwwroot\Illustrations\team-work-3-37.svg
 wwwroot\api-docs-user-profile.html
+wwwroot\certificates\EraaSoft-Backend-Net-Diploma.jpeg
+wwwroot\certificates\YAT-Web-Development.jpeg
 wwwroot\css\AddAddresss.css
 wwwroot\css\addBranch.css
 wwwroot\css\addMeal.css

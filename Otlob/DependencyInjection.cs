@@ -2,322 +2,321 @@
 using System.Threading.RateLimiting;
 using Utility.Settings;
 
-namespace Otlob
+namespace Otlob;
+
+public static class DependencyInjection
 {
-    public static class DependencyInjection
+    public static IServiceCollection AddDenpendencies(this IServiceCollection services, IConfiguration configuration)
     {
-        public static IServiceCollection AddDenpendencies(this IServiceCollection services, IConfiguration configuration)
+        services.AddSignalR();
+
+        services.AddControllersWithViews();
+
+        services.AddRazorPages();
+
+        services.AddCachingSession();
+
+        services.AddCors(options =>
         {
-            services.AddSignalR();
-
-            services.AddControllersWithViews();
-
-            services.AddRazorPages();
-
-            services.AddCachingSession();
-
-            services.AddCors(options =>
+            options.AddDefaultPolicy(builder =>
             {
-                options.AddDefaultPolicy(builder =>
-                {
-                    builder
-                        .AllowAnyOrigin()
-                        .AllowAnyHeader()
-                        .AllowAnyMethod();
-                });
+                builder
+                    .AllowAnyOrigin()
+                    .AllowAnyHeader()
+                    .AllowAnyMethod();
             });
+        });
 
-            services.AddHangfireConfiguration(configuration);
+        services.AddHangfireConfiguration(configuration);
 
-            services.AddDbContext(configuration);
+        services.AddDbContext(configuration);
 
-            services.AddIdentityConfigurations();
+        services.AddIdentityConfigurations();
 
-            services.AddJwtConfig(configuration);
+        services.AddJwtConfig(configuration);
 
-            services.AddExternalAuthentication(configuration);
+        services.AddExternalAuthentication(configuration);
 
-            services.AddAutoMapperConfiguration();
+        services.AddAutoMapperConfiguration();
 
-            services.AddAutoValidationConfig();
+        services.AddAutoValidationConfig();
 
-            services.AddSenMailsConfiguration(configuration);
+        services.AddSenMailsConfiguration(configuration);
 
-            services.AddStripeConfigurations(configuration);
+        services.AddStripeConfigurations(configuration);
 
-            services.AddUnitOfWork();
+        services.AddUnitOfWork();
 
-            services.AddServices();
-            
-            services.AddRateLimiterConfig();
-
-            return services;
-        }
-
-        private static IServiceCollection AddCachingSession(this IServiceCollection services)
-        {
-            services.AddDistributedMemoryCache();
-
-            services.AddSession(options =>
-            {
-                options.IdleTimeout = TimeSpan.FromMinutes(30);
-                options.Cookie.HttpOnly = true;
-                options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
-                options.Cookie.IsEssential = true;
-                options.Cookie.SameSite = SameSiteMode.Lax;
-            });
-
-            return services;
-        }
-
-        private static IServiceCollection AddHangfireConfiguration(this IServiceCollection services, IConfiguration configuration)
-        {
-            services.AddHangfire(options =>
-            {
-                options.UseSqlServerStorage(configuration.GetConnectionString("DefaultConnection"));
-                options.SetDataCompatibilityLevel(CompatibilityLevel.Version_180);
-                options.UseSimpleAssemblyNameTypeSerializer();
-                options.UseRecommendedSerializerSettings();
-            });
-
-            services.AddHangfireServer();
-
-            return services;
-        }
+        services.AddServices();
         
-        private static IServiceCollection AddDbContext(this IServiceCollection services, IConfiguration configuration)
-        {
-            services.AddDbContext<ApplicationDbContext>(options =>
-            {
-                options.UseSqlServer(
-                    configuration.GetConnectionString("DefaultConnection"),
-                    x => x.UseNetTopologySuite()                    
-                );
-            });
+        services.AddRateLimiterConfig();
 
-            return services;
-        }
-        
-        private static IServiceCollection AddIdentityConfigurations(this IServiceCollection services)
+        return services;
+    }
+
+    private static IServiceCollection AddCachingSession(this IServiceCollection services)
+    {
+        services.AddDistributedMemoryCache();
+
+        services.AddSession(options =>
         {
-            services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
+            options.IdleTimeout = TimeSpan.FromMinutes(30);
+            options.Cookie.HttpOnly = true;
+            options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+            options.Cookie.IsEssential = true;
+            options.Cookie.SameSite = SameSiteMode.Lax;
+        });
+
+        return services;
+    }
+
+    private static IServiceCollection AddHangfireConfiguration(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddHangfire(options =>
+        {
+            options.UseSqlServerStorage(configuration.GetConnectionString("DefaultConnection"));
+            options.SetDataCompatibilityLevel(CompatibilityLevel.Version_180);
+            options.UseSimpleAssemblyNameTypeSerializer();
+            options.UseRecommendedSerializerSettings();
+        });
+
+        services.AddHangfireServer();
+
+        return services;
+    }
+    
+    private static IServiceCollection AddDbContext(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddDbContext<ApplicationDbContext>(options =>
+        {
+            options.UseSqlServer(
+                configuration.GetConnectionString("DefaultConnection"),
+                x => x.UseNetTopologySuite()                    
+            );
+        });
+
+        return services;
+    }
+    
+    private static IServiceCollection AddIdentityConfigurations(this IServiceCollection services)
+    {
+        services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
+        {
+            options.Password.RequiredLength = 8;
+            options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@ ";
+            options.User.RequireUniqueEmail = true;
+            options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(10);
+            options.Lockout.MaxFailedAccessAttempts = 4;
+            options.SignIn.RequireConfirmedEmail = true;
+        })
+       .AddEntityFrameworkStores<ApplicationDbContext>()
+       .AddDefaultTokenProviders();
+
+        return services;
+    }
+
+    private static IServiceCollection AddJwtConfig(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddSingleton<IJwtProvider, JwtProvider>();
+
+        JwtOptions jwtOptions = configuration.GetSection(JwtOptions.SectionName).Get<JwtOptions>()!;
+
+        services.AddOptions<JwtOptions>()
+            .BindConfiguration(JwtOptions.SectionName)
+            .ValidateDataAnnotations()
+            .ValidateOnStart();
+
+        services.AddAuthentication()
+        .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
+        {
+            options.SaveToken = true;
+            options.TokenValidationParameters = new TokenValidationParameters
             {
-                options.Password.RequiredLength = 8;
-                options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@ ";
-                options.User.RequireUniqueEmail = true;
-                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(10);
-                options.Lockout.MaxFailedAccessAttempts = 4;
-                options.SignIn.RequireConfirmedEmail = true;
+                ValidateIssuerSigningKey = true,
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidateLifetime = true,
+                ValidIssuer = jwtOptions?.Issure,
+                ValidAudience = jwtOptions?.Audience,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions?.Key!)),
+            };
+        });
+
+        return services;
+    }
+
+    private static IServiceCollection AddExternalAuthentication(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddAuthentication()
+            .AddGoogle(googleOptions =>
+            {
+                googleOptions.ClientId = configuration["Authentication:Google:ClientId"]!;
+                googleOptions.ClientSecret = configuration["Authentication:Google:ClientSecret"]!;
             })
-           .AddEntityFrameworkStores<ApplicationDbContext>()
-           .AddDefaultTokenProviders();
-
-            return services;
-        }
-
-        private static IServiceCollection AddJwtConfig(this IServiceCollection services, IConfiguration configuration)
-        {
-            services.AddSingleton<IJwtProvider, JwtProvider>();
-
-            JwtOptions jwtOptions = configuration.GetSection(JwtOptions.SectionName).Get<JwtOptions>()!;
-
-            services.AddOptions<JwtOptions>()
-                .BindConfiguration(JwtOptions.SectionName)
-                .ValidateDataAnnotations()
-                .ValidateOnStart();
-
-            services.AddAuthentication()
-            .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
+            .AddMicrosoftAccount(microsoftOptions =>
             {
-                options.SaveToken = true;
-                options.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuerSigningKey = true,
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidateLifetime = true,
-                    ValidIssuer = jwtOptions?.Issure,
-                    ValidAudience = jwtOptions?.Audience,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions?.Key!)),
-                };
+                microsoftOptions.ClientId = configuration["Authentication:Microsoft:ClientId"]!;
+                microsoftOptions.ClientSecret = configuration["Authentication:Microsoft:ClientSecret"]!;
             });
 
-            return services;
-        }
+        return services;
+    }
 
-        private static IServiceCollection AddExternalAuthentication(this IServiceCollection services, IConfiguration configuration)
+    private static IServiceCollection AddAutoMapperConfiguration(this IServiceCollection services)
+    {
+        services.AddAutoMapper(typeof(MappingProfile));
+
+        return services;
+    }
+
+    private static IServiceCollection AddAutoValidationConfig(this IServiceCollection services)
+    {
+        services
+            .AddFluentValidationAutoValidation()
+            .AddFluentValidationClientsideAdapters()
+            .AddValidatorsFromAssembly(typeof(ResgisterRequestValidator).Assembly);
+
+        return services;
+    }
+
+    private static IServiceCollection AddSenMailsConfiguration(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddOptions<MailSettings>()
+            .BindConfiguration(nameof(MailSettings))
+            .ValidateDataAnnotations()
+            .ValidateOnStart();
+
+        return services;
+    }        
+
+    private static IServiceCollection AddStripeConfigurations(this IServiceCollection services, IConfiguration configuration)
+    {
+        StripeSettings stripeSettings = configuration.GetSection(StripeSettings.SectionName).Get<StripeSettings>()!;
+
+        services.AddOptions<StripeSettings>()
+            .BindConfiguration(StripeSettings.SectionName)
+            .ValidateDataAnnotations()
+            .ValidateOnStart();
+
+        StripeConfiguration.ApiKey = stripeSettings.SecretKey;
+
+        return services;
+    }
+
+    private static IServiceCollection AddUnitOfWork(this IServiceCollection services)
+    {
+        services.AddScoped<IUnitOfWorkRepository, UnitOfWorkRepository>();
+
+        return services;
+    }
+
+    private static IServiceCollection AddServices(this IServiceCollection services)
+    {
+        services.AddScoped<IApiAuthService, ApiAuthService>();
+        services.AddScoped<IApiCustomerService, ApiCustomerService>();
+        services.AddScoped<IApiMenuServcie, ApiMenuServcie>();
+        services.AddScoped<IApiOrderHistoryService, ApiOrderHistoryService>();
+        services.AddScoped<IApiOrdersService, ApiOrdersService>();
+        services.AddScoped<IApiPromoCodeService, ApiPromoCodeService>();
+        services.AddScoped<IApiSearchService, ApiSearchService>();
+        services.AddScoped<IApiUserProfileService, ApiUserProfileService>();
+        services.AddScoped<IUserAddressService, UserAddressService>();
+        
+        
+        
+        services.AddScoped<IAddressService, AddressService>();
+        services.AddScoped<IAuthService, AuthService>();
+        services.AddScoped<IAdminDailyAnalyticsService, AdminDailyAnalyticsService>();
+        services.AddScoped<IAdminMonthlyAnalyticsService, AdminMonthlyAnalyticsService>();
+        services.AddScoped<IBankAccountService, Otlob.Services.BankAccountService>();
+        services.AddScoped<IBranchService, BranchService>();
+        services.AddScoped<ICartService, CartService>();
+        services.AddScoped<ICheckOutService, CheckOutService>();
+        services.AddScoped<ICustomerOrdersService, CustomerOrdersService>();
+        services.AddScoped<ICustomerSercice, CustomerSercice>();
+        services.AddScoped<IEncryptionService, EncryptionService>();
+        services.AddScoped<IExportReeportsAsExcelService, ExportReeportsAsExcelService>();
+        services.AddScoped<IExternalLoginService, ExternalLoginService>();
+        services.AddScoped<IFileService, Services.FileService>();
+        services.AddScoped<IMailService, MailService>();
+        services.AddScoped<IMealCategoryService, MealCategoryService>();
+        services.AddScoped<IMealOptionGroupService, MealOptionGroupService>();
+        services.AddScoped<IMealOptionItemService, MealOptionItemService>();
+        services.AddScoped<IMealService, MealService>();
+        services.AddScoped<IManyMealsManyAddOnsService, ManyMealsManyAddOnsService>();
+        services.AddScoped<IMealPriceHistoryService, MealPriceHistoryService>();
+        services.AddScoped<IMenuService, MenuService>();
+        services.AddScoped<IMealsAnalyticsService, MealsAnalyticsService>();
+        services.AddScoped<IMealAddOnService, MealAddOnService>();
+        services.AddScoped<INationalIdService, NationalIdService>();
+        services.AddScoped<IOrderDetailsService, OrderDetailsService>();
+        services.AddScoped<IOrderService, Services.OrderService>();
+        services.AddScoped<IPaginationService, PaginationService>();
+        services.AddScoped<IRestaurantRatingAnlyticsService, RestaurantRatingAnlyticsService>();
+        services.AddScoped<IRestaurantBusinessDetailsService, RestaurantBusinessDetailsService>();
+        services.AddScoped<IRestaurantCategoriesService, RestaurantCategoriesService>();
+        services.AddScoped<IRestaurantDailyAnalyticsService, RestaurantDailyAnalyticsService>();
+        services.AddScoped<IRestaurantMonthlyAnalyticsService, RestaurantMonthlyAnalyticsService>();
+        services.AddScoped<IRestaurantProfileService, RestaurantProfileService>();
+        services.AddScoped<IRestaurantProgressStatus, RestaurantProgressStatus>();
+        services.AddScoped<IRestaurantOrdersService, RestaurantOrdersService>();
+        services.AddScoped<IOrderDetailsService, OrderDetailsService>();
+        services.AddScoped<IRestaurantService, RestaurantService>();
+        services.AddScoped<IRestauranStatusService, RestauranStatusService>();
+        services.AddScoped<IUserProfileService, UserProfileService>();
+        services.AddScoped<IUserServices, UserServices>();
+        services.AddScoped<ISendEmailsToPartnersService, SendEmailsToPartnersService>();
+        services.AddScoped<ISendEmailsToUsersService, SendEmailsToUsersService>();
+        services.AddScoped<ITempOrderService, TempOrderService>();
+        services.AddScoped<ITradeMarkService, TradeMarkService>();
+        services.AddScoped<IUsersAnalysisService, UsersAnalysisService>();
+        services.AddScoped<IAddPartnerService, AddPartnerService>();
+        services.AddScoped<ICategoriesService, CategoriesService>();
+        services.AddScoped<ICommercialRegistrationService, CommercialRegistrationService>();
+        services.AddScoped<IVatService, VatService>();
+        services.AddScoped<IOrderRatingService, OrderRatingService>();
+        services.AddScoped<IPromoCodeService, PromoCodeService>();
+        services.AddScoped<IAllRestaurantsAnalyticsService, AllRestaurantsAnalyticsService>();
+        
+        // Advertisement Services
+        services.AddScoped<IAdvertisementService, AdvertisementService>();
+        services.AddScoped<IAdvertisementPaymentService, AdvertisementPaymentService>();
+
+        // Favourites Service
+        services.AddScoped<IFavouritesService, FavouritesService>();
+
+        return services;
+    }
+
+    private static IServiceCollection AddRateLimiterConfig(this IServiceCollection services)
+    {
+        services.AddRateLimiter(rateLimiterOptions =>
         {
-            services.AddAuthentication()
-                .AddGoogle(googleOptions =>
-                {
-                    googleOptions.ClientId = configuration["Authentication:Google:ClientId"]!;
-                    googleOptions.ClientSecret = configuration["Authentication:Google:ClientSecret"]!;
-                })
-                .AddMicrosoftAccount(microsoftOptions =>
-                {
-                    microsoftOptions.ClientId = configuration["Authentication:Microsoft:ClientId"]!;
-                    microsoftOptions.ClientSecret = configuration["Authentication:Microsoft:ClientSecret"]!;
-                });
+            rateLimiterOptions.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
 
-            return services;
-        }
+            rateLimiterOptions.AddPolicy(RateLimiterPolicy.IpLimit, httpContext => 
+                RateLimitPartition.GetFixedWindowLimiter(
+                    partitionKey: httpContext.Connection.RemoteIpAddress?.ToString() ?? "unknown",
+                    factory: _ => new FixedWindowRateLimiterOptions
+                    {
+                        PermitLimit = 40,
+                        Window = TimeSpan.FromSeconds(20),
+                    }
+                )
+            );
 
-        private static IServiceCollection AddAutoMapperConfiguration(this IServiceCollection services)
-        {
-            services.AddAutoMapper(typeof(MappingProfile));
+            rateLimiterOptions.AddPolicy(RateLimiterPolicy.UserLimit, httpContext => 
+                RateLimitPartition.GetFixedWindowLimiter(
+                    partitionKey: httpContext.User.GetUserId() ?? "unknown_user",
+                    factory: _ => new FixedWindowRateLimiterOptions
+                    {
+                        PermitLimit = 30,
+                        Window = TimeSpan.FromSeconds(20),                          
+                    }
+                )
+            );               
+        });
 
-            return services;
-        }
-
-        private static IServiceCollection AddAutoValidationConfig(this IServiceCollection services)
-        {
-            services
-                .AddFluentValidationAutoValidation()
-                .AddFluentValidationClientsideAdapters()
-                .AddValidatorsFromAssembly(typeof(ResgisterRequestValidator).Assembly);
-
-            return services;
-        }
-
-        private static IServiceCollection AddSenMailsConfiguration(this IServiceCollection services, IConfiguration configuration)
-        {
-            services.AddOptions<MailSettings>()
-                .BindConfiguration(nameof(MailSettings))
-                .ValidateDataAnnotations()
-                .ValidateOnStart();
-
-            return services;
-        }        
-
-        private static IServiceCollection AddStripeConfigurations(this IServiceCollection services, IConfiguration configuration)
-        {
-            StripeSettings stripeSettings = configuration.GetSection(StripeSettings.SectionName).Get<StripeSettings>()!;
-
-            services.AddOptions<StripeSettings>()
-                .BindConfiguration(StripeSettings.SectionName)
-                .ValidateDataAnnotations()
-                .ValidateOnStart();
-
-            StripeConfiguration.ApiKey = stripeSettings.SecretKey;
-
-            return services;
-        }
-
-        private static IServiceCollection AddUnitOfWork(this IServiceCollection services)
-        {
-            services.AddScoped<IUnitOfWorkRepository, UnitOfWorkRepository>();
-
-            return services;
-        }
-
-        private static IServiceCollection AddServices(this IServiceCollection services)
-        {
-            services.AddScoped<IApiAuthService, ApiAuthService>();
-            services.AddScoped<IApiCustomerService, ApiCustomerService>();
-            services.AddScoped<IApiMenuServcie, ApiMenuServcie>();
-            services.AddScoped<IApiOrderHistoryService, ApiOrderHistoryService>();
-            services.AddScoped<IApiOrdersService, ApiOrdersService>();
-            services.AddScoped<IApiPromoCodeService, ApiPromoCodeService>();
-            services.AddScoped<IApiSearchService, ApiSearchService>();
-            services.AddScoped<IApiUserProfileService, ApiUserProfileService>();
-            services.AddScoped<IUserAddressService, UserAddressService>();
-            
-            
-            
-            services.AddScoped<IAddressService, AddressService>();
-            services.AddScoped<IAuthService, AuthService>();
-            services.AddScoped<IAdminDailyAnalyticsService, AdminDailyAnalyticsService>();
-            services.AddScoped<IAdminMonthlyAnalyticsService, AdminMonthlyAnalyticsService>();
-            services.AddScoped<IBankAccountService, Otlob.Services.BankAccountService>();
-            services.AddScoped<IBranchService, BranchService>();
-            services.AddScoped<ICartService, CartService>();
-            services.AddScoped<ICheckOutService, CheckOutService>();
-            services.AddScoped<ICustomerOrdersService, CustomerOrdersService>();
-            services.AddScoped<ICustomerSercice, CustomerSercice>();
-            services.AddScoped<IEncryptionService, EncryptionService>();
-            services.AddScoped<IExportReeportsAsExcelService, ExportReeportsAsExcelService>();
-            services.AddScoped<IExternalLoginService, ExternalLoginService>();
-            services.AddScoped<IFileService, Services.FileService>();
-            services.AddScoped<IMailService, MailService>();
-            services.AddScoped<IMealCategoryService, MealCategoryService>();
-            services.AddScoped<IMealOptionGroupService, MealOptionGroupService>();
-            services.AddScoped<IMealOptionItemService, MealOptionItemService>();
-            services.AddScoped<IMealService, MealService>();
-            services.AddScoped<IManyMealsManyAddOnsService, ManyMealsManyAddOnsService>();
-            services.AddScoped<IMealPriceHistoryService, MealPriceHistoryService>();
-            services.AddScoped<IMenuService, MenuService>();
-            services.AddScoped<IMealsAnalyticsService, MealsAnalyticsService>();
-            services.AddScoped<IMealAddOnService, MealAddOnService>();
-            services.AddScoped<INationalIdService, NationalIdService>();
-            services.AddScoped<IOrderDetailsService, OrderDetailsService>();
-            services.AddScoped<IOrderService, Services.OrderService>();
-            services.AddScoped<IPaginationService, PaginationService>();
-            services.AddScoped<IRestaurantRatingAnlyticsService, RestaurantRatingAnlyticsService>();
-            services.AddScoped<IRestaurantBusinessDetailsService, RestaurantBusinessDetailsService>();
-            services.AddScoped<IRestaurantCategoriesService, RestaurantCategoriesService>();
-            services.AddScoped<IRestaurantDailyAnalyticsService, RestaurantDailyAnalyticsService>();
-            services.AddScoped<IRestaurantMonthlyAnalyticsService, RestaurantMonthlyAnalyticsService>();
-            services.AddScoped<IRestaurantProfileService, RestaurantProfileService>();
-            services.AddScoped<IRestaurantProgressStatus, RestaurantProgressStatus>();
-            services.AddScoped<IRestaurantOrdersService, RestaurantOrdersService>();
-            services.AddScoped<IOrderDetailsService, OrderDetailsService>();
-            services.AddScoped<IRestaurantService, RestaurantService>();
-            services.AddScoped<IRestauranStatusService, RestauranStatusService>();
-            services.AddScoped<IUserProfileService, UserProfileService>();
-            services.AddScoped<IUserServices, UserServices>();
-            services.AddScoped<ISendEmailsToPartnersService, SendEmailsToPartnersService>();
-            services.AddScoped<ISendEmailsToUsersService, SendEmailsToUsersService>();
-            services.AddScoped<ITempOrderService, TempOrderService>();
-            services.AddScoped<ITradeMarkService, TradeMarkService>();
-            services.AddScoped<IUsersAnalysisService, UsersAnalysisService>();
-            services.AddScoped<IAddPartnerService, AddPartnerService>();
-            services.AddScoped<ICategoriesService, CategoriesService>();
-            services.AddScoped<ICommercialRegistrationService, CommercialRegistrationService>();
-            services.AddScoped<IVatService, VatService>();
-            services.AddScoped<IOrderRatingService, OrderRatingService>();
-            services.AddScoped<IPromoCodeService, PromoCodeService>();
-            services.AddScoped<IAllRestaurantsAnalyticsService, AllRestaurantsAnalyticsService>();
-            
-            // Advertisement Services
-            services.AddScoped<IAdvertisementService, AdvertisementService>();
-            services.AddScoped<IAdvertisementPaymentService, AdvertisementPaymentService>();
-
-            // Favourites Service
-            services.AddScoped<IFavouritesService, FavouritesService>();
-
-            return services;
-        }
-
-        private static IServiceCollection AddRateLimiterConfig(this IServiceCollection services)
-        {
-            services.AddRateLimiter(rateLimiterOptions =>
-            {
-                rateLimiterOptions.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
-
-                rateLimiterOptions.AddPolicy(RateLimiterPolicy.IpLimit, httpContext => 
-                    RateLimitPartition.GetFixedWindowLimiter(
-                        partitionKey: httpContext.Connection.RemoteIpAddress?.ToString() ?? "unknown",
-                        factory: _ => new FixedWindowRateLimiterOptions
-                        {
-                            PermitLimit = 40,
-                            Window = TimeSpan.FromSeconds(20),
-                        }
-                    )
-                );
-
-                rateLimiterOptions.AddPolicy(RateLimiterPolicy.UserLimit, httpContext => 
-                    RateLimitPartition.GetFixedWindowLimiter(
-                        partitionKey: httpContext.User.GetUserId() ?? "unknown_user",
-                        factory: _ => new FixedWindowRateLimiterOptions
-                        {
-                            PermitLimit = 30,
-                            Window = TimeSpan.FromSeconds(20),                          
-                        }
-                    )
-                );               
-            });
-
-            return services;
-        }
+        return services;
     }
 }

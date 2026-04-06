@@ -4,7 +4,7 @@ namespace Otlob.EF.BaseRepository;
 
 public class BaseRepository<T>(ApplicationDbContext context) : IBaseRepository<T> where T : class
 {
-    private readonly ApplicationDbContext context = context ?? throw new ArgumentNullException(nameof(context));
+    private readonly ApplicationDbContext _context = context ?? throw new ArgumentNullException(nameof(context));
 
     private readonly DbSet<T> dbSet = context.Set<T>();
 
@@ -27,14 +27,14 @@ public class BaseRepository<T>(ApplicationDbContext context) : IBaseRepository<T
     {
         dbSet.Attach(entity);
 
-        context.Entry(entity).Property(property).IsModified = false;
+        _context.Entry(entity).Property(property).IsModified = false;
     }
 
     public void ModifyProperty(T entity, Expression<Func<T, object>> property)
     {
         dbSet.Attach(entity);
 
-        context.Entry(entity).Property(property).IsModified = true;
+        _context.Entry(entity).Property(property).IsModified = true;
     }
            
     public void SoftDelete(Expression<Func<T, bool>> expression)
