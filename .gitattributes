@@ -1,8 +1,0 @@
-# Treat all .html files as documentation or data (so they don't count)
-*.html linguist-detectable=false
-*.cshtml linguist-detectable=false
-*.css linguist-detectable=false
-*.js linguist-detectable=false
-
-# Explicitly tell GitHub this is a C# project
-*.cs linguist-detectable=true

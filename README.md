@@ -10,6 +10,7 @@
 
 The solution is architected using an **N-Tier/Clean Architecture-inspired pattern**. The core domain (entities, interfaces) is decoupled from data access and infrastructure layers, ensuring separation of concerns and testability. Dependency Injection is heavily utilized to inject business services, Data Access Contexts, and Unit Of Work operations directly into the presentation layer.
 
+```mermaid
 flowchart TD
     %% Define Layers
     subgraph Client [Client & Devices]
@@ -46,23 +47,24 @@ flowchart TD
     end
     
     %% Flows
-    Client --> UI
+    Client -->|HTTP/HTTPS| UI
     UI <--> Areas
-    UI --> IRepo
-    Areas --> IRepo
+    UI -->|Service Calls| IRepo
+    Areas -->|Service Calls| IRepo
     Auth --> Client
     
-    IRepo -.-> Repos
+    IRepo -.->|implemented by| Repos
     Repos --> DB
     UOW --> DB
     
-    Hang -.-> IRepo
+    Hang -.->|triggers| IRepo
     
-    DB <--> SQL[(SQL Server)]
+    DB <-->|EF Core 9| SQL[(SQL Server)]
     
     UI --> Stripe
     DB --> Geo
     UI --> Mail
+```
 
 ### Architectural Highlights:
 - **Presentation (Otlob):** Asp.Net Core MVC & Razor Pages handling routing to Area-based scopes.
